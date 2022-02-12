@@ -21,13 +21,16 @@ namespace EEMod.Seamap.SeamapContent
 {
     public class EEPlayerShip : SeamapObject
     {
-        public float ShipHelthMax = 20;
-        public float shipHelth = 20;
+        public float ShipHelthMax = 5;
+        public float shipHelth = 5;
         public int cannonDelay = 60;
 
         public int abilityDelay = 120;
 
         public Player myPlayer;
+
+        public int invFrames = 20;
+
 
         public EEPlayerShip(Vector2 pos, Vector2 vel, Player player) : base(pos, vel)
         {
@@ -47,6 +50,8 @@ namespace EEMod.Seamap.SeamapContent
 
         public override void Update()
         {
+            if (Main.worldName != KeyID.Sea) return;
+
             invFrames--;
 
             position += velocity - (Seamap.windVector * 0.3f * ((120 - (abilityDelay < 0 ? 0 : abilityDelay)) / 120f));
@@ -72,8 +77,10 @@ namespace EEMod.Seamap.SeamapContent
                     velocity.X -= ((velocity.X > 0) ? 0.2f : 0.1f) * boatSpeed;
                 }
 
-                if (myPlayer.controlUseItem && cannonDelay <= 0)
+                if (myPlayer.controlUseItem && cannonDelay <= 0 && myPlayer == Main.LocalPlayer)
                 {
+                    LeftClickAbility();
+
                     ShenCannonball cannonball = new ShenCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 6, Color.Lerp(Color.OrangeRed, Color.Goldenrod, (float)Math.Sin(Main.GameUpdateCount / 180f).PositiveSin()));
 
                     velocity -= Vector2.Normalize(Main.MouseWorld - Center) * 0.5f;
@@ -114,7 +121,14 @@ namespace EEMod.Seamap.SeamapContent
             if (position.Y < 0) position.Y = 0;
             if (position.Y > Seamap.seamapHeight - height - 200) position.Y = Seamap.seamapHeight - height - 200;
 
-            if (shipHelth <= 0) Main.LocalPlayer.GetModPlayer<EEPlayer>().ReturnHome();
+            if (shipHelth <= 0)
+            {
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipDeath"));
+
+                myPlayer.GetModPlayer<EEPlayer>().ReturnHome();
+
+                shipHelth = ShipHelthMax;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch)
@@ -138,27 +152,7 @@ namespace EEMod.Seamap.SeamapContent
             return false;
         }
 
-        public int invFrames = 20;
-
-        public void CollisionChecks()
-        {
-            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
-            {
-                if (obj == null) continue;
-
-                if (obj.collides && invFrames < 0)
-                {
-                    if(Hitbox.Intersects(obj.Hitbox))
-                    {
-                        shipHelth--;
-                        invFrames = 20;
-
-                        velocity = Vector2.Normalize(obj.Center - Center) * boatSpeed * -4;
-                    }
-                }
-            }
-        }
-
+        #region Collision nonsense
         public static bool IsTouchingLeft(Rectangle rect1, Rectangle rect2, Vector2 vel)
         {
             return rect1.Right + vel.X > rect2.Left &&
@@ -190,5 +184,25 @@ namespace EEMod.Seamap.SeamapContent
               rect1.Right > rect2.Left &&
               rect1.Left < rect2.Right;
         }
+
+        public void CollisionChecks()
+        {
+            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
+            {
+                if (obj == null) continue;
+
+                if (obj.collides && invFrames < 0)
+                {
+                    if (Hitbox.Intersects(obj.Hitbox))
+                    {
+                        shipHelth--;
+                        invFrames = 20;
+
+                        velocity = Vector2.Normalize(obj.Center - Center) * boatSpeed * -4;
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }

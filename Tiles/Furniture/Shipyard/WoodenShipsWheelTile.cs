@@ -32,7 +32,6 @@ namespace EEMod.Tiles.Furniture.Shipyard
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
             ModTranslation name = CreateMapEntryName();
@@ -59,8 +58,6 @@ namespace EEMod.Tiles.Furniture.Shipyard
             Player player = Main.LocalPlayer;
 
             player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
-
-            //player.GetModPlayer<EEPlayer>().ScanBoat();
 
             return true;
         }

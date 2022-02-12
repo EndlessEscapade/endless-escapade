@@ -107,11 +107,11 @@ namespace EEMod
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                SpireCutscene = 0;
                 try
                 {
                     if (Main.gameMenu)
                         isInSubworld = false;
+
                     // TODO: Clients need to know when they're in a subworld
                     //else
                     //isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
@@ -121,6 +121,8 @@ namespace EEMod
 
                 }
 
+                SpireCutscene = 0;
+
                 isPickingUp = false;
                 quickOpeningFloat = 20;
 
@@ -129,10 +131,12 @@ namespace EEMod
                 seamapUpdateCount = 0;
                 arrowFlag = false;
                 noU = false;
+
                 triggerSeaCutscene = false;
-                cutSceneTriggerTimer = 0;
-                position = Player.Center;
                 importantCutscene = false;
+
+                cutSceneTriggerTimer = 0;
+
                 speedOfPan = 0;
                 subTextAlpha = 0;
 
@@ -142,7 +146,6 @@ namespace EEMod
 
                 EEMod.AscentionHandler = 0;
                 EEMod.startingTextHandler = 0;
-                EEMod.AscentionHandler = 0;
             }
         }
 
@@ -281,7 +284,7 @@ namespace EEMod
                         Player.velocity.Y = 0;
                         Player.gravity = 0f;
                         Player.position.Y = yTarget - (newFeetPos - grad * Player.direction * Math.Abs(Player.velocity.X / velDamp));
-                        Player.bodyFrameCounter += Math.Abs(velocity.X) * 0.5f;
+                        Player.bodyFrameCounter += Math.Abs(Player.velocity.X) * 0.5f;
                         while (Player.bodyFrameCounter > 8.0)
                         {
                             Player.bodyFrameCounter -= 8.0;
@@ -334,15 +337,9 @@ namespace EEMod
                 }
             }
 
-            switch (Main.worldName)
+            if(Main.worldName == KeyID.BaseWorldName)
             {
-                case KeyID.CoralReefs:
-                    break;
-                case KeyID.Sea:
-                    break;
-                default:
-                    UpdateWorld();
-                    break;
+                UpdateWorld();
             }
 
             UpdateCutscenesAndTempShaders();

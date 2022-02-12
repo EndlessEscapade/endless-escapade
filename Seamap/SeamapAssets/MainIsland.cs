@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using EEMod.Seamap.SeamapContent;
 using EEMod.ID;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 
 namespace EEMod.Seamap.SeamapAssets
 {
@@ -23,7 +24,7 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override void Interact()
         {
-            
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().ReturnHome();
 
             base.Interact();
         }

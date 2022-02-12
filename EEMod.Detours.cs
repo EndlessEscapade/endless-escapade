@@ -128,7 +128,6 @@ namespace EEMod
         {
             orig();
 
-            Debug.WriteLine("grungus");
             if (Main.worldName == KeyID.Sea && SeamapObjects.localship != null)
             {
                 Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
@@ -457,10 +456,6 @@ namespace EEMod
                     {
                         a.pixelPlacmentHours();
                     }
-                    if (Main.projectile[i].ModProjectile is CyanoburstTomeKelp aa)
-                    {
-                        aa.DrawBehind();
-                    }
                 }
             }
 
@@ -521,8 +516,6 @@ namespace EEMod
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
-            Debug.WriteLine("chungus");
-
             PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
 
             if (!Main.dedServ)
@@ -532,9 +525,9 @@ namespace EEMod
 
                 if (Main.worldName != KeyID.Sea)
                 {
-                    EEMod.Particles.Update();
+                    Particles.Update();
 
-                    EEMod.Particles.Draw(Main.spriteBatch);
+                    Particles.Draw(Main.spriteBatch);
                 }
 
                 //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null);

@@ -39,11 +39,8 @@ namespace EEMod
         public bool noU;
         public bool triggerSeaCutscene;
         public int cutSceneTriggerTimer;
-        public float cutSceneTriggerTimer3;
         public int coralReefTrans;
         public int seamapUpdateCount;
-        public Vector2 position;
-        public Vector2 velocity;
 
         public bool IncreaseStarFall;
 
@@ -51,18 +48,37 @@ namespace EEMod
 
         public string baseWorldName;
 
+        public bool hasLoadedIntoWorld;
+
         public void ReturnHome()
         {
             Initialize();
 
             SM.Return(KeyID.BaseWorldName);
+
+            cutSceneTriggerTimer = 0;
+            triggerSeaCutscene = false;
+            speedOfPan = 0;
+            hasLoadedIntoWorld = false;
         }
 
         public override void clientClone(ModPlayer clientClone) { }
 
-        public Vector2 EEPosition;
         public int powerLevel;
         public float maxPowerLevel;
+
+        public override void OnEnterWorld(Player player)
+        {
+            if (prevKey == KeyID.Sea)
+            {
+                hasLoadedIntoWorld = true;
+                player.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
+
+                cutSceneTriggerTimer = 0;
+                triggerSeaCutscene = false;
+                speedOfPan = 0;
+            }
+        }
 
         public void UpdateCutscenesAndTempShaders()
         {
