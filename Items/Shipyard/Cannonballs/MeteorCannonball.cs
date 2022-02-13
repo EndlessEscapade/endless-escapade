@@ -14,7 +14,7 @@ namespace EEMod.Items.Shipyard.Cannonballs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lead Cannonball");
+            DisplayName.SetDefault("Meteor Cannonball");
             Tooltip.SetDefault("Use this to make your boat shoot cannonballs.");
             ItemID.Sets.SortingPriorityMaterials[Item.type] = 59;
         }
@@ -26,6 +26,8 @@ namespace EEMod.Items.Shipyard.Cannonballs
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
+            Item.GetGlobalItem<ShipyardGlobalItem>().Tag = ItemTags.Cannonball;
+            Item.GetGlobalItem<ShipyardGlobalItem>().info = new MeteorCannonballInfo();
         }
     }
 

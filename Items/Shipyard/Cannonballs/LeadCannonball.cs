@@ -23,7 +23,8 @@ namespace EEMod.Items.Shipyard.Cannonballs
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
-            Item.GetGlobalItem<EEGlobalItem>().Tag = (int)ItemTags.Cannonball;
+            Item.GetGlobalItem<ShipyardGlobalItem>().Tag = ItemTags.Cannonball;
+            Item.GetGlobalItem<ShipyardGlobalItem>().info = new LeadCannonballInfo();
         }
     }
 

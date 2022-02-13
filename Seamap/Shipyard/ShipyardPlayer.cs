@@ -41,44 +41,35 @@ namespace EEMod
     {
         //Shipyard upgrade vars
         public int cannonType; //Stores the cannon type in terms of Item IDs so the player can retrieve stuff from UI
-        public Dictionary<int, ShipyardInfo> cannons = new Dictionary<int, ShipyardInfo>()
-        {
-            {ModContent.ItemType<SteelCannon>(), new SteelCannonInfo()},
-        };
 
         public int figureheadType; //See above
-        public Dictionary<int, ShipyardInfo> figureheads = new Dictionary<int, ShipyardInfo>()
-        {
-            {ModContent.ItemType<WoodenFigurehead>(), new WoodenFigureheadInfo()},
-        };
 
         public int boatTier; //Saves the total upgrades of the boat - 0: ordinary, 1: ironclad?
 
         public Item[] shipStorage; //Stores what the player has in their ship's hold, begins at 20 items, gains 20 on each upgrade
 
-        public Dictionary<int, ShipyardInfo> cannonballs = new Dictionary<int, ShipyardInfo>()
-        {
-            {ModContent.ItemType<IronCannonball>(), new IronCannonballInfo()},
-            {ModContent.ItemType<LeadCannonball>(), new LeadCannonballInfo()},
-            {ModContent.ItemType<MeteorCannonball>(), new MeteorCannonballInfo()},
-        };
-
 
         //Seamap vars
         public float shipSpeed;
         public float steeringSpeed;
-        
+
         public int defense;
         public int maxHealth;
-        
-        
-        
+
+        public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
+        {
+            cannonType = ModContent.ItemType<SteelCannon>();
+            figureheadType = ModContent.ItemType<WoodenFigurehead>();
+
+            return base.AddStartingItems(mediumCoreDeath);
+        }
+
         public override void SaveData(TagCompound tag)
         {
             tag["cannonType"] = cannonType;
             tag["figureheadType"] = figureheadType;
             tag["boatTier"] = boatTier;
-            
+
             //tag["shipStorage"] = shipStorage;
         }
 
@@ -87,14 +78,17 @@ namespace EEMod
             tag.TryGetRef("cannonType", ref cannonType);
             tag.TryGetRef("figureheadType", ref figureheadType);
             tag.TryGetRef("boatTier", ref boatTier);
-            
-            if(boatTier == 0) shipStorage = new Item[20];
-            if(boatTier == 1) shipStorage = new Item[40];
-            
+
+            if (figureheadType == 0) figureheadType = ModContent.ItemType<WoodenFigurehead>();
+            if (cannonType == 0) cannonType = ModContent.ItemType<SteelCannon>();
+
+            if (boatTier == 0) shipStorage = new Item[20];
+            if (boatTier == 1) shipStorage = new Item[40];
+
             //tag.TryGetIntArray("shipStorage", out shipStorage);
         }
-        
-        public void UpgradeBoat() 
+
+        public void UpgradeBoat()
         {
             boatTier++;
 
@@ -103,37 +97,44 @@ namespace EEMod
 
             //if(boatTier == 0) tempArray = new int[20];
             if (boatTier == 1) tempArray = new Item[40];
-            
-            for(int i = 0; i < shipStorage.Length; i++) {
+
+            for (int i = 0; i < shipStorage.Length; i++) {
                 tempArray[i] = shipStorage[i];
             }
-            
+
             shipStorage = tempArray;
         }
-        
+
         public void LeftClickAbility(SeamapPlayerShip boat)
         {
-            /*for (int i = 0; i < shipStorage.Length; i++)
+            for (int i = 0; i < shipStorage.Length; i++)
             {
-                if((shipStorage[i].type == ModContent.ItemType<MeteorCannonball>() ||
-                    shipStorage[i].type == ModContent.ItemType<IronCannonball>() ||
-                    shipStorage[i].type == ModContent.ItemType<LeadCannonball>()
-                    ) && shipStorage[i].stack > 0)
+                if(shipStorage[i].GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannonball && shipStorage[i].stack > 0)
                 {
                     shipStorage[i].stack--;
 
-                    cannons[cannonType].LeftClickAbility(boat, cannonballs[shipStorage[i].type].GetCannonball());
+                    (new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(boat, shipStorage[i].GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball());
                 }
-            }*/
-
-            cannons[ModContent.ItemType<SteelCannon>()].LeftClickAbility(boat, cannonballs[ModContent.ItemType<MeteorCannonball>()].GetCannonball());
+            }
         }
 
         public void RightClickAbility(SeamapPlayerShip boat)
         {
-            //figureheads[figureheadType].RightClickAbility(boat);
-
-            figureheads[ModContent.ItemType<WoodenFigurehead>()].RightClickAbility(boat);
+            (new Item(figureheadType)).GetGlobalItem<ShipyardGlobalItem>().info.RightClickAbility(boat);
         }
+    }
+
+    public class ShipyardGlobalItem : GlobalItem
+    {
+        public ItemTags Tag;
+
+        public ShipyardInfo info;
+    }
+
+    public enum ItemTags
+    {
+        Cannonball = 1,
+        Cannon = 2,
+        Figurehead = 3
     }
 }

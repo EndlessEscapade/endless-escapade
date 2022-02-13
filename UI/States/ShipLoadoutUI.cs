@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using ReLogic.Content;
 using CustomSlot;
 using EEMod.Items;
+using EEMod;
 
 namespace EEMod.UI.States
 {
@@ -32,7 +33,7 @@ namespace EEMod.UI.States
 
 			CannonSlot = new CustomItemSlot(0, backgroundTexture: ModContent.Request<Texture2D>("EEMod/UI/ShipLoadoutItemSlot", AssetRequestMode.ImmediateLoad).Value)
 			{
-				IsValidItem = item => item.GetGlobalItem<EEGlobalItem>().Tag == (int)ItemTags.Cannon,
+				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon,
 				EmptyTexture = emptyTexture,
 				ActualColor = Color.White,
 				HoverText = "Cannon"
@@ -44,7 +45,7 @@ namespace EEMod.UI.States
 
 			CannonSlot2 = new CustomItemSlot(0, backgroundTexture: ModContent.Request<Texture2D>("EEMod/UI/ShipLoadoutItemSlot", AssetRequestMode.ImmediateLoad).Value)
 			{
-				IsValidItem = item => item.GetGlobalItem<EEGlobalItem>().Tag == (int)ItemTags.Cannon,// && other bool
+				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon,// && other bool
 				EmptyTexture = emptyTexture,
 				ActualColor = Color.White,
 				HoverText = "Locked" //bool ? "Second Cannon" : "Locked"
@@ -55,7 +56,7 @@ namespace EEMod.UI.States
 
 			FigureheadSlot = new CustomItemSlot(0, backgroundTexture: ModContent.Request<Texture2D>("EEMod/UI/ShipLoadoutItemSlot", AssetRequestMode.ImmediateLoad).Value)
 			{
-				IsValidItem = item => item.GetGlobalItem<EEGlobalItem>().Tag == (int)ItemTags.Figurehead,
+				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Figurehead,
 				EmptyTexture = emptyTexture,
 				ActualColor = Color.White,
 				HoverText = "Figurehead"
@@ -70,7 +71,35 @@ namespace EEMod.UI.States
         {
 			base.Update(gameTime);
         }
-    }
+
+        public override void OnActivate()
+        {
+			if(!Main.gameMenu)
+            {
+				Item cannonItem = new Item();
+				cannonItem.SetDefaults(Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType);
+				CannonSlot.Item = cannonItem;
+
+				Item figureheadItem = new Item();
+				figureheadItem.SetDefaults(Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType);
+				FigureheadSlot.Item = figureheadItem;
+			}
+
+            base.OnActivate();
+        }
+
+		public override void OnDeactivate()
+		{
+			if (!Main.gameMenu)
+			{
+				Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType = CannonSlot.Item.type;
+
+				Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType = FigureheadSlot.Item.type;
+			}
+
+			base.OnDeactivate();
+		}
+	}
 
 	//Edited from RecipeBrowser's UIDragablePanel 
 	public class UIDragableImage : UIImage

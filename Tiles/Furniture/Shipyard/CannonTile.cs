@@ -50,7 +50,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Color color = Color.White;
+            Color color = Lighting.GetColor(i, j);
 
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
