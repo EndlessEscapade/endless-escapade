@@ -113,7 +113,7 @@ namespace EEMod
         
         public void LeftClickAbility(SeamapPlayerShip boat)
         {
-            for (int i = 0; i < shipStorage.Length; i++)
+            /*for (int i = 0; i < shipStorage.Length; i++)
             {
                 if((shipStorage[i].type == ModContent.ItemType<MeteorCannonball>() ||
                     shipStorage[i].type == ModContent.ItemType<IronCannonball>() ||
@@ -124,12 +124,16 @@ namespace EEMod
 
                     cannons[cannonType].LeftClickAbility(boat, cannonballs[shipStorage[i].type].GetCannonball());
                 }
-            }
+            }*/
+
+            cannons[ModContent.ItemType<SteelCannon>()].LeftClickAbility(boat, cannonballs[ModContent.ItemType<MeteorCannonball>()].GetCannonball());
         }
 
         public void RightClickAbility(SeamapPlayerShip boat)
         {
-            figureheads[figureheadType].RightClickAbility(boat);
+            //figureheads[figureheadType].RightClickAbility(boat);
+
+            figureheads[ModContent.ItemType<WoodenFigurehead>()].RightClickAbility(boat);
         }
     }
 }

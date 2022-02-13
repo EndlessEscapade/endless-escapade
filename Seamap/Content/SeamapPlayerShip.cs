@@ -79,7 +79,7 @@ namespace EEMod.Seamap.Content
 
                 if (myPlayer.controlUseItem && cannonDelay <= 0 && myPlayer == Main.LocalPlayer)
                 {
-                    //LeftClickAbility();
+                    LeftClickAbility();
 
                     cannonDelay = 60;
                 }

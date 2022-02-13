@@ -1,7 +1,9 @@
+using EEMod.Extensions;
 using EEMod.Seamap.Content;
 using EEMod.Seamap.Content.Cannonballs;
 using EEMod.Seamap.Core;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +33,7 @@ namespace EEMod.Items.Shipyard.Cannonballs
     {
         public override SeamapObject GetCannonball()
         {
-            return new ShenCannonball(Vector2.Zero, Vector2.Zero, Color.Goldenrod);
+            return new ShenCannonball(Vector2.Zero, Vector2.Zero, Color.Lerp(Color.OrangeRed, Color.DarkGoldenrod, (float)Math.Sin(Main.GameUpdateCount / 180f).PositiveSin()));
         }
     }
 }

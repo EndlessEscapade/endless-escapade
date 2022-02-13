@@ -23,7 +23,7 @@ namespace EEMod.Seamap.Core
                 if (SeamapObjects.SeamapEntities[i] != null)
                 {
                     SeamapObjects.SeamapEntities[i].Update();
-                    SeamapObjects.SeamapEntities[i].UpdateComponents();
+                    //SeamapObjects.SeamapEntities[i].UpdateComponents();
                 }
             }
 
