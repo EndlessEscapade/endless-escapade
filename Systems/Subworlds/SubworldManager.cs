@@ -363,6 +363,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         private void ReturnOnName(string text)
         {
+            Console.WriteLine("gazingus 2!!!");
+
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata(Path.Combine(Main.SavePath, "Worlds", text + ".wld"), false);
             WorldGen.playWorld();
         }

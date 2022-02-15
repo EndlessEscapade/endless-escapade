@@ -25,6 +25,7 @@ using EEMod.Autoloading;
 using EEMod.Systems.Subworlds.EESubworlds;
 using System.Diagnostics;
 using EEMod.Tiles.Furniture;
+using Terraria.Audio;
 
 namespace EEMod
 {
@@ -63,13 +64,15 @@ namespace EEMod
             triggerSeaCutscene = false;
             speedOfPan = 0;
             hasLoadedIntoWorld = false;
+
+            EEMod.isSaving = true;
         }
 
         public override void clientClone(ModPlayer clientClone) { }
 
         public override void OnEnterWorld(Player player)
         {
-            if (prevKey == KeyID.Sea)
+            if (prevKey == KeyID.Sea && !hasLoadedIntoWorld)
             {
                 hasLoadedIntoWorld = true;
                 player.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
@@ -78,6 +81,8 @@ namespace EEMod
                 triggerSeaCutscene = false;
                 speedOfPan = 0;
             }
+
+            EEMod.isSaving = false;
         }
 
         public void UpdateCutscenesAndTempShaders()
@@ -122,6 +127,8 @@ namespace EEMod
 
                 prevKey = KeyID.BaseWorldName;
                 SubworldManager.EnterSubworld<Sea>();
+
+                EEMod.isSaving = true;
 
                 cutSceneTriggerTimer = 0;
             }

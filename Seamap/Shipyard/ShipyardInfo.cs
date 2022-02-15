@@ -46,7 +46,7 @@ namespace EEMod
 
         }
 
-        public virtual SeamapObject GetCannonball() 
+        public virtual SeamapObject GetCannonball(int team) 
         {
             return null;
         }

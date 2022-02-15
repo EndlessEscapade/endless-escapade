@@ -30,9 +30,9 @@ namespace EEMod.Items.Shipyard.Cannonballs
 
     public class LeadCannonballInfo : ShipyardInfo
     {
-        public override SeamapObject GetCannonball()
+        public override SeamapObject GetCannonball(int team)
         {
-            return new FriendlyCannonball(Vector2.Zero, Vector2.Zero);
+            return new FriendlyCannonball(Vector2.Zero, Vector2.Zero, (TeamID)team);
         }
     }
 }

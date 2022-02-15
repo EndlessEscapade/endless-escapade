@@ -107,15 +107,19 @@ namespace EEMod
 
         public void LeftClickAbility(SeamapPlayerShip boat)
         {
-            for (int i = 0; i < shipStorage.Length; i++)
+            /*for (int i = 0; i < shipStorage.Length; i++)
             {
                 if(shipStorage[i].GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannonball && shipStorage[i].stack > 0)
                 {
                     shipStorage[i].stack--;
 
-                    (new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(boat, shipStorage[i].GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball());
+                    //(new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(boat, shipStorage[i].GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball());
                 }
-            }
+            }*/
+
+            (new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(
+                boat, (new Item(ModContent.ItemType<MeteorCannonball>())).GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball(Player.team)
+                );
         }
 
         public void RightClickAbility(SeamapPlayerShip boat)
@@ -129,6 +133,13 @@ namespace EEMod
         public ItemTags Tag;
 
         public ShipyardInfo info;
+
+        public override bool InstancePerEntity => true;
+
+        public override GlobalItem Clone(Item item, Item itemClone)
+        {
+            return base.Clone(item, itemClone);
+        }
     }
 
     public enum ItemTags

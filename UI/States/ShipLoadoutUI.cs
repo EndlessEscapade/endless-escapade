@@ -69,6 +69,12 @@ namespace EEMod.UI.States
         }
         public override void Update(GameTime gameTime)
         {
+			if (EEMod.UI.IsActive("ShipLoadoutInterface") && !Main.playerInventory)
+			{
+
+				EEMod.UI.RemoveState("ShipLoadoutInterface");
+			}
+
 			base.Update(gameTime);
         }
 
@@ -76,6 +82,8 @@ namespace EEMod.UI.States
         {
 			if(!Main.gameMenu)
             {
+				Main.playerInventory = true;
+
 				Item cannonItem = new Item();
 				cannonItem.SetDefaults(Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType);
 				CannonSlot.Item = cannonItem;

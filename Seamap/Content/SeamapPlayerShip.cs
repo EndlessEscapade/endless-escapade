@@ -193,6 +193,9 @@ namespace EEMod.Seamap.Content
                 {
                     if (Hitbox.Intersects(obj.Hitbox))
                     {
+                        if (obj is Cannonball)
+                            if ((int)(obj as Cannonball).team == myPlayer.team) continue;
+
                         shipHelth--;
                         invFrames = 20;
 

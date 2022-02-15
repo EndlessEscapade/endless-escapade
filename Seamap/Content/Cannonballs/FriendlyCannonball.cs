@@ -19,13 +19,10 @@ using EEMod.Seamap.Core;
 
 namespace EEMod.Seamap.Content.Cannonballs
 {
-    public class FriendlyCannonball : SeamapObject
+    public class FriendlyCannonball : Cannonball
     {
-        public FriendlyCannonball(Vector2 pos, Vector2 vel) : base(pos, vel)
+        public FriendlyCannonball(Vector2 pos, Vector2 vel, TeamID team) : base(pos, vel, team)
         {
-            position = pos;
-            velocity = vel;
-
             width = 12;
             height = 12;
 

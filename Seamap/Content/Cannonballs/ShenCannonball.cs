@@ -20,13 +20,10 @@ using EEMod.Seamap.Core;
 
 namespace EEMod.Seamap.Content.Cannonballs
 {
-    public class ShenCannonball : SeamapObject
+    public class ShenCannonball : Cannonball
     {
-        public ShenCannonball(Vector2 pos, Vector2 vel, Color _color) : base(pos, vel)
+        public ShenCannonball(Vector2 pos, Vector2 vel, TeamID team, Color _color) : base(pos, vel, team)
         {
-            position = pos;
-            velocity = vel;
-
             width = 12;
             height = 12;
 
@@ -66,6 +63,8 @@ namespace EEMod.Seamap.Content.Cannonballs
 
             ticks++;
 
+            scale = (ticks < 175 ? 1f : (1f + ((ticks - 175) / 10f)));
+
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.5f));
             EEMod.MainParticles.SpawnParticles(Center, (velocity.RotatedBy(Main.rand.NextFloat(-0.1f, 0.1f)) * 0.85f),
                 ModContent.Request<Texture2D>("EEMod/Empty").Value, 60, 1f, Color.Lerp(cannonballColor, Color.White, ticks / 180f) * 0.5f,
@@ -74,86 +73,64 @@ namespace EEMod.Seamap.Content.Cannonballs
                 new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/6PointStar").Value, cannonballColor * 0.5f),
                 new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, cannonballColor * 0.75f, 2f));
 
-            if (explodeFrame <= 0)
+            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
             {
-                foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
-                {
-                    if (obj == null) continue;
+                if (obj == null) continue;
 
-                    if (obj.collides && obj.Hitbox.Intersects(Hitbox))
-                    {
-                        SoundEngine.PlaySound(SoundID.Item14);
-                        explodeFrame++;
-                    }
-                }
-
-                if (ticks == 180)
+                if (obj.collides && obj.Hitbox.Intersects(Hitbox))
                 {
-                    SoundEngine.PlaySound(SoundID.Item14);
-                    explodeFrame++;
+                    Kill();
                 }
             }
-            else
+
+            if (ticks == 180)
             {
-                shenTrail1.Kill();
-                shenTrail2.Kill();
-                shenTrail3.Kill();
-
-                for (int i = 0; i < 40; i++)
-                {
-                    EEMod.MainParticles.SpawnParticles(Center, (oldVelocity * 0.5f) + (Vector2.UnitY.RotatedBy(Main.rand.NextFloat(-3.14f, 3.14f)) * Main.rand.NextFloat(0.65f, 0.85f) * 3f * 0.8f),
-                        ModContent.Request<Texture2D>("EEMod/Empty").Value, 30, 1.5f, Color.Lerp(cannonballColor, Color.White, 0.25f) * 0.75f,
-                        new SlowDown(0.99f),
-                        new RotateTexture(0.02f),
-                        new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/6PointStar").Value, cannonballColor * 0.75f),
-                        new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, cannonballColor * 0.75f, 2f));
-                }
-
                 Kill();
             }
-
-            if (explodeFrame >= 1 && ticks % 4 == 0) explodeFrame++;
 
             rotation = Main.GameUpdateCount / 10f;
 
             base.Update();
         }
 
-        public float sinkLevel;
+        public override void OnKill()
+        {
+            shenTrail1.Kill();
+            shenTrail2.Kill();
+            shenTrail3.Kill();
 
-        public int explodeFrame;
+            SoundEngine.PlaySound(SoundID.Item14);
+
+            for (int i = 0; i < 40; i++)
+            {
+                EEMod.MainParticles.SpawnParticles(Center, (oldVelocity * 0.5f) + (Vector2.UnitY.RotatedBy(Main.rand.NextFloat(-3.14f, 3.14f)) * Main.rand.NextFloat(0.65f, 0.85f) * 3f * 0.8f),
+                    ModContent.Request<Texture2D>("EEMod/Empty").Value, 30, 1.5f, Color.Lerp(cannonballColor, Color.White, 0.25f) * 0.75f,
+                    new SlowDown(0.99f),
+                    new RotateTexture(0.02f),
+                    new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/6PointStar").Value, cannonballColor * 0.75f),
+                    new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, cannonballColor * 0.75f, 2f));
+            }
+
+            base.OnKill();
+        }
+
+        public float sinkLevel;
 
         public override bool PreDraw(SpriteBatch spriteBatch)
         {
-            if (explodeFrame >= 1)
-            {
-                velocity = Vector2.Zero;
+            //corona
+            Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, Center - Main.screenPosition - (velocity), cannonballColor * 0.6f, 0.5f * scale, rotation);
 
-                //Texture2D explodeSheet = ModContent.Request<Texture2D>("EEMod/Seamap/Content/CannonballExplode").Value;
-                //Texture2D explodeSheetGlow = ModContent.Request<Texture2D>("EEMod/Seamap/Content/CannonballExplodeGlow").Value;
+            //outline
+            Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value, Center - Main.screenPosition, cannonballColor * 0.75f, 0.6f * scale, rotation);
+            Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value, Center - Main.screenPosition, Color.White, 0.4f * scale, rotation);
 
-                //Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White.LightSeamap(), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            return true;
+        }
 
-                //Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-
-                if (explodeFrame - 1 >= 6)
-                {
-                    Kill();
-                }
-
-                return false;
-            }
-            else
-            {
-                //corona
-                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, Center - Main.screenPosition - (velocity), cannonballColor * 0.6f, 0.5f, rotation);
-
-                //outline
-                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value, Center - Main.screenPosition, cannonballColor * 0.75f, 0.6f, rotation);
-                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value, Center - Main.screenPosition, Color.White, 0.4f, rotation);
-
-                return true;
-            }
+        public override void PostDraw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/Content/Cannonballs/ShenCannonballGlow").Value, Center - Main.screenPosition, null, cannonballColor, rotation, new Vector2(6, 6), scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
         }
     }
 

@@ -111,6 +111,8 @@ namespace EEMod.Seamap.Core
 
         public void Kill()
         {
+            OnKill();
+
             SeamapObjects.DestroyObject(this);
         }
     }

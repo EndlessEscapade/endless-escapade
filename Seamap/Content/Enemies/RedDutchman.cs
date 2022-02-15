@@ -44,7 +44,7 @@ namespace EEMod.Seamap.Content.Enemies
 
             if (ticker % 120 == 0)
             {
-                SeamapObjects.NewSeamapObject(new EnemyCannonball(Center, Vector2.Normalize(SeamapObjects.localship.Center - Center) * 2.5f));
+                //SeamapObjects.NewSeamapObject(new EnemyCannonball(Center, Vector2.Normalize(SeamapObjects.localship.Center - Center) * 2.5f));
             }
 
             base.Update();

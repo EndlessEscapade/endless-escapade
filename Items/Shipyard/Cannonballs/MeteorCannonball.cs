@@ -33,9 +33,9 @@ namespace EEMod.Items.Shipyard.Cannonballs
 
     public class MeteorCannonballInfo : ShipyardInfo
     {
-        public override SeamapObject GetCannonball()
+        public override SeamapObject GetCannonball(int team)
         {
-            return new ShenCannonball(Vector2.Zero, Vector2.Zero, Color.Lerp(Color.OrangeRed, Color.DarkGoldenrod, (float)Math.Sin(Main.GameUpdateCount / 180f).PositiveSin()));
+            return new ShenCannonball(Vector2.Zero, Vector2.Zero, (TeamID)team, Color.Lerp(Color.OrangeRed, Color.DarkGoldenrod, (float)Math.Sin(Main.GameUpdateCount / 180f).PositiveSin()));
         }
     }
 }
