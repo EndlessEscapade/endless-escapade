@@ -45,6 +45,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void PlayerUpdate(Player player)
         {
+            if (Main.worldName != KeyID.Sea) return;
+
             Seamap.Core.Seamap.UpdateSeamap();
 
             player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
