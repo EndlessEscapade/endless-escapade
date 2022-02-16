@@ -430,64 +430,88 @@ namespace EEMod
                 }
             }
         }
-     
+
         public void DrawSky()
         {
             switch (loadingChooseImage)
             {
                 case 0:
-                    _texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
+                    texture2 = Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
                     break;
                 case 1:
-                    _texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
+                    texture2 = Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
                     break;
                 case 2:
-                    _texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
+                    texture2 = Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
                     break;
                 default:
-                    _texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
+                    texture2 = Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
                     break;
             }
             switch (loadingChooseImage)
             {
                 default:
                 {
-                    _screenTexture = ModContent.Request<Texture2D>("Terraria/Images/UI/Sunflower_Loading").Value;
-                    _screenframes = 19;
-                    _screenframeSpeed = 3;
+                    texture = ModContent.Request<Texture2D>("Terraria/Images/UI/Sunflower_Loading").Value;
+                    frames = 19;
+                    frameSpeed = 3;
                     break;
                 }
 
                 case 1:
                 {
-                    _screenTexture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/SurfaceReefs/HermitCrab").Value;
-                    _screenframes = 4;
-                    _screenframeSpeed = 5;
+                    texture = ModContent.Request<Texture2D>("EEMod/NPCs/SurfaceReefs/HermitCrab").Value;
+                    frames = 4;
+                    frameSpeed = 5;
                     break;
                 }
                 case 2:
                 {
-                    _screenTexture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/SurfaceReefs/Seahorse").Value;
-                    _screenframes = 7;
-                    _screenframeSpeed = 4;
+                    texture = ModContent.Request<Texture2D>("EEMod/NPCs/SurfaceReefs/Seahorse").Value;
+                    frames = 7;
+                    frameSpeed = 4;
                     break;
                 }
                 case 3:
                 {
-                    _screenTexture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/LowerReefs/Lionfish").Value;
-                    _screenframes = 8;
-                    _screenframeSpeed = 10;
+                    texture = ModContent.Request<Texture2D>("EEMod/NPCs/LowerReefs/Lionfish").Value;
+                    frames = 8;
+                    frameSpeed = 10;
                     break;
                 }
                 case 4:
                 {
-                    _screenTexture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/ThermalVents/MechanicalShark").Value;
-                    _screenframes = 6;
-                    _screenframeSpeed = 10;
+                    texture = ModContent.Request<Texture2D>("EEMod/NPCs/ThermalVents/MechanicalShark").Value;
+                    frames = 6;
+                    frameSpeed = 10;
                     break;
                 }
             }
+            if (Countur++ > frameSpeed)
+            {
+                Countur = 0;
+                frame2.Y += texture.Height / frames;
+            }
+            if (frame2.Y >= texture.Height / frames * (frames - 1))
+            {
+                frame2.Y = 0;
+            }
+
+            Vector2 position = new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / 2 + 30);
+
+            Main.spriteBatch.Draw(texture2, 
+                new Rectangle(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / 2, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), 
+                texture2.Bounds, new Color(204, 204, 204), 0, origin: new Vector2(texture2.Width / 2, texture2.Height / 2), SpriteEffects.None, 0);
+            
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame2.Y, texture.Width, texture.Height / frames), new Color(0, 0, 0), 0, new Rectangle(0, frame2.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
         }
+
+        private Texture2D texture;
+        private Texture2D texture2;
+        private Rectangle frame2;
+        private int Countur;
+        private int frames;
+        private int frameSpeed;
 
         private void WorldGenBeaches()
         {

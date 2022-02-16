@@ -900,7 +900,7 @@ namespace EEMod
 
                 Main.spriteBatch.Begin();
 
-                DrawSky();
+                if(isSaving) DrawSky();
 
                 if (FontAssets.DeathText.Value != null && screenMessageText != null)
                 {
