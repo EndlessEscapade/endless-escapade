@@ -80,6 +80,8 @@ namespace EEMod
                 cutSceneTriggerTimer = 0;
                 triggerSeaCutscene = false;
                 speedOfPan = 0;
+
+                Main.screenPosition = player.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
             }
 
             EEMod.isSaving = false;
