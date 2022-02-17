@@ -54,8 +54,8 @@ namespace EEMod
 
         float bgAlpha;
 
-        private int osSucksAtBedwars;
-        private float textPositionLeft;
+        public int osSucksAtBedwars;
+        public float textPositionLeft;
         private bool wasDoingWorldGen = false;
 
         //public RenderTarget2D additiveRT;

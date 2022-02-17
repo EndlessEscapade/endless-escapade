@@ -508,8 +508,8 @@ namespace EEMod
 
         private Texture2D texture;
         private Texture2D texture2;
-        private Rectangle frame2;
-        private int Countur;
+        public Rectangle frame2;
+        public int Countur;
         private int frames;
         private int frameSpeed;
 

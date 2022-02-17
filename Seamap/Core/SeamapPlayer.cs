@@ -65,6 +65,10 @@ namespace EEMod
             speedOfPan = 0;
             hasLoadedIntoWorld = false;
 
+            ModContent.GetInstance<EEMod>().Countur = 0;
+            ModContent.GetInstance<EEMod>().frame2.Y = 0;
+            ModContent.GetInstance<EEMod>().osSucksAtBedwars = 0;
+
             EEMod.isSaving = true;
         }
 
