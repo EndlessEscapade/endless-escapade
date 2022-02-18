@@ -74,7 +74,7 @@ namespace EEMod.Seamap.Core
             }
 
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             RenderEntities(spriteBatch); //Layer 1, postdraw layer 2
 
@@ -152,7 +152,7 @@ namespace EEMod.Seamap.Core
             //EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
 
             Texture2D waterTexture = ModContent.Request<Texture2D>("EEMod/Particles/Square").Value;
@@ -183,7 +183,7 @@ namespace EEMod.Seamap.Core
             spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, seamapWidth, seamapHeight), null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
 
             spriteBatch.End(); 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             foreach (var entity in SeamapObjects.ActiveEntities)
             {
@@ -212,7 +212,7 @@ namespace EEMod.Seamap.Core
 
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
 
             WaterShader.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/DotNoise2Squish").Value);
@@ -238,7 +238,7 @@ namespace EEMod.Seamap.Core
             }
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public static Vector2 permaWindVector;
@@ -257,7 +257,7 @@ namespace EEMod.Seamap.Core
             if (isStorming && weatherDensity < 1f) weatherDensity += 0.001f;
             if (!isStorming && weatherDensity > 0f) weatherDensity -= 0.001f;
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             SeamapCloudShader.Parameters["cloudNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/CloudNoise").Value);
             SeamapCloudShader.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/SeamapNoise").Value);
@@ -323,7 +323,7 @@ namespace EEMod.Seamap.Core
             }
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             SeamapBorderVignette.Parameters["color"].SetValue(Vector4.Lerp(Color.White.LightSeamap().ToVector4(), Color.Gray.LightSeamap().ToVector4(), weatherDensity));
 
@@ -332,7 +332,7 @@ namespace EEMod.Seamap.Core
             spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, 5000, 4800), Color.White);
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         static void CalculateBrightness()

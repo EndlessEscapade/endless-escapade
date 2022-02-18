@@ -124,6 +124,17 @@ namespace EEMod
             Main.OnPreDraw -= Main_OnPreDraw;
         }
 
+        private static void ClampScreenPositionToWorld(int maxRight, int maxBottom)
+        {
+            Vector2 vector = new Vector2(0 + 656f, 0 + 656f) - Main.GameViewMatrix.Translation;
+            Vector2 vector2 = new Vector2(maxRight - (float)Main.screenWidth / Main.GameViewMatrix.Zoom.X - 672f, maxBottom - (float)Main.screenHeight / Main.GameViewMatrix.Zoom.Y - 672f) - Main.GameViewMatrix.Translation;
+            
+            vector = Utils.Round(vector);
+            vector2 = Utils.Round(vector2);
+            
+            Main.screenPosition = Vector2.Clamp(Main.screenPosition, vector, vector2);
+        }
+
         private void Main_DoDraw_UpdateCameraPosition(On.Terraria.Main.orig_DoDraw_UpdateCameraPosition orig)
         {
             orig();
@@ -132,8 +143,7 @@ namespace EEMod
             {
                 Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
 
-                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, Seamap.Core.Seamap.seamapWidth - Main.screenWidth);
-                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, Seamap.Core.Seamap.seamapHeight - 200 - Main.screenHeight);
+                ClampScreenPositionToWorld(Seamap.Core.Seamap.seamapWidth, Seamap.Core.Seamap.seamapHeight - 200);
             }
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)

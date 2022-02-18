@@ -33,7 +33,7 @@ namespace EEMod.UI.States
 
 			CannonSlot = new CustomItemSlot(0, backgroundTexture: ModContent.Request<Texture2D>("EEMod/UI/ShipLoadoutItemSlot", AssetRequestMode.ImmediateLoad).Value)
 			{
-				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon && Main.LocalPlayer.HeldItem != null && Main.LocalPlayer.HeldItem.IsAir == false,
+				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon,
 				EmptyTexture = emptyTexture,
 				ActualColor = Color.White,
 				HoverText = "Cannon"
@@ -45,7 +45,7 @@ namespace EEMod.UI.States
 
 			CannonSlot2 = new CustomItemSlot(0, backgroundTexture: ModContent.Request<Texture2D>("EEMod/UI/ShipLoadoutItemSlot", AssetRequestMode.ImmediateLoad).Value)
 			{
-				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon && Main.LocalPlayer.HeldItem != null && Main.LocalPlayer.HeldItem.IsAir == false,// && other bool
+				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon,// && other bool
 				EmptyTexture = emptyTexture,
 				ActualColor = Color.White,
 				HoverText = "Locked" //bool ? "Second Cannon" : "Locked"
@@ -56,11 +56,15 @@ namespace EEMod.UI.States
 
 			FigureheadSlot = new CustomItemSlot(0, backgroundTexture: ModContent.Request<Texture2D>("EEMod/UI/ShipLoadoutItemSlot", AssetRequestMode.ImmediateLoad).Value)
 			{
-				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Figurehead && Main.LocalPlayer.HeldItem != null && Main.LocalPlayer.HeldItem.IsAir == false,
+				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Figurehead,
 				EmptyTexture = emptyTexture,
 				ActualColor = Color.White,
 				HoverText = "Figurehead"
 			};
+
+
+
+
 			FigureheadSlot.Top.Set(104f, 0f);
 			FigureheadSlot.Left.Set(360f, 0f);
 			Background.Append(FigureheadSlot);
@@ -108,6 +112,14 @@ namespace EEMod.UI.States
 			base.OnDeactivate();
 		}
 	}
+
+	public class LockItemSlot : CustomItemSlot
+    {
+        public override void Click(UIMouseEvent evt)
+        {
+
+        }
+    }
 
 	//Edited from RecipeBrowser's UIDragablePanel 
 	public class UIDragableImage : UIImage
