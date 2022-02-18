@@ -48,6 +48,8 @@ namespace EEMod
 
         public Item[] shipStorage; //Stores what the player has in their ship's hold, begins at 20 items, gains 20 on each upgrade
 
+        public bool alreadyLoaded;
+
 
         //Seamap vars
         public float shipSpeed;
@@ -78,9 +80,6 @@ namespace EEMod
             tag.TryGetRef("cannonType", ref cannonType);
             tag.TryGetRef("figureheadType", ref figureheadType);
             tag.TryGetRef("boatTier", ref boatTier);
-
-            if (figureheadType == 0) figureheadType = ModContent.ItemType<WoodenFigurehead>();
-            if (cannonType == 0) cannonType = ModContent.ItemType<SteelCannon>();
 
             if (boatTier == 0) shipStorage = new Item[20];
             if (boatTier == 1) shipStorage = new Item[40];

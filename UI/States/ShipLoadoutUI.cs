@@ -33,7 +33,7 @@ namespace EEMod.UI.States
 
 			CannonSlot = new CustomItemSlot(0, backgroundTexture: ModContent.Request<Texture2D>("EEMod/UI/ShipLoadoutItemSlot", AssetRequestMode.ImmediateLoad).Value)
 			{
-				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon,
+				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon && Main.LocalPlayer.HeldItem != null && Main.LocalPlayer.HeldItem.IsAir == false,
 				EmptyTexture = emptyTexture,
 				ActualColor = Color.White,
 				HoverText = "Cannon"
@@ -45,7 +45,7 @@ namespace EEMod.UI.States
 
 			CannonSlot2 = new CustomItemSlot(0, backgroundTexture: ModContent.Request<Texture2D>("EEMod/UI/ShipLoadoutItemSlot", AssetRequestMode.ImmediateLoad).Value)
 			{
-				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon,// && other bool
+				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Cannon && Main.LocalPlayer.HeldItem != null && Main.LocalPlayer.HeldItem.IsAir == false,// && other bool
 				EmptyTexture = emptyTexture,
 				ActualColor = Color.White,
 				HoverText = "Locked" //bool ? "Second Cannon" : "Locked"
@@ -56,7 +56,7 @@ namespace EEMod.UI.States
 
 			FigureheadSlot = new CustomItemSlot(0, backgroundTexture: ModContent.Request<Texture2D>("EEMod/UI/ShipLoadoutItemSlot", AssetRequestMode.ImmediateLoad).Value)
 			{
-				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Figurehead,
+				IsValidItem = item => item.GetGlobalItem<ShipyardGlobalItem>().Tag == ItemTags.Figurehead && Main.LocalPlayer.HeldItem != null && Main.LocalPlayer.HeldItem.IsAir == false,
 				EmptyTexture = emptyTexture,
 				ActualColor = Color.White,
 				HoverText = "Figurehead"

@@ -267,8 +267,6 @@ namespace EEMod.Seamap.Core
             SeamapCloudShader.Parameters["cloudsColor2"].SetValue((Color.Black * (0.1f + (weatherDensity * 0.1f))).ToVector4());
             SeamapCloudShader.Parameters["cloudsColor1"].SetValue((Color.Black * (0.1f + (weatherDensity * 0.1f))).ToVector4());
 
-            permaWindVector += windVector;
-
             Vector2 tempWindVector = permaWindVector / 4800f;
 
             if (tempWindVector.Y < 0) tempWindVector.Y = 1 + tempWindVector.Y;

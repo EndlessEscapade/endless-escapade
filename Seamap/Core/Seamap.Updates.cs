@@ -27,7 +27,9 @@ namespace EEMod.Seamap.Core
                 }
             }
 
-            if(Main.GameUpdateCount % 600 == 0 && SeamapObjects.localship != null)
+            permaWindVector += windVector;
+
+            if (Main.GameUpdateCount % 600 == 0 && SeamapObjects.localship != null)
             {
                 SpawnSeagullFlock(Main.rand.Next(4, 8));
             }
