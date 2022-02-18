@@ -545,6 +545,7 @@ namespace EEMod
             tag["fishLengthsKeys"] = fishLengths.Keys.ToList();
             tag["fishLengthsValues"] = fishLengths.Values.ToList();
             tag["firstLoad"] = firstLoad;
+            tag["lastPos"] = myLastBoatPos;
         }
 
         public override void LoadData(TagCompound tag)
@@ -559,6 +560,8 @@ namespace EEMod
             tag.TryGetRef("fishLengthsKeys", ref fishLengthsKeys);
             tag.TryGetRef("fishLengthsValues", ref fishLengthsValues);
             tag.TryGetRef("firstLoad", ref firstLoad);
+
+            tag.TryGetRef("lastPos", ref myLastBoatPos);
 
             fishLengths = fishLengthsKeys.Zip(fishLengthsValues, (k, v) => new { fishLengthsKeys = k, fishLengthsValues = v }).ToDictionary(d => d.fishLengthsKeys, d => d.fishLengthsValues);
         }

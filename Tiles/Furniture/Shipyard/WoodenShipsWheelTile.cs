@@ -12,6 +12,9 @@ using EEMod.Items.Placeables.Furniture;
 using EEMod.EEWorld;
 using EEMod.UI.States;
 using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.ID;
+using EEMod;
+using System.Diagnostics;
 
 namespace EEMod.Tiles.Furniture.Shipyard
 {
@@ -57,7 +60,15 @@ namespace EEMod.Tiles.Furniture.Shipyard
         {
             Player player = Main.LocalPlayer;
 
-            player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
+            if (Main.worldName.Replace(" ", "_") == KeyID.BaseWorldName)
+            {
+                player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
+            }
+            else
+            {
+                player.GetModPlayer<EEPlayer>().EnterSeamap();
+                Debug.WriteLine("grungus");
+            }
 
             return true;
         }

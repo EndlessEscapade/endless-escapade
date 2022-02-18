@@ -26,6 +26,7 @@ using EEMod.Systems.Subworlds.EESubworlds;
 using System.Diagnostics;
 using EEMod.Tiles.Furniture;
 using Terraria.Audio;
+using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
@@ -54,6 +55,10 @@ namespace EEMod
         public int powerLevel;
         public float maxPowerLevel;
 
+        public Vector2 myLastBoatPos;
+
+        public bool lastKeySeamap;
+
         public void ReturnHome()
         {
             Initialize();
@@ -64,6 +69,8 @@ namespace EEMod
             triggerSeaCutscene = false;
             speedOfPan = 0;
             hasLoadedIntoWorld = false;
+
+            lastKeySeamap = true;
 
             ModContent.GetInstance<EEMod>().Countur = 0;
             ModContent.GetInstance<EEMod>().frame2.Y = 0;
@@ -84,18 +91,15 @@ namespace EEMod
             if (prevKey == KeyID.Sea && !hasLoadedIntoWorld)
             {
                 hasLoadedIntoWorld = true;
-                player.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
+                if(lastKeySeamap) player.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
 
                 cutSceneTriggerTimer = 0;
                 triggerSeaCutscene = false;
                 speedOfPan = 0;
 
-                Main.screenPosition = player.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
-            }
+                lastKeySeamap = false;
 
-            if (Main.netMode == NetmodeID.Server)
-            {
-                Netplay.Connection.State = 3;
+                Main.screenPosition = player.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
             }
 
             EEMod.isSaving = false;
@@ -103,19 +107,6 @@ namespace EEMod
 
         public void UpdateCutscenesAndTempShaders()
         {
-            //Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
-            //if (Main.netMode != NetmodeID.Server && !Filters.Scene[RippleShader].HasTile())
-            //{
-            //    Filters.Scene.Activate(RippleShader, Player.Center).GetShader().UseOpacity(timerForCutscene);
-            //}
-            //if (!godMode)
-            //{
-            //    if (Main.netMode != NetmodeID.Server && Filters.Scene[RippleShader].HasTile())
-            //    {
-            //        Filters.Scene.Deactivate(RippleShader);
-            //    }
-            //}
-
             Filters.Scene[SeaTransShader].GetShader().UseOpacity(cutSceneTriggerTimer);
             if (!Filters.Scene[SeaTransShader].IsActive())
             {
@@ -130,32 +121,30 @@ namespace EEMod
                 }
             }
 
-            if (timerForCutscene >= 1400)
-            {
-                Initialize();
-                prevKey = KeyID.BaseWorldName;
-                SubworldManager.EnterSubworld<CoralReefs>();
-            }
-
             if (cutSceneTriggerTimer >= 500)
             {
-                Initialize();
-
-                prevKey = KeyID.BaseWorldName;
-
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    //Netplay.Clients[0].State = 1;
-                }
-
-                Player.GetModPlayer<EEPlayer>().seamapUpdateCount = 0;
-
-                SubworldManager.EnterSubworld<Sea>();
-
-                EEMod.isSaving = true;
-
-                cutSceneTriggerTimer = 0;
+                EnterSeamap();
             }
+        }
+
+        public void EnterSeamap()
+        {
+            Initialize();
+
+            prevKey = KeyID.BaseWorldName;
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                //Netplay.Clients[0].State = 1;
+            }
+
+            Player.GetModPlayer<EEPlayer>().seamapUpdateCount = 0;
+
+            SubworldManager.EnterSubworld<Sea>();
+
+            EEMod.isSaving = true;
+
+            cutSceneTriggerTimer = 0;
         }
     }
 }

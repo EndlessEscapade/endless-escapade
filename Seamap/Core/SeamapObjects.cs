@@ -27,7 +27,11 @@ namespace EEMod.Seamap.Core
         public static void InitObjects(Vector2 shipPos)
         {
             SeamapEntities = new SeamapObject[2000];
-            localship = new SeamapPlayerShip(shipPos, Vector2.Zero, Main.LocalPlayer);
+
+            if(Main.LocalPlayer.GetModPlayer<EEPlayer>().myLastBoatPos == Vector2.Zero)
+                localship = new SeamapPlayerShip(shipPos, Vector2.Zero, Main.LocalPlayer);
+            else
+                localship = new SeamapPlayerShip(Main.LocalPlayer.GetModPlayer<EEPlayer>().myLastBoatPos, Vector2.Zero, Main.LocalPlayer);
 
             NewSeamapObject(localship);
         }

@@ -27,6 +27,8 @@ namespace EEMod.Seamap.Content.Islands
         {
             EEPlayer.prevKey = KeyID.Sea;
 
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().myLastBoatPos = SeamapObjects.localship.position;
+
             Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
             Terraria.Graphics.Effects.Filters.Scene.Deactivate("EEMod:Noise2D");
             SubworldManager.EnterSubworld<Systems.Subworlds.EESubworlds.GoblinFort>();
