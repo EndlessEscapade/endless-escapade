@@ -47,12 +47,12 @@ namespace EEMod.Systems.Subworlds.EESubworlds
         {
             if (Main.worldName != KeyID.Sea) return;
 
-            Seamap.Core.Seamap.UpdateSeamap();
-
             player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
 
             if (player.GetModPlayer<EEPlayer>().seamapUpdateCount == 1)
                 Seamap.Core.Seamap.InitializeSeamap();
+
+            Seamap.Core.Seamap.UpdateSeamap();
 
             #region Island Interact methods
             foreach (SeamapObject obj in SeamapObjects.SeamapEntities)

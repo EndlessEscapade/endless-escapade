@@ -69,6 +69,11 @@ namespace EEMod
             ModContent.GetInstance<EEMod>().frame2.Y = 0;
             ModContent.GetInstance<EEMod>().osSucksAtBedwars = 0;
 
+            if (Main.netMode == NetmodeID.Server)
+            {
+                Netplay.Connection.State = 1;
+            }
+
             EEMod.isSaving = true;
         }
 
@@ -86,6 +91,11 @@ namespace EEMod
                 speedOfPan = 0;
 
                 Main.screenPosition = player.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
+            }
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                Netplay.Connection.State = 3;
             }
 
             EEMod.isSaving = false;
@@ -132,6 +142,14 @@ namespace EEMod
                 Initialize();
 
                 prevKey = KeyID.BaseWorldName;
+
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    //Netplay.Clients[0].State = 1;
+                }
+
+                Player.GetModPlayer<EEPlayer>().seamapUpdateCount = 0;
+
                 SubworldManager.EnterSubworld<Sea>();
 
                 EEMod.isSaving = true;

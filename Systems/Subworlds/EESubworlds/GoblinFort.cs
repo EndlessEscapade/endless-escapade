@@ -30,7 +30,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
     {
         public override Point Dimensions => new Point(800, 800);
 
-        public override Point SpawnTile => new Point(200, 100);
+        public override Point SpawnTile => new Point(710 + 12, 245 + 25);
 
         public override int surfaceLevel => 500;
 
@@ -43,8 +43,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             Main.worldSurface = 400;
 
 
-            //Base island generation-
-
+            //Base island generation
             #region Island terrain generation
             FillRegion(800, 475, new Vector2(0, 325), TileID.Stone);
 
@@ -214,7 +213,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
 
             //Foliage generation
-
             #region Foliage generation
             for (int i = 150; i < 650; i++)
             {
@@ -340,17 +338,13 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             }
             #endregion
 
-            //
 
 
             //Structure generation
-
             #region Structure generation
 
             //Placing player boat
-            ClearRegion(45, 36, new Vector2(710, 250));
-
-            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt(710, 245, false, false);
+            BuildBoat(710, 245);
 
             for (int i = 710; i < 710 + 45; i++)
             {
@@ -424,6 +418,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             EEMod.progressMessage = null;
 
             spawnedEnemies = false;
+
+            Main.spawnTileX = 710 + 12;
+            Main.spawnTileY = 245 + 25;
         }
 
         bool spawnedEnemies = false;
@@ -431,6 +428,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
         {
             if(!spawnedEnemies && (Main.netMode == NetmodeID.SinglePlayer || Main.netMode == NetmodeID.Server))
             {
+                player.position = new Vector2(SpawnTile.X * 16, SpawnTile.Y * 16);
+
                 NPC.NewNPC(400 * 16, TileCheck(400, TileID.Grass) * 16 - 40, ModContent.NPCType<GoblinBerserker>());
 
                 NPC.NewNPC(410 * 16, TileCheck(410, TileID.Grass) * 16 - 40, ModContent.NPCType<GoblinWatchman>());

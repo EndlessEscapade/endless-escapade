@@ -29,8 +29,6 @@ namespace EEMod.Seamap.Core
 
             if(Main.GameUpdateCount % 600 == 0 && SeamapObjects.localship != null)
             {
-                //SeamapObjects.NewSeamapObject(new PirateShip(SeamapObjects.localship.Center + new Vector2(-100, -100), Vector2.Zero));
-
                 SpawnSeagullFlock(Main.rand.Next(4, 8));
             }
 
@@ -48,14 +46,8 @@ namespace EEMod.Seamap.Core
         public static void InitializeSeamap()
         {
             SeamapObjects.InitObjects(new Vector2(seamapWidth - 450, seamapWidth - 100));
-            //SeamapObjects.InitObjects(new Vector2(500, 500));
 
             SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402 - 30, seamapHeight - 118 - 200 - 30)));
-
-
-            //PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction(10, 10, 2, 2, 0.5f, WorldGen.genRand);
-
-            //climateArray = perlinNoise.perlinValues;
 
             for (int i = 0; i < 20; i++)
             {
@@ -86,7 +78,7 @@ namespace EEMod.Seamap.Core
             #endregion
 
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
-            //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 500)));
+            SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 800)));
 
             SpawnSeagullFlock(Main.rand.Next(4, 8));
             SpawnSeagullFlock(Main.rand.Next(4, 8));

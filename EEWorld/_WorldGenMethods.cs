@@ -59,6 +59,29 @@ namespace EEMod.EEWorld
             EEMod.progressMessage = messageBefore;
         }
 
+        public static void BuildBoat(int x, int y)
+        {
+            ClearRegion(45, 45, new Vector2(x, y));
+
+            Structure.DeserializeFromBytes(EEMod.Instance.GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt(x, y, false, false);
+
+            for (int i = x - 2; i < x - 2 + 50; i++)
+            {
+                for (int j = y; j < y - 18 + 50 - 2; j++)
+                {
+                    if (Framing.GetTileSafely(i, j).WallType != WallID.None)
+                    {
+                        Framing.GetTileSafely(i, j).LiquidAmount = 0;
+                    }
+                }
+            }
+
+            WorldGen.PlaceTile(x + 12, y + 25, ModContent.TileType<WoodenShipsWheelTile>());
+            WorldGen.PlaceTile(x + 12 - 11, y + 25 + 5, ModContent.TileType<FigureheadTile>());
+            WorldGen.PlaceTile(x + 12 + 12, y + 25 + 1, ModContent.TileType<CannonTile>());
+            WorldGen.PlaceTile(x + 12 + 24, y + 25 + 1, ModContent.TileType<MapTable>());
+        }
+
         public static float[] PerlinArray(int width, int seedVar, float amplitude, Vector2 res)
         {
             PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f, WorldGen.genRand);
