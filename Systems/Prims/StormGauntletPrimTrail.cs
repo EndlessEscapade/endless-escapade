@@ -65,8 +65,6 @@ namespace EEMod.Prim
             {
                 widthVar = _width + (float)(Math.Sin((i / 3f) + (Main.GameUpdateCount / 3f)) * 6f);
 
-                Color base1 = new Color(7, 86, 122);
-                Color base2 = new Color(255, 244, 173);
                 Color c = Color.Lerp(Color.Gold, Color.Gold, colorSin);
                 Color CBT = Color.Lerp(Color.Gold, Color.Gold, colorSin);
 
