@@ -126,8 +126,8 @@ namespace EEMod
 
         private static void ClampScreenPositionToWorld(int maxRight, int maxBottom)
         {
-            Vector2 vector = new Vector2(0 + 656f, 0 + 656f) - Main.GameViewMatrix.Translation;
-            Vector2 vector2 = new Vector2(maxRight - (float)Main.screenWidth / Main.GameViewMatrix.Zoom.X - 672f, maxBottom - (float)Main.screenHeight / Main.GameViewMatrix.Zoom.Y - 672f) - Main.GameViewMatrix.Translation;
+            Vector2 vector = new Vector2(0, 0) - Main.GameViewMatrix.Translation;
+            Vector2 vector2 = new Vector2(maxRight - (float)Main.screenWidth / Main.GameViewMatrix.Zoom.X, maxBottom - (float)Main.screenHeight / Main.GameViewMatrix.Zoom.Y) - Main.GameViewMatrix.Translation;
             
             vector = Utils.Round(vector);
             vector2 = Utils.Round(vector2);

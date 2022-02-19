@@ -65,6 +65,7 @@ namespace EEMod.EEWorld
             tag.TryGetRef("CoralBoatPos", ref CoralReefs.CoralBoatPos);
             tag.TryGetRef("yes", ref yes);
             tag.TryGetRef("ree", ref ree);
+            tag.TryGetRef("spawnedSailor", ref spawnedSailor);
             tag.TryGetRef("SpirePosition", ref CoralReefs.SpirePosition);
             tag.TryGetListRef("CoralReefVineLocations", ref CoralReefs.CoralReefVineLocations);
             tag.TryGetListRef("AquamarineZiplineLocations", ref CoralReefs.AquamarineZiplineLocations);
@@ -193,6 +194,19 @@ namespace EEMod.EEWorld
             tag.TryGetByteArrayRef("LightStates", ref LightStates);
         }
 
+        public bool spawnedSailor;
+
+        public override void PostUpdateNPCs()
+        {
+            if (!spawnedSailor)
+            {
+                NPC.NewNPC(((int)shipCoords.X + 108 + 7) * 16, ((int)shipCoords.Y - 8) * 16, ModContent.NPCType<Sailor>());
+                spawnedSailor = true;
+            }
+
+            base.PostUpdateNPCs();
+        }
+
         public override void SaveWorldData(TagCompound tag)
         {
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
@@ -205,6 +219,8 @@ namespace EEMod.EEWorld
                 tag["WebPositions"] = CoralReefs.WebPositions;
 
                 tag["boatPlaced"] = boatPlaced;
+
+                tag["spawnedSailor"] = spawnedSailor;
 
                 List<Vector2> positions = new List<Vector2>();
                 List<Vector2> sizes = new List<Vector2>();
@@ -231,8 +247,6 @@ namespace EEMod.EEWorld
                 tag["EmptyTileVectorSub"] = EmptyTileEntities.Instance.EmptyTilePairsCache.Values.ToList();
                 tag["EmptyTileVectorEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Keys.ToList();
                 tag["EmptyTileEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Values.ToList();
-
-
             }
             tag["EntracesPosses"] = EntracesPosses;
             tag["yes"] = yes;
@@ -245,7 +259,13 @@ namespace EEMod.EEWorld
             // TODO: Clients need to know when they're in a subworld
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 return;
+
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
+        }
+
+        public override void PostUpdateEverything()
+        {
+            base.PostUpdateEverything();
         }
 
         public override void NetSend(BinaryWriter writer)

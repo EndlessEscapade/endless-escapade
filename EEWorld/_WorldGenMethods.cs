@@ -80,6 +80,7 @@ namespace EEMod.EEWorld
             WorldGen.PlaceTile(x + 12 - 11, y + 25 + 5, ModContent.TileType<FigureheadTile>());
             WorldGen.PlaceTile(x + 12 + 12, y + 25 + 1, ModContent.TileType<CannonTile>());
             WorldGen.PlaceTile(x + 12 + 24, y + 25 + 1, ModContent.TileType<MapTable>());
+            WorldGen.PlaceTile(x + 12 + 24 - 3, y + 25 + 1 + 7, ModContent.TileType<ShipStorage>());
         }
 
         public static float[] PerlinArray(int width, int seedVar, float amplitude, Vector2 res)

@@ -60,6 +60,13 @@ namespace EEMod.Tiles.Furniture.Shipyard
         {
             Player player = Main.LocalPlayer;
 
+            if(player.GetModPlayer<ShipyardPlayer>().cannonType == 0 ||
+               player.GetModPlayer<ShipyardPlayer>().figureheadType == 0)
+            {
+                Main.NewText("Your ship is missing parts. Please replace these parts before sailing again.", 255, 64, 64);
+                return false;
+            }
+
             if (Main.worldName.Replace(" ", "_") == KeyID.BaseWorldName)
             {
                 player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;

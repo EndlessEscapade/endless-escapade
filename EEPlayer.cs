@@ -544,7 +544,6 @@ namespace EEMod
             tag["importantCutscene"] = importantCutscene;
             tag["fishLengthsKeys"] = fishLengths.Keys.ToList();
             tag["fishLengthsValues"] = fishLengths.Values.ToList();
-            tag["firstLoad"] = firstLoad;
             tag["lastPos"] = myLastBoatPos;
         }
 
@@ -559,7 +558,6 @@ namespace EEMod
 
             tag.TryGetRef("fishLengthsKeys", ref fishLengthsKeys);
             tag.TryGetRef("fishLengthsValues", ref fishLengthsValues);
-            tag.TryGetRef("firstLoad", ref firstLoad);
 
             tag.TryGetRef("lastPos", ref myLastBoatPos);
 

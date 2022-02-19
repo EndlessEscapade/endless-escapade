@@ -48,10 +48,21 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            //if(Main.LocalPlayer.GetModPlayer<EEPlayer>().FigureheadType == ModContent.ItemType<WoodenFigurehead>())
+            int type = 0;
+            bool fourTile = false;
+
+            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == 0) return false;
+
+            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == ModContent.ItemType<WoodenFigurehead>())
+            {
                 Framing.GetTileSafely(i, j).TileFrameY = (short)(0 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
-            //if (Main.LocalPlayer.GetModPlayer<EEPlayer>().FigureheadType == ModContent.ItemType<TreasureFigurehead>())
-                //Framing.GetTileSafely(i, j).TileFrameY = (short)(90 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
+                fourTile = false;
+            }
+            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == ModContent.ItemType<TreasureFigurehead>())
+            {
+                Framing.GetTileSafely(i, j).TileFrameY = (short)(90 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
+                fourTile = true;
+            }
 
             Texture2D figurehead = ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Shipyard/FigureheadTile").Value;
 
@@ -62,7 +73,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
             }
 
             spriteBatch.Draw(figurehead, new Vector2(i * 16, j * 16) - Main.screenPosition + zero,
-                new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY + 18, 16, 16),
+                new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY + (fourTile ? 18 : 0), 16, 16),
                 Lighting.GetColor(i, j));
 
             return false;

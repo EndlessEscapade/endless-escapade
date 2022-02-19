@@ -145,7 +145,6 @@ namespace EEMod
         }
 
         bool placedShipTether = false;
-        bool firstLoad = true;
 
         public int tetherProj;
         public int sailProj;
@@ -166,12 +165,6 @@ namespace EEMod
                     Vector2.Zero, ModContent.ProjectileType<TornSails>(), 0, 0);
 
                 placedShipTether = true;
-            }
-
-            if (firstLoad)
-            {
-                NPC.NewNPC(((int)shipCoords.X + 108 + 7) * 16, ((int)shipCoords.Y - 8) * 16, ModContent.NPCType<Sailor>());
-                firstLoad = false;
             }
 
             if (EEModConfigClient.Instance.ParticleEffects)
