@@ -491,42 +491,11 @@ namespace EEMod
             Vector2 lastScreenPos = Main.screenPosition;
 
             Main.screenPosition = lastScreenPos;
-
-            /*if (Main.spriteBatch != null && additiveRT != null)
-            {
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-
-                if (additiveRT != null)
-                {
-                    Main.spriteBatch.Draw(additiveRT, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
-                }
-
-                Main.spriteBatch.End();
-
-                RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
-
-                /*Main.graphics.GraphicsDevice.SetRenderTarget(additiveRT);
-                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
-
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-                    if (Main.projectile[i] != null && Main.projectile[i].type == ModContent.ProjectileType<MushroomBall>())
-                    {
-                        (Main.projectile[i].ModProjectile as MushroomBall).DrawMushroom();
-                    }
-                }
-
-                Main.spriteBatch.End();
-
-                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
-            }*/
         }
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
-            PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
+            //PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
 
             if (!Main.dedServ)
             {

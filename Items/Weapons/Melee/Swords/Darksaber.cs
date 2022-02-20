@@ -84,7 +84,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Projectile.alpha = 255;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.timeLeft = 20;
+            Projectile.timeLeft = 100000;
             Projectile.damage = 1;
             Projectile.hide = false;
         }
@@ -113,8 +113,8 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
                 rot = (Main.MouseWorld - owner.Center).ToRotation() - 0.7f * Projectile.ai[1];
 
-                PrimitiveSystem.primitives.CreateTrail(trail = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, true, 2000, 10));
-                PrimitiveSystem.primitives.CreateTrail(trail2 = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, false, 2000, 5));
+                PrimitiveSystem.primitives.CreateTrail(trail = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, true, 5, 10));
+                PrimitiveSystem.primitives.CreateTrail(trail2 = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, false, 5, 5));
             }
             else
             {
@@ -240,126 +240,152 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public int ticks;
 
-        public List<Vector2> oldPoints = new List<Vector2>();
-        public List<Vector2> oldPoints2 = new List<Vector2>();
-        public List<Vector2> oldPoints3 = new List<Vector2>();
-        public List<Vector2> oldPoints4 = new List<Vector2>();
-        public List<Vector2> oldPoints5 = new List<Vector2>();
-        public List<Vector2> oldPoints6 = new List<Vector2>();
-        public List<Vector2> oldPoints7 = new List<Vector2>();
+        protected static Vector2 MyCurveNormal(List<Vector2> myPoints, int index)
+        {
+            if (myPoints.Count == 1) return myPoints[0];
+
+            if (index == 0)
+            {
+                return Clockwise90(Vector2.Normalize(myPoints[1] - myPoints[0]));
+            }
+            if (index == myPoints.Count - 1)
+            {
+                return Clockwise90(Vector2.Normalize(myPoints[index] - myPoints[index - 1]));
+            }
+            return Clockwise90(Vector2.Normalize(myPoints[index + 1] - myPoints[index - 1]));
+        }
+
+        public List<List<Vector2>> points = new List<List<Vector2>>();
 
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
-            //oldPoints7 = oldPoints6.ToArray().ToList<Vector2>();
-            //oldPoints6 = oldPoints5.ToArray().ToList<Vector2>();
-            //oldPoints5 = oldPoints4.ToArray().ToList<Vector2>();
-            //oldPoints4 = oldPoints3.ToArray().ToList<Vector2>();
-            oldPoints2 = oldPoints.ToArray().ToList<Vector2>();
-            oldPoints = _points.ToArray().ToList<Vector2>();
+            if (_noOfPoints <= 1 || points.Count() <= 1) return;
 
-            if (_noOfPoints <= 1 || _points.Count() <= 1 || oldPoints2.Count() <= 2 || oldPoints2.Count < (myLength / interval)) return;
-
-            for (int i = 0; i < (myLength / interval) - 1; i++)
+            for (int j = 0; j < points.Count(); j++)
             {
-                Vector2 normal = CurveNormal(_points, i);
-                Vector2 normalAhead = CurveNormal(_points, i + 1);
-
-                Vector2 oldNormal = CurveNormal(oldPoints2, i);
-                Vector2 oldNormalAhead = CurveNormal(oldPoints2, i + 1);
-
-                Vector2 firstUp = oldPoints2[i] - oldNormal * width;
-                Vector2 firstDown = _points[i] + normal * width;
-
-                Vector2 firstSpine = _points[i];
-                Vector2 secondSpine = _points[i + 1];
-
-                Vector2 secondUp = oldPoints2[i + 1] - oldNormalAhead * width;
-                Vector2 secondDown = _points[i + 1] + normalAhead * width;
-
-                if (i == (myLength / interval) - 3)
+                if (j == points.Count() - 1)
                 {
-                    if (flipped)
+                    for (int i = 0; i < points[j].Count() - 1; i++) //going up the spine of the BLADE
                     {
-                        AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
-                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
-                        AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
+                        Main.NewText(points[j].Count());
 
-                        AddVertex(secondSpine, Color.Black, new Vector2((i + 1) / _cap, 0));
-                        AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
-                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
+                        Vector2 normal = MyCurveNormal(points[j], i);
+                        Vector2 normalAhead = MyCurveNormal(points[j], i + 1);
 
+                        Vector2 firstUp = points[j][i] - normal * width;
+                        Vector2 firstDown = points[j][i] + normal * width;
 
-                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 1));
-                        AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
-                        AddVertex(secondSpine, Color.White, new Vector2((i + 1) / _cap, 1));
-                    }
-                    else
-                    {
-                        AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
-                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
-                        AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
+                        Vector2 firstSpine = points[j][i];
+                        Vector2 secondSpine = points[j][i + 1];
 
-                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
-                        AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
-                        AddVertex(secondSpine, Color.Black, new Vector2((i + 1) / _cap, 0));
+                        Vector2 secondUp = points[j][i + 1] - normalAhead * width;
+                        Vector2 secondDown = points[j][i + 1] + normalAhead * width;
 
-
-                        AddVertex(secondSpine, Color.White, new Vector2((i + 1) / _cap, 1));
-                        AddVertex(firstDown, Color.White, new Vector2((i / _cap), 0));
-                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 1));
-                    }
-                }
-                else if (i == (myLength / interval) - 2)
-                {
-                    if (flipped)
-                    {
-                        if (!additive)
+                        if (i == points[j].Count() - 2)
                         {
-                            AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
-                            AddVertex(firstSpine, Color.White, new Vector2((i / _cap), 0));
-                            AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
+                            if (flipped)
+                            {
+                                AddVertex(firstDown, Color.White, new Vector2((i / points[j].Count()), 1));
+                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 0));
+                                AddVertex(secondDown, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
+
+                                AddVertex(secondSpine, Color.Black, new Vector2((i + 1) / points[j].Count(), 0));
+                                AddVertex(secondDown, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
+                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 0));
+
+
+                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 1));
+                                AddVertex(firstUp, Color.White, new Vector2((i / points[j].Count()), 0));
+                                AddVertex(secondSpine, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
+                            }
+                            else
+                            {
+                                AddVertex(secondUp, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
+                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 0));
+                                AddVertex(firstUp, Color.White, new Vector2((i / points[j].Count()), 1));
+
+                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 0));
+                                AddVertex(secondUp, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
+                                AddVertex(secondSpine, Color.Black, new Vector2((i + 1) / points[j].Count(), 0));
+
+
+                                AddVertex(secondSpine, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
+                                AddVertex(firstDown, Color.White, new Vector2((i / points[j].Count()), 0));
+                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 1));
+                            }
+                        }
+                        else if (i == points[j].Count() - 1)
+                        {
+                            if (flipped)
+                            {
+                                if (!additive)
+                                {
+                                    AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
+                                    AddVertex(firstSpine, Color.White, new Vector2((i / _cap), 0));
+                                    AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
+                                }
+                                else
+                                {
+                                    AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
+                                    AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
+                                    AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
+                                }
+                            }
+                            else
+                            {
+                                if (!additive)
+                                {
+                                    AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
+                                    AddVertex(firstSpine, Color.White, new Vector2((i / _cap), 0));
+                                    AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
+                                }
+                                else
+                                {
+                                    AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
+                                    AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
+                                    AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
+                                }
+                            }
                         }
                         else
                         {
                             AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
-                            AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
+                            AddVertex(firstSpine, color, new Vector2((i / _cap), 0));
                             AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
-                        }
-                    }
-                    else
-                    {
-                        if (!additive)
-                        {
-                            AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
-                            AddVertex(firstSpine, Color.White, new Vector2((i / _cap), 0));
-                            AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
-                        }
-                        else
-                        {
-                            AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
-                            AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
-                            AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
+
+                            AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 0));
+                            AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
+                            AddVertex(firstSpine, color, new Vector2((i / _cap), 0));
+
+
+                            AddVertex(firstSpine, color, new Vector2((i / _cap), 1));
+                            AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
+                            AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 1));
+
+                            AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 0));
+                            AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 1));
+                            AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
                         }
                     }
                 }
                 else
                 {
-                    AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
-                    AddVertex(firstSpine, color, new Vector2((i / _cap), 0));
-                    AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
+                    for (int i = 0; i < points[j].Count() - 1; i++)
+                    {
+                        Vector2 firstUp = points[j][i];
+                        Vector2 firstDown = points[j + 1][i];
 
-                    AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 0));
-                    AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
-                    AddVertex(firstSpine, color, new Vector2((i / _cap), 0));
+                        Vector2 secondUp = points[j][i + 1];
+                        Vector2 secondDown = points[j + 1][i + 1];
 
+                        AddVertex(firstDown, Color.Black, new Vector2((i / points[j].Count()), 1));
+                        AddVertex(firstUp, Color.Black, new Vector2((i / points[j].Count()), 0));
+                        AddVertex(secondDown, Color.Black, new Vector2((i + 1) / points[j].Count(), 1));
 
-                    AddVertex(firstSpine, color, new Vector2((i / _cap), 1));
-                    AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
-                    AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 1));
-
-                    AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 0));
-                    AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 1));
-                    AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
+                        AddVertex(secondUp, Color.Black, new Vector2((i + 1) / points[j].Count(), 0));
+                        AddVertex(secondDown, Color.Black, new Vector2((i + 1) / points[j].Count(), 1));
+                        AddVertex(firstUp, Color.Black, new Vector2((i / points[j].Count()), 0));
+                    }
                 }
             }
         }
@@ -415,10 +441,12 @@ namespace EEMod.Items.Weapons.Melee.Swords
             if (myLength < bladeVal2) myLength += (interval * 2);
 
             _counter++;
-            _noOfPoints = _points.Count() * 12;
-            if (_cap < _noOfPoints / 12)
+
+            if(points.Count() >= 1) _noOfPoints = (points.Count() - 1 * 6) + ((points[points.Count - 1].Count() - 1) * 24);
+
+            while (_cap < points.Count())
             {
-                _points.RemoveAt(0);
+                points.RemoveAt(0);
             }
 
             if ((!BindableEntity.active && BindableEntity != null) || BindableEntity == null || _destroyed)
@@ -427,20 +455,20 @@ namespace EEMod.Items.Weapons.Melee.Swords
             }
             else
             {
-                _points.Clear();
+                points.Add(new List<Vector2>());
 
                 for (int i = 0; i < myLength / interval; i++)
                 {
                     if (i == 0)
                     {
-                        _points.Add(orig);
+                        points[points.Count() - 1].Add(orig);
 
                         continue;
                     }
 
                     Vector2 vec = Vector2.Lerp(orig, orig + (Vector2.UnitX.RotatedBy(rot) * myLength), (float)i / (float)(myLength / interval));
 
-                    _points.Add(vec);
+                    points[points.Count() - 1].Add(vec);
                 }
             }
         }
