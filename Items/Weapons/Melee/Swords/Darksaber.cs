@@ -8,6 +8,7 @@ using Terraria.Audio;
 using EEMod.Prim;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace EEMod.Items.Weapons.Melee.Swords
 {
@@ -55,9 +56,10 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/darksaber"), Main.LocalPlayer.Center);
+            Projectile proj = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<DarksaberHilt>(), 20, 2f);
+            (proj.ModProjectile as DarksaberHilt).rot = (Main.MouseWorld - player.Center).ToRotation();
 
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return false;
         }
     }
 
@@ -82,10 +84,12 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Projectile.alpha = 255;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.timeLeft = 100000;
+            Projectile.timeLeft = 20;
             Projectile.damage = 1;
             Projectile.hide = false;
         }
+
+        public float rot;
 
         public override void AI()
         {
@@ -97,25 +101,36 @@ namespace EEMod.Items.Weapons.Melee.Swords
             //Player owner = Main.player[Projectile.owner];
             Player owner = Main.LocalPlayer;
 
-            Projectile.rotation = Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f;
+            rot += (Projectile.ai[1] * (float)Math.Sin((Projectile.ai[0] * 3.14f) / 20f)) / 5f;
 
-            Projectile.Center = owner.Center + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * 32f);
+            Projectile.rotation = rot + 1.57f;
 
+            Projectile.Center = owner.Center + (Vector2.UnitX.RotatedBy(rot) * 32f);
 
             if (Projectile.ai[0] == 0)
             {
+                Projectile.ai[1] = Main.rand.NextBool() ? -1 : 1;
+
+                rot = (Main.MouseWorld - owner.Center).ToRotation() - 0.7f * Projectile.ai[1];
+
                 PrimitiveSystem.primitives.CreateTrail(trail = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, true, 2000, 10));
                 PrimitiveSystem.primitives.CreateTrail(trail2 = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, false, 2000, 5));
             }
             else
             {
-                trail.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f);
-                trail.rot = Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation();
+                trail.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(rot + 1.57f);
+                trail.rot = rot;
                 trail.ticks = (int)Projectile.ai[0];
 
-                trail2.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f);
-                trail2.rot = Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation();
+                trail2.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(rot + 1.57f);
+                trail2.rot = rot;
                 trail2.ticks = (int)Projectile.ai[0];
+            }
+
+            if (Projectile.ai[1] == -1)
+            {
+                trail.flipped = true;
+                trail2.flipped = true;
             }
 
             if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < -0.77f) owner.bodyFrame.Y = 3 * 56;
@@ -128,14 +143,10 @@ namespace EEMod.Items.Weapons.Melee.Swords
             if (Projectile.Center.X - Main.LocalPlayer.Center.X > 0)
             {
                 Main.LocalPlayer.direction = 1;
-                trail.flipped = true;
-                trail2.flipped = true;
             }
             else
             {
                 Main.LocalPlayer.direction = -1;
-                trail.flipped = false;
-                trail2.flipped = false;
             }
 
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -166,6 +177,14 @@ namespace EEMod.Items.Weapons.Melee.Swords
             }
 
             Projectile.ai[0]++;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            trail.Dispose();
+            trail2.Dispose();
+
+            base.Kill(timeLeft);
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -221,25 +240,40 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public int ticks;
 
+        public List<Vector2> oldPoints = new List<Vector2>();
+        public List<Vector2> oldPoints2 = new List<Vector2>();
+        public List<Vector2> oldPoints3 = new List<Vector2>();
+        public List<Vector2> oldPoints4 = new List<Vector2>();
+        public List<Vector2> oldPoints5 = new List<Vector2>();
+        public List<Vector2> oldPoints6 = new List<Vector2>();
+        public List<Vector2> oldPoints7 = new List<Vector2>();
+
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
-            if (_noOfPoints <= 1 || _points.Count() <= 1) return;
+            //oldPoints7 = oldPoints6.ToArray().ToList<Vector2>();
+            //oldPoints6 = oldPoints5.ToArray().ToList<Vector2>();
+            //oldPoints5 = oldPoints4.ToArray().ToList<Vector2>();
+            //oldPoints4 = oldPoints3.ToArray().ToList<Vector2>();
+            oldPoints2 = oldPoints.ToArray().ToList<Vector2>();
+            oldPoints = _points.ToArray().ToList<Vector2>();
+
+            if (_noOfPoints <= 1 || _points.Count() <= 1 || oldPoints2.Count() <= 2 || oldPoints2.Count < (myLength / interval)) return;
 
             for (int i = 0; i < (myLength / interval) - 1; i++)
             {
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
 
-                //normal = new Vector2(0, -1);
-                //normalAhead = new Vector2(0, -1);
+                Vector2 oldNormal = CurveNormal(oldPoints2, i);
+                Vector2 oldNormalAhead = CurveNormal(oldPoints2, i + 1);
 
-                Vector2 firstUp = _points[i] - normal * width;
+                Vector2 firstUp = oldPoints2[i] - oldNormal * width;
                 Vector2 firstDown = _points[i] + normal * width;
 
                 Vector2 firstSpine = _points[i];
                 Vector2 secondSpine = _points[i + 1];
 
-                Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                Vector2 secondUp = oldPoints2[i + 1] - oldNormalAhead * width;
                 Vector2 secondDown = _points[i + 1] + normalAhead * width;
 
                 if (i == (myLength / interval) - 3)

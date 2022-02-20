@@ -51,16 +51,19 @@ namespace EEMod.Tiles.Furniture.Shipyard
             int type = 0;
             bool fourTile = false;
 
-            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == 0) return false;
-
-            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == ModContent.ItemType<WoodenFigurehead>())
+            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == 0)
             {
                 Framing.GetTileSafely(i, j).TileFrameY = (short)(0 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
+                fourTile = true;
+            }
+            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == ModContent.ItemType<WoodenFigurehead>())
+            {
+                Framing.GetTileSafely(i, j).TileFrameY = (short)(90 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
                 fourTile = false;
             }
             if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == ModContent.ItemType<TreasureFigurehead>())
             {
-                Framing.GetTileSafely(i, j).TileFrameY = (short)(90 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
+                Framing.GetTileSafely(i, j).TileFrameY = (short)(180 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
                 fourTile = true;
             }
 
