@@ -432,7 +432,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
                 _points.RemoveAt(0);
             }
 
-            if(_points.Count() > 0) Main.NewText(_points[0]);
+            if (_points.Count() > 0) Main.NewText(_points[0]);
 
             if ((!BindableEntity.active && BindableEntity != null) || BindableEntity == null || _destroyed)
             {
