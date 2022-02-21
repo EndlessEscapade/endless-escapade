@@ -22,8 +22,8 @@ namespace EEMod.Items.Weapons.Melee.Swords
         {
             Item.damage = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.useAnimation = 80;
-            Item.useTime = 80;
+            Item.useAnimation = 40;
+            Item.useTime = 40;
             Item.shootSpeed = 0;
             Item.knockBack = 6.5f;
             Item.autoReuse = false;
@@ -38,6 +38,8 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
             Item.DamageType = DamageClass.Melee;
             Item.autoReuse = false;
+
+            Item.UseSound = SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/darksaber");
         }
 
         public override bool CanUseItem(Player player)
@@ -48,8 +50,6 @@ namespace EEMod.Items.Weapons.Melee.Swords
             }
             else
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/darksaber"));
-
                 return true;
             }
         }
@@ -59,7 +59,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stormspear");
+            DisplayName.SetDefault("Darksaber");
         }
 
         public DarksaberPrimTrail trail;
@@ -79,6 +79,8 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Projectile.timeLeft = 60;
             Projectile.damage = 1;
             Projectile.hide = false;
+            Projectile.damage = 5;
+            Projectile.knockBack = 0f;
         }
 
         public float rot;
@@ -95,7 +97,20 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
             if (Projectile.ai[0] < 40)
             {
-                rot += (Projectile.ai[1] * (float)Math.Sin((Projectile.ai[0] * 3.14f) / 40f)) / 12f;
+                //rot += (Projectile.ai[1] * (float)Math.Sin((Projectile.ai[0] * 3.14f) / 40f)) / 12f;
+
+                if (Projectile.ai[0] < 20)
+                {
+                    rot += Projectile.ai[1] * (((float)Math.Pow(Projectile.ai[0], 4) / 200000f)) / 10f;
+                }
+                else if (Projectile.ai[0] < 25)
+                {
+                    rot += Projectile.ai[1] * (((float)Math.Pow(Projectile.ai[0] - 20, 2) / 50f) + 2) / 10f;
+                }
+                else
+                {
+                    rot += Projectile.ai[1] * (((float)Math.Pow(Projectile.ai[0] - 40, 2) / 150f)) / 10f;
+                }
 
                 Projectile.rotation = rot + 1.57f;
 
@@ -106,7 +121,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
                 {
                     Projectile.ai[1] = Main.rand.NextBool() ? -1 : 1;
 
-                    rot = (Main.MouseWorld - owner.Center).ToRotation() - 0.7f * Projectile.ai[1];
+                    rot = (Main.MouseWorld - owner.Center).ToRotation() - (Projectile.ai[1] * 1.4f);
 
                     PrimitiveSystem.primitives.CreateTrail(trail = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, true, 2000, 10));
                     PrimitiveSystem.primitives.CreateTrail(trail2 = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, false, 2000, 5));
@@ -156,32 +171,34 @@ namespace EEMod.Items.Weapons.Melee.Swords
                     Main.LocalPlayer.direction = -1;
                 }
 
-                for (int i = 0; i < Main.maxNPCs; i++)
+                /*for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[i] == null || Main.npc[i].active == false || Main.npc[i].friendly) continue;
+                    if (Main.npc[i] == null || Main.npc[i].active == false || Main.npc[i].friendly/* || Main.npc[i].GetGlobalNPC<DarksaberNPC>().darksaberIframes <= 0) continue;
 
                     for (int j = 0; j < 100; j += 5)
                     {
-                        Vector2 test = Projectile.Center + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
-                            + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j);
+                        Vector2 test = Projectile.Center + new Vector2(7, 2).RotatedBy(rot)
+                            + (Vector2.UnitX.RotatedBy(rot) * j);
 
                         if (Main.npc[i].Hitbox.Contains(test.ToPoint()))
                         {
-                            Vector2 newVel = ((Projectile.Center + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
-                                + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j)) -
-                            ((Projectile.oldPosition + new Vector2(Projectile.width / 2f, Projectile.height / 2f)) + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
-                                + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j)));
+                            //Vector2 newVel = ((Projectile.Center + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
+                            //    + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j)) -
+                            //((Projectile.oldPosition + new Vector2(Projectile.width / 2f, Projectile.height / 2f)) + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
+                            //    + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j)));
 
-                            if (newVel.LengthSquared() >= 2f * 2f) newVel = Vector2.Normalize(newVel) * 2f;
+                            //if (newVel.LengthSquared() >= 2f * 2f) newVel = Vector2.Normalize(newVel) * 2f;
 
-                            Main.npc[i].velocity += newVel;
+                            //Main.npc[i].velocity += newVel;
 
                             Main.npc[i].StrikeNPC(Projectile.damage, 0f, 0);
+
+                            //Main.npc[i].GetGlobalNPC<DarksaberNPC>().darksaberIframes = 10;
 
                             break;
                         }
                     }
-                }
+                }*/
             }
             else
             {
@@ -197,14 +214,38 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Projectile.ai[0]++;
         }
 
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint = 0f;
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(),
+                Projectile.Center + new Vector2(7, 2).RotatedBy(rot),
+                 Projectile.Center + new Vector2(7, 2).RotatedBy(rot) + (Vector2.UnitX.RotatedBy(rot) * 100),
+                10, ref collisionPoint);
+        }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.ai[0] >= 40) return false;
 
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/Weapons/Melee/Swords/DarksaberHilt").Value, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, default, 1f, default, default);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/Weapons/Melee/Swords/DarksaberHilt").Value, Projectile.Center - Main.screenPosition, null, Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f)), Projectile.rotation, default, 1f, default, default);
             return false;
         }
     }
+
+    /*public class DarksaberNPC : GlobalNPC
+    {
+        public override bool InstancePerEntity => true;
+
+        public int darksaberIframes;
+
+        public override bool PreAI(NPC npc)
+        {
+            darksaberIframes--;
+
+            return base.PreAI(npc);
+        }
+    }*/
 
     public class DarksaberPrimTrail : Primitive
     {
@@ -227,6 +268,8 @@ namespace EEMod.Items.Weapons.Melee.Swords
             orig = Main.player[(BindableEntity as Projectile).owner].Center;
 
             _points.Clear();
+
+            myLength = 0;
         }
 
         public int myLength;
@@ -423,7 +466,10 @@ namespace EEMod.Items.Weapons.Melee.Swords
         {
             if (additive) width = 10f + ((float)Math.Sin(Main.GameUpdateCount / 10f) * 1.5f);
 
-            if (myLength < bladeVal2) myLength += (interval * 2);
+            if (myLength < bladeVal2 && ticks < 30 && ticks > 5) myLength += (interval * 2);
+
+            ticks++;
+            if (ticks > 35) myLength -= (interval * 2);
 
             _counter++;
             _noOfPoints = _points.Count() * 12;
@@ -431,8 +477,6 @@ namespace EEMod.Items.Weapons.Melee.Swords
             {
                 _points.RemoveAt(0);
             }
-
-            if (_points.Count() > 0) Main.NewText(_points[0]);
 
             if ((!BindableEntity.active && BindableEntity != null) || BindableEntity == null || _destroyed)
             {

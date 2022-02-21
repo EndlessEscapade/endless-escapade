@@ -103,6 +103,9 @@ namespace EEMod
             }
 
             EEMod.isSaving = false;
+
+            time = Main.time;
+            dayTime = Main.dayTime;
         }
 
         public void UpdateCutscenesAndTempShaders()
@@ -127,8 +130,14 @@ namespace EEMod
             }
         }
 
+        public double time;
+        public bool dayTime;
+
         public void EnterSeamap()
         {
+            time = Main.time;
+            dayTime = Main.dayTime;
+
             Initialize();
 
             prevKey = KeyID.BaseWorldName;
