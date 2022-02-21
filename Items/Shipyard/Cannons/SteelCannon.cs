@@ -36,7 +36,7 @@ namespace EEMod.Items.Shipyard.Cannons
         {
             boat.velocity -= Vector2.Normalize(Main.MouseWorld - boat.Center) * 0.5f;
 
-            cannonball.Center = boat.Center;
+            cannonball.Center = boat.Center + new Vector2(0, 41);
             cannonball.velocity = boat.velocity + (Vector2.Normalize(Main.MouseWorld - boat.Center) * 4).RotatedBy(Main.rand.NextFloat(-0.25f, 0.25f));
 
             SeamapObjects.NewSeamapObject(cannonball);

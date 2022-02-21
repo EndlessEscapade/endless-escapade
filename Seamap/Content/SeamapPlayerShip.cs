@@ -42,8 +42,8 @@ namespace EEMod.Seamap.Content
 
             myPlayer = player;
 
-            width = 44;
-            height = 48;
+            width = 124;
+            height = 98;
 
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
@@ -129,12 +129,12 @@ namespace EEMod.Seamap.Content
             EEPlayer eePlayer = myPlayer.GetModPlayer<EEPlayer>();
 
 
-            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShipAlt").Value;
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip").Value;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
-                new Rectangle(0, 0, 90, 90),
+                new Rectangle(0, 0, 124, 98),
                 Color.White.LightSeamap(), (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / (invFrames > 0 ? 40f : 120f)) * (invFrames > 0 ? 0.1f : 0.075f)), 
-                new Rectangle(0, 0, 90, 90).Size() / 2,
+                new Rectangle(0, 0, 124, 98).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
             return false;
@@ -191,7 +191,7 @@ namespace EEMod.Seamap.Content
 
                 if (obj.collides && invFrames < 0)
                 {
-                    if (Hitbox.Intersects(obj.Hitbox))
+                    if (new Rectangle((int)position.X, (int)position.Y + 70, 124, 28).Intersects(obj.Hitbox))
                     {
                         if (obj is Cannonball)
                             if ((int)(obj as Cannonball).team == myPlayer.team) continue;
@@ -199,7 +199,7 @@ namespace EEMod.Seamap.Content
                         shipHelth--;
                         invFrames = 20;
 
-                        velocity = Vector2.Normalize(obj.Center - Center) * boatSpeed * -4;
+                        velocity = Vector2.Normalize(obj.Center - new Vector2((int)position.X + (124 / 2), (int)position.Y + 70 + (28 / 2))) * boatSpeed * -4;
                     }
                 }
             }

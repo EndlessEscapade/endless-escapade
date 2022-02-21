@@ -6,7 +6,16 @@ float4 edgeColor;
 
 float edgeThresh;
 
+float ticks;
+
 matrix transformMatrix;
+
+texture noiseTexture;
+
+sampler noiseSampler = sampler_state
+{
+    Texture = (noiseTexture);
+};
 
 struct VertexShaderInput
 {
@@ -37,9 +46,12 @@ float4 LightningShaderFloat(VertexShaderOutput input) : COLOR0
 {
     float4 texColor = input.Color;
     
+    float4 noiseColor = tex2D(noiseSampler, float2(input.TexCoords.x, (input.TexCoords.y + ticks) % 1));
+    float noiseVal = noiseColor.r;
+    
     if (texColor.r > edgeThresh)
     {
-        return lerp(bladeColor, edgeColor, (texColor.r - edgeThresh) * (1 / edgeThresh));
+        return lerp(bladeColor, edgeColor, min(max(((texColor.r - edgeThresh) * (1 / edgeThresh)) + ((noiseVal - 0.5) * 0.5f), 0), 1));
     }
     else
     {
@@ -47,7 +59,7 @@ float4 LightningShaderFloat(VertexShaderOutput input) : COLOR0
     }
 }
 
-technique LightningShader
+technique DarksaberShader
 {
     pass P0
     {

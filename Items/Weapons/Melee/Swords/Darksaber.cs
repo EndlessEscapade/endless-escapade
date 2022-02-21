@@ -8,38 +8,36 @@ using Terraria.Audio;
 using EEMod.Prim;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace EEMod.Items.Weapons.Melee.Swords
 {
-	public class Darksaber : EEItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Darksaber");
-		}
+    public class Darksaber : EEItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Darksaber");
+        }
 
-		public override void SetDefaults()
-		{
-			Item.damage = 20;
-			Item.useStyle = ItemUseStyleID.Shoot;
-			Item.useAnimation = 25;
-			Item.useTime = 25;
-			Item.shootSpeed = 0;
-			Item.knockBack = 6.5f;
+        public override void SetDefaults()
+        {
+            Item.damage = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useAnimation = 80;
+            Item.useTime = 80;
+            Item.shootSpeed = 0;
+            Item.knockBack = 6.5f;
             Item.autoReuse = false;
-			Item.width = 16;
-			Item.height = 22;
-			Item.scale = 1f;
-			Item.rare = ItemRarityID.Purple;
-			Item.value = Item.sellPrice(silver: 10);
+            Item.width = 16;
+            Item.height = 22;
+            Item.scale = 1f;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.sellPrice(silver: 10);
 
             Item.shoot = ModContent.ProjectileType<DarksaberHilt>();
             Item.noUseGraphic = true;
 
-			Item.DamageType = DamageClass.Melee;
-            // Item.autoReuse = false;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/darksaber");
+            Item.DamageType = DamageClass.Melee;
+            Item.autoReuse = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -50,16 +48,10 @@ namespace EEMod.Items.Weapons.Melee.Swords
             }
             else
             {
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/darksaber"));
+
                 return true;
             }
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            Projectile proj = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<DarksaberHilt>(), 20, 2f);
-            (proj.ModProjectile as DarksaberHilt).rot = (Main.MouseWorld - player.Center).ToRotation();
-
-            return false;
         }
     }
 
@@ -84,7 +76,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Projectile.alpha = 255;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.timeLeft = 100000;
+            Projectile.timeLeft = 60;
             Projectile.damage = 1;
             Projectile.hide = false;
         }
@@ -101,96 +93,116 @@ namespace EEMod.Items.Weapons.Melee.Swords
             //Player owner = Main.player[Projectile.owner];
             Player owner = Main.LocalPlayer;
 
-            rot += (Projectile.ai[1] * (float)Math.Sin((Projectile.ai[0] * 3.14f) / 20f)) / 5f;
-
-            Projectile.rotation = rot + 1.57f;
-
-            Projectile.Center = owner.Center + (Vector2.UnitX.RotatedBy(rot) * 32f);
-
-            if (Projectile.ai[0] == 0)
+            if (Projectile.ai[0] < 40)
             {
-                Projectile.ai[1] = Main.rand.NextBool() ? -1 : 1;
+                rot += (Projectile.ai[1] * (float)Math.Sin((Projectile.ai[0] * 3.14f) / 40f)) / 12f;
 
-                rot = (Main.MouseWorld - owner.Center).ToRotation() - 0.7f * Projectile.ai[1];
+                Projectile.rotation = rot + 1.57f;
 
-                PrimitiveSystem.primitives.CreateTrail(trail = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, true, 5, 10));
-                PrimitiveSystem.primitives.CreateTrail(trail2 = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, false, 5, 5));
-            }
-            else
-            {
-                trail.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(rot + 1.57f);
-                trail.rot = rot;
-                trail.ticks = (int)Projectile.ai[0];
+                Projectile.Center = owner.Center + (Vector2.UnitX.RotatedBy(rot) * 24f);
 
-                trail2.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(rot + 1.57f);
-                trail2.rot = rot;
-                trail2.ticks = (int)Projectile.ai[0];
-            }
 
-            if (Projectile.ai[1] == -1)
-            {
-                trail.flipped = true;
-                trail2.flipped = true;
-            }
-
-            if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < -0.77f) owner.bodyFrame.Y = 3 * 56;
-            else if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < 0.77f) owner.bodyFrame.Y = 4 * 56;
-            else if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < 2.3f) owner.bodyFrame.Y = 3 * 56;
-            else if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < 3f) owner.bodyFrame.Y = 2 * 56;
-            else if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < 3.87f) owner.bodyFrame.Y = 1 * 56;
-            else owner.bodyFrame.Y = 2 * 56;
-
-            if (Projectile.Center.X - Main.LocalPlayer.Center.X > 0)
-            {
-                Main.LocalPlayer.direction = 1;
-            }
-            else
-            {
-                Main.LocalPlayer.direction = -1;
-            }
-
-            for (int i = 0; i < Main.maxNPCs; i++)
-            {
-                if (Main.npc[i] == null || Main.npc[i].active == false) continue;
-
-                for (int j = 0; j < 100; j += 5)
+                if (Projectile.ai[0] == 0)
                 {
-                    Vector2 test = Projectile.Center + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
-                        + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j);
+                    Projectile.ai[1] = Main.rand.NextBool() ? -1 : 1;
 
-                    if(Main.npc[i].Hitbox.Contains(test.ToPoint()))
+                    rot = (Main.MouseWorld - owner.Center).ToRotation() - 0.7f * Projectile.ai[1];
+
+                    PrimitiveSystem.primitives.CreateTrail(trail = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, true, 2000, 10));
+                    PrimitiveSystem.primitives.CreateTrail(trail2 = new DarksaberPrimTrail(Projectile, Color.Black, 80, 100, 10, false, 2000, 5));
+
+                    trail.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(rot + 1.57f) + (Projectile.position - Projectile.oldPosition);
+                    trail.rot = rot;
+                    trail.ticks = (int)Projectile.ai[0];
+
+                    trail2.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(rot + 1.57f) + (Projectile.position - Projectile.oldPosition);
+                    trail2.rot = rot;
+                    trail2.ticks = (int)Projectile.ai[0];
+
+                    Projectile.ai[0]++;
+
+                    if (Projectile.ai[1] == -1)
                     {
-                        Vector2 newVel = ((Projectile.Center + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
-                            + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j)) -
-                        ((Projectile.oldPosition + new Vector2(Projectile.width / 2f, Projectile.height / 2f)) + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
-                            + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j)));
+                        trail.flipped = true;
+                        trail2.flipped = true;
+                    }
 
-                        if (newVel.LengthSquared() >= 6f * 6f) newVel = Vector2.Normalize(newVel) * 6f;
+                    return;
+                }
+                else
+                {
+                    trail.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(rot + 1.57f) + (Projectile.position - Projectile.oldPosition);
+                    trail.rot = rot;
+                    trail.ticks = (int)Projectile.ai[0];
 
-                        Main.npc[i].velocity += newVel;
+                    trail2.orig = Projectile.Center + new Vector2(7, 2).RotatedBy(rot + 1.57f) + (Projectile.position - Projectile.oldPosition);
+                    trail2.rot = rot;
+                    trail2.ticks = (int)Projectile.ai[0];
+                }
 
-                        Main.npc[i].StrikeNPC(Projectile.damage, 0f, 0);
+                if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < -0.77f) owner.bodyFrame.Y = 3 * 56;
+                else if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < 0.77f) owner.bodyFrame.Y = 4 * 56;
+                else if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < 2.3f) owner.bodyFrame.Y = 3 * 56;
+                else if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < 3f) owner.bodyFrame.Y = 2 * 56;
+                else if (Math.Abs((Projectile.Center - owner.Center).ToRotation() - 3.14f) - 1.57f < 3.87f) owner.bodyFrame.Y = 1 * 56;
+                else owner.bodyFrame.Y = 2 * 56;
 
-                        break;
+                if (Projectile.Center.X - Main.LocalPlayer.Center.X > 0)
+                {
+                    Main.LocalPlayer.direction = 1;
+                }
+                else
+                {
+                    Main.LocalPlayer.direction = -1;
+                }
+
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i] == null || Main.npc[i].active == false || Main.npc[i].friendly) continue;
+
+                    for (int j = 0; j < 100; j += 5)
+                    {
+                        Vector2 test = Projectile.Center + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
+                            + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j);
+
+                        if (Main.npc[i].Hitbox.Contains(test.ToPoint()))
+                        {
+                            Vector2 newVel = ((Projectile.Center + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
+                                + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j)) -
+                            ((Projectile.oldPosition + new Vector2(Projectile.width / 2f, Projectile.height / 2f)) + new Vector2(7, 2).RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation() + 1.57f)
+                                + (Vector2.UnitX.RotatedBy(Vector2.Normalize(Main.MouseWorld - owner.Center).ToRotation()) * j)));
+
+                            if (newVel.LengthSquared() >= 2f * 2f) newVel = Vector2.Normalize(newVel) * 2f;
+
+                            Main.npc[i].velocity += newVel;
+
+                            Main.npc[i].StrikeNPC(Projectile.damage, 0f, 0);
+
+                            break;
+                        }
                     }
                 }
+            }
+            else
+            {
+                if (trail == null) return;
+
+                trail.Dispose();
+                trail2.Dispose();
+
+                trail = null;
+                trail2 = null;
             }
 
             Projectile.ai[0]++;
         }
 
-        public override void Kill(int timeLeft)
-        {
-            trail.Dispose();
-            trail2.Dispose();
-
-            base.Kill(timeLeft);
-        }
-
         public override bool PreDraw(ref Color lightColor)
         {
+            if (Projectile.ai[0] >= 40) return false;
+
             Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/Weapons/Melee/Swords/DarksaberHilt").Value, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, default, 1f, default, default);
-            return true;
+            return false;
         }
     }
 
@@ -211,6 +223,10 @@ namespace EEMod.Items.Weapons.Melee.Swords
             interval = _interval;
 
             additive = _additive;
+
+            orig = Main.player[(BindableEntity as Projectile).owner].Center;
+
+            _points.Clear();
         }
 
         public int myLength;
@@ -240,152 +256,111 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public int ticks;
 
-        protected static Vector2 MyCurveNormal(List<Vector2> myPoints, int index)
-        {
-            if (myPoints.Count == 1) return myPoints[0];
-
-            if (index == 0)
-            {
-                return Clockwise90(Vector2.Normalize(myPoints[1] - myPoints[0]));
-            }
-            if (index == myPoints.Count - 1)
-            {
-                return Clockwise90(Vector2.Normalize(myPoints[index] - myPoints[index - 1]));
-            }
-            return Clockwise90(Vector2.Normalize(myPoints[index + 1] - myPoints[index - 1]));
-        }
-
-        public List<List<Vector2>> points = new List<List<Vector2>>();
-
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
-            if (_noOfPoints <= 1 || points.Count() <= 1) return;
+            if (_noOfPoints <= 1 || _points.Count() <= 1) return;
 
-            for (int j = 0; j < points.Count(); j++)
+            for (int i = 0; i < (myLength / interval) - 1; i++)
             {
-                if (j == points.Count() - 1)
+                Vector2 normal = CurveNormal(_points, i);
+                Vector2 normalAhead = CurveNormal(_points, i + 1);
+
+                //normal = new Vector2(0, -1);
+                //normalAhead = new Vector2(0, -1);
+
+                Vector2 firstUp = _points[i] - normal * width;
+                Vector2 firstDown = _points[i] + normal * width;
+
+                Vector2 firstSpine = _points[i];
+                Vector2 secondSpine = _points[i + 1];
+
+                Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                Vector2 secondDown = _points[i + 1] + normalAhead * width;
+
+                if (i == (myLength / interval) - 3)
                 {
-                    for (int i = 0; i < points[j].Count() - 1; i++) //going up the spine of the BLADE
+                    if (flipped)
                     {
-                        Main.NewText(points[j].Count());
+                        AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
+                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
+                        AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
 
-                        Vector2 normal = MyCurveNormal(points[j], i);
-                        Vector2 normalAhead = MyCurveNormal(points[j], i + 1);
+                        AddVertex(secondSpine, Color.Black, new Vector2((i + 1) / _cap, 0));
+                        AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
+                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
 
-                        Vector2 firstUp = points[j][i] - normal * width;
-                        Vector2 firstDown = points[j][i] + normal * width;
 
-                        Vector2 firstSpine = points[j][i];
-                        Vector2 secondSpine = points[j][i + 1];
+                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 1));
+                        AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
+                        AddVertex(secondSpine, Color.White, new Vector2((i + 1) / _cap, 1));
+                    }
+                    else
+                    {
+                        AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
+                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
+                        AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
 
-                        Vector2 secondUp = points[j][i + 1] - normalAhead * width;
-                        Vector2 secondDown = points[j][i + 1] + normalAhead * width;
+                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
+                        AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
+                        AddVertex(secondSpine, Color.Black, new Vector2((i + 1) / _cap, 0));
 
-                        if (i == points[j].Count() - 2)
+
+                        AddVertex(secondSpine, Color.White, new Vector2((i + 1) / _cap, 1));
+                        AddVertex(firstDown, Color.White, new Vector2((i / _cap), 0));
+                        AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 1));
+                    }
+                }
+                else if (i == (myLength / interval) - 2)
+                {
+                    if (flipped)
+                    {
+                        if (!additive)
                         {
-                            if (flipped)
-                            {
-                                AddVertex(firstDown, Color.White, new Vector2((i / points[j].Count()), 1));
-                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 0));
-                                AddVertex(secondDown, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
-
-                                AddVertex(secondSpine, Color.Black, new Vector2((i + 1) / points[j].Count(), 0));
-                                AddVertex(secondDown, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
-                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 0));
-
-
-                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 1));
-                                AddVertex(firstUp, Color.White, new Vector2((i / points[j].Count()), 0));
-                                AddVertex(secondSpine, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
-                            }
-                            else
-                            {
-                                AddVertex(secondUp, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
-                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 0));
-                                AddVertex(firstUp, Color.White, new Vector2((i / points[j].Count()), 1));
-
-                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 0));
-                                AddVertex(secondUp, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
-                                AddVertex(secondSpine, Color.Black, new Vector2((i + 1) / points[j].Count(), 0));
-
-
-                                AddVertex(secondSpine, Color.White, new Vector2((i + 1) / points[j].Count(), 1));
-                                AddVertex(firstDown, Color.White, new Vector2((i / points[j].Count()), 0));
-                                AddVertex(firstSpine, Color.Black, new Vector2((i / points[j].Count()), 1));
-                            }
-                        }
-                        else if (i == points[j].Count() - 1)
-                        {
-                            if (flipped)
-                            {
-                                if (!additive)
-                                {
-                                    AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
-                                    AddVertex(firstSpine, Color.White, new Vector2((i / _cap), 0));
-                                    AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
-                                }
-                                else
-                                {
-                                    AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
-                                    AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
-                                    AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
-                                }
-                            }
-                            else
-                            {
-                                if (!additive)
-                                {
-                                    AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
-                                    AddVertex(firstSpine, Color.White, new Vector2((i / _cap), 0));
-                                    AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
-                                }
-                                else
-                                {
-                                    AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
-                                    AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
-                                    AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
-                                }
-                            }
+                            AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
+                            AddVertex(firstSpine, Color.White, new Vector2((i / _cap), 0));
+                            AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
                         }
                         else
                         {
                             AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
-                            AddVertex(firstSpine, color, new Vector2((i / _cap), 0));
+                            AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
                             AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
-
-                            AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 0));
-                            AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
-                            AddVertex(firstSpine, color, new Vector2((i / _cap), 0));
-
-
-                            AddVertex(firstSpine, color, new Vector2((i / _cap), 1));
-                            AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
-                            AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 1));
-
-                            AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 0));
-                            AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 1));
-                            AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
+                        }
+                    }
+                    else
+                    {
+                        if (!additive)
+                        {
+                            AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
+                            AddVertex(firstSpine, Color.White, new Vector2((i / _cap), 0));
+                            AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
+                        }
+                        else
+                        {
+                            AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 1));
+                            AddVertex(firstSpine, Color.Black, new Vector2((i / _cap), 0));
+                            AddVertex(firstUp, Color.White, new Vector2((i / _cap), 1));
                         }
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < points[j].Count() - 1; i++)
-                    {
-                        Vector2 firstUp = points[j][i];
-                        Vector2 firstDown = points[j + 1][i];
+                    AddVertex(firstDown, Color.White, new Vector2((i / _cap), 1));
+                    AddVertex(firstSpine, color, new Vector2((i / _cap), 0));
+                    AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
 
-                        Vector2 secondUp = points[j][i + 1];
-                        Vector2 secondDown = points[j + 1][i + 1];
+                    AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 0));
+                    AddVertex(secondDown, Color.White, new Vector2((i + 1) / _cap, 1));
+                    AddVertex(firstSpine, color, new Vector2((i / _cap), 0));
 
-                        AddVertex(firstDown, Color.Black, new Vector2((i / points[j].Count()), 1));
-                        AddVertex(firstUp, Color.Black, new Vector2((i / points[j].Count()), 0));
-                        AddVertex(secondDown, Color.Black, new Vector2((i + 1) / points[j].Count(), 1));
 
-                        AddVertex(secondUp, Color.Black, new Vector2((i + 1) / points[j].Count(), 0));
-                        AddVertex(secondDown, Color.Black, new Vector2((i + 1) / points[j].Count(), 1));
-                        AddVertex(firstUp, Color.Black, new Vector2((i / points[j].Count()), 0));
-                    }
+                    AddVertex(firstSpine, color, new Vector2((i / _cap), 1));
+                    AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
+                    AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 1));
+
+                    AddVertex(secondUp, Color.White, new Vector2((i + 1) / _cap, 0));
+                    AddVertex(secondSpine, color, new Vector2((i + 1) / _cap, 1));
+                    AddVertex(firstUp, Color.White, new Vector2((i / _cap), 0));
                 }
             }
         }
@@ -402,10 +377,14 @@ namespace EEMod.Items.Weapons.Melee.Swords
             {
                 Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
-                EEMod.DarksaberShader.Parameters["bladeColor"].SetValue(new Vector4(192f, 192f, 192f, 64f) / 255f);
-                EEMod.DarksaberShader.Parameters["edgeColor"].SetValue(new Vector4(255f, 255f, 255f, 0f) / 255f);
+                EEMod.DarksaberShader.Parameters["bladeColor"].SetValue(new Vector4(204f, 107f, 183f, 64f) / 255f);
+                EEMod.DarksaberShader.Parameters["edgeColor"].SetValue(new Vector4(204f, 107f, 183f, 0f) / 255f);
 
                 EEMod.DarksaberShader.Parameters["edgeThresh"].SetValue(0.4f);
+
+                EEMod.DarksaberShader.Parameters["noiseTexture"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/LightningNoisePixelatedBloom").Value);
+
+                EEMod.DarksaberShader.Parameters["ticks"].SetValue(Main.GameUpdateCount / 20f);
 
                 EEMod.DarksaberShader.Parameters["transformMatrix"].SetValue(view * projection);
             }
@@ -413,10 +392,14 @@ namespace EEMod.Items.Weapons.Melee.Swords
             {
                 Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
-                EEMod.DarksaberShader.Parameters["bladeColor"].SetValue(new Vector4(0f, 0f, 0f, 255f) / 255f);
-                EEMod.DarksaberShader.Parameters["edgeColor"].SetValue(new Vector4(255f, 255f, 255f, 255f) / 255f);
+                EEMod.DarksaberShader.Parameters["bladeColor"].SetValue(new Vector4(120f, 44f, 166f, 64f) / 255f);
+                EEMod.DarksaberShader.Parameters["edgeColor"].SetValue(new Vector4(204f, 107f, 183f, 64f) / 255f);
 
-                EEMod.DarksaberShader.Parameters["edgeThresh"].SetValue(0.4f);
+                EEMod.DarksaberShader.Parameters["edgeThresh"].SetValue(0.3f);
+
+                EEMod.DarksaberShader.Parameters["noiseTexture"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/LightningNoisePixelatedBloom").Value);
+
+                EEMod.DarksaberShader.Parameters["ticks"].SetValue(Main.GameUpdateCount / 20f);
 
                 EEMod.DarksaberShader.Parameters["transformMatrix"].SetValue(view * projection);
             }
@@ -432,6 +415,8 @@ namespace EEMod.Items.Weapons.Melee.Swords
             }
 
             _device.DrawPrimitives(PrimitiveType.TriangleList, 0, _noOfPoints);
+
+            VertexBufferPool.Shared.Return(buffer);
         }
 
         public override void OnUpdate()
@@ -441,13 +426,13 @@ namespace EEMod.Items.Weapons.Melee.Swords
             if (myLength < bladeVal2) myLength += (interval * 2);
 
             _counter++;
-
-            if(points.Count() >= 1) _noOfPoints = (points.Count() - 1 * 6) + ((points[points.Count - 1].Count() - 1) * 24);
-
-            while (_cap < points.Count())
+            _noOfPoints = _points.Count() * 12;
+            if (_cap < _noOfPoints / 12)
             {
-                points.RemoveAt(0);
+                _points.RemoveAt(0);
             }
+
+            if(_points.Count() > 0) Main.NewText(_points[0]);
 
             if ((!BindableEntity.active && BindableEntity != null) || BindableEntity == null || _destroyed)
             {
@@ -455,26 +440,21 @@ namespace EEMod.Items.Weapons.Melee.Swords
             }
             else
             {
-                points.Add(new List<Vector2>());
+                _points.Clear();
 
                 for (int i = 0; i < myLength / interval; i++)
                 {
-                    if (i == 0)
-                    {
-                        points[points.Count() - 1].Add(orig);
-
-                        continue;
-                    }
-
                     Vector2 vec = Vector2.Lerp(orig, orig + (Vector2.UnitX.RotatedBy(rot) * myLength), (float)i / (float)(myLength / interval));
 
-                    points[points.Count() - 1].Add(vec);
+                    _points.Add(vec);
                 }
             }
         }
 
         public override void OnDestroy()
         {
+            _points.Clear();
+
             Dispose();
         }
 

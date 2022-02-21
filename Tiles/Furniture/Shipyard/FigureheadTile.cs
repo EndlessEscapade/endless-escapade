@@ -34,7 +34,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
             TileObjectData.newTile.Origin = new Point16(0, 0);
 
             TileObjectData.newTile.AnchorRight = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, 4, 0);
-            //TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, 10, 0);
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, 10, 0);
             TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
 
             TileObjectData.addTile(Type);
@@ -48,22 +48,21 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int type = 0;
             bool fourTile = false;
 
             if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == 0)
             {
-                Framing.GetTileSafely(i, j).TileFrameY = (short)(0 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
+                Framing.GetTileSafely(i, j).TileFrameY = (short)(0 + (short)((Framing.GetTileSafely(i, j).TileFrameY) % 90));
                 fourTile = true;
             }
             if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == ModContent.ItemType<WoodenFigurehead>())
             {
-                Framing.GetTileSafely(i, j).TileFrameY = (short)(90 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
+                Framing.GetTileSafely(i, j).TileFrameY = (short)(90 + (short)((Framing.GetTileSafely(i, j).TileFrameY) % 90));
                 fourTile = false;
             }
             if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == ModContent.ItemType<TreasureFigurehead>())
             {
-                Framing.GetTileSafely(i, j).TileFrameY = (short)(180 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
+                Framing.GetTileSafely(i, j).TileFrameY = (short)(180 + (short)((Framing.GetTileSafely(i, j).TileFrameY) % 90));
                 fourTile = true;
             }
 
@@ -76,7 +75,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
             }
 
             spriteBatch.Draw(figurehead, new Vector2(i * 16, j * 16) - Main.screenPosition + zero,
-                new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY + (fourTile ? 18 : 0), 16, 16),
+                new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY + (fourTile ? 18 : 18), 16, 16),
                 Lighting.GetColor(i, j));
 
             return false;
@@ -94,28 +93,25 @@ namespace EEMod.Tiles.Furniture.Shipyard
         {
             if (Framing.GetTileSafely(i, j + 1).TileType == ModContent.TileType<FigureheadTile>() && type != ModContent.TileType<FigureheadTile>())
             {
-                switch (Framing.GetTileSafely(i, j + 1).TileFrameY)
+                if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == ModContent.ItemType<WoodenFigurehead>())
                 {
-                    case 0:
-                        Texture2D figurehead = ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Shipyard/FigureheadTile").Value;
+                    Texture2D figurehead = ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Shipyard/FigureheadTile").Value;
 
-                        Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-                        if (Main.drawToScreen)
-                        {
-                            zero = Vector2.Zero;
-                        }
+                    Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+                    if (Main.drawToScreen)
+                    {
+                        zero = Vector2.Zero;
+                    }
 
-                        spriteBatch.Draw(figurehead, new Vector2(i * 16, j * 16) - Main.screenPosition + zero,
-                            new Rectangle(Framing.GetTileSafely(i, j + 1).TileFrameX, Framing.GetTileSafely(i, j + 1).TileFrameY, 16, 16),
-                            Lighting.GetColor(i, j));
+                    spriteBatch.Draw(figurehead, new Vector2(i * 16, j * 16) - Main.screenPosition + zero,
+                        new Rectangle(Framing.GetTileSafely(i, j + 1).TileFrameX, (int)(Framing.GetTileSafely(i, j + 1).TileFrameY), 16, 16),
+                        Lighting.GetColor(i, j));
 
-                        return false;
-
-                        break;
-                    default:
-                        return true;
-
-                        break;
+                    return false;
+                }
+                else
+                {
+                    return true;
                 }
             }
             else

@@ -69,12 +69,23 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
             if (Main.worldName.Replace(" ", "_") == KeyID.BaseWorldName)
             {
-                player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
+                for (int k = 0; k < Main.maxPlayers; k++)
+                {
+                    if (Main.player[k] != null && Main.player[k].active)
+                    {
+                        player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
+                    }
+                }
             }
             else
             {
-                player.GetModPlayer<EEPlayer>().EnterSeamap();
-                Debug.WriteLine("grungus");
+                for (int k = 0; k < Main.maxPlayers; k++)
+                {
+                    if (Main.player[k] != null && Main.player[k].active)
+                    {
+                        player.GetModPlayer<EEPlayer>().EnterSeamap();
+                    }
+                }
             }
 
             return true;

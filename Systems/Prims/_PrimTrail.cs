@@ -29,7 +29,7 @@ namespace EEMod.Prim
         protected int _cap;
         protected int _counter;
         protected int _noOfPoints;
-        protected List<Vector2> _points = new List<Vector2>();
+        public List<Vector2> _points = new List<Vector2>();
         protected bool _destroyed = false;
         public bool behindTiles = false;
         public bool pixelated = false;
