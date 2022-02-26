@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using EEMod.Systems.Noise;
 using EEMod.ID;
 using static EEMod.EEWorld.EEWorld;
+using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod.EEWorld
 {

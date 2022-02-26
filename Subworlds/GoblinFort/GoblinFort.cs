@@ -23,8 +23,10 @@ using System.Diagnostics;
 using EEMod.NPCs.Goblins.Shaman;
 using EEMod.NPCs.Goblins.Berserker;
 using EEMod.NPCs.Goblins.Watchman;
+using EEMod.Systems.Subworlds;
+using EEMod.Systems;
 
-namespace EEMod.Systems.Subworlds.EESubworlds
+namespace EEMod.Subworlds.GoblinFort
 {
     public class GoblinFort : Subworld
     {

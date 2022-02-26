@@ -104,8 +104,8 @@ namespace EEMod
 
             EEMod.isSaving = false;
 
-            time = Main.time;
-            dayTime = Main.dayTime;
+            Main.time = time;
+            Main.dayTime = dayTime;
         }
 
         public void UpdateCutscenesAndTempShaders()

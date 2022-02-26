@@ -37,8 +37,10 @@ using EEMod.Items.Weapons.Ranger.Guns;
 using EEMod.Items.Weapons.Mage;
 using EEMod.Items.Weapons.Summon.Minions;
 using EEMod.Items.Weapons.Ammo;
+using EEMod.Systems.Subworlds;
+using EEMod.Systems.Subworlds.EESubworlds;
 
-namespace EEMod.Systems.Subworlds.EESubworlds
+namespace EEMod.Subworlds.CoralReefs
 {
     public class CoralReefs : Subworld
     {

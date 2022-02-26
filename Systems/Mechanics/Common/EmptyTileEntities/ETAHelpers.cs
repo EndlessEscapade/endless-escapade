@@ -15,6 +15,7 @@ using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod.Tiles.EmptyTileArrays
 {

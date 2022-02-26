@@ -27,6 +27,7 @@ using EEMod.Seamap.Content;
 using EEMod.Seamap.Content.Islands;
 using EEMod.Seamap;
 using EEMod;
+using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod.Systems.Subworlds.EESubworlds
 {

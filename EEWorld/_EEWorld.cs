@@ -31,6 +31,7 @@ using EEMod.NPCs.Friendly;
 using EEMod.Systems.Noise;
 using EEMod.Systems;
 using EEMod.Tiles.Foliage;
+using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod.EEWorld
 {

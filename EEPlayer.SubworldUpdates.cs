@@ -24,6 +24,7 @@ using EEMod.Systems.Subworlds.EESubworlds;
 using EEMod.NPCs.Aquamarine;
 using Terraria.DataStructures;
 using EEMod.NPCs.Friendly;
+using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod
 {
