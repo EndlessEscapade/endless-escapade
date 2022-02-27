@@ -15,26 +15,34 @@ using EEMod.Items.Weapons.Melee;
 
 namespace EEMod.Prim
 {
-    class ShadowflamePrimTrail : Primitive
+    class ShadowflameCampfirePrims : Primitive
     {
         public bool _additive;
 
-        public ShadowflamePrimTrail(Entity projectile, Color _color, int width = 40, int cap = 10, bool additive = false) : base(projectile)
+        public Vector2 startPoint;
+        public Vector2 controlPoint;
+        public Vector2 endPoint;
+
+        public ShadowflameCampfirePrims(Color _color, Vector2 start, Vector2 cp1, Vector2 end, int width = 40, int cap = 10, bool additive = false) : base(null)
         {
-            BindableEntity = projectile;
+            startPoint = start;
+            controlPoint = cp1;
+            endPoint = end;
+
             _width = width;
             color = _color;
             _cap = cap;
 
             _additive = additive;
+
+            if (_additive) Alpha = 0.2f;
+            else Alpha = 0.8f;
         }
 
         private Color color;
         public override void SetDefaults()
         {
-            Alpha = 0.8f;
-
-            behindTiles = false;
+            behindTiles = true;
             ManualDraw = false;
             pixelated = true;
             manualDraw = true;
@@ -43,7 +51,7 @@ namespace EEMod.Prim
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
             //if (_noOfPoints <= 1) return; 
-            
+
             //float colorSin = (float)Math.Sin(_counter / 3f);
             //Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
             //float widthVar = (float)Math.Sqrt(_points.Count) * _width;
@@ -71,11 +79,8 @@ namespace EEMod.Prim
             {
                 widthVar = ((i) / (float)_points.Count) * _width;
 
-                Color c = Color.Lerp(Color.White, color, colorSin);
-                Color CBT = Color.Lerp(Color.White, color, colorSin);
-
-                Vector2 normal = CurveNormal(_points, i);
-                Vector2 normalAhead = CurveNormal(_points, i + 1);
+                Vector2 normal = -Vector2.UnitX;
+                Vector2 normalAhead = -Vector2.UnitX;
 
                 float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
                 widthVar *= j;
@@ -85,13 +90,13 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, c * Alpha, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, c * Alpha, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, CBT * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstDown, color * Alpha, new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, color * Alpha, new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, color * Alpha, new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
 
-                AddVertex(secondUp, CBT * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, CBT * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, c * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap)) % 1, 0));
+                AddVertex(secondUp, color * Alpha, new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, color * Alpha, new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, color * Alpha, new Vector2((((i + (_counter / 4f)) / (float)_cap)) % 1, 0));
             }
         }
 
@@ -104,13 +109,9 @@ namespace EEMod.Prim
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, EEMod.TornSailShader, Main.GameViewMatrix.ZoomMatrix);
 
             if (_additive)
-            {
                 EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
-            }
             else
-            {
-                EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/EnergyTrailBoosted").Value);
-            }
+                EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/FlameTrailBoosted").Value);
 
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
 
@@ -139,18 +140,19 @@ namespace EEMod.Prim
         public override void OnUpdate()
         {
             _counter++;
+
             _noOfPoints = _points.Count() * 6;
-            if (_cap < _noOfPoints / 6)
+
+            _points.Clear();
+
+            for (int i = 0; i < _cap; i++)
             {
-                _points.RemoveAt(0);
-            }
-            if ((!BindableEntity.active && BindableEntity != null) || _destroyed)
-            {
-                Dispose();
-            }
-            else
-            {
-                _points.Add(BindableEntity.Center);
+                Vector2 lerp1 = Vector2.Lerp(startPoint, controlPoint, 1 - (i / (float)_cap));
+                Vector2 lerp2 = Vector2.Lerp(controlPoint, endPoint, 1 - (i / (float)_cap));
+
+                Vector2 lerpFinal = Vector2.Lerp(lerp1, lerp2, 1 - (i / (float)_cap));
+
+                _points.Add(lerpFinal + (Vector2.UnitX * 3f * (float)Math.Sin((_counter / 60f) + (i / 4f))));
             }
         }
 

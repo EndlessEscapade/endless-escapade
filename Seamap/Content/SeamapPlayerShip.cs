@@ -51,7 +51,6 @@ namespace EEMod.Seamap.Content
         public float boatSpeed = 0.3f;
 
         public float rot;
-        public float snappedRot;
         public float forwardSpeed;
 
         public override void Update()
@@ -106,11 +105,11 @@ namespace EEMod.Seamap.Content
 
             if (shipHelth <= 0) Die();
 
-            velocity = Vector2.UnitX.RotatedBy(snappedRot) * forwardSpeed;
+            velocity = Vector2.UnitX.RotatedBy(rot) * forwardSpeed;
 
             base.Update();
 
-            forwardSpeed *= 0.998f;
+            velocity *= 0.998f;
 
             #region Position constraints
             if (position.X < 0) position.X = 0;
@@ -136,81 +135,32 @@ namespace EEMod.Seamap.Content
             while (rot < 0)
                 rot += MathHelper.TwoPi;
 
-            while (snappedRot > MathHelper.TwoPi)
-                snappedRot -= MathHelper.TwoPi;
-
-            while (snappedRot < 0)
-                snappedRot += MathHelper.TwoPi;
-
             if (rot > (2f * Math.PI) - (Math.PI / 8f))
-            {
-                if (snappedRot < 0f) snappedRot += 0.001f;
-                if (snappedRot > 0f) snappedRot -= 0.001f;
-
                 yVal = 114 * 2;
-            }
             else if (rot > (2f * Math.PI) - 3f * (Math.PI / 8f))
-            {
-                if (snappedRot < (2f * Math.PI) - 1f * (Math.PI / 4f)) snappedRot += 0.001f;
-                if (snappedRot > (2f * Math.PI) - 1f * (Math.PI / 4f)) snappedRot -= 0.001f;
-
                 yVal = 114 * 1;
-            }
             else if (rot > (2f * Math.PI) - 5f * (Math.PI / 8f))
-            {
-                if (snappedRot < (2f * Math.PI) - 2f * (Math.PI / 4f)) snappedRot += 0.001f;
-                if (snappedRot > (2f * Math.PI) - 2f * (Math.PI / 4f)) snappedRot -= 0.001f;
-
                 yVal = 114 * 0;
-            }
             else if (rot > (2f * Math.PI) - 7f * (Math.PI / 8f))
-            {
-                if (snappedRot < (2f * Math.PI) - 3f * (Math.PI / 4f)) snappedRot += 0.001f;
-                if (snappedRot > (2f * Math.PI) - 3f * (Math.PI / 4f)) snappedRot -= 0.001f;
-
                 yVal = 114 * 1;
-            }
             else if (rot > (2f * Math.PI) - 9f * (Math.PI / 8f))
-            {
-                if (snappedRot < (2f * Math.PI) - 4f * (Math.PI / 4f)) snappedRot += 0.001f;
-                if (snappedRot > (2f * Math.PI) - 4f * (Math.PI / 4f)) snappedRot -= 0.001f;
-
                 yVal = 114 * 2;
-            }
             else if (rot > (2f * Math.PI) - 11f * (Math.PI / 8f))
-            {
-                if (snappedRot < (2f * Math.PI) - 5f * (Math.PI / 4f)) snappedRot += 0.001f;
-                if (snappedRot > (2f * Math.PI) - 5f * (Math.PI / 4f)) snappedRot -= 0.001f;
-
                 yVal = 114 * 3;
-            }
             else if (rot > (2f * Math.PI) - 13f * (Math.PI / 8f))
-            {
-                if (snappedRot < (2f * Math.PI) - 6f * (Math.PI / 4f)) snappedRot += 0.001f;
-                if (snappedRot > (2f * Math.PI) - 6f * (Math.PI / 4f)) snappedRot -= 0.001f;
-
                 yVal = 114 * 4;
-            }
             else if (rot > (2f * Math.PI) - 15f * (Math.PI / 8f))
-            {
-                if (snappedRot < (2f * Math.PI) - 7f * (Math.PI / 4f)) snappedRot += 0.001f;
-                if (snappedRot > (2f * Math.PI) - 7f * (Math.PI / 4f)) snappedRot -= 0.001f;
-
                 yVal = 114 * 3;
-            }
             else
-            {
-                if (snappedRot < (2f * Math.PI)) snappedRot += 0.03f;
-                if (snappedRot > (2f * Math.PI)) snappedRot -= 0.03f;
-
                 yVal = 114 * 2;
-            }
 
-            float spriteRot = ((float)(snappedRot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+            Main.NewText(rot);
+
+            float spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, yVal, 124, 114),
-                Color.White.LightSeamap(), spriteRot / 3f, 
+                Color.White.LightSeamap(), spriteRot / 2f, 
                 new Rectangle(0, 0, 124, 114).Size() / 2,
                 1, (rot < Math.PI * 2 * 3 / 4 - (Math.PI / 8f) && rot > Math.PI * 2 / 4 - (Math.PI / 8f)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
@@ -234,6 +184,16 @@ namespace EEMod.Seamap.Content
             myPlayer.GetModPlayer<EEPlayer>().ReturnHome();
 
             shipHelth = ShipHelthMax;
+        }
+
+        public float CannonRestrictRange()
+        {
+            float mouseRot = Vector2.Normalize(Main.MouseWorld - Center).ToRotation();
+
+            if(mouseRot - rot < 0)
+                return MathHelper.Clamp(mouseRot, rot - 1.57f - 0.4f, rot - 1.57f + 0.4f) - (float)Math.PI;
+            else
+                return MathHelper.Clamp(mouseRot, rot + 1.57f - 0.4f, rot + 1.57f + 0.4f) - (float)Math.PI;
         }
 
         #region Collision nonsense

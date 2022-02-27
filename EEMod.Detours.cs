@@ -71,7 +71,6 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DrawWalls += Main_DrawWalls;
-            On.Terraria.Main.DrawTiles += Main_DrawTiles;
             On.Terraria.Main.DrawWater += Main_DrawWater1;
             On.Terraria.Main.DrawBackground += Main_DrawBackground1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
@@ -104,7 +103,6 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
             On.Terraria.Main.DrawWalls -= Main_DrawWalls;
-            On.Terraria.Main.DrawTiles -= Main_DrawTiles;
             On.Terraria.Main.DrawWater -= Main_DrawWater1;
             On.Terraria.Main.DrawBackground -= Main_DrawBackground1;
             On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
@@ -139,13 +137,6 @@ namespace EEMod
         {
             orig();
 
-            if (Main.worldName == KeyID.Sea && SeamapObjects.localship != null)
-            {
-                Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
-
-                ClampScreenPositionToWorld(Seamap.Core.Seamap.seamapWidth, Seamap.Core.Seamap.seamapHeight - 200);
-            }
-
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
             {
                 RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
@@ -166,8 +157,6 @@ namespace EEMod
                 Main.spriteBatch.End();
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
-
-                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
             }
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
@@ -190,8 +179,57 @@ namespace EEMod
                 Main.spriteBatch.End();
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+            }
 
-                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+            if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
+            {
+                RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
+
+                Main.graphics.GraphicsDevice.SetRenderTarget(PrimitiveSystem.primitives.primTargetBTPixelated);
+                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+                Main.spriteBatch.Begin();
+
+                foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
+                {
+                    if (trail.behindTiles && !trail.ManualDraw && trail.pixelated)
+                    {
+                        trail.Draw();
+                    }
+                }
+
+                Main.spriteBatch.End();
+
+                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+            }
+
+            if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
+            {
+                RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
+
+                Main.graphics.GraphicsDevice.SetRenderTarget(PrimitiveSystem.primitives.primTargetBTUnpixelated);
+                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+                Main.spriteBatch.Begin();
+
+                foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
+                {
+                    if (trail.behindTiles && !trail.ManualDraw && !trail.pixelated)
+                    {
+                        trail.Draw();
+                    }
+                }
+
+                Main.spriteBatch.End();
+
+                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+            }
+
+            if (Main.worldName == KeyID.Sea && SeamapObjects.localship != null)
+            {
+                Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
+
+                ClampScreenPositionToWorld(Seamap.Core.Seamap.seamapWidth, Seamap.Core.Seamap.seamapHeight - 200);
             }
         }
 
@@ -349,6 +387,7 @@ namespace EEMod
 */
 
             BeforeNPCCache?.Invoke(Main.spriteBatch);
+
             orig(self);
         }
 
@@ -365,11 +404,6 @@ namespace EEMod
         private void Main_DrawWater1(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
         {
             orig(self, bg, Style, Main.worldName == KeyID.CoralReefs ? Alpha/3.5f : Alpha);
-        }
-
-        private void Main_DrawTiles(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidOnly, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
-        {
-            orig(self, solidOnly, forRenderTargets, intoRenderTargets, waterStyleOverride);
         }
 
         private void LiquidRenderer_InternalDraw(On.Terraria.GameContent.Liquid.LiquidRenderer.orig_InternalDraw orig, Terraria.GameContent.Liquid.LiquidRenderer self, SpriteBatch spriteBatch, Vector2 drawOffset, int waterStyle, float globalAlpha, bool isBackgroundDraw)
@@ -431,6 +465,12 @@ namespace EEMod
 
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
+            Main.spriteBatch.End();
+
+            PrimitiveSystem.primitives.DrawTrailsBehindTiles();
+
+            Main.spriteBatch.Begin();
+
             foreach (IComponent Updateable in Updatables)
                 Updateable.Update();
 
@@ -499,7 +539,6 @@ namespace EEMod
 
             if (!Main.dedServ)
             {
-                PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
 
                 if (Main.worldName != KeyID.Sea)
@@ -543,6 +582,7 @@ namespace EEMod
         private void Main_Draw(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
+
             if (EEModConfigClient.Instance.EEDebug)
             {
                 Main.spriteBatch.Begin();

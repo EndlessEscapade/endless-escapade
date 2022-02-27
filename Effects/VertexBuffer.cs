@@ -78,7 +78,7 @@ namespace EEMod.Effects
             {
                 Trail trail = _trails[i];
 
-                trail.Update();
+                //trail.Update();
                 if (trail.Dead)
                 {
                     _trails.RemoveAt(i);

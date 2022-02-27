@@ -13,6 +13,9 @@ namespace EEMod.Prim
         public RenderTarget2D primTargetPixelated;
         public RenderTarget2D primTargetUnpixelated;
 
+        public RenderTarget2D primTargetBTPixelated;
+        public RenderTarget2D primTargetBTUnpixelated;
+
         public void Load()
         {
             _trails.Clear();
@@ -21,6 +24,9 @@ namespace EEMod.Prim
             {
                 primTargetPixelated = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
                 primTargetUnpixelated = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+
+                primTargetBTPixelated = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
+                primTargetBTUnpixelated = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
             });
         }
 
@@ -53,28 +59,36 @@ namespace EEMod.Prim
 
         public void DrawTrailsBehindTiles()
         {
-            foreach (Primitive trail in _trails.ToArray())
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+
+            if (PrimitiveSystem.primitives.primTargetBTPixelated != null)
             {
-                if(trail.behindTiles && !trail.ManualDraw)
-                    trail.Draw();
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetBTPixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetBTPixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             }
+
+            if (PrimitiveSystem.primitives.primTargetBTUnpixelated != null)
+            {
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetBTUnpixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetBTUnpixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+            }
+
+            Main.spriteBatch.End();
         }
 
-        public void UpdateTrailsBehindTiles()
+        public void UpdateTrails()
         {
             foreach (Primitive trail in _trails.ToArray())
             {
-                if (trail.behindTiles)
-                    trail.Update();
-            }
-        }
-
-        public void UpdateTrailsAboveTiles()
-        {
-            foreach (Primitive trail in _trails.ToArray())
-            {
-                if (!trail.behindTiles)
-                    trail.Update();
+                trail.Update();
             }
         }
 

@@ -26,8 +26,8 @@ namespace EEMod.Prim
             if (Main.netMode != NetmodeID.Server)
             {
                 trailManager.UpdateTrails();
-                //prims.UpdateTrails();
-                primitives.UpdateTrailsAboveTiles();
+
+                primitives.UpdateTrails();
             }
         }
     }
