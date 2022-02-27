@@ -83,6 +83,47 @@ namespace EEMod.Tiles.Furniture.GoblinFort
             return tile.HasTile;
         }
 
+        public bool placedPrims = false;
+
+        private ShadowflameCampfirePrims trail1;
+        private ShadowflameCampfirePrims trail2;
+        private ShadowflameCampfirePrims trail3;
+        private ShadowflameCampfirePrims trail4;
+        private ShadowflameCampfirePrims trail5;
+        private ShadowflameCampfirePrims trail6;
+
+        public override void Update()
+        {
+            if (!placedPrims)
+            {
+                Vector2 initPos = new Vector2(Position.X * 16, (Position.Y * 16) + 16);
+
+                PrimitiveSystem.primitives.CreateTrail(trail1 = new ShadowflameCampfirePrims(Color.Violet * 0.2f, initPos + new Vector2(18, 16), initPos + new Vector2(18, -22), initPos + new Vector2(18, -58), 30, 20, true));
+                PrimitiveSystem.primitives.CreateTrail(trail2 = new ShadowflameCampfirePrims(Color.Violet, initPos + new Vector2(18, 16), initPos + new Vector2(18, -18), initPos + new Vector2(18, -50), 22, 20, true));
+                PrimitiveSystem.primitives.CreateTrail(trail3 = new ShadowflameCampfirePrims(Color.Violet, initPos + new Vector2(18, 16), initPos + new Vector2(18, -18), initPos + new Vector2(18, -50), 24, 20));
+
+                PrimitiveSystem.primitives.CreateTrail(trail4 = new ShadowflameCampfirePrims(Color.Violet * 0.2f, initPos + new Vector2(30, 16), initPos + new Vector2(30, -14), initPos + new Vector2(30, -38), 26, 20, true));
+                PrimitiveSystem.primitives.CreateTrail(trail5 = new ShadowflameCampfirePrims(Color.Violet, initPos + new Vector2(30, 16), initPos + new Vector2(30, -10), initPos + new Vector2(30, -30), 18, 20, true));
+                PrimitiveSystem.primitives.CreateTrail(trail6 = new ShadowflameCampfirePrims(Color.Violet, initPos + new Vector2(30, 16), initPos + new Vector2(30, -10), initPos + new Vector2(30, -30), 10, 20));
+
+                placedPrims = true;
+            }
+
+            base.Update();
+        }
+
+        public override void OnKill()
+        {
+            trail1.Dispose();
+            trail2.Dispose();
+            trail3.Dispose();
+            trail4.Dispose();
+            trail5.Dispose();
+            trail6.Dispose();
+
+            base.OnKill();
+        }
+
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction, int alternate)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -91,16 +132,6 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
                 return -1;
             }
-
-            Vector2 initPos = new Vector2(i * 16, (j * 16) + 16);
-
-            PrimitiveSystem.primitives.CreateTrail(new ShadowflameCampfirePrims(Color.Violet * 0.2f, initPos + new Vector2(18, 16), initPos + new Vector2(18, -22), initPos + new Vector2(18, -58), 30, 20, true));
-            PrimitiveSystem.primitives.CreateTrail(new ShadowflameCampfirePrims(Color.Violet, initPos + new Vector2(18, 16), initPos + new Vector2(18, -18), initPos + new Vector2(18, -50), 22, 20, true));
-            PrimitiveSystem.primitives.CreateTrail(new ShadowflameCampfirePrims(Color.Violet, initPos + new Vector2(18, 16), initPos + new Vector2(18, -18), initPos + new Vector2(18, -50), 24, 20));
-
-            PrimitiveSystem.primitives.CreateTrail(new ShadowflameCampfirePrims(Color.Violet * 0.2f, initPos + new Vector2(30, 16), initPos + new Vector2(30, -14), initPos + new Vector2(30, -38), 26, 20, true));
-            PrimitiveSystem.primitives.CreateTrail(new ShadowflameCampfirePrims(Color.Violet, initPos + new Vector2(30, 16), initPos + new Vector2(30, -10), initPos + new Vector2(30, -30), 18, 20, true));
-            PrimitiveSystem.primitives.CreateTrail(new ShadowflameCampfirePrims(Color.Violet, initPos + new Vector2(30, 16), initPos + new Vector2(30, -10), initPos + new Vector2(30, -30), 10, 20));
 
             return Place(i, j);
         }
