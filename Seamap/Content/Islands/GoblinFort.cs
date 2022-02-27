@@ -31,7 +31,7 @@ namespace EEMod.Seamap.Content.Islands
 
             Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
             Terraria.Graphics.Effects.Filters.Scene.Deactivate("EEMod:Noise2D");
-            SubworldManager.EnterSubworld<Subworlds.GoblinFort.GoblinFort>();
+            SubworldManager.EnterSubworld<Subworlds.GoblinFort>();
 
             base.Interact();
         }

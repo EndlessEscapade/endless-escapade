@@ -109,7 +109,7 @@ namespace EEMod.Prim
             }
             else
             {
-                EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/EnergyTrailBoosted").Value);
+                EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/FlameTrailBoosted").Value);
             }
 
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);

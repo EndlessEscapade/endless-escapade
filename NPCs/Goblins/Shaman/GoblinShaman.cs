@@ -212,8 +212,8 @@ namespace EEMod.NPCs.Goblins.Shaman
 
             Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + addVel) * 3);
 
-            PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet, 30, 15, true));
-            PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet * 0.5f, 24, 15));
+            PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet, 20, 10, true));
+            PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet * 0.5f, 16, 10));
 
             SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
         }
@@ -343,16 +343,21 @@ namespace EEMod.NPCs.Goblins.Shaman
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            //Texture2D mask = EEMod.Instance.Assets.Request<Texture2D>("Textures/Extra_49").Value;
-            Texture2D bolt = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/Shaman/ShadowflameHexBolt").Value;
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(Main.GameViewMatrix.Zoom.X, Main.GameViewMatrix.Zoom.Y, 1f);
 
-            Helpers.DrawAdditive(bolt, NPC.Center - Main.screenPosition, Color.Violet, 0.75f, 0f);
+            Matrix projection = Matrix.CreateOrthographic(Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height, 0, 1000);
 
-            //Helpers.DrawAdditive(bolt, Projectile.Center - Main.screenPosition, Color.DarkViolet, 0.15f, 0f);
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
-            //Main.spriteBatch.Draw(bolt, Projectile.Center - Main.screenPosition, null, Color.White, 0f, new Vector2(6, 6), Projectile.scale, SpriteEffects.None, 0);
+            EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/Shaman/ShadowflameHexBolt").Value);
 
-            //lightColor = Color.White;
+            EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(Color.Pink.R, Color.Pink.G, Color.Pink.B, Color.Pink.A) / 255f);
+
+            EEMod.LightningShader.Parameters["transformMatrix"].SetValue(view * projection);
+
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Shaman/ShadowflameHexBolt").Value, NPC.Center - Main.screenPosition, null, Color.Pink, 0f, new Vector2(12, 12), 0.75f, SpriteEffects.None, 0f);
+
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
             return false;
         }

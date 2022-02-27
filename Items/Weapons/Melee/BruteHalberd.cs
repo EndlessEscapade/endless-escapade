@@ -1,7 +1,7 @@
 using EEMod.Items.Placeables.Ores;
 using EEMod.Items.Weapons.Melee;
 using EEMod.Items.Weapons.Melee.Swords;
-using EEMod.Subworlds.GoblinFort;
+using EEMod.Subworlds;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,8 +31,6 @@ namespace EEMod.Items.Weapons.Melee
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = false;
-
-            Item.shoot = ModContent.ProjectileType<GoblinBanner>();
         }
     }
 }

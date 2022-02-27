@@ -26,7 +26,7 @@ using EEMod.NPCs.Goblins.Watchman;
 using EEMod.Systems.Subworlds;
 using EEMod.Systems;
 
-namespace EEMod.Subworlds.GoblinFort
+namespace EEMod.Subworlds
 {
     public class GoblinFort : Subworld
     {
