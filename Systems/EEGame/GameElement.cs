@@ -185,66 +185,9 @@ namespace EEMod.Systems.EEGame
                 collides = false;
             }
 
-            if (tag == "SAEnemy")
-            {
-                ai[0]++;
-
-                if (ai[2] == 0)
-                {
-                    if (ai[0] % 120 / ai[1] == 0)
-                    {
-                        velocity.X = -velocity.X;
-                        velocity.Y = 2f + ai[3];
-                    }
-                    if (ai[0] % 120 / ai[1] == 15)
-                    {
-                        velocity.Y = 0;
-                    }
-                    if (centerOfElement.Y - Main.LocalPlayer.Center.Y >= 300 && collides == true)
-                    {
-                        EEMod.Instance.simpleGame.LoseLife();
-                        elementActive = false;
-                        collides = false;
-                    }
-                }
-                if (ai[2] == 1)
-                {
-                    if (velocity.Y < 1) velocity.Y = 1;
-                    if (velocity.Y < 8) velocity.Y *= 1.04f;
-                    velocity.X *= 0.98f;
-                    elementActive = false;
-
-                    if (ai[0] > 60)
-                    {
-                        colourOfStartUp = 0;
-                    }
-                }
-            }
-            if (tag == "SABolt")
-            {
-                if (velocity.Y > -1)
-                {
-                    elementActive = false;
-                }
-            }
-
-
+            
             if (parent != null)
             {
-                if (tag == "SAEnemy" && collides)
-                    foreach (GameElement GE in parent.elementArray)
-                        if (GE != null && GE.collides && GE.elementRect.Intersects(elementRect) && GE.tag == "SABolt" && GE.elementActive == true)
-                        {
-                            elementActive = false;
-                            // GE.elementActive = false;
-                            collides = false;
-                            velocity.Y = 2;
-                            velocity.X = Main.rand.NextFloat(-0.5f, 0.5f);
-                            SoundEngine.PlaySound(SoundID.NPCHit4);
-                            ai[0] = 0;
-                            ai[2] = 1;
-                        }
-
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * 60;
                 if (collides)
                 {

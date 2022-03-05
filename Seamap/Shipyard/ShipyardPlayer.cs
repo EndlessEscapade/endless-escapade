@@ -5,7 +5,6 @@ using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Items.Fish;
 using EEMod.Projectiles;
-using EEMod.Projectiles.Armor;
 using EEMod.Items.Weapons.Mage;
 using EEMod.Projectiles.Runes;
 using EEMod.VerletIntegration;

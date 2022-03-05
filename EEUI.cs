@@ -28,7 +28,6 @@ namespace EEMod
         {
             if (!Main.dedServ)
             {
-                UI.AddUIState("ArrowUI", new ArrowsUIState());
                 UI.AddUIState("RunUI", new RunninUI());
                 //UI.AddUIState("MBUI", new MerchantBoatUI());
                 UI.AddUIState("EEUI", new EEUI());
@@ -48,10 +47,7 @@ namespace EEMod
         }
         public void UIControls()
         {
-            //if (RuneActivator.JustPressed && delay == 0)
-            //{
-            //    UI.SwitchBindedState("EEInterface");
-            //}
+
         }
     }
 }

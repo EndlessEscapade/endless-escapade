@@ -1,6 +1,5 @@
 ﻿using EEMod.Autoloading;
 using EEMod.Extensions;
-using EEMod.NPCs.Bosses.Akumo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -160,10 +159,8 @@ namespace EEMod
 
                 LightingBuffer.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
 
-                Filters.Scene["EEMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
 
-                SkyManager.Instance["EEMod:Akumo"] = new AkumoSky();
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
 
                 GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(HydrosDye), "HydrosDyeShader"));

@@ -2,7 +2,6 @@ using EEMod.Config;
 using EEMod.Effects;
 using EEMod.Extensions;
 using EEMod.ID;
-using EEMod.NPCs.Bosses.Kraken;
 using EEMod.Projectiles;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;

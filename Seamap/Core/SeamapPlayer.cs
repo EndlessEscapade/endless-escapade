@@ -4,7 +4,7 @@ using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Net;
 using EEMod.NPCs;
-using EEMod.NPCs.Bosses.Akumo;
+using EEMod.NPCs.Bosses;
 using EEMod.NPCs.Bosses.Hydros;
 using EEMod.Projectiles;
 using EEMod.Tiles;

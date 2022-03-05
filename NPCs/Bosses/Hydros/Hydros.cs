@@ -200,33 +200,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
         public override void OnKill()
         {
-            if (!Main.expertMode)
-            {
-                int randVal = Main.rand.Next(5);
-                switch (randVal)
-                {
-                    case 1:
-                        Item.NewItem(null, (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<CyanoburstTome>(), 1);
-                        break;
 
-                    case 2:
-                        Item.NewItem(null, (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<Triggerfish>(), 1);
-                        break;
-
-                    case 3:
-                        //Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
-                        break;
-
-                    case 4:
-                        Item.NewItem(null, (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<EnchantedCoral>(), 1);
-                        break;
-                }
-                Item.NewItem(null, (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
-            }
-            //else
-            //{
-            //    NPC.B();
-            //}
         }
 
         public void ApplyIntroShader(float lerpVal, Vector2 scale, Vector2 offset, Vector2 timeMultiplier, bool invert = false, float alpha = 1f)

@@ -12,7 +12,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using EEMod.Projectiles.CoralReefs;
-using EEMod.Items.Weapons.Melee.Boomerangs;
+using EEMod.Items.Weapons.Melee;
 
 namespace EEMod.Effects
 {
@@ -39,14 +39,6 @@ namespace EEMod.Effects
 
         public void DoTrailCreation(Projectile projectile)
         {
-            if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<AkumoMinionProjectile>() || projectile.type == ModContent.ProjectileType<FeatheredDreamcatcherProjectile>())
-            {
-                CreateTrail(projectile, new StandardColorTrail(new Color(200, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
-            }
-            if (projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>())
-            {
-                CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 10f, 250f);
-            }
             /*if (projectile.type == ModContent.ProjectileType<HydrofluoricStaffProjectile>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(111, 235, 124)), new RoundCap(), new SleepingStarTrailPosition(), 12f, 400f);

@@ -2,7 +2,6 @@
 using EEMod.Config;
 using EEMod.Extensions;
 using EEMod.ID;
-using EEMod.NPCs.Bosses.Kraken;
 using EEMod.Prim;
 using EEMod.Projectiles;
 using EEMod.Items.Weapons.Mage;
@@ -509,16 +508,6 @@ namespace EEMod
                 }
             }
 
-            if (NPC.AnyNPCs(ModContent.NPCType<TentacleEdgeHandler>()))
-            {
-                for (int i = 0; i < 200; i++)
-                {
-                    if (Main.npc[i].type == ModContent.NPCType<TentacleEdgeHandler>())
-                    {
-                        (Main.npc[i].ModNPC as TentacleEdgeHandler).DrawTentacleBeziers();
-                    }
-                }
-            }
             //WP.Draw();
             orig(self);
         }

@@ -48,7 +48,6 @@ namespace EEMod.NPCs
 
                 else if (spawnplayer.Center.Y <= 12800 && spawnInfo.player.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16 && spawnInfo.player.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.None)
                 {
-                    pool.Add(ModContent.NPCType<Clam>(), 5f);
                     pool.Add(ModContent.NPCType<LunaJelly>(), 5f);
                     pool.Add(ModContent.NPCType<SeaSlug>(), 5f);
                     pool.Add(ModContent.NPCType<Seahorse>(), 5f);
@@ -56,11 +55,7 @@ namespace EEMod.NPCs
 
                 else if (spawnplayer.Center.Y > 12800 && spawnInfo.player.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.None)
                 {
-                    pool.Add(ModContent.NPCType<Clam>(), 0.5f);
-                    pool.Add(ModContent.NPCType<Ball>(), 0.5f);
-                    pool.Add(ModContent.NPCType<GiantSquid>(), 0.5f);
                     pool.Add(ModContent.NPCType<SeaSlug>(), 0.5f);
-                    pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
                 }
 
                 if (spawnInfo.player.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.KelpForest)

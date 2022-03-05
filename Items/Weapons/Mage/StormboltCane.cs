@@ -28,7 +28,7 @@ namespace EEMod.Items.Weapons.Mage
             Item.crit = 3;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Magic;
-            Item.shoot = ModContent.ProjectileType<LythenStaffProjectile>();
+            //Item.shoot = ModContent.ProjectileType<LythenStaffProjectile>();
             Item.shootSpeed = 16f;
             Item.mana = 5;
             Item.UseSound = SoundID.Item8;

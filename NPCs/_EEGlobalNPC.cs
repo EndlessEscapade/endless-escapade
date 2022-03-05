@@ -23,14 +23,6 @@ namespace EEMod.NPCs
             //{
             //    Item.NewItem(npc.getRect(), ModContent.ItemType<HydrosScales>(), Main.rand.Next(1, 4));
             //}
-            if (npc.type == ModContent.NPCType<GiantSquid>() && Main.rand.Next(50) == 0)
-            {
-                Item.NewItem(new Terraria.DataStructures.EntitySource_SpawnNPC(), npc.getRect(), ItemID.BlackInk, 1);
-            }
-            if (npc.type == ModContent.NPCType<SmallClam>() && Main.rand.Next(50) == 0)
-            {
-                Item.NewItem(new Terraria.DataStructures.EntitySource_SpawnNPC(), npc.getRect(), ModContent.ItemType<ClamStaff>(), 1);
-            }
         }
     }
 }

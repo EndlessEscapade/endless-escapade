@@ -28,7 +28,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Item.knockBack = 5f;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item8;
-            Item.shoot = ModContent.ProjectileType<BabyHydros>();
+            //Item.shoot = ModContent.ProjectileType<BabyHydros>();
         }
 
         public override bool CanUseItem(Player player)

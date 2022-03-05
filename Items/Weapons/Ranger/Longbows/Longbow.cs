@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using EEMod.Prim;
+using Terraria.ID;
 
 namespace EEMod.Items.Weapons.Ranger.Longbows
 {
     public abstract class Longbow : EEProjectile
     {
         public virtual float speedOfArrow => 2;
-        public virtual int newProj => ModContent.ProjectileType<CoralArrowProjectileLongbow>();
+        public virtual int newProj => ProjectileID.WoodenArrowFriendly;
         public virtual float minGrav => 2;
         public virtual float ropeThickness => 32f;
         public virtual bool showDots => true;

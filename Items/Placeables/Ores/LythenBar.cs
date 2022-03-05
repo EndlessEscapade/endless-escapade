@@ -24,7 +24,7 @@ namespace EEMod.Items.Placeables.Ores
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
-            Item.createTile = ModContent.TileType<LythenBarTile>();
+            //Item.createTile = ModContent.TileType<LythenBarTile>();
         }
 
         public override void AddRecipes()
