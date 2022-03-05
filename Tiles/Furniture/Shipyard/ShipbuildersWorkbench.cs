@@ -45,7 +45,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
         public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, ItemID.DirtBlock);
+            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemID.DirtBlock);
 		}
         public override bool RightClick(int i, int j)
         {

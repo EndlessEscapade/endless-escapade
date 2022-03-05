@@ -25,7 +25,7 @@ namespace EEMod.Tiles.Furniture.Paintings
 
         public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            Item.NewItem(i * 24, j * 24, 24, 24, ModContent.ItemType<OSPainting>());
+            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 24, j * 24, 24, 24, ModContent.ItemType<OSPainting>());
         }
     }
 }

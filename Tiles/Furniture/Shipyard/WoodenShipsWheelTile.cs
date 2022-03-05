@@ -46,7 +46,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
         public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<WoodenShipsWheel>());
+            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<WoodenShipsWheel>());
         }
 
         public override string HighlightTexture => "EEMod/Tiles/Furniture/WoodenShipsWheelTile_Highlight";

@@ -190,17 +190,17 @@ namespace EEMod.NPCs.Aquamarine
         bool a;
         public override void OnKill()
         {
-            Item.NewItem((int)NPC.Center.X, (int)NPC.Center.Y, NPC.width, NPC.height, ModContent.ItemType<LythenOre>(), Main.rand.Next(10, 15));
+            Item.NewItem(new Terraria.DataStructures.EntitySource_Parent(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, NPC.width, NPC.height, ModContent.ItemType<LythenOre>(), Main.rand.Next(10, 15));
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    Item.NewItem((int)NPC.Center.X, (int)NPC.Center.Y, NPC.width, NPC.height, ItemID.Sapphire, Main.rand.Next(1, 4));
+                    Item.NewItem(new Terraria.DataStructures.EntitySource_Parent(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, NPC.width, NPC.height, ItemID.Sapphire, Main.rand.Next(1, 4));
                     break;
                 case 1:
-                    Item.NewItem((int)NPC.Center.X, (int)NPC.Center.Y, NPC.width, NPC.height, ItemID.Emerald, Main.rand.Next(1, 4));
+                    Item.NewItem(new Terraria.DataStructures.EntitySource_Parent(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, NPC.width, NPC.height, ItemID.Emerald, Main.rand.Next(1, 4));
                     break;
                 case 2:
-                    Item.NewItem((int)NPC.Center.X, (int)NPC.Center.Y, NPC.width, NPC.height, ItemID.Diamond, Main.rand.Next(1, 4));
+                    Item.NewItem(new Terraria.DataStructures.EntitySource_Parent(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, NPC.width, NPC.height, ItemID.Diamond, Main.rand.Next(1, 4));
                     break;
             }
         }

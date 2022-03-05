@@ -381,7 +381,7 @@ namespace EEMod.NPCs.Aquamarine
                             {
                                 Die();
 
-                                int item = Item.NewItem(new Rectangle((int)eyePos.X, (int)eyePos.Y, 0, 0), ModContent.ItemType<PrismaticBlade>());
+                                int item = Item.NewItem(new Terraria.DataStructures.EntitySource_Parent(NPC), new Rectangle((int)eyePos.X, (int)eyePos.Y, 0, 0), ModContent.ItemType<PrismaticBlade>());
                                 Main.item[item].velocity = laser.velocity;
                             }
                             break;

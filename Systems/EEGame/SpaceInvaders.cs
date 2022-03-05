@@ -202,7 +202,7 @@ namespace EEMod.Systems.EEGame
                     if (level >= 3)
                     {
                         EndGame();
-                        Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, 50);
+                        //Main.LocalPlayer.QuickSpawnItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), ItemID.SilverCoin, 50);
                     }
                     time = 0;
                 }

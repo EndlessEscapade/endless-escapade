@@ -30,7 +30,7 @@ namespace EEMod.Tiles.Ores
             int style = t.TileFrameX / 18;
             if (style == 0) // It can be useful to share a single tile with multiple styles. This code will let you drop the appropriate bar if you had multiple.
             {
-                Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<LythenBar>());
+                Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<LythenBar>());
             }
             return base.Drop(i, j);
         }

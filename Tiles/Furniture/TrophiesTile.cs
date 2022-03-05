@@ -55,7 +55,7 @@ namespace EEMod.Tiles.Furniture
                     item = ModContent.ItemType<CoralGolemTrophy>();
                     break;
             }
-            Item.NewItem(i * 16, j * 16, 48, 48, item);
+            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, item);
         }
     }
 }

@@ -201,7 +201,7 @@ namespace EEMod.EEWorld
         {
             if (!spawnedSailor)
             {
-                NPC.NewNPC(((int)shipCoords.X + 108 + 7) * 16, ((int)shipCoords.Y - 8) * 16, ModContent.NPCType<Sailor>());
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), ((int)shipCoords.X + 108 + 7) * 16, ((int)shipCoords.Y - 8) * 16, ModContent.NPCType<Sailor>());
                 spawnedSailor = true;
             }
 

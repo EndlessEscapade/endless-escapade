@@ -36,7 +36,7 @@ namespace EEMod.Tiles.Furniture.Paintings
 
         public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            Item.NewItem(i * 40, j * 40, 40, 40, ModContent.ItemType<Murdog>());
+            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 40, j * 40, 40, 40, ModContent.ItemType<Murdog>());
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
