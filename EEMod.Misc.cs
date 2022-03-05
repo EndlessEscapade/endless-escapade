@@ -42,7 +42,7 @@ namespace EEMod
 
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
 
-        public SpaceInvaders simpleGame;
+        public IceHockey simpleGame;
         public int lerps;
         private float alphas;
         private int delays;
@@ -124,7 +124,7 @@ namespace EEMod
                 }
             }
 
-            /*simpleGame = simpleGame ?? new SpaceInvaders();
+            /*simpleGame = simpleGame ?? new IceHockey();
             simpleGame.Update(gameTime);
             for (int i = 0; i < Main.player.Length; i++)
             {
@@ -140,7 +140,7 @@ namespace EEMod
                     }
                     if (Inspect.JustPressed && Framing.GetTileSafely((int)player.Center.X / 16, (int)player.Center.Y / 16).type == ModContent.TileType<BlueArcadeMachineTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
                     {
-                        simpleGame = new SpaceInvaders();
+                        simpleGame = new IceHockey();
                         SoundEngine.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
                         player.BuyItem(2500);
                         simpleGame.StartGame(i);
