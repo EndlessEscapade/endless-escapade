@@ -2,7 +2,6 @@
 using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Net;
-
 using EEMod.Skies;
 using EEMod.UI.States;
 using Microsoft.Xna.Framework;
@@ -29,14 +28,11 @@ namespace EEMod
             if (!Main.dedServ)
             {
                 UI.AddUIState("RunUI", new RunninUI());
-                //UI.AddUIState("MBUI", new MerchantBoatUI());
                 UI.AddUIState("EEUI", new EEUI());
+
                 UI.AddInterface("CustomResources");
-                //autobind
                 UI.AddInterface("SpeedrunnTimer", false, "RunUI");
-                //UI.AddInterface("MerchantBoatUI", false, "MBUI"); //Not sure if it's false
                 UI.AddInterface("EEInterface", true, "EEUI"); //Not sure if it's true
-                UI.AddInterface("ArrowInterface", false, "ArrowUI");
 
                 UI.SwitchBindedState("ArrowInterface");
             }

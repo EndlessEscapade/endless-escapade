@@ -26,12 +26,4 @@ namespace EEMod.Items.Placeables.Furniture.Trophies
     public class HydrosTrophy : ThropyItem { }
 
     public class OmenTrophy : ThropyItem { }
-
-    public class AkumoTrophy : ThropyItem { }
-
-    public class KrakenTrophy : ThropyItem { }
-
-    public class TalosTrophy : ThropyItem { }
-
-    public class CoralGolemTrophy : ThropyItem { }
 }
