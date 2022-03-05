@@ -4,7 +4,6 @@ using EEMod.Items.Weapons.Mage;
 using EEMod.Items.Weapons.Melee;
 using EEMod.Items.Weapons.Ranger;
 using EEMod.Items.Weapons.Summon.Minions;
-
 using EEMod.NPCs.ThermalVents;
 using EEMod.NPCs.SurfaceReefs;
 using EEMod.NPCs.UpperReefs;
@@ -12,6 +11,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.NPCs.LowerReefs;
 
 namespace EEMod.NPCs
 {
@@ -25,11 +25,11 @@ namespace EEMod.NPCs
             //}
             if (npc.type == ModContent.NPCType<GiantSquid>() && Main.rand.Next(50) == 0)
             {
-                Item.NewItem(npc.getRect(), ItemID.BlackInk, 1);
+                Item.NewItem(new Terraria.DataStructures.EntitySource_SpawnNPC(), npc.getRect(), ItemID.BlackInk, 1);
             }
             if (npc.type == ModContent.NPCType<SmallClam>() && Main.rand.Next(50) == 0)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<ClamStaff>(), 1);
+                Item.NewItem(new Terraria.DataStructures.EntitySource_SpawnNPC(), npc.getRect(), ModContent.ItemType<ClamStaff>(), 1);
             }
         }
     }

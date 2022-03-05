@@ -33,7 +33,7 @@ namespace EEMod.Items.Weapons.Mage
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.position, Vector2.Zero, ModContent.ProjectileType<SpiritPistolProjectileSecondary>(), Projectile.damage, Projectile.knockBack, Owner: Projectile.owner, ai0: i * (MathHelper.TwoPi / 6), ai1: Projectile.whoAmI);
+                    int proj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.position, Vector2.Zero, ModContent.ProjectileType<SpiritPistolProjectileSecondary>(), Projectile.damage, Projectile.knockBack, Owner: Projectile.owner, ai0: i * (MathHelper.TwoPi / 6), ai1: Projectile.whoAmI);
                     linkedProj[i] = proj;
                 }
                 firstFrame = false;

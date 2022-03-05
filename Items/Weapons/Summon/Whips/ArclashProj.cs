@@ -304,7 +304,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
 
             if (player.meleeEnchant == 7)
             {
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Main.npc[npcIndex].Center.X, Main.npc[npcIndex].Center.Y, Main.npc[npcIndex].velocity.X, Main.npc[npcIndex].velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Main.npc[npcIndex].Center.X, Main.npc[npcIndex].Center.Y, Main.npc[npcIndex].velocity.X, Main.npc[npcIndex].velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI);
             }
 
             if (Main.npc[npcIndex].value > 0f && Main.rand.Next(5) == 0)
@@ -318,7 +318,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
                 {
                     type = 73;
                 }
-                int Coin = Item.NewItem((int)Main.npc[npcIndex].position.X, (int)Main.npc[npcIndex].position.Y, Main.npc[npcIndex].width, Main.npc[npcIndex].height, type);
+                int Coin = Item.NewItem(new Terraria.DataStructures.EntitySource_Parent(Main.npc[npcIndex]), (int)Main.npc[npcIndex].position.X, (int)Main.npc[npcIndex].position.Y, Main.npc[npcIndex].width, Main.npc[npcIndex].height, type);
 
                 Main.item[Coin].stack = Main.rand.Next(1, 11);
                 Main.item[Coin].velocity.Y = Main.rand.Next(-20, 1) * 0.2f;

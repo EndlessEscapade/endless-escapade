@@ -101,7 +101,7 @@ namespace EEMod.NPCs.Goblins.Berserker
                     NPC.ai[1] = 0;
                     NPC.ai[0] = 2;
 
-                    NPC.ai[2] = Projectile.NewProjectile(new ProjectileSource_NPC(NPC), NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * 8f, ModContent.ProjectileType<BerserkerAxe>(), 20, 3f, default, ai0: 0, ai1: NPC.whoAmI);
+                    NPC.ai[2] = Projectile.NewProjectile(new EntitySource_Parent(NPC), NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * 8f, ModContent.ProjectileType<BerserkerAxe>(), 20, 3f, default, ai0: 0, ai1: NPC.whoAmI);
                 }
                 else if (NPC.ai[1] == 2)
                 {

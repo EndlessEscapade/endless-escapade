@@ -37,7 +37,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item),
+            Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item),
 position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             if (Main.netMode != NetmodeID.Server)
             {

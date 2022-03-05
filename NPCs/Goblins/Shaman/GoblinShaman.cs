@@ -82,7 +82,7 @@ namespace EEMod.NPCs.Goblins.Shaman
 
             if (NPC.ai[0] == 0)
             {
-                StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), staffCenter + new Vector2(0, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
+                StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_SpawnNPC(), staffCenter + new Vector2(0, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
 
                 PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(StaffBolt, Color.Violet, 4));
             }
@@ -144,7 +144,7 @@ namespace EEMod.NPCs.Goblins.Shaman
                     NPC.spriteDirection = Main.LocalPlayer.Center.X < NPC.Center.X ? -1 : 1;
                     staffCenter = NPC.Center + new Vector2(-6 * NPC.spriteDirection, 6);
 
-                    StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), staffCenter + new Vector2(1, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
+                    StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_SpawnNPC(), staffCenter + new Vector2(1, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
 
                     PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(StaffBolt, Color.Violet, 4));
                 }
@@ -208,7 +208,7 @@ namespace EEMod.NPCs.Goblins.Shaman
 
             NPC.velocity += (((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + addVel) * 3).X < 0 ? new Vector2(0.5f, 0) : new Vector2(-0.5f, 0));
 
-            int newBolt = NPC.NewNPC((int)pos.X, (int)pos.Y, ModContent.NPCType<ShadowflameHexBolt>(), 20, 2, Main.myPlayer);
+            int newBolt = NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)pos.X, (int)pos.Y, ModContent.NPCType<ShadowflameHexBolt>(), 20, 2, Main.myPlayer);
 
             Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + addVel) * 3);
 

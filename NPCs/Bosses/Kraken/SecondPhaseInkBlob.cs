@@ -63,7 +63,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 int projectiledamage = 40;
                 if (Main.rand.Next(4) == 0)
                 {
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<InkSpew>(), projectiledamage, projectileknockBack, Main.npc[(int)Projectile.ai[1]].target, 0f, 1);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<InkSpew>(), projectiledamage, projectileknockBack, Main.npc[(int)Projectile.ai[1]].target, 0f, 1);
                 }
             }
         }

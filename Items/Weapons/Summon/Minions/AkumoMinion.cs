@@ -105,7 +105,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                     if (reinforcements[i] == default)
                     {
                         Main.NewText(i + "AE");
-                        reinforcements[i] = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: MathHelper.TwoPi / 3 * i, ai1: target.whoAmI);
+                        reinforcements[i] = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: MathHelper.TwoPi / 3 * i, ai1: target.whoAmI);
                     }
                 }
             }
@@ -209,7 +209,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                     {
                         Vector2 newPos = new Vector2(target.Center.X + Main.rand.Next(-80, 81), target.position.Y - 80);
                         Vector2 newVel = Vector2.Normalize(newPos - target.Center) * -16;
-                        Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), newPos, newVel, ModContent.ProjectileType<AkumoMinionProjectile>(), 50, 2f, player.whoAmI);
+                        Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), newPos, newVel, ModContent.ProjectileType<AkumoMinionProjectile>(), 50, 2f, player.whoAmI);
                     }
                     projectileAiCont[0] = 0;
                     projectileAiCont[1] = 0;

@@ -47,7 +47,7 @@ namespace EEMod.Tiles.Foliage.Coral
             {
                 for (int a = 0; a < 8; a++)
                 {
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) - TileFrameX, (j * 16) - TileFrameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) - TileFrameX, (j * 16) - TileFrameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
                 }
 
                 isIntersecting = true;
@@ -59,7 +59,7 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     for (int a = 0; a < 2; a++)
                     {
-                        Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) - TileFrameX, (j * 16) - TileFrameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
+                        Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) - TileFrameX, (j * 16) - TileFrameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
                     }
                 }
 

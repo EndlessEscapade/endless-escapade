@@ -57,7 +57,7 @@ namespace EEMod.NPCs.ThermalVents
             {
                 if (NPC.ai[3] == 0)
                 {
-                    NPC.ai[3] = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center + new Vector2(-10, 0), Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), NPC.damage, 0f, Owner: NPC.whoAmI);
+                    NPC.ai[3] = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center + new Vector2(-10, 0), Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), NPC.damage, 0f, Owner: NPC.whoAmI);
                 }
 
                 NPC.velocity = Vector2.Zero;

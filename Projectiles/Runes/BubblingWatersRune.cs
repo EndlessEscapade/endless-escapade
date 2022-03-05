@@ -38,7 +38,7 @@ namespace EEMod.Projectiles.Runes
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersRuneBubble>(), 0, 0, Projectile.whoAmI);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersRuneBubble>(), 0, 0, Projectile.whoAmI);
                 }
             }
 

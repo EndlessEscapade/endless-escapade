@@ -49,7 +49,7 @@ namespace EEMod.Items.Weapons.Melee.Javelins
             {
                 int item =
                 Main.rand.NextBool(18)
-                    ? Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, dropItem)
+                    ? Item.NewItem(new Terraria.DataStructures.EntitySource_Parent(Projectile), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, dropItem)
                     : 0;
 
                 // Sync the drop for multiplayer

@@ -99,7 +99,7 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                 projLerp = 0;
                 if (!flag)
                 {
-                    lightningproj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), firstClickPos,Vector2.Zero, ModContent.ProjectileType<RapierProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    lightningproj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), firstClickPos,Vector2.Zero, ModContent.ProjectileType<RapierProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     (Main.projectile[lightningproj].ModProjectile as RapierProj).mid = midPoint;
                     (Main.projectile[lightningproj].ModProjectile as RapierProj).start = firstClickPos;
                     (Main.projectile[lightningproj].ModProjectile as RapierProj).end = lastClickPos;

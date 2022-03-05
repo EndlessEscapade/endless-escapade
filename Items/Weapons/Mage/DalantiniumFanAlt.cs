@@ -89,7 +89,7 @@ namespace EEMod.Items.Weapons.Mage
                 lerp += (0.18f * traverseFunction * traverseFunction) - 0.02f;
                 if (Projectile.ai[0] % 2 == 1 && Projectile.ai[0] > firstPhase + 1)
                 {
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     circleDustPattern();
                 }
             }
@@ -102,7 +102,7 @@ namespace EEMod.Items.Weapons.Mage
                 lerp -= (0.18f * traverseFunction * traverseFunction);
                 if (Projectile.ai[0] % 2 == 1 && Projectile.ai[0] > secondPhase + 1)
                 {
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     circleDustPattern();
                 }
                 if (Projectile.ai[0] == thirdPhase - 5)

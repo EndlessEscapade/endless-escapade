@@ -62,7 +62,7 @@ namespace EEMod.Projectiles.CoralReefs
 
                 /*if (Main.rand.NextBool(2) && Projectile.ai[1] == 0)
                 {
-                    int lightningproj = Projectile.NewProjectile(new ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), Projectile.damage / 2, Projectile.knockBack / 2f, default);
+                    int lightningproj = Projectile.NewProjectile(new EntitySource_Parent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), Projectile.damage / 2, Projectile.knockBack / 2f, default);
 
                     Main.projectile[lightningproj].ai[1] = 1;
 

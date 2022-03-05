@@ -44,7 +44,7 @@ namespace EEMod.Items.Weapons.Mage
             direction *= (float)(Math.Sin(Projectile.ai[0] * 0.2f) * 3);
             if (Projectile.ai[0] % 10 == 1)
             {
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (boost > 2000 && boost % 1500 <= 200)
             {

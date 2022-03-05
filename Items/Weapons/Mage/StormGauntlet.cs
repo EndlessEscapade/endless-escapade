@@ -71,7 +71,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            myProj = Projectile.NewProjectile(new ProjectileSource_Item(player, Item), position, new Vector2(speedX, speedY), type, damage, knockBack);
+            myProj = Projectile.NewProjectile(new EntitySource_ItemUse(player, Item), position, new Vector2(speedX, speedY), type, damage, knockBack);
 
             //Main.NewText("Shooting ish");
 

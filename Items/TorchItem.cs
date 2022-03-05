@@ -38,7 +38,7 @@ namespace EEMod.Items
             if(proj != -1) Main.projectile[proj].ai[0] = alpha;
             if (player.controlUseItem && yeet == 0)
             {
-                proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<Gradient>(), 0, 0f, player.whoAmI);
+                proj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<Gradient>(), 0, 0f, player.whoAmI);
                 yeet = 1;
             }
             if (yeet == 1)

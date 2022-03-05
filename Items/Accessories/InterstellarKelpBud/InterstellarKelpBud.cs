@@ -53,7 +53,7 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
         {
             if (Main.rand.NextBool(5) && Main.LocalPlayer.GetModPlayer<KelpBudPlayer>().interstellarKelpBud)
             {
-                Projectile.NewProjectile(new ProjectileSource_NPC(npc), npc.Center, new Vector2(0, 0.5f), ModContent.ProjectileType<KelpBudProjectile>(), 0, 0f);
+                Projectile.NewProjectile(new EntitySource_Parent(npc), npc.Center, new Vector2(0, 0.5f), ModContent.ProjectileType<KelpBudProjectile>(), 0, 0f);
             }
         }
     }

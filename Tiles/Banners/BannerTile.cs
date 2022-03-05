@@ -78,7 +78,7 @@ namespace EEMod.Tiles.Banners
                 default:
                     return;
             }
-            Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>(item).Type);
+            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>(item).Type);
         }
 
         public override void NearbyEffects(int i, int j, bool closer)

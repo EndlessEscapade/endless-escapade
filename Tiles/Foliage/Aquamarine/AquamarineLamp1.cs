@@ -148,7 +148,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                         {
                             Player target = Main.player[Helpers.GetNearestAlivePlayer(spire)];
 
-                            Projectile projectile2 = Projectile.NewProjectileDirect(new ProjectileSource_BySourceId(ModContent.ProjectileType<SpireLaserAlt>()), Projectile.Center, Vector2.Normalize(target.Center - Projectile.Center) * 2, ModContent.ProjectileType<SpireLaserAlt>(), (int)(Main.npc[spire.whoAmI].damage / 5f), 0f, default, 0, 1);
+                            Projectile projectile2 = Projectile.NewProjectileDirect(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<SpireLaserAlt>()), Projectile.Center, Vector2.Normalize(target.Center - Projectile.Center) * 2, ModContent.ProjectileType<SpireLaserAlt>(), (int)(Main.npc[spire.whoAmI].damage / 5f), 0f, default, 0, 1);
                             PrimitiveSystem.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 30));
                         }
                     }

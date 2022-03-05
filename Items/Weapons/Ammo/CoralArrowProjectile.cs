@@ -57,7 +57,7 @@ namespace EEMod.Items.Weapons.Ammo
             bubol++;
             if (bubol >= 10)
             {
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: Projectile.owner);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: Projectile.owner);
                 bubol = 0;
             }
         }

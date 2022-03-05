@@ -134,7 +134,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                     int pieCut = Main.rand.Next(3, 4);
                     for (int m = 0; m < pieCut; m++)
                     {
-                        int projID = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<InkBlob>(), 50, 0, Main.myPlayer, 0, NPC.whoAmI);
+                        int projID = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<InkBlob>(), 50, 0, Main.myPlayer, 0, NPC.whoAmI);
                         Main.projectile[projID].velocity = new Vector2(3f, 0f).RotatedBy(m / (float)pieCut * Math.PI * 2);
                         Main.projectile[projID].netUpdate = true;
                     }
@@ -153,12 +153,12 @@ namespace EEMod.NPCs.Bosses.Kraken
                 if ((bigBloons[1] == Vector2.Zero) && (bigBloons[0] != Vector2.Zero) && bigBloons[0] != (smolBloons[0] + smolBloons[1]) / 2)
                 {
                     bigBloons[1] = (smolBloons[0] + smolBloons[1]) / 2;
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), bigBloons[1], Vector2.Zero, ModContent.ProjectileType<SecondPhaseInkBlob>(), 50, 0, Main.myPlayer, 0, NPC.whoAmI);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), bigBloons[1], Vector2.Zero, ModContent.ProjectileType<SecondPhaseInkBlob>(), 50, 0, Main.myPlayer, 0, NPC.whoAmI);
                 }
                 if (bigBloons[0] == Vector2.Zero)
                 {
                     bigBloons[0] = (smolBloons[0] + smolBloons[1]) / 2;
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), bigBloons[0], Vector2.Zero, ModContent.ProjectileType<SecondPhaseInkBlob>(), 50, 0, Main.myPlayer, 0, NPC.whoAmI);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), bigBloons[0], Vector2.Zero, ModContent.ProjectileType<SecondPhaseInkBlob>(), 50, 0, Main.myPlayer, 0, NPC.whoAmI);
                 }
             }
         }
@@ -183,14 +183,14 @@ namespace EEMod.NPCs.Bosses.Kraken
                 geyserPositionsVarDown = new Vector2[howMany];
                 geyserPositionsVarRight = new Vector2[howMany];
                 geyserPositionsVarLeft = new Vector2[howMany];
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<TentacleEdgeHandler>(), 0, NPC.whoAmI);
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<TentacleEdgeHandler>(), 0, NPC.whoAmI);
                 NPC.ai[1] = 1;
                 NPC.Center = topLeft;
                 firstFrame = false;
-                NPC.NewNPC((int)holePositions[0].X, (int)holePositions[0].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[0].X, (int)holePositions[0].Y);
-                NPC.NewNPC((int)holePositions[1].X, (int)holePositions[1].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[1].X, (int)holePositions[1].Y, 1);
-                NPC.NewNPC((int)holePositions[2].X, (int)holePositions[2].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[2].X, (int)holePositions[2].Y);
-                NPC.NewNPC((int)holePositions[3].X, (int)holePositions[3].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[3].X, (int)holePositions[3].Y, 1);
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)holePositions[0].X, (int)holePositions[0].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[0].X, (int)holePositions[0].Y);
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)holePositions[1].X, (int)holePositions[1].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[1].X, (int)holePositions[1].Y, 1);
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)holePositions[2].X, (int)holePositions[2].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[2].X, (int)holePositions[2].Y);
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)holePositions[3].X, (int)holePositions[3].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[3].X, (int)holePositions[3].Y, 1);
             }
             NPC.ai[2]++;
             tentaclerotation = 0;
@@ -311,10 +311,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                     {
                         for (int i = 0; i < geyserPositionsVarUp.Length; i++)
                         {
-                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 0);
-                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 1);
-                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 2);
-                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 3);
+                            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_SpawnNPC(), geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 0);
+                            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_SpawnNPC(), geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 1);
+                            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_SpawnNPC(), geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 2);
+                            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_SpawnNPC(), geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 3);
                         }
                     }
                     for (int i = 0; i < geyserPositionsVarUp.Length; i++)
@@ -323,10 +323,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                         {
                             if (NPC.ai[0] % 4 == 0)
                             {
-                                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(-10, -15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
-                                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(10, 15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
-                                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, Main.rand.NextFloat(10f, 15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
-                                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, Main.rand.NextFloat(-10f, -15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_SpawnNPC(), geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(-10, -15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_SpawnNPC(), geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(10, 15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_SpawnNPC(), geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, Main.rand.NextFloat(10f, 15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_SpawnNPC(), geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, Main.rand.NextFloat(-10f, -15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
                             }
                         }
                     }
@@ -379,12 +379,12 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 if (i == 0 || i == 2)
                                 {
-                                    NPC.NewNPC((int)holePositions[i].X + 120, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, NPC.whoAmI);
+                                    NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)holePositions[i].X + 120, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, NPC.whoAmI);
                                 }
 
                                 if (i == 1 || i == 3)
                                 {
-                                    NPC.NewNPC((int)holePositions[i].X + 100, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, NPC.whoAmI, 1);
+                                    NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)holePositions[i].X + 100, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, NPC.whoAmI, 1);
                                 }
                             }
                         }
@@ -467,7 +467,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 float projectilespeedY = Main.rand.NextFloat(-2, 2);
                                 float projectileknockBack = 4f;
                                 int projectiledamage = 20;
-                                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center.X + 110 * -NPC.spriteDirection, NPC.Center.Y + 10, projectilespeedX, projectilespeedY, ModContent.ProjectileType<WaterSpew>(), projectiledamage, projectileknockBack, NPC.target, 0f, 1);
+                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center.X + 110 * -NPC.spriteDirection, NPC.Center.Y + 10, projectilespeedX, projectilespeedY, ModContent.ProjectileType<WaterSpew>(), projectiledamage, projectileknockBack, NPC.target, 0f, 1);
                                 if (NPC.ai[0] == 280)
                                 {
                                     Reset(3);
@@ -548,7 +548,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         NPC.ai[0]++;
                         if (NPC.ai[0] % frequency == 0)
                         {
-                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
+                            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_SpawnNPC(), player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
                         }
                         if (NPC.ai[0] % frequency * 8 <= frequency * 8 / 2)
                         {
@@ -595,14 +595,14 @@ namespace EEMod.NPCs.Bosses.Kraken
                     {
                         if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).TileType] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1) && above)
                         {
-                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), tpTileX * 16, tpY * 16, 0, -5, ModContent.ProjectileType<WaterSpew>(), 1, 0f, Main.myPlayer, 0, 0);
+                            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), tpTileX * 16, tpY * 16, 0, -5, ModContent.ProjectileType<WaterSpew>(), 1, 0f, Main.myPlayer, 0, 0);
                             hasTeleportPoint = true;
                             NPC.netUpdate = true;
                             break;
                         }
                         if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).TileType] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY + 4, tpY + 1) && !above)
                         {
-                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), tpTileX * 16, tpY * 16, 0, 5, ModContent.ProjectileType<WaterSpew>(), 1, 0f, Main.myPlayer, 0, 0);
+                            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), tpTileX * 16, tpY * 16, 0, 5, ModContent.ProjectileType<WaterSpew>(), 1, 0f, Main.myPlayer, 0, 0);
                             hasTeleportPoint = true;
                             NPC.netUpdate = true;
                             break;

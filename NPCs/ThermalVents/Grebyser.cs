@@ -65,7 +65,7 @@ namespace EEMod.NPCs.ThermalVents
                 direction = direction.RotatedBy(NPC.rotation);
                 direction = direction.RotatedBy(Main.rand.NextFloat(-0.9f, 0.9f));
                 direction *= Main.rand.NextFloat(3,5);
-                int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, direction, ModContent.ProjectileType<GrebyserFlare>(), 60, 0, NPC.target);
+                int proj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, direction, ModContent.ProjectileType<GrebyserFlare>(), 60, 0, NPC.target);
                 if (Main.netMode != NetmodeID.Server)
                 {
                     PrimitiveSystem.primitives.CreateTrail(new GrebyserPrimTrail(Main.projectile[proj]));

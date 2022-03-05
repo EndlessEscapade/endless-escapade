@@ -58,7 +58,7 @@ namespace EEMod.Items.Weapons.Mage
                 dust.noGravity = true;
                 // dust.noLight = false;
             }
-            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CyanoburstTomeKelp>(), 10, 10f, Main.myPlayer);
+            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CyanoburstTomeKelp>(), 10, 10f, Main.myPlayer);
         }
     }
 }

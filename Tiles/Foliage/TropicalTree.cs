@@ -42,10 +42,10 @@ namespace EEMod.Tiles.Foliage
         {
             if (Main.rand.Next(5) == 0)
             {
-                NPC.NewNPC(i, j, ModContent.NPCType<Cococritter>());
+                NPC.NewNPC(null, i, j, ModContent.NPCType<Cococritter>());
             }
-            Item.NewItem(new Vector2(i, j), ModContent.ItemType<TropicalWoodItem>(), Main.rand.Next(12, 24));
-            Item.NewItem(new Vector2(i, j), ModContent.ItemType<Coconut>(), Main.rand.Next(3, 5));
+            Item.NewItem(null, new Vector2(i, j), ModContent.ItemType<TropicalWoodItem>(), Main.rand.Next(12, 24));
+            Item.NewItem(null, new Vector2(i, j), ModContent.ItemType<Coconut>(), Main.rand.Next(3, 5));
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)

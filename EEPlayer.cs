@@ -388,7 +388,7 @@ namespace EEMod
                             {
                                 if (bubbleRuneBubble == 0)
                                 {
-                                    bubbleRuneBubble = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ProjectileType<BubblingWatersBubble>()), Player.Center, Vector2.Zero, ProjectileType<BubblingWatersBubble>(), 0, 0, Main.myPlayer);
+                                    bubbleRuneBubble = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ByProjectileSourceId(ProjectileType<BubblingWatersBubble>()), Player.Center, Vector2.Zero, ProjectileType<BubblingWatersBubble>(), 0, 0, Main.myPlayer);
                                 }
                                 else
                                 {

@@ -102,7 +102,7 @@ namespace EEMod.NPCs.Goblins.Scrapgunner
 
             NPC.velocity += (((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + addVel) * 3).X < 0 ? new Vector2(0.5f, 0) : new Vector2(-0.5f, 0));
 
-            int newBolt = NPC.NewNPC((int)pos.X, (int)pos.Y, ModContent.NPCType<Scrapball>(), 20, 2, Main.myPlayer);
+            int newBolt = NPC.NewNPC(new Terraria.DataStructures.EntitySource_Parent(NPC), (int)pos.X, (int)pos.Y, ModContent.NPCType<Scrapball>(), 20, 2, Main.myPlayer);
 
             Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + addVel) * 3);
 

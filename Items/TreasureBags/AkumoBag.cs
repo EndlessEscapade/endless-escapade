@@ -37,7 +37,7 @@ namespace EEMod.Items.TreasureBags
                     break;
 
                 case 1:
-                    Main.LocalPlayer.QuickSpawnItem(ItemType<FeatheredChakram>(), 1);
+                    Main.LocalPlayer.QuickSpawnItem(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), ItemType<FeatheredChakram>(), 1);
                     break;
 
                 case 2:

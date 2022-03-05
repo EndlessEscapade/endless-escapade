@@ -125,7 +125,7 @@ namespace EEMod.Tiles.Furniture
                     {
                         Main.StartRain();
 
-                        int manager = NPC.NewNPC((i * 16) - Framing.GetTileSafely(i, j).TileFrameX + 64, (j * 16) - Framing.GetTileSafely(i, j).TileFrameY, ModContent.NPCType<HydrosCutsceneManager>());
+                        int manager = NPC.NewNPC(new Terraria.DataStructures.EntitySource_TileBreak(i, j), (i * 16) - Framing.GetTileSafely(i, j).TileFrameX + 64, (j * 16) - Framing.GetTileSafely(i, j).TileFrameY, ModContent.NPCType<HydrosCutsceneManager>());
                         (Main.npc[manager].ModNPC as HydrosCutsceneManager).frames = frames;
                         (Main.npc[manager].ModNPC as HydrosCutsceneManager).positions = positions;
                         (Main.npc[manager].ModNPC as HydrosCutsceneManager).frameCounter = frameCounter;

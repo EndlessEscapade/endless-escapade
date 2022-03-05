@@ -83,7 +83,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             if (swordsActive < 9 && Main.rand.NextBool())
             {
                 float angle = (float)(swordsActive * 0.7f);
-                swordArray[swordsActive] = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_Item(player, Item), target.position, Vector2.Zero, ModContent.ProjectileType<PrismDagger>(), damage2, 0, player.whoAmI, angle);
+                swordArray[swordsActive] = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), target.position, Vector2.Zero, ModContent.ProjectileType<PrismDagger>(), damage2, 0, player.whoAmI, angle);
                 swordsActive++;
             }
         }

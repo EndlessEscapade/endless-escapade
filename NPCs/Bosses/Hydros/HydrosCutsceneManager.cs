@@ -115,7 +115,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
                 if (ticks == 239)
                 {
-                    int lightningproj = Projectile.NewProjectile(new ProjectileSource_NPC(NPC), new Vector2(NPC.position.X - 64 + 12, NPC.position.Y + 12) + phase2Orig + new Vector2(0, -Main.screenHeight / 2f), Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
+                    int lightningproj = Projectile.NewProjectile(new EntitySource_Parent(NPC), new Vector2(NPC.position.X - 64 + 12, NPC.position.Y + 12) + phase2Orig + new Vector2(0, -Main.screenHeight / 2f), Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
 
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -133,7 +133,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
                 if (ticks == 248)
                 {
-                    NPC.NewNPC((int)phase2Orig.X + (int)NPC.position.X - 64 + 12, (int)phase2Orig.Y + (int)NPC.position.Y + 12 + (162 / 2), ModContent.NPCType<Hydros>());
+                    NPC.NewNPC(new Terraria.DataStructures.EntitySource_Parent(NPC), (int)phase2Orig.X + (int)NPC.position.X - 64 + 12, (int)phase2Orig.Y + (int)NPC.position.Y + 12 + (162 / 2), ModContent.NPCType<Hydros>());
 
                     Gore.NewGore(phase2Orig + NPC.position + new Vector2(-64, 0), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), ModContent.GoreType<LythenGore1>());
                     Gore.NewGore(phase2Orig + NPC.position + new Vector2(-64 + 12, 0), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), ModContent.GoreType<LythenGore2>());

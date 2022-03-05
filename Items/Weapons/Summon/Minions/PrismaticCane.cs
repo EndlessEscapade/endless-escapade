@@ -44,13 +44,13 @@ namespace EEMod.Items.Weapons.Summon.Minions
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        Projectile proj = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<PrismaticCaneProj>(), 10, 0f, Main.myPlayer);
+                        Projectile proj = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<PrismaticCaneProj>(), 10, 0f, Main.myPlayer);
                         proj.ai[1] = i;
                     }
                 }
                 else
                 {
-                    Projectile proj = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<PrismaticCaneProj>(), 10, 0f, Main.myPlayer);
+                    Projectile proj = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<PrismaticCaneProj>(), 10, 0f, Main.myPlayer);
                     proj.ai[1] = Main.LocalPlayer.ownedProjectileCounts[Item.shoot];
                 }
             }

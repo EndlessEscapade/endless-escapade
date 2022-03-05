@@ -55,7 +55,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
             NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
             NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
-            BossBag = ItemType<HydrosBag>();
+            //NPC.Expert = ItemType<HydrosBag>();
             NPC.width = 314;
             NPC.height = 162;
 
@@ -96,7 +96,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
             if(NPC.ai[0] == 60)
             {
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, new Vector2(0, 0), ModContent.ProjectileType<TeslaBall>(), 0, 0f);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, new Vector2(0, 0), ModContent.ProjectileType<TeslaBall>(), 0, 0f);
             }
         }
 
@@ -206,11 +206,11 @@ namespace EEMod.NPCs.Bosses.Hydros
                 switch (randVal)
                 {
                     case 1:
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<CyanoburstTome>(), 1);
+                        Item.NewItem(null, (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<CyanoburstTome>(), 1);
                         break;
 
                     case 2:
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<Triggerfish>(), 1);
+                        Item.NewItem(null, (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<Triggerfish>(), 1);
                         break;
 
                     case 3:
@@ -218,15 +218,15 @@ namespace EEMod.NPCs.Bosses.Hydros
                         break;
 
                     case 4:
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<EnchantedCoral>(), 1);
+                        Item.NewItem(null, (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<EnchantedCoral>(), 1);
                         break;
                 }
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
+                Item.NewItem(null, (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
             }
-            else
-            {
-                NPC.DropBossBags();
-            }
+            //else
+            //{
+            //    NPC.B();
+            //}
         }
 
         public void ApplyIntroShader(float lerpVal, Vector2 scale, Vector2 offset, Vector2 timeMultiplier, bool invert = false, float alpha = 1f)

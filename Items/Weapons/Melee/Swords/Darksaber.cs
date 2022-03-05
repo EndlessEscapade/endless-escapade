@@ -78,12 +78,12 @@ namespace EEMod.Items.Weapons.Melee.Swords
             if (player.altFunctionUse == 2)
             {
                 Item.autoReuse = true;
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<DarksaberHiltShort>(), 10, 0f, player.whoAmI, 0);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<DarksaberHiltShort>(), 10, 0f, player.whoAmI, 0);
             }
             else
             {
                 Item.autoReuse = true;
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<DarksaberHilt>(), 10, 0f, player.whoAmI, 0);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<DarksaberHilt>(), 10, 0f, player.whoAmI, 0);
             }
 
             //PlayDarksaberSound();

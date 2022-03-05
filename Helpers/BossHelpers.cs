@@ -353,7 +353,7 @@ namespace EEMod
             {
                 if (Main.rand.NextBool(drop.DropChance))
                 {
-                    Item.NewItem(position, randomBox, drop.ItemType, drop.StackSize);
+                    Item.NewItem(new Terraria.DataStructures.EntitySource_WorldEvent(), position, randomBox, drop.ItemType, drop.StackSize);
                 }
             }
         }

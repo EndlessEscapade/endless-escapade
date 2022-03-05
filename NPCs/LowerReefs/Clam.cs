@@ -5,14 +5,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.NPCs
+namespace EEMod.NPCs.LowerReefs
 {
-    public class BombFish : EENPC
+    public class Clam : EENPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bomb Fish");
-            Main.npcFrameCount[NPC.type] = 16;
+            DisplayName.SetDefault("Clam");
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
@@ -23,16 +23,16 @@ namespace EEMod.NPCs
             NPC.damage = 13;
             NPC.defense = 3;
 
-            NPC.width = 40;
-            NPC.height = 30;
-            NPC.noGravity = true;
+            NPC.width = 84;
+            NPC.height = 53;
+            // NPC.noGravity = false;
             NPC.knockBackResist = 0f;
-            NPC.noTileCollide = true;
+
             NPC.npcSlots = 1f;
             NPC.buffImmune[BuffID.Confused] = true;
             // NPC.lavaImmune = false;
-            Banner = NPC.type;
-            //bannerItem = ModContent.ItemType<ClamBanner>();
+            BannerItem = NPC.type;
+            //bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
             NPC.value = Item.sellPrice(0, 0, 0, 75);
         }
 
@@ -49,15 +49,15 @@ namespace EEMod.NPCs
             int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
             int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
 
-            Helpers.Clamp(ref minTilePosX, 0, Main.maxTilesX);
-            Helpers.Clamp(ref minTilePosY, 0, Main.maxTilesY);
+            Helpers.Clamp(ref maxTilePosX, 0, Main.maxTilesX);
+            Helpers.Clamp(ref maxTilePosY, 0, Main.maxTilesY);
 
             for (int i = minTilePosX; i < maxTilePosX; ++i)
             {
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (!tile.HasTile is true && (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType] && tile.TileFrameY == 0))
+                    if (tile.HasTile is true && (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType] && tile.TileFrameY == 0))
                     {
                         tilePos.X = i * 16f;
                         tilePos.Y = j * 16f;
@@ -72,61 +72,58 @@ namespace EEMod.NPCs
             return false;
         }
 
-        private Vector2 playerPosition;
-        private Vector2 speed;
-
         public override void AI()
         {
-            NPC.rotation = NPC.velocity.ToRotation() + MathHelper.Pi;
-            NPC.TargetClosest(true);
             Player player = Main.player[NPC.target];
-            NPC.ai[1]++;
-
-            if (NPC.ai[2] == 0)
+            float yChange = NPC.Center.Y - player.Center.Y;
+            if (NPC.WithinRange(player.Center, 200))
             {
-                if (NPC.ai[1] % 180 == 1 && Main.rand.Next(2) == 0)
-                {
-                    speed = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
-                }
-                NPC.velocity.X += (speed.X - NPC.velocity.X) / 16f;
-                NPC.velocity.Y += (speed.Y - NPC.velocity.Y) / 16f;
-                if (NPC.WithinRange(player.Center, 300))
-                {
-                    NPC.ai[2] = 1;
-                    NPC.ai[0] = 0;
-                }
+                NPC.ai[2] = 1;
             }
+
+            NPC.TargetClosest(true);
             if (NPC.ai[2] == 1)
             {
-                NPC.ai[0]++;
-                if (NPC.ai[0] < 120)
+                if (player.Center.X - NPC.Center.X > 0)
                 {
-                    NPC.velocity += new Vector2((float)Math.Sin(NPC.ai[0] / 10f) * 0.5f, -(float)Math.Cos(NPC.ai[0] / 10f) * 0.5f);
-                    playerPosition = player.Center;
+                    NPC.spriteDirection = 1;
                 }
-                else if (NPC.ai[0] < 128)
+                else
                 {
-                    NPC.velocity += (playerPosition - NPC.Center) / 500f;
+                    NPC.spriteDirection = -1;
                 }
-                if (NPC.ai[0] > 128)
+
+                if (NPC.ai[0] % 200 == 0 && NPC.ai[1] == 0 && NPC.ai[0] != 0)
                 {
-                    NPC.velocity *= 0.98f;
+                    NPC.velocity.X += 10 * NPC.spriteDirection;
+                    NPC.velocity.Y -= 10 * (1 + yChange / 500);
+                    NPC.ai[1] = 1;
                 }
-                if (NPC.ai[0] >= 200)
+                if (CheckIfEntityOnGround(NPC))
                 {
-                    NPC.ai[2] = 0;
-                    NPC.ai[0] = 0;
+                    if (NPC.velocity.Y == 0)
+                    {
+                        NPC.velocity.X = 0;
+                        NPC.ai[1] = 0;
+                    }
+                    NPC.ai[0]++;
                 }
+
+                NPC.velocity *= .98f;
             }
         }
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.ai[2] == 1)
+            {
+                NPC.frame.Y = frameHeight;
+            }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("NPCs/CoralReefs/BombFishGlow").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("NPCs/CoralReefs/ClamGlow").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }

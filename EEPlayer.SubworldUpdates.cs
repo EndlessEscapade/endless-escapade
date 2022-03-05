@@ -96,7 +96,7 @@ namespace EEMod
 
             if (!Player.GetModPlayer<EEPlayer>().arrowFlag)
             {
-                NPC.NewNPC((int)(CoralReefs.SpirePosition.X * 16), (int)(CoralReefs.SpirePosition.Y * 16), NPCType<AquamarineSpire>());
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_Parent(Player), (int)(CoralReefs.SpirePosition.X * 16), (int)(CoralReefs.SpirePosition.Y * 16), NPCType<AquamarineSpire>());
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
@@ -154,7 +154,7 @@ namespace EEMod
         {
             if (!placedShipTether && !boatPlaced)
             {
-                tetherProj = Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<TileExperimentation>()),
+                tetherProj = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<TileExperimentation>()),
                     shipCoords * 16, Vector2.Zero, ModContent.ProjectileType<TileExperimentation>(), 0, 0f);
 
                 TileExperimentation tether = (Main.projectile[tetherProj].ModProjectile as TileExperimentation);
@@ -162,7 +162,7 @@ namespace EEMod
                 tether.pos1 = (shipCoords * 16) + (new Vector2(43, 2) * 16) + new Vector2(8, 12);
                 tether.pos2 = (shipCoords * 16) + (new Vector2(56, 9) * 16) + new Vector2(8, 8);
 
-                sailProj = Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<TornSails>()), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
+                sailProj = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<TornSails>()), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
                     Vector2.Zero, ModContent.ProjectileType<TornSails>(), 0, 0);
 
                 placedShipTether = true;

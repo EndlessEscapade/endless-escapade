@@ -14,7 +14,7 @@ namespace EEMod
     {
         public virtual bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            return Shoot(player, new ProjectileSource_Item_WithAmmo(player, Item, Item.useAmmo), position, new Vector2(speedX, speedY), type, damage, knockBack);
+            return Shoot(player, new EntitySource_ItemUse_WithAmmo(player, Item, Item.useAmmo), position, new Vector2(speedX, speedY), type, damage, knockBack);
         }
 
         public virtual void HoldStyle(Player player)

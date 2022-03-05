@@ -64,7 +64,7 @@ namespace EEMod.NPCs.LowerReefs
                 NPC.ai[2]++;
                 if (NPC.ai[2] >= 2)
                 {
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, Vector2.Normalize(target.Center - NPC.Center) * 6, ModContent.ProjectileType<BlueRing>(), NPC.damage, 0f);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, Vector2.Normalize(target.Center - NPC.Center) * 6, ModContent.ProjectileType<BlueRing>(), NPC.damage, 0f);
                     NPC.ai[2] = 0;
                 }
 

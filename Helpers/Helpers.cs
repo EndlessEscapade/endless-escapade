@@ -643,7 +643,7 @@ namespace EEMod
 
                     projTrueRotation = distBetween.ToRotation() + rotDis;
 
-                    int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(projType), new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X), Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y)), Vector2.Zero, projType, 0, 0f, Main.myPlayer, 0, i);
+                    int proj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ByProjectileSourceId(projType), new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X), Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y)), Vector2.Zero, projType, 0, 0f, Main.myPlayer, 0, i);
                     Main.projectile[proj].rotation = projTrueRotation;
                     
                     if (misckeep % 3 == 0)

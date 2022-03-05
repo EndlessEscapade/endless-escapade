@@ -38,7 +38,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), target.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * new Vector2(8, 0), ModContent.ProjectileType<BubbleStrikerProj>(), Item.damage, Item.knockBack, player.whoAmI, target.whoAmI).scale = Main.rand.NextFloat(0.85f, 1.15f);
+				Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), target.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * new Vector2(8, 0), ModContent.ProjectileType<BubbleStrikerProj>(), Item.damage, Item.knockBack, player.whoAmI, target.whoAmI).scale = Main.rand.NextFloat(0.85f, 1.15f);
 			}
 		}
 	}

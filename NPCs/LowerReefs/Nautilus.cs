@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.NPCs
+namespace EEMod.NPCs.LowerReefs
 {
     internal class Nautilus : EENPC
     {

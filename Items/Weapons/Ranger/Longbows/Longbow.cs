@@ -41,7 +41,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
                 Vector2 comedy = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
                 for (float i = 0; i < projCount; i++)
                 {
-                    Projectile projectile2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), projOwner.Center, comedy.RotatedBy(-(projCount / 2) + i) / Max * speed, newProj, 10, 10f, Main.myPlayer);
+                    Projectile projectile2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(Projectile), projOwner.Center, comedy.RotatedBy(-(projCount / 2) + i) / Max * speed, newProj, 10, 10f, Main.myPlayer);
                 }
             }
             if (Math.Abs(gravAccel - minGrav) < 0.3f && !vanillaFlag)

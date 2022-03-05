@@ -295,7 +295,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             float rotation = (float)Math.Atan2(vector8.Y - (player.position.Y + (player.height * 0.5f)), vector8.X - (player.position.X + (player.width * 0.5f)));
             if (NPC.ai[0] % 5 == 0)
             {
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), vector8.X + DisX, vector8.Y - 1200, (float)(Math.Cos(rotation) * Speed * -1), (float)(Math.Sin(rotation) * Speed * -1), type, damage, 0f, 0);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), vector8.X + DisX, vector8.Y - 1200, (float)(Math.Cos(rotation) * Speed * -1), (float)(Math.Sin(rotation) * Speed * -1), type, damage, 0f, 0);
             }
         }
 

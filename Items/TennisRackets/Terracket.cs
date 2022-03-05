@@ -45,7 +45,7 @@ namespace EEMod.Items.TennisRackets
         {
             if (player.controlUseItem && yeet == 0 && Main.myPlayer == player.whoAmI)
             {
-                proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<TerracketProj>(), 0, 0f, player.whoAmI);
+                proj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<TerracketProj>(), 0, 0f, player.whoAmI);
                 yeet = 1;
                 Main.projectile[proj].netUpdate = true;
             }

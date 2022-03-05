@@ -58,7 +58,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    int lightningproj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TeslaCoralProj>(), 20, 3f);
+                    int lightningproj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TeslaCoralProj>(), 20, 3f);
 
                     if (Main.netMode != NetmodeID.Server)
                     {

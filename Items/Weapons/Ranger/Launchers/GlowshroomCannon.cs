@@ -72,7 +72,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
 
             if (Projectile.ai[0] == 0)
             {
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), owner.Center + new Vector2(owner.direction * 24, -16), new Vector2(Projectile.spriteDirection * 3, -12f) + owner.velocity, ModContent.ProjectileType<GlowshroomCannonProj>(), Projectile.damage, Projectile.knockBack);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), owner.Center + new Vector2(owner.direction * 24, -16), new Vector2(Projectile.spriteDirection * 3, -12f) + owner.velocity, ModContent.ProjectileType<GlowshroomCannonProj>(), Projectile.damage, Projectile.knockBack);
                 Projectile.ai[0]++;
             }
         }

@@ -30,9 +30,9 @@ namespace EEMod.Subworlds
 {
     public class GoblinFort : Subworld
     {
-        public override Point Dimensions => new Point(800, 800);
+        public override Point Dimensions => new Point(1600, 800);
 
-        public override Point SpawnTile => new Point(710 + 12, 245 + 25);
+        public override Point SpawnTile => new Point(1600 + 12, 245 + 25);
 
         public override int surfaceLevel => 500;
 
@@ -47,7 +47,7 @@ namespace EEMod.Subworlds
 
             //Base island generation
             #region Island terrain generation
-            FillRegion(800, 475, new Vector2(0, 325), TileID.Stone);
+            FillRegion(1600, 475, new Vector2(0, 325), TileID.Stone);
 
             for(int i = 0; i < 150; i++)
             {
@@ -63,13 +63,13 @@ namespace EEMod.Subworlds
             //FillRegion(500, 75, new Vector2(150, 275), TileID.Dirt);
 
             int elevation = 275;
-            int thresh1 = WorldGen.genRand.Next(200, 250);
-            int thresh2 = WorldGen.genRand.Next(300, 350);
-            int slope = WorldGen.genRand.Next(8, 13);
+            int thresh1 = WorldGen.genRand.Next(300, 350);
+            int thresh2 = WorldGen.genRand.Next(650, 700);
+            int slope = WorldGen.genRand.Next(15, 26);
             bool slopingFast = false;
             int initSlope = 0;
 
-            for (int i = 150; i <= 400; i++)
+            for (int i = 150; i <= 800; i++)
             {
                 //if (elevation < 200) break;
 
@@ -116,18 +116,18 @@ namespace EEMod.Subworlds
 
             int peakElevation = elevation;
 
-            thresh1 = WorldGen.genRand.Next(200, 250);
-            thresh2 = WorldGen.genRand.Next(300, 350);
+            thresh1 = WorldGen.genRand.Next(300, 350);
+            thresh2 = WorldGen.genRand.Next(650, 700);
             slope = WorldGen.genRand.Next(16, 22);
             slopingFast = false;
 
-            for (int i = 401; i <= 650; i++)
+            for (int i = 801; i <= 1600 - 150; i++)
             {
                 //if (elevation < 200) break;
 
                 Debug.WriteLine(i);
 
-                if ((i == (800 - thresh1) || i == (800 - thresh2)) && !slopingFast)
+                if ((i == (1600 - thresh1) || i == (1600 - thresh2)) && !slopingFast)
                 {
                     slopingFast = true;
                     slope = WorldGen.genRand.Next(12, 15);
@@ -146,7 +146,7 @@ namespace EEMod.Subworlds
                     if (slope <= 0)
                     {
                         slopingFast = false;
-                        slope = (i < (800 - thresh2) ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(16, 22));
+                        slope = (i < (1600 - thresh2) ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(15, 26));
                     }
                 }
 
@@ -159,7 +159,7 @@ namespace EEMod.Subworlds
                     {
                         if (j - elevation < rockLayer)
                         {
-                            if(i >= 640) WorldGen.PlaceTile(i, j, TileID.Sand);
+                            if(i >= 1600 - 160) WorldGen.PlaceTile(i, j, TileID.Sand);
                             else WorldGen.PlaceTile(i, j, TileID.Dirt);
                         }
                         else
@@ -168,7 +168,7 @@ namespace EEMod.Subworlds
                 }
             }
 
-            for(int i = 150; i < 650; i++)
+            for(int i = 150; i < 1600 - 150; i++)
             {
                 for(int j = peakElevation - 1; j < peakElevation + 3; j++)
                 {
@@ -179,7 +179,7 @@ namespace EEMod.Subworlds
             PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction(2000, 2000, 10, 10, 0.2f);
             int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
 
-            for (int i = 150; i < 650; i++)
+            for (int i = 150; i < 1600 - 150; i++)
             {
                 for (int j = 100; j < 300; j++)
                 {
@@ -204,19 +204,19 @@ namespace EEMod.Subworlds
                 {
                     if (j < (((i / 21f) * (i / 21f)) + 10f))
                     {
-                        WorldGen.PlaceTile((799 - i) + 0, (50 - j) + 274, TileID.Sand);
+                        WorldGen.PlaceTile((1599 - i) + 0, (50 - j) + 274, TileID.Sand);
                     }
                 }
             }
 
-            FillRegionWithWater(800, 50, new Vector2(0, 276));
+            FillRegionWithWater(1600, 50, new Vector2(0, 276));
             #endregion
 
 
 
             //Foliage generation
             #region Foliage generation
-            for (int i = 150; i < 650; i++)
+            for (int i = 150; i < 1600 - 150; i++)
             {
                 for (int j = 100; j < 280; j++)
                 {
@@ -232,7 +232,7 @@ namespace EEMod.Subworlds
                 }
             }
 
-            for (int i = 150; i < 650; i++)
+            for (int i = 150; i < 1600 - 150; i++)
             {
                 for (int j = 100; j < 280; j++)
                 {
@@ -243,7 +243,7 @@ namespace EEMod.Subworlds
                 }
             }
 
-            for (int i = 0; i < 800; i++)
+            for (int i = 0; i < 1600; i++)
             {
                 for (int j = 250; j < 400; j++)
                 {
@@ -346,9 +346,9 @@ namespace EEMod.Subworlds
             #region Structure generation
 
             //Placing player boat
-            BuildBoat(710, 245);
+            BuildBoat(1600 - 90, 245);
 
-            for (int i = 710; i < 710 + 45; i++)
+            for (int i = 1600 - 90; i < 1600 - 90 + 45; i++)
             {
                 for (int j = 250; j < 250 + 40; j++)
                 {
@@ -421,7 +421,7 @@ namespace EEMod.Subworlds
 
             spawnedEnemies = false;
 
-            Main.spawnTileX = 710 + 12;
+            Main.spawnTileX = 1600 - 90 + 12;
             Main.spawnTileY = 245 + 25;
         }
 
@@ -432,9 +432,9 @@ namespace EEMod.Subworlds
             {
                 player.position = new Vector2(SpawnTile.X * 16, SpawnTile.Y * 16);
 
-                NPC.NewNPC(400 * 16, TileCheck(400, TileID.Grass) * 16 - 40, ModContent.NPCType<GoblinBerserker>());
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), 400 * 16, TileCheck(400, TileID.Grass) * 16 - 40, ModContent.NPCType<GoblinBerserker>());
 
-                NPC.NewNPC(410 * 16, TileCheck(410, TileID.Grass) * 16 - 40, ModContent.NPCType<GoblinWatchman>());
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), 410 * 16, TileCheck(410, TileID.Grass) * 16 - 40, ModContent.NPCType<GoblinWatchman>());
 
                 spawnedEnemies = true;
             }

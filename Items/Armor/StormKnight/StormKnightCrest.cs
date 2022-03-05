@@ -79,7 +79,7 @@ namespace EEMod.Items.Armor.StormKnight
                     {
                         NPC npc = Main.npc[test];
 
-                        int ballfart = Projectile.NewProjectile(new ProjectileSource_Item(Player, item), Player.Center, Vector2.Normalize(npc.Center - Player.Center) * 15f, ModContent.ProjectileType<AxeLightning>(), (int)(item.damage * 0.25f), 2.5f);
+                        int ballfart = Projectile.NewProjectile(new EntitySource_ItemUse(Player, item), Player.Center, Vector2.Normalize(npc.Center - Player.Center) * 15f, ModContent.ProjectileType<AxeLightning>(), (int)(item.damage * 0.25f), 2.5f);
                         if (Main.netMode != NetmodeID.Server)
                         {
                             PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[ballfart], 4, 0.75f));

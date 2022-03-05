@@ -98,7 +98,7 @@ namespace EEMod.Projectiles.CoralReefs
 
             if(Projectile.alpha >= 255)
             {
-                targetPlayer.QuickSpawnItem((int)Projectile.ai[0]);
+                targetPlayer.QuickSpawnItem(new Terraria.DataStructures.EntitySource_Parent(targetPlayer), (int)Projectile.ai[0]);
 
                 Projectile.Kill();
             }

@@ -51,7 +51,7 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
                 type = ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>();
                 Item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>();
             }
-            Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             return false;
         }
 

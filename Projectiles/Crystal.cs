@@ -54,7 +54,7 @@ namespace EEMod.Projectiles
                 float speedY = -(Projectile.velocity.Y * Main.rand.Next(30) * 0.01f + Main.rand.NextFloat(-12f, 12.1f));
                 if (projHolder == 0 || projHolder == 1)
                 {
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center.X + speedX, Projectile.Center.Y + speedY, speedX * 1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(Projectile.damage * 0.7), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center.X + speedX, Projectile.Center.Y + speedY, speedX * 1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(Projectile.damage * 0.7), 0f, Projectile.owner, 0f, 0f);
                 }
 
                 SoundEngine.PlaySound(SoundID.Item27, Projectile.position);

@@ -38,7 +38,7 @@ namespace EEMod.Projectiles.Runes
             Projectile.ai[1]++;
             if (Projectile.ai[1] >= 120)
             {
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersBubbleSmall>(), 0, 0, Owner: Main.myPlayer);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersBubbleSmall>(), 0, 0, Owner: Main.myPlayer);
                 Projectile.ai[1] = 0;
             }
         }

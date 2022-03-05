@@ -34,6 +34,7 @@ namespace EEMod.Prim
 
             behindTiles = false;
             ManualDraw = false;
+            pixelated = true;
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)

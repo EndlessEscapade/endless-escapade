@@ -39,7 +39,7 @@ namespace EEMod.NPCs.Goblins
                npc.type == ModContent.NPCType<PercussionBard>() ||
                npc.type == ModContent.NPCType<GoblinBerserker>())
             {
-                int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(npc), npc.Center, Vector2.Zero, ModContent.ProjectileType<GoblinDeathBolt>(), 0, 0);
+                int proj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(npc), npc.Center, Vector2.Zero, ModContent.ProjectileType<GoblinDeathBolt>(), 0, 0);
 
                 PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.projectile[proj], Color.Violet, 6));
 

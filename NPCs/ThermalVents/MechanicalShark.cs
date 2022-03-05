@@ -68,7 +68,7 @@ namespace EEMod.NPCs.ThermalVents
                 NPC.ai[2]++;
                 if (NPC.ai[2] >= 60)
                 {
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<MechanicalMissile>(), 120, 5f);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<MechanicalMissile>(), 120, 5f);
                     NPC.ai[2] = 0;
                 }
                 NPC.velocity = Vector2.Normalize(Main.player[NPC.target].position - NPC.Center) * 2;

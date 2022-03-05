@@ -45,7 +45,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
             if (chargeTime <= 0)
             {
                 chargeTime = 120;
-                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_Item(player, Item), position, new Vector2(speedX, speedY), ModContent.ProjectileType<DalantiniumSpike>(), damage, knockBack);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), position, new Vector2(speedX, speedY), ModContent.ProjectileType<DalantiniumSpike>(), damage, knockBack);
             }
             return false;
         }

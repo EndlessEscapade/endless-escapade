@@ -160,7 +160,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
                     tiles[2, 2] == 9 && !sussy)
                 {
                     sussy = true;
-                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) + 72, (j * 16) + 72), new Vector2(0, -2f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) + 72, (j * 16) + 72), new Vector2(0, -2f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f);
                 }
             }
         }

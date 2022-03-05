@@ -9,7 +9,6 @@ namespace EEMod.EEWorld.ModBiomes
 {
 	public class SurfaceReefs : ModBiome
 	{
-		public override bool IsPrimaryBiome => true;
 		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("EEMod/CoralWaterStyle"); // Sets a water style for when inside this biome
 
 		//public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("EEMod/");

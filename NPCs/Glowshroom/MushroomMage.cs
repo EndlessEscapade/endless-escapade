@@ -42,7 +42,7 @@ namespace EEMod.NPCs.Glowshroom
 
             if(NPC.ai[0] % 60 == 0)
             {
-                Projectile.NewProjectile(new ProjectileSource_NPC(NPC), NPC.Center, new Vector2(0, -4), ModContent.ProjectileType<MushroomBall>(), 0, 0f);
+                Projectile.NewProjectile(new EntitySource_Parent(NPC), NPC.Center, new Vector2(0, -4), ModContent.ProjectileType<MushroomBall>(), 0, 0f);
             }
         }
 
