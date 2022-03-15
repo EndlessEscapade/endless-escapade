@@ -23,7 +23,9 @@ namespace EEMod.Prim
         public Vector2 controlPoint;
         public Vector2 endPoint;
 
-        public ShadowflameCampfirePrims(Color _color, Vector2 start, Vector2 cp1, Vector2 end, int width = 40, int cap = 10, bool additive = false) : base(null)
+        public float rot;
+
+        public ShadowflameCampfirePrims(Color _color, Vector2 start, Vector2 cp1, Vector2 end, int width = 40, int cap = 10, bool additive = false, float sineValue = 3f) : base(null)
         {
             startPoint = start;
             controlPoint = cp1;
@@ -33,11 +35,15 @@ namespace EEMod.Prim
             color = _color;
             _cap = cap;
 
+            sinValue = sineValue;
+
             _additive = additive;
 
             if (_additive) Alpha = 0.2f;
             else Alpha = 0.8f;
         }
+
+        public float sinValue;
 
         private Color color;
         public override void SetDefaults()
@@ -79,8 +85,8 @@ namespace EEMod.Prim
             {
                 widthVar = ((i) / (float)_points.Count) * _width;
 
-                Vector2 normal = -Vector2.UnitX;
-                Vector2 normalAhead = -Vector2.UnitX;
+                Vector2 normal = -Vector2.UnitX.RotatedBy(rot / 1.5f);
+                Vector2 normalAhead = -Vector2.UnitX.RotatedBy(rot / 1.5f);
 
                 float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
                 widthVar *= j;
@@ -152,7 +158,7 @@ namespace EEMod.Prim
 
                 Vector2 lerpFinal = Vector2.Lerp(lerp1, lerp2, 1 - (i / (float)_cap));
 
-                _points.Add(lerpFinal + (Vector2.UnitX * 3f * (float)Math.Sin((_counter / 60f) + (i / 4f))));
+                _points.Add(lerpFinal + (Vector2.UnitX.RotatedBy(rot) * sinValue * (float)Math.Sin((_counter / 60f) + (i / 4f))));
             }
         }
 

@@ -345,6 +345,8 @@ namespace EEMod.Subworlds
             //Structure generation
             #region Structure generation
 
+            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/goblinhall.lcs")).PlaceAt(800 - 58, TileCheck(800 - 58, TileID.Grass) - 46, false, false);
+
             //Placing player boat
             BuildBoat(1600 - 90, 245);
 
