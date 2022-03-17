@@ -73,10 +73,10 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             {
                 if (NPC.ai[0] == 0)
                 {
-                    NPC.ai[1] = 2004 * 16;
-                    NPC.ai[2] = 194 * 16;
+                    NPC.ai[1] = 2001 * 16;
+                    NPC.ai[2] = 191 * 16;
 
-                    myRoom = new Rectangle((int)NPC.ai[1] + (3 * 16), (int)NPC.ai[2] + (7 * 16), 112 * 16, 36 * 16);
+                    myRoom = new Rectangle((int)NPC.ai[1] + (3 * 16), (int)NPC.ai[2] + (7 * 16), 112 * 16, 33 * 16);
 
                     NPC.Center = myRoom.Center.ToVector2() + new Vector2(128, 128);
 
@@ -241,17 +241,53 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         if (myWizard.NPC.ai[1] == 40)
                         {
-
+                            NPC.Center = myRoom.Center.ToVector2();
                         }
 
-                        if (myWizard.NPC.ai[1] < 80)
+                        else if (myWizard.NPC.ai[1] < 80)
                         {
-                            if (teleportFloat < 1) teleportFloat += 1 / 40f;
+                            if (teleportFloat > 0) teleportFloat -= 1 / 40f;
                         }
+
+                        else if (myWizard.NPC.ai[1] < 80 + 360)
+                        {
+                            if ((myWizard.NPC.ai[1] - 80) % 120 == 0)
+                            {
+                                if (mingus)
+                                {
+                                    for (int i = 0; i < 9; i++)
+                                    {
+                                        float xVal = (-60 + (i / 10f) * (60 - -60));
+
+                                        Vector2 pos = myRoom.Center.ToVector2() + new Vector2((xVal * 16) + (6 * 16) + (6 * 16), 13 * 16);
+
+                                        Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), pos, Vector2.Zero, ModContent.ProjectileType<FlameColumn>(), 0, 0);
+                                    }
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        float xVal = (-60 + (i / 10f) * (60 - -60));
+
+                                        Vector2 pos = myRoom.Center.ToVector2() + new Vector2((xVal * 16) + (3 * 16), 13 * 16);
+
+                                        Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), pos, Vector2.Zero, ModContent.ProjectileType<FlameColumn>(), 0, 0);
+                                    }
+                                }
+
+
+                                mingus = !mingus;
+                            }
+                        }
+
+
                         break;
                 }
             }
         }
+
+        public bool mingus;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

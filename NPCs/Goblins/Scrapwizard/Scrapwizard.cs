@@ -168,7 +168,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             //next attack
                             else
                             {
-                                currentAttack = Main.rand.Next(5);
+                                currentAttack = Main.rand.Next(6);
                                 NPC.ai[1] = 0;
 
                                 myGuard.frameY = 0;
@@ -207,7 +207,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                     myGuard.NPC.velocity = Vector2.Zero;
                                     myGuard.frameY = 0;
 
-                                    currentAttack = Main.rand.Next(5);
+                                    currentAttack = Main.rand.Next(6);
                                     NPC.ai[1] = 0;
                                 }
                             }
@@ -225,7 +225,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 myGuard.NPC.velocity = Vector2.Zero;
                                 myGuard.frameY = 0;
 
-                                currentAttack = Main.rand.Next(5);
+                                currentAttack = Main.rand.Next(6);
                                 NPC.ai[1] = 0;
                             }
 
@@ -249,7 +249,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 {
                                     myGuard.NPC.velocity = Vector2.Zero;
 
-                                    currentAttack = Main.rand.Next(5);
+                                    currentAttack = Main.rand.Next(6);
                                     NPC.ai[1] = 0;
                                 }
                             }
@@ -261,48 +261,96 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             //next attack
                             break;
                         case 4: //brute rapidly slices up and down towards the player, then slams his sword into the ground and gets stuck.
-                            if(NPC.ai[1] > 240)
+                            if(NPC.ai[1] > 200)
                             {
                                 myGuard.NPC.velocity = Vector2.Zero;
 
-                                currentAttack = Main.rand.Next(5);
+                                currentAttack = Main.rand.Next(6);
                                 NPC.ai[1] = 0;
 
                                 myGuard.frameY = 0;
                             }
                             break;
                         case 5: //throws up a shadowflame potion, brute breaks it on its sword, then shoots a temporary flame column at the player
+                            if (NPC.ai[1] > 80 + 360)
+                            {
+                                myGuard.NPC.velocity = Vector2.Zero;
+
+                                currentAttack = Main.rand.Next(6);
+                                NPC.ai[1] = 0;
+
+                                myGuard.frameY = 0;
+                            }
                             break;
                     }
                 }
             }
             else //Phase 2
             {
-                NPC.dontTakeDamage = false;
-
-                NPC.velocity.Y += 0.48f; //Force of gravity
-
-                switch (currentAttack)
+                #region Initializing
+                if (!fightBegun)
                 {
-                    case 0: //turns all the chandelier flames but the one he's on into shadowflame, telegraph beams
-                        break;
-                    case 1: //animates a set of armor to briefly attack
-                        break;
-                    case 2: //throws down a few shadowflame potions that bounces twice and then explodes
-                        break;
-                    case 3: //casts a magic spell with a twirl of the wand and shoots bursts of three magic bolts
-                        break;
-                    case 4: //combines the chandelier flames into one big fireball each and casts them down with a meteor fashion towards the player
-                        break;
-                    case 5: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
-                        break;
+                    if (NPC.ai[1] < 40)
+                    {
+                        if (teleportFloat < 1) teleportFloat += 1 / 40f;
+                    }
+                    else if (NPC.ai[1] == 40)
+                    {
+                        NPC.Center = myRoom.Center.ToVector2();
+                    }
+                    else if (NPC.ai[1] < 80)
+                    {
+                        if (teleportFloat > 0) teleportFloat -= 1 / 40f;
+                    }
+                    else if (NPC.ai[1] == 100)
+                    {
+                        //TODO
+                        //Jump up to chandeliers instead of just starting the fight
+
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblincry1"));
+                    }
+                    else if (NPC.ai[1] >= 160)
+                    {
+                        fightBegun = true;
+                        NPC.ai[1] = 0;
+                        currentAttack = 0;
+                    }
+
+                    NPC.ai[1]++;
+                }
+                #endregion
+                else
+                {
+                    NPC.dontTakeDamage = false;
+
+                    NPC.velocity.Y += 0.48f; //Force of gravity
+
+                    switch (currentAttack)
+                    {
+                        case 0: //turns all the chandelier flames but the one he's on into shadowflame, telegraph beams
+                            break;
+                        case 1: //animates a set of armor to briefly attack
+                            break;
+                        case 2: //throws down a few shadowflame potions that bounces twice and then explodes
+                            break;
+                        case 3: //casts a magic spell with a twirl of the wand and shoots bursts of three magic bolts
+                            break;
+                        case 4: //combines the chandelier flames into one big fireball each and casts them down with a meteor fashion towards the player
+                            break;
+                        case 5: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
+                            break;
+                    }
                 }
             }
         }
+
+        public float teleportFloat;
         
         public void Trigger()
         {
+            NPC.ai[1] = 0;
             bruteDead = true;
+            fightBegun = false;
         }
 
         public void InitShader()
@@ -315,7 +363,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             EEMod.ShadowWarp.Parameters["noise"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
             EEMod.ShadowWarp.Parameters["newColor"].SetValue(new Vector4(Color.Violet.R, Color.Violet.G, Color.Violet.B, Color.Violet.A) / 255f);
-            EEMod.ShadowWarp.Parameters["lerpVal"].SetValue(1 - MathHelper.Clamp(myGuard.teleportFloat, 0f, 1f));
+            EEMod.ShadowWarp.Parameters["lerpVal"].SetValue(1 - MathHelper.Clamp((bruteDead ? teleportFloat : myGuard.teleportFloat), 0f, 1f));
             EEMod.ShadowWarp.Parameters["baseColor"].SetValue(new Vector4(Color.White.R, Color.White.G, Color.White.B, Color.White.A) / 255f);
 
             EEMod.ShadowWarp.CurrentTechnique.Passes[0].Apply();
@@ -343,6 +391,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardStaff").Value;
 
             spriteBatch.Draw(tex, NPC.Center - Main.screenPosition + new Vector2((NPC.spriteDirection == 1 ? -6 : 6), 0), null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+
+            //spriteBatch.Draw(tex, new Rectangle((int)myRoom.X - (int)Main.screenPosition.X, (int)myRoom.Y - (int)Main.screenPosition.Y, myRoom.Width, myRoom.Height), null, Color.White, 0f, Vector2.Zero, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
 
             Texture2D tex2 = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardArm").Value;
