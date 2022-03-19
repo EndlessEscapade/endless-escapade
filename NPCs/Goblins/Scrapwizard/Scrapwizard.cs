@@ -7,6 +7,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Tiles.Furniture.GoblinFort;
+using System.Collections.Generic;
 
 namespace EEMod.NPCs.Goblins.Scrapwizard
 {
@@ -56,6 +58,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public bool mountedOnBrute;
 
         public float initialPosX;
+
+        public List<Projectile> chandeliers;
 
         public override void AI()
         {
@@ -123,6 +127,16 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         NPC.velocity = Vector2.Zero;
                         currentAttack = 0;
                         myGuard.fightBegun = true;
+
+                        chandeliers = new List<Projectile>();
+
+                        for(int i = 0; i < Main.maxProjectiles; i++)
+                        {
+                            if(Main.projectile[i].type == ModContent.ProjectileType<GoblinChandelierLight>())
+                            {
+                                chandeliers.Add(Main.projectile[i]);
+                            }
+                        }
 
                         SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrr"));
                     }
@@ -290,30 +304,58 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 #region Initializing
                 if (!fightBegun)
                 {
+                    NPC.velocity.Y += 0.48f;
+
                     if (NPC.ai[1] < 40)
                     {
                         if (teleportFloat < 1) teleportFloat += 1 / 40f;
                     }
                     else if (NPC.ai[1] == 40)
                     {
-                        NPC.Center = myRoom.Center.ToVector2();
+                        NPC.Center = myRoom.Center.ToVector2() + new Vector2(0, 13 * 16);
                     }
                     else if (NPC.ai[1] < 80)
                     {
                         if (teleportFloat > 0) teleportFloat -= 1 / 40f;
                     }
+                    else if (NPC.ai[1] < 100) { }
                     else if (NPC.ai[1] == 100)
                     {
                         //TODO
                         //Jump up to chandeliers instead of just starting the fight
 
+                        float dist = 100000000;
+                        Projectile myProj = null;
+                        for(int i = 0; i < chandeliers.Count; i++)
+                        {
+                            if(Vector2.Distance(NPC.Center, chandeliers[i].Center) < dist)
+                            {
+                                dist = Vector2.Distance(NPC.Center, chandeliers[i].Center);
+                                myProj = chandeliers[i];
+                            }
+                        }
+
+                        NPC.ai[2] = myProj.whoAmI;
+
+                        NPC.velocity = new Vector2((myProj.Center.X - NPC.Center.X) / 60f, -22.2f);
+
                         SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblincry1"));
+                    }
+                    else if (NPC.ai[1] < 160)
+                    {
+                        NPC.rotation -= 0.25f;
                     }
                     else if (NPC.ai[1] >= 160)
                     {
                         fightBegun = true;
                         NPC.ai[1] = 0;
+                        NPC.ai[3] = 0;
                         currentAttack = 0;
+
+                        NPC.velocity.Y = 0;
+                        NPC.velocity.X = 0;
+
+                        NPC.rotation = 0f;
                     }
 
                     NPC.ai[1]++;
@@ -323,7 +365,9 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 {
                     NPC.dontTakeDamage = false;
 
-                    NPC.velocity.Y += 0.48f; //Force of gravity
+                    NPC.knockBackResist = 0f;
+
+                    //NPC.velocity.Y += 0.48f; //Force of gravity
 
                     switch (currentAttack)
                     {
@@ -340,11 +384,109 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         case 5: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
                             break;
                     }
+
+                    if (NPC.ai[3] % 310 == 0)
+                    {
+                        List<Projectile> potentialChandeliers = new List<Projectile>();
+
+                        foreach (Projectile chandelier in chandeliers)
+                        {
+                            if (Vector2.Distance(chandelier.Center, NPC.Center) < 20 * 16 && chandelier != Main.projectile[(int)NPC.ai[2]])
+                            {
+                                potentialChandeliers.Add(chandelier);
+                            }
+                        }
+
+                        potChandelier = potentialChandeliers[Main.rand.Next(0, potentialChandeliers.Count)];
+
+                        if(potChandelier.Center.X < Main.projectile[(int)NPC.ai[2]].Center.X)
+                        {
+                            nextToTheLeft = true;
+                        }
+                        else
+                        {
+                            nextToTheLeft = false;
+                        }
+
+                        if (NPC.velocity.X < 0)
+                        {
+                            NPC.ai[3] = 0;
+                        }
+                        else
+                        {
+                            NPC.ai[3] = 45;
+                        }
+                    }
+                    else if (NPC.ai[3] % 310 < 180) //Actively swinging on a chandelier
+                    {
+                        GoblinChandelierLight skrunkle = (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight);
+
+                        skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
+
+                        NPC.Center = skrunkle.anchorPos16 + 
+                            (Vector2.UnitY * skrunkle.chainLength / 1.5f)
+                            .RotatedBy(skrunkle.axisRotation);
+
+                        NPC.rotation = skrunkle.axisRotation;
+
+                        //HEY GOOD AFTERNOON :)
+                        //make swing time dependent on a random bool and being ready to swing to another chandelier instead of being on a preset timer - but have a cap
+                    }
+                    else if (NPC.ai[3] % 310 < 270) //Picking the next chandelier to swing to, and starting the jump
+                    {
+                        if ((nextToTheLeft && NPC.ai[3] == 180) || (!nextToTheLeft && NPC.ai[3] == 225))
+                        {
+                            //Ready to swing
+                            NPC.ai[2] = potChandelier.whoAmI;
+
+                            NPC.ai[3] = 270;
+
+                            NPC.velocity.X = (Main.projectile[(int)NPC.ai[2]].Center.X - NPC.Center.X) / 40f;
+                            NPC.velocity.Y = -2f;
+                        }
+                        else
+                        {
+                            GoblinChandelierLight skrunkle = (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight);
+
+                            skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
+
+                            NPC.Center = skrunkle.anchorPos16 +
+                                (Vector2.UnitY * MathHelper.Clamp(Vector2.Distance(skrunkle.anchorPos16, NPC.Center), 0f, skrunkle.chainLength / 1.5f))
+                                .RotatedBy(skrunkle.axisRotation);
+
+                            NPC.rotation = skrunkle.axisRotation;
+                        }
+                    }
+                    else if (NPC.ai[3] % 310 < 310) //In midair
+                    {
+                        NPC.velocity.Y += 2 / 20f;
+                        NPC.rotation += NPC.velocity.X / 10f;
+                        NPC.spriteDirection = (NPC.velocity.X < 0 ? -1 : 1);
+                    }
+
+                    foreach (Projectile chandelier in chandeliers)
+                    {
+                        if (chandelier != Main.projectile[(int)NPC.ai[2]])
+                        {
+                            (chandelier.ModProjectile as GoblinChandelierLight).axisRotation += ((0f - (chandelier.ModProjectile as GoblinChandelierLight).axisRotation) / 10f);
+                        }
+                    }
+
+                    NPC.ai[3]++;
+                    NPC.ai[1]++;
                 }
             }
         }
 
         public float teleportFloat;
+
+        public bool threeSwing;
+
+        public Projectile potChandelier;
+
+        public float swingDir;
+
+        public bool nextToTheLeft;
         
         public void Trigger()
         {

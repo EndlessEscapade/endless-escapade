@@ -171,8 +171,6 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
             Projectile.ai[0]++;
 
-            axisRotation = 0;
-
             Projectile.Center = anchorPos16 + (Vector2.UnitY.RotatedBy(axisRotation) * chainLength);
             Projectile.rotation = (anchorPos16 - Projectile.Center).ToRotation() + 1.57f;
 
