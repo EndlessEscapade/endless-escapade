@@ -15,7 +15,7 @@ using EEMod.Items.Weapons.Melee;
 
 namespace EEMod.Prim
 {
-    class ShadowflameCampfirePrims : Primitive
+    public class ShadowflameCampfirePrims : Primitive
     {
         public bool _additive;
 

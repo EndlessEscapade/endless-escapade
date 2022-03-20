@@ -12,6 +12,7 @@ using System.Collections.Generic;
 
 namespace EEMod.NPCs.Goblins.Scrapwizard
 {
+    [AutoloadBossHead]
     public class Scrapwizard : EENPC
     {
         public override void SetStaticDefaults()
@@ -41,6 +42,10 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             NPC.knockBackResist = 0.9f;
 
             NPC.noGravity = true;
+
+            NPC.boss = true;
+
+            NPC.BossBar = ModContent.GetInstance<ScrapwizardHealthBar>();
         }
 
         public GuardBrute myGuard;
@@ -60,6 +65,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public float initialPosX;
 
         public List<Projectile> chandeliers;
+
+        public float guardShield;
 
         public override void AI()
         {
@@ -298,6 +305,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             break;
                     }
                 }
+
+                guardShield = (float)myGuard.NPC.life / (float)myGuard.NPC.lifeMax;
             }
             else //Phase 2
             {
@@ -369,22 +378,107 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     //NPC.velocity.Y += 0.48f; //Force of gravity
 
+                    NPC.ai[1]++;
+
                     switch (currentAttack)
                     {
-                        case 0: //turns all the chandelier flames but the one he's on into shadowflame, telegraph beams
+                        case 0: //throws down a few shadowflame potions that bounces twice and then explodes
+                            if(NPC.ai[1] % 60 == 0)
+                            {
+                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, (Vector2.Normalize(target.Center - NPC.Center) * 6f), ModContent.ProjectileType<ShadowflameJarBounce>(), 0, 0);
+                            }
+
+                            if(NPC.ai[1] > 180)
+                            {
+                                currentAttack = Main.rand.Next(3);
+                                NPC.ai[1] = 0;
+                            }
                             break;
-                        case 1: //animates a set of armor to briefly attack
+                        case 1: //casts a magic spell with a twirl of the wand and shoots bursts of three magic bolts
+                            if ((NPC.ai[1] % 60) >= 20 && (NPC.ai[1] % 60) <= 40 && NPC.ai[1] % 10 == 0)
+                            {
+                                int newBolt = NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ScrapwizardHexBolt>(), 20, 2, Main.myPlayer);
+
+                                Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center)) * 4);
+
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.DarkViolet, 8, 12, true));
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.DarkViolet * 0.5f, 14, 12));
+                            }
+
+                            if (NPC.ai[1] > 180)
+                            {
+                                currentAttack = Main.rand.Next(3);
+                                NPC.ai[1] = 0;
+                            }
                             break;
-                        case 2: //throws down a few shadowflame potions that bounces twice and then explodes
+                        case 2: //turns all the chandelier flames but the one he's on into shadowflame, telegraph beams
+                            if (NPC.ai[1] % 100 == 1) 
+                            {
+                                List<Projectile> potChandeliers = new List<Projectile>();
+
+                                foreach(Projectile chandelier in chandeliers)
+                                {
+                                    if(Vector2.Distance(chandelier.Center, target.Center) <= 40 * 16)
+                                    {
+                                        potChandeliers.Add(chandelier);
+                                    }
+                                }
+
+                                attackChandelier = potChandeliers[Main.rand.Next(0, potChandeliers.Count)];
+                                attackVector = target.Center;
+                            }
+                            else if (NPC.ai[1] % 100 < 40)
+                            {
+                                attackVector = target.Center;
+                            }
+                            else if (NPC.ai[1] % 100 == 40)
+                            {
+                                //lock player's position
+                                attackVector = target.Center;
+
+                                int projOne = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), (attackChandelier.ModProjectile as GoblinChandelierLight).trails[0].startPoint, (Vector2.Normalize(attackVector - (attackChandelier.ModProjectile as GoblinChandelierLight).trails[0].startPoint) * 20f), ModContent.ProjectileType<ChandelierBolt>(), 0, 0);
+                                int projTwo = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), (attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint, (Vector2.Normalize(attackVector - (attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint) * 20f), ModContent.ProjectileType<ChandelierBolt>(), 0, 0);
+                                int projThree = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), (attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint, (Vector2.Normalize(attackVector - (attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint) * 20f), ModContent.ProjectileType<ChandelierBolt>(), 0, 0);
+
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.projectile[projOne], Color.DarkViolet, 6, 8, true));
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.projectile[projOne], Color.DarkViolet * 0.5f, 10, 8));
+
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.projectile[projTwo], Color.DarkViolet, 6, 8, true));
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.projectile[projTwo], Color.DarkViolet * 0.5f, 10, 8));
+
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.projectile[projThree], Color.DarkViolet, 6, 8, true));
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.projectile[projThree], Color.DarkViolet * 0.5f, 10, 8));
+                            }
+                            else if (NPC.ai[1] % 100 < 99) 
+                            {
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).hideFlames = true;
+                            }
+                            else
+                            {
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).hideFlames = false;
+                            }
+
+                            if(NPC.ai[1] >= 300)
+                            {
+                                currentAttack = Main.rand.Next(3);
+                                NPC.ai[1] = 0;
+                            }
+
+
                             break;
-                        case 3: //casts a magic spell with a twirl of the wand and shoots bursts of three magic bolts
+                        case 3: //combines the chandelier flames into one big fireball each and casts them down with a meteor fashion towards the player
+
+
+
+
                             break;
-                        case 4: //combines the chandelier flames into one big fireball each and casts them down with a meteor fashion towards the player
+                        case 4: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
                             break;
-                        case 5: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
+                        case 5: //animates a set of armor to briefly attack
                             break;
                     }
 
+                    #region Chandelier swinging logic
                     if (NPC.ai[3] % 310 == 0)
                     {
                         List<Projectile> potentialChandeliers = new List<Projectile>();
@@ -437,6 +531,9 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         if ((nextToTheLeft && NPC.ai[3] == 180) || (!nextToTheLeft && NPC.ai[3] == 225))
                         {
                             //Ready to swing
+
+                            (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).rotationVelocity = (NPC.ai[3] == 180 ? 0.05f : -0.05f);
+
                             NPC.ai[2] = potChandelier.whoAmI;
 
                             NPC.ai[3] = 270;
@@ -451,7 +548,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
 
                             NPC.Center = skrunkle.anchorPos16 +
-                                (Vector2.UnitY * MathHelper.Clamp(Vector2.Distance(skrunkle.anchorPos16, NPC.Center), 0f, skrunkle.chainLength / 1.5f))
+                                (Vector2.UnitY * skrunkle.chainLength / 1.5f)
                                 .RotatedBy(skrunkle.axisRotation);
 
                             NPC.rotation = skrunkle.axisRotation;
@@ -463,18 +560,12 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         NPC.rotation += NPC.velocity.X / 10f;
                         NPC.spriteDirection = (NPC.velocity.X < 0 ? -1 : 1);
                     }
-
-                    foreach (Projectile chandelier in chandeliers)
-                    {
-                        if (chandelier != Main.projectile[(int)NPC.ai[2]])
-                        {
-                            (chandelier.ModProjectile as GoblinChandelierLight).axisRotation += ((0f - (chandelier.ModProjectile as GoblinChandelierLight).axisRotation) / 10f);
-                        }
-                    }
+                    #endregion
 
                     NPC.ai[3]++;
-                    NPC.ai[1]++;
                 }
+
+                guardShield = 0f;
             }
         }
 
@@ -487,6 +578,9 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public float swingDir;
 
         public bool nextToTheLeft;
+
+        public Projectile attackChandelier;
+        public Vector2 attackVector;
         
         public void Trigger()
         {
@@ -495,13 +589,13 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             fightBegun = false;
         }
 
-        public void InitShader()
+        public void InitShader(SpriteBatch spriteBatch)
         {
             Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(Main.GameViewMatrix.Zoom.X, Main.GameViewMatrix.Zoom.Y, 1f);
 
             Matrix projection = Matrix.CreateOrthographic(Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height, 0, 1000);
 
-            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+            spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
             EEMod.ShadowWarp.Parameters["noise"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
             EEMod.ShadowWarp.Parameters["newColor"].SetValue(new Vector4(Color.Violet.R, Color.Violet.G, Color.Violet.B, Color.Violet.A) / 255f);
@@ -513,7 +607,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            InitShader();
+            InitShader(spriteBatch);
 
             Rectangle rect = new Rectangle(0, 0, 32, 32);
 
@@ -528,7 +622,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            InitShader();
+            InitShader(spriteBatch);
 
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardStaff").Value;
 
@@ -541,8 +635,35 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             spriteBatch.Draw(tex2, NPC.Center - Main.screenPosition, null, Color.White, NPC.rotation, tex2.Size() / 2f, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
-            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+            if (bruteDead && fightBegun && currentAttack == 2 && (NPC.ai[1] % 100) > 1 && (NPC.ai[1] % 100) <= 40)
+            {
+                spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
+                Texture2D telegraphTex = ModContent.Request<Texture2D>("EEMod/Textures/TelegraphLine").Value;
+
+                Point pos = (attackVector - Main.screenPosition).ToPoint();
+
+                spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[0].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[0].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
+                spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
+                spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
+            }
+
+            spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+        }
+
+
+        public Vector2 archivePoint1;
+        public Vector2 archivePoint2;
+        public Vector2 archivePoint3;
+
+        public override void OnKill()
+        {
+            if(bruteDead)
+            {
+                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).rotationVelocity = -(Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).axisRotation * 0.05f;
+            }
+
+            base.OnKill();
         }
     }
 }

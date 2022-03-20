@@ -19,8 +19,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void SetDefaults()
         {
-            Projectile.width = 0;
-            Projectile.height = 0;
+            Projectile.width = 1;
+            Projectile.height = 1;
 
             Projectile.alpha = 0;
 

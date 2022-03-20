@@ -39,6 +39,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             NPC.knockBackResist = 0.9f;
 
             NPC.noGravity = true;
+
+            NPC.knockBackResist = 0f;
         }
 
 
@@ -179,7 +181,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if(myWizard.NPC.ai[1] % 2 == 0)
                             {
-                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(NPC.Center.X, myRoom.Y + (30 * 16)), Vector2.Zero, ModContent.ProjectileType<ShadowEmberTemp>(), 0, 0);
+                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(NPC.Center.X, NPC.Bottom.Y), Vector2.Zero, ModContent.ProjectileType<ShadowEmberTemp>(), 0, 0);
                             }
                         }
 
@@ -259,18 +261,18 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                     {
                                         float xVal = (-60 + (i / 10f) * (60 - -60));
 
-                                        Vector2 pos = myRoom.Center.ToVector2() + new Vector2((xVal * 16) + (6 * 16) + (6 * 16), 13 * 16);
+                                        Vector2 pos = myRoom.Center.ToVector2() + new Vector2((xVal * 16) + (-6 * 16) + (12 * 16), 17 * 16);
 
                                         Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), pos, Vector2.Zero, ModContent.ProjectileType<FlameColumn>(), 0, 0);
                                     }
                                 }
                                 else
                                 {
-                                    for (int i = 0; i < 10; i++)
+                                    for (int i = 0; i < 8; i++)
                                     {
                                         float xVal = (-60 + (i / 10f) * (60 - -60));
 
-                                        Vector2 pos = myRoom.Center.ToVector2() + new Vector2((xVal * 16) + (3 * 16), 13 * 16);
+                                        Vector2 pos = myRoom.Center.ToVector2() + new Vector2((xVal * 16) + (6 * 16) + (12 * 16), 17 * 16);
 
                                         Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), pos, Vector2.Zero, ModContent.ProjectileType<FlameColumn>(), 0, 0);
                                     }
@@ -291,7 +293,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            myWizard.InitShader();
+            myWizard.InitShader(spriteBatch);
 
             Rectangle rect = new Rectangle(0, frameY * 144, 144, 144);
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/GuardBrute").Value;
