@@ -127,8 +127,8 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
         public override void SetDefaults()
         {
-            Projectile.width = 72;
-            Projectile.height = 18;
+            Projectile.width = 104;
+            Projectile.height = 66;
             Projectile.aiStyle = -1;
             Projectile.penetrate = -1;
             Projectile.scale = 1f;
@@ -167,17 +167,17 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
             if (Projectile.ai[0] == 0)
             {
-                PrimitiveSystem.primitives.CreateTrail(trails[0] = new ShadowflameCampfirePrims(Color.Violet * 0.2f, anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation), anchorPos16 + new Vector2(-32, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(-32, (chainLength - 7) + -16).RotatedBy(axisRotation), 10, 20, true, 1));
-                PrimitiveSystem.primitives.CreateTrail(trails[1] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation), anchorPos16 + new Vector2(-32, (chainLength - 7) + -6).RotatedBy(axisRotation), anchorPos16 + new Vector2(-32, (chainLength - 7) + -12).RotatedBy(axisRotation), 6, 20, true, 1));
-                PrimitiveSystem.primitives.CreateTrail(trails[2] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation), anchorPos16 + new Vector2(-32, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(-32, (chainLength - 7) + -16).RotatedBy(axisRotation), 8, 20, false, 1));
+                PrimitiveSystem.primitives.CreateTrail(trails[0] = new ShadowflameCampfirePrims(Color.Violet * 0.2f, anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation), anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + -16).RotatedBy(axisRotation), 10, 20, true, 1));
+                PrimitiveSystem.primitives.CreateTrail(trails[1] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation), anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + -6).RotatedBy(axisRotation), anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + -12).RotatedBy(axisRotation), 6, 20, true, 1));
+                PrimitiveSystem.primitives.CreateTrail(trails[2] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation), anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + -16).RotatedBy(axisRotation), 8, 20, false, 1));
 
-                PrimitiveSystem.primitives.CreateTrail(trails[3] = new ShadowflameCampfirePrims(Color.Violet * 0.2f, anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -12).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -22).RotatedBy(axisRotation), 10, 20, true, 1));
-                PrimitiveSystem.primitives.CreateTrail(trails[4] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -16).RotatedBy(axisRotation), 6, 20, true, 1));
-                PrimitiveSystem.primitives.CreateTrail(trails[5] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -12).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -22).RotatedBy(axisRotation), 8, 20, false, 1));
+                PrimitiveSystem.primitives.CreateTrail(trails[3] = new ShadowflameCampfirePrims(Color.Violet * 0.2f, anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -12).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -22).RotatedBy(axisRotation), 10, 20, true, 1));
+                PrimitiveSystem.primitives.CreateTrail(trails[4] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -16).RotatedBy(axisRotation), 6, 20, true, 1));
+                PrimitiveSystem.primitives.CreateTrail(trails[5] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -12).RotatedBy(axisRotation), anchorPos16 + new Vector2(0, (chainLength - 7) + -22).RotatedBy(axisRotation), 8, 20, false, 1));
 
-                PrimitiveSystem.primitives.CreateTrail(trails[6] = new ShadowflameCampfirePrims(Color.Violet * 0.2f, anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation), anchorPos16 + new Vector2(32, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(32, (chainLength - 7) + -16).RotatedBy(axisRotation), 10, 20, true, 1));
-                PrimitiveSystem.primitives.CreateTrail(trails[7] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation), anchorPos16 + new Vector2(32, (chainLength - 7) + -6).RotatedBy(axisRotation), anchorPos16 + new Vector2(32, (chainLength - 7) + -12).RotatedBy(axisRotation), 6, 20, true, 1));
-                PrimitiveSystem.primitives.CreateTrail(trails[8] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation), anchorPos16 + new Vector2(32, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(32, (chainLength - 7) + -16).RotatedBy(axisRotation), 8, 20, false, 1));
+                PrimitiveSystem.primitives.CreateTrail(trails[6] = new ShadowflameCampfirePrims(Color.Violet * 0.2f, anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation), anchorPos16 + new Vector2(flameDist, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(flameDist, (chainLength - 7) + -16).RotatedBy(axisRotation), 10, 20, true, 1));
+                PrimitiveSystem.primitives.CreateTrail(trails[7] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation), anchorPos16 + new Vector2(flameDist, (chainLength - 7) + -6).RotatedBy(axisRotation), anchorPos16 + new Vector2(flameDist, (chainLength - 7) + -12).RotatedBy(axisRotation), 6, 20, true, 1));
+                PrimitiveSystem.primitives.CreateTrail(trails[8] = new ShadowflameCampfirePrims(Color.Violet, anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation), anchorPos16 + new Vector2(flameDist, (chainLength - 7) + -8).RotatedBy(axisRotation), anchorPos16 + new Vector2(flameDist, (chainLength - 7) + -16).RotatedBy(axisRotation), 8, 20, false, 1));
             }
 
             Projectile.ai[0]++;
@@ -195,41 +195,41 @@ namespace EEMod.Tiles.Furniture.GoblinFort
             {
                 if (flameHeight < 20) flameHeight++;
 
-                trails[0].startPoint = anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation);
-                trails[0].controlPoint = anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
-                trails[0].endPoint = anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
+                trails[0].startPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation);
+                trails[0].controlPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
+                trails[0].endPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
 
-                trails[1].startPoint = anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation);
-                trails[1].controlPoint = anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
-                trails[1].endPoint = anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
+                trails[1].startPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation);
+                trails[1].controlPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
+                trails[1].endPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
 
-                trails[2].startPoint = anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation);
-                trails[2].controlPoint = anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
-                trails[2].endPoint = anchorPos16 + new Vector2(-32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
+                trails[2].startPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation);
+                trails[2].controlPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
+                trails[2].endPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
 
-                trails[3].startPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation);
-                trails[3].controlPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
-                trails[3].endPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 1.25f)).RotatedBy(axisRotation / 1.5f);
+                trails[3].startPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation);
+                trails[3].controlPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
+                trails[3].endPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 1.25f)).RotatedBy(axisRotation / 1.5f);
 
-                trails[4].startPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation);
-                trails[4].controlPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
-                trails[4].endPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight)).RotatedBy(axisRotation / 1.5f);
+                trails[4].startPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation);
+                trails[4].controlPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
+                trails[4].endPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight)).RotatedBy(axisRotation / 1.5f);
 
-                trails[5].startPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation);
-                trails[5].controlPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
-                trails[5].endPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 1.25f)).RotatedBy(axisRotation / 1.5f);
+                trails[5].startPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation);
+                trails[5].controlPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
+                trails[5].endPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 1.25f)).RotatedBy(axisRotation / 1.5f);
 
-                trails[6].startPoint = anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation);
-                trails[6].controlPoint = anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
-                trails[6].endPoint = anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
+                trails[6].startPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation);
+                trails[6].controlPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
+                trails[6].endPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
 
-                trails[7].startPoint = anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation);
-                trails[7].controlPoint = anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
-                trails[7].endPoint = anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
+                trails[7].startPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation);
+                trails[7].controlPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
+                trails[7].endPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
 
-                trails[8].startPoint = anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation);
-                trails[8].controlPoint = anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
-                trails[8].endPoint = anchorPos16 + new Vector2(32, (chainLength - 7) + 4).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
+                trails[8].startPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation);
+                trails[8].controlPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
+                trails[8].endPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
             }
             else
             {
@@ -247,19 +247,20 @@ namespace EEMod.Tiles.Furniture.GoblinFort
         }
 
         public int flameHeight;
+        public int flameDist = 48;
 
         public bool hideFlames;
 
         public override bool PreDraw(ref Color lightColor)
         {
-            anchorPos16 = (anchorPos * 16) + new Vector2(8, 8);
+            anchorPos16 = (anchorPos * 16) + new Vector2(8, 10);
 
             int distance = (int)Vector2.Distance(anchorPos16, Projectile.Center);
 
-            for(float i = 8; i < distance; i += 8) 
+            for(float i = 10; i < distance; i += 10) 
             {
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/GoblinFort/GoblinChandelierChain").Value,
-                    Vector2.Lerp(anchorPos16, Projectile.Center, i / (float)(distance)) - Main.screenPosition, null, Lighting.GetColor(anchorPos.ToPoint()), axisRotation, new Vector2(4, 4), 1f, SpriteEffects.None, 0f);
+                    Vector2.Lerp(anchorPos16, Projectile.Center, i / (float)(distance)) - Main.screenPosition, null, Lighting.GetColor(anchorPos.ToPoint()), axisRotation, new Vector2(4, 5), 1f, SpriteEffects.None, 0f);
             }
 
             lightColor = Lighting.GetColor(anchorPos.ToPoint());

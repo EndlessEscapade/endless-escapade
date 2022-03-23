@@ -25,6 +25,7 @@ using EEMod.NPCs.Goblins.Berserker;
 using EEMod.NPCs.Goblins.Watchman;
 using EEMod.Systems.Subworlds;
 using EEMod.Systems;
+using EEMod.Tiles.Furniture.GoblinFort;
 
 namespace EEMod.Subworlds
 {
@@ -146,7 +147,7 @@ namespace EEMod.Subworlds
                     if (slope <= 0)
                     {
                         slopingFast = false;
-                        slope = (i < (1600 - thresh2) ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(15, 26));
+                        slope = (i < (1600 - thresh2) ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(16, 22));
                     }
                 }
 
@@ -345,7 +346,64 @@ namespace EEMod.Subworlds
             //Structure generation
             #region Structure generation
 
-            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/goblinhall.lcs")).PlaceAt(800 - 58, TileCheck(800 - 58, TileID.Grass) - 46, false, false);
+            #region Generating the goblin hall parts
+
+            int hallX = 800 - 80;
+            int hallY = TileCheck(800 - 80, TileID.Grass) - 68;
+
+            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/goblinhall.lcs")).PlaceAt(hallX, hallY, false, false);
+
+            WorldGen.PlaceTile(hallX + (432 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
+            WorldGen.PlaceTile(hallX + (640 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
+            WorldGen.PlaceTile(hallX + (864 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
+            WorldGen.PlaceTile(hallX + (1104 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
+            WorldGen.PlaceTile(hallX + (1376 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
+            WorldGen.PlaceTile(hallX + (1616 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
+            WorldGen.PlaceTile(hallX + (1840 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
+            WorldGen.PlaceTile(hallX + (2048 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
+
+            WorldGen.PlaceTile(hallX + (576 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (784 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1008 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1184 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1360 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1536 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1760 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1968 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
+
+            WorldGen.PlaceTile(hallX + (464 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (880 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1440 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1856 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinChandelier>());
+
+            WorldGen.PlaceTile(hallX + (464 / 16), hallY + (1008 / 16) - 1, ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (880 / 16), hallY + (1008 / 16) - 1, ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1440 / 16), hallY + (1008 / 16) - 1, ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (1856 / 16), hallY + (1008 / 16) - 1, ModContent.TileType<GoblinChandelier>());
+
+            #endregion
+
+            #region Guard towers surrounding the hall
+
+
+
+            #endregion
+
+            #region Goblin city section
+
+            #endregion
+
+            #region Guard towers surrounding the city
+
+            #endregion
+
+            #region Outskirt camps
+
+            #endregion
+
+            #region Mineshaft
+
+            #endregion
 
             //Placing player boat
             BuildBoat(1600 - 90, 245);
@@ -389,30 +447,6 @@ namespace EEMod.Subworlds
                         }
                     }
                 }
-            }
-
-
-
-            //Determining what kind of fort
-
-            switch(Main.rand.Next(3))
-            {
-                case 0: //Pitfall fort(high rise fort)
-                    /*for(int i = 150; i < 650; i++)
-                    {
-                        if(Math.Abs())
-                        {
-
-                        }
-                    }*/
-                    break;
-                case 1: //Heavy defense fort(watchtower perimeter with soft interior)
-                    int watchtower1 = thresh1 + 15;
-                    int watchtower2 = thresh2 + 15;
-                    break;
-                case 2: //Stepped fort(watchtowers on the interior of every step with camps in front of it
-
-                    break;
             }
 
             #endregion

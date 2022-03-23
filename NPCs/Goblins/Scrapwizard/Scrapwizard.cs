@@ -390,7 +390,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if(NPC.ai[1] > 180)
                             {
-                                currentAttack = Main.rand.Next(3);
+                                currentAttack = Main.rand.Next(4);
                                 NPC.ai[1] = 0;
                             }
                             break;
@@ -407,7 +407,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if (NPC.ai[1] > 180)
                             {
-                                currentAttack = Main.rand.Next(3);
+                                currentAttack = Main.rand.Next(4);
                                 NPC.ai[1] = 0;
                             }
                             break;
@@ -460,16 +460,63 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if(NPC.ai[1] >= 300)
                             {
-                                currentAttack = Main.rand.Next(3);
+                                currentAttack = Main.rand.Next(4);
                                 NPC.ai[1] = 0;
                             }
 
 
                             break;
                         case 3: //combines the chandelier flames into one big fireball each and casts them down with a meteor fashion towards the player
+                            if (NPC.ai[1] % 100 == 1)
+                            {
+                                List<Projectile> potChandeliers = new List<Projectile>();
 
+                                foreach (Projectile chandelier in chandeliers)
+                                {
+                                    if (Vector2.Distance(chandelier.Center, target.Center) <= 40 * 16)
+                                    {
+                                        potChandeliers.Add(chandelier);
+                                    }
+                                }
 
+                                attackChandelier = potChandeliers[Main.rand.Next(0, potChandeliers.Count)];
+                                attackVector = target.Center;
+                            }
+                            else if (NPC.ai[1] % 100 < 48)
+                            {
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).flameDist--;
 
+                                attackVector = target.Center;
+                            }
+                            else if (NPC.ai[1] % 100 == 60)
+                            {
+                                //lock player's position
+                                attackVector = target.Center;
+
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).hideFlames = true;
+
+                                Vector2 velocity = Vector2.Normalize(target.Center - attackChandelier.Center) * 16f;
+
+                                int projOne = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), attackChandelier.Center, velocity, ModContent.ProjectileType<ChandelierMeteor>(), 0, 0);
+                                
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.projectile[projOne], Color.DarkViolet, 12, 14, true));
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.projectile[projOne], Color.DarkViolet * 0.5f, 18, 14));
+                            }
+                            else if (NPC.ai[1] % 100 < 99)
+                            {
+
+                            }
+                            else
+                            {
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).flameDist = 48;
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).hideFlames = false;
+                            }
+
+                            if (NPC.ai[1] >= 300)
+                            {
+                                currentAttack = Main.rand.Next(4);
+                                NPC.ai[1] = 0;
+                            }
 
                             break;
                         case 4: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
@@ -635,17 +682,30 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             spriteBatch.Draw(tex2, NPC.Center - Main.screenPosition, null, Color.White, NPC.rotation, tex2.Size() / 2f, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
-            if (bruteDead && fightBegun && currentAttack == 2 && (NPC.ai[1] % 100) > 1 && (NPC.ai[1] % 100) <= 40)
+            if (bruteDead && fightBegun)
             {
-                spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+                if (currentAttack == 2 && (NPC.ai[1] % 100) > 1 && (NPC.ai[1] % 100) <= 40)
+                {
+                    spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
-                Texture2D telegraphTex = ModContent.Request<Texture2D>("EEMod/Textures/TelegraphLine").Value;
+                    Texture2D telegraphTex = ModContent.Request<Texture2D>("EEMod/Textures/TelegraphLine").Value;
 
-                Point pos = (attackVector - Main.screenPosition).ToPoint();
+                    Point pos = (attackVector - Main.screenPosition).ToPoint();
 
-                spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[0].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[0].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
-                spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
-                spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[0].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[0].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
+                }
+                if (currentAttack == 3 && (NPC.ai[1] % 100) > 48 && (NPC.ai[1] % 100) <= 60)
+                {
+                    spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+                    Texture2D godrayTex = ModContent.Request<Texture2D>("EEMod/Textures/GodrayMask").Value;
+
+                    Vector2 pos = (attackChandelier.Center - Main.screenPosition);
+
+                    spriteBatch.Draw(godrayTex, pos, null, Color.Pink, Main.GameUpdateCount / 15f, godrayTex.TextureCenter(), 0.33f * Math.Sin(((NPC.ai[1] % 100) - 48) * MathHelper.Pi / 12f).PositiveSin(), SpriteEffects.None, 0f);
+                }
             }
 
             spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);

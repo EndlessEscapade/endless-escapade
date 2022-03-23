@@ -32,7 +32,7 @@ namespace EEMod.Items.Placeables.Furniture
             Item.height = 12;
             Item.rare = ItemRarityID.White;
 
-            Item.createTile = ModContent.TileType<GoblinChandelier>();
+            Item.createTile = ModContent.TileType<ShadowflameCampfire>();
         }
     }
 }
