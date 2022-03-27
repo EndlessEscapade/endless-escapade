@@ -44,6 +44,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
             TileObjectData.newTile.LavaDeath = false;
 
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<GoblinBannerBigTE>().Hook_AfterPlacement, -1, 0, true);
+            TileObjectData.newTile.HookPostPlaceEveryone = new PlacementHook(ModContent.GetInstance<GoblinBannerBigTE>().Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
 
@@ -127,7 +128,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
             this.outline = outline;
 
-            if (this.outline) color = new Color(55, 33, 5);
+            if (this.outline) color = new Color(16, 20, 27);
             else color = Color.White;
         }
 

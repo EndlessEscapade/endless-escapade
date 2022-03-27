@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Goblins.Scrapwizard
 {
+    [AutoloadHead]
     public class GuardBrute : EENPC
     {
         public override void SetStaticDefaults()
@@ -43,14 +44,18 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             NPC.knockBackResist = 0f;
         }
 
+        public override bool CheckActive()
+        {
+            return false;
+        }
 
         public Scrapwizard myWizard;
 
         public Rectangle myRoom;
 
-        public int currentAttack;
+        public int currentAttack = 0;
 
-        public bool fightBegun;
+        public bool fightBegun = false;
 
         public float teleportFloat;
 
@@ -58,6 +63,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void AI()
         {
+            NPC.active = true;
+
             NPC.TargetClosest();
             Player target = Main.player[NPC.target];
 
@@ -75,12 +82,15 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             {
                 if (NPC.ai[0] == 0)
                 {
-                    NPC.ai[1] = 2001 * 16;
-                    NPC.ai[2] = 191 * 16;
+                    if (NPC.ai[1] == 0)
+                    {
+                        NPC.ai[1] = 744 * 16 - 384;
+                        NPC.ai[2] = 118 * 16 - 464;
+                    }
 
-                    myRoom = new Rectangle((int)NPC.ai[1] + (3 * 16), (int)NPC.ai[2] + (7 * 16), 112 * 16, 33 * 16);
+                    myRoom = new Rectangle((int)NPC.ai[1] + 384, (int)NPC.ai[2] + 464, 112 * 16, 33 * 16);
 
-                    NPC.Center = myRoom.Center.ToVector2() + new Vector2(128, 128);
+                    NPC.Center = myRoom.Center.ToVector2() + new Vector2(96, 128);
 
                     myWizard = Main.npc[NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Scrapwizard>(), ai0: NPC.whoAmI, ai1: 0)].ModNPC as Scrapwizard;
 

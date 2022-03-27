@@ -30,7 +30,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
             Main.tileTable[Type] = true;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
-            TileObjectData.newTile.Width = 15;
+            TileObjectData.newTile.Width = 10;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);

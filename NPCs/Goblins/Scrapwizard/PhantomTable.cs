@@ -19,7 +19,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void SetDefaults()
         {
-            Projectile.width = 240;
+            Projectile.width = 160;
             Projectile.height = 32;
 
             Projectile.alpha = 0;
@@ -30,16 +30,76 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             Projectile.aiStyle = -1;
 
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
 
             Projectile.damage = 0;
 
             Projectile.timeLeft = 1000000;
         }
 
+        public Vector2 desiredCenter;
+        public Vector2 initCenter;
+        public Vector2 oldCenter;
+
+        //public Vector2 falseVelocity;
+
+        public int dyingTicks = 0;
+
         public override void AI()
         {
+            //Taken from Spirit w/ permission
 
+            if (dyingTicks <= 0)
+            {
+                if (Projectile.ai[0] <= 40)
+                {
+                    initCenter = Projectile.Center;
+                }
+                else if (Projectile.ai[0] <= 80 && Projectile.ai[0] > 40)
+                {
+                    Projectile.Center = Vector2.SmoothStep(initCenter, desiredCenter, (Projectile.ai[0] - 40) / 40f);
+                }
+                else
+                {
+                    Projectile.Center = desiredCenter;
+                    //Projectile.velocity = desiredCenter - oldCenter;
+
+                    foreach (Player player in Main.player)
+                    {
+                        if (!player.active || player.controlDown) return;
+
+                        var playerBox = new Rectangle((int)player.position.X, (int)player.position.Y + player.height, player.width, 1);
+                        var floorBox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y - (int)Projectile.velocity.Y, Projectile.width, 8 + (int)Math.Max(player.velocity.Y, 0));
+
+                        if (playerBox.Intersects(floorBox) && player.velocity.Y > 0 && !Collision.SolidCollision(player.Bottom, player.width, (int)Math.Max(1 + Projectile.velocity.Y, 0)))
+                        {
+                            player.position.Y = Projectile.position.Y - player.height;
+                            player.velocity.Y = 0;
+                            player.fallStart = (int)(player.position.Y / 16f);
+
+                            if (player == Main.LocalPlayer)
+                                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.LocalPlayer.whoAmI);
+                        }
+                    }
+
+                    oldCenter = desiredCenter;
+                }
+            }
+            else
+            {
+                if (dyingTicks <= 40)
+                {
+                    Projectile.Center = Vector2.SmoothStep(desiredCenter, initCenter, dyingTicks / 40f);
+                }
+                else
+                {
+                    Projectile.Center = initCenter;
+                }
+
+                dyingTicks++;
+            }
+
+            Projectile.ai[0]++;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -49,23 +109,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(Main.GameViewMatrix.Zoom.X, Main.GameViewMatrix.Zoom.Y, 1f);
-
-            Matrix projection = Matrix.CreateOrthographic(Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height, 0, 1000);
-
-            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
-
-            EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/Scrapwizard/ScrapwizardHexBolt").Value);
-
-            EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(Color.Violet.R, Color.Violet.G, Color.Violet.B, Color.Violet.A) / 255f);
-
-            EEMod.LightningShader.Parameters["transformMatrix"].SetValue(view * projection);
-
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardHexBolt").Value, Projectile.Center - Main.screenPosition, null, Color.Violet, 0f, new Vector2(12, 12), 1f, SpriteEffects.None, 0f);
-
-            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
-
-            return false;
+            return true;
         }
     }
 }

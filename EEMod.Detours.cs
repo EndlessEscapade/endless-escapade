@@ -722,7 +722,7 @@ namespace EEMod
                         break;
 
                     case 22:
-                        screenMessageText = "D D D A G# G F D F G";
+                        screenMessageText = "D D A G# G F D F G";
                         break;
 
                     case 23:
@@ -778,7 +778,7 @@ namespace EEMod
                         break;
 
                     case 36:
-                        screenMessageText = "All good sprites made by daimgamer";
+                        screenMessageText = "C Eb F F# F Eb C    Bb D C";
                         break;
 
                     case 37:

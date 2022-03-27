@@ -48,6 +48,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             NPC.BossBar = ModContent.GetInstance<ScrapwizardHealthBar>();
         }
 
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
         public GuardBrute myGuard;
 
         public Rectangle myRoom;
@@ -67,6 +72,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public List<Projectile> chandeliers;
 
         public float guardShield;
+
+        public List<Projectile> tables;
 
         public override void AI()
         {
@@ -322,6 +329,28 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     else if (NPC.ai[1] == 40)
                     {
                         NPC.Center = myRoom.Center.ToVector2() + new Vector2(0, 13 * 16);
+
+                        int tableIndex = 0;
+
+                        tables = new List<Projectile>();
+
+                        for (int i = 0; i < Main.maxTilesX; i++)
+                        {
+                            for (int j = 0; j < Main.maxTilesY; j++)
+                            {
+                                if (WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).TileType == ModContent.TileType<GoblinBanquetTable>() &&
+                                    Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0)
+                                {
+                                    int newTable = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(i * 16, j * 16) + new Vector2(120, 16), Vector2.Zero, ModContent.ProjectileType<PhantomTable>(), 0, 0, ai0: 0, ai1: tableIndex);
+
+                                    Main.projectile[newTable].ai[1] = tableIndex;
+
+                                    tables.Add(Main.projectile[newTable]);
+
+                                    tableIndex++;
+                                }
+                            }
+                        }
                     }
                     else if (NPC.ai[1] < 80)
                     {
@@ -367,6 +396,18 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         NPC.rotation = 0f;
                     }
 
+                    if(NPC.ai[1] >= 40)
+                    {
+                        foreach (Projectile table in tables)
+                        {
+                            (table.ModProjectile as PhantomTable).desiredCenter =
+                                myRoom.Center.ToVector2() + new Vector2(0, 128) +
+                                new Vector2(
+                                    (float)Math.Cos((Main.GameUpdateCount / 240f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
+                                    (float)Math.Sin((Main.GameUpdateCount / 120f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
+                        }
+                    }
+
                     NPC.ai[1]++;
                 }
                 #endregion
@@ -380,36 +421,24 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     NPC.ai[1]++;
 
+                    foreach (Projectile table in tables)
+                    {
+                        (table.ModProjectile as PhantomTable).desiredCenter =
+                            myRoom.Center.ToVector2() + new Vector2(0, 128) +
+                            new Vector2(
+                                    (float)Math.Cos((Main.GameUpdateCount / 240f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
+                                    (float)Math.Sin((Main.GameUpdateCount / 120f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
+                    }
+
                     switch (currentAttack)
                     {
-                        case 0: //throws down a few shadowflame potions that bounces twice and then explodes
-                            if(NPC.ai[1] % 60 == 0)
-                            {
-                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, (Vector2.Normalize(target.Center - NPC.Center) * 6f), ModContent.ProjectileType<ShadowflameJarBounce>(), 0, 0);
-                            }
+                        case 0: //railgun shoots bits of scrap at yoy that stick to tables and explode as mines
 
-                            if(NPC.ai[1] > 180)
-                            {
-                                currentAttack = Main.rand.Next(4);
-                                NPC.ai[1] = 0;
-                            }
+
                             break;
-                        case 1: //casts a magic spell with a twirl of the wand and shoots bursts of three magic bolts
-                            if ((NPC.ai[1] % 60) >= 20 && (NPC.ai[1] % 60) <= 40 && NPC.ai[1] % 10 == 0)
-                            {
-                                int newBolt = NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ScrapwizardHexBolt>(), 20, 2, Main.myPlayer);
+                        case 1: // scrap wall attack where you must get in a good position or you get torn up
 
-                                Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center)) * 4);
 
-                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.DarkViolet, 8, 12, true));
-                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.DarkViolet * 0.5f, 14, 12));
-                            }
-
-                            if (NPC.ai[1] > 180)
-                            {
-                                currentAttack = Main.rand.Next(4);
-                                NPC.ai[1] = 0;
-                            }
                             break;
                         case 2: //turns all the chandelier flames but the one he's on into shadowflame, telegraph beams
                             if (NPC.ai[1] % 100 == 1) 
@@ -521,7 +550,9 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             break;
                         case 4: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
                             break;
-                        case 5: //animates a set of armor to briefly attack
+                        case 5: // drops a chandelier down to you rapidly and the flames explode, pulls the chandelier back up afterward, repeat 5 times - come back to this
+                            break;
+                        case 6: //morphs the scrap into a sword and starts swinging, up cut, down cut, spin attack, and final up cut and the shards fly up
                             break;
                     }
 
@@ -721,6 +752,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             if(bruteDead)
             {
                 (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).rotationVelocity = -(Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).axisRotation * 0.05f;
+            }
+
+            foreach (Projectile table in tables)
+            {
+                (table.ModProjectile as PhantomTable).dyingTicks++;
             }
 
             base.OnKill();

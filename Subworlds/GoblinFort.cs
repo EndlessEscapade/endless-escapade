@@ -26,6 +26,7 @@ using EEMod.NPCs.Goblins.Watchman;
 using EEMod.Systems.Subworlds;
 using EEMod.Systems;
 using EEMod.Tiles.Furniture.GoblinFort;
+using EEMod.NPCs.Goblins.Scrapwizard;
 
 namespace EEMod.Subworlds
 {
@@ -47,7 +48,7 @@ namespace EEMod.Subworlds
 
 
             //Base island generation
-            #region Island terrain generation
+            #region Island terrain generationD
             FillRegion(1600, 475, new Vector2(0, 325), TileID.Stone);
 
             for(int i = 0; i < 150; i++)
@@ -126,12 +127,10 @@ namespace EEMod.Subworlds
             {
                 //if (elevation < 200) break;
 
-                Debug.WriteLine(i);
-
                 if ((i == (1600 - thresh1) || i == (1600 - thresh2)) && !slopingFast)
                 {
                     slopingFast = true;
-                    slope = WorldGen.genRand.Next(12, 15);
+                    slope = WorldGen.genRand.Next(15, 22);
                 }
 
                 if (i % slope == 0 && !slopingFast)
@@ -141,13 +140,13 @@ namespace EEMod.Subworlds
                 }
                 if (slopingFast)
                 {
-                    elevation += (int)Math.Abs((slope) / 2.5f);
+                    elevation += (int)Math.Abs((slope) / 3f);
                     slope -= 2;
 
                     if (slope <= 0)
                     {
                         slopingFast = false;
-                        slope = (i < (1600 - thresh2) ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(16, 22));
+                        slope = (i < (1600 - thresh2) ? WorldGen.genRand.Next(17, 23) : WorldGen.genRand.Next(10, 15));
                     }
                 }
 
@@ -348,38 +347,38 @@ namespace EEMod.Subworlds
 
             #region Generating the goblin hall parts
 
-            int hallX = 800 - 80;
-            int hallY = TileCheck(800 - 80, TileID.Grass) - 68;
+            hallX = 800 - 80;
+            hallY = peakElevation - 68 + 6;
+
+            ClearRegion(1600, 68, new Vector2(0, hallY));
 
             Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/goblinhall.lcs")).PlaceAt(hallX, hallY, false, false);
 
-            WorldGen.PlaceTile(hallX + (432 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
-            WorldGen.PlaceTile(hallX + (640 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
-            WorldGen.PlaceTile(hallX + (864 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
-            WorldGen.PlaceTile(hallX + (1104 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
-            WorldGen.PlaceTile(hallX + (1376 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
-            WorldGen.PlaceTile(hallX + (1616 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
-            WorldGen.PlaceTile(hallX + (1840 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
-            WorldGen.PlaceTile(hallX + (2048 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>());
+            PlaceTileEntity(hallX + (432 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+            PlaceTileEntity(hallX + (640 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+            PlaceTileEntity(hallX + (864 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+            PlaceTileEntity(hallX + (1104 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+            PlaceTileEntity(hallX + (1376 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+            PlaceTileEntity(hallX + (1616 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+            PlaceTileEntity(hallX + (1840 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+            PlaceTileEntity(hallX + (2048 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
 
-            WorldGen.PlaceTile(hallX + (576 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (784 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1008 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1184 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1360 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1536 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1760 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1968 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>());
+            PlaceTileEntity(hallX + (576 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
+            PlaceTileEntity(hallX + (784 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
+            PlaceTileEntity(hallX + (1008 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
+            PlaceTileEntity(hallX + (1184 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
+            PlaceTileEntity(hallX + (1360 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
+            PlaceTileEntity(hallX + (1536 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
+            PlaceTileEntity(hallX + (1760 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
+            PlaceTileEntity(hallX + (1968 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
 
-            WorldGen.PlaceTile(hallX + (464 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (880 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1440 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1856 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + (464 / 16) + 5, hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
+            WorldGen.PlaceTile(hallX + (880 / 16) + 5, hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
+            WorldGen.PlaceTile(hallX + (1440 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
+            WorldGen.PlaceTile(hallX + (1856 / 16), hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
 
-            WorldGen.PlaceTile(hallX + (464 / 16), hallY + (1008 / 16) - 1, ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (880 / 16), hallY + (1008 / 16) - 1, ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1440 / 16), hallY + (1008 / 16) - 1, ModContent.TileType<GoblinChandelier>());
-            WorldGen.PlaceTile(hallX + (1856 / 16), hallY + (1008 / 16) - 1, ModContent.TileType<GoblinChandelier>());
+            WorldGen.PlaceTile(hallX + ((464 + (((880 - 464) / 2))) / 16) + 5, hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
+            WorldGen.PlaceTile(hallX + ((1440 + (((1856 - 1440) / 2))) / 16), hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
 
             #endregion
 
@@ -461,7 +460,16 @@ namespace EEMod.Subworlds
             Main.spawnTileY = 245 + 25;
         }
 
+        public void PlaceTileEntity(int x, int y, int tileType, ModTileEntity TE)
+        {
+            WorldGen.PlaceTile(x, y, tileType);
+            TE.Place(x, y);
+        }
+
         bool spawnedEnemies = false;
+        int hallX;
+        int hallY;
+
         internal override void PlayerUpdate(Player player)
         {
             if(!spawnedEnemies && (Main.netMode == NetmodeID.SinglePlayer || Main.netMode == NetmodeID.Server))
@@ -471,6 +479,12 @@ namespace EEMod.Subworlds
                 NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), 400 * 16, TileCheck(400, TileID.Grass) * 16 - 40, ModContent.NPCType<GoblinBerserker>());
 
                 NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), 410 * 16, TileCheck(410, TileID.Grass) * 16 - 40, ModContent.NPCType<GoblinWatchman>());
+
+                #region Spawning boss
+
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), hallX * 16, hallY * 16, ModContent.NPCType<GuardBrute>(), ai0: 0, ai1: hallX * 16, ai2: hallY * 16);
+
+                #endregion
 
                 spawnedEnemies = true;
             }
