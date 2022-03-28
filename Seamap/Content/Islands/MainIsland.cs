@@ -24,7 +24,7 @@ namespace EEMod.Seamap.Content.Islands
 
         public override void Interact()
         {
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().ReturnHome();
+            Main.LocalPlayer.GetModPlayer<SeamapPlayer>().ReturnHome();
 
             base.Interact();
         }

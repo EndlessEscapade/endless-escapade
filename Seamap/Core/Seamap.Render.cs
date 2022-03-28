@@ -34,7 +34,7 @@ namespace EEMod.Seamap.Core
 
         public static void Render()
         {
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount <= 0) return;
+            if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 0) return;
 
             SpriteBatch spriteBatch = Main.spriteBatch;
 
@@ -92,9 +92,9 @@ namespace EEMod.Seamap.Core
         {
             #region Rendering OCEAN screen thingy
 
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount > 10 && Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount <= 190)
+            if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount > 10 && Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 190)
             {
-                int updateCount = Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount;
+                int updateCount = Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount;
 
                 Texture2D oceanLogo = ModContent.Request<Texture2D>("EEMod/Seamap/Content/UI/OceanScreen").Value;
 
@@ -337,7 +337,7 @@ namespace EEMod.Seamap.Core
 
         static void CalculateBrightness()
         {
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount == 1)
+            if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount == 1)
                 brightness = (Main.dayTime ? (isStorming ? 0.5f : 1f) : (isStorming ? 0.5f : 0.2f));
 
             if (!isStorming)

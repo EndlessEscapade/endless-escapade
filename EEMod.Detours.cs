@@ -35,6 +35,7 @@ using Terraria.GameContent;
 using EEMod.NPCs.Glowshroom;
 using EEMod.Players;
 using System.Diagnostics;
+using EEMod.Subworlds;
 
 namespace EEMod
 {
@@ -224,7 +225,7 @@ namespace EEMod
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
             }
 
-            if (Main.worldName == KeyID.Sea && SeamapObjects.localship != null)
+            if (SubworldLibrary.SubworldSystem.IsActive<Sea>() && SeamapObjects.localship != null)
             {
                 Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
 
@@ -530,7 +531,7 @@ namespace EEMod
             {
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
 
-                if (Main.worldName != KeyID.Sea)
+                if (!SubworldLibrary.SubworldSystem.IsActive<Sea>())
                 {
                     Particles.Update();
 
@@ -547,7 +548,7 @@ namespace EEMod
                 //Main.spriteBatch.End();
             }
 
-            if (Main.worldName == KeyID.Sea)
+            if (SubworldLibrary.SubworldSystem.IsActive<Subworlds.Sea>())
                 Seamap.Core.Seamap.Render();
 
             orig(self);

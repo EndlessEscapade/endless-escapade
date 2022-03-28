@@ -25,8 +25,9 @@ using EEMod.Tiles.EmptyTileArrays;
 using System.Linq;
 using EEMod.VerletIntegration;
 using EEMod.Prim;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using Terraria.UI;
+using EEMod.Subworlds;
 
 namespace EEMod.ModSystems
 {
@@ -239,7 +240,7 @@ namespace EEMod.ModSystems
             {
                 var computerState = new LegacyGameInterfaceLayer("EE: UI", delegate
                 {
-                    if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
+                    if (Main.worldName == KeyID.Pyramids || SubworldLibrary.SubworldSystem.IsActive<Sea>() || Main.worldName == KeyID.CoralReefs)
                     {
                         //DrawText();
                     }
@@ -264,7 +265,7 @@ namespace EEMod.ModSystems
 		        InterfaceScaleType.UI));
 		    }
             */
-            if (Main.worldName == KeyID.Sea)
+            if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
             {
                 for (int i = 0; i < layers.Count; i++)
                 {

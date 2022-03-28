@@ -11,11 +11,12 @@ using static EEMod.EEWorld.EEWorld;
 using EEMod.Tiles.EmptyTileArrays;
 using System;
 using EEMod.ID;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.Tiles.Foliage.Aquamarine;
 using EEMod.Tiles.Ores;
 using System.Collections.Generic;
 using EEMod.Subworlds.CoralReefs;
+//using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod.EEWorld
 {

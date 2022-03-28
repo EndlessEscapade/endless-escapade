@@ -54,7 +54,6 @@ namespace EEMod
         public static Noise2D Noise2D;
         public static ParticleZoneHandler Particles;
         internal static ParticleZone MainParticles;
-        public static SubworldInstanceManager Subworlds;
         public UserInterface EEInterface;
         public FishermansLogUI FishermansLogUI;
         public KelpArmorAmmoUI KelpArmorAmmoUI;
@@ -67,7 +66,6 @@ namespace EEMod
         {
             TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();
-            Subworlds = new SubworldInstanceManager();
 
             //TagSerializer.AddSerializer(new BigCrystalSerializer());
             //TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
@@ -166,7 +164,6 @@ namespace EEMod
             NoiseSurfacing = null;
             WhiteOutline = null;
             Effervescence = null;
-            Subworlds = null;
             Colorify = null;
             UnloadIL();
             UnloadDetours();
@@ -250,7 +247,7 @@ namespace EEMod
             {
                 var computerState = new LegacyGameInterfaceLayer("EE: UI", delegate
                 {
-                    if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
+                    if (Main.worldName == KeyID.Pyramids || SubworldLibrary.SubworldSystem.IsActive<Sea>() || Main.worldName == KeyID.CoralReefs)
                     {
                         DrawText();
                     }
@@ -273,7 +270,7 @@ namespace EEMod
 		        },
 		        InterfaceScaleType.UI));
 		    }
-            if (Main.worldName == KeyID.Sea)
+            if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
             {
                 for (int i = 0; i < layers.Count; i++)
                 {

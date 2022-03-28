@@ -34,7 +34,7 @@ namespace EEMod.Seamap.Core
                 SpawnSeagullFlock(Main.rand.Next(4, 8));
             }
 
-            windRot += ((float)Math.Sin(Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount / 1600f) * Main.rand.NextFloat(1f) / 120f);
+            windRot += ((float)Math.Sin(Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount / 1600f) * Main.rand.NextFloat(1f) / 120f);
 
             windVector = Vector2.UnitY.RotatedBy(windRot);
             windVector.Y *= 0.6f;
@@ -49,7 +49,7 @@ namespace EEMod.Seamap.Core
         {
             SeamapObjects.InitObjects(new Vector2(seamapWidth - 450, seamapWidth - 100));
 
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().myLastBoatPos = Vector2.Zero;
+            Main.LocalPlayer.GetModPlayer<SeamapPlayer>().myLastBoatPos = Vector2.Zero;
 
             SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402 - 30, seamapHeight - 118 - 200 - 30)));
 
@@ -82,7 +82,7 @@ namespace EEMod.Seamap.Core
             #endregion
 
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
-            SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 800)));
+            SeamapObjects.NewSeamapObject(new GoblinFortIsland(new Vector2(seamapWidth - 500, seamapHeight - 800)));
 
             SpawnSeagullFlock(Main.rand.Next(4, 8));
             SpawnSeagullFlock(Main.rand.Next(4, 8));

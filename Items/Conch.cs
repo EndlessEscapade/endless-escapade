@@ -1,5 +1,5 @@
 using EEMod.ID;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

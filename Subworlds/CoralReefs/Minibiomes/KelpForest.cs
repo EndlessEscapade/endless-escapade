@@ -1,4 +1,4 @@
-﻿using EEMod.Systems.Subworlds.EESubworlds;
+﻿
 using EEMod.Tiles;
 using EEMod.Tiles.Foliage;
 using EEMod.Tiles.Foliage.KelpForest;

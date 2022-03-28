@@ -154,8 +154,6 @@ namespace EEMod.Seamap.Content
             else
                 yVal = 114 * 2;
 
-            Main.NewText(rot);
-
             float spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
@@ -181,7 +179,7 @@ namespace EEMod.Seamap.Content
         {
             SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipDeath"));
 
-            myPlayer.GetModPlayer<EEPlayer>().ReturnHome();
+            myPlayer.GetModPlayer<SeamapPlayer>().ReturnHome();
 
             shipHelth = ShipHelthMax;
         }

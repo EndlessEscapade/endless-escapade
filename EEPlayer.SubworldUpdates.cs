@@ -19,11 +19,12 @@ using Terraria.ModLoader;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.Core;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.NPCs.Aquamarine;
 using Terraria.DataStructures;
 using EEMod.NPCs.Friendly;
 using EEMod.Subworlds.CoralReefs;
+using EEMod.Subworlds;
 
 namespace EEMod
 {
@@ -32,17 +33,15 @@ namespace EEMod
         private readonly List<float> _bubbleRoots = new List<float>();
         public List<BubbleClass> bubbles = new List<BubbleClass>();
 
-        public float quickOpeningFloat = 5f;
-
         public bool jellyfishMigration;
 
         int SpireCutscene;
-        public void UpdateCR()
+        /*public void UpdateCR()
         {
             /*if (player.position.Y >= 800 * 16 && !player.accDivingHelm)
             {
                 player.AddBuff(BuffType<WaterPressure>(), 60);
-            }*/
+            }
 
             if (Main.dayTime)
             {
@@ -54,26 +53,26 @@ namespace EEMod
                 Star.starfallBoost += 1f;
             }
 
-            if (Player.GetModPlayer<EEPlayer>().noU)
+            if (Player.GetModPlayer<SeamapPlayer>().noU)
             {
-                Player.GetModPlayer<EEPlayer>().titleText -= 0.005f;
+                Player.GetModPlayer<SeamapPlayer>().titleText -= 0.005f;
             }
             else
             {
-                Player.GetModPlayer<EEPlayer>().titleText += 0.005f;
+                Player.GetModPlayer<SeamapPlayer>().titleText += 0.005f;
             }
 
-            if (Player.GetModPlayer<EEPlayer>().titleText >= 1)
+            if (Player.GetModPlayer<SeamapPlayer>().titleText >= 1)
             {
-                Player.GetModPlayer<EEPlayer>().noU = true;
+                Player.GetModPlayer<SeamapPlayer>().noU = true;
             }
 
-            if (Player.GetModPlayer<EEPlayer>().titleText <= 0)
+            if (Player.GetModPlayer<SeamapPlayer>().titleText <= 0)
             {
-                Player.GetModPlayer<EEPlayer>().titleText = 0;
+                Player.GetModPlayer<SeamapPlayer>().titleText = 0;
             }
 
-            Player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
+            Player.GetModPlayer<SeamapPlayer>().seamapUpdateCount++;
 
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, CoralReefs.SpirePosition * 16) < 700 * 700)
             {
@@ -93,7 +92,7 @@ namespace EEMod
                 TurnCameraFixationsOff();
             }
 
-            if (!Player.GetModPlayer<EEPlayer>().arrowFlag)
+            if (!Player.GetModPlayer<SeamapPlayer>().arrowFlag)
             {
                 NPC.NewNPC(new Terraria.DataStructures.EntitySource_Parent(Player), (int)(CoralReefs.SpirePosition.X * 16), (int)(CoralReefs.SpirePosition.Y * 16), NPCType<AquamarineSpire>());
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -101,7 +100,7 @@ namespace EEMod
                     //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
                 }
 
-                Player.GetModPlayer<EEPlayer>().arrowFlag = true;
+                Player.GetModPlayer<SeamapPlayer>().arrowFlag = true;
             }
 
             if (CoralReefs.CoralBoatPos == Vector2.Zero)
@@ -121,7 +120,7 @@ namespace EEMod
 
                         SeamapObjects.localship.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
 
-                        SubworldManager.EnterSubworld<Sea>();
+                        SubworldLibrary.SubworldSystem.Enter<Sea>();
                     }
                 }
                 else
@@ -140,50 +139,10 @@ namespace EEMod
             {
                 jellyfishMigration = false;
             }
-        }
-
-        bool placedShipTether = false;
-
-        public int tetherProj;
-        public int sailProj;
+        }*/
 
         public void UpdateWorld()
         {
-            if (!placedShipTether && !boatPlaced)
-            {
-                tetherProj = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<TileExperimentation>()),
-                    shipCoords * 16, Vector2.Zero, ModContent.ProjectileType<TileExperimentation>(), 0, 0f);
-
-                TileExperimentation tether = (Main.projectile[tetherProj].ModProjectile as TileExperimentation);
-
-                tether.pos1 = (shipCoords * 16) + (new Vector2(43, 2) * 16) + new Vector2(8, 12);
-                tether.pos2 = (shipCoords * 16) + (new Vector2(56, 9) * 16) + new Vector2(8, 8);
-
-                sailProj = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<TornSails>()), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
-                    Vector2.Zero, ModContent.ProjectileType<TornSails>(), 0, 0);
-
-                placedShipTether = true;
-            }
-
-            if (EEModConfigClient.Instance.ParticleEffects)
-            {
-                Player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
-            }
-            else
-            {
-                Player.GetModPlayer<EEPlayer>().seamapUpdateCount = 0;
-            }
-
-            if (Player.GetModPlayer<EEPlayer>().seamapUpdateCount == 1)
-            {
-                if (EEPlayer.prevKey == KeyID.Sea)
-                {
-                    Player.Center = new Vector2(100 * 16, (TileCheckWater(100) - 22) * 16);
-                }
-            }
-
-            Player.GetModPlayer<EEPlayer>().baseWorldName = Main.worldName.Replace(' ', '_');
-
             if (Main.netMode != NetmodeID.Server && Filters.Scene[SunThroughWallsShader].IsActive())
             {
                 Filters.Scene.Deactivate(SunThroughWallsShader);

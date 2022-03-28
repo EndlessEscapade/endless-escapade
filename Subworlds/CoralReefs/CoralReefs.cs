@@ -37,13 +37,20 @@ using EEMod.Items.Weapons.Ranger.Guns;
 using EEMod.Items.Weapons.Mage;
 using EEMod.Items.Weapons.Summon.Minions;
 using EEMod.Items.Weapons.Ammo;
-using EEMod.Systems.Subworlds;
-using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.Subworlds;
+
+using SubworldLibrary;
 
 namespace EEMod.Subworlds.CoralReefs
 {
     public class CoralReefs : Subworld
     {
+        public override int Height => 2400;
+        public override int Width => 1500;
+
+        public override List<GenPass> Tasks => throw new NotImplementedException();
+
+
         [FieldInit] public static IList<CoralReefMinibiome> Minibiomes = new List<CoralReefMinibiome>();
 
         [FieldInit] public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
@@ -59,16 +66,12 @@ namespace EEMod.Subworlds.CoralReefs
         public static Vector2 CoralBoatPos;
         public static Vector2 SpirePosition = Vector2.Zero;
 
-        public override Point Dimensions => new Point(1500, 2400);
-
         private int depth = 120;
         private int boatPos = 300;
 
-        public override Point SpawnTile => new Point(boatPos, depth - 22);
-
         public override string Name => "CoralReefs";
 
-        internal override void WorldGeneration(int seed, GenerationProgress customProgressObject = null)
+        /*internal override void WorldGeneration(int seed, GenerationProgress customProgressObject = null)
         {
             var rand = WorldGen.genRand;
             EEMod.progressMessage = "Generating Coral Reefs";
@@ -257,302 +260,302 @@ namespace EEMod.Subworlds.CoralReefs
                 MakeCoralRoom((int)depthsRoomPositions[k].X, (int)depthsRoomPositions[k].Y, 150, 75, 0);
             }*/
 
+        /*#endregion
+
+        RemoveStoneSlabs();
+
+        try
+        {
+            #region Shipwrecks
+            EEMod.progressMessage = "Wrecking ships";
             #endregion
 
-            RemoveStoneSlabs();
+            FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
-            try
+            #region Implementing dynamic objects
+
+            /*
+            EEMod.progressMessage = "Adding Dynamics";
+
+            for (int j = 42; j < ((Main.maxTilesY / 10f) * 4f); j += 2)
             {
-                #region Shipwrecks
-                EEMod.progressMessage = "Wrecking ships";
-                #endregion
-                
-                FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
-
-                #region Implementing dynamic objects
-
-                /*
-                EEMod.progressMessage = "Adding Dynamics";
-
-                for (int j = 42; j < ((Main.maxTilesY / 10f) * 4f); j += 2)
+                for (int i = 42; i < Main.maxTilesX - 42; i += 2)
                 {
-                    for (int i = 42; i < Main.maxTilesX - 42; i += 2)
+                    /*int noOfTiles = 0;
+                    if (j > 200)
                     {
-                        /*int noOfTiles = 0;
-                        if (j > 200)
+                        /*for (int m = 0; m < OrbPositions.Count; m++)
                         {
-                            /*for (int m = 0; m < OrbPositions.Count; m++)
+                            if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
                             {
-                                if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
-                                {
-                                    noOfTiles++;
-                                }
-                            }
-                            if (noOfTiles <= 2)
-                            {
-                                OrbPositions.Add(new Vector2(i, j));
-                            }
-                            int funnyDist = 0;
-                            /*for (int m = 0; m < OrbPositions.Count; m++)
-                            {
-                                if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
-                                {
-                                    funnyDist++;
-                                }
-                            }
-                        }*/
-
-                /*for (int m = 0; m < BulbousTreePosition.Count; m++)
-                {
-                    if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 20 * 20)
-                    {
-                        ifa++;
-                    }
-                }
-
-                if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(3))
-                {
-                    if (CoralReefVineLocations.Count == 0)
-                    {
-                        CoralReefVineLocations.Add(new Vector2(i, j));
-                    }
-                    else
-                    {
-                        Vector2 lastPos = CoralReefVineLocations[CoralReefVineLocations.Count - 1];
-                        if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 &&
-                            Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 55 * 55 ||
-                            Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 150 * 150)
-                        {
-                            CoralReefVineLocations.Add(new Vector2(i, j));
-                        }
-                    }
-                }*/
-
-                #endregion
-
-                #region Smoothing
-                EEMod.progressMessage = "Making the world look nice";
-
-                for (int i = 2; i < Main.maxTilesX - 2; i++)
-                {
-                    for (int j = 2; j < Main.maxTilesY - 2; j++)
-                    {
-                        if (WorldGen.genRand.NextBool(3))
-                        {
-                            Tile.SmoothSlope(i, j);
-                        }
-                        if (!Framing.GetTileSafely(i, j + 1).HasTile && !Framing.GetTileSafely(i, j - 1).HasTile && !Framing.GetTileSafely(i + 1, j).HasTile && !Framing.GetTileSafely(i - 1, j).HasTile)
-                        {
-                            WorldGen.KillTile(i, j);
-                        }
-                    }
-                }
-                #endregion
-
-                #region Removing dirt walls
-                for (int i = 2; i < Main.maxTilesX - 2; i++)
-                {
-                    for (int j = 2; j < Main.maxTilesY - 2; j++)
-                    {
-                        if (Framing.GetTileSafely(i, j).WallType == WallID.Dirt || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe1 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe2 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe3 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe4)
-                        {
-                            WorldGen.KillWall(i, j);
-                        }
-
-                        WorldGen.SquareTileFrame(i, j);
-                    }
-                }
-                #endregion
-
-                #region Placing the boat
-                EEMod.progressMessage = "Placing boat";
-
-                int watercheck = depth - 22;
-
-                //PlaceShipWalls(boatPos, watercheck, ShipWalls);
-                //PlaceShip(boatPos, watercheck, ShipTiles);
-                CoralBoatPos = new Vector2(boatPos, watercheck);
-
-                for (int i = 42; i < Main.maxTilesX - 84; i++)
-                {
-                    if (WorldGen.genRand.NextBool(4))
-                    {
-                        if (TileCheck(i, ModContent.TileType<CoralSandTile>()) > depth)
-                        {
-                            int ballfart = TileCheck(i, ModContent.TileType<CoralSandTile>());
-
-                            int random = WorldGen.genRand.Next(4, 15);
-
-                            for (int j = 1; j < random; j++)
-                            {
-                                if (Framing.GetTileSafely(i, ballfart - j).HasTile || Framing.GetTileSafely(i, ballfart - j).LiquidAmount < 64) break;
-
-                                WorldGen.PlaceTile(i, ballfart - j, ModContent.TileType<SeagrassTile>());
+                                noOfTiles++;
                             }
                         }
-                    }
-                }
-
-                /*for (int i = 42; i < Main.maxTilesX - 84; i++)
-                {
-                    if (WorldGen.genRand.NextBool(6) && (i < boatPos - 1 || i > boatPos + ShipTiles.GetLength(1) + 1))
-                    {
-                        if (!Framing.GetTileSafely(i, depth - 1).HasTile && !Framing.GetTileSafely(i, depth).HasTile && !Framing.GetTileSafely(i, depth + 1).HasTile)
+                        if (noOfTiles <= 2)
                         {
-                            switch (WorldGen.genRand.Next(2))
+                            OrbPositions.Add(new Vector2(i, j));
+                        }
+                        int funnyDist = 0;
+                        /*for (int m = 0; m < OrbPositions.Count; m++)
+                        {
+                            if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
                             {
-                                case 0:
-                                    WorldGen.PlaceTile(i, depth - 1, ModContent.TileType<LilyPadSmol>());
-                                    break;
-
-                                case 1:
-                                    WorldGen.PlaceTile(i, depth - 1, ModContent.TileType<LilyPadMedium>());
-                                    break;
+                                funnyDist++;
                             }
                         }
-                    }
-                }*/
+                    }*/
 
-                for (int i = 100; i < Main.maxTilesX - 200; i++)
-                {
-                    for (int j = Main.maxTilesY / 10; j < Main.maxTilesY * 4 / 10; j++)
-                    {
-                        if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && WorldGen.genRand.NextBool(30))
-                        {
-                            int chest = WorldGen.PlaceChest(i, j - 1, (ushort)ModContent.TileType<CoralChestTile>());
-
-                            EEMod.Instance.Logger.Debug("Chest attempting to spawn at: " + new Vector2(i, j - 1));
-                            if (chest >= 0)
-                            {
-                                Item item1 = new Item();
-
-                                int itemRand = WorldGen.genRand.Next(6);
-
-                                int index = 0;
-
-                                switch (itemRand)
-                                {
-                                    case 0:
-                                        item1.SetDefaults(ModContent.ItemType<MantaRayGlider>());
-                                        break;
-                                    case 1:
-                                        item1.SetDefaults(ModContent.ItemType<CoralEarring>());
-                                        break;
-                                    case 2:
-                                        item1.SetDefaults(ModContent.ItemType<BubbleStriker>());
-                                        break;
-                                    case 3:
-                                        item1.SetDefaults(ModContent.ItemType<BubbleBlitzer>());
-                                        break;
-                                    case 4:
-                                        item1.SetDefaults(ModContent.ItemType<CoralRod>());
-                                        break;
-                                    case 5:
-                                        item1.SetDefaults(ModContent.ItemType<AquaticReinforcmentStaff>());
-                                        break;
-                                    default:
-                                        item1.SetDefaults(ItemID.RedPotion);
-                                        break;
-                                }
-
-                                Main.chest[chest].item[index] = item1;
-                                index++;
-
-                                if (itemRand == 3)
-                                {
-                                    Item bullet = new Item();
-                                    bullet.SetDefaults(ItemID.MusketBall);
-                                    bullet.stack = WorldGen.genRand.Next(50, 100);
-
-                                    Main.chest[chest].item[index] = bullet;
-                                    index++;
-                                }
-
-                                if(WorldGen.genRand.NextBool())
-                                {
-                                    Item item2 = new Item();
-                                    item2.SetDefaults(ModContent.ItemType<CoralArrow>());
-                                    item2.stack = WorldGen.genRand.Next(30, 51);
-
-                                    Main.chest[chest].item[index] = item2;
-                                    index++;
-                                }
-
-                                if (WorldGen.genRand.NextBool())
-                                {
-                                    Item item3 = new Item();
-                                    item3.SetDefaults(ItemID.Glowstick);
-                                    item3.stack = WorldGen.genRand.Next(10, 21);
-
-                                    Main.chest[chest].item[index] = item3;
-                                    index++;
-                                }
-
-                                if (WorldGen.genRand.NextBool())
-                                {
-                                    Item item4 = new Item();
-                                    item4.SetDefaults(ItemID.HealingPotion);
-                                    item4.stack = WorldGen.genRand.Next(5, 11);
-
-                                    Main.chest[chest].item[index] = item4;
-                                    index++;
-                                }
-
-                                if (WorldGen.genRand.NextBool())
-                                {
-                                    Item item5 = new Item();
-                                    item5.SetDefaults(ItemID.RecallPotion);
-                                    item5.stack = WorldGen.genRand.Next(3, 8);
-
-                                    Main.chest[chest].item[index] = item5;
-                                    index++;
-                                }
-
-                                if (WorldGen.genRand.NextBool())
-                                {
-                                    Item item6 = new Item();
-                                    item6.SetDefaults(ItemID.GillsPotion);
-                                    item6.stack = WorldGen.genRand.Next(1, 4);
-
-                                    Main.chest[chest].item[index] = item6;
-                                    index++;
-                                }
-
-                                Item coin = new Item();
-                                coin.SetDefaults(ItemID.GoldCoin);
-                                coin.stack = WorldGen.genRand.Next(3, 8);
-
-                                Main.chest[chest].item[index] = coin;
-                                index++;
-                            }
-                        }
-                    }
-                }
-
-                #endregion
-            }
-            catch (Exception e)
-            {
-                EEMod.progressMessage = "Unsuccessful!";
-                EEMod.progressMessage = e.ToString();
-                SubworldManager.PreSaveAndQuit();
-                return;
-            }
-
-            //Finishing initialization stuff
-            EEMod.progressMessage = "Successful!";
-            // EEMod.isSaving = false;
-
-            Main.spawnTileX = boatPos;
-            Main.spawnTileY = depth - 22;
-
-            EEMod.progressMessage = null;
-        }
-
-        internal override void PlayerUpdate(Player player)
+        /*for (int m = 0; m < BulbousTreePosition.Count; m++)
         {
-
+            if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 20 * 20)
+            {
+                ifa++;
+            }
         }
+
+        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(3))
+        {
+            if (CoralReefVineLocations.Count == 0)
+            {
+                CoralReefVineLocations.Add(new Vector2(i, j));
+            }
+            else
+            {
+                Vector2 lastPos = CoralReefVineLocations[CoralReefVineLocations.Count - 1];
+                if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 &&
+                    Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 55 * 55 ||
+                    Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 150 * 150)
+                {
+                    CoralReefVineLocations.Add(new Vector2(i, j));
+                }
+            }
+        }*/
+
+        /*#endregion
+
+        #region Smoothing
+        EEMod.progressMessage = "Making the world look nice";
+
+        for (int i = 2; i < Main.maxTilesX - 2; i++)
+        {
+            for (int j = 2; j < Main.maxTilesY - 2; j++)
+            {
+                if (WorldGen.genRand.NextBool(3))
+                {
+                    Tile.SmoothSlope(i, j);
+                }
+                if (!Framing.GetTileSafely(i, j + 1).HasTile && !Framing.GetTileSafely(i, j - 1).HasTile && !Framing.GetTileSafely(i + 1, j).HasTile && !Framing.GetTileSafely(i - 1, j).HasTile)
+                {
+                    WorldGen.KillTile(i, j);
+                }
+            }
+        }
+        #endregion
+
+        #region Removing dirt walls
+        for (int i = 2; i < Main.maxTilesX - 2; i++)
+        {
+            for (int j = 2; j < Main.maxTilesY - 2; j++)
+            {
+                if (Framing.GetTileSafely(i, j).WallType == WallID.Dirt || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe1 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe2 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe3 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe4)
+                {
+                    WorldGen.KillWall(i, j);
+                }
+
+                WorldGen.SquareTileFrame(i, j);
+            }
+        }
+        #endregion
+
+        #region Placing the boat
+        EEMod.progressMessage = "Placing boat";
+
+        int watercheck = depth - 22;
+
+        //PlaceShipWalls(boatPos, watercheck, ShipWalls);
+        //PlaceShip(boatPos, watercheck, ShipTiles);
+        CoralBoatPos = new Vector2(boatPos, watercheck);
+
+        for (int i = 42; i < Main.maxTilesX - 84; i++)
+        {
+            if (WorldGen.genRand.NextBool(4))
+            {
+                if (TileCheck(i, ModContent.TileType<CoralSandTile>()) > depth)
+                {
+                    int ballfart = TileCheck(i, ModContent.TileType<CoralSandTile>());
+
+                    int random = WorldGen.genRand.Next(4, 15);
+
+                    for (int j = 1; j < random; j++)
+                    {
+                        if (Framing.GetTileSafely(i, ballfart - j).HasTile || Framing.GetTileSafely(i, ballfart - j).LiquidAmount < 64) break;
+
+                        WorldGen.PlaceTile(i, ballfart - j, ModContent.TileType<SeagrassTile>());
+                    }
+                }
+            }
+        }
+
+        /*for (int i = 42; i < Main.maxTilesX - 84; i++)
+        {
+            if (WorldGen.genRand.NextBool(6) && (i < boatPos - 1 || i > boatPos + ShipTiles.GetLength(1) + 1))
+            {
+                if (!Framing.GetTileSafely(i, depth - 1).HasTile && !Framing.GetTileSafely(i, depth).HasTile && !Framing.GetTileSafely(i, depth + 1).HasTile)
+                {
+                    switch (WorldGen.genRand.Next(2))
+                    {
+                        case 0:
+                            WorldGen.PlaceTile(i, depth - 1, ModContent.TileType<LilyPadSmol>());
+                            break;
+
+                        case 1:
+                            WorldGen.PlaceTile(i, depth - 1, ModContent.TileType<LilyPadMedium>());
+                            break;
+                    }
+                }
+            }
+        }*/
+
+        /*for (int i = 100; i < Main.maxTilesX - 200; i++)
+        {
+            for (int j = Main.maxTilesY / 10; j < Main.maxTilesY * 4 / 10; j++)
+            {
+                if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && WorldGen.genRand.NextBool(30))
+                {
+                    int chest = WorldGen.PlaceChest(i, j - 1, (ushort)ModContent.TileType<CoralChestTile>());
+
+                    EEMod.Instance.Logger.Debug("Chest attempting to spawn at: " + new Vector2(i, j - 1));
+                    if (chest >= 0)
+                    {
+                        Item item1 = new Item();
+
+                        int itemRand = WorldGen.genRand.Next(6);
+
+                        int index = 0;
+
+                        switch (itemRand)
+                        {
+                            case 0:
+                                item1.SetDefaults(ModContent.ItemType<MantaRayGlider>());
+                                break;
+                            case 1:
+                                item1.SetDefaults(ModContent.ItemType<CoralEarring>());
+                                break;
+                            case 2:
+                                item1.SetDefaults(ModContent.ItemType<BubbleStriker>());
+                                break;
+                            case 3:
+                                item1.SetDefaults(ModContent.ItemType<BubbleBlitzer>());
+                                break;
+                            case 4:
+                                item1.SetDefaults(ModContent.ItemType<CoralRod>());
+                                break;
+                            case 5:
+                                item1.SetDefaults(ModContent.ItemType<AquaticReinforcmentStaff>());
+                                break;
+                            default:
+                                item1.SetDefaults(ItemID.RedPotion);
+                                break;
+                        }
+
+                        Main.chest[chest].item[index] = item1;
+                        index++;
+
+                        if (itemRand == 3)
+                        {
+                            Item bullet = new Item();
+                            bullet.SetDefaults(ItemID.MusketBall);
+                            bullet.stack = WorldGen.genRand.Next(50, 100);
+
+                            Main.chest[chest].item[index] = bullet;
+                            index++;
+                        }
+
+                        if(WorldGen.genRand.NextBool())
+                        {
+                            Item item2 = new Item();
+                            item2.SetDefaults(ModContent.ItemType<CoralArrow>());
+                            item2.stack = WorldGen.genRand.Next(30, 51);
+
+                            Main.chest[chest].item[index] = item2;
+                            index++;
+                        }
+
+                        if (WorldGen.genRand.NextBool())
+                        {
+                            Item item3 = new Item();
+                            item3.SetDefaults(ItemID.Glowstick);
+                            item3.stack = WorldGen.genRand.Next(10, 21);
+
+                            Main.chest[chest].item[index] = item3;
+                            index++;
+                        }
+
+                        if (WorldGen.genRand.NextBool())
+                        {
+                            Item item4 = new Item();
+                            item4.SetDefaults(ItemID.HealingPotion);
+                            item4.stack = WorldGen.genRand.Next(5, 11);
+
+                            Main.chest[chest].item[index] = item4;
+                            index++;
+                        }
+
+                        if (WorldGen.genRand.NextBool())
+                        {
+                            Item item5 = new Item();
+                            item5.SetDefaults(ItemID.RecallPotion);
+                            item5.stack = WorldGen.genRand.Next(3, 8);
+
+                            Main.chest[chest].item[index] = item5;
+                            index++;
+                        }
+
+                        if (WorldGen.genRand.NextBool())
+                        {
+                            Item item6 = new Item();
+                            item6.SetDefaults(ItemID.GillsPotion);
+                            item6.stack = WorldGen.genRand.Next(1, 4);
+
+                            Main.chest[chest].item[index] = item6;
+                            index++;
+                        }
+
+                        Item coin = new Item();
+                        coin.SetDefaults(ItemID.GoldCoin);
+                        coin.stack = WorldGen.genRand.Next(3, 8);
+
+                        Main.chest[chest].item[index] = coin;
+                        index++;
+                    }
+                }
+            }
+        }
+
+        #endregion
+    }
+    catch (Exception e)
+    {
+        EEMod.progressMessage = "Unsuccessful!";
+        EEMod.progressMessage = e.ToString();
+        SubworldManager.PreSaveAndQuit();
+        return;
+    }
+
+    //Finishing initialization stuff
+    EEMod.progressMessage = "Successful!";
+    // EEMod.isSaving = false;
+
+    Main.spawnTileX = boatPos;
+    Main.spawnTileY = depth - 22;
+
+    EEMod.progressMessage = null;
+}
+
+internal override void PlayerUpdate(Player player)
+{
+
+}*/
 
         public static PerlinNoiseFunction perlinNoise;
 
@@ -646,38 +649,38 @@ namespace EEMod.Subworlds.CoralReefs
 
                     TilePopulate(
                         new int[] { ModContent.TileType<Hanging1x2Coral>(),
-                        ModContent.TileType<Hanging1x3Coral>(),
-                        ModContent.TileType<Hanging2x3Coral>(),
-                        ModContent.TileType<Hanging2x4Coral>(),
-                        ModContent.TileType<Hanging1x4Coral>(),
+                ModContent.TileType<Hanging1x3Coral>(),
+                ModContent.TileType<Hanging2x3Coral>(),
+                ModContent.TileType<Hanging2x4Coral>(),
+                ModContent.TileType<Hanging1x4Coral>(),
 
-                        ModContent.TileType<Floor1x1Coral>(),
-                        ModContent.TileType<Floor1x2Coral>(),
-                        ModContent.TileType<Floor2x1Coral>(),
-                        ModContent.TileType<Floor2x2Coral>(),
-                        ModContent.TileType<FloorGlow2x2Coral>(),
-                        ModContent.TileType<Floor2x6Coral>(),
-                        ModContent.TileType<Floor3x2Coral>(),
-                        ModContent.TileType<Floor3x3Coral>(),
-                        ModContent.TileType<Floor4x3Coral>(),
-                        ModContent.TileType<Floor7x7Coral>(),
-                        ModContent.TileType<Floor8x7Coral>(),
-                        ModContent.TileType<Floor8x3Coral>(),
-                        ModContent.TileType<FloorGlow9x4Coral>(),
-                        ModContent.TileType<Floor9x9Coral>(),
-                        ModContent.TileType<Floor11x11Coral>(),
+                ModContent.TileType<Floor1x1Coral>(),
+                ModContent.TileType<Floor1x2Coral>(),
+                ModContent.TileType<Floor2x1Coral>(),
+                ModContent.TileType<Floor2x2Coral>(),
+                ModContent.TileType<FloorGlow2x2Coral>(),
+                ModContent.TileType<Floor2x6Coral>(),
+                ModContent.TileType<Floor3x2Coral>(),
+                ModContent.TileType<Floor3x3Coral>(),
+                ModContent.TileType<Floor4x3Coral>(),
+                ModContent.TileType<Floor7x7Coral>(),
+                ModContent.TileType<Floor8x7Coral>(),
+                ModContent.TileType<Floor8x3Coral>(),
+                ModContent.TileType<FloorGlow9x4Coral>(),
+                ModContent.TileType<Floor9x9Coral>(),
+                ModContent.TileType<Floor11x11Coral>(),
 
-                        ModContent.TileType<Wall2x2CoralL>(),
-                        ModContent.TileType<Wall3x2CoralL>(),
-                        ModContent.TileType<Wall3x2NonsolidCoralL>(),
-                        ModContent.TileType<Wall5x2NonsolidCoralL>(),
-                        ModContent.TileType<Wall6x3CoralL>(),
+                ModContent.TileType<Wall2x2CoralL>(),
+                ModContent.TileType<Wall3x2CoralL>(),
+                ModContent.TileType<Wall3x2NonsolidCoralL>(),
+                ModContent.TileType<Wall5x2NonsolidCoralL>(),
+                ModContent.TileType<Wall6x3CoralL>(),
 
-                        ModContent.TileType<Wall2x2CoralR>(),
-                        ModContent.TileType<Wall3x2CoralR>(),
-                        ModContent.TileType<Wall3x2NonsolidCoralR>(),
-                        ModContent.TileType<Wall5x2NonsolidCoralR>(),
-                        ModContent.TileType<Wall6x3CoralR>() },
+                ModContent.TileType<Wall2x2CoralR>(),
+                ModContent.TileType<Wall3x2CoralR>(),
+                ModContent.TileType<Wall3x2NonsolidCoralR>(),
+                ModContent.TileType<Wall5x2NonsolidCoralR>(),
+                ModContent.TileType<Wall6x3CoralR>() },
                     new Rectangle((int)TL.X, (int)TL.Y, (int)BR.X, (int)BR.Y));
 
                     break;
@@ -704,51 +707,51 @@ namespace EEMod.Subworlds.CoralReefs
                             //CreateNoise(!ensureNoise, 100, 10, 0.45f);
                             break;
 
-                            /*case 2:
-                                MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true);
-                                MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
-                                MakeJaggedOval(sizeX / 10, sizeY / 5, new Vector2(xPos - sizeX / 20, yPos - sizeY / 10), TileID.StoneSlab, true);
-                                for (int i = 0; i < 30; i++)
-                                {
-                                    MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), yPos - sizeY + WorldGen.genRand.Next(sizeY * 2)), TileID.StoneSlab, true);
-                                }
-                                break;*/
+                        case 2:
+                            MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true);
+                            MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
+                            MakeJaggedOval(sizeX / 10, sizeY / 5, new Vector2(xPos - sizeX / 20, yPos - sizeY / 10), TileID.StoneSlab, true);
+                            for (int i = 0; i < 30; i++)
+                            {
+                                MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), yPos - sizeY + WorldGen.genRand.Next(sizeY * 2)), TileID.StoneSlab, true);
+                            }
+                            break;
                     }
 
                     TilePopulate(
                         new int[] { ModContent.TileType<Hanging1x2Coral>(),
-                        ModContent.TileType<Hanging1x3Coral>(),
-                        ModContent.TileType<Hanging2x3Coral>(),
-                        ModContent.TileType<Hanging2x4Coral>(),
-                        ModContent.TileType<Hanging1x4Coral>(),
+            ModContent.TileType<Hanging1x3Coral>(),
+            ModContent.TileType<Hanging2x3Coral>(),
+            ModContent.TileType<Hanging2x4Coral>(),
+            ModContent.TileType<Hanging1x4Coral>(),
 
-                        ModContent.TileType<Floor1x1Coral>(),
-                        ModContent.TileType<Floor1x2Coral>(),
-                        ModContent.TileType<Floor2x1Coral>(),
-                        ModContent.TileType<Floor2x2Coral>(),
-                        ModContent.TileType<FloorGlow2x2Coral>(),
-                        ModContent.TileType<Floor2x6Coral>(),
-                        ModContent.TileType<Floor3x2Coral>(),
-                        ModContent.TileType<Floor3x3Coral>(),
-                        ModContent.TileType<Floor4x3Coral>(),
-                        ModContent.TileType<Floor7x7Coral>(),
-                        ModContent.TileType<Floor8x7Coral>(),
-                        ModContent.TileType<Floor8x3Coral>(),
-                        ModContent.TileType<FloorGlow9x4Coral>(),
-                        ModContent.TileType<Floor9x9Coral>(),
-                        ModContent.TileType<Floor11x11Coral>(),
+            ModContent.TileType<Floor1x1Coral>(),
+            ModContent.TileType<Floor1x2Coral>(),
+            ModContent.TileType<Floor2x1Coral>(),
+            ModContent.TileType<Floor2x2Coral>(),
+            ModContent.TileType<FloorGlow2x2Coral>(),
+            ModContent.TileType<Floor2x6Coral>(),
+            ModContent.TileType<Floor3x2Coral>(),
+            ModContent.TileType<Floor3x3Coral>(),
+            ModContent.TileType<Floor4x3Coral>(),
+            ModContent.TileType<Floor7x7Coral>(),
+            ModContent.TileType<Floor8x7Coral>(),
+            ModContent.TileType<Floor8x3Coral>(),
+            ModContent.TileType<FloorGlow9x4Coral>(),
+            ModContent.TileType<Floor9x9Coral>(),
+            ModContent.TileType<Floor11x11Coral>(),
 
-                        ModContent.TileType<Wall2x2CoralL>(),
-                        ModContent.TileType<Wall3x2CoralL>(),
-                        ModContent.TileType<Wall3x2NonsolidCoralL>(),
-                        ModContent.TileType<Wall5x2NonsolidCoralL>(),
-                        ModContent.TileType<Wall6x3CoralL>(),
+            ModContent.TileType<Wall2x2CoralL>(),
+            ModContent.TileType<Wall3x2CoralL>(),
+            ModContent.TileType<Wall3x2NonsolidCoralL>(),
+            ModContent.TileType<Wall5x2NonsolidCoralL>(),
+            ModContent.TileType<Wall6x3CoralL>(),
 
-                        ModContent.TileType<Wall2x2CoralR>(),
-                        ModContent.TileType<Wall3x2CoralR>(),
-                        ModContent.TileType<Wall3x2NonsolidCoralR>(),
-                        ModContent.TileType<Wall5x2NonsolidCoralR>(),
-                        ModContent.TileType<Wall6x3CoralR>() },
+            ModContent.TileType<Wall2x2CoralR>(),
+            ModContent.TileType<Wall3x2CoralR>(),
+            ModContent.TileType<Wall3x2NonsolidCoralR>(),
+            ModContent.TileType<Wall5x2NonsolidCoralR>(),
+            ModContent.TileType<Wall6x3CoralR>() },
                     new Rectangle((int)TL.X, (int)TL.Y, (int)BR.X, (int)BR.Y));
 
                     break;

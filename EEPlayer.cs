@@ -24,10 +24,11 @@ using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.Core;
 using Terraria.DataStructures;
 using System.Linq;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.EEWorld;
 using EEMod.Players;
 using EEMod.Items.Accessories;
+using EEMod.Subworlds;
 
 namespace EEMod
 {
@@ -36,7 +37,6 @@ namespace EEMod
         /// <summary>Screen shake</summary>
         public int Shake = 0;
 
-        public bool importantCutscene;
         public static bool startingText;
         public bool HasVisitedSpire;
 
@@ -45,18 +45,13 @@ namespace EEMod
         public byte[] inPossesion = new byte[7];
         public int bubbleRuneBubble = 0;
 
-        public readonly SubworldManager SM = new SubworldManager();
         public float zipMultiplier = 1;
         public bool isPickingUp;
 
         public Dictionary<int, int> fishLengths = new Dictionary<int, int>();
 
-        public string NameForJoiningClients = "";
         public Vector2[] arrayPoints = new Vector2[24];
-        private float speedOfPan = 1;
-        private readonly string RippleShader = "EEMod:Ripple";
         private readonly string SunThroughWallsShader = "EEMod:SunThroughWalls";
-        private readonly string SeaTransShader = "EEMod:SeaTrans";
         public bool firstFrameVolcano;
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
@@ -69,7 +64,6 @@ namespace EEMod
 
         public bool isHoldingGlider;
         public Vector2 currentAltarPos;
-        public bool isInSubworld;
 
         private float displacmentX = 0;
         private float displacmentY = 0;
@@ -80,6 +74,9 @@ namespace EEMod
         public int intensity;
         private int runeCooldown = 0;
         public bool playingGame;
+
+        public int powerLevel;
+        public float maxPowerLevel;
 
         public bool isHangingOnVine;
 
@@ -104,13 +101,10 @@ namespace EEMod
         // TODO: move some of the logic and stop calling this as it's called during PLAYER SELECTION SCREEN
         public override void Initialize()
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient)
+            /*if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 try
                 {
-                    if (Main.gameMenu)
-                        isInSubworld = false;
-
                     // TODO: Clients need to know when they're in a subworld
                     //else
                     //isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
@@ -131,9 +125,6 @@ namespace EEMod
                 arrowFlag = false;
                 noU = false;
 
-                triggerSeaCutscene = false;
-                importantCutscene = false;
-
                 cutSceneTriggerTimer = 0;
 
                 speedOfPan = 0;
@@ -145,12 +136,7 @@ namespace EEMod
 
                 EEMod.AscentionHandler = 0;
                 EEMod.startingTextHandler = 0;
-            }
-        }
-
-        public override void ResetEffects()
-        {
-            isSaving = false;
+            }*/
         }
 
         public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
@@ -185,7 +171,7 @@ namespace EEMod
 
             EEMod.UpdateAmbience();
 
-            if (Main.worldName != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
+            if (!SubworldLibrary.SubworldSystem.IsActive<Sea>() && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
             {
                 if (Player.velocity.X > 1)
                 {
@@ -214,25 +200,6 @@ namespace EEMod
                 displacmentX = Helpers.Clamp(displacmentX, -clamp, clamp);
                 displacmentY = Helpers.Clamp(displacmentY, -clamp, clamp);
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
-            }
-
-            if (Main.worldName == KeyID.Sea)
-            {
-                Player.position = Player.oldPosition;
-                if (seamapUpdateCount > 1)
-                {
-                    //Main.screenPosition += new Vector2(0, offSea);
-                    //SeamapObjects.localship.ModifyScreenPosition(ref Main.screenPosition);
-                }
-            }
-            if (cutSceneTriggerTimer > 0 && triggerSeaCutscene)
-            {
-                if (!Main.gamePaused)
-                {
-                    speedOfPan += 0.01f;
-                }
-
-                Main.screenPosition.X += cutSceneTriggerTimer * speedOfPan;
             }
             if (isCameraFixating)
             {
@@ -327,21 +294,11 @@ namespace EEMod
             UpdateRunes();
 
             // EEMod.isSaving = false;
-            if (Main.worldName != KeyID.Sea)
-            {
-                if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
-                {
-                    cutSceneTriggerTimer += 2;
-                    Player.position = Player.oldPosition;
-                }
-            }
 
-            if(Main.worldName == KeyID.BaseWorldName)
+            if(SubworldLibrary.SubworldSystem.Current == null)
             {
                 UpdateWorld();
             }
-
-            UpdateCutscenesAndTempShaders();
 
             base.UpdateEquips();
         }
@@ -539,26 +496,19 @@ namespace EEMod
         public override void SaveData(TagCompound tag)
         {
             tag["hasGottenRuneBefore"] = hasGottenRuneBefore;
-            tag["baseworldname"] = baseWorldName;
-            tag["importantCutscene"] = importantCutscene;
             tag["fishLengthsKeys"] = fishLengths.Keys.ToList();
             tag["fishLengthsValues"] = fishLengths.Values.ToList();
-            tag["lastPos"] = myLastBoatPos;
         }
 
         public override void LoadData(TagCompound tag)
         {
             tag.TryGetByteArrayRef("hasGottenRuneBefore", ref hasGottenRuneBefore);
-            tag.TryGetRef("baseworldname", ref baseWorldName);
-            tag.TryGetRef("importantCutscene", ref importantCutscene);
 
             var fishLengthsKeys = new List<int>();
             var fishLengthsValues = new List<int>();
 
             tag.TryGetRef("fishLengthsKeys", ref fishLengthsKeys);
             tag.TryGetRef("fishLengthsValues", ref fishLengthsValues);
-
-            tag.TryGetRef("lastPos", ref myLastBoatPos);
 
             fishLengths = fishLengthsKeys.Zip(fishLengthsValues, (k, v) => new { fishLengthsKeys = k, fishLengthsValues = v }).ToDictionary(d => d.fishLengthsKeys, d => d.fishLengthsValues);
         }

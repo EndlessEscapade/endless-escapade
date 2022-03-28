@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 using EEMod.Items.Placeables.Furniture;
 using EEMod.EEWorld;
 using EEMod.UI.States;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.ID;
 using EEMod;
 using System.Diagnostics;
@@ -67,25 +67,13 @@ namespace EEMod.Tiles.Furniture.Shipyard
                 return false;
             }
 
-            if (Main.worldName.Replace(" ", "_") == KeyID.BaseWorldName)
+            if (SubworldLibrary.SubworldSystem.Current == null)
             {
-                for (int k = 0; k < Main.maxPlayers; k++)
-                {
-                    if (Main.player[k] != null && Main.player[k].active)
-                    {
-                        player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
-                    }
-                }
+                player.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene = true;
             }
             else
             {
-                for (int k = 0; k < Main.maxPlayers; k++)
-                {
-                    if (Main.player[k] != null && Main.player[k].active)
-                    {
-                        player.GetModPlayer<EEPlayer>().EnterSeamap();
-                    }
-                }
+                player.GetModPlayer<SeamapPlayer>().EnterSeamap();
             }
 
             return true;

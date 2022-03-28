@@ -24,7 +24,7 @@ using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.Core;
 using Terraria.DataStructures;
 using System.Linq;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.EEWorld;
 using EEMod.Players;
 using EEMod.Items.Accessories;
@@ -33,6 +33,8 @@ using EEMod;
 using EEMod.Items.Shipyard.Cannonballs;
 using EEMod.Items.Shipyard.Cannons;
 using EEMod.Items.Shipyard.Figureheads;
+using EEMod.Subworlds;
+using EEMod.Tiles;
 
 namespace EEMod
 {
@@ -48,6 +50,14 @@ namespace EEMod
         public Item[] shipStorage; //Stores what the player has in their ship's hold, begins at 20 items, gains 20 on each upgrade
 
         public bool alreadyLoaded;
+
+
+        //Seamap transition values
+        public bool triggerSeaCutscene;
+        public int cutSceneTriggerTimer;
+        public float speedOfPan = 1;
+
+        private readonly string SeaTransShader = "EEMod:SeaTrans";
 
 
         //Seamap vars
@@ -70,6 +80,8 @@ namespace EEMod
             tag["cannonType"] = cannonType;
             tag["figureheadType"] = figureheadType;
             tag["boatTier"] = boatTier;
+            //tag["triggerSeaCutscene"] = triggerSeaCutscene;
+            //tag["cutSceneTriggerTimer"] = cutSceneTriggerTimer;
 
             //tag["shipStorage"] = shipStorage;
         }
@@ -79,6 +91,8 @@ namespace EEMod
             tag.TryGetRef("cannonType", ref cannonType);
             tag.TryGetRef("figureheadType", ref figureheadType);
             tag.TryGetRef("boatTier", ref boatTier);
+            //tag.TryGetRef("triggerSeaCutscene", ref triggerSeaCutscene);
+            //tag.TryGetRef("cutSceneTriggerTimer", ref cutSceneTriggerTimer);
 
             if (boatTier == 0) shipStorage = new Item[20];
             if (boatTier == 1) shipStorage = new Item[40];
@@ -123,6 +137,79 @@ namespace EEMod
         public void RightClickAbility(SeamapPlayerShip boat)
         {
             (new Item(figureheadType)).GetGlobalItem<ShipyardGlobalItem>().info.RightClickAbility(boat);
+        }
+
+        public override void ModifyScreenPosition()
+        {
+            if (cutSceneTriggerTimer > 0 && triggerSeaCutscene)
+            {
+                if (!Main.gamePaused)
+                {
+                    speedOfPan += 0.01f;
+                }
+
+                Main.screenPosition.X += cutSceneTriggerTimer * speedOfPan;
+            }
+        }
+
+        public override void PreUpdate()
+        {
+            if (!SubworldLibrary.SubworldSystem.IsActive<Sea>())
+            {
+                if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
+                {
+                    cutSceneTriggerTimer += 2;
+                    Player.position = Player.oldPosition;
+                }
+            }
+
+            UpdateCutscenesAndTempShaders();
+        }
+
+        public void UpdateCutscenesAndTempShaders()
+        {
+            Filters.Scene[SeaTransShader].GetShader().UseOpacity(cutSceneTriggerTimer);
+            if (!Filters.Scene[SeaTransShader].IsActive())
+            {
+                Filters.Scene.Activate(SeaTransShader, Player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
+            }
+
+            if (!triggerSeaCutscene)
+            {
+                if (Filters.Scene[SeaTransShader].IsActive())
+                {
+                    Filters.Scene.Deactivate(SeaTransShader);
+                }
+            }
+
+            if (cutSceneTriggerTimer >= 500)
+            {
+                Player.GetModPlayer<SeamapPlayer>().EnterSeamap();
+            }
+        }
+
+        bool placedShipTether = false;
+
+        public int tetherProj;
+        public int sailProj;
+
+        public void UpdateWorld()
+        {
+            if (!placedShipTether && !boatPlaced)
+            {
+                tetherProj = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<TileExperimentation>()),
+                    shipCoords * 16, Vector2.Zero, ModContent.ProjectileType<TileExperimentation>(), 0, 0f);
+
+                TileExperimentation tether = (Main.projectile[tetherProj].ModProjectile as TileExperimentation);
+
+                tether.pos1 = (shipCoords * 16) + (new Vector2(43, 2) * 16) + new Vector2(8, 12);
+                tether.pos2 = (shipCoords * 16) + (new Vector2(56, 9) * 16) + new Vector2(8, 8);
+
+                sailProj = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<TornSails>()), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
+                    Vector2.Zero, ModContent.ProjectileType<TornSails>(), 0, 0);
+
+                placedShipTether = true;
+            }
         }
     }
 

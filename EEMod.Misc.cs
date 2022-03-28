@@ -22,6 +22,7 @@ using EEMod.VerletIntegration;
 using EEMod.Systems.EEGame;
 using Terraria.Audio;
 using Terraria.GameContent;
+using EEMod.Subworlds;
 
 namespace EEMod
 {
@@ -165,11 +166,11 @@ namespace EEMod
 
         public static void DrawText()
         {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            SeamapPlayer modPlayer = Main.LocalPlayer.GetModPlayer<SeamapPlayer>();
             float alpha = modPlayer.titleText;
             Color color = Color.White * alpha;
 
-            /*if (Main.worldName == KeyID.Sea)
+            /*if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
             {
                 text = "The Ocean";
                 color = new Color((1 - alpha), (1 - alpha), 1) * alpha;
@@ -204,7 +205,7 @@ namespace EEMod
             Texture2D OceanScreen = EEMod.Instance.Assets.Request<Texture2D>("Seamap/SeamapAssets/OceanScreen").Value;
             if (FontAssets.MouseText.Value != null)
             {
-                if (Main.worldName == KeyID.Sea)
+                if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
                 {
                     Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
 
@@ -217,9 +218,9 @@ namespace EEMod
                 float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
                 float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
                 Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
-                if (Main.worldName == KeyID.Sea)
+                if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
                     Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
-                if (Main.worldName == KeyID.Sea)
+                if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
                 {
                     Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
                 }

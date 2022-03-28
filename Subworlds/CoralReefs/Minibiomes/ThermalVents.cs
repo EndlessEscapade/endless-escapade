@@ -7,10 +7,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.ID;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Subworlds.CoralReefs;
+//using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod.EEWorld
 {

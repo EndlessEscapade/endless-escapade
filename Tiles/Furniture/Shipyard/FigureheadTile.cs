@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 using EEMod.Items.Placeables.Furniture;
 using EEMod.EEWorld;
 using EEMod.UI.States;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.Items.Shipyard.Figureheads;
 
 namespace EEMod.Tiles.Furniture.Shipyard

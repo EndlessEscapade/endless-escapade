@@ -27,96 +27,41 @@ using EEMod.Seamap.Content;
 using EEMod.Seamap.Content.Islands;
 using EEMod.Seamap;
 using EEMod;
-using EEMod.Subworlds.CoralReefs;
+//using EEMod.Subworlds.CoralReefs;
+using SubworldLibrary;
+using Terraria.IO;
+using Terraria.GameContent;
 
-namespace EEMod.Systems.Subworlds.EESubworlds
+namespace EEMod.Subworlds
 {
     public class Sea : Subworld
     {
-        public override Point Dimensions => new Point(600, 600);
-
-        public override Point SpawnTile => new Point(550, 200);
+        public override int Width => 600;
+        public override int Height => 600;
 
         public override string Name => "Sea";
 
-        internal override void WorldGeneration(int seed, GenerationProgress customProgressObject = null)
+        public override List<GenPass> Tasks => new List<GenPass>()
         {
-            Main.worldSurface = 200;
-        }
-
-        internal override void PlayerUpdate(Player player)
-        {
-            if (Main.worldName != KeyID.Sea) return;
-
-            player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
-
-            if (player.GetModPlayer<EEPlayer>().seamapUpdateCount == 1)
-                Seamap.Core.Seamap.InitializeSeamap();
-
-            Seamap.Core.Seamap.UpdateSeamap();
-
-            #region Island Interact methods
-            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
+            new SeaGenPass(progress =>
             {
-                if (obj is Island)
-                {
-                    Island island = obj as Island;
+                progress.Message = "Spawning Seamap"; //Sets the text above the worldgen progress bar
 
-                    EEPlayer.prevKey = KeyID.Sea;
-
-                    player.ClearBuff(BuffID.Cursed);
-                    player.ClearBuff(BuffID.Invisibility);
-
-                    if (island.Hitbox.Intersects(SeamapObjects.localship.Hitbox) && EEMod.Inspect.JustPressed)
-                    {
-                        island.Interact();
-                    }
-                }
-            }
-            #endregion
-
-            #region Opening cutscene for seamap
-
-            if (player.GetModPlayer<EEPlayer>().quickOpeningFloat > 0.01f)
-                player.GetModPlayer<EEPlayer>().quickOpeningFloat -= player.GetModPlayer<EEPlayer>().quickOpeningFloat / 20f;
-            else
-                player.GetModPlayer<EEPlayer>().quickOpeningFloat = 0;
-
-            Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(player.GetModPlayer<EEPlayer>().quickOpeningFloat);
-
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
-                Filters.Scene.Activate("EEMod:SeaOpening", player.Center).GetShader().UseIntensity(player.GetModPlayer<EEPlayer>().quickOpeningFloat);
-
-            #endregion
-
-            #region Warp cutscene
-            if (player.GetModPlayer<EEPlayer>().importantCutscene)
-            {
-                EEMod.Noise2D.NoiseTexture = ModContent.Request<Texture2D>("EEMod/Textures/Noise/noise").Value;
-                Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(player.GetModPlayer<EEPlayer>().cutSceneTriggerTimer / 180f);
-
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())
-                {
-                    Filters.Scene.Activate("EEMod:Noise2D", player.Center).GetShader().UseOpacity(0);
-                }
-
-                player.GetModPlayer<EEPlayer>().cutSceneTriggerTimer++;
-
-                if (player.GetModPlayer<EEPlayer>().cutSceneTriggerTimer > 180)
-                {
-                    player.GetModPlayer<EEPlayer>().Initialize();
-                    Filters.Scene.Deactivate("EEMod:Noise2D");
-                    SubworldManager.EnterSubworld<CoralReefs>(); // coral reefs
-                }
-            }
-            #endregion
-        }
+	    		Main.worldSurface = Main.maxTilesY - 42; //Hides the underground layer just out of bounds
+	    		Main.rockLayer = Main.maxTilesY; //Hides the cavern layer way out of bounds
+            })
+        };
 
         public void ReturnHome(Player player)
         {
             player.GetModPlayer<EEPlayer>().Initialize();
 
-            player.GetModPlayer<EEPlayer>().SM.Return(KeyID.BaseWorldName);
+            SubworldSystem.Exit();
+        }
+
+        public override void DrawMenu(GameTime gameTime)
+        {
+
         }
     }
 
@@ -127,7 +72,27 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         public override bool IsSceneEffectActive(Player player)
         {
-            return Main.worldName == KeyID.Sea;
+            return SubworldLibrary.SubworldSystem.IsActive<Sea>();
+        }
+    }
+
+    public class SeaGenPass : GenPass
+    {
+        private Action<GenerationProgress> method;
+
+        public SeaGenPass(Action<GenerationProgress> method) : base("", 1)
+        {
+            this.method = method;
+        }
+
+        public SeaGenPass(float weight, Action<GenerationProgress> method) : base("", weight)
+        {
+            this.method = method;
+        }
+
+        protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
+        {
+            method(progress);
         }
     }
 }

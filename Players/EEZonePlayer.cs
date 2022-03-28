@@ -1,6 +1,6 @@
 ﻿using EEMod.ID;
 using EEMod.Subworlds.CoralReefs;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

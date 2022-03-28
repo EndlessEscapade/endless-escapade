@@ -171,8 +171,8 @@ namespace EEMod.NPCs.Friendly
                         }
                     }
 
-                    Main.projectile[Main.LocalPlayer.GetModPlayer<EEPlayer>().tetherProj].Kill();
-                    Main.projectile[Main.LocalPlayer.GetModPlayer<EEPlayer>().sailProj].Kill();
+                    Main.projectile[Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().tetherProj].Kill();
+                    Main.projectile[Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().sailProj].Kill();
 
                     EEWorld.EEWorld.boatPlaced = true;
 

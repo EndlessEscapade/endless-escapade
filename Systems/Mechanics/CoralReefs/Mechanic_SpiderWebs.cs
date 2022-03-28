@@ -1,7 +1,7 @@
 using EEMod.Extensions;
 using EEMod.Subworlds.CoralReefs;
 using EEMod.Systems;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

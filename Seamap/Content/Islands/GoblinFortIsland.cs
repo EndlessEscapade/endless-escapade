@@ -5,11 +5,11 @@ using EEMod.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using EEMod.Systems;
-using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.Subworlds;
 
 namespace EEMod.Seamap.Content.Islands
 {
-    public class GoblinFort : Island
+    public class GoblinFortIsland : Island
     {
         public override string name => "Goblin Fort";
         public override int framecount => 1;
@@ -18,20 +18,20 @@ namespace EEMod.Seamap.Content.Islands
 
         public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/GoblinFort", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-        public GoblinFort(Vector2 pos): base(pos)
+        public GoblinFortIsland(Vector2 pos): base(pos)
         {
             
         }
 
         public override void Interact()
         {
-            EEPlayer.prevKey = KeyID.Sea;
+            Main.LocalPlayer.GetModPlayer<SeamapPlayer>().prevKey = KeyID.Sea;
 
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().myLastBoatPos = SeamapObjects.localship.position;
+            Main.LocalPlayer.GetModPlayer<SeamapPlayer>().myLastBoatPos = SeamapObjects.localship.position;
 
             Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
             Terraria.Graphics.Effects.Filters.Scene.Deactivate("EEMod:Noise2D");
-            SubworldManager.EnterSubworld<Subworlds.GoblinFort>();
+            SubworldLibrary.SubworldSystem.Enter<GoblinFort>();
 
             base.Interact();
         }

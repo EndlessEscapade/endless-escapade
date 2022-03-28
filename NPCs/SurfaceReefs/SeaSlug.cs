@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Extensions;
 using EEMod.Backgrounds;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 
 namespace EEMod.NPCs.SurfaceReefs
 {

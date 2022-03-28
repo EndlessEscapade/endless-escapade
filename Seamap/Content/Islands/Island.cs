@@ -5,7 +5,7 @@ using EEMod.Extensions;
 using EEMod.ID;
 using Terraria.ModLoader;
 using System.Diagnostics;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using ReLogic.Content;
 using EEMod.Seamap.Core;
 

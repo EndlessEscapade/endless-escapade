@@ -25,7 +25,7 @@ using EEMod.Tiles.EmptyTileArrays;
 using System.Linq;
 using EEMod.VerletIntegration;
 using EEMod.Prim;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using Terraria.UI;
 using EEMod.NPCs.Friendly;
 using EEMod.Systems.Noise;
@@ -261,7 +261,6 @@ namespace EEMod.EEWorld
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 return;
 
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
         }
 
         public override void PostUpdateEverything()

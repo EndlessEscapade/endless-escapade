@@ -398,13 +398,24 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     if(NPC.ai[1] >= 40)
                     {
+                        /*                            table.velocity = 
+                                (myRoom.Center.ToVector2() + new Vector2(0, 128) +
+                                new Vector2(
+                                    (float)Math.Cos((Main.GameUpdateCount / 1000f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
+                                    (float)Math.Sin((Main.GameUpdateCount / 500f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f)) -
+                                (myRoom.Center.ToVector2() + new Vector2(0, 128) +
+                                new Vector2(
+                                    (float)Math.Cos(((Main.GameUpdateCount - 1) / 1000f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
+                                    (float)Math.Sin(((Main.GameUpdateCount - 1) / 500f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f));*/
                         foreach (Projectile table in tables)
                         {
+                            (table.ModProjectile as PhantomTable).oldCenter = (table.ModProjectile as PhantomTable).desiredCenter;
                             (table.ModProjectile as PhantomTable).desiredCenter =
                                 myRoom.Center.ToVector2() + new Vector2(0, 128) +
                                 new Vector2(
-                                    (float)Math.Cos((Main.GameUpdateCount / 240f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
-                                    (float)Math.Sin((Main.GameUpdateCount / 120f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
+                                    (float)Math.Cos((Main.GameUpdateCount / 1000f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
+                                    (float)Math.Sin((Main.GameUpdateCount / 500f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
+                            (table.ModProjectile as PhantomTable).falseVelocity = ((table.ModProjectile as PhantomTable).desiredCenter - (table.ModProjectile as PhantomTable).desiredCenter);
                         }
                     }
 
@@ -423,11 +434,13 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     foreach (Projectile table in tables)
                     {
+                        (table.ModProjectile as PhantomTable).oldCenter = (table.ModProjectile as PhantomTable).desiredCenter;
                         (table.ModProjectile as PhantomTable).desiredCenter =
                             myRoom.Center.ToVector2() + new Vector2(0, 128) +
                             new Vector2(
-                                    (float)Math.Cos((Main.GameUpdateCount / 240f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
-                                    (float)Math.Sin((Main.GameUpdateCount / 120f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
+                                    (float)Math.Cos((Main.GameUpdateCount / 1000f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
+                                    (float)Math.Sin((Main.GameUpdateCount / 500f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
+                        (table.ModProjectile as PhantomTable).falseVelocity = ((table.ModProjectile as PhantomTable).desiredCenter - (table.ModProjectile as PhantomTable).desiredCenter);
                     }
 
                     switch (currentAttack)

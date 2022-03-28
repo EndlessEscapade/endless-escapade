@@ -57,7 +57,6 @@ namespace EEMod.Projectiles.Runes
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            Main.NewText((255 - Projectile.alpha) / 255);
             if (Projectile.ai[1] > 120)
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Projectiles/Nice").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f * ((255 - Projectile.alpha) / 255), Projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
 

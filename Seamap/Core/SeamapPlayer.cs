@@ -22,16 +22,19 @@ using ReLogic.Graphics;
 using EEMod.Seamap.Content;
 using EEMod.Seamap.Core;
 using EEMod.Autoloading;
-using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.Seamap.Content.Islands;
 using System.Diagnostics;
 using EEMod.Tiles.Furniture;
 using Terraria.Audio;
 using Terraria.ModLoader.IO;
+using EEMod.Subworlds;
 
 namespace EEMod
 {
-    public partial class EEPlayer : ModPlayer
+    public class SeamapPlayer : ModPlayer
     {
+        public bool importantCutscene;
+
         public int timerForCutscene;
         public bool arrowFlag = false;
         public static bool isSaving;
@@ -39,35 +42,31 @@ namespace EEMod
         public float titleText2;
         public float subTextAlpha;
         public bool noU;
-        public bool triggerSeaCutscene;
-        public int cutSceneTriggerTimer;
         public int coralReefTrans;
         public int seamapUpdateCount;
 
         public bool IncreaseStarFall;
 
-        public static string prevKey = "Main";
-
-        public string baseWorldName;
+        public string prevKey = "Main";
 
         public bool hasLoadedIntoWorld;
-
-        public int powerLevel;
-        public float maxPowerLevel;
 
         public Vector2 myLastBoatPos;
 
         public bool lastKeySeamap;
 
+        public float quickOpeningFloat = 5f;
+
         public void ReturnHome()
         {
             Initialize();
 
-            SM.Return(KeyID.BaseWorldName);
+            SubworldLibrary.SubworldSystem.Exit();
 
-            cutSceneTriggerTimer = 0;
-            triggerSeaCutscene = false;
-            speedOfPan = 0;
+            Player.GetModPlayer<ShipyardPlayer>().cutSceneTriggerTimer = 0;
+            Player.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene = false;
+            Player.GetModPlayer<ShipyardPlayer>().speedOfPan = 0;
+
             hasLoadedIntoWorld = false;
 
             lastKeySeamap = true;
@@ -84,8 +83,6 @@ namespace EEMod
             EEMod.isSaving = true;
         }
 
-        public override void clientClone(ModPlayer clientClone) { }
-
         public override void OnEnterWorld(Player player)
         {
             if (prevKey == KeyID.Sea && !hasLoadedIntoWorld)
@@ -93,9 +90,9 @@ namespace EEMod
                 hasLoadedIntoWorld = true;
                 if(lastKeySeamap) player.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
 
-                cutSceneTriggerTimer = 0;
-                triggerSeaCutscene = false;
-                speedOfPan = 0;
+                Player.GetModPlayer<ShipyardPlayer>().cutSceneTriggerTimer = 0;
+                Player.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene = false;
+                Player.GetModPlayer<ShipyardPlayer>().speedOfPan = 0;
 
                 lastKeySeamap = false;
 
@@ -108,28 +105,6 @@ namespace EEMod
             Main.dayTime = dayTime;
         }
 
-        public void UpdateCutscenesAndTempShaders()
-        {
-            Filters.Scene[SeaTransShader].GetShader().UseOpacity(cutSceneTriggerTimer);
-            if (!Filters.Scene[SeaTransShader].IsActive())
-            {
-                Filters.Scene.Activate(SeaTransShader, Player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
-            }
-
-            if (!triggerSeaCutscene)
-            {
-                if (Filters.Scene[SeaTransShader].IsActive())
-                {
-                    Filters.Scene.Deactivate(SeaTransShader);
-                }
-            }
-
-            if (cutSceneTriggerTimer >= 500)
-            {
-                EnterSeamap();
-            }
-        }
-
         public double time;
         public bool dayTime;
 
@@ -140,20 +115,88 @@ namespace EEMod
 
             Initialize();
 
-            prevKey = KeyID.BaseWorldName;
+            seamapUpdateCount = 0;
 
-            if (Main.netMode == NetmodeID.Server)
-            {
-                //Netplay.Clients[0].State = 1;
-            }
-
-            Player.GetModPlayer<EEPlayer>().seamapUpdateCount = 0;
-
-            SubworldManager.EnterSubworld<Sea>();
+            SubworldLibrary.SubworldSystem.Enter<Sea>();
 
             EEMod.isSaving = true;
 
-            cutSceneTriggerTimer = 0;
+            Player.GetModPlayer<ShipyardPlayer>().cutSceneTriggerTimer = 0;
+        }
+
+        public override void PreUpdate()
+        {
+            if (!SubworldLibrary.SubworldSystem.IsActive<Sea>()) return;
+
+            Player.position = Player.oldPosition;
+
+            Player.position.Y = (Main.maxTilesY * 16) - 500;
+
+            seamapUpdateCount++;
+
+            if (seamapUpdateCount == 1)
+                Seamap.Core.Seamap.InitializeSeamap();
+
+            Seamap.Core.Seamap.UpdateSeamap();
+
+            #region Island Interact methods
+            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
+            {
+                if (obj is Island)
+                {
+                    Island island = obj as Island;
+
+                    prevKey = KeyID.Sea;
+
+                    Player.ClearBuff(BuffID.Cursed);
+                    Player.ClearBuff(BuffID.Invisibility);
+
+                    if (island.Hitbox.Intersects(SeamapObjects.localship.Hitbox) && EEMod.Inspect.JustPressed)
+                    {
+                        island.Interact();
+                    }
+                }
+            }
+            #endregion
+
+            #region Opening cutscene for seamap
+
+            if (quickOpeningFloat > 0.01f)
+                quickOpeningFloat -= quickOpeningFloat / 20f;
+            else
+                quickOpeningFloat = 0;
+
+            Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(quickOpeningFloat);
+
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
+                Filters.Scene.Activate("EEMod:SeaOpening", Player.Center).GetShader().UseIntensity(quickOpeningFloat);
+
+            #endregion
+
+            /*#region Warp cutscene
+            if (Player.GetModPlayer<EEPlayer>().importantCutscene)
+            {
+                EEMod.Noise2D.NoiseTexture = ModContent.Request<Texture2D>("EEMod/Textures/Noise/noise").Value;
+                Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(Player.GetModPlayer<EEPlayer>().cutSceneTriggerTimer / 180f);
+
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())
+                {
+                    Filters.Scene.Activate("EEMod:Noise2D", Player.Center).GetShader().UseOpacity(0);
+                }
+
+                Player.GetModPlayer<EEPlayer>().cutSceneTriggerTimer++;
+            }
+            #endregion*/
+        }
+
+        public override void SaveData(TagCompound tag)
+        {
+            tag["lastPos"] = myLastBoatPos;
+        }
+
+        public override void LoadData(TagCompound tag)
+        {
+            tag.TryGetRef("lastPos", ref myLastBoatPos);
         }
     }
 }

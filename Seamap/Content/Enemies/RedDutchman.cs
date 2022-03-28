@@ -52,7 +52,7 @@ namespace EEMod.Seamap.Content.Enemies
 
         public override bool PreDraw(SpriteBatch spriteBatch)
         {
-            EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            ShipyardPlayer eePlayer = Main.LocalPlayer.GetModPlayer<ShipyardPlayer>();
 
             Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/RedDutchman", AssetRequestMode.ImmediateLoad).Value;
 

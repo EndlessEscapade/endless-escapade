@@ -84,7 +84,7 @@ namespace EEMod
             Rectangle rect = new Rectangle(0, FHeight * TileFrameY, tex.Width, FHeight);
             Color drawColour = Lighting.GetColor((int)((Position.X + Main.screenPosition.X) / 16f), (int)((Position.Y + Main.screenPosition.Y) / 16f));
             drawColour.A = 255;
-            Main.spriteBatch.Draw(tex, Position.ForDraw() + Main.screenPosition - new Vector2(Main.LocalPlayer.Center.X * paralax, 0), rect, drawColour * (1 - (Main.LocalPlayer.GetModPlayer<EEPlayer>().cutSceneTriggerTimer / 180f)), MathHelper.Pi, rect.Size() / 2, scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, Position.ForDraw() + Main.screenPosition - new Vector2(Main.LocalPlayer.Center.X * paralax, 0), rect, drawColour * (1 - (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cutSceneTriggerTimer / 180f)), MathHelper.Pi, rect.Size() / 2, scale, SpriteEffects.None, 0f);
         }
     }
 }

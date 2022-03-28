@@ -41,7 +41,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public Vector2 initCenter;
         public Vector2 oldCenter;
 
-        //public Vector2 falseVelocity;
+        public Vector2 falseVelocity;
 
         public int dyingTicks = 0;
 
@@ -64,15 +64,22 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     Projectile.Center = desiredCenter;
                     //Projectile.velocity = desiredCenter - oldCenter;
 
+                    if (Projectile.ai[1] == 0)
+                    {
+                        Main.NewText(desiredCenter);
+                        Main.NewText(oldCenter);
+                    }
+
                     foreach (Player player in Main.player)
                     {
                         if (!player.active || player.controlDown) return;
 
                         var playerBox = new Rectangle((int)player.position.X, (int)player.position.Y + player.height, player.width, 1);
-                        var floorBox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y - (int)Projectile.velocity.Y, Projectile.width, 8 + (int)Math.Max(player.velocity.Y, 0));
+                        var floorBox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y - (int)falseVelocity.Y, Projectile.width, 8 + (int)Math.Max(player.velocity.Y, 0));
 
-                        if (playerBox.Intersects(floorBox) && player.velocity.Y > 0 && !Collision.SolidCollision(player.Bottom, player.width, (int)Math.Max(1 + Projectile.velocity.Y, 0)))
+                        if (playerBox.Intersects(floorBox) && player.velocity.Y > 0 && !Collision.SolidCollision(player.Bottom, player.width, (int)Math.Max(1 + falseVelocity.Y, 0)))
                         {
+                            player.gfxOffY = Projectile.gfxOffY;
                             player.position.Y = Projectile.position.Y - player.height;
                             player.velocity.Y = 0;
                             player.fallStart = (int)(player.position.Y / 16f);
@@ -81,8 +88,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.LocalPlayer.whoAmI);
                         }
                     }
-
-                    oldCenter = desiredCenter;
                 }
             }
             else
