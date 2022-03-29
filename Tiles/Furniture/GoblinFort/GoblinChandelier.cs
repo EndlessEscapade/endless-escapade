@@ -162,7 +162,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
                 axisRotation += rotationVelocity;
 
-                axisRotation *= 0.97f;
+                axisRotation *= 0.965f;
             }
 
             if (Projectile.ai[0] == 0)

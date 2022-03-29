@@ -34,7 +34,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             Projectile.damage = 20;
 
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 100000;
         }
 
         ShadowflameCampfirePrims trail1;

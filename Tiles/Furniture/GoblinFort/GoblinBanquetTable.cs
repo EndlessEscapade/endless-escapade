@@ -14,6 +14,7 @@ using System;
 using EEMod.Prim;
 using EEMod.Projectiles.CoralReefs;
 using EEMod.NPCs.Bosses.Hydros;
+using EEMod.NPCs.Goblins.Scrapwizard;
 
 namespace EEMod.Tiles.Furniture.GoblinFort
 {
@@ -50,6 +51,32 @@ namespace EEMod.Tiles.Furniture.GoblinFort
             DisableSmartCursor = false;
             MinPick = 0;
             MineResist = 1f;
+        }
+
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            for(int n = 0; n < Main.maxNPCs; n++)
+            {
+                if(Main.npc[n].active)
+                {
+                    if(Main.npc[n].type == ModContent.NPCType<Scrapwizard>())
+                    {
+                        Scrapwizard myWizard = (Main.npc[n].ModNPC as Scrapwizard);
+
+                        if((myWizard.bruteDead && !myWizard.fightBegun && myWizard.NPC.ai[1] >= 40) ||
+                           (myWizard.bruteDead && myWizard.fightBegun))
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

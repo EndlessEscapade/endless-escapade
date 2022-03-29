@@ -62,13 +62,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 else
                 {
                     Projectile.Center = desiredCenter;
-                    //Projectile.velocity = desiredCenter - oldCenter;
-
-                    if (Projectile.ai[1] == 0)
-                    {
-                        Main.NewText(desiredCenter);
-                        Main.NewText(oldCenter);
-                    }
 
                     foreach (Player player in Main.player)
                     {
@@ -98,7 +91,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 }
                 else
                 {
-                    Projectile.Center = initCenter;
+                    Projectile.Kill();
                 }
 
                 dyingTicks++;
