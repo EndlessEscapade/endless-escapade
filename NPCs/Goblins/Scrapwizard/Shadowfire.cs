@@ -46,6 +46,20 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void AI()
         {
+            bool stayAlive = false;
+            for(int i = 0; i < Main.maxNPCs; i++)
+            {
+                if(Main.npc[i].type == ModContent.NPCType<Scrapwizard>() && Main.npc[i].active)
+                {
+                    stayAlive = true;
+                }
+            }
+
+            if(!stayAlive)
+            {
+                Projectile.ai[0] = 2;
+            }
+
             Projectile.velocity.Y += 0.4f;
 
             Projectile.velocity.X *= 0.995f;
@@ -60,8 +74,16 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                 Projectile.ai[0] = 1;
             }
+            else if (Projectile.ai[0] == 1)
+            {
+                if (heightFloat < desiredHeight) heightFloat += 0.5f;
+            }
+            else
+            {
+                heightFloat -= 2f;
 
-            if (heightFloat < desiredHeight) heightFloat += 0.5f;
+                if (heightFloat <= 0) Projectile.Kill();
+            }
 
             trail1.startPoint = Projectile.position;
             trail1.controlPoint = Projectile.position + new Vector2(0, -(heightFloat / 2));

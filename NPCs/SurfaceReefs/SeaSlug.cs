@@ -66,7 +66,7 @@ namespace EEMod.NPCs.SurfaceReefs
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D glow = ModContent.Request<Texture2D>("EEMod/NPCs/CoralReefs/SeaSlugGlow").Value;
+            Texture2D glow = ModContent.Request<Texture2D>("EEMod/NPCs/SurfaceReefs/SeaSlugGlow").Value;
             Main.spriteBatch.Draw(glow, NPC.position.ForDraw(), NPC.frame, Color.White, NPC.rotation, Vector2.Zero, 1f, (NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 0f);
         }
     }

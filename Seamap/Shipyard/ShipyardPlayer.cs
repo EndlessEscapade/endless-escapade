@@ -160,6 +160,7 @@ namespace EEMod
                 {
                     cutSceneTriggerTimer += 2;
                     Player.position = Player.oldPosition;
+                    Player.velocity = Vector2.Zero;
                 }
             }
 

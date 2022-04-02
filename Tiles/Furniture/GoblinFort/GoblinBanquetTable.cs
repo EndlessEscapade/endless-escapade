@@ -55,28 +55,30 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            for(int n = 0; n < Main.maxNPCs; n++)
+            bool safeToDraw = false;
+            for (int n = 0; n < Main.maxProjectiles; n++)
             {
-                if(Main.npc[n].active)
+                if (Main.projectile[n].active)
                 {
-                    if(Main.npc[n].type == ModContent.NPCType<Scrapwizard>())
+                    if (Main.projectile[n].type == ModContent.ProjectileType<PhantomTable>())
                     {
-                        Scrapwizard myWizard = (Main.npc[n].ModNPC as Scrapwizard);
-
-                        if((myWizard.bruteDead && !myWizard.fightBegun && myWizard.NPC.ai[1] >= 40) ||
-                           (myWizard.bruteDead && myWizard.fightBegun))
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            return true;
-                        }
+                        safeToDraw = true;
                     }
                 }
             }
 
-            return true;
+            if(safeToDraw)
+            {
+                Framing.GetTileSafely(i, j).IsActuated = true;
+
+                return false;
+            }
+            else
+            {
+                Framing.GetTileSafely(i, j).IsActuated = false;
+
+                return true;
+            }
         }
     }
 }

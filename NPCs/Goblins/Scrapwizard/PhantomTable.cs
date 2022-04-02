@@ -45,9 +45,14 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public int dyingTicks = 0;
 
+        public bool colliding;
+
+        public Vector2 offsetPos;
+        public Vector2 offsetVel;
+
         public override void AI()
         {
-            //Taken from Spirit w/ permission
+            //Reffed from Spirit w/ permission
 
             if (dyingTicks <= 0)
             {
@@ -61,26 +66,13 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 }
                 else
                 {
-                    Projectile.Center = desiredCenter;
+                    Projectile.Center = desiredCenter + offsetPos;
 
-                    foreach (Player player in Main.player)
-                    {
-                        if (!player.active || player.controlDown) return;
+                    offsetPos += offsetVel;
 
-                        var playerBox = new Rectangle((int)player.position.X, (int)player.position.Y + player.height, player.width, 1);
-                        var floorBox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y - (int)falseVelocity.Y, Projectile.width, 8 + (int)Math.Max(player.velocity.Y, 0));
+                    offsetVel.Y *= 0.85f;
 
-                        if (playerBox.Intersects(floorBox) && player.velocity.Y > 0 && !Collision.SolidCollision(player.Bottom, player.width, (int)Math.Max(1 + falseVelocity.Y, 0)))
-                        {
-                            player.gfxOffY = Projectile.gfxOffY;
-                            player.position.Y = Projectile.position.Y - player.height;
-                            player.velocity.Y = 0;
-                            player.fallStart = (int)(player.position.Y / 16f);
-
-                            if (player == Main.LocalPlayer)
-                                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.LocalPlayer.whoAmI);
-                        }
-                    }
+                    Projectile.rotation *= 0.95f;
                 }
             }
             else

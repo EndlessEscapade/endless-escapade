@@ -36,6 +36,7 @@ using EEMod.NPCs.Glowshroom;
 using EEMod.Players;
 using System.Diagnostics;
 using EEMod.Subworlds;
+using EEMod.NPCs.Goblins.Scrapwizard;
 
 namespace EEMod
 {
@@ -76,6 +77,7 @@ namespace EEMod
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             On.Terraria.Main.DrawTiles += Main_DrawTiles1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
+            On.Terraria.Player.Update_NPCCollision += Player_Update_NPCCollision;
 
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
@@ -110,6 +112,7 @@ namespace EEMod
             On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
             On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
+            On.Terraria.Player.Update_NPCCollision -= Player_Update_NPCCollision;
 
             On.Terraria.Main.DoDraw_UpdateCameraPosition -= Main_DoDraw_UpdateCameraPosition;
 
@@ -120,6 +123,52 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
 
             Main.OnPreDraw -= Main_OnPreDraw;
+        }
+
+        public void Player_Update_NPCCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
+        {
+            for(int i = 0; i < Main.maxProjectiles; i++) 
+            {
+                Projectile proj = Main.projectile[i];
+
+                if (proj.ModProjectile is PhantomTable table) 
+                { 
+                    if (!self.active || self.controlDown) return;
+
+                    var playerBox = new Rectangle((int)self.position.X, (int)self.position.Y + self.height, self.width, 1);
+                    var floorBox = new Rectangle((int)proj.position.X, (int)proj.position.Y - (int)table.falseVelocity.Y, proj.width, 8 + (int)Math.Max(self.velocity.Y, 0));
+
+                    if (/*player.Bottom.Y > (Projectile.position.Y - player.height + ((float)Math.Sin(Projectile.rotation) * (player.Center.X - Projectile.Center.X)))
+                            && */playerBox.Intersects(floorBox) && self.velocity.Y > 0 && !Collision.SolidCollision(self.Bottom, self.width, (int)Math.Max(1 + table.falseVelocity.Y, 0)))
+                    {
+                        if(self.velocity.Y > 1 && table.offsetVel.Y <= 0)
+                        {
+                            table.offsetVel.Y = self.velocity.Y / 3f;
+                        }
+
+                        self.gfxOffY = proj.gfxOffY;
+                        self.position.Y = proj.position.Y - self.height + ((float)Math.Sin(proj.rotation) * (self.Center.X - proj.Center.X));
+                        self.velocity.Y = 0;
+                        self.oldVelocity.Y = 0;
+                        self.fallStart = (int)(self.position.Y / 16f);
+                        self.fallStart2 = (int)(self.position.Y / 16f);
+
+                        proj.rotation = (self.Center.X - proj.Center.X) * 0.001f;
+
+                        if (self == Main.LocalPlayer)
+                            NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.LocalPlayer.whoAmI);
+                    }
+                    else
+                    {
+                        if (table.offsetPos.Y > 0) table.offsetPos.Y--;
+                        else table.offsetPos.Y = 0;
+
+                        if (Math.Abs(table.offsetVel.Y) <= 0.01f) table.offsetVel.Y = 0f;
+                    }
+                }
+            }
+
+            orig(self);
         }
 
         private static void ClampScreenPositionToWorld(int maxRight, int maxBottom)

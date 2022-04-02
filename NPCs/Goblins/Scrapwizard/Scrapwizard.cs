@@ -74,6 +74,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public float guardShield;
 
         public List<Projectile> tables;
+        public int tableTicks;
 
         public override void AI()
         {
@@ -317,6 +318,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             }
             else //Phase 2
             {
+                tableTicks++;
+
                 #region Initializing
                 if (!fightBegun)
                 {
@@ -405,24 +408,14 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     if(NPC.ai[1] >= 40)
                     {
-                        /*                            table.velocity = 
-                                (myRoom.Center.ToVector2() + new Vector2(0, 128) +
-                                new Vector2(
-                                    (float)Math.Cos((Main.GameUpdateCount / 1000f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
-                                    (float)Math.Sin((Main.GameUpdateCount / 500f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f)) -
-                                (myRoom.Center.ToVector2() + new Vector2(0, 128) +
-                                new Vector2(
-                                    (float)Math.Cos(((Main.GameUpdateCount - 1) / 1000f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
-                                    (float)Math.Sin(((Main.GameUpdateCount - 1) / 500f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f));*/
-
                         foreach (Projectile table in tables)
                         {
                             (table.ModProjectile as PhantomTable).oldCenter = (table.ModProjectile as PhantomTable).desiredCenter;
                             (table.ModProjectile as PhantomTable).desiredCenter =
                                 myRoom.Center.ToVector2() + new Vector2(0, 128) +
                                 new Vector2(
-                                    (float)Math.Cos((Main.GameUpdateCount / 700f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
-                                    (float)Math.Sin((Main.GameUpdateCount / 350f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
+                                    (float)Math.Cos(((tableTicks + (700 * 3.14f)) / 700f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
+                                    (float)Math.Sin(((tableTicks + (350 * 3.14f)) / 350f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
                             (table.ModProjectile as PhantomTable).falseVelocity = ((table.ModProjectile as PhantomTable).desiredCenter - (table.ModProjectile as PhantomTable).desiredCenter);
                         }
                     }
@@ -446,8 +439,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         (table.ModProjectile as PhantomTable).desiredCenter =
                             myRoom.Center.ToVector2() + new Vector2(0, 128) +
                             new Vector2(
-                                    (float)Math.Cos((Main.GameUpdateCount / 700f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
-                                    (float)Math.Sin((Main.GameUpdateCount / 350f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
+                                    (float)Math.Cos(((tableTicks + (700 * 3.14f)) / 700f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
+                                    (float)Math.Sin(((tableTicks + (350 * 3.14f)) / 350f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
                         (table.ModProjectile as PhantomTable).falseVelocity = ((table.ModProjectile as PhantomTable).desiredCenter - (table.ModProjectile as PhantomTable).desiredCenter);
                     }
 
@@ -621,9 +614,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             .RotatedBy(skrunkle.axisRotation);
 
                         NPC.rotation = skrunkle.axisRotation;
-
-                        //HEY GOOD AFTERNOON :)
-                        //make swing time dependent on a random bool and being ready to swing to another chandelier instead of being on a preset timer - but have a cap
                     }
                     else if (NPC.ai[3] % 310 < 270) //Picking the next chandelier to swing to, and starting the jump
                     {
