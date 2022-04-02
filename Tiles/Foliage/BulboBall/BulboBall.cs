@@ -97,8 +97,8 @@ namespace EEMod.Tiles.Foliage.BulboBall
                 {
                     if (peaked) ballHeight += (float)Math.Sin((Main.GameUpdateCount / 80f) + (j - i)) * 0.5f;
 
-                    Texture2D vineTex = ModContent.Request<Texture2D>("EEMod/Textures/BigVineVert").Value;
-                    Texture2D vineTexGlow = ModContent.Request<Texture2D>("EEMod/Textures/BigVineVertGlow").Value;
+                    Texture2D vineTex = ModContent.Request<Texture2D>("EEMod/Textures/Vines/BigVineVert").Value;
+                    Texture2D vineTexGlow = ModContent.Request<Texture2D>("EEMod/Textures/Vines/BigVineVertGlow").Value;
                     Vector2 bezierOrig = new Vector2(i * 16, j * 16) + zero;
 
                     Vector2 bulboBallPos = new Vector2(i * 16, j * 16) + new Vector2(64, 32 - ballHeight);

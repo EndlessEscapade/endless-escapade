@@ -513,9 +513,7 @@ namespace EEMod.Subworlds
 
         public override bool IsSceneEffectActive(Player player)
         {
-            return true;
-
-            //return SubworldSystem.IsActive<GoblinFort>();
+            return SubworldSystem.IsActive<GoblinFort>();
         }
     }
 

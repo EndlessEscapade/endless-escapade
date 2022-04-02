@@ -500,7 +500,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if(NPC.ai[1] >= 300)
                             {
-                                currentAttack = Main.rand.Next(4);
+                                currentAttack = Main.rand.Next(2);
                                 NPC.ai[1] = 0;
                             }
 
@@ -554,7 +554,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if (NPC.ai[1] >= 300)
                             {
-                                currentAttack = Main.rand.Next(4);
+                                currentAttack = Main.rand.Next(2);
                                 NPC.ai[1] = 0;
                             }
 
@@ -753,7 +753,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             if (bruteDead && fightBegun)
             {
-                if (currentAttack == 2 && (NPC.ai[1] % 100) > 1 && (NPC.ai[1] % 100) <= 40)
+                if (currentAttack == 0 && (NPC.ai[1] % 100) > 1 && (NPC.ai[1] % 100) <= 40)
                 {
                     spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
@@ -765,7 +765,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
                     spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (NPC.ai[1] % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
                 }
-                if (currentAttack == 3 && (NPC.ai[1] % 100) > 48 && (NPC.ai[1] % 100) <= 60)
+                if (currentAttack == 1 && (NPC.ai[1] % 100) > 48 && (NPC.ai[1] % 100) <= 60)
                 {
                     spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 

@@ -259,7 +259,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
             int distance = (int)Vector2.Distance(localAnchorPos16, Projectile.Center);
 
-            for(float i = 10; i < distance; i += 10) 
+            for(float i = 5; i < distance; i += 10) 
             {
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/GoblinFort/GoblinChandelierChain").Value,
                     Vector2.Lerp(localAnchorPos16, Projectile.Center, i / (float)(distance)) - Main.screenPosition, null, Lighting.GetColor(anchorPos.ToPoint()), axisRotation, new Vector2(4, 5), 1f, SpriteEffects.None, 0f);

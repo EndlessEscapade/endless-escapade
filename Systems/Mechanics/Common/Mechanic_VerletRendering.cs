@@ -15,7 +15,11 @@ namespace EEMod
     {
         public override void PostDrawTiles()
         {
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+
             EEMod.Instance.verlet.GlobalRenderPoints();
+
+            Main.spriteBatch.End();
         }
     }
 }

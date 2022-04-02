@@ -33,8 +33,8 @@ namespace EEMod
             Vector2 p5 = new Vector2((tilePos.X + spread) * 16, down3 * 16);
             Vector2 p6 = new Vector2((tilePos.X + spread) * 16, up3 * 16);
 
-            Texture2D BlueLight = EEMod.Instance.Assets.Request<Texture2D>("Projectiles/LightBlue").Value;
-            Texture2D vineTexture = EEMod.Instance.Assets.Request<Texture2D>("Projectiles/BigVine").Value;
+            Texture2D BlueLight = EEMod.Instance.Assets.Request<Texture2D>("Textures/Vines/LightBlue").Value;
+            Texture2D vineTexture = EEMod.Instance.Assets.Request<Texture2D>("Textures/Vines/BigVine").Value;
 
             float Addon = 10;
             float cockandbol = 0.8f;

@@ -16,7 +16,7 @@ namespace EEMod.Seamap.Content.Islands
         public override int framespid => 10;
         public override bool cancollide => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/GoblinFort", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/GoblinFortIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public GoblinFortIsland(Vector2 pos): base(pos)
         {
