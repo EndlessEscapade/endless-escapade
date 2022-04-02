@@ -506,6 +506,19 @@ namespace EEMod.Subworlds
         }
     }
 
+    public class GoblinFortSystem : ModSceneEffect
+    {
+        public override int Music => MusicLoader.GetMusicSlot(ModContent.GetInstance<EEMod>(), "Assets/Music/GoblinRaid");
+        public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
+
+        public override bool IsSceneEffectActive(Player player)
+        {
+            return true;
+
+            //return SubworldSystem.IsActive<GoblinFort>();
+        }
+    }
+
     public class GoblinFortPlayer : ModPlayer
     {
         public int updateTicks = 0;

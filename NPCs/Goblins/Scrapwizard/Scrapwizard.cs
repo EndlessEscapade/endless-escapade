@@ -75,6 +75,9 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public List<Projectile> tables;
         public int tableTicks;
+        public int resetVal;
+
+        public List<Projectile> scrapbits;
 
         public override void AI()
         {
@@ -320,6 +323,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             {
                 tableTicks++;
 
+                guardShield = 0f;
+
                 #region Initializing
                 if (!fightBegun)
                 {
@@ -446,16 +451,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     switch (currentAttack)
                     {
-                        case 0: //railgun shoots bits of scrap at yoy that stick to tables and explode as mines
-
-
-                            break;
-                        case 1: // scrap wall attack where you must get in a good position or you get torn up
-
-
-                            break;
-                        case 2: //turns all the chandelier flames but the one he's on into shadowflame, telegraph beams
-                            if (NPC.ai[1] % 100 == 1) 
+                        case 0: //turns all the chandelier flames but the one he's on into shadowflame, telegraph beams
+                            if (NPC.ai[1] % 100 == 2) 
                             {
                                 List<Projectile> potChandeliers = new List<Projectile>();
 
@@ -509,7 +506,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
 
                             break;
-                        case 3: //combines the chandelier flames into one big fireball each and casts them down with a meteor fashion towards the player
+                        case 1: //combines the chandelier flames into one big fireball each and casts them down with a meteor fashion towards the player
                             if (NPC.ai[1] % 100 == 1)
                             {
                                 List<Projectile> potChandeliers = new List<Projectile>();
@@ -562,11 +559,20 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             }
 
                             break;
+                        case 2: //railgun shoots bits of scrap at yoy that stick to tables and explode as mines
+
+                            break;
+                        case 3: // scrap wall attack where you must get in a good position or you get torn up
+
+                            break;
                         case 4: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
+
                             break;
                         case 5: // drops a chandelier down to you rapidly and the flames explode, pulls the chandelier back up afterward, repeat 5 times - come back to this
+
                             break;
                         case 6: //morphs the scrap into a sword and starts swinging, up cut, down cut, spin attack, and final up cut and the shards fly up
+
                             break;
                     }
 
@@ -575,9 +581,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     {
                         List<Projectile> potentialChandeliers = new List<Projectile>();
 
+                        potChandelier = null;
+
                         foreach (Projectile chandelier in chandeliers)
                         {
-                            if (Vector2.Distance(chandelier.Center, NPC.Center) < 20 * 16 && chandelier != Main.projectile[(int)NPC.ai[2]])
+                            if (Vector2.Distance(chandelier.Center, NPC.Center) < 20 * 16 && chandelier != Main.projectile[(int)NPC.ai[2]] && !(chandelier.ModProjectile as GoblinChandelierLight).disabled)
                             {
                                 potentialChandeliers.Add(chandelier);
                             }
@@ -596,10 +604,12 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         if (NPC.velocity.X < 0)
                         {
+                            resetVal = 0;
                             NPC.ai[3] = 0;
                         }
                         else
                         {
+                            resetVal = 45;
                             NPC.ai[3] = 45;
                         }
                     }
@@ -609,8 +619,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
 
-                        NPC.Center = skrunkle.anchorPos16 + 
-                            (Vector2.UnitY * skrunkle.chainLength / 1.5f)
+                        NPC.Center = skrunkle.anchorPos16 + new Vector2(0, 8) + 
+                            (Vector2.UnitY * (skrunkle.chainLength / 1.5f))
                             .RotatedBy(skrunkle.axisRotation);
 
                         NPC.rotation = skrunkle.axisRotation;
@@ -619,6 +629,25 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     {
                         if ((nextToTheLeft && NPC.ai[3] == 180) || (!nextToTheLeft && NPC.ai[3] == 225))
                         {
+                            if(potChandelier == null || (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).disabled)
+                            {
+                                NPC.ai[3] = resetVal;
+
+                                GoblinChandelierLight skrunkle = (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight);
+
+                                skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
+
+                                NPC.Center = skrunkle.anchorPos16 + new Vector2(0, 8) +
+                                    (Vector2.UnitY * (skrunkle.chainLength / 1.5f))
+                                    .RotatedBy(skrunkle.axisRotation);
+
+                                NPC.rotation = skrunkle.axisRotation;
+
+                                NPC.ai[3]++;
+
+                                return;
+                            }
+
                             //Ready to swing
 
                             (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).rotationVelocity = (NPC.ai[3] == 180 ? 0.05f : -0.05f);
@@ -635,9 +664,9 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             GoblinChandelierLight skrunkle = (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight);
 
                             skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
-                            
-                            NPC.Center = skrunkle.anchorPos16 +
-                                (Vector2.UnitY * skrunkle.chainLength / 1.5f)
+
+                            NPC.Center = skrunkle.anchorPos16 + new Vector2(0, 8) +
+                                (Vector2.UnitY * (skrunkle.chainLength / 1.5f))
                                 .RotatedBy(skrunkle.axisRotation);
 
                             NPC.rotation = skrunkle.axisRotation;
@@ -653,8 +682,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     NPC.ai[3]++;
                 }
-
-                guardShield = 0f;
             }
         }
 

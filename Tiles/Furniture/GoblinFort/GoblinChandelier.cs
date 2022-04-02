@@ -152,6 +152,8 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
         public int chainLength = 80;
 
+        public bool disabled;
+
         public override void AI()
         {
             anchorPos16 = (anchorPos * 16) + new Vector2(8, 8);
@@ -253,14 +255,14 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
         public override bool PreDraw(ref Color lightColor)
         {
-            anchorPos16 = (anchorPos * 16) + new Vector2(8, 10);
+            Vector2 localAnchorPos16 = (anchorPos * 16) + new Vector2(8, 16);
 
-            int distance = (int)Vector2.Distance(anchorPos16, Projectile.Center);
+            int distance = (int)Vector2.Distance(localAnchorPos16, Projectile.Center);
 
             for(float i = 10; i < distance; i += 10) 
             {
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/GoblinFort/GoblinChandelierChain").Value,
-                    Vector2.Lerp(anchorPos16, Projectile.Center, i / (float)(distance)) - Main.screenPosition, null, Lighting.GetColor(anchorPos.ToPoint()), axisRotation, new Vector2(4, 5), 1f, SpriteEffects.None, 0f);
+                    Vector2.Lerp(localAnchorPos16, Projectile.Center, i / (float)(distance)) - Main.screenPosition, null, Lighting.GetColor(anchorPos.ToPoint()), axisRotation, new Vector2(4, 5), 1f, SpriteEffects.None, 0f);
             }
 
             lightColor = Lighting.GetColor(anchorPos.ToPoint());
