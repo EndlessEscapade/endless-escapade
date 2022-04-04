@@ -74,7 +74,7 @@ namespace EEMod.Seamap.Core
             #region Moderate water generation
             SeamapObjects.NewSeamapObject(new TropicalIsland2(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
 
-            SeamapObjects.NewSeamapObject(new TropicalIslandAlt(new Vector2(3500, 3500)));
+            //SeamapObjects.NewSeamapObject(new TropicalIslandAlt(new Vector2(3500, 3500)));
 
             SeamapObjects.NewSeamapObject(new MoyaiIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
 

@@ -500,7 +500,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if(NPC.ai[1] >= 300)
                             {
-                                currentAttack = Main.rand.Next(2);
+                                currentAttack = Main.rand.Next(3);
                                 NPC.ai[1] = 0;
                             }
 
@@ -554,24 +554,73 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if (NPC.ai[1] >= 300)
                             {
-                                currentAttack = Main.rand.Next(2);
+                                currentAttack = Main.rand.Next(3);
                                 NPC.ai[1] = 0;
                             }
 
                             break;
-                        case 2: //railgun shoots bits of scrap at yoy that stick to tables and explode as mines
+                        case 2: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
+                            if (NPC.ai[1] % 40 == 0)
+                            {
+                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, (Vector2.Normalize(target.Center - NPC.Center) * 6f), ModContent.ProjectileType<ShadowflameJarBounce>(), 0, 0);
+                            }
+
+                            Main.NewText(NPC.ai[3]);
+
+                            if (NPC.ai[1] == 1)
+                            {
+                                if (!nextToTheLeft)
+                                {
+                                    Main.NewText("haha 0");
+                                    resetVal = 45;
+                                }
+                                else
+                                {
+                                    Main.NewText("haha 45");
+                                    resetVal = 90;
+                                }
+
+                                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).chainLength++;
+
+                                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).disabled = true;
+                            }
+                            if (NPC.ai[1] < 180)
+                            {
+                                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).chainLength++;
+
+                                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).disabled = true;
+                            }
+                            else if (NPC.ai[1] < 360)
+                            {
+                                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).disabled = true;
+                            }
+                            else if (NPC.ai[1] < 540) 
+                            {
+                                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).chainLength--;
+
+                                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).disabled = true;
+                            }
+                            else
+                            {
+                                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).chainLength = 80;
+
+                                (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).disabled = false;
+
+                                currentAttack = Main.rand.Next(3);
+                                NPC.ai[1] = 0;
+                            }
 
                             break;
-                        case 3: // scrap wall attack where you must get in a good position or you get torn up
+                        case 3: // drops a chandelier down to you rapidly and the flames explode, pulls the chandelier back up afterward, repeat 5 times - come back to this
 
                             break;
-                        case 4: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
+                        case 4: //railgun shoots bits of scrap at yoy that stick to tables and explode as mines        SCRAAAAPA
 
                             break;
-                        case 5: // drops a chandelier down to you rapidly and the flames explode, pulls the chandelier back up afterward, repeat 5 times - come back to this
+                        case 5: // scrap wall attack where you must get in a good position or you get torn up        SCRAAAAPA
 
                             break;
-                        case 6: //morphs the scrap into a sword and starts swinging, up cut, down cut, spin attack, and final up cut and the shards fly up
+                        case 6: //morphs the scrap into a sword and starts swinging, up cut, down cut, spin attack, and final up cut and the shards fly up        SCRAAAAPA
 
                             break;
                     }
@@ -593,16 +642,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         potChandelier = potentialChandeliers[Main.rand.Next(0, potentialChandeliers.Count)];
 
-                        if(potChandelier.Center.X < Main.projectile[(int)NPC.ai[2]].Center.X)
-                        {
-                            nextToTheLeft = true;
-                        }
-                        else
-                        {
-                            nextToTheLeft = false;
-                        }
-
-                        if (NPC.velocity.X < 0)
+                        if (nextToTheLeft)
                         {
                             resetVal = 0;
                             NPC.ai[3] = 0;
@@ -612,6 +652,15 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             resetVal = 45;
                             NPC.ai[3] = 45;
                         }
+
+                        if (potChandelier.Center.X < Main.projectile[(int)NPC.ai[2]].Center.X)
+                        {
+                            nextToTheLeft = true;
+                        }
+                        else
+                        {
+                            nextToTheLeft = false;
+                        }
                     }
                     else if (NPC.ai[3] % 310 < 180) //Actively swinging on a chandelier
                     {
@@ -620,8 +669,10 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
 
                         NPC.Center = skrunkle.anchorPos16 + new Vector2(0, 8) + 
-                            (Vector2.UnitY * (skrunkle.chainLength / 1.5f))
-                            .RotatedBy(skrunkle.axisRotation);
+                            ((Vector2.UnitY)
+                            .RotatedBy(skrunkle.axisRotation) * (skrunkle.chainLength - 40));
+
+                        //NPC.Center = skrunkle.Projectile.Center + new Vector2(0, -22 - 40).RotatedBy(skrunkle.axisRotation);
 
                         NPC.rotation = skrunkle.axisRotation;
                     }
@@ -638,8 +689,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
 
                                 NPC.Center = skrunkle.anchorPos16 + new Vector2(0, 8) +
-                                    (Vector2.UnitY * (skrunkle.chainLength / 1.5f))
-                                    .RotatedBy(skrunkle.axisRotation);
+                                    ((Vector2.UnitY)
+                                    .RotatedBy(skrunkle.axisRotation) * (skrunkle.chainLength - 40));
 
                                 NPC.rotation = skrunkle.axisRotation;
 
@@ -666,8 +717,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
 
                             NPC.Center = skrunkle.anchorPos16 + new Vector2(0, 8) +
-                                (Vector2.UnitY * (skrunkle.chainLength / 1.5f))
-                                .RotatedBy(skrunkle.axisRotation);
+                                ((Vector2.UnitY)
+                                .RotatedBy(skrunkle.axisRotation) * (skrunkle.chainLength - 40));
 
                             NPC.rotation = skrunkle.axisRotation;
                         }

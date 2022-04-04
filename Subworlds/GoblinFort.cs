@@ -407,7 +407,7 @@ namespace EEMod.Subworlds
                 #endregion
 
                 //Placing player boat
-                BuildBoat(1600 - 90, 245);
+                BuildBoat(1600 - 90, 245 + 1);
 
                 for (int i = 1600 - 90; i < 1600 - 90 + 45; i++)
                 {
