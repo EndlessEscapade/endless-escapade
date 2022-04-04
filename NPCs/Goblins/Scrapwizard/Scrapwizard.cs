@@ -565,18 +565,14 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, (Vector2.Normalize(target.Center - NPC.Center) * 6f), ModContent.ProjectileType<ShadowflameJarBounce>(), 0, 0);
                             }
 
-                            Main.NewText(NPC.ai[3]);
-
                             if (NPC.ai[1] == 1)
                             {
                                 if (!nextToTheLeft)
                                 {
-                                    Main.NewText("haha 0");
                                     resetVal = 45;
                                 }
                                 else
                                 {
-                                    Main.NewText("haha 45");
                                     resetVal = 90;
                                 }
 
@@ -612,6 +608,23 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             break;
                         case 3: // drops a chandelier down to you rapidly and the flames explode, pulls the chandelier back up afterward, repeat 5 times - come back to this
+                            if (NPC.ai[1] % 180 == 0)
+                            {
+                                //pick chandelier and start drop
+                            }
+                            else if (NPC.ai[1] % 180 < 120)
+                            {
+                                //drop chandelier
+                            }
+                            else if (NPC.ai[1] % 180 < 179)
+                            {
+                                //reel it back up
+                            }
+                            else
+                            {
+                                //reset the chandelier
+                            }
+
 
                             break;
                         case 4: //railgun shoots bits of scrap at yoy that stick to tables and explode as mines        SCRAAAAPA

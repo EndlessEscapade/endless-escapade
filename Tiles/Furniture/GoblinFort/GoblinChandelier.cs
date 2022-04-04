@@ -189,7 +189,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
             Projectile.ai[0]++;
 
-            Projectile.Center = anchorPos16 + new Vector2(0, 8) + (Vector2.UnitY.RotatedBy(axisRotation) * chainLength);
+            Projectile.Center = anchorPos16 + (Vector2.UnitY.RotatedBy(axisRotation) * chainLength);
             Projectile.rotation = (anchorPos16 - Projectile.Center).ToRotation() + 1.57f;
 
             foreach(ShadowflameCampfirePrims trail in trails)
