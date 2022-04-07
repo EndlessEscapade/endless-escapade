@@ -1,18 +1,6 @@
 # EEMod
-get back to work
-joe
-joe
-joe
-jo
-ejoe
-joe
-ejo
-joe
-jo
-ejoe
-joe
-jo
-e
-MAMA!
+this isn't the right github repo
 
-if you see this ping crown in #general chat
+L
+
+if you see this spamping exitium in #general in Endless Escapade
