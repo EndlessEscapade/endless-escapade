@@ -30,7 +30,12 @@ namespace EEMod.Systems
 				/*6*/ $"If you brought me [c/E4A214:{"150§Wood"}] [i:{ItemID.Wood}] and [c/E4A214:{"20§Silk"}] [i:{ItemID.Silk}] along with a solid payment of [c/E4A214:{"5§gold§coins"}] [i:{ItemID.GoldCoin}], I'd get her fixed right up for you.",
 				/*7*/ "Here you go!",
 				/*8*/ "No, bye.",
-				/*9*/ "Sorry, you don't have enough resources for me to repair the ship."
+				/*9*/ "Sorry, you don't have enough resources for me to repair the ship.",
+				/*10*/"Oh, well, a while ago a storm hit my ship, and my brother was cast into the depths.",
+				/*11*/"After that, I couldn't stomach going sailing the seas again. Brings back too much for me, ye know.",
+				/*12*/"My memories with him are too fond to lose, though, so I stay by the sea in hopes that one day he'll come back. "
+				/*13*/"Sorry about that",
+				/*14*/"Ah well, it's fine; it was years ago. I just hope one day I can see him again."
 			};
 			if (!Main.player[Main.myPlayer].GetModPlayer<DialoguePlayer>().HasTalkedToSailor)
             {
@@ -49,12 +54,24 @@ namespace EEMod.Systems
 			switch (piece)
             {
                 case (0):
-					PresentResponses(new int[5] { 2, 1, 3, 7, 8 });
+					PresentResponses(new int[3] { 2, 1, 3 });
 					break;
 				case (1):
 					//PresentResponses(new int[1] { 4 });
 					SayPiece(4);
+				case (2):
+					SayPiece(10);
 					break;
+				case (10):
+					SayPiece(11);
+				case (11):
+					SayPiece(12);
+				case (12):
+					PresentResponses(new int[1] { 13 });
+				case (13):
+					SayPiece(14);
+				case (14):
+					CloseDialogue();
 				case (4):
 					//PresentResponses(new int[1] { 5 });
 					SayPiece(5);
