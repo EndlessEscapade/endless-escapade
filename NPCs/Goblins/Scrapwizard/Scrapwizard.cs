@@ -359,6 +359,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 }
                             }
                         }
+
+                        //for(int i = 0; i < 20; i++)
+                        //{
+                        //    Projectile.NewProjectile();
+                        //}
                     }
                     else if (NPC.ai[1] < 80)
                     {
@@ -447,6 +452,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                     (float)Math.Cos(((tableTicks + (700 * 3.14f)) / 700f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
                                     (float)Math.Sin(((tableTicks + (350 * 3.14f)) / 350f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
                         (table.ModProjectile as PhantomTable).falseVelocity = ((table.ModProjectile as PhantomTable).desiredCenter - (table.ModProjectile as PhantomTable).desiredCenter);
+
+                        //if(Main.rand.NextBool(600))
+                        //{
+                            //(table.ModProjectile as PhantomTable).slamTicks = 180;
+                        //}
                     }
 
                     switch (currentAttack)
@@ -500,7 +510,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if(NPC.ai[1] >= 300)
                             {
-                                currentAttack = Main.rand.Next(3);
+                                currentAttack = Main.rand.Next(4);
                                 NPC.ai[1] = 0;
                             }
 
@@ -554,7 +564,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if (NPC.ai[1] >= 300)
                             {
-                                currentAttack = Main.rand.Next(3);
+                                currentAttack = Main.rand.Next(4);
                                 NPC.ai[1] = 0;
                             }
 
@@ -602,32 +612,86 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                                 (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).disabled = false;
 
-                                currentAttack = Main.rand.Next(3);
+                                currentAttack = Main.rand.Next(4);
                                 NPC.ai[1] = 0;
                             }
 
                             break;
                         case 3: // drops a chandelier down to you rapidly and the flames explode, pulls the chandelier back up afterward, repeat 5 times - come back to this
-                            if (NPC.ai[1] % 180 == 0)
+                            if (NPC.ai[1] % 120 == 0)
                             {
+                                NPC.ai[1]++;
+                            }
+
+                            if (NPC.ai[1] % 120 == 1)
+                            {
+                                float currDist = 1000000;
+                                foreach (Projectile chandelier in chandeliers)
+                                {
+                                    if (Vector2.Distance(chandelier.Center, target.Center) < currDist && 
+                                        (Main.projectile[(int)NPC.ai[2]] != chandelier) &&
+                                        chandelier != potChandelier)
+                                    {
+                                        currDist = Vector2.Distance(chandelier.Center, target.Center);
+
+                                        attackChandelier = chandelier;
+                                    }
+                                }
+
                                 //pick chandelier and start drop
                             }
-                            else if (NPC.ai[1] % 180 < 120)
+                            else if (NPC.ai[1] % 120 < 60)
                             {
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).disabled = true;
+
+                                if ((attackChandelier.ModProjectile as GoblinChandelierLight).chainLength < 16 * 33)
+                                {
+                                    (attackChandelier.ModProjectile as GoblinChandelierLight).chainLength += (int)((NPC.ai[1] % 120) * 0.25f);
+                                }
+
                                 //drop chandelier
                             }
-                            else if (NPC.ai[1] % 180 < 179)
+                            else if (NPC.ai[1] % 120 < 120 - 1)
                             {
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).disabled = true;
+
+                                if ((attackChandelier.ModProjectile as GoblinChandelierLight).chainLength > 80)
+                                {
+                                    (attackChandelier.ModProjectile as GoblinChandelierLight).chainLength -= 8;
+                                }
+
                                 //reel it back up
                             }
                             else
                             {
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).chainLength = 80;
+
+                                (attackChandelier.ModProjectile as GoblinChandelierLight).disabled = false;
+
                                 //reset the chandelier
+                            }
+                            
+                            if(NPC.ai[1] >= (120 * 5) - 1)
+                            {
+                                currentAttack = Main.rand.Next(4);
+                                NPC.ai[1] = 0;
                             }
 
 
                             break;
                         case 4: //railgun shoots bits of scrap at yoy that stick to tables and explode as mines        SCRAAAAPA
+                            if(NPC.ai[1] % 60 == 1)
+                            {
+                                foreach(Projectile bit in scrapbits)
+                                {
+                                    
+                                }
+                            }
+                            else if (NPC.ai[1] % 60 < 30)
+                            {
+
+                            }
+
 
                             break;
                         case 5: // scrap wall attack where you must get in a good position or you get torn up        SCRAAAAPA

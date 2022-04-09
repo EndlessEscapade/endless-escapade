@@ -50,6 +50,9 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public Vector2 offsetPos;
         public Vector2 offsetVel;
 
+
+        public int slamTicks;
+
         public override void AI()
         {
             //Reffed from Spirit w/ permission
@@ -66,13 +69,34 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 }
                 else
                 {
-                    Projectile.Center = desiredCenter + offsetPos;
+                    if (slamTicks > 120)
+                    {
+                        Projectile.Center = desiredCenter + offsetPos;
+
+                        //shake
+                    }
+                    else if (slamTicks > 60)
+                    {
+                        Projectile.Center += new Vector2(0, (140 - slamTicks) / 15f);
+
+                        //slam
+                    }
+                    else if (slamTicks > 0)
+                    {
+                        Projectile.Center = Vector2.SmoothStep(Projectile.Center, desiredCenter, (60 - slamTicks) / 60f);
+                    }
+                    else
+                    {
+                        Projectile.Center = desiredCenter + offsetPos;
+                    }
 
                     offsetPos += offsetVel;
 
                     offsetVel.Y *= 0.85f;
 
                     Projectile.rotation *= 0.95f;
+
+                    slamTicks--;
                 }
             }
             else
