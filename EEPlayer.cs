@@ -98,47 +98,6 @@ namespace EEMod
 
         }
 
-        // TODO: move some of the logic and stop calling this as it's called during PLAYER SELECTION SCREEN
-        public override void Initialize()
-        {
-            /*if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                try
-                {
-                    // TODO: Clients need to know when they're in a subworld
-                    //else
-                    //isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
-                }
-                catch
-                {
-
-                }
-
-                SpireCutscene = 0;
-
-                isPickingUp = false;
-                quickOpeningFloat = 20;
-
-                isSaving = false;
-                timerForCutscene = 0;
-                seamapUpdateCount = 0;
-                arrowFlag = false;
-                noU = false;
-
-                cutSceneTriggerTimer = 0;
-
-                speedOfPan = 0;
-                subTextAlpha = 0;
-
-                displacmentX = 0;
-                displacmentY = 0;
-                isCameraFixating = false;
-
-                EEMod.AscentionHandler = 0;
-                EEMod.startingTextHandler = 0;
-            }*/
-        }
-
         public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
         {
             fixatingPoint = fixatingPointCamera;

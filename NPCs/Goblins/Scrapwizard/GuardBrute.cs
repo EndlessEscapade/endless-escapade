@@ -88,7 +88,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         NPC.ai[2] = 118 * 16 - 464;
                     }
 
-                    myRoom = new Rectangle((int)NPC.ai[1] + 384, (int)NPC.ai[2] + 464, 112 * 16, 33 * 16);
+                    myRoom = new Rectangle((int)NPC.ai[1] + 384, (int)NPC.ai[2] + 464, 112 * 16, 36 * 16);
 
                     NPC.Center = myRoom.Center.ToVector2() + new Vector2(96, 128);
 
@@ -136,7 +136,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         //SLAM
                         else if (myWizard.NPC.ai[1] < 120)
                         {
-                            if (myWizard.NPC.ai[1] % 5 == 0 && frameY < 3) frameY++;
+                            //if (myWizard.NPC.ai[1] % 5 == 0 && frameY < 3) frameY++;
                         }
 
                         break;
@@ -187,7 +187,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             NPC.velocity.X = -8 * (myRoom.Center.X < NPC.ai[2] ? 1 : -1);
 
-                            frameY = 3;
+                            //frameY = 3;
 
                             if(myWizard.NPC.ai[1] % 2 == 0)
                             {
@@ -199,7 +199,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     case 2: //Starts swinging his sword in a slashing motion and moving towards the player.
                         NPC.velocity.X = 2 * (target.Center.X < NPC.Center.X ? -1 : 1);
 
-                        frameY = (int)(2 + (Math.Sin(myWizard.NPC.ai[1] / 20f) * 1.5f));
+                        //frameY = (int)(2 + (Math.Sin(myWizard.NPC.ai[1] / 20f) * 1.5f));
                         break;
                     case 3: //brute jumps up, scrapwizard throws a shadowflame potion down, and the brute slams into it, shooting flame across the whole arena.
                         if (myWizard.NPC.ai[1] % 80 < 40)
@@ -224,7 +224,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     case 4: //brute rapidly slices up and down towards the player, then slams his sword into the ground and gets stuck.
                         NPC.velocity.X = 4 * (target.Center.X < NPC.Center.X ? -1 : 1);
 
-                        if (myWizard.NPC.ai[1] < 120)
+                        /*if (myWizard.NPC.ai[1] < 120)
                         {
                             if (myWizard.NPC.ai[1] % 16 < 8) frameY = 2;
                             else frameY = 3;
@@ -243,7 +243,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             {
                                 if (frameY < 3 && myWizard.NPC.ai[1] % 5 == 0) frameY++;
                             }
-                        }
+                        }*/
                         break;
                     case 5: //throws up a shadowflame potion, brute breaks it on its sword, then shoots a temporary flame column at the player
                         if (myWizard.NPC.ai[1] < 40)
@@ -305,10 +305,10 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         {
             myWizard.InitShader(spriteBatch);
 
-            Rectangle rect = new Rectangle(0, frameY * 144, 144, 144);
+            Rectangle rect = new Rectangle(0, frameY * 108, 108, 108);
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/GuardBrute").Value;
 
-            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, rect, Color.White, NPC.rotation, NPC.spriteDirection == 1 ? new Vector2(48, 96) : new Vector2(96, 96), 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, rect, Color.White, NPC.rotation, NPC.spriteDirection == 1 ? new Vector2(54, 54) : new Vector2(54, 54), 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 

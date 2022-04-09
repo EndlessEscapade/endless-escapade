@@ -650,7 +650,7 @@ namespace EEMod
             {
                 wasDoingWorldGen = false;
             }
-
+            /*
             if ((isSaving && Main.gameMenu) || (isSaving) || Main.MenuUI.CurrentState is UIWorldLoad)
             {
                 alpha += 0.01f;
@@ -1013,6 +1013,7 @@ namespace EEMod
                     }
                 }
             }
+            */
         }
 
         int ticker;

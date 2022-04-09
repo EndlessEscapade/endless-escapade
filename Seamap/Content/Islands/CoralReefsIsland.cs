@@ -28,8 +28,6 @@ namespace EEMod.Seamap.Content.Islands
 
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().myLastBoatPos = SeamapObjects.localship.position;
 
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
-            Terraria.Graphics.Effects.Filters.Scene.Deactivate("EEMod:Noise2D");
             SubworldLibrary.SubworldSystem.Enter<CoralReefs>();
 
             base.Interact();

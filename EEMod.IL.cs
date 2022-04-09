@@ -505,12 +505,12 @@ namespace EEMod
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame2.Y, texture.Width, texture.Height / frames), new Color(0, 0, 0), 0, new Rectangle(0, frame2.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
         }
 
-        private Texture2D texture;
-        private Texture2D texture2;
+        public Texture2D texture;
+        public Texture2D texture2;
         public Rectangle frame2;
         public int Countur;
-        private int frames;
-        private int frameSpeed;
+        public int frames;
+        public int frameSpeed;
 
         private void WorldGenBeaches()
         {

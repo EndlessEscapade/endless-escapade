@@ -59,8 +59,6 @@ namespace EEMod
 
         public void ReturnHome()
         {
-            Initialize();
-
             SubworldLibrary.SubworldSystem.Exit();
 
             Player.GetModPlayer<ShipyardPlayer>().cutSceneTriggerTimer = 0;
@@ -70,6 +68,8 @@ namespace EEMod
             hasLoadedIntoWorld = false;
 
             lastKeySeamap = true;
+
+            prevKey = KeyID.Sea;
 
             ModContent.GetInstance<EEMod>().Countur = 0;
             ModContent.GetInstance<EEMod>().frame2.Y = 0;
@@ -112,8 +112,6 @@ namespace EEMod
         {
             time = Main.time;
             dayTime = Main.dayTime;
-
-            Initialize();
 
             seamapUpdateCount = 0;
 
