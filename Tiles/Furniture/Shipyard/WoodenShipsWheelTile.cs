@@ -67,7 +67,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
                 return false;
             }
 
-            player.GetModPlayer<SeamapPlayer>().myLastBoatPos = new Vector2(Seamap.seamapWidth - 450, Seamap.seamapWidth - 100);
+            player.GetModPlayer<SeamapPlayer>().myLastBoatPos = new Vector2(Seamap.Core.Seamap.seamapWidth - 450, Seamap.Core.Seamap.seamapWidth - 100);
 
             if (SubworldLibrary.SubworldSystem.Current == null)
             {

@@ -54,7 +54,7 @@ namespace EEMod.Systems
 			switch (piece)
             {
                 case (0):
-					PresentResponses(new int[3] { 2, 1, 3 });
+					PresentResponses((!EEWorld.EEWorld.boatPlaced) ? new int[3] { 2, 1, 3 } : new int[2] { 2, 3 });
 					break;
 				case (1):
 					//PresentResponses(new int[1] { 4 });
@@ -121,7 +121,7 @@ namespace EEMod.Systems
 						}
 					}
 
-					if (goodOnWood && goodOnSilk && goodOnMoney && goodOnCannon && goodOnFigurehead)
+					if (goodOnWood && goodOnSilk && goodOnMoney)
 					{
 						(Main.npc[AssociatedNPC].ModNPC as Sailor).ticker = 0;
 						(Main.npc[AssociatedNPC].ModNPC as Sailor).cutsceneOpacity = 0;
