@@ -28,7 +28,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 
             TileObjectData.newTile.Height = 4;
-            TileObjectData.newTile.Width = 10;
+            TileObjectData.newTile.Width = 8;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
             TileObjectData.newTile.StyleHorizontal = false;
             TileObjectData.newTile.Origin = new Point16(0, 0);
@@ -91,7 +91,8 @@ namespace EEMod.Tiles.Furniture.Shipyard
     {
         public override bool PreDraw(int i, int j, int type, SpriteBatch spriteBatch)
         {
-            if (Framing.GetTileSafely(i, j + 1).TileType == ModContent.TileType<FigureheadTile>() && type != ModContent.TileType<FigureheadTile>())
+            if ((Framing.GetTileSafely(i, j + 1).TileType == ModContent.TileType<FigureheadTile>()
+                || Framing.GetTileSafely(i + 1, j + 1).TileType == ModContent.TileType<FigureheadTile>()) && type != ModContent.TileType<FigureheadTile>())
             {
                 if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().figureheadType == ModContent.ItemType<WoodenFigurehead>())
                 {

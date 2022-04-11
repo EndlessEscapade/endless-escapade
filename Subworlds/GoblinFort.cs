@@ -485,6 +485,11 @@ namespace EEMod.Subworlds
             base.OnLoad();
         }
 
+        public override void OnEnter()
+        {
+
+        }
+
         public override void OnExit()
         {
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().prevKey = KeyID.GoblinFort;
@@ -550,11 +555,11 @@ namespace EEMod.Subworlds
                     break;
                 }
             }
-            if (ModContent.GetInstance<EEMod>().Countur++ > ModContent.GetInstance<EEMod>().frameSpeed)
+            /*if (ModContent.GetInstance<EEMod>().Countur++ > ModContent.GetInstance<EEMod>().frameSpeed)
             {
                 ModContent.GetInstance<EEMod>().Countur = 0;
                 ModContent.GetInstance<EEMod>().frame2.Y += ModContent.GetInstance<EEMod>().texture.Height / ModContent.GetInstance<EEMod>().frames;
-            }
+            }*/
             if (ModContent.GetInstance<EEMod>().frame2.Y >= ModContent.GetInstance<EEMod>().texture.Height / ModContent.GetInstance<EEMod>().frames * (ModContent.GetInstance<EEMod>().frames - 1))
             {
                 ModContent.GetInstance<EEMod>().frame2.Y = 0;

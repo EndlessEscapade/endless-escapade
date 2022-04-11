@@ -67,6 +67,8 @@ namespace EEMod.Tiles.Furniture.Shipyard
                 return false;
             }
 
+            player.GetModPlayer<ShipyardPlayer>().myLastBoatPos = new Vector2(5000, 5000);
+
             if (SubworldLibrary.SubworldSystem.Current == null)
             {
                 player.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene = true;

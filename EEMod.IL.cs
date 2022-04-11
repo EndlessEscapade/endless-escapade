@@ -51,7 +51,7 @@ namespace EEMod
         private int _counter;
         private int _screenframes;
         private int _screenframeSpeed;
-        private float alpha;
+        public float alpha;
 
         public static string screenMessageText;
         public static string progressMessage;

@@ -127,7 +127,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         NPC.rotation += NPC.velocity.X / 4f;
                     }
 
-                    if (Vector2.DistanceSquared(target.Center, NPC.Center) <= 320 * 320 && NPC.ai[1] == 1)
+                    if ((Vector2.DistanceSquared(target.Center, NPC.Center) <= 320 * 320 || myGuard.NPC.life < myGuard.NPC.lifeMax) && NPC.ai[1] == 1)
                     {
                         SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblinlaugh2"));
 

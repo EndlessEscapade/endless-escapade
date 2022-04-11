@@ -128,7 +128,10 @@ namespace EEMod
 
             Player.position = Player.oldPosition;
 
-            Player.position.Y = (Main.maxTilesY * 16) - 500;
+            Player.position.X = (Main.maxTilesX * 16 * (2f / 3f)) + 300;
+            Player.position.Y = (Main.maxTilesY * 16 * (2f / 3f)) + 300;
+
+            Player.fallStart = (int)(Player.position.Y / 16f);
 
             seamapUpdateCount++;
 
@@ -149,7 +152,7 @@ namespace EEMod
                     Player.ClearBuff(BuffID.Cursed);
                     Player.ClearBuff(BuffID.Invisibility);
 
-                    if (island.Hitbox.Intersects(SeamapObjects.localship.Hitbox) && EEMod.Inspect.JustPressed)
+                    if (island.Hitbox.Intersects(SeamapObjects.localship.Hitbox) && Main.LocalPlayer.controlJump)
                     {
                         island.Interact();
                     }

@@ -27,6 +27,7 @@ using EEMod.Seamap.Content;
 using EEMod.Seamap.Content.Islands;
 using EEMod.Seamap;
 using EEMod;
+using Terraria.UI.Chat;
 //using EEMod.Subworlds.CoralReefs;
 using SubworldLibrary;
 using Terraria.IO;
@@ -76,7 +77,7 @@ namespace EEMod.Subworlds
                     ModContent.GetInstance<EEMod>().texture2 = ModContent.Request<Texture2D>("EEMod/UI/LoadingScreenImages/LoadingScreen4").Value;
                     break;
             }
-            switch (EEMod.loadingChooseImage)
+            switch (EEMod.loadingChoose)
             {
                 default:
                 {
@@ -133,13 +134,31 @@ namespace EEMod.Subworlds
 
             Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().texture, position, new Rectangle(0, ModContent.GetInstance<EEMod>().frame2.Y, ModContent.GetInstance<EEMod>().texture.Width, ModContent.GetInstance<EEMod>().texture.Height / ModContent.GetInstance<EEMod>().frames), new Color(0, 0, 0), 0, new Rectangle(0, ModContent.GetInstance<EEMod>().frame2.Y, ModContent.GetInstance<EEMod>().texture.Width, ModContent.GetInstance<EEMod>().texture.Height / ModContent.GetInstance<EEMod>().frames).Size() / 2, 1, SpriteEffects.None, 0);
 
+            float tempAlpha = ModContent.GetInstance<EEMod>().alpha;
+            tempAlpha = 1 - (Math.Abs((Main.graphics.GraphicsDevice.Viewport.Width / 2) - (FontAssets.DeathText.Value.MeasureString(EEMod.screenMessageText).X / 2) - ModContent.GetInstance<EEMod>().textPositionLeft) / (Main.graphics.GraphicsDevice.Viewport.Width / 2f));
+
+            ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, EEMod.screenMessageText, new Vector2(ModContent.GetInstance<EEMod>().textPositionLeft, Main.graphics.GraphicsDevice.Viewport.Height / 2 - 100), Color.White * tempAlpha, 0f, Vector2.Zero, Vector2.One);
+
             Main.spriteBatch.End();
 
             return;
         }
 
+        public override void OnEnter()
+        {
+            Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cutSceneTriggerTimer = 0;
+            Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene = false;
+            Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().speedOfPan = 0;
+
+            base.OnEnter();
+        }
+
         public override void OnExit()
         {
+            Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cutSceneTriggerTimer = 0;
+            Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene = false;
+            Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().speedOfPan = 0;
+
             base.OnExit();
         }
     }

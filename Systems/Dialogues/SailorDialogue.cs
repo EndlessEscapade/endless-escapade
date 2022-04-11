@@ -33,7 +33,7 @@ namespace EEMod.Systems
 				/*9*/ "Sorry, you don't have enough resources for me to repair the ship.",
 				/*10*/"Oh, well, a while ago a storm hit my ship, and my brother was cast into the depths.",
 				/*11*/"After that, I couldn't stomach going sailing the seas again. Brings back too much for me, ye know.",
-				/*12*/"My memories with him are too fond to lose, though, so I stay by the sea in hopes that one day he'll come back. "
+				/*12*/"My memories with him are too fond to lose, though, so I stay by the sea in hopes that one day he'll come back. ",
 				/*13*/"Sorry about that",
 				/*14*/"Ah well, it's fine; it was years ago. I just hope one day I can see him again."
 			};
@@ -59,19 +59,25 @@ namespace EEMod.Systems
 				case (1):
 					//PresentResponses(new int[1] { 4 });
 					SayPiece(4);
+					break;
 				case (2):
 					SayPiece(10);
 					break;
 				case (10):
 					SayPiece(11);
+					break;
 				case (11):
 					SayPiece(12);
+					break;
 				case (12):
 					PresentResponses(new int[1] { 13 });
+					break;
 				case (13):
 					SayPiece(14);
+					break;
 				case (14):
 					CloseDialogue();
+					break;
 				case (4):
 					//PresentResponses(new int[1] { 5 });
 					SayPiece(5);

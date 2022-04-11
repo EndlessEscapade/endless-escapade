@@ -178,7 +178,7 @@ namespace EEMod.NPCs.Friendly
 
                     WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25, ModContent.TileType<WoodenShipsWheelTile>());
 
-                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 - 11, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 5, ModContent.TileType<FigureheadTile>());
+                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 - 9, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 5, ModContent.TileType<FigureheadTile>());
 
                     WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 + 12, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 1, ModContent.TileType<CannonTile>());
 
