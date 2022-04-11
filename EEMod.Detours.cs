@@ -667,11 +667,6 @@ namespace EEMod
 
                 Main.numClouds = 0;
 
-                if (SkyManager.Instance["EEMod:SavingCutscene"] != null)
-                {
-                    SkyManager.Instance.Activate("EEMod:SavingCutscene", default, new object[0]);
-                }
-
                 if (loadingFlag)
                 {
                     loadingChoose = Main.rand.Next(68);
@@ -955,49 +950,6 @@ namespace EEMod
                         screenMessageText = "All existing code programmed by Stevie";
                         break;
                 }
-
-                Main.spriteBatch.Begin();
-
-                if(isSaving) DrawSky();
-
-                if (FontAssets.DeathText.Value != null && screenMessageText != null)
-                {
-                    Vector2 textSize = FontAssets.DeathText.Value.MeasureString(screenMessageText);
-
-                    if (progressMessage != null)
-                    {
-                        Vector2 textSize2 = FontAssets.MouseText.Value.MeasureString(progressMessage);
-                        textSize2 = new Vector2(textSize2.X * 1.2f, textSize2.Y);
-
-                        float textPosition2Left = Main.graphics.GraphicsDevice.Viewport.Width / 2 - textSize2.X / 2;
-
-                        //Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage, new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, progressMessage, new Vector2(textPosition2Left, Main.graphics.GraphicsDevice.Viewport.Height / 2 - 350), Color.White * alpha, 0f, Vector2.Zero, new Vector2(1.2f, 1.2f));
-                    }
-
-                    osSucksAtBedwars++;
-                    if (osSucksAtBedwars % 600 == 0)
-                    {
-                        loadingChoose = Main.rand.Next(68);
-                        textPositionLeft = -textSize.X / 2;
-                    }
-                    else if (osSucksAtBedwars % 600 > 0 && osSucksAtBedwars % 600 <= 540)
-                    {
-                        textPositionLeft += ((Main.graphics.GraphicsDevice.Viewport.Width / 2) - (textSize.X / 2) - textPositionLeft) / 25f;
-                    }
-                    else if (osSucksAtBedwars % 600 > 540 && osSucksAtBedwars % 600 < 600)
-                    {
-                        textPositionLeft += ((Main.graphics.GraphicsDevice.Viewport.Width + (textSize.X / 2)) - textPositionLeft) / 25f;
-                    }
-                    float tempAlpha = alpha;
-                    tempAlpha = 1 - (Math.Abs((Main.graphics.GraphicsDevice.Viewport.Width / 2) - (textSize.X / 2) - textPositionLeft) / (Main.graphics.GraphicsDevice.Viewport.Width / 2f));
-
-
-                    //Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 100), Color.White * tempAlpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-                    ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, screenMessageText, new Vector2(textPositionLeft, Main.graphics.GraphicsDevice.Viewport.Height / 2 - 100), Color.White * tempAlpha, 0f, Vector2.Zero, Vector2.One);
-                }
-
-                Main.spriteBatch.End();
             }
             else
             {
@@ -1006,11 +958,6 @@ namespace EEMod
                     loadingChoose = Main.rand.Next(68);
                     loadingChooseImage = Main.rand.Next(5);
                     Main.numClouds = 10;
-
-                    if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive())
-                    {
-                        SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
-                    }
                 }
             }
         }
@@ -1029,11 +976,6 @@ namespace EEMod
                     loadingChoose = Main.rand.Next(68);
                     loadingChooseImage = Main.rand.Next(5);
                     Main.numClouds = 10;
-
-                    if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive())
-                    {
-                        SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
-                    }
                 }
 
                 TextureAssets.Sun = ModContent.Request<Texture2D>("Terraria/Images/Sun");

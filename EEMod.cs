@@ -7,7 +7,6 @@ using EEMod.MachineLearning;
 using EEMod.Net;
 using EEMod.Prim;
 using EEMod.Seamap.Core;
-using EEMod.Skies;
 using EEMod.Systems;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Tiles.Furniture;

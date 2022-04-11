@@ -1,8 +1,6 @@
 ﻿using EEMod.Autoloading;
 using EEMod.Extensions;
 using EEMod.ID;
-using EEMod.Net;
-using EEMod.Skies;
 using EEMod.UI.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

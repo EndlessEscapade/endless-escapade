@@ -80,77 +80,7 @@ namespace EEMod.Subworlds.CoralReefs
         {
             Main.spriteBatch.Begin();
 
-            switch (EEMod.loadingChooseImage)
-            {
-                case 0:
-                    ModContent.GetInstance<EEMod>().texture2 = ModContent.Request<Texture2D>("EEMod/UI/LoadingScreenImages/LoadingScreen1").Value;
-                    break;
-                case 1:
-                    ModContent.GetInstance<EEMod>().texture2 = ModContent.Request<Texture2D>("EEMod/UI/LoadingScreenImages/LoadingScreen2").Value;
-                    break;
-                case 2:
-                    ModContent.GetInstance<EEMod>().texture2 = ModContent.Request<Texture2D>("EEMod/UI/LoadingScreenImages/LoadingScreen3").Value;
-                    break;
-                default:
-                    ModContent.GetInstance<EEMod>().texture2 = ModContent.Request<Texture2D>("EEMod/UI/LoadingScreenImages/LoadingScreen4").Value;
-                    break;
-            }
-            switch (EEMod.loadingChooseImage)
-            {
-                default:
-                {
-                    ModContent.GetInstance<EEMod>().texture = ModContent.Request<Texture2D>("Terraria/Images/UI/Sunflower_Loading").Value;
-                    ModContent.GetInstance<EEMod>().frames = 19;
-                    ModContent.GetInstance<EEMod>().frameSpeed = 3;
-                    break;
-                }
-
-                case 1:
-                {
-                    ModContent.GetInstance<EEMod>().texture = ModContent.Request<Texture2D>("EEMod/NPCs/SurfaceReefs/HermitCrab").Value;
-                    ModContent.GetInstance<EEMod>().frames = 4;
-                    ModContent.GetInstance<EEMod>().frameSpeed = 5;
-                    break;
-                }
-                case 2:
-                {
-                    ModContent.GetInstance<EEMod>().texture = ModContent.Request<Texture2D>("EEMod/NPCs/SurfaceReefs/Seahorse").Value;
-                    ModContent.GetInstance<EEMod>().frames = 7;
-                    ModContent.GetInstance<EEMod>().frameSpeed = 4;
-                    break;
-                }
-                case 3:
-                {
-                    ModContent.GetInstance<EEMod>().texture = ModContent.Request<Texture2D>("EEMod/NPCs/LowerReefs/Lionfish").Value;
-                    ModContent.GetInstance<EEMod>().frames = 8;
-                    ModContent.GetInstance<EEMod>().frameSpeed = 10;
-                    break;
-                }
-                case 4:
-                {
-                    ModContent.GetInstance<EEMod>().texture = ModContent.Request<Texture2D>("EEMod/NPCs/ThermalVents/MechanicalShark").Value;
-                    ModContent.GetInstance<EEMod>().frames = 6;
-                    ModContent.GetInstance<EEMod>().frameSpeed = 10;
-                    break;
-                }
-            }
-            if (ModContent.GetInstance<EEMod>().Countur++ > ModContent.GetInstance<EEMod>().frameSpeed)
-            {
-                ModContent.GetInstance<EEMod>().Countur = 0;
-                ModContent.GetInstance<EEMod>().frame2.Y += ModContent.GetInstance<EEMod>().texture.Height / ModContent.GetInstance<EEMod>().frames;
-            }
-            if (ModContent.GetInstance<EEMod>().frame2.Y >= ModContent.GetInstance<EEMod>().texture.Height / ModContent.GetInstance<EEMod>().frames * (ModContent.GetInstance<EEMod>().frames - 1))
-            {
-                ModContent.GetInstance<EEMod>().frame2.Y = 0;
-            }
-
-            Vector2 position = new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / 2 + 30);
-
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().texture2,
-                new Rectangle(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / 2, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height),
-                ModContent.GetInstance<EEMod>().texture2.Bounds, new Color(204, 204, 204), 0, origin: new Vector2(ModContent.GetInstance<EEMod>().texture2.Width / 2, ModContent.GetInstance<EEMod>().texture2.Height / 2), SpriteEffects.None, 0);
-
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().texture, position, new Rectangle(0, ModContent.GetInstance<EEMod>().frame2.Y, ModContent.GetInstance<EEMod>().texture.Width, ModContent.GetInstance<EEMod>().texture.Height / ModContent.GetInstance<EEMod>().frames), new Color(0, 0, 0), 0, new Rectangle(0, ModContent.GetInstance<EEMod>().frame2.Y, ModContent.GetInstance<EEMod>().texture.Width, ModContent.GetInstance<EEMod>().texture.Height / ModContent.GetInstance<EEMod>().frames).Size() / 2, 1, SpriteEffects.None, 0);
+            ModContent.GetInstance<EEMod>().DrawLoadingScreen();
 
             Main.spriteBatch.End();
 

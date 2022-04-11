@@ -8,7 +8,6 @@ using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 using System.Diagnostics;
-using EEMod.Skies;
 using EEMod.Items.Dyes;
 using ReLogic.Content;
 using System.IO;
@@ -158,10 +157,6 @@ namespace EEMod
                 LoadStaticFields();
 
                 LightingBuffer.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
-
-                Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
-
-                SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
 
                 GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(HydrosDye), "HydrosDyeShader"));
                 GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(AquamarineDye), "AquamarineDyeShader"));

@@ -15,6 +15,9 @@
       <HintPath>..\..\..\..\..\..\Downloads\SubworldLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Skies\" />
+  </ItemGroup>
   <Target Name="CompileEffects" BeforeTargets="Build">
     <Exec WorkingDirectory="Effects" Command="fxcompiler_reach.exe" />
   </Target>
