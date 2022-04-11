@@ -121,7 +121,7 @@ namespace EEMod.Systems
 						}
 					}
 
-					if (goodOnWood && goodOnSilk && goodOnMoney)
+					if (goodOnWood && goodOnSilk && goodOnMoney && goodOnCannon && goodOnFigurehead)
 					{
 						(Main.npc[AssociatedNPC].ModNPC as Sailor).ticker = 0;
 						(Main.npc[AssociatedNPC].ModNPC as Sailor).cutsceneOpacity = 0;
