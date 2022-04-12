@@ -65,7 +65,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;
-			player.cursorItemIconID = ModContent.ItemType<Moyai>();
+			player.cursorItemIconID = ItemID.IronHammer;
 		}
 	}
 }

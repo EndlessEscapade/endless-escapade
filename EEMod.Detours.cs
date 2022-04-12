@@ -671,6 +671,7 @@ namespace EEMod
                 {
                     loadingChoose = Main.rand.Next(68);
                     loadingChooseImage = Main.rand.Next(5);
+                    frame2.Y = 0;
                     loadingFlag = false;
                     osSucksAtBedwars = 0;
                     textPositionLeft = 0;
@@ -958,6 +959,7 @@ namespace EEMod
                     loadingChoose = Main.rand.Next(68);
                     loadingChooseImage = Main.rand.Next(5);
                     Main.numClouds = 10;
+                    frame2.Y = 0;
                 }
             }
         }

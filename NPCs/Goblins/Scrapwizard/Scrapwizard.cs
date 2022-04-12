@@ -925,6 +925,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 (table.ModProjectile as PhantomTable).dyingTicks++;
             }
 
+            foreach (Projectile chandelier in chandeliers)
+            {
+                (chandelier.ModProjectile as GoblinChandelierLight).retracting = true;
+            }
+
             base.OnKill();
         }
     }

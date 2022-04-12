@@ -146,6 +146,8 @@ namespace EEMod.Tiles.Furniture.GoblinFort
         public Vector2 anchorPos;
         public Vector2 anchorPos16;
 
+        public bool retracting;
+
         public float axisRotation;
 
         public float rotationVelocity;
@@ -248,6 +250,11 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 }
 
                 flameHeight = 0;
+            }
+
+            if (retracting && chainLength > 80)
+            {
+                chainLength--;
             }
 
             Lighting.AddLight(Projectile.Center, Color.Violet.ToVector3());

@@ -84,8 +84,9 @@ namespace EEMod.Tiles.Furniture.Shipyard
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
-
-            player.cursorItemIconText = "Wooden Ship's Wheel";
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<WoodenShipsWheel>();
         }
 
         public override void MouseOverFar(int i, int j)

@@ -516,6 +516,7 @@ namespace EEMod
 
                     float textPosition2Left = Main.graphics.GraphicsDevice.Viewport.Width / 2 - textSize2.X / 2;
 
+                    if (progressMessage == null) progressMessage = "";
                     //Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage, new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
                     ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, progressMessage, new Vector2(textPosition2Left, Main.graphics.GraphicsDevice.Viewport.Height / 2 - 350), Color.White * alpha, 0f, Vector2.Zero, new Vector2(1.2f, 1.2f));
                 }
