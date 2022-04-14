@@ -1,5 +1,6 @@
-using EEMod.Extensions;
+﻿using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Players;
 using EEMod.Systems;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -13,26 +14,30 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class Boids : Mechanic
+    public class Boids : ModSystem
     {
         internal List<Flock> fishflocks = new List<Flock>();
 
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
+            Main.spriteBatch.Begin();
+
             foreach(Flock fishflock in fishflocks)
             {
-                fishflock.Draw(spriteBatch);
+                fishflock.Draw(Main.spriteBatch);
             }
+
+            Main.spriteBatch.End();
         }
 
-        public override void OnUpdate()
+        public override void PostUpdateEverything()
         {
             foreach (Flock fishflock in fishflocks)
             {
                 fishflock.Update();
             }
 
-            if (ElapsedTicks % 150 == 0 && Main.worldName == KeyID.CoralReefs)
+            if (Main.GameUpdateCount % 150 == 0 && Main.worldName == KeyID.CoralReefs)
             {
                 Vector2 rand = new Vector2(Main.rand.Next(-(int)(Main.screenWidth / 1.5f), (int)(Main.screenWidth / 1.5f)), Main.rand.Next(-(int)(Main.screenHeight / 1.5f), (int)(Main.screenHeight / 1.5f)));
 
@@ -43,31 +48,31 @@ namespace EEMod
 
                 if (!new Rectangle(-Main.screenWidth / 2, -Main.screenHeight / 2, Main.screenWidth, Main.screenHeight).Contains(rand.ToPoint()))
                 {
-                    if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
+                    if (Main.LocalPlayer.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.KelpForest)
                     {
                         int randInt = Main.rand.Next(5, 8);
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                        if (Framing.GetTileSafely((int)(vec.X), (int)(vec.Y)).LiquidType == 0 && Framing.GetTileSafely((int)(vec.X), (int)(vec.Y)).LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
-                    else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.AquamarineCaverns)
+                    else if (Main.LocalPlayer.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.AquamarineCaverns)
                     {
                         int randInt = Main.rand.Next(8, 9);
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                        if (Framing.GetTileSafely((int)(vec.X), (int)(vec.Y)).LiquidType == 0 && Framing.GetTileSafely((int)(vec.X), (int)(vec.Y)).LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
-                    else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.ThermalVents)
+                    else if (Main.LocalPlayer.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.ThermalVents)
                     {
                         int randInt = Main.rand.Next(9, 10);
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                     else
@@ -76,14 +81,15 @@ namespace EEMod
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (WorldGen.InWorld((int)(vec.X), (int)(vec.Y)) && Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                        if(WorldGen.InWorld((int)vec.X, (int)vec.Y))
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                 }
             }
         }
 
-        public override void OnLoad()
+        public override void Load()
         {
             fishflocks.Add(new Flock("Particles/Fish", 1f, 10, 20));
             fishflocks.Add(new Flock("Particles/Coralfin", 1f, 5, 15));
@@ -99,8 +105,6 @@ namespace EEMod
 
             fishflocks.Add(new Flock("Particles/Thermalfin", 1f, 25, 35));
         }
-
-        protected override Layer DrawLayering => Layer.BehindTiles;
     }
 
     internal class Fish : Entity,IComponent
@@ -141,7 +145,7 @@ namespace EEMod
                     {
                         Tile tile = Framing.GetTileSafely(tilePos.X + i, tilePos.Y + j);
                         float pdist = Vector2.DistanceSquared(position, new Vector2(tilePos.X + i, tilePos.Y + j) * 16);
-                        if (pdist < range * range && pdist > 0 && tile.active() && Main.tileSolid[tile.type] || tile.liquid < 100)
+                        if (pdist < range * range && pdist > 0 && tile.HasTile && Main.tileSolid[tile.TileType] || tile.LiquidAmount < 100)
                         {
                             Vector2 d = position - new Vector2(tilePos.X + i, tilePos.Y + j) * 16;
                             Vector2 norm = Vector2.Normalize(d);
@@ -267,7 +271,7 @@ namespace EEMod
         {
             Point point = position.ParalaxX(-0f).ToTileCoordinates();
             Color lightColour = Lighting.GetColor(point.X, point.Y);
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture(parent.flockTex);
+            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>(parent.flockTex).Value;
             spritebatch.Draw(texture, position.ForDraw().ParalaxX(-0f), texture.Bounds, lightColour, velocity.ToRotation(), texture.Bounds.Size() / 2f, parent.fishScale, SpriteEffects.None, 0f);
         }
 

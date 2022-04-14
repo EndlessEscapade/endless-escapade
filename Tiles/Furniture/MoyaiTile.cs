@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class MoyaiTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -26,22 +26,22 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Moyai");
-            drop = ModContent.ItemType<Moyai>();
+            ItemDrop = ModContent.ItemType<Moyai>();
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
         }
 
         private bool isIntersecting;
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
             Player player = Main.LocalPlayer;
             if (new Rectangle((int)player.position.X / 16, (int)player.position.Y / 16, 1, 2).Intersects(new Rectangle(i, j, 1, 1)) && !isIntersecting)
             {
@@ -50,11 +50,6 @@ namespace EEMod.Tiles.Furniture
             else
             {
                 isIntersecting = false;
-            }
-
-            if (isIntersecting)
-            {
-                player.GetModPlayer<EEPlayer>().InspectObject();
             }
         }
     }

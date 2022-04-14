@@ -1,91 +1,46 @@
 sampler uImage0 : register(s0);
-sampler uImage1 : register(s1);
-sampler uImage2 : register(s2);
-sampler uImage3 : register(s3);
-float3 uColor;
-float3 uSecondaryColor;
-float2 uScreenResolution;
-float2 uScreenPosition;
-float2 uTargetPosition;
-float2 uDirection;
-float uOpacity;
-float uTime;
-float uIntensity;
-float uProgress;
-float2 uImageSize1;
-float2 uImageSize2;
-float2 uImageSize3;
-float2 uImageOffset;
-float uSaturation;
-float4 uSourceRect;
-float2 uZoom;
-texture noise;
-texture noiseN;
-texture water;
-float yCoord;
-float xCoord;
 
+texture noiseTex;
+
+float4 baseWaterColor;
+float4 highlightColor;
+
+float sinVal;
+
+float width;
+float height;
 
 sampler noiseSampler = sampler_state
 {
-    Texture = (noise);
+    Texture = (noiseTex);
 };
 
-sampler noiseSampler2 = sampler_state
+float4 WaterShaderFloat(float2 coords : TEXCOORD0) : COLOR0
 {
-    Texture = (noiseN);
-};
-
-sampler waterMapSampler = sampler_state
-{
-    Texture = (water);
-};
-
-float GetNoisePixelUnPixelated(float2 Coord)
-{
-    float2 pos = float2(Coord.x, Coord.y);
-    float height = tex2D(noiseSampler2, pos).r;
-    return height;
+    float2 vec = float2(width, height) / 2;
+    coords = floor(coords * vec) / vec;
+    
+    float4 noiseColor1 = tex2D(noiseSampler, float2(coords.x + sinVal, (coords.y) + (1.49 * sinVal)));
+    float4 noiseColor2 = tex2D(noiseSampler, float2(coords.x - (1.01 * sinVal), (coords.y) + sinVal));
+    
+    float lerpFloat = (noiseColor1.r + noiseColor2.r) / 2.0;
+    
+    if (lerpFloat < 0.4)
+        return lerp(baseWaterColor, highlightColor, 1.0 / 0.6);
+    
+    if (lerpFloat > 0.9)
+        return lerp(baseWaterColor, highlightColor, 1.0 / 0.1);
+    
+    //if (lerpFloat == 0)
+    //    return baseWaterColor;
+    
+    return lerp(baseWaterColor, highlightColor, (1.0 / (1 - lerpFloat)));
 }
 
-float GetNoisePixel(float2 Coord)
+technique WaterShader
 {
-    float2 pos = float2(Coord.x, Coord.y);
-    float height = tex2D(noiseSampler, pos).r;
-    return height;
-}
-
-float2 Round(float2 num,int scale)
-{
-    return float2((int)(num.x * scale) / (float)scale, (int)(num.y * scale) / (float)scale);
-}
-
-float3 Colour;
-float waveSpeed;
-float3 LightColour;
-float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : COLOR0
-{
-    float2 newCoord = Round(coords * 2, 1080);
-    float sina = abs(sin(newCoord.x * 10 + xCoord * 60 - newCoord.y*(30+sin(newCoord.x*20))));
-    float2 alteredCoords = newCoord;
-    float2 pixelPos = alteredCoords + GetNoisePixel(alteredCoords) + float2(xCoord, yCoord)*(waveSpeed + sina);
-    float4 waterMap = tex2D(waterMapSampler, pixelPos);
-    float2 noisePos = alteredCoords * 0.1f + float2(xCoord + 0.3f, yCoord + 0.3f);
-    float pix = GetNoisePixel(noisePos);
-    float4 colour;
-    colour.rgb = Colour;
-    colour.a = 1;
-    float targetAlt = (1 + sina / 10);
-    float4 target = float4(0.5f / targetAlt, 0.9f / targetAlt, targetAlt,1);
-    colour = lerp(colour,target,(pix * waterMap.b)* (1 + sina / 10));
-    colour.rgb *= LightColour * LightColour * LightColour;
-    return colour;
-}
-
-technique Technique1
-{
-    pass WaterShader
+    pass P0
     {
-        PixelShader = compile ps_2_0 WaterShader();
+        PixelShader = compile ps_2_0 WaterShaderFloat();
     }
-}
+};

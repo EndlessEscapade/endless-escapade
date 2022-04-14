@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class NetTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -26,18 +26,18 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Net");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Framing.GetTileSafely(i, j).frameY == 0 && Main.rand.Next(10) == 0)
+            if (Framing.GetTileSafely(i, j).TileFrameY == 0 && Main.rand.Next(10) == 0)
             {
                 int num = Dust.NewDust(new Vector2(i * 16 + 4, j * 16), 1, 1, DustID.Smoke, 0, 1);
                 Main.dust[num].velocity = new Vector2(0, -0.75f);

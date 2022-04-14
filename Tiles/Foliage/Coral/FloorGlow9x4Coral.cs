@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Foliage.Coral
 {
     public class FloorGlow9x4Coral : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -27,13 +27,13 @@ namespace EEMod.Tiles.Foliage.Coral
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
 
         }
@@ -49,7 +49,7 @@ namespace EEMod.Tiles.Foliage.Coral
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             alpha = (((float)Math.Sin((Main.GameUpdateCount + i - j) / 20f)) / 2f) + 0.5f;
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/FloorGlow9x4CoralGlow"), i, j, Color.White * alpha);
+            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Coral/FloorGlow9x4CoralGlow").Value, i, j, Color.White * alpha);
         }
     }
 }

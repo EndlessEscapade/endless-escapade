@@ -22,12 +22,12 @@ namespace EEMod.Net
 
         public static void SendMessageMultiPlayer(string yes, int exclude)
         {
-            NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(yes), new Color(0, 0, 0), exclude);
+            //NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(yes), new Color(0, 0, 0), exclude);
         }
 
         public static ModPacket WriteToPacket(EEMessageType msg, params object[] param)
         {
-            ModPacket packet = ModContent.GetInstance<EEMod>().GetPacket();
+            ModPacket packet = EEMod.Instance.GetPacket();
             packet.Write((byte)msg);
 
             for (int m = 0; m < param.Length; m++)
@@ -62,7 +62,7 @@ namespace EEMod.Net
                     else if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
                         float v = reader.Read<float>();
-                        Main.LocalPlayer.GetModPlayer<EEPlayer>().brightness = v;
+                        Seamap.Core.Seamap.brightness = v;
                     }
                     break;
             }

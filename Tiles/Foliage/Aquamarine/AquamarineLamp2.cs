@@ -6,7 +6,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
-using EEMod.NPCs.CoralReefs;
+
 using EEMod.Projectiles.Enemy;
 using EEMod.Extensions;
 using Terraria.ID;
@@ -17,7 +17,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 {
     public class AquamarineLamp2 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -33,7 +33,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
@@ -43,8 +43,8 @@ namespace EEMod.Tiles.Foliage.Aquamarine
         private int frame;
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
 
             frameCounter++;
             if(frameCounter >= 6)
@@ -57,7 +57,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                 }
             }
 
-            if (frameX == 0 && frameY == 0)
+            if (TileFrameX == 0 && TileFrameY == 0)
             {
                 Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
                 if (Main.drawToScreen)
@@ -74,16 +74,16 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                 int timeBetween = 70;
                 float heartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f / timeBetween))) * (1 - (Main.GameUpdateCount % bigTimeBetween) / (timeBetween * 1.5f));
 
-                Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Textures/SmoothFadeOut");
+                Texture2D mask = EEMod.Instance.Assets.Request<Texture2D>("Textures/SmoothFadeOut").Value;
 
                 float sineAdd = (float)Math.Sin(Main.GameUpdateCount / 20f) + 2.5f;
                 Main.spriteBatch.Draw(mask, part, null, new Color(sineAdd, sineAdd, sineAdd, 0) * 0.2f, 0f, mask.Bounds.Center() / 2f, 1f, SpriteEffects.None, 0f);
 
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Lighting.GetColor(i + 1, j + 1), 0f, default, 1f, SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Color.White * heartBeat, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow").Value, position, rect, Lighting.GetColor(i + 1, j + 1), 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow").Value, position, rect, Color.White * heartBeat, 0f, default, 1f, SpriteEffects.None, 0f);
 
                 EEMod.MainParticles.SetSpawningModules(new SpawnPeriodically(8, true));
-                EEMod.MainParticles.SpawnParticles(part, default, 2, Color.White, new CircularMotionSinSpinC(15, 15, -0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask, 0.75f));
+                EEMod.MainParticles.SpawnParticles(part, default, 2, Color.White, new CircularMotionSinSpinC(15, 15, -0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask, Color.White * 0.75f));
             }
         }
     }

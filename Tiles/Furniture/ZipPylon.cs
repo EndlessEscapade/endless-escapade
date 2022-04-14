@@ -9,7 +9,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class ZipPylon : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -18,11 +18,11 @@ namespace EEMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Zip-Pylon");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             if (Main.LocalPlayer.HeldItem.type == ModContent.ItemType<ZipWire>())
             {
@@ -45,7 +45,7 @@ namespace EEMod.Tiles.Furniture
                         if (EEWorld.EEWorld.PylonEnd[k] == default && new Vector2(i, j) * 16 + new Vector2(8, -8) != EEWorld.EEWorld.PylonBegin[k])
                         {
                             EEWorld.EEWorld.PylonEnd[k] = new Vector2(i, j) * 16 + new Vector2(8, -8);
-                            Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = false;
+                            // Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = false;
                             break;
                         }
                     }
@@ -69,7 +69,7 @@ namespace EEMod.Tiles.Furniture
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
-            Texture2D zipline = ModContent.GetInstance<EEMod>().GetTexture("Items/Zipline");
+            Texture2D zipline = EEMod.Instance.Assets.Request<Texture2D>("Items/Zipline").Value;
             for (int l = 0; l < 100; l++)
             {
                 if (EEWorld.EEWorld.PylonBegin[l] != default && EEWorld.EEWorld.PylonEnd[l] != default)

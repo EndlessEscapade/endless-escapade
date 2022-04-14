@@ -16,7 +16,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
         public override void SetDefaults()
         {
             Item.damage = 20;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = 2;
             Item.useTime = 24;
             Item.shootSpeed = 4;
@@ -27,10 +27,10 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(silver: 10);
 
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.autoReuse = false;
+            // Item.autoReuse = false;
             Item.ammo = AmmoID.Arrow;
 
             Item.UseSound = SoundID.Item1;

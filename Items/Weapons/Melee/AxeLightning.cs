@@ -22,20 +22,19 @@ namespace EEMod.Items.Weapons.Melee
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.aiStyle = -1;
-            Projectile.melee = true;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
             Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.damage = 0;
-            Projectile.timeLeft = 120;
+            Projectile.timeLeft = 30;
             Projectile.alpha = 255;
             Projectile.extraUpdates = 3;
         }
 
         Vector2 initialVelocity = Vector2.Zero;
 
-        private float lerp;
         public Vector2 DrawPos;
         public int boost;
         public override void AI()
@@ -44,17 +43,10 @@ namespace EEMod.Items.Weapons.Melee
             {
                 initialVelocity = Projectile.velocity;
             }
-            if (Projectile.timeLeft % 10 == 0)
-            {
-                Projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1, 1));
-            }
-            /* if (projectile.timeLeft % 2 == 0)
-             {
-                 Dust dust = Dust.NewDustPerfect(projectile.Center, 226);
-                 dust.noGravity = true;
-                 dust.scale = (float)Math.Sqrt(projectile.timeLeft) / 4;
-                 dust.velocity = Vector2.Zero;
-             }*/
+
+            if (Projectile.timeLeft == 0) Projectile.position -= Projectile.velocity;
+            if (Projectile.timeLeft < 8) Projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1f, 1f));
+
             DrawPos = Projectile.position;
         }
     }

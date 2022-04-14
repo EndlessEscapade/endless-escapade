@@ -22,7 +22,7 @@ namespace EEMod.Items.Weapons.Mage
         public override void SetDefaults()
         {
             Item.damage = 57;
-            Item.magic = true;
+            Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
             Item.knockBack = 1f;
             Item.value = Item.sellPrice(0, 0, 21);
@@ -32,7 +32,7 @@ namespace EEMod.Items.Weapons.Mage
             Item.rare = ItemRarityID.Orange;
             Item.width = 20;
             Item.height = 20;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SceptorLaser>();
             Item.shootSpeed = 6f;
@@ -50,9 +50,9 @@ namespace EEMod.Items.Weapons.Mage
             if (player.altFunctionUse == 0)
             {
                 Vector2 comedy = Vector2.Normalize(Main.MouseWorld - player.Center) * 2;
-                Projectile projectile2 = Projectile.NewProjectileDirect(player.Center, comedy, ModContent.ProjectileType<SceptorLaser>(), 10, 10f, Main.myPlayer);
+                Projectile projectile2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, comedy, ModContent.ProjectileType<SceptorLaser>(), 10, 10f, Main.myPlayer);
 
-                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 40));
+                PrimitiveSystem.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 40));
             }
             if (player.altFunctionUse == 2)
             {
@@ -62,7 +62,7 @@ namespace EEMod.Items.Weapons.Mage
                     position = Main.MouseWorld;
                     speedX = 0;
                     speedY = 0;
-                    Projectile projectile = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, position.X, position.Y);
+                    Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, position.X, position.Y);
                 }
             }
 

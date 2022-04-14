@@ -21,10 +21,10 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public override void SetDefaults()
         {
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.rare = ItemRarityID.Green;
             Item.autoReuse = true;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 4f; // 5 and 1/4
             Item.useTime = 35;
             Item.useAnimation = 35;
@@ -41,11 +41,11 @@ namespace EEMod.Items.Weapons.Melee.Swords
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                Item.useStyle = ItemUseStyleID.Stabbing;
+                Item.useStyle = ItemUseStyleID.Thrust;
                 Item.useAnimation = 15;
                 Item.noMelee = true;
                 if (swordArray[0] != default)
@@ -57,7 +57,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
                             Main.projectile[swordArray[i]].friendly = true;
                             if (Main.netMode != NetmodeID.Server)
                             {
-                                EEMod.prims.CreateTrail(Main.projectile[swordArray[i]]);
+                                //EEMod.prims.CreateTrail(Main.projectile[swordArray[i]]);
                             }
                         }
                         swordArray[i] = 0;
@@ -67,7 +67,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             }
             else
             {
-                Item.useStyle = ItemUseStyleID.SwingThrow;
+                Item.useStyle = ItemUseStyleID.Swing;
                 Item.useAnimation = 35;
                 Item.noMelee = false;
             }
@@ -83,7 +83,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             if (swordsActive < 9 && Main.rand.NextBool())
             {
                 float angle = (float)(swordsActive * 0.7f);
-                swordArray[swordsActive] = Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<PrismDagger>(), damage2, 0, player.whoAmI, angle);
+                swordArray[swordsActive] = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), target.position, Vector2.Zero, ModContent.ProjectileType<PrismDagger>(), damage2, 0, player.whoAmI, angle);
                 swordsActive++;
             }
         }

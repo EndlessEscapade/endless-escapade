@@ -12,24 +12,24 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-
-
-    public class Worm : Mechanic
+    public class Worm : ModSystem
     {
-        ExampleWorm EEWorm;
-        public override void OnDraw(SpriteBatch spriteBatch)
+        //ExampleWorm EEWorm;
+
+        public override void PostDrawTiles()
         {
             //EEWorm.Draw(Main.spriteBatch);
         }
-        public override void OnUpdate()
+
+        public override void PostUpdateEverything()
         {
             //EEWorm.Update();
         }
-        public override void OnLoad()
+
+        public override void Load()
         {
-            EEWorm = new ExampleWorm();
+            //EEWorm = new ExampleWorm();
         }
-        protected override Layer DrawLayering => base.DrawLayering;
     }
 
     public class ExampleWorm : SegmentedWorm
@@ -38,15 +38,15 @@ namespace EEMod
         float lerp;
         public override void OnDraw()
         {
-           // Main.spriteBatch.Draw(Main.magicPixel, ControlSegment.position.ForDraw(), new Rectangle(0, 0, 8, 8), color);
+           // Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, ControlSegment.position.ForDraw(), new Rectangle(0, 0, 8, 8), color);
         }
 
         public override void SegmentDraw(SpriteBatch spriteBatch, Segment segment)
         {
            // if(segment.index % 2 == 0)
-           // Main.spriteBatch.Draw(Main.magicPixel, segment.position.ForDraw(), new Rectangle(0, 0, 5, 5), color);
+           // Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, segment.position.ForDraw(), new Rectangle(0, 0, 5, 5), color);
            // else
-           // Main.spriteBatch.Draw(Main.magicPixel, segment.position.ForDraw(), new Rectangle(0, 0, 5, 5), color);
+           // Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, segment.position.ForDraw(), new Rectangle(0, 0, 5, 5), color);
         }
         public override void OnLoad()
         {
@@ -69,7 +69,7 @@ namespace EEMod
                     {
                         Tile tile = Framing.GetTileSafely(tilePos.X + i, tilePos.Y + j);
                         float pdist = Vector2.DistanceSquared(ControlSegment.position, new Vector2(tilePos.X + i, tilePos.Y + j) * 16);
-                        if (pdist < range * range && pdist > 0 && tile.active() && Main.tileSolid[tile.type])
+                        if (pdist < range * range && pdist > 0 && tile.HasTile && Main.tileSolid[tile.TileType])
                         {
                             Vector2 d = ControlSegment.position - new Vector2(tilePos.X + i, tilePos.Y + j) * 16;
                             Vector2 norm = Vector2.Normalize(d);
@@ -170,7 +170,7 @@ namespace EEMod
             if (Main.GameUpdateCount <= 30)
             {
                 if(Main.GameUpdateCount == 2)
-                EEMod.primitives.CreateTrail(new WormMesh(null, this));
+                PrimitiveSystem.primitives.CreateTrail(new WormMesh(null, this));
                 ControlSegment.position = Main.LocalPlayer.Center;
                 for (int i = 0; i < l; i++)
                 {

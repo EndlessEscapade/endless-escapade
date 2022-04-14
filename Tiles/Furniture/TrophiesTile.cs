@@ -10,7 +10,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class TrophiesTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
@@ -19,17 +19,17 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.StyleWrapLimit = 36;
             TileObjectData.addTile(Type);
-            dustType = 7;
-            disableSmartCursor = true;
+            DustType = 7;
+            DisableSmartCursor = true;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Trophy");
             AddMapEntry(new Color(120, 85, 60), name);
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             int item = 0;
-            switch (frameX / 54)
+            switch (TileFrameX / 54)
             {
                 case 0:
                     item = ModContent.ItemType<HydrosTrophy>();
@@ -38,24 +38,8 @@ namespace EEMod.Tiles.Furniture
                 case 1:
                     item = ModContent.ItemType<OmenTrophy>();
                     break;
-
-                case 2:
-                    item = ModContent.ItemType<AkumoTrophy>();
-                    break;
-
-                case 3:
-                    item = ModContent.ItemType<KrakenTrophy>();
-                    break;
-
-                case 4:
-                    item = ModContent.ItemType<TalosTrophy>();
-                    break;
-
-                case 5:
-                    item = ModContent.ItemType<CoralGolemTrophy>();
-                    break;
             }
-            Item.NewItem(i * 16, j * 16, 48, 48, item);
+            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, item);
         }
     }
 }

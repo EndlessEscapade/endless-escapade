@@ -23,7 +23,7 @@ namespace EEMod.Dusts
             Lighting.AddLight(dust.position, light, light, light); // dust will doe lieght depending on the scale
             if (dust.scale < 0.5f) // when scale manages to be .5f it will die, big F
             {
-                dust.active = false;
+                // dust.active = false;
             }
             return false;
         }

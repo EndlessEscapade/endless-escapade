@@ -17,7 +17,7 @@ namespace EEMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.damage = 20;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 320;
             Item.useAnimation = 320;
             Item.shootSpeed = 0f;
@@ -28,10 +28,10 @@ namespace EEMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(silver: 10);
 
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.autoReuse = false;
+            // Item.autoReuse = false;
             Item.channel = true;
             Item.UseSound = SoundID.Item1;
             Item.shoot = ModContent.ProjectileType<LythenWarhammerProjectile>();
@@ -39,11 +39,7 @@ namespace EEMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LythenBar>(), 10).AddTile(TileID.Anvils).Register();
         }
 
         public override bool CanUseItem(Player player)

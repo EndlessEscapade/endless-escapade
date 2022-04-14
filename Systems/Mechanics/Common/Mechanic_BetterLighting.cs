@@ -6,13 +6,12 @@ using EEMod.Config;
 
 namespace EEMod.Systems
 {
-    public class BetterLighting : Mechanic
+    public class BetterLighting : ModSystem
     {
-        public override void PostDrawProjectiles()
+        public override void PostDrawTiles()
         {
             if (!EEModConfigClient.Instance.BetterLighting)
                 return;
-
         }
     }
 }
@@ -21,7 +20,7 @@ namespace EEMod.Systems
             DisplayName.SetDefault("WhiteBlock");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             projectile.width = 16;
             projectile.height = 16;
@@ -37,6 +36,6 @@ namespace EEMod.Systems
             projectile.light = 0;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
         }*/

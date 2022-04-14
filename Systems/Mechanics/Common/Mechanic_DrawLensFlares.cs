@@ -16,7 +16,7 @@ using EEMod.Systems;
 
 namespace EEMod
 {
-    public class DrawLensFlares : Mechanic
+    public class DrawLensFlares : ModSystem
     {
         internal readonly Vector2 _sunPos;
         internal readonly float _globalAlpha;
@@ -24,36 +24,23 @@ namespace EEMod
 
         internal static DrawLensFlares Instance;
 
-        public void UpdateLensFlares(SpriteBatch spriteBatch)
+        public void UpdateLensFlares()
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-
             if (EEModConfigClient.Instance.BetterLighting && Main.worldName != KeyID.CoralReefs)
             {
-                spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
-                spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Textures/LensFlare2").Value, _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Textures/LensFlare2").Value, _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
             }
-
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
-            UpdateLensFlares(spriteBatch);
+            UpdateLensFlares();
         }
 
-        public override void OnUpdate()
-        {
-            base.OnUpdate();
-        }
-
-        public override void OnLoad()
+        public override void Load()
         {
             Instance = this;
         }
-
-        protected override Layer DrawLayering => Layer.BehindTiles;
     }
 }

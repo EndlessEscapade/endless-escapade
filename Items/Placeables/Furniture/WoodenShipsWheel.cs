@@ -1,4 +1,5 @@
 using EEMod.Tiles.Furniture;
+using EEMod.Tiles.Furniture.Shipyard;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,7 +15,7 @@ namespace EEMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;
             Item.useTime = 10;

@@ -17,7 +17,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
             Projectile.alpha = 0;
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;

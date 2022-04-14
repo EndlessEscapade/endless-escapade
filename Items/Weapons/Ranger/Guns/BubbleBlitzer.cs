@@ -14,10 +14,10 @@ namespace EEMod.Items.Weapons.Ranger.Guns
 
         public override void SetDefaults()
         {
-            Item.melee = false;
+            // Item.melee = false;
             Item.noMelee = true;
             Item.autoReuse = true;
-            Item.ranged = true;
+            Item.DamageType = DamageClass.Ranged;
             Item.value = Item.sellPrice(0, 0, 18);
             Item.damage = 12;
             Item.useTime = 25;
@@ -29,7 +29,7 @@ namespace EEMod.Items.Weapons.Ranger.Guns
 			Item.useAmmo = AmmoID.Bullet;
             Item.rare = ItemRarityID.Orange;
             Item.knockBack = 5f;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item11;
         }
         public override bool AltFunctionUse(Player player)
@@ -49,7 +49,7 @@ namespace EEMod.Items.Weapons.Ranger.Guns
 			{
                 Item.useTime = 25;
                 Item.useAnimation = 25;
-				Item.autoReuse = false;
+				// Item.autoReuse = false;
                 Item.shootSpeed = 20f;
 			}
 			return true;

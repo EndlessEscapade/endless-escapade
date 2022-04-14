@@ -10,7 +10,7 @@ namespace EEMod.Tiles.Foliage
 {
     public class EnchantedConchTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;

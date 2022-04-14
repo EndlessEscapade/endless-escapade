@@ -9,7 +9,7 @@ namespace EEMod.Tiles.Ores
 {
     public class DalantiniumBarTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileShine[Type] = 1100;
             Main.tileSolid[Type] = true;
@@ -18,7 +18,7 @@ namespace EEMod.Tiles.Ores
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
             AddMapEntry(new Color(200, 200, 200), Language.GetText("MapObject.MetalBar")); // localized text for "Metal Bar"
@@ -27,10 +27,10 @@ namespace EEMod.Tiles.Ores
         public override bool Drop(int i, int j)
         {
             Tile t = Framing.GetTileSafely(i, j);
-            int style = t.frameX / 18;
+            int style = t.TileFrameX / 18;
             if (style == 0) // It can be useful to share a single tile with multiple styles. This code will let you drop the appropriate bar if you had multiple.
             {
-                Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<DalantiniumBar>());
+                Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<DalantiniumBar>());
             }
             return base.Drop(i, j);
         }

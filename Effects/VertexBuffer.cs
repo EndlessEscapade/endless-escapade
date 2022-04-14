@@ -12,20 +12,25 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using EEMod.Projectiles.CoralReefs;
-using EEMod.Items.Weapons.Melee.Boomerangs;
+using EEMod.Items.Weapons.Melee;
 
 namespace EEMod.Effects
 {
     public class TrailManager
     {
         private readonly List<Trail> _trails = new List<Trail>();
-        private readonly Effect _effect;
+        private Effect _effect;
         private readonly BasicEffect _basicEffect;
 
         public TrailManager(Mod mod)
         {
             _trails = new List<Trail>();
-            _effect = mod.GetEffect("Effects/trailShaders");
+
+            Main.QueueMainThreadAction(() =>
+            {
+                _effect = mod.Assets.Request<Effect>("Effects/trailShaders").Value;
+            });
+
             _basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
             {
                 VertexColorEnabled = true
@@ -34,14 +39,6 @@ namespace EEMod.Effects
 
         public void DoTrailCreation(Projectile projectile)
         {
-            if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<AkumoMinionProjectile>() || projectile.type == ModContent.ProjectileType<FeatheredDreamcatcherProjectile>())
-            {
-                CreateTrail(projectile, new StandardColorTrail(new Color(200, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
-            }
-            if (projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>())
-            {
-                CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 10f, 250f);
-            }
             /*if (projectile.type == ModContent.ProjectileType<HydrofluoricStaffProjectile>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(111, 235, 124)), new RoundCap(), new SleepingStarTrailPosition(), 12f, 400f);
@@ -73,7 +70,7 @@ namespace EEMod.Effects
             {
                 Trail trail = _trails[i];
 
-                trail.Update();
+                //trail.Update();
                 if (trail.Dead)
                 {
                     _trails.RemoveAt(i);
@@ -380,7 +377,7 @@ namespace EEMod.Effects
         {
             _xOffset -= _coordMult.X;
             effect.Parameters["imageTexture"].SetValue(_texture);
-            effect.Parameters["coordOffset"].SetValue(new Vector2(_xOffset, Main.GlobalTime * _yAnimSpeed));
+            effect.Parameters["coordOffset"].SetValue(new Vector2(_xOffset, Main.GlobalTimeWrappedHourly * _yAnimSpeed));
             effect.Parameters["coordMultiplier"].SetValue(_coordMult);
             effect.Parameters["strength"].SetValue(_strength);
             effect.CurrentTechnique.Passes[ShaderPass].Apply();
@@ -404,7 +401,7 @@ namespace EEMod.Effects
     {
         public Vector2 GetNextTrailPosition(Projectile projectile)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value.Width * 0.5f, projectile.height * 0.5f);
             return projectile.position + drawOrigin + Vector2.UnitY * projectile.gfxOffY;
         }
     }
@@ -452,7 +449,7 @@ namespace EEMod.Effects
         public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
         {
             float progress = distanceFromStart / trailLength;
-            float hue = (Main.GlobalTime * _speed + distanceFromStart * _distanceMultiplier) % MathHelper.TwoPi;
+            float hue = (float)(Main.time * _speed + distanceFromStart * _distanceMultiplier) % MathHelper.TwoPi;
             return ColorFromHSL(hue, _saturation, _lightness) * (1f - progress);
         }
 

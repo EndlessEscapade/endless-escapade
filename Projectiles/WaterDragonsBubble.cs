@@ -19,7 +19,7 @@ namespace EEMod.Projectiles
             Projectile.friendly = true;
             Projectile.timeLeft = 120;
             Projectile.penetrate = 3;
-            Projectile.ranged = true;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.damage = 5;
             Projectile.knockBack = 0;
         }
@@ -34,7 +34,7 @@ namespace EEMod.Projectiles
                 Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 113, offset * 0.5f);
                 dust.noGravity = true;
                 dust.velocity *= 0.97f;
-                dust.noLight = false;
+                // dust.noLight = false;
             }
         }
 

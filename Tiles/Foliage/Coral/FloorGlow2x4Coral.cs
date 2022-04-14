@@ -9,7 +9,7 @@ namespace EEMod.Tiles.Foliage.Coral
 {
     public class FloorGlow2x4Coral : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -23,13 +23,13 @@ namespace EEMod.Tiles.Foliage.Coral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Wide Bulbous Coral");
             AddMapEntry(new Color(50, 50, 50), name);
-            disableSmartCursor = true;
-            animationFrameHeight = 38;
+            DisableSmartCursor = true;
+            AnimationFrameHeight = 38;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/FloorGlow2x4CoralGlow"), i, j);
+            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Coral/FloorGlow2x4CoralGlow").Value, i, j);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

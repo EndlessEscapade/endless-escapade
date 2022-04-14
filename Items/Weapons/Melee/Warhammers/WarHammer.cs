@@ -47,12 +47,12 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
             {
                 Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
                 Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
-                if ((!Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
-                    (!Main.tileSolid[tile.type] || !Main.tileSolidTop[tile.type]) &&
-                    !Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
-                    (!Main.tileSolid[tile2.type] || !Main.tileSolidTop[tile2.type]) ||
-                    tile.type == TileID.Trees ||
-                    tile2.type == TileID.Trees) && Projectile.ai[1] == 0)
+                if ((!Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).HasTile &&
+                    (!Main.tileSolid[tile.TileType] || !Main.tileSolidTop[tile.TileType]) &&
+                    !Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).HasTile &&
+                    (!Main.tileSolid[tile2.TileType] || !Main.tileSolidTop[tile2.TileType]) ||
+                    tile.TileType == TileID.Trees ||
+                    tile2.TileType == TileID.Trees) && Projectile.ai[1] == 0)
                 {
                     projOwner.velocity.Y += weight;
                     damageMultiplier += damageIncreaseOverTime;
@@ -84,7 +84,7 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
                             int num = Dust.NewDust(projOwner.Center + new Vector2(Projectile.width / 2 * projOwner.direction, Projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, Main.rand.NextFloat(-dirtSmashIntensity, -1f), 6, new Color(255, 217, 184, 255), 1);
                             Main.dust[num].noGravity = true;
                             Main.dust[num].velocity.X *= 0.7f;
-                            Main.dust[num].noLight = false;
+                            // Main.dust[num].noLight = false;
                         }
                     }
                     Projectile.ai[0]++;
@@ -106,12 +106,12 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
             {
                 Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
                 Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
-                if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
-                    (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]) ||
-                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
-                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type]) &&
-                    tile.type != TileID.Trees &&
-                    tile2.type != TileID.Trees)
+                if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).HasTile &&
+                    (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType]) ||
+                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).HasTile &&
+                    (Main.tileSolid[tile2.TileType] || Main.tileSolidTop[tile2.TileType]) &&
+                    tile.TileType != TileID.Trees &&
+                    tile2.TileType != TileID.Trees)
                 {
                     Projectile.ai[0]++;
                     if (Projectile.ai[0] == 1)
@@ -121,7 +121,7 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
                             int num = Dust.NewDust(projOwner.Center + new Vector2(Projectile.width / 2 * projOwner.direction, Projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, Main.rand.NextFloat(-dirtSmashIntensity, -1f), 6, new Color(255, 217, 184, 255), 1);
                             Main.dust[num].noGravity = true;
                             Main.dust[num].velocity.X *= 0.7f;
-                            Main.dust[num].noLight = false;
+                            // Main.dust[num].noLight = false;
                         }
                     }
 

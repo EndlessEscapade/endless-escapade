@@ -20,11 +20,11 @@ namespace EEMod.Items
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
-            Item.consumable = false;
+            // Item.consumable = false;
             Item.shoot = ModContent.ProjectileType<TenisBoll>();
             Item.useTime = 15;
             Item.useAnimation = 15;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
         }
     }
 }

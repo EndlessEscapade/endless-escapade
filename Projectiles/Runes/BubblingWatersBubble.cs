@@ -19,7 +19,7 @@ namespace EEMod.Projectiles.Runes
             Projectile.height = 136;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 100000;
             Projectile.ignoreWater = true;
@@ -38,7 +38,7 @@ namespace EEMod.Projectiles.Runes
             Projectile.ai[1]++;
             if (Projectile.ai[1] >= 120)
             {
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersBubbleSmall>(), 0, 0, Owner: Main.myPlayer);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersBubbleSmall>(), 0, 0, Owner: Main.myPlayer);
                 Projectile.ai[1] = 0;
             }
         }

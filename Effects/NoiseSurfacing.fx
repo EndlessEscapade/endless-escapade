@@ -25,7 +25,7 @@ float4 NoiseSurfacing(float2 coords : TEXCOORD0) : COLOR0
         return float4(0,0,0,0);
     }
     float mult = (0.5 - abs(0.5 - coords.x))*2;
-    return float4(newcolour * t * mult, newcolour * t * mult, newcolour * t * mult, 1);
+    return float4(newcolour * t * mult, newcolour * t * mult, newcolour * t * mult, newcolour * t * mult);
 }
 
 technique BasicColorDrawing

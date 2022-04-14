@@ -10,7 +10,7 @@ namespace EEMod.Tiles.Banners
 {
     public class BannerTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -22,16 +22,16 @@ namespace EEMod.Tiles.Banners
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide | AnchorType.SolidBottom, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.StyleWrapLimit = 111;
             TileObjectData.addTile(Type);
-            dustType = -1;
-            disableSmartCursor = true;
+            DustType = -1;
+            DisableSmartCursor = true;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Banner");
             AddMapEntry(new Color(13, 88, 130), name);
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            int style = frameX / 18;
+            int style = TileFrameX / 18;
             string item;
             switch (style)
             {
@@ -78,7 +78,7 @@ namespace EEMod.Tiles.Banners
                 default:
                     return;
             }
-            Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType(item));
+            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>(item).Type);
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
@@ -86,7 +86,7 @@ namespace EEMod.Tiles.Banners
             if (closer)
             {
                 Player player = Main.LocalPlayer;
-                int style = Framing.GetTileSafely(i, j).frameX / 18;
+                int style = Framing.GetTileSafely(i, j).TileFrameX / 18;
                 string type;
                 switch (style)
                 {
@@ -133,8 +133,8 @@ namespace EEMod.Tiles.Banners
                     default:
                         return;
                 }
-                player.NPCBannerBuff[mod.NPCType(type)] = true;
-                player.hasBanner = true;
+                //player.Banner[Mod.Find<ModNPC>(type).Type] = true;
+                //player.hasBanner = true;
             }
         }
 

@@ -14,7 +14,7 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class LightingBuffer : Mechanic
+    public class LightingBuffer : ModSystem
     {
         internal readonly List<Vector2> _lightPoints = new List<Vector2>();
         internal readonly List<Color> _colorPoints = new List<Color>();
@@ -33,10 +33,14 @@ namespace EEMod
 
         public override void PreUpdateEntities()
         {
+            if (Main.dedServ)
+                return;
             RenderTargetBinding[] oldtargets1 = Main.graphics.GraphicsDevice.GetRenderTargets();
             Main.graphics.GraphicsDevice.SetRenderTarget(lightingTarget);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+
+            Main.spriteBatch.Begin();
+
             int Width = Main.screenWidth;
             int Height = Main.screenHeight;
             for (int i = 0; i < Width / 16; i++)
@@ -46,47 +50,56 @@ namespace EEMod
                     Vector2 SP = Main.screenPosition / 16;
                     Point p = new Point((int)SP.X + i, (int)SP.Y + j);
                     Color c = Lighting.GetColor(p.X, p.Y);
-                    Main.spriteBatch.Draw(Main.magicPixel, new Rectangle(i, j, 1, 1), c);
+                    Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, new Rectangle(i, j, 1, 1), c);
                 }
             }
-            Main.spriteBatch.End();
-            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets1);
-            EEMod.LightingBufferEffect.Parameters["buffer"].SetValue(lightingTarget);
 
+            EEMod.LightingBuffer.Parameters["buffer"].SetValue(lightingTarget);
+
+            Main.spriteBatch.End();
+
+            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets1);
         }
+
         public event Action BufferCalls;
 
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             BufferCalls?.Invoke();
             BufferCalls = null;
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public void DrawWithBuffer(Texture2D texture, Vector2 position, float alpha)
         {
             BufferCalls += () =>
             {
-                EEMod.LightingBufferEffect.Parameters["screenPosition"].SetValue(position.ForDraw());
-                EEMod.LightingBufferEffect.Parameters["texSize"].SetValue(texture.Bounds.Size());
-                EEMod.LightingBufferEffect.Parameters["alpha"].SetValue(alpha);
-                EEMod.LightingBufferEffect.CurrentTechnique.Passes[0].Apply();
+                Main.spriteBatch.Begin();
+
+                EEMod.LightingBuffer.Parameters["screenPosition"].SetValue(position.ForDraw());
+                EEMod.LightingBuffer.Parameters["texSize"].SetValue(texture.Bounds.Size());
+                EEMod.LightingBuffer.Parameters["alpha"].SetValue(alpha);
+                EEMod.LightingBuffer.CurrentTechnique.Passes[0].Apply();
                 Main.spriteBatch.Draw(texture, position.ForDraw(), Color.White);
+
+                Main.spriteBatch.End();
             };
         }
-        public override void OnUpdate()
+        public override void PostUpdateEverything()
         {
             UpdateLight();
         }
 
-        public override void OnLoad()
+        public override void Load()
         {
-            lightingTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 16, Main.screenHeight / 16);
+            if (Main.dedServ)
+                return;
+
+            Main.QueueMainThreadAction(() =>
+            {
+                lightingTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 16, Main.screenHeight / 16);
+            });
+
             Instance = this;
         }
-        protected override Layer DrawLayering => Layer.None;
     }
 }

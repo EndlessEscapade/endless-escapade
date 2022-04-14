@@ -63,7 +63,7 @@ namespace EEMod.Items.Accessories
                 //The dash has ended.  Reset the fields
                 mp.DashDelay = ExampleDashPlayer.MAX_DASH_DELAY;
                 mp.DashTimer = ExampleDashPlayer.MAX_DASH_TIMER;
-                mp.DashActive = false;
+                // mp.DashActive = false;
             }
         }
     }
@@ -99,9 +99,9 @@ namespace EEMod.Items.Accessories
             bool dashAccessoryEquipped = false;
 
             //This is the loop used in vanilla to update/check the not-vanity accessories
-            for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
+            for (int i = 3; i < 8 + Player.GetAmountOfExtraAccessorySlotsToShow(); i++)
             {
-                Item item = player.armor[i];
+                Item item = Player.armor[i];
 
                 //Set the flag for the ExampleDashAccessory being equipped if we have it equipped OR immediately return if any of the accessories are
                 // one of the higher-priority ones
@@ -113,12 +113,12 @@ namespace EEMod.Items.Accessories
 
             //If we don't have the ExampleDashAccessory equipped or the player has the Solor armor set equipped, return immediately
             //Also return if the player is currently on a mount, since dashes on a mount look weird, or if the dash was already activated
-            if (!dashAccessoryEquipped || player.setSolar || player.mount.Active || DashActive)
+            if (!dashAccessoryEquipped || Player.setSolar || Player.mount.Active || DashActive)
                 return;
 
-            else if (player.controlRight && player.releaseRight && player.doubleTapCardinalTimer[DashRight] < 15)
+            else if (Player.controlRight && Player.releaseRight && Player.doubleTapCardinalTimer[DashRight] < 15)
                 DashDir = DashRight;
-            else if (player.controlLeft && player.releaseLeft && player.doubleTapCardinalTimer[DashLeft] < 15)
+            else if (Player.controlLeft && Player.releaseLeft && Player.doubleTapCardinalTimer[DashLeft] < 15)
                 DashDir = DashLeft;
             else
                 return;  //No dash was activated, return
@@ -137,7 +137,7 @@ namespace EEMod.Items.Accessories
         {
             if (DashActive)
             {
-                npc.StrikeNPC(0, 16f, player.direction);
+                npc.StrikeNPC(0, 16f, Player.direction);
             }
         }
     }

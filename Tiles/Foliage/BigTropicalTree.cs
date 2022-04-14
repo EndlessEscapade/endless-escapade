@@ -1,5 +1,6 @@
 ﻿using EEMod.Items.Materials;
 using EEMod.NPCs;
+using EEMod.NPCs.TropicalIslands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -13,7 +14,7 @@ namespace EEMod.Tiles.Foliage
 {
     public class BigTropicalTree : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -28,29 +29,29 @@ namespace EEMod.Tiles.Foliage
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tropical Tree");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             if (Main.rand.Next(5) == 0)
             {
-                NPC.NewNPC(i, j, ModContent.NPCType<Cococritter>());
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), i, j, ModContent.NPCType<Cococritter>());
             }
-            Item.NewItem(new Vector2(i, j), ModContent.ItemType<TropicalWoodItem>(), Main.rand.Next(12, 24));
-            Item.NewItem(new Vector2(i, j), ModContent.ItemType<Coconut>(), Main.rand.Next(3, 5));
+            Item.NewItem(new Terraria.DataStructures.EntitySource_SpawnNPC(), new Vector2(i, j), ModContent.ItemType<TropicalWoodItem>(), Main.rand.Next(12, 24));
+            Item.NewItem(new Terraria.DataStructures.EntitySource_SpawnNPC(), new Vector2(i, j), ModContent.ItemType<Coconut>(), Main.rand.Next(3, 5));
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Tile t = Main.tile[i, j];
-            if (t.frameX == 0 && t.frameY == 0)
+            Tile t = Framing.GetTileSafely(i, j);
+            if (t.TileFrameX == 0 && t.TileFrameY == 0)
             {
                 Main.specX[nextSpecialDrawIndex] = i;
                 Main.specY[nextSpecialDrawIndex] = j;
@@ -66,8 +67,8 @@ namespace EEMod.Tiles.Foliage
                 zero = Vector2.Zero;
             }
 
-            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/BigTropicalTreeLeaves"), new Vector2((i * 16) - 48, (j * 16) - 130) - Main.screenPosition + zero, new Rectangle(0, 0, 164, 172), Lighting.GetColor(i, j));
+            if (Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0)
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/BigTropicalTreeLeaves").Value, new Vector2((i * 16) - 48, (j * 16) - 130) - Main.screenPosition + zero, new Rectangle(0, 0, 164, 172), Lighting.GetColor(i, j));
         }
     }
 }

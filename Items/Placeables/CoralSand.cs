@@ -18,7 +18,7 @@ namespace EEMod.Items.Placeables
             Item.height = 10;
             Item.rare = ItemRarityID.White;
             Item.value = Item.sellPrice(0, 0, 0, 0);
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.useAnimation = 15;
             Item.useTurn = true;
             Item.useTime = 7;

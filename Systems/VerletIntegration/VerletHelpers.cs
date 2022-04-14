@@ -16,8 +16,8 @@ namespace EEMod.VerletIntegration
             public float lengthOfChains;
             public string glowmaskPath;
             public string texturePath;
-            public Texture2D glowmask => ModContent.GetInstance<EEMod>().GetTexture(glowmaskPath);
-            public Texture2D texture => ModContent.GetInstance<EEMod>().GetTexture(texturePath);
+            public Texture2D glowmask => EEMod.Instance.Assets.Request<Texture2D>(glowmaskPath).Value;
+            public Texture2D texture => EEMod.Instance.Assets.Request<Texture2D>(texturePath).Value;
             public VineInfo(Vector2 position, int numberOfChains, float lengthOfChains, string texturePath, string glowmaskPath)
             {
                 this.position = position;
@@ -44,14 +44,14 @@ namespace EEMod.VerletIntegration
 
             Point p = position.ToTileCoordinates();
 
-            if (Framing.GetTileSafely(p).active())
+            if (Framing.GetTileSafely(p).HasTile)
             {
                 Vector2 TP = (position + new Vector2(0, lengthOfChains * (numberOfChains - 1))) / 16;
-                if (!Framing.GetTileSafely((int)TP.X, (int)TP.Y).active())
+                if (!Framing.GetTileSafely((int)TP.X, (int)TP.Y).HasTile)
                 {
                     for (int i = 0; i < numberOfChains; i++)
                     {
-                        EEMod eemood = ModContent.GetInstance<EEMod>();
+                        EEMod eemood = EEMod.Instance;
                         int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
                         if (i == 0)
                         {
@@ -62,22 +62,22 @@ namespace EEMod.VerletIntegration
                         {
                             int vineRand = Main.rand.Next(0, 6);
                             if (vineRand != 0 && vineRand != 3)
-                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/Vine" + vineRand), eemood.GetTexture("Textures/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Textures/Vines/Vine" + vineRand + "Map"));
+                                verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/Vine" + vineRand).Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/Vine" + vineRand + "Glow").Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/Vine" + vineRand + "Map").Value);
                             else
-                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/Vine" + vineRand));
+                                verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/Vine" + vineRand).Value);
                         }
                         if (i == 1)
                         {
                             int vineRand = Main.rand.Next(0, 3);
                             if (vineRand != 0)
-                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineBase" + vineRand), eemood.GetTexture("Textures/Vines/VineBase" + vineRand + "Glow"), eemood.GetTexture("Textures/Vines/VineBase" + vineRand + "Map"));
+                                verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineBase" + vineRand).Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineBase" + vineRand + "Glow").Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineBase" + vineRand + "Map").Value);
                             else
-                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineBase" + vineRand));
+                                verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineBase" + vineRand).Value);
                         }
 
                         if (i == numberOfChains - 1)
                         {
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineCap"), eemood.GetTexture("Textures/Vines/VineCapGlow"), eemood.GetTexture("Textures/Vines/VineCapMap"));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineCap").Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineCapGlow").Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineCapMap").Value);
                             EndPointChains.Add(a);
                         }
                     }
@@ -98,32 +98,32 @@ namespace EEMod.VerletIntegration
             if (SpacialTolerance > 1) return;
 
             Point p = position.ToTileCoordinates();
-            if (Framing.GetTileSafely(p).active())
+            if (Framing.GetTileSafely(p).HasTile)
             {
                 for (int i = 0; i < numberOfChains; i++)
                 {
-                    EEMod eemood = ModContent.GetInstance<EEMod>();
+                    EEMod eemood = EEMod.Instance;
                     int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
                     if (i > 1)
                     {
                         int vineRand = Main.rand.Next(0, 6);
                         if (vineRand != 0 && vineRand != 3)
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/Vine" + vineRand), eemood.GetTexture("Textures/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Textures/Vines/Vine" + vineRand + "Map"));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/Vine" + vineRand).Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/Vine" + vineRand + "Glow").Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/Vine" + vineRand + "Map").Value);
                         else
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/Vine" + vineRand));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/Vine" + vineRand).Value);
                     }
                     if (i == 1)
                     {
                         int vineRand = Main.rand.Next(0, 3);
                         if (vineRand != 0)
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineBase" + vineRand), eemood.GetTexture("Textures/Vines/VineBase" + vineRand + "Glow"), eemood.GetTexture("Textures/Vines/VineBase" + vineRand + "Map"));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineBase" + vineRand).Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineBase" + vineRand + "Glow").Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineBase" + vineRand + "Map").Value);
                         else
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineBase" + vineRand));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineBase" + vineRand).Value);
                     }
 
                     if (i == numberOfChains - 1)
                     {
-                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineCap"), eemood.GetTexture("Textures/Vines/VineCapGlow"), eemood.GetTexture("Textures/Vines/VineCapMap"));
+                        verlet.BindPoints(a, a - 1, true, default, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineCap").Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineCapGlow").Value, eemood.Assets.Request<Texture2D>("Textures/Vines/HangingVines/VineCapMap").Value);
                         EndPointChains.Add(a);
                     }
                 }

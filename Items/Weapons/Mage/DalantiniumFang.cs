@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.height = 12;
             Projectile.timeLeft = 600;
             Projectile.ignoreWater = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             //aiType = ProjectileID.PineNeedleFriendly;
             Projectile.penetrate = 3;
@@ -47,7 +47,7 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2 + (Projectile.ai[1] / 24 * Projectile.velocity.Y);
         }
 
-        /*public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        /*public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (projectile.ai[0] >= 120)
                 AfterImage.DrawAfterimage(spriteBatch, Main.npcTexture[projectile.type], 0, projectile, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));

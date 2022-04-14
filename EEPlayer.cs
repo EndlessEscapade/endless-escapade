@@ -5,7 +5,6 @@ using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Items.Fish;
 using EEMod.Projectiles;
-using EEMod.Projectiles.Armor;
 using EEMod.Items.Weapons.Mage;
 using EEMod.Projectiles.Runes;
 using EEMod.VerletIntegration;
@@ -22,98 +21,37 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using Terraria.DataStructures;
 using System.Linq;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.EEWorld;
+using EEMod.Players;
+using EEMod.Items.Accessories;
+using EEMod.Subworlds;
 
 namespace EEMod
 {
     public partial class EEPlayer : ModPlayer
     {
+        /// <summary>Screen shake</summary>
         public int Shake = 0;
-        public bool importantCutscene;
+
         public static bool startingText;
-        public bool godMode = false;
-
-        //Biome checks
-        public bool ZoneCoralReefs;
-
-        public bool ZoneSurfaceReefs;
-        public bool ZoneUpperReefs;
-        public bool ZoneLowerReefs;
-        public bool ZoneReefDepths;
-
         public bool HasVisitedSpire;
-        public MinibiomeID reefMinibiome = MinibiomeID.None;
-        public bool aquamarineSetBonus = true;
-        public int aquamarineCooldown;
-        public bool isLight;
-        public Vector2 aquamarineVel;
-        public bool ZoneTropicalIsland;
-
-        //Equipment booleans
-        public bool hydroGear;
-        public bool dragonScale;
-        public bool lythenSet;
-        public int lythenSetTimer;
-        public bool dalantiniumSet;
-        public bool hydriteSet;
-        public bool hydrofluoricSet;
-        public int hydrofluoricSetTimer;
-        public bool dalantiniumHood;
-        public bool hydriteVisage;
-        public bool quartzCrystal = false;
-        public bool isQuartzRangedOn = false;
-        public bool isQuartzSummonOn = false;
-        public bool isQuartzMeleeOn = false;
-        public bool isQuartzChestOn = false;
-        public bool FlameSpirit;
 
         //Runes
         public byte[] hasGottenRuneBefore = new byte[7];
         public byte[] inPossesion = new byte[7];
         public int bubbleRuneBubble = 0;
 
-        //Whips
-        public int summonTagDamage;
-        public int summonTagCrit;
-
-        public readonly SubworldManager SM = new SubworldManager();
-        public int rippleCount = 3;
-        public int rippleSize = 5;
-        public int rippleSpeed = 15;
-        public int distortStrength = 100;
-        public List<ParticlesClass> Particles = new List<ParticlesClass>();
-        public List<Vector2> Velocity;
-        private static string prevKey = "Main";
-        public float powerLevel = 0;
-        public int maxPowerLevel = 11;
         public float zipMultiplier = 1;
-        public int thermalHealingTimer = 30;
-        public int cannonballType = 0;
         public bool isPickingUp;
-        private float propagation;
 
         public Dictionary<int, int> fishLengths = new Dictionary<int, int>();
 
-        private readonly int displaceX = 2;
-        private readonly int displaceY = 4;
-        private readonly float[] dis = new float[51];
-        public bool isWearingCape = false;
-        public string NameForJoiningClients = "";
         public Vector2[] arrayPoints = new Vector2[24];
-        public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
-        private int Arrow;
-        public int Arrow2;
-        private float speedOfPan = 1;
-        public int offSea = 1000;
-        private int opac;
-        public int boatSpeed = 1;
-        private readonly string RippleShader = "EEMod:Ripple";
         private readonly string SunThroughWallsShader = "EEMod:SunThroughWalls";
-        private readonly string SeaTransShader = "EEMod:SeaTrans";
         public bool firstFrameVolcano;
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
@@ -124,327 +62,8 @@ namespace EEMod
         public int PlayerY;
         public Vector2 velHolder;
 
-        public bool currentlyRotated, currentlyRotatedByToRotation, wasAirborn, lerpingToRotation = false;
-        public int timeAirborne = 0;
-        public override void PostUpdate()
-        {
-            /*if (player.wet)
-            {
-                if (player.fullRotation % MathHelper.ToRadians(-360f) < 1 && player.fullRotation % MathHelper.ToRadians(-360f) > -1 && !lerpingToRotation)
-                {
-                    player.fullRotation = 0;
-                    wasAirborn = false;
-                }
-
-                if (player.mount.Type == -1)
-                {
-                    player.fullRotationOrigin = new Vector2(player.width / 2, player.height / 2);
-
-                    if (player.fullRotation != 0)
-                    {
-                        currentlyRotated = true;
-                    }
-
-                    if ((player.velocity.X != 0 && player.velocity.Y != 0) || (player.velocity.Y != 0 && timeAirborne > 60))
-                    {
-                        timeAirborne++;
-
-                        if (timeAirborne > 60)
-                        {
-                            lerpingToRotation = true;
-                            player.fullRotation = player.fullRotation.AngleLerp(player.velocity.ToRotation() + (float)Math.PI / 2f, 0.05f);
-                            wasAirborn = true;
-                        }
-                        else
-                        {
-                            lerpingToRotation = false;
-                            wasAirborn = false;
-                        }
-                    }
-                    else
-                    {
-                        lerpingToRotation = false;
-
-                        if (player.direction == -1)
-                        {
-                            if (wasAirborn)
-                            {
-                                player.fullRotation = MathHelper.Lerp(player.fullRotation, 0f, -0.085f);
-                            }
-                            else
-                            {
-                                player.fullRotation = 0;
-                                timeAirborne = 0;
-                            }
-                        }
-                        else
-                        {
-                            if (wasAirborn)
-                            {
-                                player.fullRotation = MathHelper.Lerp(player.fullRotation, 0f, -0.085f);
-                            }
-                            else
-                            {
-                                player.fullRotation = 0;
-                                timeAirborne = 0;
-                            }
-                        }
-
-                        if (player.fullRotation == 0)
-                        {
-                            player.fullRotation += player.velocity.X / 7f;
-
-                            if (player.fullRotation > MathHelper.ToRadians(player.velocity.X))
-                            {
-                                player.fullRotation = MathHelper.ToRadians(player.velocity.X);
-                            }
-
-                            if (player.fullRotation < MathHelper.ToRadians(-player.velocity.X))
-                            {
-                                player.fullRotation = -MathHelper.ToRadians(-player.velocity.X);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (currentlyRotated)
-                    {
-                        player.fullRotation = 0f;
-                        currentlyRotated = false;
-                        wasAirborn = false;
-                        lerpingToRotation = false;
-                    }
-                }
-            }*/
-        }
-
-        public override void UpdateBiomes()
-        {
-            ZoneCoralReefs = Main.ActiveWorldFileData.Name == KeyID.CoralReefs;
-
-            if (ZoneCoralReefs)
-            {
-                opac++;
-                if (opac > 100)
-                {
-                    opac = 100;
-                }
-
-                if(player.Center.Y <= 3000)
-                {
-                    player.ZoneBeach = true;
-                }
-                else
-                {
-                    player.ZoneBeach = false;
-                }
-
-                reefMinibiome = MinibiomeID.None;
-
-                for (int k = 0; k < CoralReefs.Minibiomes.Count; k++)
-                {
-                    Vector2 playerPos = player.Center / 16;
-                    Vector2 minibiomePos = CoralReefs.Minibiomes[k].Center.ToVector2();
-
-                    if (OvalCheck((int)minibiomePos.X, (int)minibiomePos.Y, (int)playerPos.X, (int)playerPos.Y, CoralReefs.Minibiomes[k].Size.X / 2, CoralReefs.Minibiomes[k].Size.Y / 2))
-                    {
-                        reefMinibiome = CoralReefs.Minibiomes[k].id;
-
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                opac--;
-                if (opac < 0)
-                {
-                    opac = 0;
-                }
-            }
-        }
-
-        private int bubbleTimer = 6;
-        private int bubbleLen = 0;
-        private int dur = 0;
-        private int bubbleColumn;
         public bool isHoldingGlider;
         public Vector2 currentAltarPos;
-        public bool isInSubworld;
-
-        public override void UpdateVanityAccessories()
-        {
-            if (hydroGear || dragonScale)
-            {
-                player.accFlipper = true;
-            }
-
-            if (hydroGear)
-            {
-                player.accDivingHelm = true;
-            }
-
-            if (dragonScale && player.wet && PlayerInput.Triggers.JustPressed.Jump)
-            {
-                if (dur <= 0)
-                {
-                    bubbleColumn = 0;
-                    dur = 36;
-                }
-            }
-        }
-
-        public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
-        {
-            if (junk)
-            {
-                return;
-            }
-
-            if (ZoneCoralReefs)
-            {
-                if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<BlueTang>())
-                {
-                    caughtType = ItemType<BlueTang>();
-                }
-
-                if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<Spiritfish>() && Main.hardMode)
-                {
-                    caughtType = ItemType<Spiritfish>();
-                }
-
-                if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<GlitteringPearlfish>() && downedCoralGolem)
-                {
-                    caughtType = ItemType<GlitteringPearlfish>();
-                }
-
-                if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<Ironfin>() && downedTalos)
-                {
-                    caughtType = ItemType<Ironfin>();
-                }
-
-                if (Main.rand.NextFloat() < 0.01f)
-                {
-                    caughtType = ItemType<LunaJellyItem>();
-                }
-
-                if (Main.rand.NextFloat() < 0.1f)
-                {
-                    caughtType = ItemType<Barracuda>();
-                }
-
-                if (Main.rand.NextFloat() < 0.4f)
-                {
-                    caughtType = ItemType<ReeftailMinnow>();
-                }
-
-                if (Main.rand.NextFloat() < 0.4f)
-                {
-                    caughtType = ItemType<Coralfin>();
-                }
-            }
-        }
-
-        public override bool CustomBiomesMatch(Player other)
-        {
-            EEPlayer modOther = other.GetModPlayer<EEPlayer>();
-            return ZoneCoralReefs == modOther.ZoneCoralReefs;
-        }
-
-        public override void CopyCustomBiomesTo(Player other)
-        {
-            EEPlayer modOther = other.GetModPlayer<EEPlayer>();
-            modOther.ZoneCoralReefs = ZoneCoralReefs;
-        }
-
-        public override void SendCustomBiomes(BinaryWriter writer)
-        {
-            BitsByte flags = new BitsByte();
-            flags[0] = ZoneCoralReefs;
-            writer.Write(flags);
-        }
-
-        public override void ReceiveCustomBiomes(BinaryReader reader)
-        {
-            BitsByte flags = reader.ReadByte();
-            ZoneCoralReefs = flags[0];
-        }
-
-        public bool isHangingOnVine;
-
-        public override void Initialize()
-        {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                SpireCutscene = 0;
-                try
-                {
-                    if (Main.gameMenu)
-                        isInSubworld = false;
-                    else
-                        isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
-                }
-                catch
-                {
-
-                }
-                for (int i = 0; i < arrayPoints.Length; i++)
-                {
-                    arrayPoints[i] = new Vector2(mainPoint.X + (i * displaceX), mainPoint.Y + (i * displaceY));
-                }
-                isPickingUp = false;
-                quickOpeningFloat = 20;
-                EEMod.AscentionHandler = 0;
-                EEMod.startingTextHandler = 0;
-                EEMod.isAscending = false;
-                EEMod.AscentionHandler = 0;
-                isSaving = false;
-                godMode = false;
-                timerForCutscene = 0;
-                seamapUpdateCount = 0;
-                arrowFlag = false;
-                noU = false;
-                triggerSeaCutscene = false;
-                cutSceneTriggerTimer = 0;
-                position = player.Center;
-                importantCutscene = false;
-                speedOfPan = 0;
-                subTextAlpha = 0;
-
-                if (SeamapPlayerShip.localship != null)
-                {
-                    SeamapPlayerShip.localship.position = new Vector2(1700, 900);
-                    SeamapPlayerShip.localship.shipHelth = SeamapPlayerShip.ShipHelthMax;
-                }
-
-                SeamapObjects.IslandEntities.Clear();
-                displacmentX = 0;
-                displacmentY = 0;
-                startingText = false;
-                Particles.Clear();
-                SeamapObjects.OceanMapElements.Clear();
-                isCameraFixating = false;
-            }
-        }
-
-        public override void ResetEffects()
-        {
-            isQuartzChestOn = false;
-            isQuartzRangedOn = false;
-            isQuartzMeleeOn = false;
-            isQuartzSummonOn = false;
-            ResetMinionEffect();
-            isSaving = false;
-            dragonScale = false;
-            hydroGear = false;
-            lythenSet = false;
-            dalantiniumSet = false;
-            hydriteSet = false;
-            hydrofluoricSet = false;
-            isWearingCape = false;
-            aquamarineSetBonus = false;
-        }
 
         private float displacmentX = 0;
         private float displacmentY = 0;
@@ -454,6 +73,12 @@ namespace EEMod
         public float fixatingSpeedInv;
         public int intensity;
         private int runeCooldown = 0;
+        public bool playingGame;
+
+        public int powerLevel;
+        public float maxPowerLevel;
+
+        public bool isHangingOnVine;
 
         private readonly Dictionary<int, bool[]> RuneData = new Dictionary<int, bool[]>()
         {
@@ -465,6 +90,13 @@ namespace EEMod
             {5,new []{false,false }},
             {6,new []{false,false }},
         };
+
+        public override bool CloneNewInstances => false; // just in case something doesn't reset
+
+        public override void PostUpdate()
+        {
+
+        }
 
         public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
         {
@@ -479,16 +111,18 @@ namespace EEMod
         {
             isCameraFixating = false;
             isCameraShaking = false;
-            fixatingPoint.X = player.Center.X;
-            fixatingPoint.Y = player.Center.Y;
+            fixatingPoint.X = Player.Center.X;
+            fixatingPoint.Y = Player.Center.Y;
         }
 
         public override void ModifyScreenPosition()
         {
-            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
-            Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
-            if (Shake > 0)  
-                Shake--; 
+            if (Shake > 0)
+            {
+                Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
+                Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
+                Shake--;
+            }
 
             int clamp = 80;
             float disSpeed = .4f;
@@ -496,70 +130,13 @@ namespace EEMod
 
             EEMod.UpdateAmbience();
 
-            if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
+            if (!SubworldLibrary.SubworldSystem.IsActive<Sea>() && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
             {
-                if (seamapUpdateCount < 120 * 8)
-                {
-                    displacmentX -= (displacmentX - (200 * 16)) / 32f;
-                    displacmentY -= (displacmentY - (110 * 16)) / 32f;
-                    Main.screenPosition += new Vector2(displacmentX - player.Center.X, displacmentY - player.Center.Y);
-                    player.position = player.oldPosition;
-                }
-                else
-                {
-                    startingText = true;
-                    Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
-                    if (Main.netMode != NetmodeID.Server && !Filters.Scene[RippleShader].IsActive())
-                    {
-                        Filters.Scene.Activate(RippleShader, player.Center).GetShader().UseOpacity(timerForCutscene);
-                    }
-                    Main.screenPosition += new Vector2(displacmentX - player.Center.X, displacmentY - player.Center.Y);
-                    displacmentX -= (displacmentX - player.Center.X) / 16f;
-                    displacmentY -= (displacmentY - player.Center.Y) / 16f;
-                    timerForCutscene += 10;
-                    if (timerForCutscene > 1000)
-                    {
-                        timerForCutscene = 1000;
-                    }
-
-                    if (seamapUpdateCount >= (120 * 8) + 1400)
-                    {
-                        if (Main.netMode != NetmodeID.Server && Filters.Scene[RippleShader].IsActive())
-                        {
-                            Filters.Scene[RippleShader].Deactivate();
-                        }
-                        if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive())
-                        {
-                            //  Filters.Scene.Activate("EEMod:WhiteFlash", player.Center).GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
-                        }
-
-                        /*Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                        Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center.ForDraw(), new Rectangle(0, 0, 174, 174), Color.White * (markerPlacer - ((120 * 8) + 1400)) * 0.05f, (markerPlacer - ((120 * 8) + 1400)) / 10, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer - ((120 * 8) + 1400), SpriteEffects.None, 0);
-                        Main.spriteBatch.End();*/
-
-                        //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
-                    }
-                    if (seamapUpdateCount >= (120 * 8) + 1800)
-                    {
-                        startingText = false;
-                        if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:WhiteFlash"].IsActive())
-                        {
-                            //    Filters.Scene["EEMod:WhiteFlash"].Deactivate();
-                        }
-
-                        Initialize();
-                        SM.Return(KeyID.BaseWorldName);
-                    }
-                }
-            }
-
-            if (Main.worldName != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
-            {
-                if (player.velocity.X > 1)
+                if (Player.velocity.X > 1)
                 {
                     displacmentX += disSpeed;
                 }
-                else if (player.velocity.X < -1)
+                else if (Player.velocity.X < -1)
                 {
                     displacmentX -= disSpeed;
                 }
@@ -567,11 +144,11 @@ namespace EEMod
                 {
                     displacmentX -= displacmentX / 16f;
                 }
-                if (player.velocity.Y > 1)
+                if (Player.velocity.Y > 1)
                 {
                     displacmentY += disSpeed / 2;
                 }
-                else if (player.velocity.Y < -1)
+                else if (Player.velocity.Y < -1)
                 {
                     displacmentY -= disSpeed / 2;
                 }
@@ -583,29 +160,10 @@ namespace EEMod
                 displacmentY = Helpers.Clamp(displacmentY, -clamp, clamp);
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
-
-            if (Main.worldName == KeyID.Sea)
-            {
-                player.position = player.oldPosition;
-                if (seamapUpdateCount > 1)
-                {
-                    //Main.screenPosition += new Vector2(0, offSea);
-                    SeamapPlayerShip.localship.ModifyScreenPosition(ref Main.screenPosition);
-                }
-            }
-            if (cutSceneTriggerTimer > 0 && triggerSeaCutscene)
-            {
-                if (!Main.gamePaused)
-                {
-                    speedOfPan += 0.01f;
-                }
-
-                Main.screenPosition.X += cutSceneTriggerTimer * speedOfPan;
-            }
             if (isCameraFixating)
             {
-                displacmentX += (fixatingPoint.X - player.Center.X - displacmentX) / fixatingSpeedInv;
-                displacmentY += (fixatingPoint.Y - player.Center.Y - displacmentY) / fixatingSpeedInv;
+                displacmentX += (fixatingPoint.X - Player.Center.X - displacmentX) / fixatingSpeedInv;
+                displacmentY += (fixatingPoint.Y - Player.Center.Y - displacmentY) / fixatingSpeedInv;
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
             else if (Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && Math.Abs(displacmentX + displacmentY) > 0.01f)
@@ -626,20 +184,11 @@ namespace EEMod
             }
         }
 
-        Vector2 mainPoint => new Vector2(player.Center.X, player.position.Y);
-
-        private float inspectTimer = 0;
-
-        public void InspectObject()
-        {
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("UI/InspectIcon"), (player.Center + new Vector2(0, (float)Math.Sin(inspectTimer) * 32)).ForDraw(), Color.White);
-            inspectTimer += 0.5f;
-        }
         public void UpdateVerletCollisions(int pRP, float velDamp, int fakeElevation, int newFeetPos, float gradientFunction)
         {
             foreach (Verlet.Stick stick in Verlet.stickPoints)
             {
-                Rectangle pRect = new Rectangle((int)player.position.X - pRP, (int)player.position.Y - pRP, player.width + pRP, player.height + pRP);
+                Rectangle pRect = new Rectangle((int)Player.position.X - pRP, (int)Player.position.Y - pRP, Player.width + pRP, Player.height + pRP);
                 Vector2 Vec1 = Verlet.Points[stick.a].point;
                 Vector2 Vec2 = Verlet.Points[stick.b].point;
                 int Y = Vec1.Y < Vec2.Y ? (int)Vec1.Y : (int)Vec2.Y;
@@ -650,248 +199,67 @@ namespace EEMod
                 Rectangle vRect = new Rectangle(X - pRP, Y - pRP, X1 - X + pRP, Y1 - Y + pRP);
                 if (pRect.Intersects(vRect))
                 {
-                    float perc = (player.Center.X - Vec1.X) / (Vec2.X - Vec1.X);
+                    float perc = (Player.Center.X - Vec1.X) / (Vec2.X - Vec1.X);
                     float yTarget = Vec1.Y + (Vec2.Y - Vec1.Y) * perc + fakeElevation;
-                    float feetPos = player.position.Y + player.height;
+                    float feetPos = Player.position.Y + Player.height;
                     float grad = (Vec2.Y - Vec1.Y) / (Vec2.X - Vec1.X);
                     grad *= gradientFunction;
-                    if (feetPos - 5 - player.velocity.Y < yTarget && feetPos > yTarget)
+                    if (feetPos - 5 - Player.velocity.Y < yTarget && feetPos > yTarget)
                     {
-                        player.velocity.Y = 0;
-                        player.gravity = 0f;
-                        player.position.Y = yTarget - (newFeetPos - grad * player.direction * Math.Abs(player.velocity.X / velDamp));
-                        player.bodyFrameCounter += Math.Abs(velocity.X) * 0.5f;
-                        while (player.bodyFrameCounter > 8.0)
+                        Player.velocity.Y = 0;
+                        Player.gravity = 0f;
+                        Player.position.Y = yTarget - (newFeetPos - grad * Player.direction * Math.Abs(Player.velocity.X / velDamp));
+                        Player.bodyFrameCounter += Math.Abs(Player.velocity.X) * 0.5f;
+                        while (Player.bodyFrameCounter > 8.0)
                         {
-                            player.bodyFrameCounter -= 8.0;
-                            player.bodyFrame.Y += player.bodyFrame.Height;
+                            Player.bodyFrameCounter -= 8.0;
+                            Player.bodyFrame.Y += Player.bodyFrame.Height;
                         }
-                        if (player.bodyFrame.Y < player.bodyFrame.Height * 7)
+                        if (Player.bodyFrame.Y < Player.bodyFrame.Height * 7)
                         {
-                            player.bodyFrame.Y = player.bodyFrame.Height * 19;
+                            Player.bodyFrame.Y = Player.bodyFrame.Height * 19;
                         }
-                        else if (player.bodyFrame.Y > player.bodyFrame.Height * 19)
+                        else if (Player.bodyFrame.Y > Player.bodyFrame.Height * 19)
                         {
-                            player.bodyFrame.Y = player.bodyFrame.Height * 7;
+                            Player.bodyFrame.Y = Player.bodyFrame.Height * 7;
                         }
                     }
                 }
             }
         }
 
-        public bool playingGame;
-        public float seamapLightColor;
-        public override void UpdateBiomeVisuals()
+        public override void UpdateEquips()
         {
-            if (aquamarineSetBonus)
-            {
-                if (isLight)
-                {
-                    player.gravity = 0;
-
-                    if (Math.Abs(player.velocity.X) <= 0.01) aquamarineVel.X = -aquamarineVel.X * 1.25f;
-
-                    if (Math.Abs(player.velocity.Y) <= 0.01) aquamarineVel.Y = -aquamarineVel.Y * 1.25f;
-
-                    player.velocity = aquamarineVel;
-
-                    aquamarineCooldown++;
-                    if (aquamarineCooldown >= 600 || (player.controlUp && aquamarineCooldown >= 30))
-                    {
-                        isLight = false;
-                        aquamarineCooldown = 30;
-                        player.gravity = 1;
-                    }
-                }
-                else
-                {
-                    aquamarineCooldown--;
-                    if(player.controlUp && aquamarineCooldown <= 0)
-                    {
-                        isLight = true;
-
-                        aquamarineVel = Vector2.Normalize(Main.MouseWorld - player.Center) * 24;
-                    }
-                }
-            }
-
-
-            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2 / 3f) + brightness, 0.333f, 2f);
-            /*
-            int minibiome = 0;
-            for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
-            {
-                if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(player.Center.X / 16, player.Center.Y / 16)) < (220 * 220) && EESubWorlds.MinibiomeLocations[k].Z != 0)
-                {
-                    minibiome = (int)EESubWorlds.MinibiomeLocations[k].Z;
-                    break;
-                }
-            }*/
-            // Main.NewText(minibiome);
+            var zonePlayer = Player.GetModPlayer<EEZonePlayer>();
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
-            EEPlayer eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            if (eeplayer.reefMinibiome == MinibiomeID.AquamarineCaverns)
-                EEMod.MainParticles.SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new SetLightingBlend(true));
+            if (zonePlayer.reefMinibiomeID == MinibiomeID.AquamarineCaverns)
+                EEMod.MainParticles.SpawnParticleDownUp(-Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new SetLightingBlend(true));
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.08f));
-            if (eeplayer.reefMinibiome == MinibiomeID.KelpForest)
+            if (zonePlayer.reefMinibiomeID == MinibiomeID.KelpForest)
             {
                 float gottenParalax = Main.rand.NextFloat(1, 1.5f);
-                EEMod.MainParticles.SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, GetInstance<EEMod>().GetTexture("Particles/ForegroundParticles/KelpLeaf"), gottenParalax, 1 - (gottenParalax - 1)/1.2f, new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new RotateTexture(0.03f), new SetLightingBlend(true), new SetAnimData(6, 5));
+                EEMod.MainParticles.SpawnParticleDownUp(-Vector2.UnitY * 3, GetInstance<EEMod>().Assets.Request<Texture2D>("Particles/ForegroundParticles/KelpLeaf").Value, gottenParalax, 1 - (gottenParalax - 1) / 1.2f, new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new RotateTexture(0.03f), new SetLightingBlend(true), new SetAnimData(6, 5));
             }
+
             if (playingGame)
             {
-                player.velocity = Vector2.Zero;
+                Player.velocity = Vector2.Zero;
             }
+
             //UpdateVerletCollisions(1, 3f, 10, 54, 1.6f);
-            if (isWearingCape)
-            {
-                UpdateArrayPoints();
-            }
-            thermalHealingTimer--;
-            if (player.HasBuff(BuffType<ThermalHealing>()) && thermalHealingTimer <= 0)
-            {
-                player.statLife++;
-                thermalHealingTimer = 30;
-            }
+
             UpdateRunes();
-            UpdateSets();
-            UpdatePowerLevel();
 
-            if (dur > 0)
+            // EEMod.isSaving = false;
+
+            if(SubworldLibrary.SubworldSystem.Current == null)
             {
-                bubbleTimer--;
-                if (bubbleTimer <= 0)
-                {
-                    bubbleTimer = 6;
-                    if (player.wet)
-                    {
-                        Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: player.whoAmI);
-                    }
-
-                    bubbleLen = Main.rand.Next(-16, 17);
-                    bubbleColumn += 2;
-                }
-                dur--;
+                UpdateWorld();
             }
 
-            EEMod.isSaving = false;
-            if (Main.worldName != KeyID.Sea)
-            {
-                if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
-                {
-                    cutSceneTriggerTimer += 2;
-                    player.position = player.oldPosition;
-                }
-                if (godMode)
-                {
-                    timerForCutscene += 20;
-                }
-            }
-            switch (Main.worldName)
-            {
-                case KeyID.Pyramids:
-                {
-                    UpdatePyramids();
-                    break;
-                }
-                case KeyID.Sea:
-                {
-                    UpdateSea();
-                    break;
-                }
-                case KeyID.CoralReefs:
-                {
-                    UpdateCR();
-                    break;
-                }
-                case KeyID.Island:
-                {
-                    UpdateIsland();
-                    break;
-                }
-                case KeyID.VolcanoIsland:
-                {
-                    UpdateVolcano();
-                    break;
-                }
-                case KeyID.VolcanoInside:
-                {
-                    UpdateInnerVolcano();
-                    break;
-                }
-                case KeyID.Cutscene1:
-                {
-                    UpdateCutscene();
-                    break;
-                }
-                default:
-                {
-                    UpdateWorld();
-                    break;
-                }
-            }
-            UpdateCutscenesAndTempShaders();
-        }
-
-        public void UpdateArrayPoints()
-        {
-            float acc = arrayPoints.Length;
-            float upwardDrag = 0.2f;
-            float smoothStepSpeed = 8;
-            float yDis = 15;
-            float propagtionSpeedWTRdisX = 15;
-            float propagtionSpeedWTRvelY = 4;
-            float basePosFluncStatic = 5f;
-            float basePosFlunc = 3f;
-            propagation += (Math.Abs(player.velocity.X / 2f) * 0.015f) + 0.1f;
-            for (int i = 0; i < acc; i++)
-            {
-                float prop = (float)Math.Sin(propagation + (i * propagtionSpeedWTRdisX / acc));
-                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / basePosFluncStatic) * i), mainPoint.Y + (i * displaceY) + 20);
-                float dist = player.position.Y + yDis - basePos.Y + prop / acc * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
-                float amp = Math.Abs(player.velocity.X * basePosFlunc) * (i * basePosFlunc / acc) + 1f;
-                float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / propagtionSpeedWTRvelY * i);
-                float disClamp = (goTo - dis[i]) / smoothStepSpeed;
-                disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
-                dis[i] += disClamp;
-                if (i == 0)
-                {
-                    arrayPoints[i] = basePos;
-                }
-                else
-                {
-                    arrayPoints[i] = new Vector2(basePos.X, basePos.Y + prop / acc * amp - dis[i] + i * 2);
-                }
-
-                if (player.direction == 1)
-                {
-                    float distX = arrayPoints[i].X - player.Center.X;
-                    arrayPoints[i].X = player.Center.X - distX;
-                }
-                int tracker = 0;
-                if (i != 0)
-                {
-                    Tile tile = Framing.GetTileSafely((int)arrayPoints[i].X / 16, (int)arrayPoints[i].Y / 16);
-                    while (tile.active() &&
-                            Main.tileSolid[tile.type]
-                           || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
-                    {
-                        arrayPoints[i].Y--;
-                        tracker++;
-                        if (tracker >= displaceY * acc)
-                        {
-                            break;
-                        }
-
-                        if (arrayPoints[i].Y <= arrayPoints[i - 1].Y - 4)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
+            base.UpdateEquips();
         }
 
         public void UpdateRunes()
@@ -935,7 +303,7 @@ namespace EEMod
                             {
                                 if (bubbleRuneBubble == 0)
                                 {
-                                    bubbleRuneBubble = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BubblingWatersBubble>(), 0, 0, Main.myPlayer);
+                                    bubbleRuneBubble = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ByProjectileSourceId(ProjectileType<BubblingWatersBubble>()), Player.Center, Vector2.Zero, ProjectileType<BubblingWatersBubble>(), 0, 0, Main.myPlayer);
                                 }
                                 else
                                 {
@@ -945,15 +313,15 @@ namespace EEMod
                             }
                             else
                             {
-                                if (player.wet)
+                                if (Player.wet)
                                 {
-                                    player.gravity = 0;
-                                    if (player.controlUp)
-                                        player.gravity = -0.2f;
-                                    if (player.controlDown)
-                                        player.gravity = 0.1f;
-                                    if (!player.controlUp && !player.controlDown)
-                                        player.gravity = -0.1f;
+                                    Player.gravity = 0;
+                                    if (Player.controlUp)
+                                        Player.gravity = -0.2f;
+                                    if (Player.controlDown)
+                                        Player.gravity = 0.1f;
+                                    if (!Player.controlUp && !Player.controlDown)
+                                        Player.gravity = -0.1f;
                                 }
                             }
                             break;
@@ -985,17 +353,16 @@ namespace EEMod
                         }
                         case RuneID.IceRune:
                         {
-                            Main.NewText("rune equipped");
                             for (int j = 0; j < Main.npc.Length - 1; j++)
                             {
                                 NPC npc = Main.npc[j];
                                 if (!npc.active)
                                     continue;
-                                if (Vector2.Distance(npc.Center, player.Center) <= 256)
+                                if (Vector2.Distance(npc.Center, Player.Center) <= 256)
                                 {
                                     npc.AddBuff(BuffID.Slow, 30);
 
-                                    Texture2D tex = mod.GetTexture("EEMod/Projectiles/Runes/PermafrostSnowflake");
+                                    Texture2D tex = Mod.Assets.Request<Texture2D>("EEMod/Projectiles/Runes/PermafrostSnowflake").Value;
                                     Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
                                     Main.spriteBatch.Draw(tex, new Vector2(npc.Center.X, npc.Center.Y - npc.height / 2 - 32), tex.Bounds, Color.White, 0, tex.Bounds.Size() / 2, 1, SpriteEffects.None, 0);
                                     Main.spriteBatch.End();
@@ -1016,12 +383,12 @@ namespace EEMod
                         {
                             if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                player.velocity -= new Vector2((player.Center.X - Main.MouseWorld.X) / 32, 16 * (Main.MouseWorld.Y > player.Center.Y ? -1 : 1));
+                                Player.velocity -= new Vector2((Player.Center.X - Main.MouseWorld.X) / 32, 16 * (Main.MouseWorld.Y > Player.Center.Y ? -1 : 1));
                                 runeCooldown = 300;
                             }
                             else
                             {
-                                player.dash = 3;
+                                Player.dash = 3;
                             }
 
                             break;
@@ -1033,49 +400,6 @@ namespace EEMod
             if (RuneData[(int)RuneID.SandRune] == states[(int)StateID.Equiped])
             {
 
-            }
-        }
-
-        public void UpdateSets()
-        {
-            if (hydrofluoricSet)
-            {
-                hydrofluoricSetTimer++;
-                if (hydrofluoricSetTimer >= 30 && player.velocity != Vector2.Zero)
-                {
-                    Projectile.NewProjectile(player.Center, player.velocity / 2, ProjectileType<CorrosiveBubble>(), 20, 0f);
-                    hydrofluoricSetTimer = 0;
-                }
-            }
-
-            if (lythenSet)
-            {
-                lythenSetTimer++;
-                if (lythenSetTimer >= 480)
-                {
-                    NPC closest = null;
-                    float closestDistance = 9999999;
-                    for (int i = 0; i < Main.maxNPCs; i++)
-                    {
-                        NPC npc = Main.npc[i];
-                        if (npc.active && npc.Distance(position) < closestDistance)
-                        {
-                            closest = npc;
-                            closestDistance = npc.Distance(position);
-                        }
-                    }
-                    if (closest != null)
-                    {
-                        Projectile.NewProjectile(closest.Center, Vector2.Zero, ProjectileType<CyanoburstTomeKelp>(), 10, 0f, Owner: player.whoAmI);
-                    }
-
-                    lythenSetTimer = 0;
-                }
-            }
-
-            if (hydriteSet)
-            {
-                player.gills = true;
             }
         }
 
@@ -1110,7 +434,7 @@ namespace EEMod
                     //Leaving zipline
                     eEPlayer.PylonBegin = default;
                     eEPlayer.PylonEnd = default;
-                    eEPlayer.ridingZipline = false;
+                    // eEPlayer.ridingZipline = false;
                     zipMultiplier = 1;
                 }
                 else
@@ -1123,267 +447,29 @@ namespace EEMod
             }
         }
 
-        public void UpdatePowerLevel()
-        {
-            if (player.controlUseItem)
-            {
-                powerLevel += 0.2f;
-                if (powerLevel > maxPowerLevel)
-                {
-                    powerLevel = maxPowerLevel;
-                }
-            }
-            else
-            {
-                powerLevel = 0;
-            }
-        }
-
         public override Texture2D GetMapBackgroundImage()
         {
-            if (ZoneCoralReefs)
-            {
-                return ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
-            }
             return null;
         }
 
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
-            return new TagCompound
-            {
-                ["hasGottenRuneBefore"] = hasGottenRuneBefore,
-                ["baseworldname"] = baseWorldName,
-                ["importantCutscene"] = importantCutscene,
-                ["swiftSail"] = boatSpeed,
-                ["cannonball"] = cannonballType,
-                ["fishLengthsKeys"] = fishLengths.Keys.ToList(),
-                ["fishLengthsValues"] = fishLengths.Values.ToList(),
-                /*
-             {"Hours", Hours},
-		     {"Minutes", Minutes},
-		     {"Seconds", Seconds},
-		     {"Milliseconds", Milliseconds},
-             */
-            };
+            tag["hasGottenRuneBefore"] = hasGottenRuneBefore;
+            tag["fishLengthsKeys"] = fishLengths.Keys.ToList();
+            tag["fishLengthsValues"] = fishLengths.Values.ToList();
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             tag.TryGetByteArrayRef("hasGottenRuneBefore", ref hasGottenRuneBefore);
-            tag.TryGetRef("baseworldname", ref baseWorldName);
-            tag.TryGetRef("importantCutscene", ref importantCutscene);
-            tag.TryGetRef("swiftSail", ref boatSpeed);
-            tag.TryGetRef("cannonball", ref cannonballType);
+
             var fishLengthsKeys = new List<int>();
             var fishLengthsValues = new List<int>();
+
             tag.TryGetRef("fishLengthsKeys", ref fishLengthsKeys);
             tag.TryGetRef("fishLengthsValues", ref fishLengthsValues);
+
             fishLengths = fishLengthsKeys.Zip(fishLengthsValues, (k, v) => new { fishLengthsKeys = k, fishLengthsValues = v }).ToDictionary(d => d.fishLengthsKeys, d => d.fishLengthsValues);
-            /*
-                if (tag.ContainsKey("Hours"))
-		           Hours = tag.GetInt("Hours");
-		       if (tag.ContainsKey("Minutes"))
-		            Minutes = tag.GetInt("Minutes");
-		       if (tag.ContainsKey("Seconds"))
-		           Seconds = tag.GetInt("Seconds");
-		      if (tag.ContainsKey("Milliseconds"))
-		          Milliseconds = tag.GetInt("Milliseconds");
-                  */
-        }
-
-        public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
-        {
-            /*if (dalantiniumSet)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2)), ProjectileType<DalantiniumFang>(), 12, 2f);
-                }
-            }*/
-        }
-
-        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
-        {
-            if (godMode)
-            {
-                int getRand = Main.rand.Next(5);
-                int healSet = Helpers.Clamp(damage / 9, 1, 5);
-
-                if (getRand == 1)
-                {
-                    player.statLife += healSet;
-                    player.HealEffect(healSet);
-                }
-            }
-            if (isQuartzRangedOn && item.ranged)
-            {
-                if (crit)
-                {
-                    target.AddBuff(BuffID.CursedInferno, 120);
-                }
-            }
-            if (isQuartzSummonOn && item.summon)
-            {
-                if (Main.rand.Next(10) < 3)
-                {
-                    target.AddBuff(BuffID.OnFire, 180);
-                }
-            }
-        }
-
-        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
-        {
-            if (isQuartzRangedOn && proj.ranged)
-            {
-                if (crit)
-                {
-                    target.AddBuff(BuffID.CursedInferno, 120);
-                }
-            }
-            if (isQuartzSummonOn && proj.minion)
-            {
-                if (Main.rand.Next(10) < 3)
-                {
-                    target.AddBuff(BuffID.OnFire, 180);
-                }
-            }
-        }
-
-        private void ResetMinionEffect()
-        {
-            quartzCrystal = false;
-        }
-
-        public int hours;
-        public int minutes;
-        public int seconds;
-        public int milliseconds;
-
-        public override void PreUpdate()
-        {
-            if (Main.frameRate != 0)
-            {
-                milliseconds += 1000 / Main.frameRate;
-            }
-
-            if (milliseconds >= 1000)
-            {
-                milliseconds = 0;
-                seconds++;
-            }
-            if (seconds >= 60)
-            {
-                seconds = 0;
-                minutes++;
-            }
-            if (minutes >= 60)
-            {
-                minutes = 0;
-                hours++;
-            }
-        }
-
-        /*public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
-        {
-            if (!Main.gameMenu)
-            {
-                if (player.wet)
-                {
-                    if (drawInfo.drawPlayer.fullRotation < MathHelper.ToRadians(90) && drawInfo.drawPlayer.fullRotation > MathHelper.ToRadians(-90))
-                    {
-                        if (drawInfo.drawPlayer.direction == 1 && Main.MouseWorld.X > drawInfo.drawPlayer.position.X)
-                        {
-                            drawInfo.drawPlayer.headRotation = Utils.Clamp((Main.MouseWorld - drawInfo.drawPlayer.Center).ToRotation(), -0.5f, 0.5f);
-                        }
-                        else if (drawInfo.drawPlayer.direction == -1 && Main.MouseWorld.X < drawInfo.drawPlayer.position.X)
-                        {
-                            drawInfo.drawPlayer.headRotation = Utils.Clamp((drawInfo.drawPlayer.Center - Main.MouseWorld).ToRotation(), -0.5f, 0.5f);
-                        }
-                    }
-                }
-            }
-        }*/
-
-        /*private Vector2 leftClickPos;
-        private Vector2 rightClickPos;
-        public static readonly PlayerLayer CubicBezier = new PlayerLayer("EEMod", "CubicBezier", PlayerLayer.MiscEffectsBack, delegate (PlayerDrawInfo drawInfo) 
-        {
-            if (drawInfo.shadow != 0f)
-            {
-                return;
-            }
-
-            Player player = drawInfo.drawPlayer;
-
-            Vector2 leftClickPos = player.GetModPlayer<EEPlayer>().leftClickPos;
-            Vector2 rightClickPos = player.GetModPlayer<EEPlayer>().rightClickPos;
-
-            if (leftClickPos != Vector2.Zero && rightClickPos != Vector2.Zero)
-            {
-                DrawData clown1 = new DrawData(GetTexture("EEMod/Particles/Clownfish"), leftClickPos - Main.screenPosition, new Rectangle(0, 0, 48, 32), Color.White, 0, new Rectangle(0, 0, 48, 32).Size() / 2f, 1f, SpriteEffects.None, default);
-                Main.playerDrawData.Add(clown1);
-                DrawData clown2 = new DrawData(GetTexture("EEMod/Particles/Clownfish"), rightClickPos - Main.screenPosition, new Rectangle(0, 0, 48, 32), Color.White, 0, new Rectangle(0, 0, 48, 32).Size() / 2f, 1f, SpriteEffects.None, default);
-                Main.playerDrawData.Add(clown2);
-
-                for (float lerpVal = 0; lerpVal < 1; lerpVal += 0.05f)
-                {
-                    Vector2 origin = player.Center;
-                    Vector2 cp1 = leftClickPos;
-                    Vector2 cp2 = rightClickPos;
-                    Vector2 end = Main.MouseWorld;
-
-                    Vector2 p1 = Vector2.Lerp(origin, cp1, lerpVal);
-                    Vector2 p2 = Vector2.Lerp(cp1, cp2, lerpVal);
-                    Vector2 p3 = Vector2.Lerp(cp2, end, lerpVal);
-
-                    Vector2 s1 = Vector2.Lerp(p1, p2, lerpVal);
-                    Vector2 s2 = Vector2.Lerp(p2, p3, lerpVal);
-
-                    Vector2 finalPos = Vector2.Lerp(s1, s2, lerpVal);
-
-                    DrawData data = new DrawData(GetTexture("EEMod/Particles/Fish"), finalPos - Main.screenPosition, new Rectangle(0, 0, 36, 22), Color.White, 0, new Rectangle(0, 0, 36, 22).Size() / 2f, 1f, SpriteEffects.None, default);
-                    Main.playerDrawData.Add(data);
-                }
-            }
-        });*/
-
-
-        public override void ModifyDrawLayers(List<PlayerLayer> layers)
-        {
-            if (isLight)
-            {
-                for (int i = 0; i < layers.Count; i++)
-                {
-                    layers[i].visible = false;
-                }
-            }
-
-            /*CubicBezier.visible = true;
-            layers.Insert(0, CubicBezier);
-
-            if (player.controlUseItem)
-            {
-                leftClickPos = Main.MouseWorld;
-                Main.NewText("Left click");
-            }
-            if (player.controlUseTile)
-            {
-                rightClickPos = Main.MouseWorld;
-                Main.NewText("Right click");
-            }*/
-        }
-
-        public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
-        {
-            if (isLight)
-            {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center.ForDraw(), new Rectangle(0, 0, 174, 174), Color.White * 0.75f, Main.GameUpdateCount / 300f, new Rectangle(0, 0, 174, 174).Size() / 2, 0.5f, SpriteEffects.None, default);
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            }
         }
     }
 }

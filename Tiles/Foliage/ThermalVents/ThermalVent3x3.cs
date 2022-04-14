@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
 {
     public class ThermalVent3x3 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -34,7 +34,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Thermal Vent");
             AddMapEntry(new Color(255, 100, 0), name);
-            dustType = DustID.Dirt;
+            DustType = DustID.Dirt;
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -46,7 +46,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/ThermalVents/ThermalVent3x3Glow"), i, j);
+            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/ThermalVents/ThermalVent3x3Glow").Value, i, j);
         }
     }
 }

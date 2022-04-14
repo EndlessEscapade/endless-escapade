@@ -19,10 +19,10 @@ namespace EEMod.Projectiles
             Projectile.alpha = 0;
             Projectile.timeLeft = 60000;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.magic = true;
-            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.scale *= 0.75f;
         }
@@ -63,7 +63,7 @@ namespace EEMod.Projectiles
             Projectile.scale = 0.75f + Projectile.ai[0] / 255;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.Draw(itemTexture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, Projectile.Size / 2f, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0);
             return true;

@@ -10,7 +10,7 @@ namespace EEMod.Tiles.Foliage.Coral
 {
     public class Floor4x2Coral : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -26,13 +26,13 @@ namespace EEMod.Tiles.Foliage.Coral
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
 
         }

@@ -1,6 +1,7 @@
 using EEMod.Extensions;
+using EEMod.Subworlds.CoralReefs;
 using EEMod.Systems;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,9 +13,9 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class SpiderWebs : Mechanic
+    public class SpiderWebs : ModSystem
     {
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
             if (CoralReefs.WebPositions.Count > 0)
             {
@@ -27,21 +28,11 @@ namespace EEMod
             }
         }
 
-        public override void OnUpdate()
-        {
-
-        }
-
-        public override void OnLoad()
-        {
-           
-        }
-
-        protected override Layer DrawLayering => Layer.BehindTiles;
-
         float sineInt;
         void HandleWebDraw(Vector2 position)
         {
+            Main.spriteBatch.Begin();
+
             Lighting.AddLight(position, new Vector3(0, 0.1f, 0.4f));
             Vector2 tilePos = position / 16;
 
@@ -73,9 +64,9 @@ namespace EEMod
             Vector2 p6Mid = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), 0.5f);
 
 
-            //Texture2D BlueLight = ModContent.GetInstance<EEMod>().GetTexture("Textures/LightBlue");
-            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Textures/VineShorter");
-            Texture2D bigVineTexture = ModContent.GetInstance<EEMod>().GetTexture("Textures/BigVine");
+            //Texture2D BlueLight = EEMod.Instance.GetTexture("Textures/LightBlue");
+            Texture2D vineTexture = EEMod.Instance.Assets.Request<Texture2D>("Textures/Vines/VineShorter").Value;
+            Texture2D bigVineTexture = EEMod.Instance.Assets.Request<Texture2D>("Textures/Vines/BigVine").Value;
 
             float cockandbol = 0.75f;
 
@@ -121,6 +112,8 @@ namespace EEMod
             {
                 Helpers.DrawBezier(bigVineTexture, Lighting.GetColor((int)(p6.X / 16), (int)(p6.Y / 16)), p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
             }
+
+            Main.spriteBatch.End();
         }
     }
 }

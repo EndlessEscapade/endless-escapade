@@ -15,7 +15,7 @@ namespace EEMod.Items.Weapons.Ranger
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.friendly = true;
-            Projectile.ranged = true;
+            Projectile.DamageType = DamageClass.Ranged;
         }
 
         public override void AI()

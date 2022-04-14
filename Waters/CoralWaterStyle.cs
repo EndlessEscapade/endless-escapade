@@ -7,17 +7,14 @@ namespace EEMod.Waters
 {
     public class CoralWaterStyle : ModWaterStyle
     {
-        public override bool ChooseWaterStyle()
-            => Main.worldName == "CoralReefs";
-
         public override int ChooseWaterfallStyle()
-            => mod.GetWaterfallStyleSlot("CoralWaterfallStyle");
+            => ModContent.GetInstance<CoralWaterfallStyle>().Slot;
+
+        public override int GetDropletGore()
+            => -1;
 
         public override int GetSplashDust()
             => DustID.BlueCrystalShard;
-
-        public override int GetDropletGore()
-            => mod.GetGoreSlot("Gores/ExampleDroplet");
 
         public override void LightColorMultiplier(ref float r, ref float g, ref float b)
         {

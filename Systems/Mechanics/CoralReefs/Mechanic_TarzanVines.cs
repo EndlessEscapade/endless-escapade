@@ -11,12 +11,13 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class TarzanVines : Mechanic
+    public class TarzanVines : ModSystem
     {
         public bool bufferVariable;
         public float rotGoto;
         public float rotationBuffer;
-        public override void OnDraw(SpriteBatch spriteBatch)
+
+        public override void PostDrawTiles()
         {
             foreach (int index in VerletHelpers.EndPointChains)
             {
@@ -55,7 +56,7 @@ namespace EEMod
                     else
                     {
                         Helpers.DrawAdditive(Helpers.RadialMask, vec.ForDraw(), Color.Green * lerp, lerp * 0.2f);
-                        Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine = false;
+                        // Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine = false;
                     }
                     if (Main.LocalPlayer.controlUseItem)
                     {
@@ -66,7 +67,7 @@ namespace EEMod
             }
         }
 
-        public override void OnUpdate()
+        public override void PreUpdateEntities()
         {
             #region Spawning particles
             if (bufferVariable != Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
@@ -111,11 +112,5 @@ namespace EEMod
             }
             bufferVariable = Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine;
         }
-
-        public override void OnLoad()
-        {
-            base.OnLoad();
-        }
-        protected override Layer DrawLayering => Layer.BehindTiles;
     }
 }

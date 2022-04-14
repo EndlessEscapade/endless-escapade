@@ -5,7 +5,7 @@ namespace EEMod.Buffs.Buffs
 {
     public class ARBuff : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquatic Reinforcment");
             Description.SetDefault("Pog");

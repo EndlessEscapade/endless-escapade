@@ -23,10 +23,9 @@ namespace EEMod.Items
             Item.holdStyle = 7;
         }
 
-        public override bool HoldItemFrame(Player player)
+        public override void HoldItemFrame(Player player)
         {
             player.bodyFrame.Y = player.bodyFrame.Height * 2;
-            return true;
         }
 
         public override void HoldStyle(Player player)

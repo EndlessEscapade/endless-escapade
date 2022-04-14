@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
 {
     public class Wall4x3CoralL : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -28,13 +28,13 @@ namespace EEMod.Tiles.Foliage.KelpForest
             TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(95, 143, 65));
-            dustType = DustID.Plantera_Green;
+            DustType = DustID.Plantera_Green;
         }
     }
 
     public class Wall4x3CoralR : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;

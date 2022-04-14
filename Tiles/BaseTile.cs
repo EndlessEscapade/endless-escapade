@@ -19,7 +19,7 @@ namespace EEMod.Tiles
         protected virtual bool _tileSolid => true;
         protected virtual bool _tileBlendAll => true;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = _mergeDirt;
             Main.tileSolid[Type] = _tileSolid;
@@ -27,11 +27,11 @@ namespace EEMod.Tiles
 
             AddMapEntry(_mapColor);
 
-            dustType = _dustType;
-            drop = _drop;
-            soundStyle = _soundStyle;
-            mineResist = _mineResist;
-            minPick = _minPick;
+            DustType = _dustType;
+            ItemDrop = _drop;
+            SoundStyle = _soundStyle;
+            MineResist = _mineResist;
+            MinPick = _minPick;
         }
     }
 }

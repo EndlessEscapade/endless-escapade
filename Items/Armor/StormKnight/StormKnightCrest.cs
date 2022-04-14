@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using System.Collections.Generic;
 using EEMod.Extensions;
+using EEMod.Items.Weapons.Melee;
+using EEMod.Prim;
 
 namespace EEMod.Items.Armor.StormKnight
 {
@@ -35,12 +37,13 @@ namespace EEMod.Items.Armor.StormKnight
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.05f;
+            player.GetDamage(DamageClass.Melee) += 0.05f;
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "True melee hits call down a lightning strike from the sky";
+            player.setBonus = "Dealing melee damage fills up your storm bar\nWhen you have a full storm bar, a lightning bolt will shoot out with your next attack";
+            player.GetModPlayer<StormKnightPlayer>().setComplete = true;
         }
 
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
@@ -50,32 +53,79 @@ namespace EEMod.Items.Armor.StormKnight
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 11);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LythenBar>(), 11).AddTile(TileID.Anvils).Register();
         }
     }
 
-    public class StormKnightCrestLayer : ModPlayer
+    public class StormKnightPlayer : ModPlayer
     {
-        public static readonly PlayerLayer StormKnightCrestGlow = new PlayerLayer("EEMod", "StormKnightCrest", PlayerLayer.Head, delegate (PlayerDrawInfo drawInfo)
+        public int tallyDamage;
+        public bool setComplete;
+
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            /*Texture2D glow = ModContent.GetTexture("EEMod/Items/Armor/StormKnight/StormKnightCrestGlow");
+            if (setComplete)
+            {
+                if (item.DamageType == DamageClass.Melee)
+                {
+                    tallyDamage += (int)damage;
+                }
+
+                if (tallyDamage >= 200)
+                {
+                    int test = Helpers.GetNearestNPC(Player.Center, false, false);
+
+                    if (test >= 0)
+                    {
+                        NPC npc = Main.npc[test];
+
+                        int ballfart = Projectile.NewProjectile(new EntitySource_ItemUse(Player, item), Player.Center, Vector2.Normalize(npc.Center - Player.Center) * 15f, ModContent.ProjectileType<AxeLightning>(), (int)(item.damage * 0.25f), 2.5f);
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[ballfart], 4, 0.75f));
+                        }
+
+                        tallyDamage = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    public class StormKnightCrestGlow : PlayerDrawLayer
+    {
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
+
+        public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
+        {
+            return !Main.gameMenu && drawInfo.drawPlayer.armor[0].type == ModContent.ItemType<StormKnightCrest>();
+        }
+
+        protected override void Draw(ref PlayerDrawSet drawInfo)
+        {
+            Texture2D glow = ModContent.Request<Texture2D>("EEMod/Items/Armor/StormKnight/StormKnightCrestGlow").Value;
+
+            Texture2D bar = ModContent.Request<Texture2D>("EEMod/Items/Armor/StormKnight/BarBg").Value;
+            Texture2D fill = ModContent.Request<Texture2D>("EEMod/Items/Armor/StormKnight/BarFill").Value;
 
             Player player = drawInfo.drawPlayer;
 
-            DrawData data = new DrawData(glow, player.position - Main.screenPosition, new Rectangle(0, player.headFrame.Y, 40, 56), Color.Green, player.headRotation, Vector2.Zero, 1f, player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            DrawData data = new DrawData(glow, player.position - Main.screenPosition - new Vector2(10, 10), new Rectangle(0, player.headFrame.Y, 40, 56), Color.White, player.headRotation, Vector2.Zero, 1f, player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
-            Main.NewText("" + player.headFrameCounter);
-            Main.playerDrawData.Add(data);*/
-        });
+            drawInfo.DrawDataCache.Add(data);
 
-        public override void ModifyDrawLayers(List<PlayerLayer> layers)
-        {
-            StormKnightCrestGlow.visible = true;
-            layers.Add(StormKnightCrestGlow);
+
+            int rectWidth = (int)MathHelper.Clamp(42 * (drawInfo.drawPlayer.GetModPlayer<StormKnightPlayer>().tallyDamage / 200f), 0, 42);
+
+            Vector2 offset = Vector2.Zero;
+
+            if (rectWidth >= 42) offset = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
+
+            DrawData data2 = new DrawData(bar, player.Center - Main.screenPosition + new Vector2(0, -40) + offset, null, Color.White, player.headRotation, bar.Bounds.Size() / 2f, 1f, SpriteEffects.None, 0);
+            DrawData data3 = new DrawData(fill, player.Center - Main.screenPosition + new Vector2(-1, -40) + offset, new Rectangle(0, 0, rectWidth, 6), Color.White, player.headRotation, fill.Bounds.Size() / 2f, 1f, SpriteEffects.None, 0);
+
+            drawInfo.DrawDataCache.Add(data2);
+            drawInfo.DrawDataCache.Add(data3);
         }
     }
 }

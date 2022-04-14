@@ -26,7 +26,7 @@ namespace EEMod.Dusts
             dust.scale *= 0.98f;
             if (dust.scale < 0.2f)
             {
-                dust.active = false;
+                // dust.active = false;
             }
             return false;
         }

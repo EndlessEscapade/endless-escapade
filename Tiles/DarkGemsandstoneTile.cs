@@ -8,7 +8,7 @@ namespace EEMod.Tiles
 {
     public class DarkGemsandstoneTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
@@ -19,11 +19,11 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(67, 47, 155));
 
-            dustType = DustID.Rain;
-            drop = ModContent.ItemType<DarkGemsandstone>();
-            soundStyle = 1;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Rain;
+            ItemDrop = ModContent.ItemType<DarkGemsandstone>();
+            SoundStyle = 1;
+            MineResist = 1f;
+            MinPick = 0;
         }
     }
 }

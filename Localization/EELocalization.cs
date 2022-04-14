@@ -78,9 +78,9 @@ namespace EEMod.Localization
 //	Load();
 //	//foreach (string[] localization in _localizations)
 //	//{
-//	//	ModTranslation text = ModContent.GetInstance<EEMod>().CreateTranslation(localization[0]);
+//	//	ModTranslation text = EEMod.Instance.CreateTranslation(localization[0]);
 //	//	text.SetDefault(localization[1]);
-//	//	ModContent.GetInstance<EEMod>().AddTranslation(text);
+//	//	EEMod.Instance.AddTranslation(text);
 //	//}
 //	Unload();
 //}

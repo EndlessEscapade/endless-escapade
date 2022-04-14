@@ -10,3 +10,7 @@ dotnet_diagnostic.CS1718.severity = none
 dotnet_diagnostic.IDE1006.severity = none
 
 csharp_indent_case_contents_when_block = false
+
+# IDE0044: Add readonly modifier
+dotnet_diagnostic.IDE0044.severity = none
+

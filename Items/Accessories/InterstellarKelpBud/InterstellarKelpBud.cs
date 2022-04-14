@@ -1,10 +1,11 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
+using Terraria.DataStructures;
 
 namespace EEMod.Items.Accessories.InterstellarKelpBud
 {
@@ -48,17 +49,12 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
 
     public class KelpBudNPC : GlobalNPC
     {
-        public override void NPCLoot(NPC npc)
+        public override void OnKill(NPC npc)
         {
             if (Main.rand.NextBool(5) && Main.LocalPlayer.GetModPlayer<KelpBudPlayer>().interstellarKelpBud)
             {
-                Projectile.NewProjectile(npc.Center, new Vector2(0, 0.5f), ModContent.ProjectileType<KelpBudProjectile>(), 0, 0f);
+                Projectile.NewProjectile(new EntitySource_Parent(npc), npc.Center, new Vector2(0, 0.5f), ModContent.ProjectileType<KelpBudProjectile>(), 0, 0f);
             }
-        }
-
-        public override bool PreNPCLoot(NPC npc)
-        {
-            return base.PreNPCLoot(npc);
         }
     }
 
@@ -74,8 +70,8 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
             Projectile.tileCollide = true;
             Projectile.width = 12;
             Projectile.height = 10;
-            Projectile.friendly = false;
-            Projectile.hostile = false;
+            // Projectile.friendly = false;
+            // Projectile.hostile = false;
             Projectile.hide = true;
             Projectile.timeLeft = 1240;
         }
@@ -94,24 +90,24 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
 
         private Vector2 ringOffset = new Vector2(-6, 0);
         private bool isDying = false;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.ai[0] < 120)
             {
-                Texture2D tex = ModContent.GetTexture("EEMod/Items/Accessories/InterstellarKelpBud/KelpBudProjectile");
+                Texture2D tex = ModContent.Request<Texture2D>("EEMod/Items/Accessories/InterstellarKelpBud/KelpBudProjectile").Value;
                 Main.spriteBatch.Draw(tex, Projectile.position + new Vector2(0, 10) - Main.screenPosition, tex.Bounds, Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16) * (1 - (Projectile.alpha / 255f)), 0f, tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
             else if (Projectile.ai[0] >= 60 && Projectile.ai[0] < 180)
             {
-                Texture2D tex = ModContent.GetTexture("EEMod/Items/Accessories/InterstellarKelpBud/InterstellarKelpBudMid");
+                Texture2D tex = ModContent.Request<Texture2D>("EEMod/Items/Accessories/InterstellarKelpBud/InterstellarKelpBudMid").Value;
                 Main.spriteBatch.Draw(tex, Projectile.position + new Vector2(0, 8) - Main.screenPosition, tex.Bounds, Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16) * (1 - (Projectile.alpha / 255f)), 0f, tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
             else
             {
-                Texture2D tex = ModContent.GetTexture("EEMod/Items/Accessories/InterstellarKelpBud/InterstellarKelpBudBig");
+                Texture2D tex = ModContent.Request<Texture2D>("EEMod/Items/Accessories/InterstellarKelpBud/InterstellarKelpBudBig").Value;
                 Main.spriteBatch.Draw(tex, Projectile.position + new Vector2(0, 4) - Main.screenPosition, tex.Bounds, Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16) * (1 - (Projectile.alpha / 255f)), 0f, tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
 
-                Texture2D ringTex = ModContent.GetTexture("EEMod/Textures/InverseMask");
+                Texture2D ringTex = ModContent.Request<Texture2D>("EEMod/Textures/InverseMask").Value;
 
                 float ringScale = (MathHelper.Clamp((float)Math.Sqrt((Projectile.ai[0] - 180) / 60f), 0f, 1f) + ((Projectile.ai[0] >= 270) ? (float)(Math.Sin(Main.GameUpdateCount / 60f) / 35f) : 0)) * MathHelper.Clamp((float)Math.Sqrt((1160 - Projectile.ai[0]) / 40f), 0f, 1f);
 
@@ -131,9 +127,9 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
                     Vector2 location = new Vector2(Main.rand.Next(0, (int)(90 * ringScale)), 0).RotatedByRandom(6.28f) + Projectile.Center + ringOffset;
                     Vector2 tileLocation = location / 16;
 
-                    if (!Main.tile[(int)tileLocation.X, (int)tileLocation.Y].active())
+                    if (!Framing.GetTileSafely((int)tileLocation.X, (int)tileLocation.Y).HasTile)
                     {
-                        EEMod.MainParticles.SpawnParticles(location, Vector2.Zero, mod.GetTexture("Particles/BigPlusSign"), 30, Main.rand.NextFloat(1f, 1.5f), chosen, new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), 0.6f));
+                        EEMod.MainParticles.SpawnParticles(location, Vector2.Zero, Mod.Assets.Request<Texture2D>("Particles/BigPlusSign").Value, 30, Main.rand.NextFloat(1f, 1.5f), chosen, new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.6f));
                     }
                 }
 
@@ -143,7 +139,7 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
                 }
                 else
                 {
-                    Main.player[Projectile.owner].GetModPlayer<KelpBudPlayer>().inKelpRing = false;
+                    // Main.player[Projectile.owner].GetModPlayer<KelpBudPlayer>().inKelpRing = false;
                 }
 
                 Lighting.AddLight(Projectile.Center, Color.Gold.ToVector3() * ringScale / 2f);
@@ -165,14 +161,14 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
             return false;
         }
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindNPCsAndTiles.Add(index);
+            behindNPCsAndTiles.Add(index);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.player[Projectile.owner].GetModPlayer<KelpBudPlayer>().inKelpRing = false;
+            // Main.player[Projectile.owner].GetModPlayer<KelpBudPlayer>().inKelpRing = false;
         }
     }
 }

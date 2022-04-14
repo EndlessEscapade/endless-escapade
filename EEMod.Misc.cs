@@ -7,8 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ObjectData;
-using Terraria.World;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,10 +17,12 @@ using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Projectiles;
 using EEMod.NPCs;
-using EEMod.NPCs.CoralReefs;
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using EEMod.Systems.EEGame;
+using Terraria.Audio;
+using Terraria.GameContent;
+using EEMod.Subworlds;
 
 namespace EEMod
 {
@@ -40,23 +41,15 @@ namespace EEMod
         public static int startingTextHandler;
         public static bool isAscending;
 
-        [FieldInit(FieldInitType.ArrayMultipleLengths, arrayLengths: new int[] { 3, 200, 2 })]
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
 
-        private int delay;
-        private float pauseShaderTImer;
-        public SpaceInvaders simpleGame;
+        public IceHockey simpleGame;
         public int lerps;
         private float alphas;
         private int delays;
         public Verlet verlet;
         private bool mode = true;
-        bool bufferVariable;
-        private float rotationBuffer;
-        private float rotGoto;
         public string text;
-        float counter;
-        bool IsTraining;
 
         //MechanicPort
         public void UpdateVerlet()
@@ -74,9 +67,12 @@ namespace EEMod
         {
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
             Vector2 PylonEnd = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
+
             Main.spriteBatch.Begin();
-            Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Vector2(2, 16) / 2, Vector2.One, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Draw(Assets.Request<Texture2D>("EEMod/Items/ZipCarrier2").Value, Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Vector2(2, 16) / 2, Vector2.One, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(Assets.Request<Texture2D>("EEMod/Items/ZipCarrier").Value, Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
+            
             Main.spriteBatch.End();
         }
 
@@ -88,6 +84,7 @@ namespace EEMod
             {
                 delays--;
             }
+
             float lerpLol = Math.Abs((float)Math.Sin(lerps / 50f));
             for (int i = 0; i < Main.npc.Length; i++)
             {
@@ -127,7 +124,8 @@ namespace EEMod
                     }
                 }
             }
-            simpleGame = simpleGame ?? new SpaceInvaders();
+
+            /*simpleGame = simpleGame ?? new IceHockey();
             simpleGame.Update(gameTime);
             for (int i = 0; i < Main.player.Length; i++)
             {
@@ -136,28 +134,28 @@ namespace EEMod
                 {
                     if (Inspect.JustPressed && player.GetModPlayer<EEPlayer>().playingGame == true)
                     {
-                        player.GetModPlayer<EEPlayer>().playingGame = false;
-                        player.webbed = false;
+                        // player.GetModPlayer<EEPlayer>().playingGame = false;
+                        // player.webbed = false;
                         simpleGame.EndGame();
                         break;
                     }
                     if (Inspect.JustPressed && Framing.GetTileSafely((int)player.Center.X / 16, (int)player.Center.Y / 16).type == ModContent.TileType<BlueArcadeMachineTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
                     {
-                        simpleGame = new SpaceInvaders();
-                        Main.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
+                        simpleGame = new IceHockey();
+                        SoundEngine.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
                         player.BuyItem(2500);
                         simpleGame.StartGame(i);
                         player.GetModPlayer<EEPlayer>().playingGame = true;
                         break;
                     }
                 }
-            }
+            }*/
         }
 
         //should be in helper class
         public static void UIText(string text, Color colour, Vector2 position, int style)
         {
-            var font = style == 0 ? Main.fontDeathText : Main.fontMouseText;
+            var font = style == 0 ? FontAssets.DeathText.Value : FontAssets.MouseText.Value;
             Vector2 textSize = font.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
             //float textPositionRight = position.X + textSize.X / 2;
@@ -166,14 +164,13 @@ namespace EEMod
 
         internal void DoPostDrawTiles(SpriteBatch spriteBatch) => AfterTiles?.Invoke(spriteBatch);
 
-       
-
         public static void DrawText()
         {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            SeamapPlayer modPlayer = Main.LocalPlayer.GetModPlayer<SeamapPlayer>();
             float alpha = modPlayer.titleText;
             Color color = Color.White * alpha;
-            /*if (Main.worldName == KeyID.Sea)
+
+            /*if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
             {
                 text = "The Ocean";
                 color = new Color((1 - alpha), (1 - alpha), 1) * alpha;
@@ -204,11 +201,11 @@ namespace EEMod
                 color = Color.GreenYellow * alpha;
             }*/
 
-            Texture2D Outline = ModContent.GetInstance<EEMod>().GetTexture("UI/Outline");
-            Texture2D OceanScreen = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/OceanScreen");
-            if (Main.fontDeathText != null)
+            Texture2D Outline = EEMod.Instance.Assets.Request<Texture2D>("UI/Outline").Value;
+            Texture2D OceanScreen = EEMod.Instance.Assets.Request<Texture2D>("Seamap/SeamapAssets/OceanScreen").Value;
+            if (FontAssets.MouseText.Value != null)
             {
-                if (Main.worldName == KeyID.Sea)
+                if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
                 {
                     Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
 
@@ -221,9 +218,9 @@ namespace EEMod
                 float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
                 float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
                 Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
-                if (Main.worldName == KeyID.Sea)
+                if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
                     Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
-                if (Main.worldName == KeyID.Sea)
+                if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
                 {
                     Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
                 }

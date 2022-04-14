@@ -25,7 +25,7 @@ namespace EEMod.Tiles
         public virtual int Padding => 2;
         public virtual Color MapColour => new Color(60, 60, 60);
         public virtual bool isHanging => false;
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileSolid[Type] = isSolid;
@@ -46,13 +46,13 @@ namespace EEMod.Tiles
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = Padding;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault(NameOfTile);
             AddMapEntry(MapColour, name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
         }
     }
 }

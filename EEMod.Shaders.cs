@@ -1,88 +1,170 @@
 ﻿using EEMod.Autoloading;
-using EEMod.NPCs.Bosses.Akumo;
+using EEMod.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
+using System.Diagnostics;
+using EEMod.Items.Dyes;
+using ReLogic.Content;
+using System.IO;
+using System.Reflection;
+using System;
+using System.Linq;
 
 namespace EEMod
 {
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
+    public class StaticShaderLoadAttribute : Attribute
+    {
+        public AssetRequestMode RequestMode { get; private set; }
+        public bool ScreenShader { get; set; }
+        public StaticShaderLoadAttribute(bool ScreenShader = false, AssetRequestMode RequestMode = AssetRequestMode.ImmediateLoad)
+        { 
+            this.RequestMode = RequestMode; 
+            this.ScreenShader = ScreenShader; 
+        }
+    }
+
     public partial class EEMod
     {
-        public static int noOfPasses = 1;
-        public static int startingTermination = 1;
-        public static int maxNumberOfLights = 1000;
+        [StaticShaderLoad]
         public static Effect Noise2DShift;
+        [StaticShaderLoad(true)]
         public static Effect ReflectionShader;
+        [StaticShaderLoad]
         public static Effect WaterShader;
+        [StaticShaderLoad]
+        public static Effect SeamapReflectionShader;
+        [StaticShaderLoad]
+        public static Effect WaterShaderBase;
+        [StaticShaderLoad]
+        public static Effect SeamapBorderVignette;
+        [StaticShaderLoad]
+        public static Effect SeamapShadowShader;
+        [StaticShaderLoad]
+        public static Effect SeamapCloudShader;
+        [StaticShaderLoad]
         public static Effect PrismShader;
-        public static Effect SpireShader;
-        public static Effect TrailPractice;
-        public static Effect RadialField;
-        public static Effect SolidOutline;
-        public static Effect LightingBufferEffect;
+        [StaticShaderLoad]
+        public static Effect SpireShine;
+        [StaticShaderLoad]
+        public static Effect NonBasicEffectShader;
+        [StaticShaderLoad]
+        public static Effect RadialSurfacing;
+        [StaticShaderLoad]
+        public static Effect WhiteOutlineSolid;
+        [StaticShaderLoad]
+        public static Effect LightingBuffer;
+        [StaticShaderLoad]
+        public static Effect WhiteOutline;
+        [StaticShaderLoad]
+        public static Effect Effervescence;
+        [StaticShaderLoad]
+        public static Effect Colorify;
+        [StaticShaderLoad]
+        public static Effect HydrosEmerge;
+        [StaticShaderLoad]
+        public static Effect LightningShader;
+        [StaticShaderLoad]
+        public static Effect DarksaberShader;
+        [StaticShaderLoad]
+        public static Effect ContinuousPrimTexShader;
+        [StaticShaderLoad]
+        public static Effect ShadowWarp;
+        [StaticShaderLoad]
+        public static Effect TornSailShader;
+        [StaticShaderLoad]
+        public static Effect PixelationShader;
+        [StaticShaderLoad]
+        public static Effect BloomShader;
+
+        [StaticShaderLoad]
+        public static Effect HydrosDye;
+        [StaticShaderLoad]
+        public static Effect AquamarineDye;
+
+        public static BasicEffect BasicEffect;
+
+        static void QuickLoadScreenShader(string Path)
+        {
+            string EffectPath = "Effects/ScreenShaders/" + Path;
+            string DictEntry = "EEMod:" + Path;
+
+            Ref<Effect> Reference = new Ref<Effect>(EEMod.Instance.Assets.Request<Effect>(EffectPath, AssetRequestMode.ImmediateLoad).Value);
+
+            Filters.Scene[DictEntry] = new Filter(new ScreenShaderData(Reference, Reference.Value.Techniques[0].Passes[0].Name), EffectPriority.VeryHigh);
+            Filters.Scene[DictEntry].Load();
+        }
+
+        static void LoadStaticFields()
+        {
+            FieldInfo[] fieldInfo = typeof(EEMod).GetFields();
+            foreach (FieldInfo fi in fieldInfo)
+            {
+                StaticShaderLoadAttribute att = fi.GetCustomAttribute<StaticShaderLoadAttribute>();
+                if (att != null)
+                {
+                    //can someone like... do an effect exists check. Its 2:38am and I literally want to die
+                    string ScreenShaderPath = att.ScreenShader ? "ScreenShaders/" : "";
+                    fi.SetValue(null, EEMod.Instance.Assets.Request<Effect>($"Effects/{ScreenShaderPath + fi.Name}", att.RequestMode).Value);
+                }
+            }
+        }
 
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
-            LightingBufferEffect = ModContent.GetInstance<EEMod>().GetEffect("Effects/LightingBuffer");
-            SolidOutline = ModContent.GetInstance<EEMod>().GetEffect("Effects/WhiteOutlineSolid");
-            RadialField = ModContent.GetInstance<EEMod>().GetEffect("Effects/RadialSurfacing");
-            PrismShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/PrismShader");
-            SpireShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/SpireShine");
-            Noise2DShift = ModContent.GetInstance<EEMod>().GetEffect("Effects/Noise2DShift");
-            ReflectionShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/ReflectionShader");
-            WaterShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/WaterShader");
-            TrailPractice = ModContent.GetInstance<EEMod>().GetEffect("Effects/NonBasicEffectShader");
-
-            LightingBufferEffect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
-
-            Ref<Effect> screenRef = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/PracticeEffect"));
-            Ref<Effect> screenRef2 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/Shockwave"));
-            Ref<Effect> screenRef3 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/Pause"));
-            Ref<Effect> screenRef4 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/WhiteFlash"));
-            Ref<Effect> screenRef5 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/Saturation"));
-            Ref<Effect> screenRef6 = new Ref<Effect>(Noise2D);
-            Ref<Effect> screenRef7 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/SeaOpening"));
-            Ref<Effect> screenRef8 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/LightSource"));
-            Ref<Effect> screenRef9 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/ReflectionShader"));
-            ModContent.GetInstance<EEMod>().GetEffect("Effects/Noise2D").Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/Noise/noise"));
-            Filters.Scene["EEMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:Boom"] = new Filter(new ScreenShaderData(screenRef, "DeathAnimation"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:Shockwave"] = new Filter(new ScreenShaderData(screenRef2, "Shockwave"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:Pause"] = new Filter(new ScreenShaderData(screenRef3, "Pauses"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:Saturation"] = new Filter(new ScreenShaderData(screenRef5, "Saturation"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:SmoothRight"] = new Filter(new ScreenShaderData(screenRef5, "RightPass"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:SmoothDown"] = new Filter(new ScreenShaderData(screenRef5, "DownPass"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:SmoothRight2"] = new Filter(new ScreenShaderData(screenRef5, "RightPass2"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:SmoothDown2"] = new Filter(new ScreenShaderData(screenRef5, "DownPass2"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:Noise2D"] = new Filter(new ScreenShaderData(screenRef6, "Noise2D"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:SeaOpening"] = new Filter(new ScreenShaderData(screenRef7, "SeaOpening"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:Boom"].Load();
-            Filters.Scene["EEMod:Shockwave"].Load();
-            Filters.Scene["EEMod:Pause"].Load();
-            Filters.Scene["EEMod:Saturation"].Load();
-            Filters.Scene["EEMod:SmoothRight"].Load();
-            Filters.Scene["EEMod:SmoothDown"].Load();
-            Filters.Scene["EEMod:SmoothRight2"].Load();
-            Filters.Scene["EEMod:SmoothDown2"].Load();
-            Filters.Scene["EEMod:Noise2D"].Load();
-            Filters.Scene["EEMod:SeaOpening"].Load();
-
-            for (int i = 0; i < maxNumberOfLights; i++)
+            Main.QueueMainThreadAction(() =>
             {
-                Filters.Scene[$"EEMod:LightSource{i}"] = new Filter(new ScreenShaderData(screenRef8, "LightSource"), EffectPriority.VeryHigh);
-                Filters.Scene[$"EEMod:LightSource{i}"].Load();
-            }
-            for (int i = startingTermination; i <= noOfPasses; i++)
-            {
-                Filters.Scene[$"EEMod:Filter{i}"] = new Filter(new ScreenShaderData(screenRef4, $"Filter{i}"), EffectPriority.VeryHigh);
-                Filters.Scene[$"EEMod:Filter{i}"].Load();
-            }
+                EEMod instance = EEMod.Instance;
 
-            SkyManager.Instance["EEMod:Akumo"] = new AkumoSky();
+                BasicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
+                BasicEffect.VertexColorEnabled = true;
+
+                foreach(string name in instance.GetFile().Select(entry=>entry.Name))
+                {
+                    const string prefix = "Effects/ScreenShaders/";
+                    const string postfix = ".xnb";
+                    if (!name.Contains(prefix) || !name.EndsWith(postfix))
+                        continue;
+
+                    // Effects/ScreenShaders/a.xnb -> a
+                    int d = name.IndexOf(prefix);
+                    string alteredPath = name.Substring(d + prefix.Length, name.LastIndexOf(postfix) - d - prefix.Length); 
+                    QuickLoadScreenShader(alteredPath);
+                }
+
+                /*string[] Shaders = instance.GetFile().Select((TmodFile.FileEntry entry) => entry.Name).ToArray(); //Directory.GetFiles($@"{Main.SavePath}\Mod Sources\EEMod\Effects\ScreenShaders");
+                for (int i = 0; i < Shaders.Length; i++)
+                {
+                    string filePath = Shaders[i];
+
+                    if (filePath.Contains(".xnb") ||
+                        filePath.Contains(".exe") ||
+                        filePath.Contains(".dll")) continue;
+
+                    string charSeprator = @"ScreenShaders\";
+                    int Index = filePath.IndexOf(charSeprator) + charSeprator.Length;
+                    string AlteredPath = filePath.Substring(Index);
+
+                    QuickLoadScreenShader(AlteredPath.Replace(".fx", ""));
+                }*/
+
+                LoadStaticFields();
+
+                LightingBuffer.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
+
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(HydrosDye), "HydrosDyeShader"));
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(AquamarineDye), "AquamarineDyeShader"));
+
+                //instance.Assets.Request<Effect>("Effects/Noise2D").Value.Parameters["noiseTexture"].SetValue(instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+
+                //GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(instance.Assets.Request<Effect>("Effects/SpireShine", AssetRequestMode.ImmediateLoad).Value), "SpireHeartbeat").UseImage0("Textures/Noise/WormNoisePixelated");
+            });
         }
     }
 }

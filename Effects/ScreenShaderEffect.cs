@@ -43,14 +43,15 @@ namespace EEMod.Effects
         protected SamplerState[] _samplerStates = new SamplerState[3];
         protected float[] _textureScales = new float[3];
 
-        public Color uColor           { get => new Color(_uColor);          set => _uColor = value.ToVector3(); }
-        public Vector3 uColorVector3  { get => _uColor;                     set => _uColor = value; }
-        public Color SecondaryColor   { get => new Color(_uSecondaryColor); set => _uSecondaryColor = value.ToVector3(); }
-        public Vector3 SecondaryColorVector3 { get => _uSecondaryColor;     set => _uSecondaryColor = value; }
-        public float CombinedOpacity  { get => _uOpacity;                   set => _uOpacity = value; }
-        public Vector2 TargetPosition { get => _uTargetPosition;            set => _uTargetPosition = value; }
-        public Vector2 ImageOffset    { get => _uImageOffset;               set => _uImageOffset = value; }
-        public Vector2 Direction      { get => _uDirection;                 set => _uDirection = value; }
+        public Color uColor { get => new Color(_uColor); set => _uColor = value.ToVector3(); }
+        public Vector3 uColorVector3 { get => _uColor; set => _uColor = value; }
+        public Color SecondaryColor { get => new Color(_uSecondaryColor); set => _uSecondaryColor = value.ToVector3(); }
+        public Vector3 SecondaryColorVector3 { get => _uSecondaryColor; set => _uSecondaryColor = value; }
+        public float CombinedOpacity { get => _uOpacity; set => _uOpacity = value; }
+        public Vector2 TargetPosition { get => _uTargetPosition; set => _uTargetPosition = value; }
+        public Vector2 ImageOffset { get => _uImageOffset; set => _uImageOffset = value; }
+        public Vector2 Direction { get => _uDirection; set => _uDirection = value; }
+        public Vector2 uTargetPosition {get => _uTargetPosition;           set => _uTargetPosition = value; }
 
         public ScreenShaderEffect(Effect cloneSource) : base(cloneSource)
         {
@@ -77,7 +78,7 @@ namespace EEMod.Effects
             uProgressParam?.SetValue(this._uProgress);
             uDirectionParam?.SetValue(this._uDirection);
 
-            uTimeParam?.SetValue(Main.GlobalTime); // params with default implementation
+            uTimeParam?.SetValue(Main.GlobalTimeWrappedHourly); // params with default implementation
             uScreenResolutionParam?.SetValue(screenResolution);
             uScreenPositionParam?.SetValue(screenPosition - offScreenRange);
             uZoomParam?.SetValue(Main.GameViewMatrix.Zoom);

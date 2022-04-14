@@ -16,9 +16,9 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
         public override void SetDefaults()
         {
-            Item.summon = true;
+            Item.DamageType = DamageClass.Summon;
             Item.noMelee = true;
-            Item.autoReuse = false;
+            // Item.autoReuse = false;
             Item.value = Item.sellPrice(0, 0, 18);
             Item.damage = 13;
             Item.useTime = 26;
@@ -27,7 +27,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Item.height = 36;
             Item.rare = ItemRarityID.Pink;
             Item.knockBack = 0f;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item8;
             Item.shoot = ModContent.ProjectileType<PrismaticCaneProj>();
         }
@@ -38,19 +38,19 @@ namespace EEMod.Items.Weapons.Summon.Minions
             {
                 Item.useTime = 26;
                 Item.useAnimation = 26;
-                Item.useStyle = ItemUseStyleID.HoldingOut;
+                Item.useStyle = ItemUseStyleID.Shoot;
 
                 if (Main.LocalPlayer.ownedProjectileCounts[Item.shoot] == 0)
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        Projectile proj = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<PrismaticCaneProj>(), 10, 0f, Main.myPlayer);
+                        Projectile proj = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<PrismaticCaneProj>(), 10, 0f, Main.myPlayer);
                         proj.ai[1] = i;
                     }
                 }
                 else
                 {
-                    Projectile proj = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<PrismaticCaneProj>(), 10, 0f, Main.myPlayer);
+                    Projectile proj = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<PrismaticCaneProj>(), 10, 0f, Main.myPlayer);
                     proj.ai[1] = Main.LocalPlayer.ownedProjectileCounts[Item.shoot];
                 }
             }
@@ -65,7 +65,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                 {
                     if(Main.player[proj.owner] == player && proj.type == ModContent.ProjectileType<PrismaticCaneProj>())
                     {
-                        (proj.modProjectile as PrismaticCaneProj).awake = true;
+                        (proj.ModProjectile as PrismaticCaneProj).awake = true;
                     }
                 }
             }*/

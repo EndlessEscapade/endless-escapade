@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Furniture.Paintings
 {
     public class MurdogTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -29,14 +29,14 @@ namespace EEMod.Tiles.Furniture.Paintings
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Murdog");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
-            animationFrameHeight = 90;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
+            AnimationFrameHeight = 90;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            Item.NewItem(i * 40, j * 40, 40, 40, ModContent.ItemType<Murdog>());
+            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 40, j * 40, 40, 40, ModContent.ItemType<Murdog>());
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)

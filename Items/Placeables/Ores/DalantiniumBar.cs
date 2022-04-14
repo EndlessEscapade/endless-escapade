@@ -17,7 +17,7 @@ namespace EEMod.Items.Placeables.Ores
             Item.width = 20;
             Item.height = 20;
             Item.rare = ItemRarityID.Orange;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.placeStyle = 0;
             Item.material = true;
             Item.consumable = true;
@@ -30,11 +30,7 @@ namespace EEMod.Items.Placeables.Ores
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumOre>(), 3);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DalantiniumOre>(), 3).AddTile(TileID.Furnaces).Register();
         }
     }
 }

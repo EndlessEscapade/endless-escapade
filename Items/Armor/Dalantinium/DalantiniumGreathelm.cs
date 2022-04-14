@@ -40,16 +40,12 @@ namespace EEMod.Items.Armor.Dalantinium
             {
                 player.statDefense += 8;
             }
-            player.GetModPlayer<EEPlayer>().dalantiniumSet = true;
+            player.GetModPlayer<DalantiniumSetPlayer>().dalantiniumSet = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 11);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DalantiniumBar>(), 11).AddTile(TileID.Anvils).Register();
         }
     }
 }

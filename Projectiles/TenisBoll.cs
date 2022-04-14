@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Projectiles.TennisRackets;
+using Terraria.Audio;
 
 namespace EEMod.Projectiles
 {
@@ -24,7 +25,7 @@ namespace EEMod.Projectiles
             Projectile.alpha = 0;
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
@@ -35,7 +36,7 @@ namespace EEMod.Projectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Bounce(Projectile.modProjectile, oldVelocity, .7f);
+            Bounce(Projectile.ModProjectile, oldVelocity, .7f);
             return false;
         }
 
@@ -43,7 +44,7 @@ namespace EEMod.Projectiles
 
         public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1f)
         {
-            Projectile projectile = modProj.projectile;
+            Projectile projectile = modProj.Projectile;
             if (projectile.velocity.X != oldVelocity.X)
             {
                 projectile.velocity.X = -oldVelocity.X * bouncyness;
@@ -105,12 +106,12 @@ namespace EEMod.Projectiles
             indexOfProjectile = reader.ReadInt32();
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Player chosenPlayer = Main.player[GetPlayer(Projectile.Center)];
-            Texture2D volleyArrow = mod.GetTexture("Projectiles/VolleyballArrow");
+            Texture2D volleyArrow = Mod.Assets.Request<Texture2D>("Projectiles/VolleyballArrowFill").Value;
             Main.spriteBatch.Draw(volleyArrow, Projectile.Center - Main.screenPosition, new Rectangle(0, volleyArrow.Height / frames * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[Projectile.type].Width * 0.5f, Projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             float velocitylength = Projectile.velocity.Length();
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
@@ -118,7 +119,7 @@ namespace EEMod.Projectiles
                 {
                     Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                     Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2);
-                    spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), new Color(255, 255, 255, 10), Projectile.rotation, drawOrigin, Projectile.scale * (1 - (k / (float)Projectile.oldPos.Length)) * (velocitylength * 0.06f), SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), new Color(255, 255, 255, 10), Projectile.rotation, drawOrigin, Projectile.scale * (1 - (k / (float)Projectile.oldPos.Length)) * (velocitylength * 0.06f), SpriteEffects.None, 0f);
                 }
             }
             return true;
@@ -177,8 +178,10 @@ namespace EEMod.Projectiles
                             Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, DustID.Smoke, offset * 0.5f);
                             dust.noGravity = true;
                             dust.velocity *= 0.96f;
-                            dust.noLight = false;
+                            // dust.noLight = false;
                         }
+
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/TennisBall1"));
                     }
                     Projectile.netUpdate = true;
                     chosenRacket.netUpdate = true;
@@ -214,7 +217,7 @@ namespace EEMod.Projectiles
                     {
                         ree = 1;
                     }
-                    SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y)) * modPlayer.powerLevel;
+                    SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y));
                     Projectile.ai[1] = 1;
                     Projectile.netUpdate = true;
                 }

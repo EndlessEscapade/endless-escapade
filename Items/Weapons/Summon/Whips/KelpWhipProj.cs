@@ -29,7 +29,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
             Projectile.height = 0;
             Projectile.aiStyle = -1;
             Projectile.penetrate = -1;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.scale = 1f;
             Projectile.ownerHitCheck = true;
             Projectile.extraUpdates = 1;

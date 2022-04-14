@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.UI
 {
-    public class UIHelper
+    /*public class UIHelper
     {
         public UIState uistate;
         public UserInterface userInterface;
@@ -28,5 +28,5 @@ namespace EEMod.UI
                 state.Activate();
         }
         private UIHelper() { }
-    }
+    }*/
 }

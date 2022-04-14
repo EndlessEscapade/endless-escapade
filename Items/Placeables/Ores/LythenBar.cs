@@ -24,17 +24,12 @@ namespace EEMod.Items.Placeables.Ores
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
-            Item.createTile = ModContent.TileType<LythenBarTile>();
+            //Item.createTile = ModContent.TileType<LythenBarTile>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LythenOre>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<HydrosScales>(), 1);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LythenOre>(), 3).AddIngredient(ModContent.ItemType<HydrosScales>(), 1).AddTile(TileID.Furnaces).Register();
         }
 
         public override void PostUpdate()

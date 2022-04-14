@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
 {
     public class NautilusPuzzle : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -33,13 +33,13 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
 
             name.SetDefault("Shrine of the Water Rune");
             AddMapEntry(new Color(0, 120, 255), name);
-            disableSmartCursor = true;
+            DisableSmartCursor = true;
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Tile t = Main.tile[i, j];
-            if (t.frameX % 54 == 0 && t.frameY == 0)
+            Tile t = Framing.GetTileSafely(i, j);
+            if (t.TileFrameX % 54 == 0 && t.TileFrameY == 0)
             {
                 Main.specX[nextSpecialDrawIndex] = i;
                 Main.specY[nextSpecialDrawIndex] = j;
@@ -64,7 +64,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
 
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
+            if (Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0)
             {
                 for (int x = 0; x < 3; x++)
                 {
@@ -78,7 +78,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
                                 zero = Vector2.Zero;
                             }
 
-                            Texture2D tex = ModContent.GetTexture(path + "NautilusPuzzle" + tiles[y, x]);
+                            Texture2D tex = ModContent.Request<Texture2D>(path + "NautilusPuzzle" + tiles[y, x]).Value;
                             Vector2 pos = new Vector2((i * 16) + (x * 48), (j * 16) + (y * 48));
 
                             Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, 48, 48);
@@ -160,7 +160,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
                     tiles[2, 2] == 9 && !sussy)
                 {
                     sussy = true;
-                    Projectile.NewProjectile(new Vector2((i * 16) + 72, (j * 16) + 72), new Vector2(0, -2f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) + 72, (j * 16) + 72), new Vector2(0, -2f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f);
                 }
             }
         }
