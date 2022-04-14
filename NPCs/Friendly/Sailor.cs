@@ -148,7 +148,7 @@ namespace EEMod.NPCs.Friendly
                 {
                     EEWorld.EEWorld.ClearRegion(45, 45, new Vector2((int)EEWorld.EEWorld.shipCoords.X - 2, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2));
 
-                    Structure.DeserializeFromBytes(EEMod.Instance.GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt((int)EEWorld.EEWorld.shipCoords.X - 2 + 7, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2, false, false);
+                    Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt((int)EEWorld.EEWorld.shipCoords.X - 2 + 7, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2, false, false);
 
                     for(int i = (int)EEWorld.EEWorld.shipCoords.X - 2; i < (int)EEWorld.EEWorld.shipCoords.X - 2 + 50; i++)
                     {

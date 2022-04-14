@@ -169,7 +169,7 @@ namespace EEMod.EEWorld
                 {
                     foreach (Vector2 vec in VerletHelpers.SwingableVines)
                     {
-                        VerletHelpers.AddStickChainNoAdd(ref EEMod.Instance.verlet, vec, Main.rand.Next(5, 10), 27);
+                        VerletHelpers.AddStickChainNoAdd(ref ModContent.GetInstance<EEMod>().verlet, vec, Main.rand.Next(5, 10), 27);
                     }
                 }
             }
@@ -335,16 +335,16 @@ namespace EEMod.EEWorld
                                     switch (WorldGen.genRand.Next(3))
                                     {
                                         case 0:
-                                            Structure.DeserializeFromBytes(EEMod.Instance.GetFileBytes("EEWorld/Structures/RockSpire1.lcs")).PlaceAt(i, k - 15, true, true, true);
+                                            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/RockSpire1.lcs")).PlaceAt(i, k - 15, true, true, true);
                                             i += 12;
                                             break;
                                         case 1:
-                                            Structure.DeserializeFromBytes(EEMod.Instance.GetFileBytes("EEWorld/Structures/RockSpire2.lcs")).PlaceAt(i, k - 15, true, true, true);
+                                            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/RockSpire2.lcs")).PlaceAt(i, k - 15, true, true, true);
                                             i += 12;
                                             break;
                                         case 2:
                                             i += 8;
-                                            Structure.DeserializeFromBytes(EEMod.Instance.GetFileBytes("EEWorld/Structures/SunkRaft.lcs")).PlaceAt(i, k - 8, true, true, true);
+                                            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/SunkRaft.lcs")).PlaceAt(i, k - 8, true, true, true);
                                             break;
                                     }
 

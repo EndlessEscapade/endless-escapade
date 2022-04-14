@@ -15,12 +15,12 @@ namespace EEMod
     {
         public override void PostDrawTiles()
         {
-            EEMod.Instance.TVH.Draw(Main.spriteBatch);
+            ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
         }
 
         public override void PostUpdateEverything()
         {
-            EEMod.Instance.TVH.Update();
+            ModContent.GetInstance<EEMod>().TVH.Update();
         }
     }
 }

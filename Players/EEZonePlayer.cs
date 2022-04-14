@@ -38,7 +38,7 @@ namespace EEMod.Players
         {
             if (ZoneCoralReefs)
             {
-                return EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
+                return ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
             }
             return base.GetMapBackgroundImage();
         }

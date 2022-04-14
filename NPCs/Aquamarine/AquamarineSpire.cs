@@ -86,7 +86,7 @@ namespace EEMod.NPCs.Aquamarine
 
             EEMod.SpireShine.Parameters["alpha"].SetValue((NPC.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));
             EEMod.SpireShine.Parameters["shineSpeed"].SetValue(NPC.ai[0] <= 20 ? 0.4f : 0.2f);
-            EEMod.SpireShine.Parameters["tentacle"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/SpireLightMap").Value);
+            EEMod.SpireShine.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SpireLightMap").Value);
             EEMod.SpireShine.Parameters["shaderLerp"].SetValue(1f);
             EEMod.SpireShine.Parameters["lightColor"].SetValue(drawColor.ToVector3());
             EEMod.SpireShine.CurrentTechnique.Passes[0].Apply();
@@ -153,7 +153,7 @@ namespace EEMod.NPCs.Aquamarine
                 EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.25f * ((timer1 - 10) / 40f), 0, 1)));
                 EEMod.MainParticles.SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 7, 3f, addColor, new SlowDown(0.943f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, Color.White * 0.9f));
 
-                Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireEye").Value, eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 1f);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireEye").Value, eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 1f);
                 #endregion
 
                 timeBetween = 35;
@@ -217,7 +217,7 @@ namespace EEMod.NPCs.Aquamarine
                 #region Drawing eye
                 eyePos = (new Vector2(0, 1) * 3) + NPC.Center + new Vector2(-2, 2) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * NPC.ai[0]);
 
-                Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireEye").Value, eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White * eyeAlpha, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireEye").Value, eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White * eyeAlpha, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 0);
                 #endregion
 
                 timeBetween = 70;
@@ -237,7 +237,7 @@ namespace EEMod.NPCs.Aquamarine
             }
 
             if (strikeTime > 0) strikeTime--;
-            Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireGlow").Value, NPC.Center.ForDraw() + new Vector2(0, 4), NPC.frame, Color.Lerp(Color.White * NPC.ai[3], strikeColor, strikeTime / 60f), NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireGlow").Value, NPC.Center.ForDraw() + new Vector2(0, 4), NPC.frame, Color.Lerp(Color.White * NPC.ai[3], strikeColor, strikeTime / 60f), NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             #endregion
         }
 

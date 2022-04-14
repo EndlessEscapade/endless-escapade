@@ -32,60 +32,36 @@ namespace EEMod
     public partial class EEMod
     {
         [StaticShaderLoad]
-        public static Effect Noise2DShift;
+        public static Effect 
+            Noise2DShift, 
+            WaterShader, 
+            SeamapReflectionShader,
+            WaterShaderBase,
+            SeamapBorderVignette,
+            SeamapShadowShader,
+            SeamapCloudShader,
+            PrismShader,
+            SpireShine,
+            NonBasicEffectShader,
+            RadialSurfacing,
+            WhiteOutlineSolid,
+            LightingBuffer,
+            WhiteOutline,
+            Effervescence,
+            Colorify,
+            HydrosEmerge,
+            LightningShader,
+            DarksaberShader,
+            ContinuousPrimTexShader,
+            ShadowWarp,
+            TornSailShader,
+            PixelationShader,
+            BloomShader,
+            HydrosDye,
+            AquamarineDye;
+
         [StaticShaderLoad(true)]
         public static Effect ReflectionShader;
-        [StaticShaderLoad]
-        public static Effect WaterShader;
-        [StaticShaderLoad]
-        public static Effect SeamapReflectionShader;
-        [StaticShaderLoad]
-        public static Effect WaterShaderBase;
-        [StaticShaderLoad]
-        public static Effect SeamapBorderVignette;
-        [StaticShaderLoad]
-        public static Effect SeamapShadowShader;
-        [StaticShaderLoad]
-        public static Effect SeamapCloudShader;
-        [StaticShaderLoad]
-        public static Effect PrismShader;
-        [StaticShaderLoad]
-        public static Effect SpireShine;
-        [StaticShaderLoad]
-        public static Effect NonBasicEffectShader;
-        [StaticShaderLoad]
-        public static Effect RadialSurfacing;
-        [StaticShaderLoad]
-        public static Effect WhiteOutlineSolid;
-        [StaticShaderLoad]
-        public static Effect LightingBuffer;
-        [StaticShaderLoad]
-        public static Effect WhiteOutline;
-        [StaticShaderLoad]
-        public static Effect Effervescence;
-        [StaticShaderLoad]
-        public static Effect Colorify;
-        [StaticShaderLoad]
-        public static Effect HydrosEmerge;
-        [StaticShaderLoad]
-        public static Effect LightningShader;
-        [StaticShaderLoad]
-        public static Effect DarksaberShader;
-        [StaticShaderLoad]
-        public static Effect ContinuousPrimTexShader;
-        [StaticShaderLoad]
-        public static Effect ShadowWarp;
-        [StaticShaderLoad]
-        public static Effect TornSailShader;
-        [StaticShaderLoad]
-        public static Effect PixelationShader;
-        [StaticShaderLoad]
-        public static Effect BloomShader;
-
-        [StaticShaderLoad]
-        public static Effect HydrosDye;
-        [StaticShaderLoad]
-        public static Effect AquamarineDye;
 
         public static BasicEffect BasicEffect;
 
@@ -94,7 +70,7 @@ namespace EEMod
             string EffectPath = "Effects/ScreenShaders/" + Path;
             string DictEntry = "EEMod:" + Path;
 
-            Ref<Effect> Reference = new Ref<Effect>(EEMod.Instance.Assets.Request<Effect>(EffectPath, AssetRequestMode.ImmediateLoad).Value);
+            Ref<Effect> Reference = new Ref<Effect>(ModContent.GetInstance<EEMod>().Assets.Request<Effect>(EffectPath, AssetRequestMode.ImmediateLoad).Value);
 
             Filters.Scene[DictEntry] = new Filter(new ScreenShaderData(Reference, Reference.Value.Techniques[0].Passes[0].Name), EffectPriority.VeryHigh);
             Filters.Scene[DictEntry].Load();
@@ -110,7 +86,7 @@ namespace EEMod
                 {
                     //can someone like... do an effect exists check. Its 2:38am and I literally want to die
                     string ScreenShaderPath = att.ScreenShader ? "ScreenShaders/" : "";
-                    fi.SetValue(null, EEMod.Instance.Assets.Request<Effect>($"Effects/{ScreenShaderPath + fi.Name}", att.RequestMode).Value);
+                    fi.SetValue(null, ModContent.GetInstance<EEMod>().Assets.Request<Effect>($"Effects/{ScreenShaderPath + fi.Name}", att.RequestMode).Value);
                 }
             }
         }
@@ -120,7 +96,7 @@ namespace EEMod
         {
             Main.QueueMainThreadAction(() =>
             {
-                EEMod instance = EEMod.Instance;
+                EEMod instance = ModContent.GetInstance<EEMod>();
 
                 BasicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
                 BasicEffect.VertexColorEnabled = true;
@@ -162,8 +138,6 @@ namespace EEMod
                 GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(AquamarineDye), "AquamarineDyeShader"));
 
                 //instance.Assets.Request<Effect>("Effects/Noise2D").Value.Parameters["noiseTexture"].SetValue(instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
-
-                //GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(instance.Assets.Request<Effect>("Effects/SpireShine", AssetRequestMode.ImmediateLoad).Value), "SpireHeartbeat").UseImage0("Textures/Noise/WormNoisePixelated");
             });
         }
     }

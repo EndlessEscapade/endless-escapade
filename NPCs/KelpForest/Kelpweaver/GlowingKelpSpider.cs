@@ -54,12 +54,12 @@ namespace EEMod.NPCs.KelpForest.Kelpweaver
         {
             NPC.TargetClosest(true);
             Player player = Main.player[NPC.target];
-            Texture2D UpperLegTex = EEMod.Instance.Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderLegUpper").Value;
-            Texture2D LowerLegTex = EEMod.Instance.Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderLegLower").Value;
-            Texture2D KelpSpiderBody = EEMod.Instance.Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderBody").Value;
-            Texture2D UpperLegTexGlow = EEMod.Instance.Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderLegUpperGlow").Value;
-            Texture2D LowerLegTexGlow = EEMod.Instance.Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderLegLowerGlow").Value;
-            Texture2D KelpSpiderBodyGlow = EEMod.Instance.Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderBodyGlow").Value;
+            Texture2D UpperLegTex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderLegUpper").Value;
+            Texture2D LowerLegTex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderLegLower").Value;
+            Texture2D KelpSpiderBody = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderBody").Value;
+            Texture2D UpperLegTexGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderLegUpperGlow").Value;
+            Texture2D LowerLegTexGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderLegLowerGlow").Value;
+            Texture2D KelpSpiderBodyGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/KelpForest/Kelpweaver/GlowingKelpSpiderBodyGlow").Value;
             float rotation = (player.Center - NPC.Center).ToRotation() + (float)Math.PI;
             bool cond = (rotation > 0 && rotation < Math.PI / 2f) || rotation > (float)Math.PI * 1.5f;
             float lerpCache = Math.Abs((float)Math.Sin(NPC.ai[1] / 200f));

@@ -86,7 +86,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         public override bool PreDraw(ref Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Projectile.Center - Main.screenPosition, null, new Color((int)(18f * sineAdd), (int)(12f * sineAdd), (int)(2f * sineAdd), 0), 0f, new Vector2(75, 75), Math.Abs(0.33f * (sineAdd + 1)) * Projectile.ai[1], SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, Projectile.Center - Main.screenPosition, null, new Color((int)(18f * sineAdd), (int)(12f * sineAdd), (int)(2f * sineAdd), 0), 0f, new Vector2(75, 75), Math.Abs(0.33f * (sineAdd + 1)) * Projectile.ai[1], SpriteEffects.None, 0f);
 
             DrawRings(Main.spriteBatch);
 
@@ -97,7 +97,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
 
-            Texture2D tex = EEMod.Instance.Assets.Request<Texture2D>("Items/Weapons/Melee/Yoyos/KelpThrowGlow").Value;
+            Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Items/Weapons/Melee/Yoyos/KelpThrowGlow").Value;
             Main.spriteBatch.Draw(tex, Projectile.Center.ForDraw(), null, Color.White * sineAdd, Projectile.rotation, tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
         }
 

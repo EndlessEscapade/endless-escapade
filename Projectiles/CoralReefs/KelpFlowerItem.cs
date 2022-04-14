@@ -115,7 +115,7 @@ namespace EEMod.Projectiles.CoralReefs
 
             Color outlineColor = Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f);
 
-            Helpers.DrawAdditiveFunky(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradientWide").Value, Projectile.Center.ForDraw(), outlineColor * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f), 0.9f * Projectile.scale, 0.8f);
+            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradientWide").Value, Projectile.Center.ForDraw(), outlineColor * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f), 0.9f * Projectile.scale, 0.8f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

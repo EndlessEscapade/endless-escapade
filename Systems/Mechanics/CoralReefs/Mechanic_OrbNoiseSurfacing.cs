@@ -40,12 +40,12 @@ namespace EEMod
                         EEMod.NoiseSurfacing.Parameters["yCoord"].SetValue(seed);
                         EEMod.NoiseSurfacing.Parameters["t"].SetValue((0.25f - Math.Abs(0.25f - (speed % 0.5f))) * 4);
                         EEMod.NoiseSurfacing.Parameters["xDis"].SetValue(speed % 0.5f);
-                        EEMod.NoiseSurfacing.Parameters["noiseTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("noise").Value);
+                        EEMod.NoiseSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("noise").Value);
                         EEMod.NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
 
                         Vector2 position = new Vector2((int)mouseTilePos.X * 16, (int)mouseTilePos.Y * 16) - new Vector2(tile.TileFrameX / 18 * 16, tile.TileFrameY / 18 * 16);
 
-                        Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("NoiseSurfacingTest").Value, position.ForDraw() + new Vector2(15, -20), Color.Purple);
+                        Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NoiseSurfacingTest").Value, position.ForDraw() + new Vector2(15, -20), Color.Purple);
                         Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = position;
                         Main.spriteBatch.End();
                         Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

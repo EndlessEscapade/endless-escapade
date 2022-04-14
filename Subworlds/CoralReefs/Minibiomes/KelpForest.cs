@@ -168,7 +168,7 @@ namespace EEMod.EEWorld
                     || tile.TileType == ModContent.TileType<KelpLeafTile>()
                     || tile.TileType == ModContent.TileType<KelpMossTile>()))
                 {
-                    VerletHelpers.AddStickChainNoAdd(ref EEMod.Instance.verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 10), 27);
+                    VerletHelpers.AddStickChainNoAdd(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 10), 27);
                 }
             });
 

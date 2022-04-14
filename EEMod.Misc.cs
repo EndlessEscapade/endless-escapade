@@ -28,22 +28,13 @@ namespace EEMod
 {
     partial class EEMod
     {
-        public static double worldSurface;
-        public static double worldSurfaceLow;
-        public static double worldSurfaceHigh;
-        public static double rockLayer;
-        public static double rockLayerLow;
-        public static double rockLayerHigh;
         public static int _lastSeed;
         public static Texture2D ScTex;
         public static Effect NoiseSurfacing;
-        public static int AscentionHandler;
         public static int startingTextHandler;
-        public static bool isAscending;
-
-        public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
 
         public IceHockey simpleGame;
+
         public int lerps;
         private float alphas;
         private int delays;
@@ -55,8 +46,7 @@ namespace EEMod
         public void UpdateVerlet()
         {
             ScTex = Main.screenTarget;
-            if (ActivateVerletEngine.JustPressed)
-                mode = !mode;
+
             if (mode)
                 verlet.Update();
             if (delays > 0)
@@ -125,7 +115,7 @@ namespace EEMod
                 }
             }
 
-            /*simpleGame = simpleGame ?? new IceHockey();
+            simpleGame = simpleGame ?? new IceHockey();
             simpleGame.Update(gameTime);
             for (int i = 0; i < Main.player.Length; i++)
             {
@@ -139,7 +129,7 @@ namespace EEMod
                         simpleGame.EndGame();
                         break;
                     }
-                    if (Inspect.JustPressed && Framing.GetTileSafely((int)player.Center.X / 16, (int)player.Center.Y / 16).type == ModContent.TileType<BlueArcadeMachineTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
+                    if (Inspect.JustPressed && Framing.GetTileSafely((int)player.Center.X / 16, (int)player.Center.Y / 16).TileType == ModContent.TileType<AirHockeyTableTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
                     {
                         simpleGame = new IceHockey();
                         SoundEngine.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
@@ -149,7 +139,7 @@ namespace EEMod
                         break;
                     }
                 }
-            }*/
+            }
         }
 
         //should be in helper class
@@ -170,39 +160,9 @@ namespace EEMod
             float alpha = modPlayer.titleText;
             Color color = Color.White * alpha;
 
-            /*if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
-            {
-                text = "The Ocean";
-                color = new Color((1 - alpha), (1 - alpha), 1) * alpha;
-            }*/
-            /*if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
-            {
-                text = "The Pyramids";
-                color = Color.Yellow * alpha;
-            }
-            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
-            {
-                text = "The Coral Reefs";
-                color = Color.Blue * alpha;
-            }
-            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
-            {
-                text = "The Volcano";
-                color = Color.OrangeRed * alpha;
-            }
-            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
-            {
-                text = "The Volcano's Core";
-                color = Color.Red * alpha;
-            }
-            if (Main.ActiveWorldFileData.Name == KeyID.Island)
-            {
-                text = "Tropical Island";
-                color = Color.GreenYellow * alpha;
-            }*/
+            Texture2D Outline = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/Outline").Value;
+            Texture2D OceanScreen = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Seamap/SeamapAssets/OceanScreen").Value;
 
-            Texture2D Outline = EEMod.Instance.Assets.Request<Texture2D>("UI/Outline").Value;
-            Texture2D OceanScreen = EEMod.Instance.Assets.Request<Texture2D>("Seamap/SeamapAssets/OceanScreen").Value;
             if (FontAssets.MouseText.Value != null)
             {
                 if (SubworldLibrary.SubworldSystem.IsActive<Sea>())

@@ -16,8 +16,8 @@ namespace EEMod.VerletIntegration
             public float lengthOfChains;
             public string glowmaskPath;
             public string texturePath;
-            public Texture2D glowmask => EEMod.Instance.Assets.Request<Texture2D>(glowmaskPath).Value;
-            public Texture2D texture => EEMod.Instance.Assets.Request<Texture2D>(texturePath).Value;
+            public Texture2D glowmask => ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>(glowmaskPath).Value;
+            public Texture2D texture => ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>(texturePath).Value;
             public VineInfo(Vector2 position, int numberOfChains, float lengthOfChains, string texturePath, string glowmaskPath)
             {
                 this.position = position;
@@ -51,7 +51,7 @@ namespace EEMod.VerletIntegration
                 {
                     for (int i = 0; i < numberOfChains; i++)
                     {
-                        EEMod eemood = EEMod.Instance;
+                        EEMod eemood = ModContent.GetInstance<EEMod>();
                         int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
                         if (i == 0)
                         {
@@ -102,7 +102,7 @@ namespace EEMod.VerletIntegration
             {
                 for (int i = 0; i < numberOfChains; i++)
                 {
-                    EEMod eemood = EEMod.Instance;
+                    EEMod eemood = ModContent.GetInstance<EEMod>();
                     int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
                     if (i > 1)
                     {

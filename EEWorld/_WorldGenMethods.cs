@@ -63,7 +63,7 @@ namespace EEMod.EEWorld
         {
             ClearRegion(45, 45, new Vector2(x, y));
 
-            Structure.DeserializeFromBytes(EEMod.Instance.GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt(x, y, false, false);
+            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt(x, y, false, false);
 
             for (int i = x - 2; i < x - 2 + 50; i++)
             {
@@ -227,7 +227,7 @@ namespace EEMod.EEWorld
 
         public static void PlaceShipyard(int x, int y)
         {
-            EEMod eemood = EEMod.Instance;
+            EEMod eemood = ModContent.GetInstance<EEMod>();
 
             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Pier.lcs")).PlaceAt(x - 52, y, true, true);
 

@@ -46,12 +46,6 @@ namespace EEMod
         private Vector2 _sunShaderPos;
         private float _nightHarshness = 1f;
         private Color _baseColor;
-        private Texture2D _screenTexture;
-        private Texture2D _texture2;
-        //private Rectangle _screenFrame;//unused?
-        private int _counter;
-        private int _screenframes;
-        private int _screenframeSpeed;
         public float alpha;
 
         public static string screenMessageText;
@@ -66,39 +60,17 @@ namespace EEMod
 
         private void LoadIL()
         {
-            //IL.Terraria.Main.DrawBackground += Main_DrawBackground;
-            //IL.Terraria.Main.DrawWater += Main_DrawWater;
-            //IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
-            //IL.Terraria.Main.oldDrawWater += Main_oldDrawWater;
-            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
-            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
-
             IL.Terraria.IO.WorldFile.SaveWorldTiles += WorldFile_SaveWorldTiles;
 
             hooklist = new ILHookList();
 
             WorldGenBeaches();
-
-            //hooklist = new ILHookList();
-
-            //hooklist.Add(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), LayeredMusic.ILFillBuffer);
-
-            //HookEndpointManager.Modify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
         }
 
 
         private void UnloadIL()
         {
-            //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
-            //IL.Terraria.Main.DrawWater -= Main_DrawWater;
-            //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
-            //IL.Terraria.Main.oldDrawWater -= Main_oldDrawWater;
-            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
-            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
-
             IL.Terraria.IO.WorldFile.SaveWorldTiles -= WorldFile_SaveWorldTiles;
-
-            //HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
 
             screenMessageText = null;
             progressMessage = null;
@@ -312,7 +284,7 @@ namespace EEMod
                 num10 = Math.Pow((Main.time / 54000.0 - 0.5) * 2.0, 2.0);
             }
 
-            Rectangle[] rects = { new Rectangle(0, 0, EEMod.Instance.Assets.Request<Texture2D>("Textures/SunRing").Value.Width, EEMod.Instance.Assets.Request<Texture2D>("Textures/SunRing").Value.Height), new Rectangle(0, 0, EEMod.Instance.Assets.Request<Texture2D>("Textures/LensFlare").Value.Width, EEMod.Instance.Assets.Request<Texture2D>("Textures/LensFlare").Value.Height) };
+            Rectangle[] rects = { new Rectangle(0, 0, ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SunRing").Value.Width, ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SunRing").Value.Height), new Rectangle(0, 0, ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare").Value.Width, ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare").Value.Height) };
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
@@ -320,8 +292,8 @@ namespace EEMod
             if (EEModConfigClient.Instance.BetterLighting)
             {
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Projectiles/Nice").Value, _sunPos - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * .5f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 540f), new Vector2(87), 10f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Textures/LensFlare").Value, _sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * _globalAlpha * _intensityFunction, (float)Math.Sin(Main.time / 540f), new Vector2(rects[1].Width, rects[1].Height) / 2, 1.3f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Textures/SunRing").Value, _sunPos - Main.screenPosition + new Vector2(0, 37 + (float)num10 * 250), rects[0], Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 5400f), new Vector2(rects[0].Width, rects[0].Height) / 2, 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare").Value, _sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * _globalAlpha * _intensityFunction, (float)Math.Sin(Main.time / 540f), new Vector2(rects[1].Width, rects[1].Height) / 2, 1.3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SunRing").Value, _sunPos - Main.screenPosition + new Vector2(0, 37 + (float)num10 * 250), rects[0], Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 5400f), new Vector2(rects[0].Width, rects[0].Height) / 2, 1f, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();
@@ -335,8 +307,8 @@ namespace EEMod
 
             if (EEModConfigClient.Instance.BetterLighting && Main.worldName != KeyID.CoralReefs)
             {
-                Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Textures/LensFlare2").Value, _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Textures/LensFlare2").Value, _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare2").Value, _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare2").Value, _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();
@@ -413,9 +385,9 @@ namespace EEMod
             float scale = 1.5f;
             Vector2 traverseFunction = new Vector2(4000, 1000);
             Vector2 traverse = new Vector2(-Main.LocalPlayer.Center.X / (Main.maxTilesX * 16) * traverseFunction.X, -Main.LocalPlayer.Center.Y / (Main.maxTilesY * 16) * traverseFunction.Y);
-            Texture2D CB1 = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value; //instance.GetTexture("Backgrounds /CoralReefsSurfaceFar");
-            Texture2D CB2 = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value; //instance.GetTexture("Backgrounds /CoralReefsSurfaceMid");
-            Texture2D CB3 = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
+            Texture2D CB1 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value; //instance.GetTexture("Backgrounds /CoralReefsSurfaceFar");
+            Texture2D CB2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value; //instance.GetTexture("Backgrounds /CoralReefsSurfaceMid");
+            Texture2D CB3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
             Rectangle GlobalRect = new Rectangle(0, 0, (int)(CB1.Width * scale), (int)(CB1.Height * scale));
             Rectangle GlobalRectUnscaled = new Rectangle(0, 0, CB1.Width, CB1.Height);
 
@@ -436,16 +408,16 @@ namespace EEMod
             switch (loadingChooseImage)
             {
                 case 0:
-                    texture2 = Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
+                    texture2 = Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
                     break;
                 case 1:
-                    texture2 = Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
+                    texture2 = Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
                     break;
                 case 2:
-                    texture2 = Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
+                    texture2 = Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
                     break;
                 default:
-                    texture2 = Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
+                    texture2 = Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
                     break;
             }
             switch (loadingChooseImage)
@@ -521,17 +493,17 @@ namespace EEMod
                     ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, progressMessage, new Vector2(textPosition2Left, Main.graphics.GraphicsDevice.Viewport.Height / 2 - 350), Color.White * alpha, 0f, Vector2.Zero, new Vector2(1.2f, 1.2f));
                 }
 
-                osSucksAtBedwars++;
-                if (osSucksAtBedwars % 600 == 0)
+                loadingScreenTicker++;
+                if (loadingScreenTicker % 600 == 0)
                 {
                     loadingChoose = Main.rand.Next(68);
                     textPositionLeft = -textSize.X / 2;
                 }
-                else if (osSucksAtBedwars % 600 > 0 && osSucksAtBedwars % 600 <= 540)
+                else if (loadingScreenTicker % 600 > 0 && loadingScreenTicker % 600 <= 540)
                 {
                     textPositionLeft += ((Main.graphics.GraphicsDevice.Viewport.Width / 2) - (textSize.X / 2) - textPositionLeft) / 25f;
                 }
-                else if (osSucksAtBedwars % 600 > 540 && osSucksAtBedwars % 600 < 600)
+                else if (loadingScreenTicker % 600 > 540 && loadingScreenTicker % 600 < 600)
                 {
                     textPositionLeft += ((Main.graphics.GraphicsDevice.Viewport.Width + (textSize.X / 2)) - textPositionLeft) / 25f;
                 }

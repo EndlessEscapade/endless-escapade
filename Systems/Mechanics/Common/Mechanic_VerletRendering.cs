@@ -17,7 +17,7 @@ namespace EEMod
         {
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
-            EEMod.Instance.verlet.GlobalRenderPoints();
+            ModContent.GetInstance<EEMod>().verlet.GlobalRenderPoints();
 
             Main.spriteBatch.End();
         }

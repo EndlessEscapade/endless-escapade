@@ -55,7 +55,7 @@ namespace EEMod
 
         float bgAlpha;
 
-        public int osSucksAtBedwars;
+        public int loadingScreenTicker;
         public float textPositionLeft;
         private bool wasDoingWorldGen = false;
 
@@ -66,6 +66,7 @@ namespace EEMod
         private void LoadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float += Lighting_AddLight_int_int_float_float_float;
+
             On.Terraria.Main.Update += Main_Update;
             On.Terraria.Main.Draw += Main_Draw;
             On.Terraria.Main.DrawBG += Main_DrawBG;
@@ -77,6 +78,7 @@ namespace EEMod
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             On.Terraria.Main.DrawTiles += Main_DrawTiles1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
+
             On.Terraria.Player.Update_NPCCollision += Player_Update_NPCCollision;
 
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
@@ -99,6 +101,7 @@ namespace EEMod
         private void UnloadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
+
             On.Terraria.Main.Update -= Main_Update;
             On.Terraria.Main.Draw -= Main_Draw;
             On.Terraria.Main.DrawBG -= Main_DrawBG;
@@ -112,6 +115,7 @@ namespace EEMod
             On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
             On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
+
             On.Terraria.Player.Update_NPCCollision -= Player_Update_NPCCollision;
 
             On.Terraria.Main.DoDraw_UpdateCameraPosition -= Main_DoDraw_UpdateCameraPosition;
@@ -299,9 +303,9 @@ namespace EEMod
 
                 if (bgAlpha > 0)
                 {
-                    Texture2D tex = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
-                    Texture2D tex2 = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
-                    Texture2D tex3 = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
+                    Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
+                    Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
+                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
 
                     ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
 
@@ -407,9 +411,9 @@ namespace EEMod
                 {
                     bgAlpha += -bgAlpha / 32f;
                 }
-                Texture2D tex = EEMod.Instance.GetTexture("Backgrounds/CoralReefsSurfaceFar");
-                Texture2D tex2 = EEMod.Instance.GetTexture("Backgrounds/CoralReefsSurfaceMid");
-                Texture2D tex3 = EEMod.Instance.GetTexture("Backgrounds/CoralReefsSurfaceClose");
+                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceFar");
+                Texture2D tex2 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceMid");
+                Texture2D tex3 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
                 //LightingBuffer.Instance.Draw(Main.spriteBatch);
 
                 Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
@@ -673,7 +677,7 @@ namespace EEMod
                     loadingChooseImage = Main.rand.Next(5);
                     frame2.Y = 0;
                     loadingFlag = false;
-                    osSucksAtBedwars = 0;
+                    loadingScreenTicker = 0;
                     textPositionLeft = 0;
                 }
 

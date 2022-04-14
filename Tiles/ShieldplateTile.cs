@@ -52,7 +52,7 @@ namespace EEMod.Tiles
             }
 
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
-            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/ShieldplateTile").Value;
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/ShieldplateTile").Value;
             Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
 
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);

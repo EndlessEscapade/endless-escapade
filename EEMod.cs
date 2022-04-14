@@ -23,9 +23,9 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.Localization; // :sadge:
+using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.UI;// l a g
+using Terraria.UI;
 using Terraria.WorldBuilding;
 using Microsoft.Xna.Framework.Input;
 using Terraria.ModLoader.IO;
@@ -35,30 +35,20 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
-        public static EEMod Instance => ModContent.GetInstance<EEMod>();
         public static bool isSaving = false;
+
         public static int loadingChoose;
         public static int loadingChooseImage;
         public static bool loadingFlag = true;
 
         public static GameTime lastGameTime;
 
-        public static ModKeybind RuneActivator;
-        public static ModKeybind RuneSpecial;
         public static ModKeybind Inspect;
-        public static ModKeybind ActivateVerletEngine;
-
-        public static UIManager UI;
 
         public static Noise2D Noise2D;
         public static ParticleZoneHandler Particles;
         internal static ParticleZone MainParticles;
         public UserInterface EEInterface;
-        public FishermansLogUI FishermansLogUI;
-        public KelpArmorAmmoUI KelpArmorAmmoUI;
-        public IndicatorsUI IndicatorsUI;
-        public DialogueUI DialogueUI;
-        public ShipLoadoutUI ShipLoadoutUI;
         public ComponentManager<TileObjVisual> TVH;
 
         public override void Load()
@@ -72,55 +62,16 @@ namespace EEMod
 
             if (!Main.dedServ)
             {
-                UI = new UIManager();
-                FishermansLogUI = new FishermansLogUI();
-                FishermansLogUI.Activate();
-                UI.AddInterface("EEInterfacee");
-                UI.AddUIState("FishermansLogUI", FishermansLogUI);
-
-                KelpArmorAmmoUI = new KelpArmorAmmoUI();
-                KelpArmorAmmoUI.Activate();
-                UI.AddInterface("KelpArmorAmmoInterface");
-                UI.AddUIState("KelpArmorAmmoUI", KelpArmorAmmoUI);
-
-                IndicatorsUI = new IndicatorsUI();
-                IndicatorsUI.Activate();
-                UI.AddInterface("IndicatorsInterface");
-                UI.AddUIState("IndicatorsUI", IndicatorsUI);
-
-                DialogueUI = new DialogueUI();
-                DialogueUI.Activate();
-                UI.AddInterface("DialogueInterface");
-                UI.AddUIState("DialogueUI", DialogueUI);
-
-                ShipLoadoutUI = new ShipLoadoutUI();
-                ShipLoadoutUI.Activate();
-                UI.AddInterface("ShipLoadoutInterface");
-                UI.AddUIState("ShipLoadoutUI", ShipLoadoutUI);
-
                 PrimitiveSystem.primitives = new PrimTrailManager();
             }
-            //HandwritingCNN = new Handwriting();
 
-            RuneActivator = KeybindLoader.RegisterKeybind(this, "Rune UI", Keys.Z);
-            RuneSpecial = KeybindLoader.RegisterKeybind(this, "Activate Runes", Keys.V);
             Inspect = KeybindLoader.RegisterKeybind(this, "Inspect", Keys.OemCloseBrackets);
-            ActivateVerletEngine = KeybindLoader.RegisterKeybind(this, "Activate VerletEngine", Keys.N);
-
-            //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
 
             Main.QueueMainThreadAction(() => 
             {
                 if (!Main.dedServ)
                 {
                     AutoloadingManager.LoadManager(this);
-
-                    /*
-                      SpeedrunnTimer = new UserInterface();
-                      //RunUI.Activate();
-                      RunUI = new RunninUI();
-                      SpeedrunnTimer.SetState(RunUI);
-                    */
 
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -155,26 +106,19 @@ namespace EEMod
             PrismShader = null;
             SpireShine = null;
             Noise2D = null;
-            RuneActivator = null;
             Inspect = null;
-            RuneSpecial = null;
             simpleGame = null;
-            ActivateVerletEngine = null;
             NoiseSurfacing = null;
             WhiteOutline = null;
             Effervescence = null;
             Colorify = null;
+
             UnloadIL();
             UnloadDetours();
             UnloadUI();
+
             AutoloadingManager.UnloadManager(this);
             Noise2DShift = null;
-            //BufferPool.ClearBuffers();
-            //Main.logo2Texture = ModContent.Request<Texture2D>("Terraria/Logo2").Value;
-            //Main.logoTexture = ModContent.Request<Texture2D>("Terraria/Logo").Value;
-            //Main.sun2Texture = ModContent.Request<Texture2D>("Terraria/Sun2").Value;
-            //Main.sun3Texture = ModContent.Request<Texture2D>("Terraria/Sun3").Value;
-            //Main.sunTexture = ModContent.Request<Texture2D>("Terraria/Sun").Value;
         }
 
 

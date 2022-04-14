@@ -270,7 +270,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
                         Vector2 vector5 = controlPoints[i + 2] - currentPoint;
                         for (float m = 0; m < 1; m += (1 / vector5.Length()) * 2f)
                         {
-                            EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/WebAlt").Value);
+                            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/WebAlt").Value);
                             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
                             EEMod.LightningShader.CurrentTechnique.Passes[0].Apply();
 

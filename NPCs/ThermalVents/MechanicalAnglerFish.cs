@@ -107,7 +107,7 @@ namespace EEMod.NPCs.ThermalVents
             {
                 NPC.TargetClosest();
                 Player player = Main.player[NPC.target];
-                Texture2D LureChain = EEMod.Instance.Assets.Request<Texture2D>("Projectiles/Enemy/MechanicalLureChain").Value;
+                Texture2D LureChain = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/Enemy/MechanicalLureChain").Value;
                 float distance = Vector2.Distance(NPC.Center, Main.projectile[(int)NPC.ai[3]].position) / LureChain.Height;
                 Vector2 pos = NPC.position - Main.screenPosition + new Vector2(x: (NPC.width / 2) - (LureChain.Width / 2) - 10, y: NPC.height / 2);
                 for (int i = 0; i < distance; i++)

@@ -58,7 +58,7 @@ namespace EEMod.NPCs.Goblins.Watchman
 
             if (Vector2.DistanceSquared(NPC.Center, Main.player[NPC.target].Center) <= 16 * 16 * 40 * 40)
             {
-                Texture2D WatchmanAlert = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/Watchman/WatchmanAlert").Value;
+                Texture2D WatchmanAlert = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/Watchman/WatchmanAlert").Value;
 
                 Main.spriteBatch.Draw(WatchmanAlert, NPC.Center + new Vector2(0, -32) - Main.screenPosition, null, defaultDrawColor, 0f, WatchmanAlert.TextureCenter(), 1f, SpriteEffects.None, 0f);
 
@@ -103,7 +103,7 @@ namespace EEMod.NPCs.Goblins.Watchman
             } 
             if (Vector2.DistanceSquared(NPC.Center, Main.player[NPC.target].Center) <= 16 * 16 * 48 * 48 && !alertedFriends)
             {
-                Texture2D WatchmanQuestion = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/Watchman/WatchmanQuestion").Value;
+                Texture2D WatchmanQuestion = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/Watchman/WatchmanQuestion").Value;
 
                 Main.spriteBatch.Draw(WatchmanQuestion, NPC.Center + new Vector2(0, -32) - Main.screenPosition, null, defaultDrawColor, 0f, WatchmanQuestion.TextureCenter(), 1f, SpriteEffects.None, 0f);
             }

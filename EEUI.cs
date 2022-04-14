@@ -1,6 +1,7 @@
 ﻿using EEMod.Autoloading;
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.ModSystems;
 using EEMod.UI.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,8 +22,43 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
+        public FishermansLogUI FishermansLogUI;
+        public KelpArmorAmmoUI KelpArmorAmmoUI;
+        public IndicatorsUI IndicatorsUI;
+        public DialogueUI DialogueUI;
+        public ShipLoadoutUI ShipLoadoutUI;
+
+        public static UIManager UI;
+
         public void LoadUI()
         {
+            UI = new UIManager();
+
+            FishermansLogUI = new FishermansLogUI();
+            FishermansLogUI.Activate();
+            UI.AddInterface("EEInterfacee");
+            UI.AddUIState("FishermansLogUI", FishermansLogUI);
+
+            KelpArmorAmmoUI = new KelpArmorAmmoUI();
+            KelpArmorAmmoUI.Activate();
+            UI.AddInterface("KelpArmorAmmoInterface");
+            UI.AddUIState("KelpArmorAmmoUI", KelpArmorAmmoUI);
+
+            IndicatorsUI = new IndicatorsUI();
+            IndicatorsUI.Activate();
+            UI.AddInterface("IndicatorsInterface");
+            UI.AddUIState("IndicatorsUI", IndicatorsUI);
+
+            DialogueUI = new DialogueUI();
+            DialogueUI.Activate();
+            UI.AddInterface("DialogueInterface");
+            UI.AddUIState("DialogueUI", DialogueUI);
+
+            ShipLoadoutUI = new ShipLoadoutUI();
+            ShipLoadoutUI.Activate();
+            UI.AddInterface("ShipLoadoutInterface");
+            UI.AddUIState("ShipLoadoutUI", ShipLoadoutUI);
+
             if (!Main.dedServ)
             {
                 UI.AddUIState("RunUI", new RunninUI());
@@ -35,10 +71,12 @@ namespace EEMod
                 UI.SwitchBindedState("ArrowInterface");
             }
         }
+
         public void UnloadUI()
         {
             UI.UnLoad();
         }
+
         public void UIControls()
         {
 

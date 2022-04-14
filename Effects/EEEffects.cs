@@ -13,7 +13,7 @@ namespace EEMod.Effects
 {
     public static class EEEffects
     {
-        public static Effect GetEEEffect(string name) => EEMod.Instance.Assets.Request<Effect>("Effects/" + name).Value;
+        public static Effect GetEEEffect(string name) => ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/" + name).Value;
 
         public static void AddEffectFactory<TEffect>(Func<TEffect> factory) where TEffect : Effect
         {

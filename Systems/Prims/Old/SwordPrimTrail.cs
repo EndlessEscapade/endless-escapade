@@ -86,7 +86,7 @@ namespace EEMod.Prim
             if (_counter < 20)
             {
                 Color chosen = Color.Lerp(Color.Cyan, Color.DarkBlue, Main.rand.NextFloat(1f));
-                EEMod.MainParticles.SpawnParticles(_points[(100 - _counter * 5) % 100] + new Vector2(Main.rand.Next(-30, 30), Main.rand.Next(-30, 30)), Vector2.Normalize(_points[50] - Main.LocalPlayer.Center).RotatedBy(Main.rand.NextFloat(-6, 6)) * 5, 2, chosen, new SlowDown(0.9f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.06f, 0.06f)), new SetLighting(chosen.ToVector3(), 0.1f), new SetTimeLeft(10), new SetShrinkSize(0.95f));
+                EEMod.MainParticles.SpawnParticles(_points[(100 - _counter * 5) % 100] + new Vector2(Main.rand.Next(-30, 30), Main.rand.Next(-30, 30)), Vector2.Normalize(_points[50] - Main.LocalPlayer.Center).RotatedBy(Main.rand.NextFloat(-6, 6)) * 5, 2, chosen, new SlowDown(0.9f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.06f, 0.06f)), new SetLighting(chosen.ToVector3(), 0.1f), new SetTimeLeft(10), new SetShrinkSize(0.95f));
             }
             _noOfPoints = _points.Count() * 6;
             if (_cap < _noOfPoints / 6)

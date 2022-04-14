@@ -73,7 +73,7 @@ namespace EEMod
 
             ModContent.GetInstance<EEMod>().Countur = 0;
             ModContent.GetInstance<EEMod>().frame2.Y = 0;
-            ModContent.GetInstance<EEMod>().osSucksAtBedwars = 0;
+            ModContent.GetInstance<EEMod>().loadingScreenTicker = 0;
 
             if (Main.netMode == NetmodeID.Server)
             {

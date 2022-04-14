@@ -87,7 +87,7 @@ namespace EEMod.Items.Weapons.Mage
             Color shadeColor = Main.hslToRgb((colorcounter / 16.96f) + 0.46f, 1f, 0.7f);
             EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
-            EEMod.PrismShader.Parameters["tentacle"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/PrismLightMap").Value);
+            EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/PrismLightMap").Value);
             EEMod.PrismShader.Parameters["lightColour"].SetValue(Color.White.ToVector3() * (1 / (1 + Projectile.alpha)));
             EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3() * (1 / (1 + Projectile.alpha)));
             EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);

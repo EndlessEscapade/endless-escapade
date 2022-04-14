@@ -28,7 +28,7 @@ namespace EEMod.NPCs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Helpers.DrawAdditiveFunky(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradientWide").Value, NPC.Center.ForDraw(), new Color(48, 25, 52), 1.4f, 0.8f);
+            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradientWide").Value, NPC.Center.ForDraw(), new Color(48, 25, 52), 1.4f, 0.8f);
 
             alpha += 0.05f;
 
@@ -48,7 +48,7 @@ namespace EEMod.NPCs
 
             EEMod.ReflectionShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
-            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/SpikyOrbLightMap").Value);
+            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SpikyOrbLightMap").Value);
             EEMod.ReflectionShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
             EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();

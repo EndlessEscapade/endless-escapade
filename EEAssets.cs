@@ -25,7 +25,7 @@ namespace EEMod
 
         public static Asset<T> GetAsset<T>(string path, AssetRequestMode mode) where T : class
         {
-            return EEMod.Instance.Assets.Request<T>(path, mode);
+            return ModContent.GetInstance<EEMod>().Assets.Request<T>(path, mode);
         }
 
         public static Texture2D GetTexture(string path, bool immediateLoad = true)

@@ -113,7 +113,7 @@ namespace EEMod.NPCs.Goblins.Scrapgunner
         {
             Color defaultDrawColor = Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f));
 
-            Texture2D ShamanGlow = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/Scrapgunner/GoblinScrapgunner").Value;
+            Texture2D ShamanGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/Scrapgunner/GoblinScrapgunner").Value;
 
             Main.spriteBatch.Draw(ShamanGlow, NPC.Center - Main.screenPosition + new Vector2(0, 4), null, defaultDrawColor, NPC.rotation, ShamanGlow.Bounds.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
@@ -126,13 +126,13 @@ namespace EEMod.NPCs.Goblins.Scrapgunner
         {
             Color defaultDrawColor = Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f));
 
-            Texture2D ShamanStaff = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/Scrapgunner/ScrapgunnerGun").Value;
+            Texture2D ShamanStaff = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/Scrapgunner/ScrapgunnerGun").Value;
 
             Main.spriteBatch.Draw(ShamanStaff, staffCenter - Main.screenPosition, null, defaultDrawColor, staffRot, (ShamanStaff.Bounds.Size() / 2f) + new Vector2(1, 4), NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
 
             //shaman's hand
-            Texture2D ShamanHand = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/Scrapgunner/ScrapgunnerHand").Value;
+            Texture2D ShamanHand = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/Scrapgunner/ScrapgunnerHand").Value;
 
             Main.spriteBatch.Draw(ShamanHand, NPC.Center - Main.screenPosition + new Vector2(11 * NPC.spriteDirection, 4 + 11), null, defaultDrawColor, 0f, new Vector2(11, 39), NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }

@@ -62,7 +62,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, 
                 new SlowDown(0.98f), 
                 new RotateTexture(0.02f), 
-                new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.Magenta), 
+                new SetMask(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.Magenta), 
                 new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)),
                 new SetLighting(chosen.ToVector3(), 0.2f));
 

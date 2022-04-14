@@ -271,7 +271,7 @@ namespace EEMod
         {
             Point point = position.ParalaxX(-0f).ToTileCoordinates();
             Color lightColour = Lighting.GetColor(point.X, point.Y);
-            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>(parent.flockTex).Value;
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>(parent.flockTex).Value;
             spritebatch.Draw(texture, position.ForDraw().ParalaxX(-0f), texture.Bounds, lightColour, velocity.ToRotation(), texture.Bounds.Size() / 2f, parent.fishScale, SpriteEffects.None, 0f);
         }
 
