@@ -6,33 +6,38 @@ using System;
 using Terraria.ModLoader.IO;
 using System.IO;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using EEMod.Items.Shipyard.Cannonballs;
+using EEMod.Items.Shipyard.Cannons;
+using EEMod.Items.Shipyard.Figureheads;
 
 namespace EEMod.Items
 {
     public class EEGlobalItem : GlobalItem
     {
         public override bool InstancePerEntity => true;
-        public override bool CloneNewInstances => true;
+        //public override bool CloneNewInstances => true;
 
         //public override bool CloneNewInstances => true;
 
+        public override GlobalItem Clone(Item item, Item itemClone)
+        {
+            return base.Clone(item, itemClone);
+        }
+
         public bool caught;
         public int fishLength = 0;
-        public readonly int[] averageSizeFish = { ItemID.ArmoredCavefish, ItemID.AtlanticCod, ItemID.Bass, ItemID.CrimsonTigerfish, ItemID.Ebonkoi, ItemID.Obsidifish, ItemID.SpecularFish, ItemID.Stinkfish, ItemID.Tuna };
-        public readonly int[] smallSizeFish = { ItemID.FrostMinnow, ItemID.GoldenCarp, ItemID.Hemopiranha, ItemID.NeonTetra, ItemID.PrincessFish, ItemID.RedSnapper, /*ItemID.RockLobster, */ ItemID.Salmon, ItemID.Trout };
-        public readonly int[] bigSizeFish = { ItemID.ChaosFish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FlarefinKoi, /*ItemID.Flouder, */ ItemID.Prismite, ItemID.VariegatedLardfish };
+        public List<int> averageSizeFish = new() { ItemID.ArmoredCavefish, ItemID.AtlanticCod, ItemID.Bass, ItemID.CrimsonTigerfish, ItemID.Ebonkoi, ItemID.Obsidifish, ItemID.SpecularFish, ItemID.Stinkfish, ItemID.Tuna };
+        public List<int> smallSizeFish = new() { ItemID.FrostMinnow, ItemID.GoldenCarp, ItemID.Hemopiranha, ItemID.NeonTetra, ItemID.PrincessFish, ItemID.RedSnapper, /*ItemID.RockLobster, */ ItemID.Salmon, ItemID.Trout };
+        public List<int> bigSizeFish = new() { ItemID.ChaosFish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FlarefinKoi, /*ItemID.Flouder, */ ItemID.Prismite, ItemID.VariegatedLardfish };
 
         public override void ModifyManaCost(Item item, Player player, ref float reduce, ref float mult)
         {
-            EEPlayer eeplayer = player.GetModPlayer<EEPlayer>();
-            if (eeplayer.dalantiniumHood)
-            {
-                reduce -= 0.05f;
-            }
+            /*var eeplayer = player.GetModPlayer<EEPlayer>();
             if (eeplayer.hydriteVisage)
             {
                 reduce -= 0.1f;
-            }
+            }*/
         }
 
         /*public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -45,7 +50,7 @@ namespace EEMod.Items
             }
         }*/
 
-        /*public override void SetDefaults(Item item)
+        /*public override void SetStaticDefaults(Item item)
         {
             if (averageSizeFish.Contains(item.type) || smallSizeFish.Contains(item.type) || bigSizeFish.Contains(item.type))
                 item.maxStack = 1;
@@ -115,7 +120,7 @@ namespace EEMod.Items
             }
             return base.Shoot(item, player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }*/
-        public override bool NeedsSaving(Item item)
+        /*public override bool NeedsSaving(Item item)
         {
             return true;
         }
@@ -128,7 +133,7 @@ namespace EEMod.Items
         public override void Load(Item item, TagCompound tag)
         {
             tag.TryGetRef("caught", ref caught);
-        }
+        }*/
         public override void NetSend(Item item, BinaryWriter writer)
         {
             writer.Write(caught);

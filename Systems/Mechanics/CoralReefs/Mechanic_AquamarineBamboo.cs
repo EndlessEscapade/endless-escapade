@@ -1,7 +1,8 @@
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Subworlds.CoralReefs;
 using EEMod.Systems;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -14,16 +15,14 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class ThinAquamarineBamboo : Mechanic
+    public class ThinAquamarineBamboo : ModSystem
     {
-        protected override Layer DrawLayering => Layer.BehindTiles;
-
         public void DrawThinCrystalBamboo()
         {
             if (CoralReefs.ThinCrystalBambooLocations.Count > 0)
             {
-                Texture2D stalk = ModContent.GetInstance<EEMod>().GetTexture("Textures/CrystalBambooThin");
-                Texture2D tip = ModContent.GetInstance<EEMod>().GetTexture("Textures/CrystalBambooThinTip");
+                Texture2D stalk = EEMod.Instance.Assets.Request<Texture2D>("Textures/CrystalBambooThin").Value;
+                Texture2D tip = EEMod.Instance.Assets.Request<Texture2D>("Textures/CrystalBambooThinTip").Value;
 
                 for (int i = 0; i < CoralReefs.ThinCrystalBambooLocations.Count - 2; i += 2)
                 {
@@ -32,7 +31,7 @@ namespace EEMod
 
                     Tile root = Framing.GetTileSafely((int)CoralReefs.ThinCrystalBambooLocations[i].X, (int)CoralReefs.ThinCrystalBambooLocations[i].Y);
 
-                    bool isValid = root.active() && Main.tileSolid[root.type] && root.slope() == 0;
+                    bool isValid = root.HasTile && Main.tileSolid[root.TileType] && root.Slope == 0;
 
                     if (isValid)
                     {
@@ -63,7 +62,7 @@ namespace EEMod
             return choice == 1 ? 0 : (float)Math.PI;
         }
 
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
             if(Main.worldName == KeyID.CoralReefs) DrawThinCrystalBamboo();
         }

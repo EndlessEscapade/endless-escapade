@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using EEMod.Prim;
 using EEMod.Extensions;
+using Terraria.Audio;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -25,7 +26,7 @@ namespace EEMod.Items.Weapons.Melee
             Projectile.penetrate = -1;
             Projectile.scale = 1f;
 
-            Projectile.melee = true;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
             Projectile.hostile = false;
@@ -65,13 +66,15 @@ namespace EEMod.Items.Weapons.Melee
                 {
                     radians += 6.28;
                 }
+
                 player.itemAnimation -= (int)((Projectile.ai[0] + 50) / 6);
 
                 while (player.itemAnimation < 3)
                 {
-                    Main.PlaySound(SoundID.Item1, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
                     player.itemAnimation += 320;
                 }
+
                 player.itemTime = player.itemAnimation;
                 Projectile.velocity = Vector2.Zero;
 
@@ -80,7 +83,7 @@ namespace EEMod.Items.Weapons.Melee
                     Projectile.ai[0]++;
                     if (Projectile.ai[0] == chargeTime)
                     {
-                        Main.PlaySound(SoundID.NPCDeath7, Projectile.Center);
+                        SoundEngine.PlaySound(SoundID.NPCDeath7, Projectile.Center);
                     }
                 }
                 else
@@ -88,13 +91,16 @@ namespace EEMod.Items.Weapons.Melee
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.1f));
                     EEMod.MainParticles.SpawnParticles(Projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Gold, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.99f));
                 }
+
                 Vector2 direction = Main.MouseWorld - player.position;
                 direction.Normalize();
                 double throwingAngle = direction.ToRotation() + 3.14;
+
                 if (player.direction != 1)
                 {
                     throwingAngle -= 6.28;
                 }
+
                 if (!player.channel && Math.Abs(radians - throwingAngle) < 1)
                 {
                     Projectile.ai[1] = 1;
@@ -108,8 +114,11 @@ namespace EEMod.Items.Weapons.Melee
                     direction *= 30;
                     Projectile.velocity = direction;
                 }
+
                 Projectile.position.Y = player.Center.Y - (int)(Math.Sin(radians * 0.96) * 40) - (Projectile.height / 2);
                 Projectile.position.X = player.Center.X - (int)(Math.Cos(radians * 0.96) * 40) - (Projectile.width / 2);
+
+                Projectile.rotation = (float)radians;
             }
 
 
@@ -136,11 +145,13 @@ namespace EEMod.Items.Weapons.Melee
                 Projectile.tileCollide = false;
                 Projectile.rotation -= 0.5f;
                 Vector2 direction = player.position - Projectile.position;
-                if (direction.Length() < 20 || player.statLife < 1)
+
+                if (direction.Length() < 48 || player.statLife < 1)
                 {
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
                     Projectile.active = false;
                 }
+
                 direction.Normalize();
                 direction *= 20;
                 Projectile.velocity = direction;
@@ -151,15 +162,15 @@ namespace EEMod.Items.Weapons.Melee
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.ai[1] == 0)
             {
                 Color color = lightColor;
-                Main.spriteBatch.Draw(Main.projectileTexture[Projectile.type], Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, width, height), color, (float)radians + 3.9f, new Vector2(0, height), Projectile.scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, width, height), color, (float)radians + 3.9f, new Vector2(0, height), Projectile.scale, SpriteEffects.None, 0);
                 if (Projectile.ai[0] >= chargeTime && Projectile.ai[1] == 0)
                 {
-                    Main.spriteBatch.Draw(Main.projectileTexture[Projectile.type], Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, height * 2, width, height), Color.White * 0.9f, (float)radians + 3.9f, new Vector2(0, height), Projectile.scale, SpriteEffects.None, 1);
+                    Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, height * 2, width, height), Color.White * 0.9f, (float)radians + 3.9f, new Vector2(0, height), Projectile.scale, SpriteEffects.None, 1);
 
                     if (flickerTime < 16)
                     {
@@ -171,7 +182,7 @@ namespace EEMod.Items.Weapons.Melee
                         {
                             alpha = 0;
                         }
-                        Main.spriteBatch.Draw(Main.projectileTexture[Projectile.type], Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, height, width, height), color * alpha, (float)radians + 3.9f, new Vector2(0, height), Projectile.scale, SpriteEffects.None, 1);
+                        Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, height, width, height), color * alpha, (float)radians + 3.9f, new Vector2(0, height), Projectile.scale, SpriteEffects.None, 1);
                     }
                 }
                 return false;
@@ -179,7 +190,7 @@ namespace EEMod.Items.Weapons.Melee
             return true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if (Projectile.ai[0] >= chargeTime)
             {
@@ -188,7 +199,7 @@ namespace EEMod.Items.Weapons.Melee
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-                Texture2D tex = ModContent.GetTexture("EEMod/Textures/SmoothFadeOut");
+                Texture2D tex = ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value;
 
                 Main.spriteBatch.Draw(tex, Projectile.Center.ForDraw(), tex.Bounds, Color.Gold * sineAdd * 0.3f, 0, new Vector2(31, 23), 0.25f * (sineAdd + 1) * 2, SpriteEffects.None, 0f);
 
@@ -197,7 +208,7 @@ namespace EEMod.Items.Weapons.Melee
             }
             if (Projectile.ai[1] != 0)
             {
-                Main.spriteBatch.Draw(Main.projectileTexture[Projectile.type], new Rectangle((int)(Projectile.Center.X - Main.screenPosition.X), (int)(Projectile.Center.Y - Main.screenPosition.Y), 54, 60), new Rectangle(0, height * 2, width, height), Color.White, Projectile.rotation, new Vector2(27, 30), SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, new Rectangle((int)(Projectile.Center.X - Main.screenPosition.X), (int)(Projectile.Center.Y - Main.screenPosition.Y), 54, 60), new Rectangle(0, height * 2, width, height), Color.White, Projectile.rotation, new Vector2(27, 30), SpriteEffects.None, 0);
             }
         }
 
@@ -224,15 +235,15 @@ namespace EEMod.Items.Weapons.Melee
             {
                 for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
                 {
-                    int lightningproj = Projectile.NewProjectile(pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int lightningproj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        EEMod.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
+                        PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
                     }
                 }
                 Projectile.ai[1] = 2;
             }
-            Main.PlaySound(SoundID.Item70, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
         }
     }
 }

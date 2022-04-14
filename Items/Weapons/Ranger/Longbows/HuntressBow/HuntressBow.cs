@@ -18,7 +18,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
         public override void SetDefaults()
         {
             Item.damage = 20;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
 
             Item.useAnimation = 18;
             Item.useTime = 6;
@@ -32,11 +32,11 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(silver: 10);
 
-            Item.noMelee = false;
+            // Item.noMelee = false;
             Item.autoReuse = true;
             Item.useAmmo = AmmoID.Arrow;
 
-            Item.ranged = true;
+            Item.DamageType = DamageClass.Ranged;
 
             Item.UseSound = SoundID.Item1;
             Item.shoot = ModContent.ProjectileType<ShimmerShotProj>();
@@ -53,7 +53,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             if (player.altFunctionUse == 2)
             {
                 Item.noUseGraphic = true;
-                Item.useStyle = ItemUseStyleID.SwingThrow;
+                Item.useStyle = ItemUseStyleID.Swing;
 
                 Item.useTime = 10;
                 Item.useAnimation = 10;
@@ -61,14 +61,14 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
 
                 Item.damage = 50;
 
-                Item.autoReuse = false;
+                // Item.autoReuse = false;
             }
             else
             {
                 if (arrowShots < 15)
                 {
-                    Item.noUseGraphic = false;
-                    Item.useStyle = ItemUseStyleID.HoldingOut;
+                    // Item.noUseGraphic = false;
+                    Item.useStyle = ItemUseStyleID.Shoot;
 
                     Item.useAnimation = 18;
                     Item.useTime = 6;
@@ -80,8 +80,8 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
                 }
                 else
                 {
-                    Item.noUseGraphic = false;
-                    Item.useStyle = ItemUseStyleID.HoldingOut;
+                    // Item.noUseGraphic = false;
+                    Item.useStyle = ItemUseStyleID.Shoot;
 
                     Item.useAnimation = 30;
                     Item.useTime = 30;
@@ -89,7 +89,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
 
                     Item.damage = 60;
 
-                    Item.autoReuse = false;
+                    // Item.autoReuse = false;
                 }
             }
 
@@ -104,14 +104,14 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             {
                 if (arrowShots < 15)
                 {
-                    Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -4, ModContent.ProjectileType<HuntressArrow>(), Item.damage, Item.knockBack, default);
-                    cloudSprite.ai[1] = player.GetModPlayer<HuntressBowPlayer>().targetNPC.whoAmI;
+                    //Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -4, ModContent.ProjectileType<HuntressArrow>(), Item.damage, Item.knockBack, default);
+                    //cloudSprite.ai[1] = player.GetModPlayer<HuntressBowPlayer>().targetNPC.whoAmI;
 
                     arrowShots++;
                 }
                 else
                 {
-                    Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -40, ModContent.ProjectileType<HuntressBallista>(), Item.damage, Item.knockBack, default);
+                    //Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -40, ModContent.ProjectileType<HuntressBallista>(), Item.damage, Item.knockBack, default);
 
                     ballistaShots++;
 
@@ -124,8 +124,8 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             }
             if (player.altFunctionUse == 2)
             {
-                Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -4, ModContent.ProjectileType<HuntressGlaive>(), Item.damage, Item.knockBack, default);
-                cloudSprite.ai[1] = player.GetModPlayer<HuntressBowPlayer>().targetNPC.whoAmI;
+                //Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -4, ModContent.ProjectileType<HuntressGlaive>(), Item.damage, Item.knockBack, default);
+                //cloudSprite.ai[1] = player.GetModPlayer<HuntressBowPlayer>().targetNPC.whoAmI;
             }
 
             return false;
@@ -136,9 +136,9 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
     {
         public NPC targetNPC;
 
-        public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        public override void DrawEffects(Terraria.DataStructures.PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-            if(player.HeldItem.type == ModContent.ItemType<HuntressBow>())
+            if(Player.HeldItem.type == ModContent.ItemType<HuntressBow>())
             {
                 float dist = float.MaxValue;
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -151,17 +151,17 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
                     }
                 }
 
-                Point to = (Vector2.Normalize(Main.MouseWorld - player.Center) * Main.screenWidth).ToPoint();
-                Point from = player.Center.ToPoint();
+                Point to = (Vector2.Normalize(Main.MouseWorld - Player.Center) * Main.screenWidth).ToPoint();
+                Point from = Player.Center.ToPoint();
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin();
 
-                Texture2D targetTexture = ModContent.GetTexture("EEMod/Items/Weapons/Ranger/Longbows/HuntressBow/HuntressBowTarget");
-                Texture2D ballistaTarget = ModContent.GetTexture("EEMod/Items/Weapons/Ranger/Longbows/HuntressBow/HuntressBallistaTarget");
+                Texture2D targetTexture = ModContent.Request<Texture2D>("EEMod/Items/Weapons/Ranger/Longbows/HuntressBow/HuntressBowTarget").Value;
+                Texture2D ballistaTarget = ModContent.Request<Texture2D>("EEMod/Items/Weapons/Ranger/Longbows/HuntressBow/HuntressBallistaTarget").Value;
 
-                if ((player.HeldItem.modItem as HuntressBow).arrowShots >= 15)
-                    Main.spriteBatch.Draw(ballistaTarget, Raycast(player.Center, Vector2.Normalize(Main.MouseWorld - player.Center), false, false, 1, 1500) - Main.screenPosition, targetTexture.Bounds, Color.White, Main.GameUpdateCount / 40f, targetTexture.Bounds.Size() / 2f, 1 + ((float)Math.Sin(Main.GameUpdateCount / 60f) / 10f), SpriteEffects.None, 0f);
+                if ((Player.HeldItem.ModItem as HuntressBow).arrowShots >= 15)
+                    Main.spriteBatch.Draw(ballistaTarget, Raycast(Player.Center, Vector2.Normalize(Main.MouseWorld - Player.Center), false, false, 1, 1500) - Main.screenPosition, targetTexture.Bounds, Color.White, Main.GameUpdateCount / 40f, targetTexture.Bounds.Size() / 2f, 1 + ((float)Math.Sin(Main.GameUpdateCount / 60f) / 10f), SpriteEffects.None, 0f);
 
                 else
                     Main.spriteBatch.Draw(targetTexture, targetNPC.Center - Main.screenPosition, targetTexture.Bounds, Color.White, Main.GameUpdateCount / 60f, targetTexture.Bounds.Size() / 2f, 1f, SpriteEffects.None, 0f);
@@ -229,7 +229,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             Projectile.timeLeft = 600;
             Projectile.penetrate = 1;
 
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
 
             Projectile.tileCollide = true;
@@ -270,7 +270,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             Projectile.timeLeft = 600;
             Projectile.penetrate = 1;
 
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
 
             Projectile.tileCollide = true;
@@ -311,10 +311,10 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
 
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
 
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
         }
 
@@ -386,7 +386,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             Projectile.timeLeft = 600;
             Projectile.penetrate = 1;
 
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
 
             Projectile.tileCollide = true;

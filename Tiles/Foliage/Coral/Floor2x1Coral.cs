@@ -10,7 +10,7 @@ namespace EEMod.Tiles.Foliage.Coral
 {
     public class Floor2x1Coral : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -18,7 +18,7 @@ namespace EEMod.Tiles.Foliage.Coral
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
             TileObjectData.newTile.Height = 1;
             TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.StyleHorizontal = false;
+            // TileObjectData.newTile.StyleHorizontal = false;
             TileObjectData.newTile.CoordinateHeights = new int[]
             { 16 };
             TileObjectData.newTile.Origin = new Point16(0, 0);
@@ -37,11 +37,11 @@ namespace EEMod.Tiles.Foliage.Coral
             {
                 zero = Vector2.Zero;
             }
-            int height = tile.frameY == 36 ? 18 : 16;
-            //  Main.spriteBatch.Draw(Main.tileTexture[tile.type], new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            int height = tile.TileFrameY == 36 ? 18 : 16;
+            //  Main.spriteBatch.Draw(Main.tileTexture[tile.type], new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
         }
     }

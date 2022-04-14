@@ -15,10 +15,10 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public override void SetDefaults()
         {
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.rare = ItemRarityID.LightRed;
             Item.autoReuse = true;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7f; // 5 and 1/4
             Item.useTime = 17;
             Item.useAnimation = 17;

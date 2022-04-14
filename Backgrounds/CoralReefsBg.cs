@@ -3,12 +3,12 @@ using Terraria.ModLoader;
 
 namespace EEMod.Backgrounds
 {
-    public class Surfacebg : ModSurfaceBgStyle
+    public class Surfacebg : ModSurfaceBackgroundStyle
     {
-        public override bool ChooseBgStyle()
+        /*public override bool ChooseBgStyle()
         {
             return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs;
-        }
+        }*/
 
         public override void ModifyFarFades(float[] fades, float transitionSpeed)
         {
@@ -33,20 +33,20 @@ namespace EEMod.Backgrounds
             }
         }
 
-        public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
+        /*public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
         {
-            return mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceClose");
+            return Mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceClose");
         }
 
         public override int ChooseMiddleTexture()
         {
-            return mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceMid");
+            return Mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceMid");
         }
 
         public override int ChooseFarTexture()
         {
-            return mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceFar");
-        }
+            return Mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceFar");
+        }*/
 
         /* public override bool PreDrawCloseBackground(SpriteBatch spriteBatch)
          {

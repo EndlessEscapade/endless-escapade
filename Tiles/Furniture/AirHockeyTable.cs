@@ -10,7 +10,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class AirHockeyTableTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -25,14 +25,14 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Air Hockey Table");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
-            minPick = 10000;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
+            MinPick = 10000;
         }
     }
 }

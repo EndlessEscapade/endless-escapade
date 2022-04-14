@@ -11,30 +11,18 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class ParticleSystemRU : Mechanic
+    public class ParticleSystemRU : ModSystem
     {
-        public override void OnDraw(SpriteBatch spriteBatch)
+        /*public override void PostDrawTiles()
         {
-        }
-        public override void PostDrawProjectiles()
-        {
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, null, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             EEMod.Particles.Draw(Main.spriteBatch);
-            Main.spriteBatch.End();
         }
 
-        public override void OnUpdate()
+        public override void PostUpdatePlayers()
         {
-        }
-        public override void MidUpdateProjectileItem()
-        {
+            if (Main.dedServ)
+                return;
             EEMod.Particles.Update();
-        }
-
-        public override void OnLoad()
-        {
-           
-        }
-        protected override Layer DrawLayering => Layer.AboveTiles;
+        }*/
     }
 }

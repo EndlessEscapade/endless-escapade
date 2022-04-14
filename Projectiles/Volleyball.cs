@@ -21,7 +21,7 @@ namespace EEMod.Projectiles
             Projectile.alpha = 0;
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
@@ -30,7 +30,7 @@ namespace EEMod.Projectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Bounce(Projectile.modProjectile, oldVelocity, .7f);
+            Bounce(Projectile.ModProjectile, oldVelocity, .7f);
             return false;
         }
 
@@ -38,7 +38,7 @@ namespace EEMod.Projectiles
 
         public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1f)
         {
-            Projectile projectile = modProj.projectile;
+            Projectile projectile = modProj.Projectile;
             if (projectile.velocity.X != oldVelocity.X)
             {
                 projectile.velocity.X = -oldVelocity.X * bouncyness;
@@ -94,11 +94,11 @@ namespace EEMod.Projectiles
             frame = reader.ReadInt32();
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Player chosenPlayer = Main.player[GetPlayer(Projectile.Center)];
-            Texture2D outline = mod.GetTexture("Projectiles/VolleyballArrowOutline");
-            Texture2D fill = mod.GetTexture("Projectiles/VolleyballArrowFill");
+            Texture2D outline = Mod.Assets.Request<Texture2D>("Projectiles/VolleyballArrowOutline").Value;
+            Texture2D fill = Mod.Assets.Request<Texture2D>("Projectiles/VolleyballArrowFill").Value;
 
             Main.spriteBatch.Draw(outline, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, outline.Width, outline.Height), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, outline.Width, outline.Height).Size() / 2, 1, SpriteEffects.None, 0);
 
@@ -151,7 +151,7 @@ namespace EEMod.Projectiles
                     {
                         ree = 1;
                     }
-                    SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y)) * modPlayer.powerLevel;
+                    SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y));
                     Projectile.ai[1] = 1;
                     Projectile.netUpdate = true;
                 }

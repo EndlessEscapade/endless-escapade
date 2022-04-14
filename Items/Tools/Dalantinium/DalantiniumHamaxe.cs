@@ -21,10 +21,10 @@ namespace EEMod.Items.Tools.Dalantinium
             Item.width = 20;
             Item.height = 20;
             Item.rare = ItemRarityID.Orange;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.value = Item.sellPrice(0, 0, 48);
             Item.damage = 12;
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.autoReuse = true;
             Item.UseSound = SoundID.Item1;
             Item.knockBack = 3f;
@@ -32,11 +32,7 @@ namespace EEMod.Items.Tools.Dalantinium
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 12);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DalantiniumBar>(), 12).AddTile(TileID.Anvils).Register();
         }
     }
 }

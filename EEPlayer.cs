@@ -24,6 +24,7 @@ using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.Core;
 using Terraria.DataStructures;
 using System.Linq;
+
 using EEMod.EEWorld;
 using EEMod.Players;
 using EEMod.Items.Accessories;
@@ -253,7 +254,7 @@ namespace EEMod
 
             // EEMod.isSaving = false;
 
-            if (SubworldLibrary.SubworldSystem.Current == null)
+            if(SubworldLibrary.SubworldSystem.Current == null)
             {
                 UpdateWorld();
             }

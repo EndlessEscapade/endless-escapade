@@ -11,7 +11,7 @@ namespace EEMod.Tiles
 {
     public class LightGemsandstoneTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
@@ -22,11 +22,11 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(88, 179, 179));
 
-            dustType = DustID.Rain;
-            drop = ModContent.ItemType<LightGemsandstone>();
-            soundStyle = 1;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Rain;
+            ItemDrop = ModContent.ItemType<LightGemsandstone>();
+            SoundStyle = 1;
+            MineResist = 1f;
+            MinPick = 0;
         }
         /*void PlaceGroundGrass(int i, int j)
         {
@@ -63,7 +63,7 @@ namespace EEMod.Tiles
                         break;
                 }
                 float pos = i * 16 + (i + j * a + a * 7) % 16;
-                ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos, j * 16), Chosen, 0f, Color.Lerp(Color.LightGreen, Color.Green, ((i + j + a * 3) % 4) / 4f), ((i + j * a * 2) % 2 == 0)));
+                EEMod.Instance.TVH.AddElement(new Leaf(new Vector2(pos, j * 16), Chosen, 0f, Color.Lerp(Color.LightGreen, Color.Green, ((i + j + a * 3) % 4) / 4f), ((i + j * a * 2) % 2 == 0)));
             }
         }*/
         /*public override void PlaceInWorld(int i, int j, Item item)
@@ -72,11 +72,11 @@ namespace EEMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0)
+            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).HasTile && Framing.GetTileSafely(i, j).Slope == 0)
             {
                     PlaceGroundGrass(i, j);
             }
-            if (!Main.tileSolid[Framing.GetTileSafely(i, j + 1).type] || !Framing.GetTileSafely(i, j + 1).active() && Framing.GetTileSafely(i, j).slope() == 0)
+            if (!Main.tileSolid[Framing.GetTileSafely(i, j + 1).type] || !Framing.GetTileSafely(i, j + 1).HasTile && Framing.GetTileSafely(i, j).Slope == 0)
             {
 
             }

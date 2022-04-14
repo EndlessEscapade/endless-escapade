@@ -21,7 +21,7 @@ namespace EEMod.Effects
 
         public Texture2D NoiseTexture { get => _noiseTexture.Value; set => _noiseTexture.Value = value; }
 
-        public Noise2D() : base(ModContent.GetInstance<EEMod>().GetEffect(EffectPath)) { }
+        public Noise2D() : base(EEMod.Instance.Assets.Request<Effect>(EffectPath).Value) { }
         public Noise2D(Effect cloneSource) : base(cloneSource) { }
         public Noise2D(Noise2D cloneSource) : base(cloneSource) { }
 

@@ -5,7 +5,7 @@ namespace EEMod.Buffs.Buffs
 {
     public class BabyHydrosBuff : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Hydros");
             Description.SetDefault("The Baby Hydros fights for you");

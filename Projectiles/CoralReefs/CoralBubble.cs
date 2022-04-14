@@ -17,11 +17,11 @@ namespace EEMod.Projectiles.CoralReefs
         {
             Projectile.width = 100;
             Projectile.height = 48;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.scale = 1.2f;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
         }
 
         private int sinControl;

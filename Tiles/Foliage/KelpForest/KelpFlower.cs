@@ -17,17 +17,19 @@ using EEMod.Projectiles.CoralReefs;
 using EEMod.Items.Weapons.Summon.Whips;
 using EEMod.Items.Accessories.InterstellarKelpBud;
 using EEMod.Items.Weapons.Melee.Yoyos;
+using Terraria.Audio;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
     public class KelpFlower : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
+            TileID.Sets.HasOutlines[Type] = true;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
 
@@ -40,28 +42,36 @@ namespace EEMod.Tiles.Foliage.KelpForest
             TileObjectData.newTile.CoordinatePadding = 0;
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<KelpFlowerTE>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Kelpblossom");
             AddMapEntry(Color.DarkMagenta, name);
-            dustType = DustID.PurpleTorch;
-            disableSmartCursor = true;
-            animationFrameHeight = 66;
+            DustType = DustID.PurpleTorch;
+            DisableSmartCursor = true;
+            AnimationFrameHeight = 66;
+
+        }
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Moyai>();
         }
 
-        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        public override void AnimateIndividualTile(int type, int i, int j, ref int TileFrameXOffset, ref int TileFrameYOffset)
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            int x = i - tile.frameX / 16 % 5;
-            int y = j - tile.frameY / 16 % 4;
+            int x = i - tile.TileFrameX / 16 % 5;
+            int y = j - tile.TileFrameY / 16 % 4;
 
             int targetTe = ModContent.GetInstance<KelpFlowerTE>().Find(x, y);
             if (targetTe > -1 && TileEntity.ByID[targetTe] is KelpFlowerTE TE)
             {
-                frameYOffset = (animationFrameHeight * TE._frame);
+                TileFrameYOffset = (AnimationFrameHeight * TE._frame);
             }
 
             if (targetTe > -1 && TileEntity.ByID[targetTe] is KelpFlowerTE kelpFlowerEntity)
@@ -70,29 +80,29 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 {
                     Color chosen = Color.Lerp(Color.Gold, Color.LightYellow, Main.rand.NextFloat(1f));
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.25f));
-                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.075f, 0.075f), Main.rand.NextFloat(-1f, -3f)), mod.GetTexture("Particles/SmallCircle"), 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.075f, 0.075f), Main.rand.NextFloat(-1f, -3f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
                 }
 
                 if (kelpFlowerEntity.isOpen)
                 {
                     Color chosen = Color.Lerp(Color.Gold, Color.LightYellow, Main.rand.NextFloat(1f));
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0075f));
-                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.05f, 0.05f), Main.rand.NextFloat(-0.5f, -1f)), mod.GetTexture("Particles/SmallCircle"), 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.05f, 0.05f), Main.rand.NextFloat(-0.5f, -1f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
                 }
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             ModContent.GetInstance<KelpFlowerTE>().Kill(i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            int x = i - tile.frameX / 16 % 4;
-            int y = j - tile.frameY / 16 % 4;
+            int x = i - tile.TileFrameX / 16 % 4;
+            int y = j - tile.TileFrameY / 16 % 4;
 
             int targetTe = ModContent.GetInstance<KelpFlowerTE>().Find(x, y);
             if (targetTe > -1 && TileEntity.ByID[targetTe] is KelpFlowerTE TE)
@@ -107,6 +117,12 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
     public class KelpFlowerTE : EETileEntity
     {
+        public override bool IsTileValidForEntity(int x, int y)
+        {
+            Tile tile = Framing.GetTileSafely(x, y);
+            return tile.HasTile;
+        }
+
         public Projectile myItem = null;
         public bool isOpen;
         public bool isOpening;
@@ -117,13 +133,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public int _frame = 0;
         public int _frameCounter;
 
-        public override bool ValidTile(int i, int j)
-        {
-            Tile tile = Framing.GetTileSafely(i, j);
-            return tile.active();
-        }
-
-        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction, int alternate)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
@@ -139,8 +149,8 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             if(isOpening && (myItem == null || myItem.active == false) && !itemDeployed && _frame > 5)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/KelpFlowerOpen"));
-                myItem = Projectile.NewProjectileDirect(new Vector2((Position.X * 16) + 32, (Position.Y * 16) + 24), new Vector2(0, -2.5f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f, default, ChooseItem());
+                //SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/KelpFlowerOpen"));
+                myItem = Projectile.NewProjectileDirect(new EntitySource_TileInteraction(Main.LocalPlayer, Position.X, Position.Y), new Vector2((Position.X * 16) + 32, (Position.Y * 16) + 24), new Vector2(0, -2.5f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f, default, ChooseItem());
                 itemDeployed = true;
             }
 

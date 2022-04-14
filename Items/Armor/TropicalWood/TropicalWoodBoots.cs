@@ -31,11 +31,7 @@ namespace EEMod.Items.Armor.TropicalWood
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TropicalWoodItem>(), 13);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TropicalWoodItem>(), 13).AddTile(TileID.Anvils).Register();
         }
     }
 }

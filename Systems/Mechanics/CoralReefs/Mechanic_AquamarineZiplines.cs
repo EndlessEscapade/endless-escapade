@@ -1,7 +1,8 @@
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Subworlds.CoralReefs;
 using EEMod.Systems;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -14,10 +15,8 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class AquamarineZiplines : Mechanic
+    public class AquamarineZiplines : ModSystem
     {
-        protected override Layer DrawLayering => Layer.BehindTiles;
-
         public void DrawAquamarineZiplines()
         {
             if (CoralReefs.AquamarineZiplineLocations.Count > 0)
@@ -34,7 +33,7 @@ namespace EEMod
                     Tile CurrentTile = Framing.GetTileSafely((int)CoralReefs.AquamarineZiplineLocations[i].X, (int)CoralReefs.AquamarineZiplineLocations[i].Y);
                     Tile LastTile = Framing.GetTileSafely((int)CoralReefs.AquamarineZiplineLocations[i - 1].X, (int)CoralReefs.AquamarineZiplineLocations[i - 1].Y);
 
-                    bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
+                    bool isValid = CurrentTile.HasTile && LastTile.HasTile && Main.tileSolid[CurrentTile.TileType] && Main.tileSolid[LastTile.TileType];
 
                     Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
                     Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2;
@@ -45,14 +44,14 @@ namespace EEMod
                     float rot = (ChainConneccPos - LastChainConneccPos).ToRotation();
 
                     if (Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000 && isValid &&
-                        !Framing.GetTileSafely((int)Mid.X / 16, (int)Mid.Y / 16).active()
-                        && !Framing.GetTileSafely((int)lerp1.X / 16, (int)lerp1.Y / 16).active()
-                        && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).active()
+                        !Framing.GetTileSafely((int)Mid.X / 16, (int)Mid.Y / 16).HasTile
+                        && !Framing.GetTileSafely((int)lerp1.X / 16, (int)lerp1.Y / 16).HasTile
+                        && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).HasTile
                         && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
                     {
-                        Texture2D a = ModContent.GetInstance<EEMod>().GetTexture("Textures/CrystalVineThick");
-                        Texture2D b = ModContent.GetInstance<EEMod>().GetTexture("Textures/CrystalVineDangleThick");
-                        Texture2D d = ModContent.GetInstance<EEMod>().GetTexture("Textures/CrystalVineDangleMid");
+                        Texture2D a = EEMod.Instance.Assets.Request<Texture2D>("Textures/CrystalVineThick").Value;
+                        Texture2D b = EEMod.Instance.Assets.Request<Texture2D>("Textures/CrystalVineDangleThick").Value;
+                        Texture2D d = EEMod.Instance.Assets.Request<Texture2D>("Textures/CrystalVineDangleMid").Value;
 
                         Vector2 addonB = new Vector2(0, b.Height / 2f).RotatedBy(rot);
                         Vector2 addonD = new Vector2(0, d.Height / 2f).RotatedBy(rot);
@@ -95,7 +94,8 @@ namespace EEMod
 
             return choice == 1 ? 0 : (float)Math.PI;
         }
-        public override void OnDraw(SpriteBatch spriteBatch)
+
+        public override void PostDrawTiles()
         {
             if(Main.worldName == KeyID.CoralReefs) DrawAquamarineZiplines();
         }

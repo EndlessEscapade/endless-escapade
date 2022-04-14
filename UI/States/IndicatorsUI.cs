@@ -44,7 +44,7 @@ namespace EEMod.UI.States
             {
                 if (KelpArmorAmmoArrow.Transparency <= 0f)
                 {
-                    Main.LocalPlayer.GetModPlayer<KelpweaverPlayer>().HasInteractedWithSlotBefore = true;
+                    Main.LocalPlayer.GetModPlayer<KelpweaverSetPlayer>().HasInteractedWithSlotBefore = true;
                     EEMod.UI.RemoveState("IndicatorsInterface");
                 }
                 KelpArmorAmmoArrow.Transparency -= 0.05f;
@@ -61,7 +61,7 @@ namespace EEMod.UI.States
         public float Transparency;
         public Arrow() : base() 
         {
-            Texture = ModContent.GetTexture("EEMod/UI/ArrowLeft");
+            Texture = ModContent.Request<Texture2D>("EEMod/UI/ArrowLeft").Value;
         }
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {

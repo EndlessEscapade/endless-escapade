@@ -32,7 +32,7 @@ namespace EEMod.Projectiles.Runes
 
         public override void CustomPostDraw()
         {
-            Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Runes/PermafrostRuneGlow"), Projectile.position - Main.screenPosition, Color.White * ((int)(Math.Sin(Projectile.ai[0]) / 2) + 0.5f)); //FIX THIS DRAW
+            Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Projectiles/Runes/PermafrostRuneGlow").Value, Projectile.position - Main.screenPosition, Color.White * ((int)(Math.Sin(Projectile.ai[0]) / 2) + 0.5f)); //FIX THIS DRAW
         }
     }
 }

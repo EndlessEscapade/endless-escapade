@@ -8,14 +8,14 @@ namespace EEMod.Tiles.Walls
 {
     public class DarkGemsandstoneWallTile : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             AddMapEntry(new Color(67, 47, 155));
 
             Main.wallHouse[Type] = true;
-            dustType = DustID.Rain;
-            drop = ModContent.ItemType<DarkGemsandstoneWall>();
-            soundStyle = 1;
+            DustType = DustID.Rain;
+            ItemDrop = ModContent.ItemType<DarkGemsandstoneWall>();
+            SoundStyle = 1;
         }
     }
 }

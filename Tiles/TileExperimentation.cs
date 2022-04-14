@@ -21,28 +21,38 @@ namespace EEMod.Tiles
             Projectile.alpha = 0;
             Projectile.timeLeft = 10000;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.magic = true;
-            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.scale *= 1f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public Vector2 pos1;
+        public Vector2 pos2;
+
+        public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.ai[0] >= 10 && !canspawn)
+            Projectile.timeLeft = 10000;
+            if (!canspawn)
             {
                 canspawn = true;
-                Helpers.DrawBezierProj(Main.LocalPlayer.Center - new Vector2(200, 200), Main.LocalPlayer.Center, Main.LocalPlayer.Center - new Vector2(120, 100), Main.LocalPlayer.Center - new Vector2(120, 100), 0.015f, MathHelper.Pi, ModContent.ProjectileType<Bridge>(), true);
+
+                Helpers.DrawBezierProj(pos1, pos2, ((pos2 + pos1) / 2f) + new Vector2(0, 2), ((pos2 + pos1) / 2f) + new Vector2(0), 0.02f, MathHelper.Pi, ModContent.ProjectileType<Bridge>(), true);
             }
 
-            return true;
+            return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            Projectile.timeLeft = 10000;
         }
 
         private bool canspawn = false;
 
-        public override void AI()
+        /*public override void AI()
         {
             Projectile.ai[0] += 0.1f;
             Projectile.velocity.Y += (float)Math.Sin(Projectile.ai[0]) * 0.1f;
@@ -57,6 +67,6 @@ namespace EEMod.Tiles
                 Main.LocalPlayer.legFrame.Y = 0;
                 Main.LocalPlayer.position.Y = Projectile.position.Y - Main.LocalPlayer.height + 1;
             }
-        }
+        }*/
     }
 }

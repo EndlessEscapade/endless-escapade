@@ -19,7 +19,7 @@ namespace EEMod.Projectiles.Runes
             Projectile.friendly = true;
             Projectile.timeLeft = 900;
             Projectile.penetrate = 3;
-            Projectile.ranged = true;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.damage = 5;
             Projectile.knockBack = 0;
         }

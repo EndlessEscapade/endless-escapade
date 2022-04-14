@@ -10,7 +10,7 @@ namespace EEMod.Tiles
 {
     public class EmptyTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = false;
@@ -19,9 +19,9 @@ namespace EEMod.Tiles
             TileID.Sets.DrawsWalls[Type] = true;
 
             AddMapEntry(new Color(253, 247, 173));
-            soundStyle = 1;
-            mineResist = 4f;
-            minPick = 100;
+            SoundStyle = 1;
+            MineResist = 4f;
+            MinPick = 100;
         }
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

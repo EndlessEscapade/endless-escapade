@@ -25,16 +25,12 @@ namespace EEMod.Items.Armor.Dalantinium
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage += 0.09f;
+            //player.allDamage += 0.09f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DalantiniumBar>(), 15).AddTile(TileID.Anvils).Register();
         }
     }
 }

@@ -12,6 +12,9 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
+using ReLogic.Graphics;
 
 namespace EEMod.NPCs.Bosses.Hydros
 {
@@ -20,13 +23,13 @@ namespace EEMod.NPCs.Bosses.Hydros
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[NPC.type] = 8;
+            Main.npcFrameCount[NPC.type] = 1;
         }
 
         public override void FindFrame(int frameHeight) //Frame counter
         {
-            NPC.TargetClosest(true);
-            Player player = Main.player[NPC.target];
+            //NPC.TargetClosest(true);
+            /*Player player = Main.player[NPC.target];
             if (NPC.frameCounter++ > 4)
             {
                 NPC.frameCounter = 0;
@@ -36,7 +39,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             {
                 NPC.frame.Y = 0;
                 return;
-            }
+            }*/
         }
 
         public override void SetDefaults()
@@ -52,266 +55,177 @@ namespace EEMod.NPCs.Bosses.Hydros
 
             NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
             NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
-            bossBag = ItemType<HydrosBag>();
-            NPC.width = 226;
-            NPC.height = 120;
+            //NPC.Expert = ItemType<HydrosBag>();
+            NPC.width = 314;
+            NPC.height = 162;
 
             NPC.boss = true;
             NPC.noGravity = true;
 
             NPC.noTileCollide = true;
+
+            Music = MusicLoader.GetMusicSlot("EEMod/Sounds/Music/HydrosFight");
+
+            NPC.scale = 1f;
         }
 
-        public override void NPCLoot()
+        public int frameNumber = 0;
+        public float alpha;
+
+        public int cutsceneTicks = 1;
+
+        public Player target;
+        public override void AI()
         {
-            if (!Main.expertMode)
+            target = Main.LocalPlayer;
+
+            NPC.velocity = (Vector2.Normalize(target.Center - NPC.Center) * 2f) + new Vector2(0, (float)Math.Sin(Main.GameUpdateCount / 60f) / 3f);
+
+            NPC.rotation = NPC.velocity.Y / 6f;
+
+            if (NPC.velocity.X > 0)
             {
-                int randVal = Main.rand.Next(5);
-                switch (randVal)
-                {
-                    case 1:
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<CyanoburstTome>(), 1);
-                        break;
-
-                    case 2:
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<Triggerfish>(), 1);
-                        break;
-
-                    case 3:
-                        //Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
-                        break;
-
-                    case 4:
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<EnchantedCoral>(), 1);
-                        break;
-                }
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
-                EEWorld.EEWorld.downedHydros = true;
+                NPC.spriteDirection = 1;
             }
             else
             {
-                NPC.DropBossBags();
+                NPC.spriteDirection = -1;
             }
-        }
 
-        public float[] ai = new float[NPC.maxAI];
-
-        private void Move(Player player, float sped, float TR, Vector2 addon)
-        {
-            Vector2 moveTo = player.Center + addon;
-            float speed = sped;
-            Vector2 move = moveTo - NPC.Center;
-            float magnitude = move.Length(); // (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
-            if (magnitude > speed)
-            {
-                move *= speed / magnitude;
-            }
-            float turnResistance = TR;
-
-            move = (NPC.velocity * turnResistance + move) / (turnResistance + 1f);
-            magnitude = move.Length();
-            if (magnitude > speed)
-            {
-                move *= speed / magnitude;
-            }
-            NPC.velocity = move;
-        }
-
-        public void SpawnProjectileNearPlayerOnTile(int dist)
-        {
-            int distFromPlayer = dist;
-            int playerTileX = (int)Main.player[NPC.target].position.X / 16;
-            int playerTileY = (int)Main.player[NPC.target].position.Y / 16;
-            int tileX = (int)NPC.position.X / 16;
-            int tileY = (int)NPC.position.Y / 16;
-            int teleportCheckCount = 0;
-            bool hasTeleportPoint = false;
-            //player is too far away, don't teleport.
-            if (Vector2.DistanceSquared(NPC.Center, Main.player[NPC.target].Center) > (2000f * 2000f))
-            {
-                teleportCheckCount = 100;
-                hasTeleportPoint = true;
-            }
-            while (!hasTeleportPoint && teleportCheckCount < 100)
-            {
-                teleportCheckCount++;
-                int tpTileX = Main.rand.Next(playerTileX - distFromPlayer, playerTileX + distFromPlayer);
-                int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
-                for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
-                {
-                    if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (tpY < tileY - 1 || tpY > tileY + 1 || tpTileX < tileX - 1 || tpTileX > tileX + 1) && Framing.GetTileSafely(tpTileX, tpY).nactive())
-                    {
-                        if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
-                        {
-                            Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, 0, ProjectileType<Geyser>(), 1, 0f, Main.myPlayer, .3f, 140);
-                            hasTeleportPoint = true;
-                            NPC.netUpdate = true;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        private int prepare;
-        public bool flaginOut;
-        public float dist1;
-        private readonly Vector2[] potentialMinionArray = new Vector2[3];
-
-        public override void AI()
-        {
-            int phaseChange = 400;
-            int speed = 6;
-            int TR = 40;
             NPC.ai[0]++;
 
-            if (Main.netMode != NetmodeID.MultiplayerClient) // 1
+            if(NPC.ai[0] == 60)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient) // 1
-                {
-                    //Idle
-                    NPC.TargetClosest();
-                    Player target = Main.player[NPC.target];
-                    if (NPC.ai[1] != 2)
-                    {
-                        NPC.rotation = NPC.velocity.X / 32f;
-                        if (target.Center.X > NPC.Center.X)
-                        {
-                            NPC.spriteDirection = 1;
-                        }
-                        else
-                        {
-                            NPC.spriteDirection = -1;
-                        }
-                    }
-
-                    if (NPC.ai[1] == 0)
-                    {
-                        Move(target, speed, TR, Vector2.Zero);
-                    }
-
-                    if (NPC.ai[0] % 400 == 0)
-                    {
-                        for (int i = 0; i < 5; i++)
-                        {
-                            NPC.ai[1] = Main.rand.Next(0, 4);
-                        }
-
-                        prepare = 0;
-                        NPC.rotation = 0;
-                        flaginOut = true;
-                        NPC.ai[2] = 0;
-                        dist1 = 200;
-                        for (int i = 0; i < 3; i++)
-                        {
-                            potentialMinionArray[i] = NPC.Center + new Vector2(Main.rand.Next(-500, 500), Main.rand.Next(-500, 500));
-                        }
-                        NPC.netUpdate = true;
-                    }
-                    switch (NPC.ai[1])
-                    {
-                        case 0:
-                            break;
-
-                        case 1:
-                        {
-                            Move(target, speed, TR, Vector2.Zero);
-                            for (int i = 0; i < 10; i++)
-                            {
-                                if (NPC.ai[0] % 200 == 0)
-                                {
-                                    SpawnProjectileNearPlayerOnTile(30);
-                                }
-                            }
-                            NPC.velocity *= 0.98f;
-                            break;
-                        }
-                        case 2:
-                        {
-                            float timeToDash = 320;
-                            if (NPC.ai[0] % 400 <= timeToDash - 50)
-                            {
-                                NPC.rotation = NPC.velocity.X / 32f;
-                                if (target.Center.X > NPC.Center.X)
-                                {
-                                    NPC.spriteDirection = 1;
-                                }
-                                else
-                                {
-                                    NPC.spriteDirection = -1;
-                                }
-                                Move(target, speed, 9, new Vector2(400, 0));
-                            }
-                            else if (NPC.ai[0] % 400 >= timeToDash && NPC.ai[0] % 400 < phaseChange - 20)
-                            {
-                                NPC.rotation = (target.position.X - NPC.position.X) / 500f;
-                                if (NPC.rotation > 1.6f) { NPC.rotation = 1.6f; }
-                                //npc.rotation = npc.velocity.X / 16f;
-                                NPC.velocity.Y = ((float)Math.Sin((6 * ((NPC.ai[0] % phaseChange) - timeToDash) / (phaseChange - timeToDash)) + 1.57f)) * 10;
-                                int speedOfDash = 25;
-                                NPC.velocity.X = -(speedOfDash - ((NPC.ai[0] % phaseChange) - timeToDash) / (float)((phaseChange - timeToDash) / speedOfDash));
-                            }
-                            else if (NPC.ai[0] % 400 < phaseChange - 60)
-                            {
-                                NPC.rotation = -(prepare / 190f);
-                                prepare += 4;
-                                Move(target, 19, 9, new Vector2(400 + prepare, -prepare / 2));
-                                NPC.velocity *= 0.99f;
-                            }
-                            else
-                            {
-                                NPC.rotation -= NPC.rotation / 16f;
-                            }
-                            break;
-                        }
-                        case 3:
-                        {
-                            NPC.velocity *= .99f;
-                            Move(target, speed, TR, Vector2.Zero);
-                            dist1 -= 1;
-
-                            if (NPC.ai[0] % 400 < 200)
-                            {
-                                for (int j = 0; j < 3; j++)
-                                {
-                                    for (int i = 0; i < 10; i++)
-                                    {
-                                        double deg = (double)NPC.ai[2] + (i * 36); //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
-                                        double rad = deg * (Math.PI / 180) * 0.7f; //Convert degrees to radians
-                                        if (dist1 - (i * 10) > 0)
-                                        {
-                                            int num7 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Clentaminator_Blue, 0f, 0f, 0, Color.AliceBlue, .7f);
-                                            Main.dust[num7].position.X = potentialMinionArray[j].X - (int)(Math.Cos(rad) * (dist1 - (i * 10)));
-                                            Main.dust[num7].position.Y = potentialMinionArray[j].Y - (int)(Math.Sin(rad) * (dist1 - (i * 10)));
-                                            Main.dust[num7].noGravity = true;
-                                        }
-                                        NPC.ai[2] += 1;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (NPC.ai[0] % 400 == 200)
-                                {
-                                    for (int j = 0; j < 3; j++)
-                                    {
-                                        for (var a = 0; a < 50; a++)
-                                        {
-                                            Vector2 vector = new Vector2(0, 20).RotatedBy(Math.PI * 0.04 * a, default);
-                                            int index = Dust.NewDust(potentialMinionArray[j], 22, 22, DustID.Clentaminator_Blue, vector.X, vector.Y, 0, Color.AliceBlue, .7f);
-                                            Main.dust[index].velocity *= .5f;
-                                            Main.dust[index].noGravity = true;
-                                        }
-                                        NPC.NewNPC((int)potentialMinionArray[j].X, (int)potentialMinionArray[j].Y, NPCType<HydrosMinion>());
-                                        NPC.netUpdate = true;
-                                    }
-                                }
-                            }
-                            break;
-                        }
-                    }
-                }
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, new Vector2(0, 0), ModContent.ProjectileType<TeslaBall>(), 0, 0f);
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            if (cutsceneTicks <= 1) return false;
+
+            return true;
+        }
+
+        public Color lythenGold = new Color(231, 197, 60);
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            #region Intro management stuffens
+            cutsceneTicks++;
+
+            alpha = 1 - (cutsceneTicks / 30f);
+
+            alpha = MathHelper.Clamp(alpha, 0f, 1f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+            EEMod.WhiteOutline.CurrentTechnique.Passes[0].Apply();
+            EEMod.WhiteOutline.Parameters["alpha"].SetValue(alpha);
+            EEMod.WhiteOutline.Parameters["color"].SetValue(new Vector4(1f, 1f, 1f, alpha));
+
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/Hydros").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), new Rectangle(0, frameNumber * 162, 314, 162), Color.White, NPC.rotation, new Vector2(157, 81), NPC.scale, SpriteEffects.None, 0f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+            //Hydros layer 1
+
+            ApplyIntroShader(1f, new Vector2(314, 162), Vector2.Zero, new Vector2(1f, 1f), false, alpha);
+
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/Hydros").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), new Rectangle(0, frameNumber * 162, 314, 162), Color.White * alpha, NPC.rotation, new Vector2(157, 81), NPC.scale, SpriteEffects.None, 0f);
+
+            //Hydros layer 2
+
+            ApplyIntroShader(1f, new Vector2(314, 162), new Vector2(0.8f, 0.5f), new Vector2(-1f, -1f), false, alpha);
+
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/Hydros").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), new Rectangle(0, frameNumber * 162, 314, 162), Color.White * alpha, NPC.rotation, new Vector2(157, 81), NPC.scale, SpriteEffects.None, 0f);
+
+            //Hydros layer 3
+
+            ApplyIntroShader(1f, new Vector2(314, 162), new Vector2(0.3f, 0.8f), new Vector2(1f, -1f), false, alpha);
+
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/Hydros").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), new Rectangle(0, frameNumber * 162, 314, 162), Color.White * alpha, NPC.rotation, new Vector2(157, 81), NPC.scale, SpriteEffects.None, 0f);
+
+            //Hydros layer 4
+
+            ApplyIntroShader(1f, new Vector2(314, 162), new Vector2(0.7f, 0.6f), new Vector2(-1f, 1f), false, alpha);
+
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/Hydros").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), new Rectangle(0, frameNumber * 162, 314, 162), Color.White * alpha, NPC.rotation, new Vector2(157, 81), NPC.scale, SpriteEffects.None, 0f);
+
+            //Outline
+
+            ApplyIntroShader(1f, new Vector2(314, 162), Vector2.Zero, Vector2.One, true, alpha * 0.5f);
+
+            for (int k = 0; k < 4; k++)
+            {
+                Vector2 initRot = Vector2.UnitY * 2f * alpha;
+
+                spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/HydrosOutline").Value, NPC.Center + initRot.RotatedBy((cutsceneTicks / 30f) + (k * 1.57f)) - Main.screenPosition + new Vector2(0, 4), new Rectangle(0, frameNumber * 166, 318, 166), lythenGold * alpha, NPC.rotation, new Vector2(159, 83), NPC.scale, SpriteEffects.None, 0f);
+            }
+
+            /*for (int k = 0; k < 4; k++)
+            {
+                Vector2 initRot = Vector2.UnitY * 2f;
+
+                spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/LightningSeahorseOutlineEyes").Value, NPC.Center + initRot.RotatedBy((ticker / 30f) + (k * 1.57f)) - Main.screenPosition, new Rectangle(0, frameNumber * 76, 130, 76), Color.White, NPC.rotation, new Vector2(65, 38), 1f, SpriteEffects.None, 0f);
+            }*/
+
+            ApplyIntroShader(1f, new Vector2(318, 166), Vector2.Zero, Vector2.One, true, alpha * 0.5f);
+
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/HydrosOutline").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), new Rectangle(0, frameNumber * 166, 318, 166), lythenGold * alpha, NPC.rotation, new Vector2(159, 83), NPC.scale, SpriteEffects.None, 0f);
+
+            //spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/LightningSeahorseOutlineEyes").Value, NPC.Center - Main.screenPosition, new Rectangle(0, frameNumber * 76, 130, 76), Color.White, NPC.rotation, new Vector2(65, 38), 1f, SpriteEffects.None, 0f);
+
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/HydrosOutline").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), new Rectangle(0, frameNumber * 166, 318, 166), lythenGold * alpha, NPC.rotation, new Vector2(159, 83), NPC.scale, SpriteEffects.None, 0f);
+
+
+
+            //Vector2 orig = NPC.Center - Main.screenPosition;
+
+            //Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmooshedRadialGradient").Value, orig + new Vector2(0, -176 + 37), Color.Gold * 0.75f, 2f);
+
+            //string msg1 = "Hydros";
+            //string msg2 = "King of the Seahorses";
+
+            //Main.spriteBatch.DrawString(FontAssets.DeathText.Value, msg1, orig + new Vector2(-FontAssets.DeathText.Value.MeasureString(msg1).X / 2f, -200), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            //Main.spriteBatch.DrawString(FontAssets.MouseText.Value, msg2, orig + new Vector2(-FontAssets.MouseText.Value.MeasureString(msg2).X / 2f, -144), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+
+            /*if(ticker > 40 && ticker < 160)
+            {
+                
+            }*/
+            #endregion
+        }
+
+        public override void OnKill()
+        {
+
+        }
+
+        public void ApplyIntroShader(float lerpVal, Vector2 scale, Vector2 offset, Vector2 timeMultiplier, bool invert = false, float alpha = 1f)
+        {
+            EEMod.HydrosEmerge.Parameters["newColor"].SetValue(new Vector4(lythenGold.R / 255f, lythenGold.G / 255f, lythenGold.B / 255f, 1f));
+
+            EEMod.HydrosEmerge.Parameters["lerpVal"].SetValue(lerpVal);
+            EEMod.HydrosEmerge.Parameters["thresh"].SetValue(lerpVal);
+
+            EEMod.HydrosEmerge.Parameters["time"].SetValue(new Vector2((((int)(cutsceneTicks / 2) * 2f) / 480f) * timeMultiplier.X, (((int)(cutsceneTicks / 2) * 2f) / 480f) * timeMultiplier.Y));
+
+            EEMod.HydrosEmerge.Parameters["invert"].SetValue(invert);
+
+            EEMod.HydrosEmerge.Parameters["alpha"].SetValue(alpha);
+
+            EEMod.HydrosEmerge.Parameters["offset"].SetValue(((NPC.Center / 600f) / 2) * 2f);
+
+            EEMod.HydrosEmerge.Parameters["frames"].SetValue(1);
+
+            EEMod.HydrosEmerge.Parameters["noiseBounds"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value.Bounds.Size());
+            EEMod.HydrosEmerge.Parameters["imgBounds"].SetValue(scale);
+
+            EEMod.HydrosEmerge.Parameters["noiseTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value);
+
+            EEMod.HydrosEmerge.CurrentTechnique.Passes[0].Apply();
         }
 
         /*public override bool CheckDead()

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Reflection;
 using NVorbis;
-using Terraria.ModLoader.Audio;
+using Terraria.ModLoader;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
 using Terraria;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.ModLoader;
 using EEMod.NPCs.Friendly;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
 
 namespace EEMod.Systems
 {
@@ -17,13 +17,14 @@ namespace EEMod.Systems
 	{
 		public override void StartDialogueRequiringNPC(int associatedNPC)
 		{
-			MainPortrait = ModContent.GetTexture("EEMod/icon");
+			Portraits.Add(ModContent.Request<Texture2D>("EEMod/Systems/Dialogues/SailorPortrait", AssetRequestMode.ImmediateLoad).Value);
 			Name = "Jonathan the Cool Seagull";
 			AssociatedNPC = associatedNPC;
 			ThemeColor = new Color(106, 255, 89);
+			LockPlayerMovement = true;
 			DialoguePieces = new List<string>()
 			{
-				/*0*/ "Hey bro, this place is pretty nice isn't it? The breeze is soooo cool.",
+				/*0*/ "Hey bro, [c/FF0000:this] place [i:4] is pretty nice isn't it? The breeze is soooo cool.",
 				/*1*/ "Anyways, you wouldn't happen to have seen DN around here somewhere would you?",
 				/*2*/ "Who's DN?",
 				/*3*/ "Yeah, I saw them over by that island up north.",
@@ -32,9 +33,10 @@ namespace EEMod.Systems
 				/*6*/ "Thanks bro, I'll go check there.",
 				/*7*/ "That's a shame, if you happen to find them please tell me."
 			};
+			SayPiece(0);
 			base.StartDialogueRequiringNPC(associatedNPC);
 		}
-		public override void OnDialoguePieceFinished(int piece)
+        public override void OnDialoguePieceFinished(int piece)
 		{
 			switch (piece) 
 			{
@@ -55,7 +57,7 @@ namespace EEMod.Systems
 					break;
 				default:
 					CloseDialogue();
-					(Main.npc[AssociatedNPC].modNPC as JonathanSeagull).IntroductionDialogue = true;
+					(Main.npc[AssociatedNPC].ModNPC as JonathanSeagull).IntroductionDialogue = true;
 					break;
 			}
 		}

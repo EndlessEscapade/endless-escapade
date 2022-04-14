@@ -11,22 +11,16 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class TileObjectVisuals : Mechanic
+    public class TileObjectVisuals : ModSystem
     {
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
-            ModContent.GetInstance<EEMod>().TVH.Draw(spriteBatch);
+            EEMod.Instance.TVH.Draw(Main.spriteBatch);
         }
 
-        public override void OnUpdate()
+        public override void PostUpdateEverything()
         {
-            ModContent.GetInstance<EEMod>().TVH.Update();
+            EEMod.Instance.TVH.Update();
         }
-
-        public override void OnLoad()
-        {
-           
-        }
-        protected override Layer DrawLayering => Layer.BehindTiles;
     }
 }

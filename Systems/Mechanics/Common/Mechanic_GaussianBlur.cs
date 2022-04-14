@@ -10,22 +10,8 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class GaussianBlur : Mechanic
+    public class GaussianBlur : ModSystem
     {
-        public override void OnDraw(SpriteBatch spriteBatch)
-        {
-            base.OnDraw(spriteBatch);
-        }
 
-        public override void OnUpdate()
-        {
-            base.OnUpdate();
-        }
-
-        public override void OnLoad()
-        {
-            base.OnLoad();
-        }
-        protected override Layer DrawLayering => base.DrawLayering;
     }
 }

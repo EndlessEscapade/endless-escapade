@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,7 +14,7 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
 {
     public class TeslaCoral2x2 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -34,7 +34,7 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
+            if (Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0)
             {
                 if (Main.rand.NextBool(20))
                 {
@@ -42,16 +42,16 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
                     {
                         for (int l = -20; l < 20; l++)
                         {
-                            if (WorldGen.InWorld(i + k, j + l) && Main.tile[i + k, j + l].active() && Main.tile[i + k, j + l].type == ModContent.TileType<TeslaCoral2x2>() && Main.tile[i + k, j + l].frameX == 0 && Main.tile[i + k, j + l].frameY == 0)
+                            if (WorldGen.InWorld(i + k, j + l) && Framing.GetTileSafely(i + k, j + l).HasTile && Framing.GetTileSafely(i + k, j + l).TileType == ModContent.TileType<TeslaCoral2x2>() && Framing.GetTileSafely(i + k, j + l).TileFrameX == 0 && Framing.GetTileSafely(i + k, j + l).TileFrameY == 0)
                             {
-                                int lightningproj = Projectile.NewProjectile(new Vector2((i * 16) + 16, (j * 16) + 16), Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
+                                int lightningproj = Projectile.NewProjectile(new EntitySource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) + 16, (j * 16) + 16), Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
 
                                 if (Main.netMode != NetmodeID.Server)
                                 {
-                                    EEMod.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
+                                    PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
                                 }
 
-                                TeslaCoralProj zappy = Main.projectile[lightningproj].modProjectile as TeslaCoralProj;
+                                TeslaCoralProj zappy = Main.projectile[lightningproj].ModProjectile as TeslaCoralProj;
 
                                 zappy.target = new Vector2(((i + k) * 16) + 16, ((j + l) * 16) + 16);
 

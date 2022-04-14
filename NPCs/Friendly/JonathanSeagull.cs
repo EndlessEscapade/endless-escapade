@@ -29,7 +29,7 @@ namespace EEMod.NPCs.Friendly
         }
         public override void AI()
         {
-            if (!IntroductionDialogue && Vector2.DistanceSquared(NPC.position, Main.LocalPlayer.position) < 15000)
+            if (!IntroductionDialogue && !EEMod.UI.IsActive("DialogueInterface"))
             {
                new JonathanSeagullIntroduction().StartDialogueRequiringNPC(NPC.whoAmI);
             }

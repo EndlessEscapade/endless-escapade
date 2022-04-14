@@ -19,7 +19,7 @@ namespace EEMod.Projectiles.Enemy
             Projectile.timeLeft = 1200;
             Projectile.penetrate = -1;
             Projectile.hostile = true;
-            Projectile.friendly = false;
+            // Projectile.friendly = false;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.scale = 1f;

@@ -12,7 +12,7 @@ using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.NPCs.Bosses.SailorsOmen
 {
-    public class SailorsOmen : ModNPC
+    public class SailorsOmen : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -21,26 +21,26 @@ namespace EEMod.NPCs.Bosses.SailorsOmen
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.friendly = true;
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
-            npc.alpha = 0;
-            npc.lifeMax = 1000000;
-            npc.width = 40;
-            npc.height = 40;
-            npc.noGravity = true;
-            npc.lavaImmune = true;
-            npc.noTileCollide = true;
-            npc.damage = 0;
-            npc.knockBackResist = 0f;
+            NPC.aiStyle = -1;
+            NPC.friendly = true;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
+            NPC.alpha = 0;
+            NPC.lifeMax = 1000000;
+            NPC.width = 40;
+            NPC.height = 40;
+            NPC.noGravity = true;
+            NPC.lavaImmune = true;
+            NPC.noTileCollide = true;
+            NPC.damage = 0;
+            NPC.knockBackResist = 0f;
         }
 
         public List<OmenParticle> omenParticles = new List<OmenParticle>();
 
         public override void AI()
         {
-            omenParticles.Add(new OmenParticle(npc.Center, Vector2.UnitY.RotatedByRandom(1.57f) * 2));
+            omenParticles.Add(new OmenParticle(NPC.Center, Vector2.UnitY.RotatedByRandom(1.57f) * 2));
 
             for (int i = 0; i < omenParticles.Count; i++)
             {
@@ -55,9 +55,9 @@ namespace EEMod.NPCs.Bosses.SailorsOmen
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = ModContent.GetTexture("EEMod/NPCs/Bosses/SailorsOmen/OmenMagic2");
+            Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/SailorsOmen/OmenMagic2").Value;
 
             Color outlineColor = Color.DarkCyan;
 
@@ -67,7 +67,7 @@ namespace EEMod.NPCs.Bosses.SailorsOmen
             {
                 if (!p.dead)
                 {
-                    Helpers.DrawAdditive(ModContent.GetTexture("EEMod/Textures/RadialGradient"), p.position - Main.screenPosition, Color.DarkCyan * MathHelper.Clamp((p.timeLeft + 30) / 30f, 0f, 1f), 0.25f, 0f);
+                    Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, p.position - Main.screenPosition, Color.DarkCyan * MathHelper.Clamp((p.timeLeft + 30) / 30f, 0f, 1f), 0.25f, 0f);
                 }
             }
 
@@ -100,9 +100,9 @@ namespace EEMod.NPCs.Bosses.SailorsOmen
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        EEMod.White.CurrentTechnique.Passes[0].Apply();
-                        EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f));
-                        EEMod.White.Parameters["alpha"].SetValue(1f);
+                        EEMod.WhiteOutline.CurrentTechnique.Passes[0].Apply();
+                        EEMod.WhiteOutline.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f));
+                        EEMod.WhiteOutline.Parameters["alpha"].SetValue(1f);
 
                         Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * 2;
                         spriteBatch.Draw(tex, p.position + offsetPositon - Main.screenPosition, null, Color.White, 0f, tex.Size() * 0.5f, 1f, SpriteEffects.None, 0f);

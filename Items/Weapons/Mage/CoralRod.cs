@@ -26,12 +26,12 @@ namespace EEMod.Items.Weapons.Mage
             Item.autoReuse = true;
             Item.crit = 4;
             Item.noMelee = true;
-            Item.magic = true;
+            Item.DamageType = DamageClass.Magic;
             //item.shoot = ModContent.ProjectileType<Snowball>();
             Item.shootSpeed = 16f;
             Item.mana = 2;
             Item.UseSound = SoundID.DD2_MonkStaffSwing;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
         }
     }
 }

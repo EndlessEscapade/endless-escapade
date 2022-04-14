@@ -17,14 +17,14 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            Projectile.hostile = false;
-            Projectile.magic = true;
+            // Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;
             Projectile.width = 34;
             Projectile.height = 34;
             Projectile.aiStyle = -1;
-            Projectile.friendly = false;
+            // Projectile.friendly = false;
             Projectile.penetrate = 1;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.timeLeft = 999999;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -35,7 +35,7 @@ namespace EEMod.Items.Weapons.Mage
         public Vector2 DrawPos;
         private float lerp;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             double radians = degrees.ToRadians();
             Player player = Main.player[Projectile.owner];
@@ -44,7 +44,7 @@ namespace EEMod.Items.Weapons.Mage
             direction *= (float)(Math.Sin(Projectile.ai[0] * 0.2f) * 3);
             if (Projectile.ai[0] % 10 == 1)
             {
-                Projectile.NewProjectile(player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (boost > 2000 && boost % 1500 <= 200)
             {
@@ -54,7 +54,7 @@ namespace EEMod.Items.Weapons.Mage
                 lightColor.G = (byte)(lightColor.G + ((Color.White.G * 10) - lightColor.G) * lerp);
                 lightColor.B = (byte)(lightColor.B + ((Color.White.B * 10) - lightColor.B) * lerp);
             }
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[Projectile.type].Width * 0.5f, Projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = Projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
@@ -66,7 +66,7 @@ namespace EEMod.Items.Weapons.Mage
                     color2.G = (byte)(color2.G + (Color.HotPink.G - color2.G) * lerp);
                     color2.B = (byte)(color2.B + (Color.HotPink.B - color2.B) * lerp);
                 }
-                spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), color2 * 0.5f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), color2 * 0.5f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
@@ -108,7 +108,7 @@ namespace EEMod.Items.Weapons.Mage
             {
                 player.itemAnimation = 1;
                 player.itemTime = 1;
-                Projectile.active = false;
+                // Projectile.active = false;
             }
             if (player.itemAnimation <= 0)
             {

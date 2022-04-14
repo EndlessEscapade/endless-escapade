@@ -6,7 +6,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
-using EEMod.NPCs.CoralReefs;
+using EEMod.NPCs.Aquamarine;
 using EEMod.Projectiles.Enemy;
 using EEMod.Extensions;
 using Terraria.ID;
@@ -17,7 +17,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 {
     public class AquamarineLamp1 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -33,7 +33,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
@@ -67,10 +67,10 @@ namespace EEMod.Tiles.Foliage.Aquamarine
             Projectile.height = 24;
             Projectile.timeLeft = 999999999;
             Projectile.ignoreWater = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.extraUpdates = 12;
         }
 
@@ -106,7 +106,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 
                 if (active)
                 {
-                    AquamarineSpire spirespire = spire.modNPC as AquamarineSpire;
+                    AquamarineSpire spirespire = spire.ModNPC as AquamarineSpire;
 
                     if ((spire.ai[0] <= 40 && spire.ai[0] > 20 && !dead)) //If in first phase and projectile is not inactive
                     {
@@ -148,8 +148,8 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                         {
                             Player target = Main.player[Helpers.GetNearestAlivePlayer(spire)];
 
-                            Projectile projectile2 = Projectile.NewProjectileDirect(Projectile.Center, Vector2.Normalize(target.Center - Projectile.Center) * 2, ModContent.ProjectileType<SpireLaserAlt>(), (int)(Main.npc[spire.whoAmI].damage / 5f), 0f, default, 0, 1);
-                            EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 30));
+                            Projectile projectile2 = Projectile.NewProjectileDirect(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<SpireLaserAlt>()), Projectile.Center, Vector2.Normalize(target.Center - Projectile.Center) * 2, ModContent.ProjectileType<SpireLaserAlt>(), (int)(Main.npc[spire.whoAmI].damage / 5f), 0f, default, 0, 1);
+                            PrimitiveSystem.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 30));
                         }
                     }
 
@@ -219,15 +219,15 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 
         private Color strikeColor;
         private int strikeTime;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (spire.active == true && Vector2.DistanceSquared(Main.LocalPlayer.Center, Projectile.Center) <= (192 * 16) * (192 * 16))
             {
                 HeartBeat = spire.ai[3];
                 Projectile.scale = 1f + (HeartBeat / 5f);
 
-                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp1Glow");
-                Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Textures/SmoothFadeOut");
+                Texture2D tex = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/Aquamarine/AquamarineLamp1Glow").Value;
+                Texture2D mask = EEMod.Instance.Assets.Request<Texture2D>("Textures/SmoothFadeOut").Value;
 
                 float sineAdd = (float)Math.Sin(Main.GameUpdateCount / 20f) + 2.5f;
                 Main.spriteBatch.Draw(mask, Projectile.position, null, new Color(sineAdd, sineAdd, sineAdd, 0) * 0.2f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
@@ -244,7 +244,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                     if (frame >= 8) frame = 0;
                 }
 
-                AquamarineSpire spirespire = spire.modNPC as AquamarineSpire; 
+                AquamarineSpire spirespire = spire.ModNPC as AquamarineSpire; 
                 //(spire.ai[0] <= 20 && spire.ai[0] > 0 && active && !spirespire.phase2Transition)
                 if ((spire.ai[0] <= 40 && spire.ai[0] > 20 && !dead))
                 {
@@ -252,7 +252,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 
                     if ((tempint) > spirespire.shields.Count - 1) tempint = 0;
 
-                    if (!(spirespire.shields[tempint].modProjectile as AquamarineLamp1Glow).dead)
+                    if (!(spirespire.shields[tempint].ModProjectile as AquamarineLamp1Glow).dead)
                     {
                         Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / Projectile.ai[0] * (Projectile.ai[1] + 1)) + Main.GameUpdateCount * 2)) * 48;
 
@@ -266,7 +266,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                             {
                                 Color drawColor = Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f));
 
-                                Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), Projectile.Center + (desiredVector - Projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), drawColor, (desiredVector - Projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Particles/Square").Value, Projectile.Center + (desiredVector - Projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), drawColor, (desiredVector - Projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
                             }
                         }
                     }
@@ -288,7 +288,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                         {
                             Color drawColor = Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f));
 
-                            Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), Projectile.Center + (desiredVector - Projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), drawColor, (desiredVector - Projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                            Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Particles/Square").Value, Projectile.Center + (desiredVector - Projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), drawColor, (desiredVector - Projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
                         }
                     }
 
@@ -301,7 +301,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                 {
                     EEMod.MainParticles.SetSpawningModules(new SpawnPeriodically(8, true));
                     Vector2 part = Projectile.Center;
-                    EEMod.MainParticles.SpawnParticles(part, default, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask));
+                    EEMod.MainParticles.SpawnParticles(part, default, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask, Color.White));
 
                     Lighting.AddLight(Projectile.Center, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Math.Abs((float)Math.Sin(Main.GameUpdateCount / 100f))).ToVector3());
                 }

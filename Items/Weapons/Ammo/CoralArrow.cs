@@ -20,7 +20,7 @@ namespace EEMod.Items.Weapons.Ammo
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
             Item.consumable = true;
-            Item.ranged = true;
+            Item.DamageType = DamageClass.Ranged;
             Item.damage = 12;
             Item.shoot = ModContent.ProjectileType<CoralArrowProjectile>();
             Item.ammo = AmmoID.Arrow;

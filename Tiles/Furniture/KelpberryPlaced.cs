@@ -12,7 +12,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class KelpberryPlaced : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -33,8 +33,8 @@ namespace EEMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName("Kelpberries");
             AddMapEntry(new Color(200, 180, 0), name);
 
-            dustType = DustID.AmberBolt;
-            drop = ModContent.ItemType<Kelpberries>();
+            DustType = DustID.AmberBolt;
+            ItemDrop = ModContent.ItemType<Kelpberries>();
         }
 
 
@@ -56,7 +56,7 @@ namespace EEMod.Tiles.Furniture
             }
 
             Vector2 position = new Vector2((i * 16) - (int)Main.screenPosition.X, (j * 16) - (int)Main.screenPosition.Y) + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Furniture/KelpberryPlacedGlow");
+            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Furniture/KelpberryPlacedGlow").Value;
             Rectangle rect = new Rectangle(0, 0, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }

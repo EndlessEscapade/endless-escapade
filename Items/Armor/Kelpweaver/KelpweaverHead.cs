@@ -41,14 +41,65 @@ namespace EEMod.Items.Armor.Kelpweaver
 
         public override void UpdateArmorSet(Player player)
         {
-            player.GetModPlayer<KelpweaverPlayer>().kelpweaverSet = true;
+            player.GetModPlayer<KelpweaverSetPlayer>().kelpweaverSet = true;
         }
     }
 
-    public class KelpweaverPlayer : ModPlayer
+    public class KelpweaverSetPlayer : ModPlayer
     {
+        public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
+        {
+            //kelpLayer.Draw
+        }
+
+        public KelpweaverLayer kelpLayer;
+
         public bool kelpweaverSet = false;
         public bool HasInteractedWithSlotBefore;
+
+        public override void PostUpdate()
+        {
+            if (kelpweaverSet)
+            {
+                if (Main.playerInventory)
+                {
+                    if (!HasInteractedWithSlotBefore)
+                    {
+                        EEMod.UI.SetState("IndicatorsInterface", "IndicatorsUI");
+                    }
+                    EEMod.UI.SetState("KelpArmorAmmoInterface", "KelpArmorAmmoUI");
+                }
+                else
+                {
+                    if (!HasInteractedWithSlotBefore)
+                    {
+                        EEMod.UI.RemoveState("IndicatorsInterface");
+                    }
+                    EEMod.UI.RemoveState("KelpArmorAmmoInterface");
+                }
+            }
+        }
+
+        /*public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                ["HasInteractedWithSlotBefore"] = HasInteractedWithSlotBefore
+            };
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            tag.TryGetRef("HasInteractedWithSlotBefore", ref HasInteractedWithSlotBefore);
+        }*/
+    }
+
+    public class KelpweaverLayer : PlayerDrawLayer
+    {
+        public override Position GetDefaultPosition()
+        {
+            return new BeforeParent(PlayerDrawLayers.Head);
+        }
 
         private static float Approach(ref float val, float desiredVal, float speed)
         {
@@ -66,7 +117,7 @@ namespace EEMod.Items.Armor.Kelpweaver
         public static float[] joint1Rots = new float[4];
         public static float[] joint2Rots = new float[4];
 
-        public static readonly PlayerLayer KelpweaverArms = new PlayerLayer("EEMod", "MiscEffectsBack", PlayerLayer.MiscEffectsBack, delegate (PlayerDrawInfo drawInfo) 
+        protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             if (drawInfo.shadow != 0f)
             {
@@ -75,12 +126,12 @@ namespace EEMod.Items.Armor.Kelpweaver
 
             Player player = drawInfo.drawPlayer;
 
-            KelpweaverPlayer modPlayer = player.GetModPlayer<KelpweaverPlayer>();
+            KelpweaverSetPlayer modPlayer = player.GetModPlayer<KelpweaverSetPlayer>();
 
             if (modPlayer.kelpweaverSet)
             {
-                Texture2D arm = ModContent.GetTexture("EEMod/Items/Armor/Kelpweaver/KelpweaverArm");
-                Texture2D armGlow = ModContent.GetTexture("EEMod/Items/Armor/Kelpweaver/KelpweaverArmGlow");
+                Texture2D arm = ModContent.Request<Texture2D>("EEMod/Items/Armor/Kelpweaver/KelpweaverArm").Value;
+                Texture2D armGlow = ModContent.Request<Texture2D>("EEMod/Items/Armor/Kelpweaver/KelpweaverArmGlow").Value;
 
                 NPC targetNPC = Main.npc[Helpers.ClosestNPCTo(player.Center)];
 
@@ -88,12 +139,9 @@ namespace EEMod.Items.Armor.Kelpweaver
 
                 Vector2 myPos = player.Center;
 
-                //DrawData data = new DrawData(arm, position.ForDraw(), arm.Bounds, lightColor, rot, new Vector2(7, 46), 1f, dir, 0);
-                //Main.playerDrawData.Add(data);
-
                 float angleOfFreedom = 0.785f;
-               
-                for(int i = 0; i < 4; i++)
+
+                for (int i = 0; i < 4; i++)
                 {
                     float coneMinAngle = EnsurePositiveAngle(i * 1.57f);
                     float coneMaxAngle = EnsurePositiveAngle((i + 1) * 1.57f);
@@ -115,7 +163,7 @@ namespace EEMod.Items.Armor.Kelpweaver
                         {
                             //If the enemy is within the original arm's angle of freedom
 
-                            if(EnsurePositiveAngle(midConeAngle - rot) > 3.14f)
+                            if (EnsurePositiveAngle(midConeAngle - rot) > 3.14f)
                             {
                                 joint1Rots[i] = Approach(ref joint1Rots[i], midConeAngle - (angleOfFreedom / 2f), 0.075f);
                             }
@@ -174,59 +222,13 @@ namespace EEMod.Items.Armor.Kelpweaver
                     //Need to add support for spriteDirections(if the player flips, flip the arms)
                     //Also add support for targeting NPCs independently in each quadrant
 
-                    DrawData joint1Arm = new DrawData(arm, myPos.ForDraw(), arm.Bounds, Lighting.GetColor((int)(myPos.X / 16f), (int)(myPos.Y / 16f)), EnsurePositiveAngle(joint1Rots[i] + 1.57f), new Vector2(7, 46), 1f, SpriteEffects.None, 0);
-                    DrawData joint2Arm = new DrawData(arm, joint2Orig.ForDraw(), arm.Bounds, Lighting.GetColor((int)(myPos.X / 16f), (int)(myPos.Y / 16f)), EnsurePositiveAngle(joint2Rots[i] + 1.57f), new Vector2(7, 46), 1f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(arm, myPos.ForDraw(), arm.Bounds, Lighting.GetColor((int)(myPos.X / 16f), (int)(myPos.Y / 16f)), EnsurePositiveAngle(joint1Rots[i] + 1.57f), new Vector2(7, 46), 1f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(arm, joint2Orig.ForDraw(), arm.Bounds, Lighting.GetColor((int)(myPos.X / 16f), (int)(myPos.Y / 16f)), EnsurePositiveAngle(joint2Rots[i] + 1.57f), new Vector2(7, 46), 1f, SpriteEffects.None, 0);
 
-                    DrawData joint1ArmGlow = new DrawData(armGlow, myPos.ForDraw(), arm.Bounds, Color.White, EnsurePositiveAngle(joint1Rots[i] + 1.57f), new Vector2(7, 46), 1f, SpriteEffects.None, 0);
-                    DrawData joint2ArmGlow = new DrawData(armGlow, joint2Orig.ForDraw(), arm.Bounds, Color.White, EnsurePositiveAngle(joint2Rots[i] + 1.57f), new Vector2(7, 46), 1f, SpriteEffects.None, 0);
-
-                    Main.playerDrawData.Add(joint2Arm);
-                    Main.playerDrawData.Add(joint1Arm);
-
-                    Main.playerDrawData.Add(joint1ArmGlow);
-                    Main.playerDrawData.Add(joint2ArmGlow);
+                    Main.spriteBatch.Draw(armGlow, myPos.ForDraw(), arm.Bounds, Color.White, EnsurePositiveAngle(joint1Rots[i] + 1.57f), new Vector2(7, 46), 1f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(armGlow, joint2Orig.ForDraw(), arm.Bounds, Color.White, EnsurePositiveAngle(joint2Rots[i] + 1.57f), new Vector2(7, 46), 1f, SpriteEffects.None, 0);
                 }
             }
-        });
-
-        public override void ModifyDrawLayers(List<PlayerLayer> layers)
-        {
-            KelpweaverArms.visible = true;
-            layers.Insert(0, KelpweaverArms);
-        }
-        public override void PostUpdate()
-        {
-            if (kelpweaverSet)
-            {
-                if (Main.playerInventory)
-                {
-                    if (!HasInteractedWithSlotBefore)
-                    {
-                        EEMod.UI.SetState("IndicatorsInterface", "IndicatorsUI");
-                    }
-                    EEMod.UI.SetState("KelpArmorAmmoInterface", "KelpArmorAmmoUI");
-                }
-                else
-                {
-                    if (!HasInteractedWithSlotBefore)
-                    {
-                        EEMod.UI.RemoveState("IndicatorsInterface");
-                    }
-                    EEMod.UI.RemoveState("KelpArmorAmmoInterface");
-                }
-            }
-        }
-        public override TagCompound Save()
-        {
-            return new TagCompound
-            {
-                ["HasInteractedWithSlotBefore"] = HasInteractedWithSlotBefore
-            };
-        }
-
-        public override void Load(TagCompound tag)
-        {
-            tag.TryGetRef("HasInteractedWithSlotBefore", ref HasInteractedWithSlotBefore);
         }
     }
 }

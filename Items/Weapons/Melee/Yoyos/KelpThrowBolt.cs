@@ -18,11 +18,11 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         {
             Projectile.width = 16;
             Projectile.height = 16;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 200;
             Projectile.friendly = true;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
             Projectile.damage = 10;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
@@ -36,13 +36,13 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D boltTex = ModContent.GetTexture("EEMod/Particles/MediumCircle");
+            Texture2D boltTex = ModContent.Request<Texture2D>("EEMod/Particles/MediumCircle").Value;
 
             Helpers.DrawAdditive(boltTex, Projectile.Center - Main.screenPosition, Color.Goldenrod, 0.2f);
             
-            Helpers.DrawAdditive(ModContent.GetTexture("EEMod/Textures/RadialGradient"), Projectile.Center - Main.screenPosition, Color.Gold, 0.1f);
+            Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, Projectile.Center - Main.screenPosition, Color.Gold, 0.1f);
 
             return false;
         }

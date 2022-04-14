@@ -8,62 +8,54 @@ using Terraria.ModLoader;
 
 namespace EEMod.Mounts
 {
-    public class SurfboardMount : ModMountData
+    public class SurfboardMount : ModMount
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            //mountData.spawnDust = DustID.Smoke;
-            mountData.buff = ModContent.BuffType<SurfboardBuff>();
-            mountData.heightBoost = 10;
-            mountData.fallDamage = 0.5f;
-            mountData.runSpeed = 11f;
-            mountData.dashSpeed = 8f;
-            mountData.flightTimeMax = 0;
-            mountData.fatigueMax = 0;
-            mountData.jumpHeight = 10;
-            mountData.acceleration = 0.19f;
-            mountData.jumpSpeed = 8f;
-            mountData.blockExtraJumps = true;
-            mountData.totalFrames = 1;
-            mountData.constantJump = true;
-            int[] array = new int[mountData.totalFrames];
+            //MountData.spawnDust = DustID.Smoke;
+            MountData.buff = ModContent.BuffType<SurfboardBuff>();
+            MountData.heightBoost = 10;
+            MountData.fallDamage = 0.5f;
+            MountData.runSpeed = 11f;
+            MountData.dashSpeed = 8f;
+            MountData.flightTimeMax = 0;
+            MountData.fatigueMax = 0;
+            MountData.jumpHeight = 10;
+            MountData.acceleration = 0.19f;
+            MountData.jumpSpeed = 8f;
+            MountData.blockExtraJumps = true;
+            MountData.totalFrames = 1;
+            MountData.constantJump = true;
+            int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
                 array[l] = 20;
             }
-            mountData.playerYOffsets = array;
-            mountData.xOffset = 0;
-            mountData.yOffset = 0;
-            mountData.playerHeadOffset = 22;
+            MountData.playerYOffsets = array;
+            MountData.xOffset = 0;
+            MountData.yOffset = 0;
+            MountData.playerHeadOffset = 32;
             if (Main.netMode == NetmodeID.Server)
             {
                 return;
             }
-            mountData.textureWidth = 82;
-            mountData.textureHeight = 52;
+            MountData.textureWidth = 56;
+            MountData.textureHeight = 14;
         }
 
         public override void UpdateEffects(Player player)
         {
-            // This code spawns some dust if we are moving fast enough.
-            if (Math.Abs(player.velocity.X) <= 4f)
+            if (player.wet)
             {
-                return;
-            }
-            //Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Vroom").WithVolume(.7f).WithPitchVariance(0));
-            Rectangle rect = player.getRect();
-            Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, DustID.Smoke);
-            if (Math.Abs(player.velocity.Y) > 0.0001f && player.direction == 1)
-            {
-                player.fullRotation = MathHelper.Pi / -6;
-            }
-            else if (Math.Abs(player.velocity.Y) > 0.0001f && player.direction == -1)
-            {
-                player.fullRotation = MathHelper.Pi / 6;
+                if (player.velocity.Y > -3f) player.velocity.Y -= 0.2f;
+
+                Main.NewText("yuppie");
+
+                MountData.runSpeed = 10f;
             }
             else
             {
-                player.fullRotation = 0;
+                MountData.runSpeed = 2f;
             }
         }
 
@@ -76,27 +68,12 @@ namespace EEMod.Mounts
 
             internal float[] rotations;
 
-            [FieldInit(FieldInitType.CustomValue, new float[] { 0, 14, -14 })]
             internal static float[] offsets = new float[] { 0, 14, -14 };
 
             public SurfboardSpecificData()
             {
                 count = 3;
-                rotations = new float[count];
             }
-        }
-
-        public override void SetMount(Player player, ref bool skipDust)
-        {
-            // When this mount is mounted, we initialize _mountSpecificData with a new CarSpecificData object which will track some extra visuals for the mount.
-            player.mount._mountSpecificData = new SurfboardSpecificData();
-
-            // This code bypasses the normal mount spawning dust and replaces it with our own visual.
-            for (int i = 0; i < 16; i++)
-            {
-                Dust.NewDustPerfect(player.Center + new Vector2(80, 0).RotatedBy(i * Math.PI * 2 / 16f), mountData.spawnDust);
-            }
-            skipDust = true;
         }
     }
 }

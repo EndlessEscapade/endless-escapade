@@ -14,13 +14,13 @@ namespace EEMod.Items.Tools.Dalantinium
 
         public override void SetDefaults()
         {
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.pick = 70;
             Item.useTime = 19;
             Item.useAnimation = 19;
             Item.damage = 7;
             Item.rare = ItemRarityID.Orange;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.width = 16;
             Item.height = 16;
             Item.value = Item.sellPrice(0, 0, 21);
@@ -31,11 +31,7 @@ namespace EEMod.Items.Tools.Dalantinium
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 12);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DalantiniumBar>(), 12).AddTile(TileID.Anvils).Register();
         }
     }
 }

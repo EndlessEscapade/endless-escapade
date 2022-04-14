@@ -8,7 +8,7 @@ namespace EEMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;
             Item.useTime = 10;
@@ -26,12 +26,4 @@ namespace EEMod.Items.Placeables.Furniture.Trophies
     public class HydrosTrophy : ThropyItem { }
 
     public class OmenTrophy : ThropyItem { }
-
-    public class AkumoTrophy : ThropyItem { }
-
-    public class KrakenTrophy : ThropyItem { }
-
-    public class TalosTrophy : ThropyItem { }
-
-    public class CoralGolemTrophy : ThropyItem { }
 }

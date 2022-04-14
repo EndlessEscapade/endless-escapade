@@ -19,7 +19,7 @@ namespace EEMod.Items
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
-            Item.consumable = false;
+            // Item.consumable = false;
         }
     }
 }

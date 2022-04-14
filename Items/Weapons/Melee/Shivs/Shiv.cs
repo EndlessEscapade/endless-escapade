@@ -113,20 +113,20 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
                     xDis += (-4 - xDis) / 16f;
                     Projectile.position.Y -= xDis;
-                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
-                    (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
-                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
-                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type] && tile2.frameY == 0) &&
-                    tile.type != TileID.Trees &&
-                    tile2.type != TileID.Trees)
+                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).HasTile &&
+                    (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType] && tile.TileFrameY == 0) &&
+                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).HasTile &&
+                    (Main.tileSolid[tile2.TileType] || Main.tileSolidTop[tile2.TileType] && tile2.TileFrameY == 0) &&
+                    tile.TileType != TileID.Trees &&
+                    tile2.TileType != TileID.Trees)
                     {
                         Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(Projectile.Center, 16f, true, false, (int)(shakeIntensity * damageMultiplier));
                         for (var i = 0; i < 20; i++)
                         {
                             int num = Dust.NewDust(projOwner.Center + new Vector2((i * 10) - 100, Projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, -Math.Abs(i - 10), 6, default, 0.7f);
-                            Main.dust[num].noGravity = false;
+                            // Main.dust[num].noGravity = false;
                             Main.dust[num].velocity.X *= 0.7f;
-                            Main.dust[num].noLight = false;
+                            // Main.dust[num].noLight = false;
                         }
                         if (perc < 0.2f)
                         {
@@ -185,12 +185,12 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
                     projOwner.velocity.Y += 2f;
                     Projectile.rotation += (-MathHelper.Pi / 4 - Projectile.rotation) / 4f;
-                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
-                    (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
-                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
-                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type] && tile2.frameY == 0) &&
-                    tile.type != TileID.Trees &&
-                    tile2.type != TileID.Trees)
+                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).HasTile &&
+                    (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType] && tile.TileFrameY == 0) &&
+                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).HasTile &&
+                    (Main.tileSolid[tile2.TileType] || Main.tileSolidTop[tile2.TileType] && tile2.TileFrameY == 0) &&
+                    tile.TileType != TileID.Trees &&
+                    tile2.TileType != TileID.Trees)
                     {
                         if (perc < 0.3f)
                         {
@@ -202,9 +202,9 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                             for (var i = 0; i < 10; i++)
                             {
                                 int num = Dust.NewDust(projOwner.Center + new Vector2((i * 10) - 50, Projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, -Math.Abs(i - 10) * 0.5f, 6, default, 0.7f);
-                                Main.dust[num].noGravity = false;
+                                // Main.dust[num].noGravity = false;
                                 Main.dust[num].velocity.X *= 0.7f;
-                                Main.dust[num].noLight = false;
+                                // Main.dust[num].noLight = false;
                             }
                         }
                     }

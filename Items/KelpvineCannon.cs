@@ -16,7 +16,7 @@ namespace EEMod.Items
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
 
             Item.useAnimation = 24;
             Item.useTime = 24;
@@ -29,7 +29,7 @@ namespace EEMod.Items
 
             Item.shoot = ModContent.ProjectileType<KelpHookProj>();
 
-            Item.autoReuse = false; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
+            // Item.autoReuse = false; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
             Item.UseSound = SoundID.Item11;
         }

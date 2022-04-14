@@ -12,17 +12,17 @@ namespace EEMod.Tiles.Furniture
 {
     public class OrbHolder : EETile
     {
-        public class OrbHolderTE : EETileEntity
+        /*public class OrbHolderTE : EETileEntity
         {
             public bool hasOrb = false;
 
-            public override bool ValidTile(int i, int j)
+            /*public override bool ValidTile(int i, int j)
             {
                 Tile tile = Framing.GetTileSafely(i, j);
-                return tile.active();
+                return tile.HasTile;
             }
 
-            public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+            /*public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
             {
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
@@ -44,7 +44,7 @@ namespace EEMod.Tiles.Furniture
                 hasOrb = reader.ReadBoolean();
             }
 
-            public override TagCompound Save()
+            /*public override TagCompound Save()
             {
                 return new TagCompound
                 {
@@ -58,7 +58,7 @@ namespace EEMod.Tiles.Furniture
             }
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -74,38 +74,38 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<OrbHolderTE>().Hook_AfterPlacement, -1, 0, true);
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Orb Holder");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
-            animationFrameHeight = 180;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
+            AnimationFrameHeight = 180;
         }
 
-        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        public override void AnimateIndividualTile(int type, int i, int j, ref int TileFrameXOffset, ref int TileFrameYOffset)
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            int x = i - tile.frameX / 18 % 9;
-            int y = j - tile.frameY / 18 % 10;
+            int x = i - tile.TileFrameX / 18 % 9;
+            int y = j - tile.TileFrameY / 18 % 10;
 
             int targetTe = ModContent.GetInstance<OrbHolderTE>().Find(x, y);
             if (targetTe > -1 && TileEntity.ByID[targetTe] is OrbHolderTE TE)
             {
                 if (TE.hasOrb)
                 {
-                    frameYOffset = Main.tileFrameCounter[Type] / 3 % 7 * animationFrameHeight;
+                    TileFrameYOffset = Main.tileFrameCounter[Type] / 3 % 7 * AnimationFrameHeight;
                 }
                 else
                 {
-                    frameYOffset = 8 * animationFrameHeight;
+                    TileFrameYOffset = 8 * AnimationFrameHeight;
                 }
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             ModContent.GetInstance<OrbHolderTE>().Kill(i, j);
         }
@@ -113,6 +113,6 @@ namespace EEMod.Tiles.Furniture
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             frameCounter++;
-        }
+        }*/
     }
 }

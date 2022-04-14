@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria.Audio;
 
 namespace EEMod.Items.Weapons.Melee.Swords
 {
@@ -17,7 +18,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
 		public override void SetDefaults()
 		{
 			Item.damage = 20;
-			Item.useStyle = ItemUseStyleID.SwingThrow;
+			Item.useStyle = ItemUseStyleID.Swing;
 			Item.useAnimation = 25;
 			Item.useTime = 25;
 			Item.shootSpeed = 0;
@@ -28,8 +29,8 @@ namespace EEMod.Items.Weapons.Melee.Swords
 			Item.rare = ItemRarityID.Purple;
 			Item.value = Item.sellPrice(silver: 10);
 
-			Item.melee = true;
-			Item.autoReuse = false;
+			Item.DamageType = DamageClass.Melee;
+			// Item.autoReuse = false;
 
 			Item.UseSound = SoundID.Item1;
 		}
@@ -37,7 +38,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				Projectile.NewProjectileDirect(target.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * new Vector2(8, 0), ModContent.ProjectileType<BubbleStrikerProj>(), Item.damage, Item.knockBack, player.whoAmI, target.whoAmI).scale = Main.rand.NextFloat(0.85f, 1.15f);
+				Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), target.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * new Vector2(8, 0), ModContent.ProjectileType<BubbleStrikerProj>(), Item.damage, Item.knockBack, player.whoAmI, target.whoAmI).scale = Main.rand.NextFloat(0.85f, 1.15f);
 			}
 		}
 	}
@@ -51,7 +52,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
 		{
 			Projectile.penetrate = 1;
 			Projectile.tileCollide = true;
-			Projectile.hostile = false;
+			// Projectile.hostile = false;
 			Projectile.friendly = true;
 			Projectile.width = Projectile.height = 32;
 			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
@@ -96,11 +97,11 @@ namespace EEMod.Items.Weapons.Melee.Swords
 					Projectile.position -= new Vector2(EXPLOSIONRADIUS, EXPLOSIONRADIUS);
 					Projectile.width = EXPLOSIONRADIUS * 2;
 					Projectile.height = EXPLOSIONRADIUS * 2;
-					Main.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
+					SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
 					for (int i = 0; i < Main.projectile.Length; i++)
 					{
 						Projectile proj = Main.projectile[i];
-						if (proj.modProjectile is BubbleStrikerProj bubble && proj.owner == Projectile.owner && bubble.stuck)
+						if (proj.ModProjectile is BubbleStrikerProj bubble && proj.owner == Projectile.owner && bubble.stuck)
 							bubble.pop = true;
 					}
 				}
@@ -126,8 +127,8 @@ namespace EEMod.Items.Weapons.Melee.Swords
 				{
 					Projectile.penetrate++;
 					stuck = true;
-					Projectile.friendly = false;
-					Projectile.tileCollide = false;
+					// Projectile.friendly = false;
+					// Projectile.tileCollide = false;
 					enemyID = target.whoAmI;
 					offset = Projectile.position - target.position;
 					offset -= Projectile.velocity;

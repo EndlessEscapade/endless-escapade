@@ -10,7 +10,7 @@ namespace EEMod.Tiles.Foliage.Coral.WallCoral
 {
     public class Wall5x2NonsolidCoralL : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -31,7 +31,7 @@ namespace EEMod.Tiles.Foliage.Coral.WallCoral
 
     public class Wall5x2NonsolidCoralR : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;

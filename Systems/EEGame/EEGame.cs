@@ -12,7 +12,7 @@ namespace EEMod.Systems.EEGame
         public virtual Vector2 centerOfMainCanvas => Main.LocalPlayer.Center;
         public virtual Color colourOfMainCanvas => Color.White;
         public virtual float speedOfStartUp => 16f;
-        public virtual Texture2D tex => Main.magicPixel;
+        public virtual Texture2D tex => Terraria.GameContent.TextureAssets.MagicPixel.Value;
         public Vector2 TopLeft => centerOfMainCanvas + new Vector2(-sizeOfMainCanvas.X / 2, -sizeOfMainCanvas.Y / 2);
         public Vector2 TopRight => centerOfMainCanvas + new Vector2(sizeOfMainCanvas.X / 2, -sizeOfMainCanvas.Y / 2);
         public Vector2 BottomLeft => centerOfMainCanvas + new Vector2(-sizeOfMainCanvas.X / 2, sizeOfMainCanvas.Y / 2);

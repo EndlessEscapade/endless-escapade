@@ -8,7 +8,7 @@ namespace EEMod.Tiles
 {
     public class VibrantMycelium : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = true;
@@ -19,11 +19,11 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(48, 115, 135));
 
-            dustType = DustID.Rain;
+            DustType = DustID.Rain;
             //drop = ModContent.ItemType<MagmastoneBrick>();
-            soundStyle = 1;
-            mineResist = 1f;
-            minPick = 0;
+            SoundStyle = 1;
+            MineResist = 1f;
+            MinPick = 0;
         }
     }
 }

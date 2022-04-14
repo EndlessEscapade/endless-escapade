@@ -1,4 +1,4 @@
-using EEMod.Extensions;
+﻿using EEMod.Extensions;
 using EEMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,17 +9,17 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles.Foliage.Aquamarine
 {
-    public class AquamarinePillar : ModTile
+    public class AquamarinePillar : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileCut[Type] = false;
             Main.tileBlockLight[Type] = true;
             Main.tileNoFail[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLighted[Type] = false;
-            soundType = SoundID.Grass;
-            dustType = DustID.PurpleCrystalShard;
+            SoundType = SoundID.Grass;
+            DustType = DustID.PurpleCrystalShard;
 
             AddMapEntry(new Color(95, 143, 65));
         }
@@ -29,7 +29,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
             Tile tile = Framing.GetTileSafely(i, j + 1);
             Tile tile2 = Framing.GetTileSafely(i, j - 1);
 
-            if (tile.active() && tile.type == Type && tile2.active() && tile2.type == Type)
+            if (tile.HasTile && tile.TileType == Type && tile2.HasTile && tile2.TileType == Type)
             {
                 WorldGen.KillTile(i, j + 1);
                 WorldGen.KillTile(i, j - 1);
@@ -40,25 +40,25 @@ namespace EEMod.Tiles.Foliage.Aquamarine
         {
             Color color = Color.White;
 
-            int frameX = 0;
-            int frameY = 0;
+            int TileFrameX = 0;
+            int TileFrameY = 0;
 
-            if (Main.tile[i - 1, j].type != Main.tile[i, j].type && Main.tile[i + 1, j].type != Main.tile[i, j].type)
+            if (Framing.GetTileSafely(i - 1, j).TileType != Framing.GetTileSafely(i, j).TileType && Framing.GetTileSafely(i + 1, j).TileType != Framing.GetTileSafely(i, j).TileType)
             {
-                frameX = 36;
-                frameY = ((i + j) % 2) * 18;
+                TileFrameX = 36;
+                TileFrameY = ((i + j) % 2) * 18;
             }
 
-            if (Main.tile[i - 1, j].type != Main.tile[i, j].type && Main.tile[i + 1, j].type == Main.tile[i, j].type)
+            if (Main.tile[i - 1, j].TileType != Main.tile[i, j].TileType && Main.tile[i + 1, j].TileType == Main.tile[i, j].TileType)
             {
-                frameX = 0;
-                frameY = (j % 2) * 18;
+                TileFrameX = 0;
+                TileFrameY = (j % 2) * 18;
             }
 
-            if (Main.tile[i - 1, j].type == Main.tile[i, j].type && Main.tile[i + 1, j].type != Main.tile[i, j].type)
+            if (Main.tile[i - 1, j].TileType == Main.tile[i, j].TileType && Main.tile[i + 1, j].TileType != Main.tile[i, j].TileType)
             {
-                frameX = 18;
-                frameY = (j % 2) * 18;
+                TileFrameX = 18;
+                TileFrameY = (j % 2) * 18;
             }
 
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
@@ -69,8 +69,8 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 
             Vector2 position = new Vector2(i * 16, j * 16).ForDraw() + zero;
 
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Aquamarine/AquamarinePillar");
-            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/Aquamarine/AquamarinePillar").Value;
+            Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
 
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
 

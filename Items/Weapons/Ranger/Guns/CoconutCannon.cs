@@ -14,10 +14,10 @@ namespace EEMod.Items.Weapons.Ranger.Guns
 
         public override void SetDefaults()
         {
-            Item.melee = false;
+            // Item.melee = false;
             Item.noMelee = true;
             Item.autoReuse = true;
-            Item.ranged = true;
+            Item.DamageType = DamageClass.Ranged;
             Item.value = Item.sellPrice(0, 0, 18);
             Item.damage = 35;
             Item.useTime = 60;
@@ -27,7 +27,7 @@ namespace EEMod.Items.Weapons.Ranger.Guns
             Item.shoot = ModContent.ProjectileType<CoconutProjectile>();
             Item.rare = ItemRarityID.Orange;
             Item.knockBack = 5f;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = 17f;
             Item.UseSound = SoundID.Item11;
             Item.ammo = ModContent.ItemType<Coconut>();

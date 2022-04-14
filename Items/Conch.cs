@@ -1,8 +1,9 @@
 using EEMod.ID;
-using EEMod.Systems.Subworlds.EESubworlds;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Systems;
 
 namespace EEMod.Items
 {
@@ -21,17 +22,22 @@ namespace EEMod.Items
             Item.maxStack = 1;
             Item.useAnimation = 12;
             Item.useTime = 12;
-            Item.consumable = false;
+            // Item.consumable = false;
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Blue;
-            Item.useStyle = ItemUseStyleID.EatingUsing;
-            Item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/ConchBlown");
+            Item.useStyle = ItemUseStyleID.EatFood;
+            //Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/ConchBlown");
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
-            SubworldManager.EnterSubworld<CoralReefs>(); 
+            //Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
+            //SubworldManager.EnterSubworld<CoralReefs>();
+
+            Structure.SaveWorldStructureTo(1980, 165, 160, 68, System.IO.Path.Combine(Main.SavePath, "goblinhall"));
+
+            //Structure.SaveWorldStructureTo(690, 273, 8, 4, System.IO.Path.Combine(Main.SavePath, "GoblinRaft2"));
+
             return true;
         }
     }

@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
 {
     public class HangingGlow2x4Coral : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -38,7 +38,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Lamp");
             AddMapEntry(new Color(0, 100, 200), name);
-            dustType = DustID.Dirt;
+            DustType = DustID.Dirt;
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -51,16 +51,16 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Color color = Color.White;
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {
                 zero = Vector2.Zero;
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/HangingCoral/HangingGlow2x4CoralGlow");
-            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/Coral/HangingCoral/HangingGlow2x4CoralGlow").Value;
+            Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }

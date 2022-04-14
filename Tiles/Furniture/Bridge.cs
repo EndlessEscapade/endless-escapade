@@ -35,11 +35,11 @@ namespace EEMod.Tiles.Furniture
              );
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (isSupport)
             {
-                spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/BridgeSupport"), Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, Projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/BridgeSupport").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, Projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -52,44 +52,46 @@ namespace EEMod.Tiles.Furniture
             Projectile.alpha = 0;
             Projectile.timeLeft = 10000;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.magic = true;
-            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.scale *= 1f;
         }
 
-        private Vector2 endPoints = Main.LocalPlayer.Center - new Vector2(200, 200);
-        private Vector2 startingPos = Main.LocalPlayer.Center;
-        private Vector2 c1 = Main.LocalPlayer.Center - new Vector2(120, 100);
-        private Vector2 c2 = Main.LocalPlayer.Center - new Vector2(120, 100);
+        public Vector2 endPoints = Vector2.Zero;
+        public Vector2 c1 = Vector2.Zero;
 
-        private float dipX = (Main.LocalPlayer.Center - new Vector2(120, 210)).X;
-        private float dipY = (Main.LocalPlayer.Center - new Vector2(120, 210)).Y;
-        private float accelY;
-        private float accelX;
-        private float accel2 = 1;
-        private float accel3;
-        private float amplitude;
-        private float maxSpeedY = 10;
-        private float maxSpeedX = 10;
-        private float firstPosX = Main.LocalPlayer.Center.X;
-        private float secondPosX = (Main.LocalPlayer.Center - new Vector2(200, 200)).X;
-        private float firstPosY = Main.LocalPlayer.Center.Y;
-        private float secondPosY = (Main.LocalPlayer.Center - new Vector2(200, 200)).Y;
+        public float dipX;
+        public float dipY;
+        public float accelY;
+        public float accelX;
+        public float accel2 = 1;
+        public float accel3;
+        public float amplitude;
+        public float maxSpeedY = 10;
+        public float maxSpeedX = 10;
+        public float firstPosX = 0;
+        public float secondPosX = 0;
+        public float firstPosY = 0;
+        public float secondPosY = 0;
         public static float checkForLowest;
-        public static float trueControlPoint = (Main.LocalPlayer.Center.X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X) / 2;
+        //public static float trueControlPoint = (Main.LocalPlayer.Center.X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X) / 2;
         public float chainsPerUse;
         public float rotDis;
         public bool isSupport;
 
         public override void AI()
         {
+            dipX = c1.X;
+            dipY = c1.Y + 90;
+
             Rectangle upperPortion = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y + 13, Projectile.width, 3);
             Rectangle upperPortionWholeEntityCheck = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y - 10 + 13, Projectile.width, 13);
             Rectangle lowerPortion = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y + Projectile.height - 2, Projectile.width, 2);
             Rectangle playerHitBoxFeet = new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y + Main.LocalPlayer.height - (int)(Main.LocalPlayer.velocity.Y / 2) - 10, Main.LocalPlayer.width, (int)Math.Round(Projectile.velocity.Y) + (int)(Main.LocalPlayer.velocity.Y / 2) + 10);
+            
             if (playerHitBoxFeet.Intersects(upperPortion) && Main.LocalPlayer.velocity.Y >= 0)
             {
                 Main.LocalPlayer.velocity.Y = 0;
@@ -123,61 +125,10 @@ namespace EEMod.Tiles.Furniture
                 checkForLowest = firstPosY;
             }
 
-            if (Main.LocalPlayer.controlUp)
-            {
-                firstPosX = Main.mouseX + Main.screenPosition.X;
-                firstPosY = Main.mouseY + Main.screenPosition.Y;
-                accelX = 0;
-                accelY = 0;
-                accel2 = 1;
-                amplitude = dipY;
-                if (dipY >= secondPosY)
-                {
-                    maxSpeedY = (dipY - secondPosY) / 20;
-                }
-                else
-                {
-                    maxSpeedY = (secondPosY - dipY) / 20;
-                }
-
-                if (dipX >= trueControlPoint)
-                {
-                    maxSpeedX = (dipX - trueControlPoint) / 20;
-                }
-                else
-                {
-                    maxSpeedX = (trueControlPoint - dipX) / 20;
-                }
-            }
-            if (Main.LocalPlayer.controlUseItem)
-            {
-                dipX = Main.mouseX + Main.screenPosition.X;
-                dipY = Main.mouseY + Main.screenPosition.Y;
-                accelX = 0;
-                accelY = 0;
-                accel2 = 1;
-                amplitude = dipY;
-                if (dipY >= checkForLowest)
-                {
-                    maxSpeedY = (dipY - checkForLowest) / 20;
-                }
-                else
-                {
-                    maxSpeedY = (checkForLowest - dipY) / 20;
-                }
-
-                if (dipX >= checkForLowest)
-                {
-                    maxSpeedX = (dipX - checkForLowest) / 20;
-                }
-                else
-                {
-                    maxSpeedX = (checkForLowest - dipX) / 20;
-                }
-            }
             secondPosX = endPoints.X;
             secondPosY = endPoints.Y;
-            if (dipX >= trueControlPoint)
+
+            /*if (dipX >= trueControlPoint)
             {
                 maxSpeedX *= 0.994f;
                 accel3 = (dipX - trueControlPoint) / 100f;
@@ -208,9 +159,10 @@ namespace EEMod.Tiles.Furniture
                 {
                     accelX = -maxSpeedX;
                 }
-            }
+            }*/
 
             //other
+
             if (dipY >= checkForLowest)
             {
                 maxSpeedY *= 0.989f;
@@ -243,15 +195,19 @@ namespace EEMod.Tiles.Furniture
                     accelY = maxSpeedY;
                 }
             }
+
             Projectile.Center = new Vector2(X(Projectile.ai[1], firstPosX, dipX, dipX, endPoints.X), Y(Projectile.ai[1], firstPosY, dipY, dipY, endPoints.Y));
+            
             Vector2 distBetween = new Vector2(X(Projectile.ai[1], firstPosX, dipX, dipX, endPoints.X) -
                     X(Projectile.ai[1] - chainsPerUse, firstPosX, dipX, dipX, endPoints.X),
                     Y(Projectile.ai[1], firstPosY, dipY, dipY, endPoints.Y) -
                     Y(Projectile.ai[1] - chainsPerUse, firstPosY, dipY, dipY, endPoints.Y));
+            
             float projTrueRotation = distBetween.ToRotation() + rotDis;
+            
             Projectile.rotation = projTrueRotation;
             Projectile.ai[0] += 0.1f;
-            Projectile.velocity.Y += (float)Math.Sin(Projectile.ai[0]) * 0.1f;
+            Projectile.velocity.Y += (float)Math.Sin(Projectile.ai[0]) * 0.03f;
         }
     }
 }

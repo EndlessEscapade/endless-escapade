@@ -6,6 +6,9 @@ using EEMod.Tiles.Foliage.Aquamarine;
 using EEMod.Tiles.Foliage.KelpForest;
 using EEMod.Tiles.Furniture.NautilusPuzzle;
 using EEMod.Tiles.Foliage.Halocline;
+using EEMod.Tiles.Furniture.Chests;
+using EEMod.Tiles.Furniture.Shipyard;
+using EEMod.Tiles.Furniture.GoblinFort;
 
 namespace EEMod.Items.Placeables.Furniture
 {
@@ -18,7 +21,7 @@ namespace EEMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;
             Item.useTime = 10;
@@ -29,7 +32,7 @@ namespace EEMod.Items.Placeables.Furniture
             Item.height = 12;
             Item.rare = ItemRarityID.White;
 
-            Item.createTile = ModContent.TileType<GroundSaltCrystal3x3>();
+            Item.createTile = ModContent.TileType<ShadowflameCampfire>();
         }
     }
 }

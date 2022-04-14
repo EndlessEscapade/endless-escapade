@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables;
+﻿using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,7 +10,7 @@ namespace EEMod.Tiles
 {
     public class BrimstoneTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
@@ -23,10 +23,10 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(204, 51, 0));
 
-            dustType = DustID.Rain;
-            soundStyle = 1;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Rain;
+            SoundStyle = 1;
+            MineResist = 1f;
+            MinPick = 0;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
@@ -35,17 +35,17 @@ namespace EEMod.Tiles
 
             int tilescale = 18;
 
-            int frameXOffset = (i % 3) * 72;
-            int frameYOffset = (j % 3) * 90;
+            int TileFrameXOffset = (i % 3) * 72;
+            int TileFrameYOffset = (j % 3) * 90;
 
             int newFrameX = 0;
             int newFrameY = 0;
 
-            Tile tileAbove = Main.tile[i, j - 1];
-            Tile tileBelow = Main.tile[i, j + 1];
+            Tile tileAbove = Framing.GetTileSafely(i, j - 1);
+            Tile tileBelow = Framing.GetTileSafely(i, j + 1);
 
-            Tile tileLeft = Main.tile[i - 1, j];
-            Tile tileRight = Main.tile[i + 1, j];
+            Tile tileLeft = Framing.GetTileSafely(i - 1, j);
+            Tile tileRight = Framing.GetTileSafely(i + 1, j);
 
             Tile tileTopLeft = Main.tile[i - 1, j - 1];
             Tile tileTopRight = Main.tile[i + 1, j - 1];
@@ -53,136 +53,136 @@ namespace EEMod.Tiles
             Tile tileBottomLeft = Main.tile[i - 1, j + 1];
             Tile tileBottomRight = Main.tile[i + 1, j + 1];
 
-            if (tileAbove.active() && tileBelow.active() && tileLeft.active() && tileRight.active())
+            if (tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile)
             {
                 newFrameX = 1;
                 newFrameY = 1;
 
-                if (tileTopRight.active() && tileBottomRight.active())
+                if (tileTopRight.HasTile && tileBottomRight.HasTile)
                 {
                     newFrameX = 1;
                     newFrameY = 4;
                 }
-                if (tileTopLeft.active() && tileBottomLeft.active())
+                if (tileTopLeft.HasTile && tileBottomLeft.HasTile)
                 {
                     newFrameX = 2;
                     newFrameY = 4;
                 }
 
-                if (tileTopLeft.active() && tileTopRight.active())
+                if (tileTopLeft.HasTile && tileTopRight.HasTile)
                 {
                     newFrameX = 3;
                     newFrameY = 2;
                 }
-                if (tileBottomLeft.active() && tileBottomRight.active())
+                if (tileBottomLeft.HasTile && tileBottomRight.HasTile)
                 {
                     newFrameX = 3;
                     newFrameY = 1;
                 }
             }
 
-            if (tileAbove.active() && tileBelow.active() && !tileLeft.active() && !tileRight.active())
+            if (tileAbove.HasTile && tileBelow.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
             {
                 newFrameX = 1;
                 newFrameY = 3;
             }
 
-            if (!tileAbove.active() && !tileBelow.active() && tileLeft.active() && tileRight.active())
+            if (!tileAbove.HasTile && !tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile)
             {
                 newFrameX = 0;
                 newFrameY = 3;
             }
 
-            if (!tileAbove.active() && !tileBelow.active() && !tileLeft.active() && !tileRight.active())
+            if (!tileAbove.HasTile && !tileBelow.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
             {
                 newFrameX = 2;
                 newFrameY = 3;
             }
 
-            if (!tileAbove.active() && tileBelow.active() && tileLeft.active() && tileRight.active())
+            if (!tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile)
             {
                 newFrameX = 1;
                 newFrameY = 0;
             }
 
-            if (tileAbove.active() && tileBelow.active() && !tileLeft.active() && tileRight.active())
+            if (tileAbove.HasTile && tileBelow.HasTile && !tileLeft.HasTile && tileRight.HasTile)
             {
                 newFrameX = 0;
                 newFrameY = 1;
             }
 
-            if (tileAbove.active() && !tileBelow.active() && tileLeft.active() && tileRight.active())
+            if (tileAbove.HasTile && !tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile)
             {
                 newFrameX = 1;
                 newFrameY = 2;
             }
 
-            if (tileAbove.active() && tileBelow.active() && tileLeft.active() && !tileRight.active())
+            if (tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && !tileRight.HasTile)
             {
                 newFrameX = 2;
                 newFrameY = 1;
             }
 
-            if (!tileAbove.active() && tileBelow.active() && !tileLeft.active() && !tileRight.active())
+            if (!tileAbove.HasTile && tileBelow.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
             {
                 newFrameX = 3;
                 newFrameY = 0;
             }
 
-            if (tileAbove.active() && !tileBelow.active() && !tileLeft.active() && !tileRight.active())
+            if (tileAbove.HasTile && !tileBelow.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
             {
                 newFrameX = 3;
                 newFrameY = 3;
             }
 
-            if (!tileAbove.active() && !tileBelow.active() && !tileLeft.active() && tileRight.active())
+            if (!tileAbove.HasTile && !tileBelow.HasTile && !tileLeft.HasTile && tileRight.HasTile)
             {
                 newFrameX = 0;
                 newFrameY = 4;
             }
 
-            if (!tileAbove.active() && !tileBelow.active() && tileLeft.active() && !tileRight.active())
+            if (!tileAbove.HasTile && !tileBelow.HasTile && tileLeft.HasTile && !tileRight.HasTile)
             {
                 newFrameX = 3;
                 newFrameY = 4;
             }
 
-            if (!tileAbove.active() && tileBelow.active() && !tileLeft.active() && tileRight.active())
+            if (!tileAbove.HasTile && tileBelow.HasTile && !tileLeft.HasTile && tileRight.HasTile)
             {
                 newFrameX = 0;
                 newFrameY = 0;
             }
 
 
-            if (!tileAbove.active() && tileBelow.active() && tileLeft.active() && !tileRight.active())
+            if (!tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && !tileRight.HasTile)
             {
                 newFrameX = 2;
                 newFrameY = 0;
             }
 
-            if (tileAbove.active() && !tileBelow.active() && !tileLeft.active() && tileRight.active())
+            if (tileAbove.HasTile && !tileBelow.HasTile && !tileLeft.HasTile && tileRight.HasTile)
             {
                 newFrameX = 0;
                 newFrameY = 2;
             }
 
-            if (tileAbove.active() && !tileBelow.active() && tileLeft.active() && !tileRight.active())
+            if (tileAbove.HasTile && !tileBelow.HasTile && tileLeft.HasTile && !tileRight.HasTile)
             {
                 newFrameX = 2;
                 newFrameY = 2;
             }
 
-            Texture2D tex = ModContent.GetTexture("EEMod/Tiles/BrimstoneTile");
+            Texture2D tex = ModContent.Request<Texture2D>("EEMod/Tiles/BrimstoneTile").Value;
 
-            tile.frameX = (short)((newFrameX * tilescale) + frameXOffset);
-            tile.frameY = (short)((newFrameY * tilescale) + frameYOffset);
+            tile.TileFrameX = (short)((newFrameX * tilescale) + TileFrameXOffset);
+            tile.TileFrameY = (short)((newFrameY * tilescale) + TileFrameYOffset);
 
             return true;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D tex = ModContent.GetTexture("EEMod/Tiles/BrimstoneTileGlow");
+            Texture2D tex = ModContent.Request<Texture2D>("EEMod/Tiles/BrimstoneTileGlow").Value;
 
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
 
@@ -191,7 +191,7 @@ namespace EEMod.Tiles
                 zero = Vector2.Zero;
             }
 
-            Main.spriteBatch.Draw(tex, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(Main.tile[i, j].frameX, Main.tile[i, j].frameY, 16, 16), Lighting.GetColor(i, j) * (1.5f + ((float)Math.Sin((i * j) + Main.GameUpdateCount / 20f) * 0.3f)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY, 16, 16), Lighting.GetColor(i, j) * (1.5f + ((float)Math.Sin((i * j) + Main.GameUpdateCount / 20f) * 0.3f)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

@@ -19,11 +19,11 @@ namespace EEMod.Projectiles.CoralReefs
         {
             Projectile.width = 32;
             Projectile.height = 32;
-            Projectile.friendly = false;
-            Projectile.hostile = false;
+            // Projectile.friendly = false;
+            // Projectile.hostile = false;
             Projectile.alpha = 0;
             Projectile.scale = 0.5f;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 1000000000;
@@ -98,7 +98,7 @@ namespace EEMod.Projectiles.CoralReefs
 
             if(Projectile.alpha >= 255)
             {
-                targetPlayer.QuickSpawnItem((int)Projectile.ai[0]);
+                targetPlayer.QuickSpawnItem(new Terraria.DataStructures.EntitySource_Parent(targetPlayer), (int)Projectile.ai[0]);
 
                 Projectile.Kill();
             }
@@ -106,23 +106,23 @@ namespace EEMod.Projectiles.CoralReefs
 
         private float alpha = 0;
         private float alpha2 = 0;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.itemTexture[(int)Projectile.ai[0]];
+            Texture2D tex = Terraria.GameContent.TextureAssets.Item[(int)Projectile.ai[0]].Value;
             Vector2 pos = (Projectile.Center - Main.screenPosition);
 
             alpha += 0.06f;
 
             Color outlineColor = Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f);
 
-            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), Projectile.Center.ForDraw(), outlineColor * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f), 0.9f * Projectile.scale, 0.8f);
+            Helpers.DrawAdditiveFunky(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradientWide").Value, Projectile.Center.ForDraw(), outlineColor * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f), 0.9f * Projectile.scale, 0.8f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-            EEMod.White.CurrentTechnique.Passes[0].Apply();
-            EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
-            EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
+            EEMod.WhiteOutline.CurrentTechnique.Passes[0].Apply();
+            EEMod.WhiteOutline.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
+            EEMod.WhiteOutline.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
 
             alpha2 += 0.03f;
 
@@ -131,7 +131,7 @@ namespace EEMod.Projectiles.CoralReefs
             for (int i = 0; i < 4; i++)
             {
                 Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * (2 * (alpha2 / 1) * ((255 - Projectile.alpha) / 255f));
-                spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha2 * ((255 - Projectile.alpha) / 255f), Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha2 * ((255 - Projectile.alpha) / 255f), Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
             }
 
             Main.spriteBatch.End();
@@ -142,7 +142,7 @@ namespace EEMod.Projectiles.CoralReefs
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Item chungu = new Item();
             chungu.SetDefaults((int)Projectile.ai[0]);

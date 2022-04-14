@@ -17,27 +17,27 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            Projectile.hostile = false;
-            Projectile.magic = true;
+            // Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;
             Projectile.width = 34;
             Projectile.height = 34;
             Projectile.aiStyle = -1;
-            Projectile.friendly = false;
+            // Projectile.friendly = false;
             Projectile.penetrate = 1;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.timeLeft = 1000;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[Projectile.type].Width * 0.5f, Projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = Projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color2 = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2);
-                spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), color2 * 0.5f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), color2 * 0.5f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return true;
         }
@@ -60,7 +60,7 @@ namespace EEMod.Items.Weapons.Mage
                     Dust dust = Dust.NewDustPerfect(Main.player[Projectile.owner].Center + Dist.RotatedBy(lerp) * 1.2f, 219, offset * 0.5f, 0, Color.Red);
                     dust.noGravity = true;
                     dust.velocity *= 0.94f;
-                    dust.noLight = false;
+                    // dust.noLight = false;
                     dust.fadeIn = 1f;
                 }
             }
@@ -89,7 +89,7 @@ namespace EEMod.Items.Weapons.Mage
                 lerp += (0.18f * traverseFunction * traverseFunction) - 0.02f;
                 if (Projectile.ai[0] % 2 == 1 && Projectile.ai[0] > firstPhase + 1)
                 {
-                    Projectile.NewProjectile(Projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     circleDustPattern();
                 }
             }
@@ -102,7 +102,7 @@ namespace EEMod.Items.Weapons.Mage
                 lerp -= (0.18f * traverseFunction * traverseFunction);
                 if (Projectile.ai[0] % 2 == 1 && Projectile.ai[0] > secondPhase + 1)
                 {
-                    Projectile.NewProjectile(Projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(Projectile), Projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     circleDustPattern();
                 }
                 if (Projectile.ai[0] == thirdPhase - 5)
@@ -113,7 +113,7 @@ namespace EEMod.Items.Weapons.Mage
                         int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fireworks, Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-2f, -1f), 6, default, Projectile.scale);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].velocity *= 2.5f;
-                        Main.dust[num].noLight = false;
+                        // Main.dust[num].noLight = false;
                     }
                 }
             }

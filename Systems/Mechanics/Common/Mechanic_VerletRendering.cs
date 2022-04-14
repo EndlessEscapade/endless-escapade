@@ -11,13 +11,15 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class VerletRendering : Mechanic
+    public class VerletRendering : ModSystem
     {
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
-            Mod.verlet.GlobalRenderPoints();
-        }
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
-        protected override Layer DrawLayering => Layer.BehindTiles;
+            EEMod.Instance.verlet.GlobalRenderPoints();
+
+            Main.spriteBatch.End();
+        }
     }
 }

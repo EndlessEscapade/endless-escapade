@@ -23,11 +23,11 @@ namespace EEMod.Items.Consumables
             Item.consumable = true;
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Blue;
-            Item.useStyle = ItemUseStyleID.EatingUsing;
+            Item.useStyle = ItemUseStyleID.EatFood;
             Item.UseSound = SoundID.Item2;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             player.AddBuff(BuffID.WellFed, 60 * 300);
             return true;
@@ -35,12 +35,7 @@ namespace EEMod.Items.Consumables
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Bass, 1);
-            recipe.AddIngredient(ModContent.ItemType<Kelp>(), 10);
-            recipe.AddTile(TileID.CookingPots);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Bass, 1).AddIngredient(ModContent.ItemType<Kelp>(), 10).AddTile(TileID.CookingPots).Register();
         }
     }
 }

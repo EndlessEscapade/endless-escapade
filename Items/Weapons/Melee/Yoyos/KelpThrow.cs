@@ -15,7 +15,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         public override void SetDefaults()
         {
             Item.rare = ItemRarityID.Green;
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.width = 44;
             Item.height = 50;
 
@@ -23,9 +23,9 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
             Item.useAnimation = 24;
             Item.knockBack = 3f;
             Item.damage = 16;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
 
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.channel = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;

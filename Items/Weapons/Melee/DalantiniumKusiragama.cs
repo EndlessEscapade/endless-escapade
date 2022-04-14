@@ -16,7 +16,7 @@ namespace EEMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.damage = 20;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = 70;
             Item.useTime = 24;
             Item.shootSpeed = 4;
@@ -27,7 +27,7 @@ namespace EEMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(silver: 10);
 
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
@@ -38,11 +38,7 @@ namespace EEMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 14);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DalantiniumBar>(), 14).AddTile(TileID.Anvils).Register();
         }
     }
 }

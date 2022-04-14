@@ -14,7 +14,7 @@ namespace EEMod.Items.Weapons.Ranger.Guns
             DisplayName.SetDefault("Lythen Handgun");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             item.melee = false;
             item.noMelee = true;

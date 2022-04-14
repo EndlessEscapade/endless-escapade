@@ -1,6 +1,4 @@
 # EEMod
-this isn't the right github repo
-
-L
-
-if you see this spamping exitium in #general in Endless Escapade
+funny water mod
+not much to know really
+oomfie...

@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Prim;
 using EEMod.Tiles;
-using EEMod.NPCs.CoralReefs;
+
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Extensions;
 
@@ -26,7 +26,7 @@ namespace EEMod.Projectiles.Enemy
             Projectile.timeLeft = 30000;
             Projectile.ignoreWater = true;
             Projectile.hostile = true;
-            Projectile.friendly = false;
+            // Projectile.friendly = false;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 12;
             Projectile.tileCollide = true;
@@ -44,7 +44,7 @@ namespace EEMod.Projectiles.Enemy
             Projectile.rotation += Projectile.velocity.Y / 128f;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
 
         }

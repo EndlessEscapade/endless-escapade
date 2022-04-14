@@ -54,8 +54,8 @@ namespace EEMod.Items.TreasureBags
                     Main.LocalPlayer.QuickSpawnItem(ItemType<EnchantedCoral>(), 1);
                     break;
             }*/
-            Main.LocalPlayer.QuickSpawnItem(ItemType<HydrosScales>(), Main.rand.Next(42, 68));
-            Main.LocalPlayer.QuickSpawnItem(ItemType<WaterDragonsScale>(), 1);
+            Main.LocalPlayer.QuickSpawnItem(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), ItemType<HydrosScales>(), Main.rand.Next(42, 68));
+            Main.LocalPlayer.QuickSpawnItem(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), ItemType<WaterDragonsScale>(), 1);
         }
 
         public override bool CanRightClick()

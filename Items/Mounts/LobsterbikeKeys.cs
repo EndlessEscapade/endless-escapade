@@ -17,7 +17,7 @@ namespace EEMod.Items.Mounts
             Item.height = 30;
             Item.useTime = 20;
             Item.useAnimation = 20;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.value = 30000;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item79;
