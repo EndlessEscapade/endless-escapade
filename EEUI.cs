@@ -24,6 +24,12 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
+        public FishermansLogUI FishermansLogUI;
+        public KelpArmorAmmoUI KelpArmorAmmoUI;
+        public IndicatorsUI IndicatorsUI;
+        public DialogueUI DialogueUI;
+        public ShipLoadoutUI ShipLoadoutUI;
+
         public void LoadUI()
         {
             if (!Main.dedServ)
@@ -42,10 +48,12 @@ namespace EEMod
                 UI.SwitchBindedState("ArrowInterface");
             }
         }
+
         public void UnloadUI()
         {
             UI.UnLoad();
         }
+
         public override void UpdateUI(GameTime gameTime)
         {
             base.UpdateUI(gameTime);
@@ -53,6 +61,7 @@ namespace EEMod
             lastGameTime = gameTime;
             UIControls();
         }
+
         public void UIControls()
         {
             if (RuneActivator.JustPressed && delay == 0)

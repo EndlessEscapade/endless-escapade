@@ -53,10 +53,7 @@ namespace EEMod
         public static SubworldInstanceManager Subworlds;
         private GameTime lastGameTime;
         public UserInterface EEInterface;
-        public FishermansLogUI FishermansLogUI;
-        public KelpArmorAmmoUI KelpArmorAmmoUI;
-        public IndicatorsUI IndicatorsUI;
-        public DialogueUI DialogueUI;
+
         public ComponentManager<TileObjVisual> TVH;
 
         public override void Load()
