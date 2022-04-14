@@ -79,10 +79,12 @@ namespace EEMod.NPCs
 
             if (spawnplayer.ZoneBeach)
             {
-                pool.Add(ModContent.NPCType<FlowerHatJelly>(), 5f);
-                pool.Add(ModContent.NPCType<SeaSlug>(), 5f);
+                //pool.Add(ModContent.NPCType<FlowerHatJelly>(), 5f);
+                //pool.Add(ModContent.NPCType<SeaSlug>(), 5f);
 
-                pool.Add(NPCID.Shark, 5f);
+                //pool.Add(ModContent.NPCType<Cococritter>());
+                //pool.Add(NPCID.PinkJellyfish, 5f);
+                //pool.Add(NPCID.Shark, 5f);
             }
         }
     }

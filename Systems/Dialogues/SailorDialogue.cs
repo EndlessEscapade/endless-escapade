@@ -34,7 +34,7 @@ namespace EEMod.Systems
 				/*10*/"Oh, well, a while ago a storm hit my ship, and my brother was cast into the depths.",
 				/*11*/"After that, I couldn't stomach going sailing the seas again. Brings back too much for me, ye know.",
 				/*12*/"My memories with him are too fond to lose, though, so I stay by the sea in hopes that one day he'll come back. ",
-				/*13*/"Sorry about that",
+				/*13*/"Sorry about that.",
 				/*14*/"Ah well, it's fine; it was years ago. I just hope one day I can see him again."
 			};
 			if (!Main.player[Main.myPlayer].GetModPlayer<DialoguePlayer>().HasTalkedToSailor)

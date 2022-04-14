@@ -48,7 +48,7 @@ namespace EEMod.Seamap.Content
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
 
-        public float boatSpeed = 0.3f;
+        public float boatSpeed = 0.15f;
 
         public float rot;
         public float forwardSpeed;
@@ -63,13 +63,13 @@ namespace EEMod.Seamap.Content
             {
                 if (myPlayer.controlUp)
                 {
-                    forwardSpeed += 0.1f;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -2f, 3f);
+                    forwardSpeed += boatSpeed;
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 10, boatSpeed * 15);
                 }
                 if (myPlayer.controlDown)
                 {
-                    forwardSpeed -= 0.1f;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -2f, 3f);
+                    forwardSpeed -= boatSpeed;
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 10, boatSpeed * 15);
                 }
                 if (myPlayer.controlRight)
                 {
@@ -235,7 +235,7 @@ namespace EEMod.Seamap.Content
 
                 if (obj.collides && invFrames < 0)
                 {
-                    if (new Rectangle((int)position.X, (int)position.Y + 70, 124, 28).Intersects(obj.Hitbox))
+                    if (new Rectangle((int)position.X, (int)position.Y, 124, 98).Intersects(obj.Hitbox))
                     {
                         if (obj is Cannonball)
                             if ((int)(obj as Cannonball).team == myPlayer.team) continue;
@@ -243,7 +243,7 @@ namespace EEMod.Seamap.Content
                         shipHelth--;
                         invFrames = 20;
 
-                        velocity = Vector2.Normalize(obj.Center - new Vector2((int)position.X + (124 / 2), (int)position.Y + 70 + (28 / 2))) * boatSpeed * -4;
+                        velocity = Vector2.Normalize(obj.Center - Center) * boatSpeed * -4;
                     }
                 }
             }
