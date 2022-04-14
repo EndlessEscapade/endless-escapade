@@ -35,7 +35,6 @@ namespace EEMod
 
         public bool jellyfishMigration;
 
-        int SpireCutscene;
         /*public void UpdateCR()
         {
             /*if (player.position.Y >= 800 * 16 && !player.accDivingHelm)
@@ -140,13 +139,5 @@ namespace EEMod
                 jellyfishMigration = false;
             }
         }*/
-
-        public void UpdateWorld()
-        {
-            if (Main.netMode != NetmodeID.Server && Filters.Scene[SunThroughWallsShader].IsActive())
-            {
-                Filters.Scene.Deactivate(SunThroughWallsShader);
-            }
-        }
     }
 }

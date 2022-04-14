@@ -61,12 +61,7 @@ namespace EEMod
 
             if (!Main.dedServ)
             {
-                UI.AddUIState("RunUI", new RunninUI());
-                UI.AddUIState("EEUI", new EEUI());
-
                 UI.AddInterface("CustomResources");
-                UI.AddInterface("SpeedrunnTimer", false, "RunUI");
-                UI.AddInterface("EEInterface", true, "EEUI"); //Not sure if it's true
 
                 UI.SwitchBindedState("ArrowInterface");
             }

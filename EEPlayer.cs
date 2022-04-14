@@ -6,7 +6,6 @@ using EEMod.ID;
 using EEMod.Items.Fish;
 using EEMod.Projectiles;
 using EEMod.Items.Weapons.Mage;
-using EEMod.Projectiles.Runes;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,31 +39,30 @@ namespace EEMod
         public static bool startingText;
         public bool HasVisitedSpire;
 
-        //Runes
-        public byte[] hasGottenRuneBefore = new byte[7];
-        public byte[] inPossesion = new byte[7];
-        public int bubbleRuneBubble = 0;
-
-        public float zipMultiplier = 1;
         public bool isPickingUp;
 
+        //Custom fishing values
         public Dictionary<int, int> fishLengths = new Dictionary<int, int>();
-
-        public Vector2[] arrayPoints = new Vector2[24];
-        private readonly string SunThroughWallsShader = "EEMod:SunThroughWalls";
-        public bool firstFrameVolcano;
+        
+        //Zipline values
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
         public bool holdingPylon;
         public bool ridingZipline;
+        public float zipMultiplier = 1;
+
+        //EEGame values
         public Vector2 secondPlayerMouse;
         public int PlayerX;
         public int PlayerY;
         public Vector2 velHolder;
 
+        //Glider bool
         public bool isHoldingGlider;
+
         public Vector2 currentAltarPos;
 
+        //Screenshake values
         private float displacmentX = 0;
         private float displacmentY = 0;
         public bool isCameraFixating;
@@ -72,7 +70,7 @@ namespace EEMod
         public Vector2 fixatingPoint;
         public float fixatingSpeedInv;
         public int intensity;
-        private int runeCooldown = 0;
+
         public bool playingGame;
 
         public int powerLevel;
@@ -80,23 +78,7 @@ namespace EEMod
 
         public bool isHangingOnVine;
 
-        private readonly Dictionary<int, bool[]> RuneData = new Dictionary<int, bool[]>()
-        {
-            {0,new []{false,false }},
-            {1,new []{false,false }},
-            {2,new []{false,false }},
-            {3,new []{false,false }},
-            {4,new []{false,false }},
-            {5,new []{false,false }},
-            {6,new []{false,false }},
-        };
-
         public override bool CloneNewInstances => false; // just in case something doesn't reset
-
-        public override void PostUpdate()
-        {
-
-        }
 
         public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
         {
@@ -252,11 +234,6 @@ namespace EEMod
 
             // EEMod.isSaving = false;
 
-            if(SubworldLibrary.SubworldSystem.Current == null)
-            {
-                UpdateWorld();
-            }
-
             base.UpdateEquips();
         }
 
@@ -311,15 +288,12 @@ namespace EEMod
 
         public override void SaveData(TagCompound tag)
         {
-            tag["hasGottenRuneBefore"] = hasGottenRuneBefore;
             tag["fishLengthsKeys"] = fishLengths.Keys.ToList();
             tag["fishLengthsValues"] = fishLengths.Values.ToList();
         }
 
         public override void LoadData(TagCompound tag)
         {
-            tag.TryGetByteArrayRef("hasGottenRuneBefore", ref hasGottenRuneBefore);
-
             var fishLengthsKeys = new List<int>();
             var fishLengthsValues = new List<int>();
 

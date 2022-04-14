@@ -62,9 +62,9 @@ namespace EEMod
 
             Inspect = KeybindLoader.RegisterKeybind(this, "Inspect", Keys.OemCloseBrackets);
 
-            PrimitiveSystem.primitives.Load();
-
             PrimitiveSystem.primitives = new PrimTrailManager();
+
+            PrimitiveSystem.primitives.Load();
 
             LoadIL();
             LoadDetours();

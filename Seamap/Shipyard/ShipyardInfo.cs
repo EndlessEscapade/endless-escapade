@@ -7,7 +7,6 @@ using EEMod.Items.Fish;
 using EEMod.Projectiles;
 using EEMod.Projectiles;
 using EEMod.Items.Weapons.Mage;
-using EEMod.Projectiles.Runes;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +24,6 @@ using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.Core;
 using Terraria.DataStructures;
 using System.Linq;
-
 using EEMod.EEWorld;
 using EEMod.Players;
 using EEMod.Items.Accessories;

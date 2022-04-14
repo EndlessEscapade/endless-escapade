@@ -524,10 +524,6 @@ namespace EEMod
         {
             if (Main.gameMenu)
                 PrimitiveSystem.primitives._trails.Clear();
-
-            Vector2 lastScreenPos = Main.screenPosition;
-
-            Main.screenPosition = lastScreenPos;
         }
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
