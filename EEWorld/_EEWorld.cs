@@ -295,11 +295,11 @@ namespace EEMod.EEWorld
 
         public static void GenerateShipyard()
         {
-            for (int i = 0; i < 800; i++)
+            for (int i = 0; i < 2000; i++)
             {
                 for (int j = (int)(Main.worldSurface * 0.35f); j < Main.rockLayer; j++)
                 {
-                    if (!WorldGen.InWorld(i, j)) continue;
+                    if (!WorldGen.InWorld(i, j)) break;
 
                     Tile tile = Framing.GetTileSafely(i, j);
 
@@ -418,16 +418,18 @@ namespace EEMod.EEWorld
                                         break;
                                 }
 
+                                break;
+
                                 //WorldGen.PlaceTile(i, k - 2=, TileID.Sandcastles);
                             }
                         }
 
                         break;
                     }
-
                     else if (tile.HasTile && tile.TileType == TileID.Sand)
                     {
                         PlaceShipyard(i, j - 13);
+
                         return;
                     }
                 }

@@ -62,27 +62,38 @@ namespace EEMod
 
             Inspect = KeybindLoader.RegisterKeybind(this, "Inspect", Keys.OemCloseBrackets);
 
-            PrimitiveSystem.primitives = new PrimTrailManager();
-
-            PrimitiveSystem.primitives.Load();
-
-            LoadIL();
-            LoadDetours();
-            LoadUI();
-
             if (!Main.dedServ)
             {
-                Particles = new ParticleZoneHandler();
-                Particles.AddZone("Main", 40000);
-
-                MainParticles = Particles.Get("Main");
-
-                AutoloadingManager.LoadManager(this);
+                PrimitiveSystem.primitives = new PrimTrailManager();
             }
+
+            Main.QueueMainThreadAction(() =>
+            {
+                if (!Main.dedServ)
+                {
+                    AutoloadingManager.LoadManager(this);
+
+                    LoadUI();
+                }
+
+                LoadIL();
+                LoadDetours();
+
+                if (!Main.dedServ)
+                {
+                    Particles = new ParticleZoneHandler();
+                    Particles.AddZone("Main", 40000);
+                    MainParticles = Particles.Get("Main");
+
+                    PrimitiveSystem.primitives.Load();
+                }
+            });
 
             //Example
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
+
+            MusicLoader.AddMusic(this, "Assets/Music/SurfaceReefs");
         }
 
         public override void Unload()

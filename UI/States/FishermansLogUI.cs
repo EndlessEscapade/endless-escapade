@@ -32,6 +32,7 @@ namespace EEMod.UI.States
         public UIElement SelectedFish;
         public bool ClosingUI;
         public int SlideTimer = 0;
+
         public override void OnInitialize()
         {
             Background = new UIImage(ModContent.Request<Texture2D>("EEMod/UI/FishermansLogUI", AssetRequestMode.ImmediateLoad).Value);

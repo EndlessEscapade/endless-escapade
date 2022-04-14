@@ -58,8 +58,9 @@ namespace EEMod
             PixelationShader,
             BloomShader,
             HydrosDye,
-            AquamarineDye,
-            NoiseSurfacing;
+            AquamarineDye;
+
+        public static Effect NoiseSurfacing;
 
         [StaticShaderLoad(true)]
         public static Effect ReflectionShader;
