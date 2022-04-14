@@ -47,8 +47,8 @@ namespace EEMod
             Ref<Effect> screenRef6 = new Ref<Effect>(Noise2D);
             Ref<Effect> screenRef7 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/SeaOpening"));
             Ref<Effect> screenRef8 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/LightSource"));
-            Ref<Effect> screenRef9 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/ReflectionShader"));
-            ModContent.GetInstance<EEMod>().GetEffect("Effects/Noise2D").Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/Noise/noise"));
+            Ref<Effect> screenRef9 = new Ref<Effect>(ModContent.Request<Effect>("Effects/ReflectionShader").Value);
+            ModContent.GetInstance<EEMod>().GetEffect("Effects/Noise2D").Parameters["noiseTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Noise/noise"));
             Filters.Scene["EEMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);
             Filters.Scene["EEMod:Boom"] = new Filter(new ScreenShaderData(screenRef, "DeathAnimation"), EffectPriority.VeryHigh);
             Filters.Scene["EEMod:Shockwave"] = new Filter(new ScreenShaderData(screenRef2, "Shockwave"), EffectPriority.VeryHigh);
