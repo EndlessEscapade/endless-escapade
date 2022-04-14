@@ -57,12 +57,8 @@ namespace EEMod.Seamap.Core
 
             spriteBatch.End();
 
-
-            PrimitiveSystem.trailManager.DrawTrails(spriteBatch);
-
             if (!Main.dedServ)
             {
-                PrimitiveSystem.trailManager.DrawTrails(spriteBatch);
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
             }
 

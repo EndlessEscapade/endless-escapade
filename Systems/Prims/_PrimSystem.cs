@@ -18,15 +18,12 @@ namespace EEMod.Prim
 {
     public class PrimitiveSystem : ModSystem
     {
-        public static TrailManager trailManager;
         public static PrimTrailManager primitives;
 
         public override void PreUpdateProjectiles()
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                trailManager.UpdateTrails();
-
                 primitives.UpdateTrails();
             }
         }

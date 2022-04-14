@@ -23,6 +23,10 @@ using EEMod.Systems.EEGame;
 using Terraria.Audio;
 using Terraria.GameContent;
 using EEMod.Subworlds;
+using Terraria.UI.Chat;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics;
+using EEMod.Config;
 
 namespace EEMod
 {
@@ -30,7 +34,6 @@ namespace EEMod
     {
         public static int _lastSeed;
         public static Texture2D ScTex;
-        public static Effect NoiseSurfacing;
         public static int startingTextHandler;
 
         public IceHockey simpleGame;
@@ -124,18 +127,19 @@ namespace EEMod
                 {
                     if (Inspect.JustPressed && player.GetModPlayer<EEPlayer>().playingGame == true)
                     {
-                        // player.GetModPlayer<EEPlayer>().playingGame = false;
-                        // player.webbed = false;
+                        player.GetModPlayer<EEPlayer>().playingGame = false;
+                        player.webbed = false;
                         simpleGame.EndGame();
                         break;
                     }
+
                     if (Inspect.JustPressed && Framing.GetTileSafely((int)player.Center.X / 16, (int)player.Center.Y / 16).TileType == ModContent.TileType<AirHockeyTableTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
                     {
                         simpleGame = new IceHockey();
                         SoundEngine.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
-                        player.BuyItem(2500);
                         simpleGame.StartGame(i);
                         player.GetModPlayer<EEPlayer>().playingGame = true;
+
                         break;
                     }
                 }
@@ -154,43 +158,269 @@ namespace EEMod
 
         internal void DoPostDrawTiles(SpriteBatch spriteBatch) => AfterTiles?.Invoke(spriteBatch);
 
-        public static void DrawText()
+        public void DrawLoadingScreen()
         {
-            SeamapPlayer modPlayer = Main.LocalPlayer.GetModPlayer<SeamapPlayer>();
-            float alpha = modPlayer.titleText;
-            Color color = Color.White * alpha;
-
-            Texture2D Outline = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/Outline").Value;
-            Texture2D OceanScreen = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Seamap/SeamapAssets/OceanScreen").Value;
-
-            if (FontAssets.MouseText.Value != null)
+            switch (loadingChooseImage)
             {
-                if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
+                case 0:
+                    texture2 = Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
+                    break;
+                case 1:
+                    texture2 = Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
+                    break;
+                case 2:
+                    texture2 = Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
+                    break;
+                default:
+                    texture2 = Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
+                    break;
+            }
+            switch (loadingChooseImage)
+            {
+                default:
                 {
-                    Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
-
-                    Main.spriteBatch.Begin();
-                    Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
-                    Main.spriteBatch.End();
+                    texture = ModContent.Request<Texture2D>("Terraria/Images/UI/Sunflower_Loading").Value;
+                    frames = 19;
+                    frameSpeed = 3;
+                    break;
                 }
 
-                /*Vector2 textSize = Main.fontDeathText.MeasureString(text);
-                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-                float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
-                Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
-                if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
-                    Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
-                if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
+                case 1:
                 {
-                    Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
+                    texture = ModContent.Request<Texture2D>("EEMod/NPCs/SurfaceReefs/HermitCrab").Value;
+                    frames = 4;
+                    frameSpeed = 5;
+                    break;
                 }
-                else
+                case 2:
                 {
-                    Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-                    Main.spriteBatch.Draw(Outline, new Vector2(textPositionLeft - 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.None, 0);
-                    Main.spriteBatch.Draw(Outline, new Vector2(textPositionRight + 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.FlipHorizontally, 0);
-                }*/
+                    texture = ModContent.Request<Texture2D>("EEMod/NPCs/SurfaceReefs/Seahorse").Value;
+                    frames = 7;
+                    frameSpeed = 4;
+                    break;
+                }
+                case 3:
+                {
+                    texture = ModContent.Request<Texture2D>("EEMod/NPCs/LowerReefs/Lionfish").Value;
+                    frames = 8;
+                    frameSpeed = 10;
+                    break;
+                }
+                case 4:
+                {
+                    texture = ModContent.Request<Texture2D>("EEMod/NPCs/ThermalVents/MechanicalShark").Value;
+                    frames = 6;
+                    frameSpeed = 10;
+                    break;
+                }
+            }
+            if (Countur++ > frameSpeed)
+            {
+                Countur = 0;
+                frame2.Y += texture.Height / frames;
+            }
+            if (frame2.Y >= texture.Height / frames * (frames - 1))
+            {
+                frame2.Y = 0;
+            }
+
+            Vector2 position = new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / 2 + 30);
+
+            Main.spriteBatch.Draw(texture2,
+                new Rectangle(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / 2, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height),
+                texture2.Bounds, new Color(204, 204, 204), 0, origin: new Vector2(texture2.Width / 2, texture2.Height / 2), SpriteEffects.None, 0);
+
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame2.Y, texture.Width, texture.Height / frames), new Color(0, 0, 0), 0, new Rectangle(0, frame2.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
+
+            if (FontAssets.DeathText.Value != null && screenMessageText != null)
+            {
+                Vector2 textSize = FontAssets.DeathText.Value.MeasureString(screenMessageText);
+
+                if (progressMessage != null)
+                {
+                    Vector2 textSize2 = FontAssets.MouseText.Value.MeasureString(progressMessage);
+                    textSize2 = new Vector2(textSize2.X * 1.2f, textSize2.Y);
+
+                    float textPosition2Left = Main.graphics.GraphicsDevice.Viewport.Width / 2 - textSize2.X / 2;
+
+                    if (progressMessage == null) progressMessage = "";
+                    //Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage, new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                    ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, progressMessage, new Vector2(textPosition2Left, Main.graphics.GraphicsDevice.Viewport.Height / 2 - 350), Color.White * alpha, 0f, Vector2.Zero, new Vector2(1.2f, 1.2f));
+                }
+
+                loadingScreenTicker++;
+                if (loadingScreenTicker % 600 == 0)
+                {
+                    loadingChoose = Main.rand.Next(68);
+                    textPositionLeft = -textSize.X / 2;
+                }
+                else if (loadingScreenTicker % 600 > 0 && loadingScreenTicker % 600 <= 540)
+                {
+                    textPositionLeft += ((Main.graphics.GraphicsDevice.Viewport.Width / 2) - (textSize.X / 2) - textPositionLeft) / 25f;
+                }
+                else if (loadingScreenTicker % 600 > 540 && loadingScreenTicker % 600 < 600)
+                {
+                    textPositionLeft += ((Main.graphics.GraphicsDevice.Viewport.Width + (textSize.X / 2)) - textPositionLeft) / 25f;
+                }
+                float tempAlpha = alpha;
+                tempAlpha = 1 - (Math.Abs((Main.graphics.GraphicsDevice.Viewport.Width / 2) - (textSize.X / 2) - textPositionLeft) / (Main.graphics.GraphicsDevice.Viewport.Width / 2f));
+
+
+                //Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 100), Color.White * tempAlpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, screenMessageText, new Vector2(textPositionLeft, Main.graphics.GraphicsDevice.Viewport.Height / 2 - 100), Color.White * tempAlpha, 0f, Vector2.Zero, Vector2.One);
             }
         }
+
+        public Texture2D texture;
+        public Texture2D texture2;
+        public Rectangle frame2;
+        public int Countur;
+        public int frames;
+        public int frameSpeed;
+
+        public void DrawRef()
+        {
+            RenderTarget2D buffer = Main.screenTarget;
+
+            Main.graphics.GraphicsDevice.SetRenderTarget(null);
+
+            Color[] texdata = new Color[buffer.Width * buffer.Height];
+
+            buffer.GetData(texdata);
+
+            Texture2D screenTex = new Texture2D(Main.graphics.GraphicsDevice, buffer.Width, buffer.Height);
+
+            screenTex.SetData(texdata);
+
+            Main.spriteBatch.Draw(screenTex, Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * 0.3f, 0f, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
+            Main.graphics.GraphicsDevice.SetRenderTarget(Main.screenTarget);
+        }
+
+        private static void ModifyWaterColor(ref VertexColors colors)
+        {
+            Color c = Color.White;
+
+            colors.TopLeftColor = c;
+            colors.TopRightColor = c;
+            colors.BottomLeftColor = c;
+            colors.BottomRightColor = c;
+        }
+
+        public void DrawGlobalShaderTextures()
+        {
+            double num10;
+
+            if (Main.time < 27000.0)
+            {
+                num10 = Math.Pow(1.0 - Main.time / 54000.0 * 2.0, 2.0);
+            }
+            else
+            {
+                num10 = Math.Pow((Main.time / 54000.0 - 0.5) * 2.0, 2.0);
+            }
+
+            Rectangle[] rects = { new Rectangle(0, 0, ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SunRing").Value.Width, ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SunRing").Value.Height), new Rectangle(0, 0, ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare").Value.Width, ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare").Value.Height) };
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+            if (EEModConfigClient.Instance.BetterLighting)
+            {
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Projectiles/Nice").Value, _sunPos - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * .5f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 540f), new Vector2(87), 10f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare").Value, _sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * _globalAlpha * _intensityFunction, (float)Math.Sin(Main.time / 540f), new Vector2(rects[1].Width, rects[1].Height) / 2, 1.3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SunRing").Value, _sunPos - Main.screenPosition + new Vector2(0, 37 + (float)num10 * 250), rects[0], Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 5400f), new Vector2(rects[0].Width, rects[0].Height) / 2, 1f, SpriteEffects.None, 0);
+            }
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+        }
+
+        public void DrawLensFlares()
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+            if (EEModConfigClient.Instance.BetterLighting && Main.worldName != KeyID.CoralReefs)
+            {
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare2").Value, _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LensFlare2").Value, _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
+            }
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+        }
+
+        public void BetterLightingHandler()
+        {
+            Color DayColour = new Color(2.5f, 1.4f, 1);
+            Color NightColour = new Color(1.2f, 1.4f, 2f);
+            float shiftSpeed = 32f;
+            float Base = 0.5f;
+            float timeProgression = (float)Main.time / 54000f;
+            float baseIntesity = 0.05f;
+            float Intensity = .7f;
+            float flunctuationCycle = 20000;
+            float nightTransitionSpeed = 0.005f;
+            float globalAlphaTransitionSpeed = 0.001f;
+            float maxNightDarkness = 0.5f;
+
+            if (Main.dayTime)
+            {
+                _baseColor.R += (byte)((DayColour.R - _baseColor.R) / shiftSpeed);
+                _baseColor.G += (byte)((DayColour.G - _baseColor.G) / shiftSpeed);
+                _baseColor.B += (byte)((DayColour.B - _baseColor.B) / shiftSpeed);
+                _sunShaderPos = new Vector2(timeProgression, 0.1f);
+                _sunPos = Main.screenPosition + new Vector2(timeProgression * Main.screenWidth, 100);
+
+                if (_nightHarshness < 1)
+                {
+                    _nightHarshness += nightTransitionSpeed;
+                }
+
+                if (_globalAlpha < 1)
+                {
+                    _globalAlpha += globalAlphaTransitionSpeed;
+                }
+            }
+            else
+            {
+                _baseColor.R += (byte)((NightColour.R - _baseColor.R) / shiftSpeed);
+                _baseColor.G += (byte)((NightColour.G - _baseColor.G) / shiftSpeed);
+                _baseColor.B += (byte)((NightColour.B - _baseColor.B) / shiftSpeed);
+                _sunShaderPos = new Vector2(1 - timeProgression, 0.1f);
+                _sunPos = Main.LocalPlayer.Center - new Vector2((timeProgression - 0.5f) * 2 * Main.screenWidth, Main.LocalPlayer.Center.Y - Main.screenHeight / 2.2f);
+
+                if (_nightHarshness > maxNightDarkness)
+                {
+                    _nightHarshness -= nightTransitionSpeed;
+                }
+
+                if (_globalAlpha > 0)
+                {
+                    _globalAlpha -= globalAlphaTransitionSpeed * 10;
+                }
+            }
+
+            _intensityFunction = Math.Abs((float)Math.Sin(Main.time / flunctuationCycle) * Intensity) + baseIntesity;
+
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Saturation"].IsActive())
+            {
+                Filters.Scene.Activate("EEMod:Saturation", Vector2.Zero).GetShader();
+            }
+
+            Filters.Scene["EEMod:Saturation"].GetShader().UseImageOffset(_sunShaderPos).UseIntensity(_intensityFunction).UseOpacity(4f).UseProgress(Main.dayTime ? 0 : 1).UseColor(Base, _nightHarshness, 0).UseSecondaryColor(_baseColor);
+        }
+
+        private static void ClampScreenPositionToWorld(int maxRight, int maxBottom)
+        {
+            Vector2 vector = new Vector2(0, 0) - Main.GameViewMatrix.Translation;
+            Vector2 vector2 = new Vector2(maxRight - (float)Main.screenWidth / Main.GameViewMatrix.Zoom.X, maxBottom - (float)Main.screenHeight / Main.GameViewMatrix.Zoom.Y) - Main.GameViewMatrix.Translation;
+
+            vector = Utils.Round(vector);
+            vector2 = Utils.Round(vector2);
+
+            Main.screenPosition = Vector2.Clamp(Main.screenPosition, vector, vector2);
+        }
+
     }
 }

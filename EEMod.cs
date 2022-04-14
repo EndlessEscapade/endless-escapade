@@ -60,64 +60,42 @@ namespace EEMod
             //TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
             //TagSerializer.AddSerializer(new CrystalSerializer());
 
-            if (!Main.dedServ)
-            {
-                PrimitiveSystem.primitives = new PrimTrailManager();
-            }
-
             Inspect = KeybindLoader.RegisterKeybind(this, "Inspect", Keys.OemCloseBrackets);
 
-            Main.QueueMainThreadAction(() => 
+            PrimitiveSystem.primitives.Load();
+
+            PrimitiveSystem.primitives = new PrimTrailManager();
+
+            LoadIL();
+            LoadDetours();
+            LoadUI();
+
+            if (!Main.dedServ)
             {
-                if (!Main.dedServ)
-                {
-                    AutoloadingManager.LoadManager(this);
+                Particles = new ParticleZoneHandler();
+                Particles.AddZone("Main", 40000);
 
-                    if (Main.netMode != NetmodeID.Server)
-                    {
-                        PrimitiveSystem.trailManager = new TrailManager(this);
-                    }
-                    LoadUI();
-                }
+                MainParticles = Particles.Get("Main");
 
-                LoadIL();
-                LoadDetours();
-                if (!Main.dedServ)
-                {
-                    Particles = new ParticleZoneHandler();
-                    Particles.AddZone("Main", 40000);
-                    MainParticles = Particles.Get("Main");
-                }
-            });
+                AutoloadingManager.LoadManager(this);
+            }
 
             //Example
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
-
-            if(!Main.dedServ)
-            PrimitiveSystem.primitives.Load();
-
-            MusicLoader.AddMusic(this, "Assets/Music/SurfaceReefs");
         }
 
         public override void Unload()
         {
-            //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
-            PrismShader = null;
-            SpireShine = null;
-            Noise2D = null;
             Inspect = null;
             simpleGame = null;
-            NoiseSurfacing = null;
-            WhiteOutline = null;
-            Effervescence = null;
-            Colorify = null;
 
             UnloadIL();
             UnloadDetours();
             UnloadUI();
 
             AutoloadingManager.UnloadManager(this);
+
             Noise2DShift = null;
         }
 
@@ -127,109 +105,9 @@ namespace EEMod
             EENet.ReceievePacket(reader, whoAmI);
         }
 
-        /*public override void MidUpdateNPCGore()
-        {
-            MechanicManager.MidUpdateNPCGore();
-        }
-
-        public override void MidUpdateDustTime()
-        {
-            MechanicManager.MidUpdateDustTime();
-        }
-
-        //Mechanic Port
-        public override void PreUpdateEntities()
-        {
-            base.PreUpdateEntities();
-            MechanicManager.PreUpdateEntities();      
-        }
-
-        public override void PostUpdateEverything()
-        {
-            UpdateVerlet();
-        }*/
-
-        /*public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
-        {
-            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
-            if (mouseTextIndex != -1)
-            {
-                LegacyGameInterfaceLayer EEInterfaceLayerUI = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
-                {
-                    if (lastGameTime != null)
-                    {
-                        UI.DrawWithScaleUI(lastGameTime);
-                    }
-
-                    return true;
-                }, InterfaceScaleType.UI);
-                layers.Insert(mouseTextIndex, EEInterfaceLayerUI);
-                LegacyGameInterfaceLayer EEInterfaceLayerGame = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
-                {
-                    if (lastGameTime != null)
-                    {
-                        UI.DrawWithScaleGame(lastGameTime);
-                        UpdateGame(lastGameTime);
-                        if (Main.worldName == KeyID.CoralReefs)
-                        {
-                            DrawCR();
-                        }
-                    }
-
-                    return true;
-                }, InterfaceScaleType.Game);
-                layers.Insert(mouseTextIndex, EEInterfaceLayerGame);
-            }
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
-            {
-                DrawZipline();
-            }
-
-            var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
-            if (textLayer != -1)
-            {
-                var computerState = new LegacyGameInterfaceLayer("EE: UI", delegate
-                {
-                    if (Main.worldName == KeyID.Pyramids || SubworldLibrary.SubworldSystem.IsActive<Sea>() || Main.worldName == KeyID.CoralReefs)
-                    {
-                        DrawText();
-                    }
-                    return true;
-                },
-                InterfaceScaleType.UI);
-                layers.Insert(textLayer, computerState);
-            }
-            /*if (mouseTextIndex != -1)
-		    {
-		        layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-		        "SpeedrunTimer: SpeedrunnTimer",
-		        delegate
-		        {
-		            if (_lastUpdateUiGameTime != null && SpeedrunnTimer?.CurrentState != null)
-		            {
-			            SpeedrunnTimer.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
-		            }
-		            return true;
-		        },
-		        InterfaceScaleType.UI));
-		    }
-            if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
-            {
-                for (int i = 0; i < layers.Count; i++)
-                {
-                    var layer = layers[i];
-                    //Remove Resource bars
-                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap") || layer.Name.Contains("Vanilla: Inventory"))
-                    {
-                        layers.RemoveAt(i);
-                    }
-                }
-            }
-        }*/
-
         public override void AddRecipeGroups()
         {
-            RecipeGroup group0 = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " Gemstones", new int[]
+            RecipeGroup gemstoneGroup = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " Gemstones", new int[]
             {
                 ItemID.Amber,
                 ItemID.Amethyst,
@@ -240,7 +118,7 @@ namespace EEMod
                 ItemID.Topaz
             });
 
-            RecipeGroup.RegisterGroup("EEMod:Gemstones", group0);
+            RecipeGroup.RegisterGroup("EEMod:Gemstones", gemstoneGroup);
         }
     }
 }

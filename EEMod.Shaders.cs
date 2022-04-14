@@ -58,7 +58,8 @@ namespace EEMod
             PixelationShader,
             BloomShader,
             HydrosDye,
-            AquamarineDye;
+            AquamarineDye,
+            NoiseSurfacing;
 
         [StaticShaderLoad(true)]
         public static Effect ReflectionShader;
@@ -114,30 +115,12 @@ namespace EEMod
                     QuickLoadScreenShader(alteredPath);
                 }
 
-                /*string[] Shaders = instance.GetFile().Select((TmodFile.FileEntry entry) => entry.Name).ToArray(); //Directory.GetFiles($@"{Main.SavePath}\Mod Sources\EEMod\Effects\ScreenShaders");
-                for (int i = 0; i < Shaders.Length; i++)
-                {
-                    string filePath = Shaders[i];
-
-                    if (filePath.Contains(".xnb") ||
-                        filePath.Contains(".exe") ||
-                        filePath.Contains(".dll")) continue;
-
-                    string charSeprator = @"ScreenShaders\";
-                    int Index = filePath.IndexOf(charSeprator) + charSeprator.Length;
-                    string AlteredPath = filePath.Substring(Index);
-
-                    QuickLoadScreenShader(AlteredPath.Replace(".fx", ""));
-                }*/
-
                 LoadStaticFields();
 
                 LightingBuffer.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
 
                 GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(HydrosDye), "HydrosDyeShader"));
-                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(AquamarineDye), "AquamarineDyeShader"));
-
-                //instance.Assets.Request<Effect>("Effects/Noise2D").Value.Parameters["noiseTexture"].SetValue(instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+                GameShaders.Armor.BindShader(ModContent.ItemType<AquamarineDye>(), new ArmorShaderData(new Ref<Effect>(AquamarineDye), "AquamarineDyeShader"));
             });
         }
     }
