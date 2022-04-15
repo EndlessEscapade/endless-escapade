@@ -15,6 +15,7 @@ using EEMod.UI.States;
 using EEMod.ID;
 using EEMod;
 using System.Diagnostics;
+using Terraria.GameContent.ObjectInteractions;
 
 namespace EEMod.Tiles.Furniture.Shipyard
 {
@@ -51,10 +52,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
         public override string HighlightTexture => "EEMod/Tiles/Furniture/WoodenShipsWheelTile_Highlight";
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override bool RightClick(int i, int j)
         {

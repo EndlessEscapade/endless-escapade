@@ -8,17 +8,13 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.ObjectInteractions;
 
 namespace EEMod
 {
     public abstract class EETile : ModTile
     {
         public bool DisableSmartCursor;
-
-        public override bool HasSmartInteract()
-        {
-            return DisableSmartCursor;
-        }
 
         public virtual void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {

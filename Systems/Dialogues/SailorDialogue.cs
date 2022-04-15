@@ -114,7 +114,8 @@ namespace EEMod.Systems
 
 					for (int array = 0; array < 58; array++)
 					{
-						if (ItemID.GoldCoin == Main.LocalPlayer.inventory[array].type && Main.LocalPlayer.inventory[array].stack >= 5)
+						if ((ItemID.GoldCoin == Main.LocalPlayer.inventory[array].type && Main.LocalPlayer.inventory[array].stack >= 5) ||
+						    (ItemID.PlatinumCoin == Main.LocalPlayer.inventory[array].type && Main.LocalPlayer.inventory[array].stack >= 1))
 						{
 							goodOnMoney = true;
 							break;

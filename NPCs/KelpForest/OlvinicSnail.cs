@@ -14,7 +14,7 @@ namespace EEMod.NPCs.KelpForest
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.water ? 0 : 0.05f);
+            return (spawnInfo.Water ? 0 : 0.05f);
         }
 
         private int frameNumber = 0;

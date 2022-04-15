@@ -30,7 +30,7 @@ namespace EEMod.Items.Armor.Dalantinium
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeSpeed += 0.05f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.05f;
         }
 
         public override void UpdateArmorSet(Player player)

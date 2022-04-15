@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using EEMod.NPCs.Goblins.Bard;
 using EEMod.NPCs.Goblins.Berserker;
 using EEMod.NPCs.Goblins;
+using Terraria.GameContent.ObjectInteractions;
 
 namespace EEMod.Tiles.Furniture.Chests
 {
@@ -58,9 +59,9 @@ namespace EEMod.Tiles.Furniture.Chests
 
 		public override ushort GetMapOption(int i, int j) => 0;
 
-		public override bool HasSmartInteract() => true;
+		public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
-		public override bool IsLockedChest(int i, int j) => false;
+        public override bool IsLockedChest(int i, int j) => false;
 
 		public override bool UnlockChest(int i, int j, ref short TileFrameXAdjustment, ref int dustType, ref bool manual)
 		{

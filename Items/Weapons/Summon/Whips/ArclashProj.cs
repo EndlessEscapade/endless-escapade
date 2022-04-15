@@ -98,7 +98,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
             }
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Projectile.ai[0] += 1f / player.meleeSpeed;
+            Projectile.ai[0] += 1f / player.GetAttackSpeed(DamageClass.Melee);
 
             GetWhipSettings(Projectile);
 
@@ -284,7 +284,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
 
                     handPos = new Rectangle((int)playerHandPosition.X, (int)playerHandPosition.Y, segmentRect.Width, segmentRect.Height);
 
-                    ItemCheck_MeleeHitNPCs(player.HeldItem, handPos, (int)(player.HeldItem.damage * player.GetDamage(DamageClass.Summon)), player.HeldItem.knockBack);
+                    //ItemCheck_MeleeHitNPCs(player.HeldItem, handPos, (int)(player.HeldItem.damage * player.GetDamage(DamageClass.Summon)), player.HeldItem.knockBack);
                 }
                 playerHandPosition += vector4;
             }
@@ -363,10 +363,10 @@ namespace EEMod.Items.Weapons.Summon.Whips
                                 player.OnHit(Main.npc[HitNPC].Center.X, Main.npc[HitNPC].Center.Y, Main.npc[HitNPC]);
                             }
 
-                            if (player.armorPenetration > 0)
-                            {
-                                RealDamage += Main.npc[HitNPC].checkArmorPenetration(player.armorPenetration);
-                            }
+                            //if (player.GetArmorPenetration > 0)
+                            //{
+                            //    RealDamage += Main.npc[HitNPC].checkArmorPenetration(player.armorPenetration);
+                            //}
 
                             int dmgDone = (int)Main.npc[HitNPC].StrikeNPC(RealDamage, knockBack, player.direction, false);
 

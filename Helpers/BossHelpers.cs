@@ -17,28 +17,28 @@ namespace EEMod
 
         public static bool NoInvasion(NPCSpawnInfo spawnInfo)
         {
-            return !spawnInfo.invasion && (!Main.pumpkinMoon && !Main.snowMoon || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime);
+            return !spawnInfo.Invasion && (!Main.pumpkinMoon && !Main.snowMoon || spawnInfo.SpawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.SpawnTileY > Main.worldSurface || !Main.dayTime);
         }
 
         public static bool NoBiome(NPCSpawnInfo spawnInfo)
         {
-            Player player = spawnInfo.player;
+            Player player = spawnInfo.Player;
             return !player.ZoneJungle && !player.ZoneDungeon && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHallow && !player.ZoneSnow && !player.ZoneUndergroundDesert;
         }
 
         public static bool NoZoneAllowWater(NPCSpawnInfo spawnInfo)
         {
-            return !spawnInfo.sky && !spawnInfo.player.ZoneMeteor && !spawnInfo.spiderCave;
+            return !spawnInfo.Sky && !spawnInfo.Player.ZoneMeteor && !spawnInfo.SpiderCave;
         }
 
         public static bool NoZone(NPCSpawnInfo spawnInfo)
         {
-            return NoZoneAllowWater(spawnInfo) && !spawnInfo.water;
+            return NoZoneAllowWater(spawnInfo) && !spawnInfo.Water;
         }
 
         public static bool NormalSpawn(NPCSpawnInfo spawnInfo)
         {
-            return !spawnInfo.playerInTown && NoInvasion(spawnInfo);
+            return !spawnInfo.PlayerInTown && NoInvasion(spawnInfo);
         }
 
         public static bool NoZoneNormalSpawn(NPCSpawnInfo spawnInfo)
