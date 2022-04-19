@@ -60,10 +60,7 @@ namespace EEMod.Seamap.Core
             if (!Main.dedServ)
             {
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
-            }
 
-            if (!Main.dedServ)
-            {
                 Particles.Update();
 
                 Particles.Draw(Main.spriteBatch);
@@ -116,7 +113,7 @@ namespace EEMod.Seamap.Core
             #region Rendering cannonball target
             Texture2D targetTex = ModContent.Request<Texture2D>("EEMod/Seamap/Content/UI/Target").Value;
 
-            spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.Normalize(Main.MouseWorld - SeamapObjects.localship.Center) * 128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) * -128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
             #endregion
         }
 

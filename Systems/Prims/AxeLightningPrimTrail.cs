@@ -81,13 +81,13 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, c * Alpha, new Vector2((i / _cap), 1));
-                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
-                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstDown, c * Alpha, new Vector2(((float)i / (float)_cap), 1));
+                AddVertex(firstUp, c * Alpha, new Vector2(((float)i / (float)_cap), 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2(((float)i + 1) / (float)_cap, 1));
 
-                AddVertex(secondUp, CBT * Alpha, new Vector2((i + 1) / _cap, 0));
-                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
-                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
+                AddVertex(secondUp, CBT * Alpha, new Vector2(((float)i + 1) / (float)_cap, 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2(((float)i + 1) / (float)_cap, 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((float)(i / (float)_cap), 0));
             }
         }
 
@@ -108,7 +108,7 @@ namespace EEMod.Prim
 
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LightningTexBoosted2").Value);
+            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LightningTexBoosted").Value);
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
             EEMod.LightningShader.CurrentTechnique.Passes[0].Apply();
         }

@@ -64,12 +64,12 @@ namespace EEMod.Seamap.Content
                 if (myPlayer.controlUp)
                 {
                     forwardSpeed += boatSpeed;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 10, boatSpeed * 15);
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 15);
                 }
                 if (myPlayer.controlDown)
                 {
-                    forwardSpeed -= boatSpeed;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 10, boatSpeed * 15);
+                    forwardSpeed -= boatSpeed * 0.5f;
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 15);
                 }
                 if (myPlayer.controlRight)
                 {
@@ -128,39 +128,61 @@ namespace EEMod.Seamap.Content
             Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip").Value;
 
             int yVal;
+            float spriteRot;
 
-            while (rot > MathHelper.TwoPi)
-                rot -= MathHelper.TwoPi;
+            rot = TwoPiRestrict(rot);
 
-            while (rot < 0)
-                rot += MathHelper.TwoPi;
-
-            if (rot > (2f * Math.PI) - (Math.PI / 8f))
+            if (rot > MathHelper.TwoPi - (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
                 yVal = 114 * 2;
-            else if (rot > (2f * Math.PI) - 3f * (Math.PI / 8f))
+            }
+            else if (rot > MathHelper.TwoPi - 2f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
                 yVal = 114 * 1;
-            else if (rot > (2f * Math.PI) - 5f * (Math.PI / 8f))
+            }
+            else if (rot > MathHelper.TwoPi - 6f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 4f)) % (float)((2f * Math.PI) / 4f)) - (float)(Math.PI / 4f);
                 yVal = 114 * 0;
-            else if (rot > (2f * Math.PI) - 7f * (Math.PI / 8f))
+            }
+            else if (rot > MathHelper.TwoPi - 7f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
                 yVal = 114 * 1;
-            else if (rot > (2f * Math.PI) - 9f * (Math.PI / 8f))
+            }
+            else if (rot > MathHelper.TwoPi - 9f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
                 yVal = 114 * 2;
-            else if (rot > (2f * Math.PI) - 11f * (Math.PI / 8f))
+            }
+            else if (rot > MathHelper.TwoPi - 10f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
                 yVal = 114 * 3;
-            else if (rot > (2f * Math.PI) - 13f * (Math.PI / 8f))
+            }
+            else if (rot > MathHelper.TwoPi - 14f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 4f)) % (float)((2f * Math.PI) / 4f)) - (float)(Math.PI / 4f);
                 yVal = 114 * 4;
-            else if (rot > (2f * Math.PI) - 15f * (Math.PI / 8f))
+            }
+            else if (rot > MathHelper.TwoPi - 15f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
                 yVal = 114 * 3;
+            }
             else
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
                 yVal = 114 * 2;
-
-            float spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+            }
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, yVal, 124, 114),
                 Color.White.LightSeamap(), spriteRot / 2f, 
                 new Rectangle(0, 0, 124, 114).Size() / 2,
-                1, (rot < Math.PI * 2 * 3 / 4 - (Math.PI / 8f) && rot > Math.PI * 2 / 4 - (Math.PI / 8f)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                1, (rot < Math.PI * 2 * 3 / 4 - (Math.PI / 4f) && rot > Math.PI * 2 / 4 - (Math.PI / 4f)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             return false;
         }
@@ -186,12 +208,59 @@ namespace EEMod.Seamap.Content
 
         public float CannonRestrictRange()
         {
-            float mouseRot = Vector2.Normalize(Main.MouseWorld - Center).ToRotation();
+            float mouseRot = Vector2.Normalize(Main.MouseWorld - Center).ToRotation() + MathHelper.Pi;
 
-            if(mouseRot - rot < 0)
-                return MathHelper.Clamp(mouseRot, rot - 1.57f - 0.4f, rot - 1.57f + 0.4f) - (float)Math.PI;
+            float angleOfFreedom = 0.4f;
+
+            float realRot = rot;
+
+            /*if (mouseRot - realRot > 0)
+                return TwoPiRestrict(MathHelper.Clamp(mouseRot, realRot + 1.57f - angleOfFreedom, realRot + 1.57f + angleOfFreedom));
             else
-                return MathHelper.Clamp(mouseRot, rot + 1.57f - 0.4f, rot + 1.57f + 0.4f) - (float)Math.PI;
+                return TwoPiRestrict(MathHelper.Clamp(mouseRot, realRot - 1.57f - angleOfFreedom, realRot - 1.57f + angleOfFreedom));*/
+
+            float toTheLeft = TwoPiRestrict(realRot - MathHelper.PiOver2);
+            float toTheRight = TwoPiRestrict(realRot + MathHelper.PiOver2);
+
+            if (Math.Acos(Vector2.Dot(Vector2.UnitX.RotatedBy(mouseRot), Vector2.UnitX.RotatedBy(toTheLeft))) < Math.Acos(Vector2.Dot(Vector2.UnitX.RotatedBy(mouseRot), Vector2.UnitX.RotatedBy(toTheRight))))
+            {
+                if(Math.Acos(Vector2.Dot(Vector2.UnitX.RotatedBy(mouseRot), Vector2.UnitX.RotatedBy(toTheLeft))) > angleOfFreedom)
+                {
+                    if ((mouseRot - toTheLeft) > MathHelper.Pi) return (toTheLeft - angleOfFreedom);
+                    if ((mouseRot - toTheLeft) < -MathHelper.Pi) return (toTheLeft + angleOfFreedom);
+
+                    return (((mouseRot - toTheLeft) < 0)) ? (toTheLeft - angleOfFreedom) : (toTheLeft + angleOfFreedom);
+                }
+                else
+                {
+                    return mouseRot;
+                }
+            }
+            else 
+            {
+                if (Math.Acos(Vector2.Dot(Vector2.UnitX.RotatedBy(mouseRot), Vector2.UnitX.RotatedBy(toTheRight))) > angleOfFreedom)
+                {
+                    if ((mouseRot - toTheRight) > MathHelper.Pi) return (toTheRight - angleOfFreedom);
+                    if ((mouseRot - toTheRight) < -MathHelper.Pi) return (toTheRight + angleOfFreedom);
+
+                    return (((mouseRot - toTheRight) < 0)) ? (toTheRight - angleOfFreedom) : (toTheRight + angleOfFreedom);
+                }
+                else
+                {
+                    return mouseRot;
+                }
+            }
+        }
+
+        public float TwoPiRestrict(float val)
+        {
+            while (val > MathHelper.TwoPi)
+                val -= MathHelper.TwoPi;
+
+            while (val < 0)
+                val += MathHelper.TwoPi;
+
+            return val;
         }
 
         #region Collision nonsense

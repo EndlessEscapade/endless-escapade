@@ -128,14 +128,32 @@ namespace EEMod
                 }
             }*/
 
-            (new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(
-                boat, (new Item(ModContent.ItemType<MeteorCannonball>())).GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball(Player.team)
-                );
+            try
+            {
+                (new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(
+                    boat, (new Item(ModContent.ItemType<MeteorCannonball>())).GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball(Player.team)
+                    );
+            }
+            catch
+            {
+                Main.NewText("Something's wrong. Report this to the developers.");
+
+                return;
+            }
         }
 
         public void RightClickAbility(SeamapPlayerShip boat)
         {
-            (new Item(figureheadType)).GetGlobalItem<ShipyardGlobalItem>().info.RightClickAbility(boat);
+            try
+            {
+                (new Item(figureheadType)).GetGlobalItem<ShipyardGlobalItem>().info.RightClickAbility(boat);
+            }
+            catch
+            {
+                Main.NewText("Something's wrong. Report this to the developers.");
+
+                return;
+            }
         }
 
         public override void ModifyScreenPosition()
@@ -210,6 +228,17 @@ namespace EEMod
 
                 placedShipTether = true;
             }
+        }
+    }
+
+    public class ShipyardSystem : ModSceneEffect
+    {
+        public override int Music => MusicLoader.GetMusicSlot(ModContent.GetInstance<EEMod>(), "Assets/Music/Shipyard");
+        public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
+
+        public override bool IsSceneEffectActive(Player player)
+        {
+            return player.ZoneBeach && (player.Center.X < (Main.maxTilesX * 16));
         }
     }
 

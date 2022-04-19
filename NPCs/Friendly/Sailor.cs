@@ -19,6 +19,7 @@ using Terraria.Audio;
 using System.Diagnostics;
 using ReLogic.Content;
 using EEMod.Tiles.Furniture.Shipyard;
+using Terraria.GameContent.Personalities;
 
 namespace EEMod.NPCs.Friendly
 {
@@ -31,15 +32,33 @@ namespace EEMod.NPCs.Friendly
         {
             DisplayName.SetDefault("Sailor");
 
-            Main.npcFrameCount[NPC.type] = 25;
-            NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
-            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            Main.npcFrameCount[Type] = 25; // The amount of frames the NPC has
 
-            NPCID.Sets.DangerDetectRange[NPC.type] = 700;
-            NPCID.Sets.AttackType[NPC.type] = 0;
-            NPCID.Sets.AttackTime[NPC.type] = 90;
-            NPCID.Sets.AttackAverageChance[NPC.type] = 30;
-            NPCID.Sets.HatOffsetY[NPC.type] = 4;
+            NPCID.Sets.ExtraFramesCount[Type] = 9; // Generally for Town NPCs, but this is how the NPC does extra things such as sitting in a chair and talking to other NPCs.
+            NPCID.Sets.AttackFrameCount[Type] = 4;
+            NPCID.Sets.DangerDetectRange[Type] = 700; // The amount of pixels away from the center of the npc that it tries to attack enemies.
+            NPCID.Sets.AttackType[Type] = 0;
+            NPCID.Sets.AttackTime[Type] = 90; // The amount of time it takes for the NPC's attack animation to be over once it starts.
+            NPCID.Sets.AttackAverageChance[Type] = 30;
+            NPCID.Sets.HatOffsetY[Type] = 4; // For when a party is active, the party hat spawns at a Y offset.
+
+            // Influences how the NPC looks in the Bestiary
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Velocity = 1f, // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
+                Direction = 1 // -1 is left and 1 is right. NPCs are drawn facing the left by default but ExamplePerson will be drawn facing the right
+                              // Rotation = MathHelper.ToRadians(180) // You can also change the rotation of an NPC. Rotation is measured in radians
+                              // If you want to see an example of manually modifying these when the NPC is drawn, see PreDraw
+            };
+
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
+
+            // Set Example Person's biome and neighbor preferences with the NPCHappiness hook. You can add happiness text and remarks with localization (See an example in ExampleMod/Localization/en-US.lang).
+            // NOTE: The following code uses chaining - a style that works due to the fact that the SetXAffection methods return the same NPCHappiness instance they're called on.
+            NPC.Happiness
+                .SetBiomeAffection<OceanBiome>(AffectionLevel.Love) // Example Person prefers the forest.
+                .SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate) // Loves living near the dryad.
+                .SetNPCAffection(NPCID.Angler, AffectionLevel.Love); // Hates living near the demolitionist.
         }
         public override void SetDefaults()
         {
@@ -54,6 +73,7 @@ namespace EEMod.NPCs.Friendly
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.5f;
+
             AnimationType = NPCID.Guide;
         }
 
@@ -127,6 +147,8 @@ namespace EEMod.NPCs.Friendly
 
             if (cutsceneActive)
             {
+                Main.hideUI = true;
+
                 if (ticker == 0)
                 {
                     Filters.Scene.Activate("EEMod:Ripple", Main.LocalPlayer.Center).GetShader().UseOpacity(cutsceneOpacity);
@@ -176,6 +198,11 @@ namespace EEMod.NPCs.Friendly
 
                     EEWorld.EEWorld.boatPlaced = true;
 
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        NetMessage.SendData(MessageID.WorldData);
+                    }
+
                     WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25, ModContent.TileType<WoodenShipsWheelTile>());
 
                     WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 - 9, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 5, ModContent.TileType<FigureheadTile>());
@@ -183,6 +210,11 @@ namespace EEMod.NPCs.Friendly
                     WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 + 12, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 1, ModContent.TileType<CannonTile>());
 
                     WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 + 24, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 1, ModContent.TileType<MapTable>());
+
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        NetMessage.SendTileSquare(Main.LocalPlayer.whoAmI, (int)EEWorld.EEWorld.shipCoords.X - 2 + 7, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2, 50, 50); // Immediately inform clients of new world state.
+                    }
                 }
 
                 if(ticker == 240)
@@ -199,6 +231,8 @@ namespace EEMod.NPCs.Friendly
                     if (Filters.Scene["EEMod:Ripple"].IsActive()) Filters.Scene.Deactivate("EEMod:Ripple");
 
                     cutsceneActive = false;
+
+                    Main.hideUI = false;
                 }
 
                 ticker++;

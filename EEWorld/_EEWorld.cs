@@ -76,8 +76,6 @@ namespace EEMod.EEWorld
 
             tag.TryGetRef("boatPlaced", ref boatPlaced);
 
-            Debug.WriteLine(boatPlaced);
-
 
             IList<Vector2> positions = new List<Vector2>();
             IList<Vector2> sizes = new List<Vector2>();

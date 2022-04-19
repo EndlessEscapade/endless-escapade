@@ -530,10 +530,10 @@ namespace EEMod
         {
             if (!Main.dedServ)
             {
-                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
-
                 if (!SubworldLibrary.SubworldSystem.IsActive<Sea>())
                 {
+                    PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+
                     Particles.Update();
 
                     Particles.Draw(Main.spriteBatch);

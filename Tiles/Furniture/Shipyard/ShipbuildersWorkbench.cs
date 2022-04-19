@@ -47,9 +47,14 @@ namespace EEMod.Tiles.Furniture.Shipyard
         {
             Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemID.DirtBlock);
 		}
+
         public override bool RightClick(int i, int j)
         {
             //TODO: Add some sweet sound when opening and closing
+
+            if (!EEWorld.EEWorld.boatPlaced)
+                return false;
+
             if (EEMod.UI.IsActive("ShipLoadoutInterface"))
             {
                 EEMod.UI.RemoveState("ShipLoadoutInterface");
@@ -58,14 +63,35 @@ namespace EEMod.Tiles.Furniture.Shipyard
             {
                 EEMod.UI.SetState("ShipLoadoutInterface", "ShipLoadoutUI");
             }
+
             return base.RightClick(i, j);
         }
+
         public override void MouseOver(int i, int j)
 		{
-			Player player = Main.LocalPlayer;
+            if (!EEWorld.EEWorld.boatPlaced)
+                return;
+
+            Player player = Main.LocalPlayer;
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;
 			player.cursorItemIconID = ItemID.IronHammer;
 		}
-	}
+
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            if (!EEWorld.EEWorld.boatPlaced)
+                return false;
+
+            if(Vector2.DistanceSquared(new Vector2(i, j), Main.LocalPlayer.Center / 16f) < 8 * 8) 
+            {
+                if (EEMod.UI.IsActive("ShipLoadoutInterface"))
+                {
+                    EEMod.UI.RemoveState("ShipLoadoutInterface");
+                }
+            }
+
+            return true;
+        }
+    }
 }
