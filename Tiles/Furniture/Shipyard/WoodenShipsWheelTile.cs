@@ -67,7 +67,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
             if (SubworldLibrary.SubworldSystem.Current == null)
             {
-                player.GetModPlayer<SeamapPlayer>().myLastBoatPos = new Vector2(Seamap.Core.Seamap.seamapWidth - 450, Seamap.Core.Seamap.seamapWidth - 100);
+                player.GetModPlayer<SeamapPlayer>().myLastBoatPos = Vector2.Zero;
 
                 player.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene = true;
             }

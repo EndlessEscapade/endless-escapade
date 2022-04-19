@@ -45,10 +45,12 @@ namespace EEMod.Seamap.Content
             width = 124;
             height = 98;
 
+            rot = MathHelper.TwoPi * 3f / 4f;
+
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
 
-        public float boatSpeed = 0.15f;
+        public float boatSpeed = 0.1f;
 
         public float rot;
         public float forwardSpeed;
@@ -64,12 +66,12 @@ namespace EEMod.Seamap.Content
                 if (myPlayer.controlUp)
                 {
                     forwardSpeed += boatSpeed;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 15);
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 25);
                 }
                 if (myPlayer.controlDown)
                 {
                     forwardSpeed -= boatSpeed * 0.5f;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 15);
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 25);
                 }
                 if (myPlayer.controlRight)
                 {
