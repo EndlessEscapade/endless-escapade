@@ -373,7 +373,7 @@ namespace EEMod
 
             DetourReflectionCache.UIWorldListItem_buttonLabel.SetValue(self, buttonLabel);
 
-            self.Append(buttonLabel);
+            //self.Append(buttonLabel);
         }
 
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)

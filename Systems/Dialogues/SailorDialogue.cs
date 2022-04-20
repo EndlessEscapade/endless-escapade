@@ -25,8 +25,8 @@ namespace EEMod.Systems
 				/*1*/ "Can you help me repair that ship?",
 				/*2*/ "What made you stop?",
 				/*3*/ "Bye!",
-				/*4*/ $"That ship sitting broken off the pier used to be one of the best vessels in the land. ",
-				/*5*/ $"I'm past my days of sailing, but you look like you want to see the seven seas. ",
+				/*4*/ "That ship sitting broken off the pier used to be one of the best vessels in the land. ",
+				/*5*/ "I'm past my days of sailing, but you look like you want to see the seven seas. ",
 				/*6*/ $"If you brought me [c/E4A214:{"150§Wood"}] [i:{ItemID.Wood}] and [c/E4A214:{"20§Silk"}] [i:{ItemID.Silk}] along with a solid payment of [c/E4A214:{"5§gold§coins"}] [i:{ItemID.GoldCoin}], I'd get her fixed right up for you.",
 				/*7*/ "Here you go!",
 				/*8*/ "No, bye.",
@@ -35,7 +35,14 @@ namespace EEMod.Systems
 				/*11*/"After that, I couldn't stomach going sailing the seas again. Brings back too much for me, ye know.",
 				/*12*/"My memories with him are too fond to lose, though, so I stay by the sea in hopes that one day he'll come back. ",
 				/*13*/"Sorry about that.",
-				/*14*/"Ah well, it's fine; it was years ago. I just hope one day I can see him again."
+				/*14*/"Ah well, it's fine; it was years ago. I just hope one day I can see him again.",
+				/*15*/"How do I use my boat?",
+				/*16*/$"To set sail with yer ship, [c/E4A214:{"right-click"}] the steering wheel on the helm of your boat.",
+				/*17*/$"Once ye're on the seven seas, use [c/E4A214:{"W"}] to accelerate forward, [c/E4A214:{"S"}] to decelerate and move backwards, and [c/E4A214:{"A and D"}] to steer left and right.",
+				/*18*/$"To use yer cannons, [c/E4A214:{"left-click"}] to shoot yer cannons in the direction of your mouse.",
+				/*19*/$"To use yer figurehead, [c/E4A214:{"right-click"}] to activate yer ability, if yer figurehead has one.",
+				/*20*/$"You can swap out yer cannons and figureheads at the workbench in the first floor of my house by [c/E4A214:{"right-clicking"}].",
+				/*21*/$"You can access yer ship's hold, a perfect place for storing items and cannonballs, in the inside of yet ship by [c/E4A214:{"right-clicking"}]."
 			};
 			if (!Main.player[Main.myPlayer].GetModPlayer<DialoguePlayer>().HasTalkedToSailor)
             {
@@ -54,7 +61,7 @@ namespace EEMod.Systems
 			switch (piece)
             {
                 case (0):
-					PresentResponses((!EEWorld.EEWorld.boatPlaced) ? new int[3] { 2, 1, 3 } : new int[2] { 2, 3 });
+					PresentResponses((!EEWorld.EEWorld.boatPlaced) ? new int[3] { 2, 1, 3 } : new int[3] { 2, 15, 3 });
 					break;
 				case (1):
 					//PresentResponses(new int[1] { 4 });
@@ -76,6 +83,27 @@ namespace EEMod.Systems
 					SayPiece(14);
 					break;
 				case (14):
+					CloseDialogue();
+					break;
+				case (15):
+					SayPiece(16);
+					break;
+				case (16):
+					SayPiece(17);
+					break;
+				case (17):
+					SayPiece(18);
+					break;
+				case (18):
+					SayPiece(19);
+					break;
+				case (19):
+					SayPiece(20);
+					break;
+				case (20):
+					SayPiece(21);
+					break;
+				case (21):
 					CloseDialogue();
 					break;
 				case (4):
