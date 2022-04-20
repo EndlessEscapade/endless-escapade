@@ -28,6 +28,7 @@ using EEMod.Tiles.Furniture;
 using Terraria.Audio;
 using Terraria.ModLoader.IO;
 using EEMod.Subworlds;
+using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod
 {
@@ -56,6 +57,8 @@ namespace EEMod
         public bool lastKeySeamap;
 
         public float quickOpeningFloat = 5f;
+
+        public string exitingSeamapKey;
 
         public void ReturnHome()
         {
@@ -107,6 +110,8 @@ namespace EEMod
 
         public double time;
         public bool dayTime;
+
+        public bool exitingSeamap = false;
 
         public void EnterSeamap()
         {
@@ -162,15 +167,32 @@ namespace EEMod
 
             #region Opening cutscene for seamap
 
-            if (quickOpeningFloat > 0.01f)
-                quickOpeningFloat -= quickOpeningFloat / 20f;
+            if (!exitingSeamap)
+            {
+                if (quickOpeningFloat > 0.01f)
+                    quickOpeningFloat -= quickOpeningFloat / 20f;
+                else
+                    quickOpeningFloat = 0;
+
+                Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(quickOpeningFloat);
+
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
+                    Filters.Scene.Activate("EEMod:SeaOpening", Player.Center).GetShader().UseIntensity(quickOpeningFloat);
+            }
             else
-                quickOpeningFloat = 0;
+            {
+                if (quickOpeningFloat < 10f)
+                    quickOpeningFloat += 0.4f;
+                else
+                {
+                    OnExitSeamap();
+                }
 
-            Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(quickOpeningFloat);
+                Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(quickOpeningFloat);
 
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
-                Filters.Scene.Activate("EEMod:SeaOpening", Player.Center).GetShader().UseIntensity(quickOpeningFloat);
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
+                    Filters.Scene.Activate("EEMod:SeaOpening", Player.Center).GetShader().UseIntensity(quickOpeningFloat);
+            }
 
             #endregion
 
@@ -198,6 +220,26 @@ namespace EEMod
         public override void LoadData(TagCompound tag)
         {
             tag.TryGetRef("lastPos", ref myLastBoatPos);
+        }
+
+        public void OnExitSeamap()
+        {
+            quickOpeningFloat = 0f;
+
+            switch (exitingSeamapKey)
+            {
+                case KeyID.CoralReefs:
+                    SubworldLibrary.SubworldSystem.Enter<CoralReefs>();
+                    break;
+                case KeyID.GoblinFort:
+                    SubworldLibrary.SubworldSystem.Enter<GoblinFort>();
+                    break;
+                case "Main":
+                    ReturnHome();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

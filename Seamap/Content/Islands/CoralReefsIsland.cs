@@ -28,9 +28,18 @@ namespace EEMod.Seamap.Content.Islands
 
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().myLastBoatPos = SeamapObjects.localship.position;
 
-            SubworldLibrary.SubworldSystem.Enter<CoralReefs>();
+            Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamap = true;
+
+            Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamapKey = KeyID.CoralReefs;
+
+            EEMod.isSaving = true;
 
             base.Interact();
+        }
+
+        public void ExitSeamap()
+        {
+
         }
     }
 }
