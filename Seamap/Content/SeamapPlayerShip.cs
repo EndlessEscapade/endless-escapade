@@ -55,21 +55,27 @@ namespace EEMod.Seamap.Content
         public float rot;
         public float forwardSpeed;
 
+        public Vector2 movementVel;
+
         public override void Update()
         {
             CollisionChecks();
 
-            invFrames--;
+            if(invFrames > 0) invFrames--;
 
-            if (invFrames < 0)
+            if (invFrames <= 0)
             {
-                if (myPlayer.controlUp)
+                if (myPlayer.controlUp && (forwardSpeed < (boatSpeed * 25)))
                 {
+                    //velocity += Vector2.UnitX.RotatedBy(rot) * boatSpeed;
+
                     forwardSpeed += boatSpeed;
                     forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 25);
                 }
-                if (myPlayer.controlDown)
+                if (myPlayer.controlDown && forwardSpeed > (-boatSpeed * 5))
                 {
+                    //velocity -= Vector2.UnitX.RotatedBy(rot) * boatSpeed * 0.5f;
+
                     forwardSpeed -= boatSpeed * 0.5f;
                     forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 25);
                 }
@@ -98,20 +104,18 @@ namespace EEMod.Seamap.Content
 
                 cannonDelay--;
                 abilityDelay--;
-
-                if (abilityDelay > 110)
-                {
-                    velocity *= 0.2f;
-                }
             }
 
             if (shipHelth <= 0) Die();
 
-            velocity = Vector2.UnitX.RotatedBy(rot) * forwardSpeed;
+            movementVel = Vector2.UnitX.RotatedBy(rot) * forwardSpeed;
+
+            position += movementVel;
 
             base.Update();
 
-            velocity *= 0.998f;
+            forwardSpeed *= 0.998f;
+            velocity *= 0.96f;
 
             #region Position constraints
             if (position.X < 0) position.X = 0;
@@ -124,9 +128,6 @@ namespace EEMod.Seamap.Content
 
         public override bool PreDraw(SpriteBatch spriteBatch)
         {
-            EEPlayer eePlayer = myPlayer.GetModPlayer<EEPlayer>();
-
-
             Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip").Value;
 
             int yVal;
@@ -179,6 +180,8 @@ namespace EEMod.Seamap.Content
                 spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
                 yVal = 114 * 2;
             }
+
+            spriteRot += (float)Math.Sin(Main.GameUpdateCount / 5f) * (invFrames / 80f);
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, yVal, 124, 114),
@@ -304,7 +307,7 @@ namespace EEMod.Seamap.Content
             {
                 if (obj == null) continue;
 
-                if (obj.collides && invFrames < 0)
+                if (obj.collides && invFrames <= 0)
                 {
                     if (new Rectangle((int)position.X, (int)position.Y, 124, 98).Intersects(obj.Hitbox))
                     {
@@ -314,7 +317,8 @@ namespace EEMod.Seamap.Content
                         shipHelth--;
                         invFrames = 20;
 
-                        velocity = Vector2.Normalize(obj.Center - Center) * boatSpeed * -4;
+                        velocity += Vector2.Normalize(obj.Center - Center) * boatSpeed * -15;
+                        forwardSpeed = 0;
                     }
                 }
             }
