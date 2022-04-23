@@ -48,9 +48,9 @@ namespace EEMod.Seamap.Content.Cannonballs
                 shenTrail2 = new ShenChildTrail(Center + (Vector2.UnitY.RotatedBy(MathHelper.TwoPi / 3f) * 4), Vector2.Zero);
                 shenTrail3 = new ShenChildTrail(Center + (Vector2.UnitY.RotatedBy(MathHelper.TwoPi * 2f / 3f) * 4), Vector2.Zero);
 
-                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail1, cannonballColor * 0.75f, 6, 15));
-                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail2, cannonballColor * 0.75f, 6, 15));
-                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail3, cannonballColor * 0.75f, 6, 15));
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail1, cannonballColor * 0.75f, 8, 40, true));
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail2, cannonballColor * 0.75f, 8, 40, true));
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail3, cannonballColor * 0.75f, 8, 40, true));
 
                 SeamapObjects.NewSeamapObject(shenTrail1);
                 SeamapObjects.NewSeamapObject(shenTrail2);
@@ -71,7 +71,7 @@ namespace EEMod.Seamap.Content.Cannonballs
                 new SlowDown(0.98f),
                 new RotateTexture(0.3f),
                 new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/6PointStar").Value, cannonballColor * 0.5f),
-                new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, cannonballColor * 0.75f, 2f));
+                new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, cannonballColor * 0.75f, 1f));
 
             foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
             {

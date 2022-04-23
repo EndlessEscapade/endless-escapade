@@ -138,33 +138,6 @@ namespace EEMod
 
             Player.fallStart = (int)(Player.position.Y / 16f);
 
-            seamapUpdateCount++;
-
-            if (seamapUpdateCount == 1)
-                Seamap.Core.Seamap.InitializeSeamap();
-
-            Seamap.Core.Seamap.UpdateSeamap();
-
-            #region Island Interact methods
-            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
-            {
-                if (obj is Island)
-                {
-                    Island island = obj as Island;
-
-                    prevKey = KeyID.Sea;
-
-                    Player.ClearBuff(BuffID.Cursed);
-                    Player.ClearBuff(BuffID.Invisibility);
-
-                    if (island.Hitbox.Intersects(SeamapObjects.localship.Hitbox) && Main.LocalPlayer.controlJump)
-                    {
-                        island.Interact();
-                    }
-                }
-            }
-            #endregion
-
             #region Opening cutscene for seamap
 
             if (!exitingSeamap)
@@ -194,6 +167,35 @@ namespace EEMod
                     Filters.Scene.Activate("EEMod:SeaOpening", Player.Center).GetShader().UseIntensity(quickOpeningFloat);
             }
 
+            #endregion
+
+            seamapUpdateCount++;
+
+            if (seamapUpdateCount == 1)
+                Seamap.Core.Seamap.InitializeSeamap();
+
+            Seamap.Core.Seamap.UpdateSeamap();
+
+            #region Island Interact methods
+            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
+            {
+                if (obj is Island)
+                {
+                    Island island = obj as Island;
+
+                    prevKey = KeyID.Sea;
+
+                    Player.ClearBuff(BuffID.Cursed);
+                    Player.ClearBuff(BuffID.Invisibility);
+
+                    if (/*island.Hitbox.Intersects(SeamapObjects.localship.Hitbox) && */
+                        Vector2.DistanceSquared(SeamapObjects.localship.Hitbox.Center.ToVector2(), obj.Center) < (obj.width * 2f) * (obj.width * 2f) &&
+                        Main.LocalPlayer.controlJump)
+                    {
+                        island.Interact();
+                    }
+                }
+            }
             #endregion
 
             /*#region Warp cutscene

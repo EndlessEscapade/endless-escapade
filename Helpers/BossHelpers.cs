@@ -262,7 +262,7 @@ namespace EEMod
             }
             return Float + Main.rand.Next(0, (int)DistortNumber + 1) / (float)Math.Pow(10, Counter) * (Main.rand.NextBool(2) ? -1 : 1);
         }
-
+/*
         public static void Explode(int index, int sizeX, int sizeY, Action visualAction = null)
         {
             Projectile projectile = Main.projectile[index];
@@ -337,7 +337,7 @@ namespace EEMod
             }
             visualAction();
         }
-
+*/
         public static void DrawAroundOrigin(int index, Color lightColor)
         {
             Projectile projectile = Main.projectile[index];

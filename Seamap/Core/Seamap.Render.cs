@@ -16,6 +16,8 @@ using ReLogic.Content;
 using EEMod.Prim;
 using EEMod.ID;
 using EEMod.Seamap.Content.Islands;
+using Terraria.UI.Chat;
+using Terraria.GameContent;
 
 namespace EEMod.Seamap.Core
 {
@@ -59,13 +61,14 @@ namespace EEMod.Seamap.Core
 
             if (!Main.dedServ)
             {
+                PrimitiveSystem.primitives.DrawTrailsBehindTiles();
+
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
 
                 Particles.Update();
 
                 Particles.Draw(Main.spriteBatch);
             }
-
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
@@ -83,6 +86,50 @@ namespace EEMod.Seamap.Core
 
         public static void RenderSeamapUI(SpriteBatch spriteBatch)
         {
+            #region Rendering Disembark
+            bool anyIslands = false;
+
+            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
+            {
+                if (obj is Island)
+                {
+                    Island island = obj as Island;
+
+                    if (/*island.Hitbox.Intersects(SeamapObjects.localship.Hitbox) && */
+                        Vector2.DistanceSquared(SeamapObjects.localship.Hitbox.Center.ToVector2(), obj.Center) < (obj as Island).interactDistance * (obj as Island).interactDistance)
+                    {
+                        //Main.spriteBatch.DrawString
+                        Vector2 textSize = FontAssets.MouseText.Value.MeasureString("Disembark?");
+                        float textPositionLeft = textSize.X / 2;
+
+                        anyIslands = true;
+                        lastIsland = island;
+
+                        ChatManager.DrawColorCodedString(Main.spriteBatch, FontAssets.MouseText.Value, "Disembark?", island.Center - new Vector2(textPositionLeft, (island.height / 2) + 40) - Main.screenPosition + new Vector2(0, (float)Math.Sin(Main.GameUpdateCount / 15f) * 5f), Color.White * islandTextValue, 0f, Vector2.Zero, Vector2.One);
+                    }
+                }
+            }
+
+            if(anyIslands)
+            {
+                islandTextValue += 0.04f;
+                islandTextValue = MathHelper.Clamp(islandTextValue, 0f, 1f);
+            }
+            else
+            {
+                if(islandTextValue > 0f)
+                {
+                    Vector2 textSize = FontAssets.MouseText.Value.MeasureString("Disembark?");
+                    float textPositionLeft = textSize.X / 2;
+
+                    ChatManager.DrawColorCodedString(Main.spriteBatch, FontAssets.MouseText.Value, "Disembark?", lastIsland.Center - new Vector2(textPositionLeft, (lastIsland.height / 2) + 40) - Main.screenPosition + new Vector2(0, (float)Math.Sin(Main.GameUpdateCount / 15f) * 5f), Color.White * islandTextValue, 0f, Vector2.Zero, Vector2.One);
+                }
+
+                islandTextValue -= 0.08f;
+                islandTextValue = MathHelper.Clamp(islandTextValue, 0f, 1f);
+            }
+            #endregion
+
             #region Rendering OCEAN screen thingy
 
             if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount > 10 && Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 190)
@@ -115,11 +162,14 @@ namespace EEMod.Seamap.Core
 
             //spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) * -128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
             spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) * -MathHelper.Clamp(Vector2.Distance(Main.MouseWorld, SeamapObjects.localship.Center), 0, 128)) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
-            
+
             #endregion
         }
 
         public static float weatherDensity;
+
+        public static float islandTextValue;
+        public static Island lastIsland;
 
         public static void RenderEntities(SpriteBatch spriteBatch)
         {

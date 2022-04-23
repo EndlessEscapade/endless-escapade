@@ -430,7 +430,7 @@ namespace EEMod
                 Vector2 value = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
                 value.Normalize();
                 value.X *= 0.66f;
-                int goreID = Gore.NewGore(codable.position + new Vector2(Main.rand.Next(codable.width + 1), Main.rand.Next(codable.height + 1)), value * Main.rand.Next(3, 6) * 0.33f, 331, Main.rand.Next(40, 121) * 0.01f);
+                int goreID = Gore.NewGore(new EntitySource_Misc(""), codable.position + new Vector2(Main.rand.Next(codable.width + 1), Main.rand.Next(codable.height + 1)), value * Main.rand.Next(3, 6) * 0.33f, 331, Main.rand.Next(40, 121) * 0.01f);
                 // Main.gore[goreID].sticky = false;
                 Main.gore[goreID].velocity *= 0.4f;
                 Main.gore[goreID].velocity.Y -= 0.6f;

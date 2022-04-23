@@ -46,7 +46,7 @@ namespace EEMod.Tiles.Foliage.Coral
             {
                 for (int a = 0; a < 8; a++)
                 {
-                    Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<CBPetrude>()), new Vector2((i * 16) - TileFrameX, (j * 16) - TileFrameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
+                    Projectile.NewProjectile(new EntitySource_Misc(""), new Vector2((i * 16) - TileFrameX, (j * 16) - TileFrameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
                 }
 
                 isIntersecting = true;
@@ -58,7 +58,7 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     for (int a = 0; a < 2; a++)
                     {
-                        Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(ModContent.ProjectileType<CBPetrude>()), Vector2.Zero, Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
+                        Projectile.NewProjectile(new EntitySource_Misc(""), Vector2.Zero, Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
                     }
                 }
 

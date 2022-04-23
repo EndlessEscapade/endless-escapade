@@ -18,6 +18,8 @@ namespace EEMod.Seamap.Content.Islands
         public virtual int framespid => 0;
         public virtual bool cancollide => false;
 
+        public virtual int interactDistance => (int)(width * 1.5f);
+
         public virtual Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Empty", AssetRequestMode.ImmediateLoad).Value;
 
         public Vector2 posToScreen => position - Main.screenPosition;

@@ -35,7 +35,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
         public int buffTime => 120;
         public  Color stringColor => Color.White;
 
-        public override bool CloneNewInstances => true;
+        //public override bool CloneNewInstances => true;
 
         //Whip behavior credit goes to https://github.com/515T3M/MSB (though I (crown) have heavily modified and adapted it)
 

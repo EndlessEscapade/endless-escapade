@@ -50,7 +50,7 @@ namespace EEMod.Seamap.Content
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
 
-        public float boatSpeed = 0.1f;
+        public float boatSpeed = 0.075f;
 
         public float rot;
         public float forwardSpeed;
@@ -138,47 +138,87 @@ namespace EEMod.Seamap.Content
             if (rot > MathHelper.TwoPi - (Math.PI / 8f))
             {
                 spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 2;
+                yVal = 114 * 4;
             }
             else if (rot > MathHelper.TwoPi - 2f * (Math.PI / 8f))
             {
                 spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+                yVal = 114 * 3;
+            }
+            else if (rot > MathHelper.TwoPi - 3f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+                yVal = 114 * 2;
+            }
+            else if (rot > MathHelper.TwoPi - 4f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 4f)) % (float)((2f * Math.PI) / 4f)) - (float)(Math.PI / 4f);
                 yVal = 114 * 1;
             }
-            else if (rot > MathHelper.TwoPi - 6f * (Math.PI / 8f))
+            else if (rot > MathHelper.TwoPi - 5f * (Math.PI / 8f))
             {
                 spriteRot = ((float)(rot + (Math.PI / 4f)) % (float)((2f * Math.PI) / 4f)) - (float)(Math.PI / 4f);
                 yVal = 114 * 0;
             }
+            else if (rot > MathHelper.TwoPi - 6f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 4f)) % (float)((2f * Math.PI) / 4f)) - (float)(Math.PI / 4f);
+                yVal = 114 * 1;
+            }
             else if (rot > MathHelper.TwoPi - 7f * (Math.PI / 8f))
             {
                 spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 1;
+                yVal = 114 * 2;
+            }
+            else if (rot > MathHelper.TwoPi - 8f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+                yVal = 114 * 3;
             }
             else if (rot > MathHelper.TwoPi - 9f * (Math.PI / 8f))
             {
                 spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 2;
+                yVal = 114 * 4;
             }
             else if (rot > MathHelper.TwoPi - 10f * (Math.PI / 8f))
             {
                 spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 3;
+                yVal = 114 * 5;
+            }
+            else if (rot > MathHelper.TwoPi - 11f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+                yVal = 114 * 6;
+            }
+            else if (rot > MathHelper.TwoPi - 12f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+                yVal = 114 * 7;
+            }
+            else if (rot > MathHelper.TwoPi - 13f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+                yVal = 114 * 8;
             }
             else if (rot > MathHelper.TwoPi - 14f * (Math.PI / 8f))
             {
-                spriteRot = ((float)(rot + (Math.PI / 4f)) % (float)((2f * Math.PI) / 4f)) - (float)(Math.PI / 4f);
-                yVal = 114 * 4;
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+                yVal = 114 * 7;
             }
             else if (rot > MathHelper.TwoPi - 15f * (Math.PI / 8f))
             {
                 spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 3;
+                yVal = 114 * 6;
+            }
+            else if (rot > MathHelper.TwoPi - 15f * (Math.PI / 8f))
+            {
+                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
+                yVal = 114 * 5;
             }
             else
             {
                 spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 2;
+                yVal = 114 * 4;
             }
 
             spriteRot += (float)Math.Sin(Main.GameUpdateCount / 5f) * (invFrames / 80f);

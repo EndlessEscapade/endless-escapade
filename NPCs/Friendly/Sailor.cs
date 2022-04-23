@@ -91,9 +91,9 @@ namespace EEMod.NPCs.Friendly
             return false;
         }
 
-        public override string TownNPCName()
+        public override List<string> SetNPCNameList()
         {
-            return "Skipper";
+            return new List<string>() { "Skipper" };
             /*switch (WorldGen.genRand.Next(8))
             {
                 case 0:

@@ -238,7 +238,24 @@ namespace EEMod
 
                 if (progressMessage != null)
                 {
-                    Vector2 textSize2 = FontAssets.MouseText.Value.MeasureString(progressMessage);
+                    Vector2 textSize2 = Vector2.Zero;
+
+                    try
+                    {
+                        textSize2 = FontAssets.MouseText.Value.MeasureString(progressMessage);
+                    }
+                    catch
+                    {
+                        try
+                        {
+                            textSize2 = FontAssets.MouseText.Value.MeasureString("");
+                        }
+                        catch
+                        {
+                            
+                        }
+                    }
+
                     textSize2 = new Vector2(textSize2.X * 1.2f, textSize2.Y);
 
                     float textPosition2Left = Main.graphics.GraphicsDevice.Viewport.Width / 2 - textSize2.X / 2;

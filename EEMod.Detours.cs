@@ -38,6 +38,7 @@ using System.Diagnostics;
 using EEMod.Subworlds;
 using EEMod.NPCs.Goblins.Scrapwizard;
 using EEMod.Subworlds.CoralReefs;
+using SubworldLibrary;
 
 namespace EEMod
 {
@@ -169,6 +170,14 @@ namespace EEMod
         {
             orig();
 
+            if (SubworldSystem.IsActive<Sea>() && SeamapObjects.localship != null)
+            {
+                Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
+
+                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, Seamap.Core.Seamap.seamapWidth - Main.screenWidth);
+                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, Seamap.Core.Seamap.seamapHeight - 200 - Main.screenHeight);
+            }
+
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
             {
                 RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
@@ -189,6 +198,8 @@ namespace EEMod
                 Main.spriteBatch.End();
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+
+                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
             }
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
@@ -211,6 +222,8 @@ namespace EEMod
                 Main.spriteBatch.End();
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+
+                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
             }
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
@@ -538,6 +551,10 @@ namespace EEMod
 
                     Particles.Draw(Main.spriteBatch);
                 }
+                else
+                {
+                    Seamap.Core.Seamap.Render();
+                }
 
                 //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null);
 
@@ -548,9 +565,6 @@ namespace EEMod
 
                 //Main.spriteBatch.End();
             }
-
-            if (SubworldLibrary.SubworldSystem.IsActive<Subworlds.Sea>())
-                Seamap.Core.Seamap.Render();
 
             orig(self);
         }

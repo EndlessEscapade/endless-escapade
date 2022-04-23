@@ -14,6 +14,8 @@ namespace EEMod.Seamap.Content.Islands
         public override int framespid => 0;
         public override bool cancollide => true;
 
+        public override int interactDistance => 300;
+
         public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/MainIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public MainIsland(Vector2 pos): base(pos)

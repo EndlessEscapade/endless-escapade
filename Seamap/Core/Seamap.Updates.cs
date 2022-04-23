@@ -49,6 +49,9 @@ namespace EEMod.Seamap.Core
         {
             SeamapObjects.InitObjects(new Vector2(seamapWidth - 450, seamapWidth - 500));
 
+            Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamap = false;
+            Main.LocalPlayer.GetModPlayer<SeamapPlayer>().quickOpeningFloat = 5f;
+
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().myLastBoatPos = Vector2.Zero;
 
             SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402 - 30, seamapHeight - 118 - 200 - 30)));
