@@ -115,5 +115,13 @@ namespace EEMod.Seamap.Core
 
             SeamapObjects.DestroyObject(this);
         }
+
+        public virtual bool CheckCollision(Rectangle hitbox)
+        {
+            if (hitbox.Intersects(Hitbox))
+                return true;
+
+            return false;
+        }
     }
 }

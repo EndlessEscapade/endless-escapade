@@ -91,7 +91,7 @@ namespace EEMod.Seamap.Core
 
             foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
             {
-                if (obj is Island)
+                if (obj is Island && (obj as Island).cancollide)
                 {
                     Island island = obj as Island;
 

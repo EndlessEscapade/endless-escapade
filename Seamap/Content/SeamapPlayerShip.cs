@@ -18,6 +18,7 @@ using EEMod.Prim;
 using EEMod.Extensions;
 using EEMod.Seamap.Core;
 using EEMod.Seamap.Content.Cannonballs;
+using EEMod.Seamap.Content.Islands;
 
 namespace EEMod.Seamap.Content
 {
@@ -110,7 +111,9 @@ namespace EEMod.Seamap.Content
 
             movementVel = Vector2.UnitX.RotatedBy(rot) * forwardSpeed;
 
-            position += movementVel;
+            position += movementVel - (Seamap.Core.Seamap.windVector * 0.2f);
+
+            forwardSpeed = movementVel.Length();
 
             base.Update();
 
@@ -227,7 +230,7 @@ namespace EEMod.Seamap.Content
                 new Rectangle(0, yVal, 124, 114),
                 Color.White.LightSeamap(), spriteRot / 2f, 
                 new Rectangle(0, 0, 124, 114).Size() / 2,
-                1, (rot < Math.PI * 2 * 3 / 4 - (Math.PI / 4f) && rot > Math.PI * 2 / 4 - (Math.PI / 4f)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                1, (rot < Math.PI * 2 * 3 / 4 - (Math.PI / 8f) && rot > Math.PI * 2 / 4 - (Math.PI / 8f)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             return false;
         }
@@ -356,6 +359,8 @@ namespace EEMod.Seamap.Content
 
                         shipHelth--;
                         invFrames = 20;
+
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipHurt"));
 
                         velocity += Vector2.Normalize(obj.Center - Center) * boatSpeed * -15;
                         forwardSpeed = 0;

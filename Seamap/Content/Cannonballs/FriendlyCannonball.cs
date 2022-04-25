@@ -40,7 +40,7 @@ namespace EEMod.Seamap.Content.Cannonballs
                 {
                     if (obj == null) continue;
 
-                    if (obj.collides && obj.Hitbox.Intersects(Hitbox))
+                    if (obj.collides && obj.CheckCollision(Hitbox))
                     {
                         SoundEngine.PlaySound(SoundID.Item14);
                         explodeFrame++;

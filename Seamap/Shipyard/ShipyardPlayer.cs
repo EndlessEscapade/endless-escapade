@@ -176,8 +176,17 @@ namespace EEMod
                 if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
                 {
                     cutSceneTriggerTimer += 2;
-                    Player.position = Player.oldPosition;
-                    Player.velocity = Vector2.Zero;
+
+                    Player.controlDown = false;
+                    Player.controlHook = false;
+                    Player.controlJump = false;
+                    Player.controlLeft = false;
+                    Player.controlRight = false;
+                    Player.controlUp = false;
+                    Player.controlThrow = false;
+                    Player.controlTorch = false;
+                    Player.controlSmart = false;
+                    Player.controlMount = false;
                 }
             }
 

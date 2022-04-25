@@ -66,7 +66,6 @@ namespace EEMod.Seamap.Core
             if (index == -1) // already deleted or non existent
                 return;
 
-            obj.OnKill();
             obj.active = false;
             obj.whoAmI = -1;
 

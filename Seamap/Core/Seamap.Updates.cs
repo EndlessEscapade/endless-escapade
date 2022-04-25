@@ -85,7 +85,7 @@ namespace EEMod.Seamap.Core
             #endregion
 
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
-            SeamapObjects.NewSeamapObject(new GoblinFortIsland(new Vector2(seamapWidth - 500, seamapHeight - 800)));
+            PlaceGoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 800));
 
             SpawnSeagullFlock(Main.rand.Next(4, 8));
             SpawnSeagullFlock(Main.rand.Next(4, 8));
@@ -157,6 +157,20 @@ namespace EEMod.Seamap.Core
                     SeamapObjects.NewSeamapObject(seagull);
                 }
             }
+        }
+
+        public static void PlaceGoblinFort(Vector2 pos)
+        {
+            float val = Main.rand.NextFloat(6.28f);
+
+            for (int i = 0; i < 11; i++)
+            {
+                float val2 = val + ((i * 6.28f) / 14f);
+
+                PlaceRock(new Vector2((float)Math.Cos(val2) * Main.rand.Next(190, 211), (float)Math.Sin(val2) * Main.rand.Next(140, 161)) + pos, Main.rand.Next(4));
+            }
+
+            SeamapObjects.NewSeamapObject(new GoblinFortIsland(pos));
         }
     }
 }

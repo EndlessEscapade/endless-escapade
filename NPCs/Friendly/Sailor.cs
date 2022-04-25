@@ -211,6 +211,8 @@ namespace EEMod.NPCs.Friendly
 
                     WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 + 24, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 1, ModContent.TileType<MapTable>());
 
+                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 + 12 + 9, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 1 + 7, ModContent.TileType<ShipStorage>());
+
                     if (Main.netMode == NetmodeID.Server)
                     {
                         NetMessage.SendTileSquare(Main.LocalPlayer.whoAmI, (int)EEWorld.EEWorld.shipCoords.X - 2 + 7, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2, 50, 50); // Immediately inform clients of new world state.

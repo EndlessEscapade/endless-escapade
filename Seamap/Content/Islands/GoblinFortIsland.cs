@@ -15,12 +15,17 @@ namespace EEMod.Seamap.Content.Islands
         public override int framecount => 1;
         public override int framespid => 10;
         public override bool cancollide => true;
+        public override bool collides => true;
+
+        public override int interactDistance => width * 2;
+
 
         public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/GoblinFortIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public GoblinFortIsland(Vector2 pos): base(pos)
         {
-            
+            width = 70;
+            height = 56;
         }
 
         public override void Interact()

@@ -62,7 +62,7 @@ namespace EEMod.Seamap.Content.Islands
 
             if (!IslandDraw(spriteBatch)) return false;
 
-            spriteBatch.Draw(texture, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Color.White.LightSeamap());
+            spriteBatch.Draw(texture, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (height)), Color.White.LightSeamap());
 
             return false;
         }
@@ -75,6 +75,14 @@ namespace EEMod.Seamap.Content.Islands
         public virtual void Interact()
         {
 
+        }
+
+        public virtual bool CheckCollision(Rectangle hitbox)
+        {
+            if (hitbox.Intersects(Hitbox))
+                return true;
+
+            return false;
         }
     }
 }

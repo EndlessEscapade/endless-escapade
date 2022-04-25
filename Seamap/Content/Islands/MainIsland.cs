@@ -13,6 +13,7 @@ namespace EEMod.Seamap.Content.Islands
         public override int framecount => 1;
         public override int framespid => 0;
         public override bool cancollide => true;
+        public override bool collides => true;
 
         public override int interactDistance => 300;
 
@@ -20,8 +21,8 @@ namespace EEMod.Seamap.Content.Islands
 
         public MainIsland(Vector2 pos): base(pos)
         {
-            width = 402;
-            height = 118;
+            width = 480;
+            height = 176;
         }
 
         public override void Interact()

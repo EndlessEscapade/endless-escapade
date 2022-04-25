@@ -88,9 +88,17 @@ namespace EEMod.Seamap.Content.Islands
 
         public override void PostDraw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Rock5Front").Value, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Color.White.LightSeamap());
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Rock5Front").Value, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, height), Color.White.LightSeamap());
 
             base.PostDraw(spriteBatch);
+        }
+
+        public override bool CheckCollision(Rectangle hitbox)
+        {
+            Main.NewText("auuuuugh");
+
+            return (hitbox.Intersects(new Rectangle((int)position.X + 10, (int)position.Y + 36, 12, 12))
+                || hitbox.Intersects(new Rectangle((int)position.X + 40, (int)position.Y + 20, 14, 16)));
         }
     }
 
