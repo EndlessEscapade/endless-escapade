@@ -51,7 +51,7 @@ namespace EEMod.Seamap.Content
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
 
-        public float boatSpeed = 0.075f;
+        public float boatSpeed = 0.025f;
 
         public float rot;
         public float forwardSpeed;
@@ -66,27 +66,27 @@ namespace EEMod.Seamap.Content
 
             if (invFrames <= 0)
             {
-                if (myPlayer.controlUp && (forwardSpeed < (boatSpeed * 25)))
+                if (myPlayer.controlUp && (forwardSpeed < 3))
                 {
                     //velocity += Vector2.UnitX.RotatedBy(rot) * boatSpeed;
 
                     forwardSpeed += boatSpeed;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 25);
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, 2);
                 }
                 if (myPlayer.controlDown && forwardSpeed > (-boatSpeed * 5))
                 {
                     //velocity -= Vector2.UnitX.RotatedBy(rot) * boatSpeed * 0.5f;
 
-                    forwardSpeed -= boatSpeed * 0.5f;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, boatSpeed * 25);
+                    forwardSpeed -= boatSpeed;
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, 2);
                 }
                 if (myPlayer.controlRight)
                 {
-                    rot += 0.05f;
+                    rot += 0.03f;
                 }
                 if (myPlayer.controlLeft)
                 {
-                    rot -= 0.05f;
+                    rot -= 0.03f;
                 }
 
                 if (myPlayer.controlUseItem && cannonDelay <= 0 && myPlayer == Main.LocalPlayer)
@@ -117,7 +117,7 @@ namespace EEMod.Seamap.Content
 
             base.Update();
 
-            forwardSpeed *= 0.998f;
+            forwardSpeed *= 0.999f;
             velocity *= 0.96f;
 
             #region Position constraints
@@ -133,96 +133,65 @@ namespace EEMod.Seamap.Content
         {
             Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip").Value;
 
-            int yVal;
-            float spriteRot;
+            int frame = 0;
+            float spriteRot = 0f;
+            bool flipped = false;
 
             rot = TwoPiRestrict(rot);
 
-            if (rot > MathHelper.TwoPi - (Math.PI / 8f))
+            float rotForSprite = TwoPiRestrict(rot + MathHelper.PiOver2);
+            float rotAbsed = Math.Abs(rotForSprite - MathHelper.Pi);
+
+            if (rotForSprite > MathHelper.Pi && rotAbsed > (MathHelper.Pi / 9f) && rotAbsed < (8f * MathHelper.Pi / 9f)) flipped = true;
+
+            if(rotAbsed < MathHelper.Pi / 9f)
             {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 4;
+                frame = 8;
+                spriteRot = (DynamicClamp(rotForSprite, MathHelper.Pi / 4.5f) - (MathHelper.Pi / 9f));
             }
-            else if (rot > MathHelper.TwoPi - 2f * (Math.PI / 8f))
+            else if(rotAbsed < 2 * MathHelper.Pi / 9f)
             {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 3;
+                frame = 7;
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
             }
-            else if (rot > MathHelper.TwoPi - 3f * (Math.PI / 8f))
+            else if(rotAbsed < 3 * MathHelper.Pi / 9f)
             {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 2;
+                frame = 6;
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
             }
-            else if (rot > MathHelper.TwoPi - 4f * (Math.PI / 8f))
+            else if(rotAbsed < 4 * MathHelper.Pi / 9f)
             {
-                spriteRot = ((float)(rot + (Math.PI / 4f)) % (float)((2f * Math.PI) / 4f)) - (float)(Math.PI / 4f);
-                yVal = 114 * 1;
+                frame = 5;
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
             }
-            else if (rot > MathHelper.TwoPi - 5f * (Math.PI / 8f))
+            else if(rotAbsed < 5 * MathHelper.Pi / 9f)
             {
-                spriteRot = ((float)(rot + (Math.PI / 4f)) % (float)((2f * Math.PI) / 4f)) - (float)(Math.PI / 4f);
-                yVal = 114 * 0;
+                frame = 4;
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
             }
-            else if (rot > MathHelper.TwoPi - 6f * (Math.PI / 8f))
+            else if(rotAbsed < 6 * MathHelper.Pi / 9f)
             {
-                spriteRot = ((float)(rot + (Math.PI / 4f)) % (float)((2f * Math.PI) / 4f)) - (float)(Math.PI / 4f);
-                yVal = 114 * 1;
+                frame = 3;
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
             }
-            else if (rot > MathHelper.TwoPi - 7f * (Math.PI / 8f))
+            else if(rotAbsed < 7 * MathHelper.Pi / 9f)
             {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 2;
+                frame = 2;
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
             }
-            else if (rot > MathHelper.TwoPi - 8f * (Math.PI / 8f))
+            else if (rotAbsed < 8 * MathHelper.Pi / 9f)
             {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 3;
-            }
-            else if (rot > MathHelper.TwoPi - 9f * (Math.PI / 8f))
-            {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 4;
-            }
-            else if (rot > MathHelper.TwoPi - 10f * (Math.PI / 8f))
-            {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 5;
-            }
-            else if (rot > MathHelper.TwoPi - 11f * (Math.PI / 8f))
-            {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 6;
-            }
-            else if (rot > MathHelper.TwoPi - 12f * (Math.PI / 8f))
-            {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 7;
-            }
-            else if (rot > MathHelper.TwoPi - 13f * (Math.PI / 8f))
-            {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 8;
-            }
-            else if (rot > MathHelper.TwoPi - 14f * (Math.PI / 8f))
-            {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 7;
-            }
-            else if (rot > MathHelper.TwoPi - 15f * (Math.PI / 8f))
-            {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 6;
-            }
-            else if (rot > MathHelper.TwoPi - 15f * (Math.PI / 8f))
-            {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 5;
+                frame = 1;
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
             }
             else
             {
-                spriteRot = ((float)(rot + (Math.PI / 8f)) % (float)((2f * Math.PI) / 8f)) - (float)(Math.PI / 8f);
-                yVal = 114 * 4;
+                frame = 0;
+                spriteRot = (DynamicClamp(rotAbsed, MathHelper.Pi / 4.5f) - (MathHelper.Pi / 9f)) * (rotForSprite > MathHelper.Pi ? 1f : -1f);
             }
+
+
+            int yVal = 114 * frame;
 
             spriteRot += (float)Math.Sin(Main.GameUpdateCount / 5f) * (invFrames / 80f);
 
@@ -230,7 +199,7 @@ namespace EEMod.Seamap.Content
                 new Rectangle(0, yVal, 124, 114),
                 Color.White.LightSeamap(), spriteRot / 2f, 
                 new Rectangle(0, 0, 124, 114).Size() / 2,
-                1, (rot < Math.PI * 2 * 3 / 4 - (Math.PI / 8f) && rot > Math.PI * 2 / 4 - (Math.PI / 8f)) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                1, flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             return false;
         }
@@ -307,6 +276,17 @@ namespace EEMod.Seamap.Content
 
             while (val < 0)
                 val += MathHelper.TwoPi;
+
+            return val;
+        }
+
+        public float DynamicClamp(float val, float clamper)
+        {
+            while (val > clamper)
+                val -= clamper;
+
+            while (val < 0)
+                val += clamper;
 
             return val;
         }

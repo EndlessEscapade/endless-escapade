@@ -176,7 +176,20 @@ namespace EEMod
                 if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
                 {
                     cutSceneTriggerTimer += 2;
+                }
+            }
 
+            UpdateCutscenesAndTempShaders();
+        }
+
+        public override void PreUpdateMovement()
+        {
+            base.PreUpdateMovement();
+
+            if (!SubworldLibrary.SubworldSystem.IsActive<Sea>())
+            {
+                if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
+                {
                     Player.controlDown = false;
                     Player.controlHook = false;
                     Player.controlJump = false;
@@ -189,8 +202,6 @@ namespace EEMod
                     Player.controlMount = false;
                 }
             }
-
-            UpdateCutscenesAndTempShaders();
         }
 
         public void UpdateCutscenesAndTempShaders()
