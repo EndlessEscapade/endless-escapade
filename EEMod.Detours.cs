@@ -53,8 +53,6 @@ namespace EEMod
 
         public List<IComponent> Updatables = new List<IComponent>();
 
-        WaterPrimitive WP;
-
         float bgAlpha;
 
         public int loadingScreenTicker;
@@ -77,6 +75,8 @@ namespace EEMod
             On.Terraria.Main.DrawTiles += Main_DrawTiles1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
 
+            On.Terraria.UI.IngameFancyUI.Draw += IngameFancyUI_Draw;
+
             On.Terraria.Player.Update_NPCCollision += Player_Update_NPCCollision;
 
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
@@ -90,9 +90,12 @@ namespace EEMod
 
             if (Main.dedServ)
                 return;
+        }
 
-            WP = new WaterPrimitive(null);
-            PrimitiveSystem.primitives.CreateTrail(WP);
+        private bool IngameFancyUI_Draw(On.Terraria.UI.IngameFancyUI.orig_Draw orig, SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            if (SubworldSystem.IsActive<Sea>()) return false;
+            else return orig(spriteBatch, gameTime);
         }
 
         private void UnloadDetours()

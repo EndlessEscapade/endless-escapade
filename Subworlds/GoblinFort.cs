@@ -35,8 +35,8 @@ namespace EEMod.Subworlds
 {
     public class GoblinFort : Subworld
     {
-        public override int Height => 800;
-        public override int Width => 1600;
+        public override int Height => 1200;
+        public override int Width => 2400;
 
         public override string Name => "Goblin Outpost";
 
@@ -47,11 +47,11 @@ namespace EEMod.Subworlds
         {
             new GoblinFortGeneration(progress =>
             {
-                Main.worldSurface = 400;
+                Main.worldSurface = 800;
                 
                 //Base island generation
                 #region Island terrain generation
-                FillRegion(1600, 475, new Vector2(0, 325), TileID.Stone);
+                FillRegion(2400, 475, new Vector2(0, 325), TileID.Stone);
 
                 for(int i = 0; i < 150; i++)
                 {
@@ -73,7 +73,7 @@ namespace EEMod.Subworlds
                 bool slopingFast = false;
                 int initSlope = 0;
 
-                for (int i = 150; i <= 800; i++)
+                for (int i = 150; i <= 1200; i++)
                 {
                     //if (elevation < 200) break;
 
@@ -125,11 +125,11 @@ namespace EEMod.Subworlds
                 slope = WorldGen.genRand.Next(16, 22);
                 slopingFast = false;
 
-                for (int i = 801; i <= 1600 - 150; i++)
+                for (int i = 801; i <= 2400 - 150; i++)
                 {
                     //if (elevation < 200) break;
 
-                    if ((i == (1600 - thresh1) || i == (1600 - thresh2)) && !slopingFast)
+                    if ((i == (2400 - thresh1) || i == (2400 - thresh2)) && !slopingFast)
                     {
                         slopingFast = true;
                         slope = WorldGen.genRand.Next(15, 22);
@@ -148,7 +148,7 @@ namespace EEMod.Subworlds
                         if (slope <= 0)
                         {
                             slopingFast = false;
-                            slope = (i < (1600 - thresh2) ? WorldGen.genRand.Next(17, 23) : WorldGen.genRand.Next(10, 15));
+                            slope = (i < (2400 - thresh2) ? WorldGen.genRand.Next(17, 23) : WorldGen.genRand.Next(10, 15));
                         }
                     }
 
@@ -161,7 +161,7 @@ namespace EEMod.Subworlds
                         {
                             if (j - elevation < rockLayer)
                             {
-                                if(i >= 1600 - 160) WorldGen.PlaceTile(i, j, TileID.Sand);
+                                if(i >= 2400 - 160) WorldGen.PlaceTile(i, j, TileID.Sand);
                                 else WorldGen.PlaceTile(i, j, TileID.Dirt);
                             }
                             else
@@ -170,7 +170,7 @@ namespace EEMod.Subworlds
                     }
                 }
 
-                for(int i = 150; i < 1600 - 150; i++)
+                for(int i = 150; i < 2400 - 150; i++)
                 {
                     for(int j = peakElevation - 1; j < peakElevation + 3; j++)
                     {
@@ -181,7 +181,7 @@ namespace EEMod.Subworlds
                 PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction(2000, 2000, 10, 10, 0.2f);
                 int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
 
-                for (int i = 150; i < 1600 - 150; i++)
+                for (int i = 150; i < 2400 - 150; i++)
                 {
                     for (int j = 100; j < 300; j++)
                     {
@@ -211,14 +211,14 @@ namespace EEMod.Subworlds
                     }
                 }
 
-                FillRegionWithWater(1600, 50, new Vector2(0, 276));
+                FillRegionWithWater(2400, 50, new Vector2(0, 276));
                 #endregion
 
 
 
                 //Foliage generation
                 #region Foliage generation
-                for (int i = 150; i < 1600 - 150; i++)
+                for (int i = 150; i < 2400 - 150; i++)
                 {
                     for (int j = 100; j < 280; j++)
                     {
@@ -234,7 +234,7 @@ namespace EEMod.Subworlds
                     }
                 }
 
-                for (int i = 150; i < 1600 - 150; i++)
+                for (int i = 150; i < 2400 - 150; i++)
                 {
                     for (int j = 100; j < 280; j++)
                     {
@@ -245,7 +245,7 @@ namespace EEMod.Subworlds
                     }
                 }
 
-                for (int i = 0; i < 1600; i++)
+                for (int i = 0; i < 2400; i++)
                 {
                     for (int j = 250; j < 400; j++)
                     {
@@ -349,10 +349,10 @@ namespace EEMod.Subworlds
 
                 #region Generating the goblin hall parts
 
-                hallX = 800 - 80;
+                hallX = 1200 - 80;
                 hallY = peakElevation - 68 + 6;
 
-                ClearRegion(1600, 68, new Vector2(0, hallY));
+                ClearRegion(2400, 68, new Vector2(0, hallY));
 
                 Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/goblinhall.lcs")).PlaceAt(hallX, hallY, false, false);
 
@@ -407,9 +407,9 @@ namespace EEMod.Subworlds
                 #endregion
 
                 //Placing player boat
-                BuildBoat(1600 - 90, 245 + 1);
+                BuildBoat(2400 - 90, 245 + 1);
 
-                for (int i = 1600 - 90; i < 1600 - 90 + 45; i++)
+                for (int i = 2400 - 90; i < 2400 - 90 + 45; i++)
                 {
                     for (int j = 250; j < 250 + 40; j++)
                     {
@@ -456,7 +456,7 @@ namespace EEMod.Subworlds
 
                 EEMod.progressMessage = null;
 
-                Main.spawnTileX = 1600 - 90 + 12;
+                Main.spawnTileX = 2400 - 90 + 12;
                 Main.spawnTileY = 245 + 25;
             })
         };

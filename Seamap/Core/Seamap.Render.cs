@@ -80,12 +80,14 @@ namespace EEMod.Seamap.Core
 
             if (!Main.hideUI) RenderSeamapUI(spriteBatch); //Layer 4
 
-
             spriteBatch.End();
         }
 
         public static void RenderSeamapUI(SpriteBatch spriteBatch)
         {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
             #region Rendering Disembark
             bool anyIslands = false;
 
@@ -130,8 +132,23 @@ namespace EEMod.Seamap.Core
             }
             #endregion
 
-            #region Rendering OCEAN screen thingy
+            #region Rendering cannonball target
+            Texture2D targetTex = ModContent.Request<Texture2D>("EEMod/Seamap/Content/UI/Target").Value;
 
+            //spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) * -128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(targetTex,
+                SeamapObjects.localship.Center +
+                (Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) * -MathHelper.Clamp(Vector2.Distance(Main.MouseWorld, SeamapObjects.localship.Center), 0, 128))
+                - Main.screenPosition,
+                null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
+
+            #endregion
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.UIScaleMatrix);
+
+            //TODO: move this to an actual UI
+            #region Rendering OCEAN screen thingy
             if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount > 10 && Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 190)
             {
                 int updateCount = Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount;
@@ -142,7 +159,6 @@ namespace EEMod.Seamap.Core
 
                 spriteBatch.Draw(oceanLogo, new Vector2(Main.screenWidth / 2, yOffset), null, Color.White, 0, new Vector2(186, 92), 1, SpriteEffects.None, 0);
             }
-
             #endregion
 
             #region Rendering ship healthbar
@@ -154,16 +170,7 @@ namespace EEMod.Seamap.Core
             spriteBatch.Draw(healthBarFill, new Vector2(Main.screenWidth - 200, 40),
                 new Rectangle(0, 0, (int)((SeamapObjects.localship.shipHelth / SeamapObjects.localship.ShipHelthMax) * 116), 40),
                 Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-
             #endregion 
-
-            #region Rendering cannonball target
-            Texture2D targetTex = ModContent.Request<Texture2D>("EEMod/Seamap/Content/UI/Target").Value;
-
-            //spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) * -128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
-            spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) * -MathHelper.Clamp(Vector2.Distance(Main.MouseWorld, SeamapObjects.localship.Center), 0, 128)) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
-
-            #endregion
         }
 
         public static float weatherDensity;

@@ -28,6 +28,7 @@ using EEMod.Prim;
 
 using Terraria.UI;
 using EEMod.Subworlds;
+using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod.ModSystems
 {
@@ -230,17 +231,17 @@ namespace EEMod.ModSystems
                 }, InterfaceScaleType.Game);
                 layers.Insert(mouseTextIndex, EEInterfaceLayerGame);
             }
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
-            {
-                //DrawZipline();
-            }
+            //if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            //{
+            //    //DrawZipline();
+            //}
 
             var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
             if (textLayer != -1)
             {
                 var computerState = new LegacyGameInterfaceLayer("EE: UI", delegate
                 {
-                    if (Main.worldName == KeyID.Pyramids || SubworldLibrary.SubworldSystem.IsActive<Sea>() || Main.worldName == KeyID.CoralReefs)
+                    if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
                     {
                         //DrawText();
                     }
@@ -249,29 +250,13 @@ namespace EEMod.ModSystems
                 InterfaceScaleType.UI);
                 layers.Insert(textLayer, computerState);
             }
-            /*
-            if (mouseTextIndex != -1)
-		    {
-		        layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-		        "SpeedrunTimer: SpeedrunnTimer",
-		        delegate
-		        {
-		            if (_lastUpdateUiGameTime != null && SpeedrunnTimer?.CurrentState != null)
-		            {
-			            SpeedrunnTimer.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
-		            }
-		            return true;
-		        },
-		        InterfaceScaleType.UI));
-		    }
-            */
             if (SubworldLibrary.SubworldSystem.IsActive<Sea>())
             {
                 for (int i = 0; i < layers.Count; i++)
                 {
                     var layer = layers[i];
-                    //Remove Resource bars
-                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap") || layer.Name.Contains("Vanilla: Inventory"))
+
+                    if (!layer.Name.Contains("Vanilla: Settings Button"))
                     {
                         layers.RemoveAt(i);
                     }
