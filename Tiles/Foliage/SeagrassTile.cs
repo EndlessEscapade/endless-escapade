@@ -42,7 +42,10 @@ namespace EEMod.Tiles.Foliage
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            if (Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<SeagrassTile>() && Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<CoralSandTile>() && Framing.GetTileSafely(i, j + 1).TileType != TileID.Sand)
+            if (Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<SeagrassTile>() && 
+                Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<CoralSandTile>() && 
+                Framing.GetTileSafely(i, j + 1).TileType != TileID.Sand && 
+                Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<KelpRockTile>())
             {
                 //Main.tile[i, j].ClearTile();
 

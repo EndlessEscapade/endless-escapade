@@ -72,6 +72,7 @@ namespace EEMod.EEWorld
                     if (Framing.GetTileSafely(i, j).WallType != WallID.None)
                     {
                         Framing.GetTileSafely(i, j).LiquidAmount = 0;
+                        Framing.GetTileSafely(i, j).LiquidType = 2;
                     }
                 }
             }

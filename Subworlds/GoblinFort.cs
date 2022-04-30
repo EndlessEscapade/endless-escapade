@@ -43,175 +43,108 @@ namespace EEMod.Subworlds
         int hallX;
         int hallY;
 
+        public override bool NormalUpdates => true;
+
+        //public override bool NoPlayerSaving => base.NoPlayerSaving;
+
         public override List<GenPass> Tasks => new List<GenPass>()
         {
             new GoblinFortGeneration(progress =>
             {
-                Main.worldSurface = 800;
+                Main.worldSurface = 1000;
                 
                 //Base island generation
                 #region Island terrain generation
-                FillRegion(2400, 475, new Vector2(0, 325), TileID.Stone);
 
-                for(int i = 0; i < 150; i++)
-                {
-                    for(int j = 0; j < 50; j++)
-                    {
-                        if(j < (((i / 21f) * (i / 21f)) + 10f))
-                        {
-                            WorldGen.PlaceTile((i) + 0, (50 - j) + 274, TileID.Sand);
-                        }
-                    }
-                }
+                FillRegion(2400, 475 - 10 + 100, new Vector2(0, 400 + 325 + 10 - 100), TileID.Stone);
 
-                //FillRegion(500, 75, new Vector2(150, 275), TileID.Dirt);
-
-                int elevation = 275;
-                int thresh1 = WorldGen.genRand.Next(300, 350);
-                int thresh2 = WorldGen.genRand.Next(650, 700);
-                int slope = WorldGen.genRand.Next(15, 26);
-                bool slopingFast = false;
-                int initSlope = 0;
-
-                for (int i = 150; i <= 1200; i++)
-                {
-                    //if (elevation < 200) break;
-
-                    if ((i == thresh1 || i == thresh2) && !slopingFast)
-                    {
-                        slopingFast = true;
-                        initSlope = slope;
-                    }
-
-                    if (i % slope == 0 && !slopingFast)
-                    {
-                        elevation--;
-                        if(WorldGen.genRand.NextBool(4)) slope++;
-                    }
-                    if (slopingFast) //
-                    {
-                        elevation -= (int)Math.Abs((initSlope - slope) / 3f);
-                        slope -= 2;
-
-                        if(slope <= 0)
-                        {
-                            slopingFast = false;
-                            slope = (i < thresh2 ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(16, 22));
-                        }
-                    }
-
-                    if (elevation > 275) elevation = 275;
-
-                    int rockLayer = WorldGen.genRand.Next(5, 9);
-                    for(int j = 275 + 75; j > elevation; j--)
-                    {
-                        if (WorldGen.InWorld(i, j))
-                        {
-                            if(j - elevation < rockLayer)
-                            {
-                                if (i <= 160) WorldGen.PlaceTile(i, j, TileID.Sand);
-                                else WorldGen.PlaceTile(i, j, TileID.Dirt);
-                            }
-                            else
-                                WorldGen.PlaceTile(i, j, TileID.Stone);
-                        }
-                    }
-                }
-
-                int peakElevation = elevation;
-
-                thresh1 = WorldGen.genRand.Next(300, 350);
-                thresh2 = WorldGen.genRand.Next(650, 700);
-                slope = WorldGen.genRand.Next(16, 22);
-                slopingFast = false;
-
-                for (int i = 801; i <= 2400 - 150; i++)
-                {
-                    //if (elevation < 200) break;
-
-                    if ((i == (2400 - thresh1) || i == (2400 - thresh2)) && !slopingFast)
-                    {
-                        slopingFast = true;
-                        slope = WorldGen.genRand.Next(15, 22);
-                    }
-
-                    if (i % slope == 0 && !slopingFast)
-                    {
-                        elevation++;
-                        if (WorldGen.genRand.NextBool(4)) slope++;
-                    }
-                    if (slopingFast)
-                    {
-                        elevation += (int)Math.Abs((slope) / 3f);
-                        slope -= 2;
-
-                        if (slope <= 0)
-                        {
-                            slopingFast = false;
-                            slope = (i < (2400 - thresh2) ? WorldGen.genRand.Next(17, 23) : WorldGen.genRand.Next(10, 15));
-                        }
-                    }
-
-                    if (elevation > 275) elevation = 275;
-
-                    int rockLayer = WorldGen.genRand.Next(5, 9);
-                    for (int j = 275 + 75; j > elevation; j--)
-                    {
-                        if (WorldGen.InWorld(i, j))
-                        {
-                            if (j - elevation < rockLayer)
-                            {
-                                if(i >= 2400 - 160) WorldGen.PlaceTile(i, j, TileID.Sand);
-                                else WorldGen.PlaceTile(i, j, TileID.Dirt);
-                            }
-                            else
-                                WorldGen.PlaceTile(i, j, TileID.Stone);
-                        }
-                    }
-                }
-
-                for(int i = 150; i < 2400 - 150; i++)
-                {
-                    for(int j = peakElevation - 1; j < peakElevation + 3; j++)
-                    {
-                        Framing.GetTileSafely(i, j).HasTile = false;
-                    }
-                }
-
-                PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction(2000, 2000, 10, 10, 0.2f);
-                int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
-
-                for (int i = 150; i < 2400 - 150; i++)
-                {
-                    for (int j = 100; j < 300; j++)
-                    {
-                        if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY)
-                        {
-                            if (i - 150 < 1000 && j - 100 < 1000)
-                            {
-                                if (perlinNoiseFunction[i - 150 + 500, j - 100 + 200] == 1 && WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).TileType != TileID.Sand)
-                                {
-                                    Framing.GetTileSafely(i, j).TileType = TileID.Stone;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                //Base beach generation
-
-                for (int i = 0; i < 150; i++)
+                for (int i = 0; i < 200; i++)
                 {
                     for (int j = 0; j < 50; j++)
                     {
-                        if (j < (((i / 21f) * (i / 21f)) + 10f))
+                        if (j < (((i / 25f) * (i / 25f)) + 10f))
                         {
-                            WorldGen.PlaceTile((1599 - i) + 0, (50 - j) + 274, TileID.Sand);
+                            WorldGen.PlaceTile((2399 - i) + 0, (50 - j) + 274 + 400 + 10 + 10 - 100, TileID.Adamantite);
                         }
                     }
                 }
 
-                FillRegionWithWater(2400, 50, new Vector2(0, 276));
+                for(int i = 0; i < 2400; i++)
+                {
+                    for (int j = 0; j < 1200; j++)
+                    {
+                        if (Framing.GetTileSafely(i, j).TileType == TileID.Adamantite && !Framing.GetTileSafely(i, j - 1).HasTile && Main.rand.NextBool(6))
+                        {
+                            if(WorldGen.genRand.NextBool(10) || (i > 120 && i < 2399 - 120))
+                                MakeTriangle(new Vector2(i, j + 3), Main.rand.Next(8, 11), 100, Main.rand.Next(7, 9), TileID.Mythril, 0, true);
+                            else
+                                MakeTriangle(new Vector2(i, j + 3), Main.rand.Next(7, 10), 100, Main.rand.Next(5, 7), TileID.Mythril, 0, true);
+
+                            break;
+                        }
+                    }
+                }
+
+                ClearRegion(2400, 50, new Vector2(0, 400 + 276 + 5 - 3 - 50 - 3 - 100 + 2));
+
+                for(int i = 0; i < 2400; i++)
+                {
+                    for (int j = 0; j < 1200; j++)
+                    {
+                        if (Framing.GetTileSafely(i, j).HasTile
+                            && (!Framing.GetTileSafely(i - 1, j + 1).HasTile || !Framing.GetTileSafely(i, j + 1).HasTile || !Framing.GetTileSafely(i + 1, j + 1).HasTile))
+                        {
+                            Framing.GetTileSafely(i, j).ClearTile();
+
+                            break;
+                        }
+                    }
+                }
+
+                /*for(int i = 0; i < 2400; i++)
+                {
+                    for (int j = 0; j < 1200; j++)
+                    {
+                        if (!WorldGen.InWorld(i, j)) continue;
+
+                        if (Framing.GetTileSafely(i, j).HasTile
+                            && (!Framing.GetTileSafely(i - 1, j - 1).HasTile && !Framing.GetTileSafely(i, j - 1).HasTile && !Framing.GetTileSafely(i + 1, j - 1).HasTile) && Framing.GetTileSafely(i, j - 1).LiquidAmount <= 16)
+                        {
+                            Framing.GetTileSafely(i, j).IsHalfBlock = true;
+
+                            break;
+                        }
+                        else
+                        {
+                            //Tile.SmoothSlope(i, j);
+                        }
+                    }
+                }*/
+
+                for(int i = 0; i < 2400; i++)
+                {
+                    for (int j = 0; j < 1200; j++)
+                    {
+                        if (Framing.GetTileSafely(i, j).TileType == TileID.Mythril || Framing.GetTileSafely(i, j).TileType == TileID.Adamantite)
+                        {
+                            Framing.GetTileSafely(i, j).TileType = (ushort)ModContent.TileType<KelpRockTile>();
+                        }
+                    }
+                }
+
+                for (int i = 0; i < 200; i++)
+                {
+                    for (int j = 0; j < 50; j++)
+                    {
+                        if (j < (((i / 30f) * (i / 30f)) + 10f) && !Framing.GetTileSafely((2399 - i) + 0, (50 - j) + 274 + 400 + 10 + 10 - 100 - 5 - 10).HasTile)
+                        {
+                            WorldGen.PlaceTile((2399 - i) + 0, (50 - j) + 274 + 400 + 10 + 10 - 100 - 5 - 10, TileID.Sand);
+                        }
+                    }
+                }
+
+                FillRegionWithWater(2400, 65, new Vector2(0, 400 + 276 + 5 - 3 - 100 + 2));
+
                 #endregion
 
 
@@ -247,7 +180,7 @@ namespace EEMod.Subworlds
 
                 for (int i = 0; i < 2400; i++)
                 {
-                    for (int j = 250; j < 400; j++)
+                    for (int j = 250; j < 1000; j++)
                     {
                         Tile tile = Framing.GetTileSafely(i, j);
 
@@ -258,27 +191,13 @@ namespace EEMod.Subworlds
                         //    break;
                         //}
 
-                        if (tile.HasTile && tile.TileType == TileID.Sand &&
-                            !Framing.GetTileSafely(i, j - 1).HasTile && WorldGen.genRand.NextBool(3))
-                        {
-                            switch (WorldGen.genRand.Next(2))
-                            {
-                                case 0:
-                                    WorldGen.PlaceTile(i, j - 1, TileID.BeachPiles);
-                                    break;
-                                case 1:
-                                    if (Framing.GetTileSafely(i, j - 1).LiquidAmount > 0) WorldGen.PlaceTile(i, j - 1, TileID.Coral);
-                                    break;
-                            }
-                            break;
-                        }
-
-                        if (tile.HasTile && tile.TileType == TileID.Sand &&
-                            !Framing.GetTileSafely(i, j - 1).HasTile && Framing.GetTileSafely(i, j - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(2))
+                        if (tile.HasTile && (tile.TileType == ModContent.TileType<KelpRockTile>() || tile.TileType == TileID.Sand) &&
+                            !Framing.GetTileSafely(i, j - 1).HasTile && Framing.GetTileSafely(i, j - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(2)
+                            && tile.Slope == SlopeType.Solid)
                         {
                             Framing.GetTileSafely(i, j).Slope = 0;
 
-                            switch (WorldGen.genRand.Next(3))
+                            switch (WorldGen.genRand.Next(2))
                             {
                                 case 0:
                                     int Rand = WorldGen.genRand.Next(7, 20);
@@ -311,30 +230,6 @@ namespace EEMod.Subworlds
                                         }
                                     }
                                     break;
-                                case 2:
-                                    int rand3 = WorldGen.genRand.Next(4, 8);
-
-                                    for (int l = j - 1; l >= j - rand3; l--)
-                                    {
-                                        if (Main.tile[i, l].LiquidAmount < 60) break;
-
-                                        Main.tile[i, l].TileType = TileID.Bamboo;
-                                        Framing.GetTileSafely(i, l).HasTile = true;
-
-                                        if (l == j - 1)
-                                        {
-                                            Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
-                                        }
-                                        else if (l == j - rand3)
-                                        {
-                                            Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
-                                        }
-                                        else
-                                        {
-                                            Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
-                                        }
-                                    }
-                                    break;
                             }
                             break;
                         }
@@ -350,7 +245,7 @@ namespace EEMod.Subworlds
                 #region Generating the goblin hall parts
 
                 hallX = 1200 - 80;
-                hallY = peakElevation - 68 + 6;
+                hallY = 200;
 
                 ClearRegion(2400, 68, new Vector2(0, hallY));
 
@@ -384,30 +279,8 @@ namespace EEMod.Subworlds
 
                 #endregion
 
-                #region Guard towers surrounding the hall
-
-
-
-                #endregion
-
-                #region Goblin city section
-
-                #endregion
-
-                #region Guard towers surrounding the city
-
-                #endregion
-
-                #region Outskirt camps
-
-                #endregion
-
-                #region Mineshaft
-
-                #endregion
-
                 //Placing player boat
-                BuildBoat(2400 - 90, 245 + 1);
+                BuildBoat(2400 - 90, 547 + 3);
 
                 for (int i = 2400 - 90; i < 2400 - 90 + 45; i++)
                 {
@@ -457,7 +330,7 @@ namespace EEMod.Subworlds
                 EEMod.progressMessage = null;
 
                 Main.spawnTileX = 2400 - 90 + 12;
-                Main.spawnTileY = 245 + 25;
+                Main.spawnTileY = 545 + 25;
             })
         };
 

@@ -36,9 +36,17 @@ namespace EEMod.Seamap.Core
 
         public static void Render()
         {
-            if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 0) return;
-
             SpriteBatch spriteBatch = Main.spriteBatch;
+
+            if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 0 ||
+                Main.LocalPlayer == null)
+            {
+                Texture2D blackout = ModContent.Request<Texture2D>("EEMod/Textures/Pure").Value;
+
+                spriteBatch.Draw(blackout, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black);
+
+                return;
+            }
 
             #region Controlling brightness + weather
 

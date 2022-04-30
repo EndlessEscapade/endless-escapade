@@ -9,10 +9,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="SubworldLibrary">
       <HintPath>modReferences\SubworldLibrary.dll</HintPath>
+    </Reference>
+	<Reference Include="tModLoader">
+      <HintPath>..\..\..\..\..\..\HardDrive Program Files (x86)\Steam\steamapps\common\tModLoader\tModLoader.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
