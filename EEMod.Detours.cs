@@ -75,6 +75,8 @@ namespace EEMod
             On.Terraria.Main.DrawTiles += Main_DrawTiles1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
 
+            On.Terraria.Main.DoDraw_Tiles_NonSolid += Main_DoDraw_Tiles_NonSolid;
+
             On.Terraria.UI.IngameFancyUI.Draw += IngameFancyUI_Draw;
 
             On.Terraria.Player.Update_NPCCollision += Player_Update_NPCCollision;
@@ -90,6 +92,42 @@ namespace EEMod
 
             if (Main.dedServ)
                 return;
+        }
+
+        private void Main_DoDraw_Tiles_NonSolid(On.Terraria.Main.orig_DoDraw_Tiles_NonSolid orig, Main self)
+        {
+            if (SubworldSystem.IsActive<GoblinFort>())
+            {
+                Texture2D bgTex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Background").Value;
+                Texture2D bgTexGlass = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/BackgroundGlass").Value;
+
+                for (int i = 0; i < bgTex.Width; i += 16)
+                {
+                    for (int j = 0; j < bgTex.Height; j += 16)
+                    {
+                        Main.spriteBatch.Draw(bgTex,
+                            new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i, ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) - Main.screenPosition, new Rectangle(i, j, 16, 16),
+                            Lighting.GetColor((int)((((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i) / 16f), (int)((((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) / 16f)), 
+                            0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+
+                        Main.spriteBatch.Draw(bgTexGlass,
+                            new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i, ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) - Main.screenPosition, new Rectangle(i, j, 16, 16),
+                            Lighting.GetColor((int)((((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i) / 16f), (int)((((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) / 16f)) * 0.5f,
+                            0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    }
+                }
+
+                Vector2 position = new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16), ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16));
+
+                LightingBuffer.Parameters["screenPosition"].SetValue(position);
+                LightingBuffer.Parameters["texSize"].SetValue(texture.Bounds.Size());
+                LightingBuffer.Parameters["alpha"].SetValue(1f);
+                LightingBuffer.CurrentTechnique.Passes[0].Apply();
+
+                Main.spriteBatch.Draw(bgTex, position - Main.screenPosition, Color.White);
+            }
+
+            orig(self);
         }
 
         private bool IngameFancyUI_Draw(On.Terraria.UI.IngameFancyUI.orig_Draw orig, SpriteBatch spriteBatch, GameTime gameTime)
@@ -333,6 +371,49 @@ namespace EEMod
                     //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
                 }
             }
+
+            /*if (SubworldLibrary.SubworldSystem.IsActive<GoblinFort>() && !Main.gameMenu && Main.spriteBatch != null && !Main.gamePaused)
+            {
+                Texture2D bgTex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Background").Value;
+
+                Debug.WriteLine("aaaaaaaaa");
+
+                try
+                {
+                    Main.spriteBatch.Begin();
+                }
+                catch
+                {
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin();
+                }
+
+                Debug.WriteLine("bbbbbbbb");
+
+                ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
+
+                Debug.WriteLine("cccccccccccc");
+
+                Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(1f, 1f)) / bgTex.Size();
+
+                for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
+                    for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
+                        global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                        bgTex,
+                        new Vector2(bgTex.Width * i, bgTex.Height * j).ParalaxXY(new Vector2(-1f, -1f)), 1f);
+
+                try
+                {
+                    Main.spriteBatch.End();
+                }
+                catch
+                {
+                    Main.spriteBatch.Begin();
+                    Main.spriteBatch.End();
+                }
+
+                Debug.WriteLine("ddddddddddddddddd");
+            }*/
 
             orig(self, solidLayer, forRenderTargets, intoRenderTargets, waterStyleOverride);
         }

@@ -256,7 +256,7 @@ namespace EEMod.ModSystems
                 {
                     var layer = layers[i];
 
-                    if (!layer.Name.Contains("Vanilla: Settings Button"))
+                    if (!layer.Name.Contains("Vanilla: Settings Button") && !layer.Name.Contains("Vanilla: Cursor"))
                     {
                         layers.RemoveAt(i);
                     }

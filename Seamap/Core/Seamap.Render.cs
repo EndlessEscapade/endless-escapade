@@ -38,16 +38,6 @@ namespace EEMod.Seamap.Core
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
 
-            if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 0 ||
-                Main.LocalPlayer == null)
-            {
-                Texture2D blackout = ModContent.Request<Texture2D>("EEMod/Textures/Pure").Value;
-
-                spriteBatch.Draw(blackout, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black);
-
-                return;
-            }
-
             #region Controlling brightness + weather
 
             CalculateBrightness();
@@ -57,9 +47,19 @@ namespace EEMod.Seamap.Core
 
             #endregion
 
+            if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 0 ||
+                Main.LocalPlayer == null && !Main.gameInactive)
+            {
+                Texture2D blackout = ModContent.Request<Texture2D>("EEMod/Textures/Pure").Value;
 
+                spriteBatch.Begin();
+
+                spriteBatch.Draw(blackout, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black);
+
+                return;
+            }
+            
             spriteBatch.Begin();
-
 
             RenderWater(spriteBatch); //Layer 0
 
@@ -275,7 +275,7 @@ namespace EEMod.Seamap.Core
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
 
-            WaterShader.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/DotNoise2Squish").Value);
+            WaterShader.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/DotNoiseFoam").Value);
 
             WaterShader.Parameters["baseWaterColor"].SetValue(new Color(0, 0, 0).LightSeamap().ToVector4());
             WaterShader.Parameters["highlightColor"].SetValue(new Color(5, 5, 5).LightSeamap().ToVector4()); //8,8,8 for storms

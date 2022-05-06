@@ -83,7 +83,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
         public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 180, TileID.Dirt);
+            //Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 180, TileID.Dirt);
         }
     }
 

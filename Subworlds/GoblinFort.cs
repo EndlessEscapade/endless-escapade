@@ -40,8 +40,8 @@ namespace EEMod.Subworlds
 
         public override string Name => "Goblin Outpost";
 
-        int hallX;
-        int hallY;
+        public int hallX;
+        public int hallY;
 
         public override bool NormalUpdates => true;
 
@@ -58,13 +58,13 @@ namespace EEMod.Subworlds
 
                 FillRegion(2400, 475 - 10 + 100, new Vector2(0, 400 + 325 + 10 - 100), TileID.Stone);
 
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < 300; i++)
                 {
                     for (int j = 0; j < 50; j++)
                     {
-                        if (j < (((i / 25f) * (i / 25f)) + 10f))
+                        if (j < (((i / 30f) * (i / 30f)) + 10f))
                         {
-                            WorldGen.PlaceTile((2399 - i) + 0, (50 - j) + 274 + 400 + 10 + 10 - 100, TileID.Adamantite);
+                            WorldGen.PlaceTile((2399 - i), (50 - j) + 274 + 400 + 10 + 10 - 100 - 5, TileID.Adamantite);
                         }
                     }
                 }
@@ -73,30 +73,52 @@ namespace EEMod.Subworlds
                 {
                     for (int j = 0; j < 1200; j++)
                     {
-                        if (Framing.GetTileSafely(i, j).TileType == TileID.Adamantite && !Framing.GetTileSafely(i, j - 1).HasTile && Main.rand.NextBool(6))
+                        if (Framing.GetTileSafely(i, j).TileType == TileID.Adamantite && !Framing.GetTileSafely(i, j - 1).HasTile && Main.rand.NextBool(8))
                         {
-                            if(WorldGen.genRand.NextBool(10) || (i > 120 && i < 2399 - 120))
-                                MakeTriangle(new Vector2(i, j + 3), Main.rand.Next(8, 11), 100, Main.rand.Next(7, 9), TileID.Mythril, 0, true);
+                            /*if(Main.rand.NextBool(10) || (i > 120 && i < 2399 - 120))
+                            {
+                                if(Main.rand.NextBool())
+                                    MakeFlattenedTriangle(new Vector2(i, j + 3), Main.rand.Next(9, 11), 100, Main.rand.Next(5, 7), TileID.Mythril, 0, true, 2);
+                                else
+                                    WorldGen.TileRunner(i - 5, j + 3, 15, 25, TileID.Mythril, true);
+                            }
                             else
-                                MakeTriangle(new Vector2(i, j + 3), Main.rand.Next(7, 10), 100, Main.rand.Next(5, 7), TileID.Mythril, 0, true);
+                            {
+                                if(Main.rand.NextBool())
+                                    MakeFlattenedTriangle(new Vector2(i, j + 3), Main.rand.Next(7, 9), 100, Main.rand.Next(5, 7), TileID.Mythril, 0, true, 2);
+                                else
+                                    WorldGen.TileRunner(i - 5, j + 3, 10, 25, TileID.Mythril, true);
+                            }*/
+
+                            WorldGen.TileRunner(i - 5, j, 25, 20, TileID.Mythril, true);
+
+                            i += 10;
 
                             break;
                         }
                     }
                 }
 
-                ClearRegion(2400, 50, new Vector2(0, 400 + 276 + 5 - 3 - 50 - 3 - 100 + 2));
+                //ClearRegion(2400, 50, new Vector2(0, 400 + 276 + 5 - 3 - 50 - 3 - 100 + 2));
 
-                for(int i = 0; i < 2400; i++)
+                for(int steps = 0; steps < 3; steps++) 
                 {
-                    for (int j = 0; j < 1200; j++)
+                    for(int i = 0; i < 2400; i++)
                     {
-                        if (Framing.GetTileSafely(i, j).HasTile
-                            && (!Framing.GetTileSafely(i - 1, j + 1).HasTile || !Framing.GetTileSafely(i, j + 1).HasTile || !Framing.GetTileSafely(i + 1, j + 1).HasTile))
+                        for (int j = 0; j < 1200; j++)
                         {
-                            Framing.GetTileSafely(i, j).ClearTile();
+                            if (Framing.GetTileSafely(i, j).HasTile)
+                            {
+                                int amountOfTiles = 0;
 
-                            break;
+                                for(int k = i - 1; k < i + 2; k++)
+                                    for(int l = j - 1; l < j  + 2; l++)
+                                        if (Framing.GetTileSafely(k, l).HasTile)
+                                            amountOfTiles++;
+
+                                if(amountOfTiles < 3)
+                                    Framing.GetTileSafely(i, j).ClearTile();
+                            }
                         }
                     }
                 }
@@ -132,13 +154,13 @@ namespace EEMod.Subworlds
                     }
                 }
 
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < 300; i++)
                 {
-                    for (int j = 0; j < 50; j++)
+                    for (int j = 0; j < 70; j++)
                     {
-                        if (j < (((i / 30f) * (i / 30f)) + 10f) && !Framing.GetTileSafely((2399 - i) + 0, (50 - j) + 274 + 400 + 10 + 10 - 100 - 5 - 10).HasTile)
+                        if (j < (((i / 50f) * (i / 50f)) + 30f) && !Framing.GetTileSafely((2399 - i) + 0, (70 - j) + 274 + 400 + 10 + 10 - 100 - 5 - 5 - 10 - 10).HasTile)
                         {
-                            WorldGen.PlaceTile((2399 - i) + 0, (50 - j) + 274 + 400 + 10 + 10 - 100 - 5 - 10, TileID.Sand);
+                            WorldGen.PlaceTile((2399 - i) + 0, (70 - j) + 274 + 400 + 10 + 10 - 100 - 5 - 5 - 10 - 10, ModContent.TileType<DirtySandTile>());
                         }
                     }
                 }
@@ -191,7 +213,7 @@ namespace EEMod.Subworlds
                         //    break;
                         //}
 
-                        if (tile.HasTile && (tile.TileType == ModContent.TileType<KelpRockTile>() || tile.TileType == TileID.Sand) &&
+                        if (tile.HasTile && (tile.TileType == ModContent.TileType<KelpRockTile>() || tile.TileType == ModContent.TileType<DirtySandTile>()) &&
                             !Framing.GetTileSafely(i, j - 1).HasTile && Framing.GetTileSafely(i, j - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(2)
                             && tile.Slope == SlopeType.Solid)
                         {
@@ -292,7 +314,6 @@ namespace EEMod.Subworlds
                         }
                     }
                 }
-
 
 
                 //Placing rafts

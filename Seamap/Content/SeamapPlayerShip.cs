@@ -49,9 +49,13 @@ namespace EEMod.Seamap.Content
             rot = MathHelper.TwoPi * 3f / 4f;
 
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
+
+            PrimitiveSystem.primitives.CreateTrail(foamTrail = new FoamTrail(this, Color.Orange, 0.25f, 100));
         }
 
-        public float boatSpeed = 0.025f;
+        FoamTrail foamTrail;
+
+        public float boatSpeed = 0.0175f;
 
         public float rot;
         public float forwardSpeed;
@@ -71,23 +75,25 @@ namespace EEMod.Seamap.Content
                     //velocity += Vector2.UnitX.RotatedBy(rot) * boatSpeed;
 
                     forwardSpeed += boatSpeed;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, 2);
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, 2.4f);
                 }
                 if (myPlayer.controlDown && forwardSpeed > (-boatSpeed * 5))
                 {
                     //velocity -= Vector2.UnitX.RotatedBy(rot) * boatSpeed * 0.5f;
 
                     forwardSpeed -= boatSpeed;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, 2);
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, 2.4f);
                 }
                 if (myPlayer.controlRight)
                 {
-                    rot += 0.03f;
+                    rot += (0.03f - MathHelper.Clamp(0.015f * (forwardSpeed / 2f), 0f, 0.015f));
                 }
                 if (myPlayer.controlLeft)
                 {
-                    rot -= 0.03f;
+                    rot -= (0.03f - MathHelper.Clamp(0.015f * (forwardSpeed / 2f), 0f, 0.015f));
                 }
+
+                //foamTrail._width = MathHelper.Clamp(0.2f * (forwardSpeed / 2f), 0f, 1000000f);
 
                 if (myPlayer.controlUseItem && cannonDelay <= 0 && myPlayer == Main.LocalPlayer)
                 {
@@ -194,6 +200,8 @@ namespace EEMod.Seamap.Content
             int yVal = 114 * frame;
 
             spriteRot += (float)Math.Sin(Main.GameUpdateCount / 5f) * (invFrames / 80f);
+
+            //spriteRot += (float)Math.Sin(Main.GameUpdateCount / 60f) / 12f;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, yVal, 124, 114),
@@ -349,5 +357,313 @@ namespace EEMod.Seamap.Content
             }
         }
         #endregion
+    }
+
+    class FoamTrail : Primitive
+    {
+        public FoamTrail(Entity projectile, Color _color, float width = 40, int cap = 10) : base(projectile)
+        {
+            BindableEntity = projectile;
+            _width = width;
+            color = _color;
+            _cap = cap;
+
+            trailLeft = new WakeTrail(this, BindableEntity, new Color(74, 189, 255), 2, _width, 120, true);
+            trailRight = new WakeTrail(this, BindableEntity, new Color(74, 189, 255), 2, _width, 120, false);
+
+            PrimitiveSystem.primitives.CreateTrail(trailLeft);
+            PrimitiveSystem.primitives.CreateTrail(trailRight);
+        }
+
+        private Color color;
+
+        public WakeTrail trailLeft;
+        public WakeTrail trailRight;
+
+        public override void SetDefaults()
+        {
+            Alpha = 0.8f;
+
+            behindTiles = false;
+            ManualDraw = false;
+            pixelated = true;
+            manualDraw = true;
+        }
+
+        public override void PrimStructure(SpriteBatch spriteBatch)
+        {
+            if (_noOfPoints <= 1 || _points.Count() <= 1) return;
+            float widthVar;
+
+            float colorSin = (float)Math.Sin(_counter / 3f);
+            {
+                widthVar = 0;
+
+                Vector2 normalAhead = CurveNormal(_points, 1);
+                Vector2 secondUp = _points[1] - normalAhead * widthVar;
+                Vector2 secondDown = _points[1] + normalAhead * widthVar;
+
+                AddVertex(_points[0], Color.Lerp(Color.Black, Color.White, 1 / (float)(_points.Count() - 1)), new Vector2(0, 1));
+                AddVertex(secondUp, Color.Lerp(Color.Black, Color.White, 1 / (float)(_points.Count() - 1)), new Vector2(0, 0));
+                AddVertex(secondDown, Color.Lerp(Color.Black, Color.White, 1 / (float)(_points.Count() - 1)), new Vector2(0, 1));
+            }
+
+            for (int i = 1; i < _points.Count() - 1; i++)
+            {
+                widthVar = (_points.Count() - 1 - i) * _width;
+
+                Vector2 normal = CurveNormal(_points, i);
+                Vector2 normalAhead = CurveNormal(_points, i + 1);
+
+                Vector2 firstUp = _points[i] - normal * (widthVar + 1f * (float)Math.Sin((i / 1f) + (_counter / 10f)));
+                Vector2 firstDown = _points[i] + normal * (widthVar + 1f * (float)Math.Sin((i / 1f) + (_counter / 10f)));
+                Vector2 secondUp = _points[i + 1] - normalAhead * (widthVar + 1f * (float)Math.Sin((i / 1f) + (_counter / 10f)));
+                Vector2 secondDown = _points[i + 1] + normalAhead * (widthVar + 1f * (float)Math.Sin((i / 1f) + (_counter / 10f)));
+
+                AddVertex(firstDown, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2((i / (float)(_points.Count())) % 1, 1));
+                AddVertex(firstUp, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2((i / (float)(_points.Count())) % 1, 0));
+                AddVertex(secondDown, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2(((i + 1) / (float)(_points.Count())) % 1, 1));
+
+                AddVertex(secondUp, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2(((i + 1) / (float)(_points.Count())) % 1, 0));
+                AddVertex(secondDown, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2(((i + 1) / (float)(_points.Count())) % 1, 1));
+                AddVertex(firstUp, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2((i / (float)(_points.Count())) % 1, 0));
+            }
+        }
+
+        public override void SetShaders()
+        {
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(_device.Viewport.Width / 2, _device.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(Main.GameViewMatrix.Zoom.X, Main.GameViewMatrix.Zoom.Y, 1f);
+
+            Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
+
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, EEMod.SeafoamShader, Main.GameViewMatrix.ZoomMatrix);
+
+            EEMod.SeafoamShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/ClothTextureFoam").Value);
+
+            EEMod.SeafoamShader.Parameters["offset"].SetValue(new Vector2(BindableEntity.Center.X + BindableEntity.Center.Y, 0) / 400f);
+
+            //EEMod.SeafoamShader.Parameters["noColor"].SetValue(Color.White.ToVector4() * 0f);
+            //EEMod.SeafoamShader.Parameters["color1"].SetValue(new Color(78, 145, 187).ToVector4());
+            //EEMod.SeafoamShader.Parameters["color2"].SetValue(new Color(74, 189, 255).ToVector4());
+            //EEMod.SeafoamShader.Parameters["color3"].SetValue(new Color(156, 213, 246).ToVector4());
+            //EEMod.SeafoamShader.Parameters["color4"].SetValue(new Color(254, 255, 235).ToVector4());
+
+            EEMod.SeafoamShader.Parameters["noColor"].SetValue(Color.White.ToVector4() * 0f);
+            EEMod.SeafoamShader.Parameters["color1"].SetValue(new Color(25, 25, 25).ToVector4());
+            EEMod.SeafoamShader.Parameters["color2"].SetValue(new Color(75, 75, 75).ToVector4());
+            EEMod.SeafoamShader.Parameters["color3"].SetValue(new Color(155, 155, 155).ToVector4());
+            EEMod.SeafoamShader.Parameters["color4"].SetValue(new Color(255, 255, 255).ToVector4());
+
+            EEMod.SeafoamShader.Parameters["WorldViewProjection"].SetValue(view * projection);
+
+            if (vertices.Length == 0) return;
+
+            DynamicVertexBuffer buffer = VertexBufferPool.Shared.RentDynamicVertexBuffer(VertexPositionColorTexture.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
+            buffer.SetData(vertices);
+
+            Main.graphics.GraphicsDevice.SetVertexBuffer(buffer);
+
+            foreach (EffectPass pass in EEMod.SeafoamShader.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+            }
+
+            if (_noOfPoints >= 1)
+            {
+                _device.DrawPrimitives(PrimitiveType.TriangleList, 0, _noOfPoints / 3);
+            }
+
+            VertexBufferPool.Shared.Return(buffer);
+        }
+
+        public override void OnUpdate()
+        {
+            _counter++;
+            _noOfPoints = _points.Count() * 6;
+            if (_cap < _noOfPoints / 6)
+            {
+                _points.RemoveAt(0);
+            }
+            if ((!BindableEntity.active && BindableEntity != null) || _destroyed)
+            {
+                Dispose();
+            }
+            else
+            {
+                _points.Add(BindableEntity.Center + new Vector2(0, 38) + new Vector2(30f * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), 8f * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
+            }
+        }
+
+        public override void OnDestroy()
+        {
+            _destroyed = true;
+            _width *= 0.9f;
+            if (_width < 0.05f)
+            {
+                Dispose();
+            }
+        }
+
+        public override void PostDraw()
+        {
+            Main.spriteBatch.End(); Main.spriteBatch.Begin();
+        }
+    }
+
+    class WakeTrail : Primitive
+    {
+        public WakeTrail(FoamTrail trail, Entity projectile, Color _color, int width = 40, float myWidth = 10, int cap = 10, bool _left = false) : base(projectile)
+        {
+            myTrail = trail;
+            _width = width;
+            _myWidth = myWidth;
+            color = _color;
+            _cap = cap;
+            left = _left;
+        }
+
+        private Color color;
+
+        public FoamTrail myTrail;
+
+        public float _myWidth;
+
+        public bool left;
+        public override void SetDefaults()
+        {
+            Alpha = 0.8f;
+
+            behindTiles = false;
+            ManualDraw = false;
+            pixelated = true;
+            manualDraw = true;
+        }
+
+        public override void PrimStructure(SpriteBatch spriteBatch)
+        {
+            if (myTrail._points.Count() <= 1) return;
+
+            _myWidth = myTrail._width + 0.05f;
+
+            _points.Clear();
+
+            if(left)
+            {
+                for(int i = 1; i < myTrail._points.Count() - 1; i++)
+                {
+                    Vector2 normal = CurveNormal(myTrail._points, i);
+
+                    _points.Add(myTrail._points[i] - normal * ((myTrail._points.Count() - 1 - i) * _myWidth + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
+                }
+            }
+            else
+            {
+                for (int i = 1; i < myTrail._points.Count() - 1; i++)
+                {
+                    Vector2 normal = CurveNormal(myTrail._points, i);
+
+                    _points.Add(myTrail._points[i] + normal * ((myTrail._points.Count() - 1 - i) * _myWidth + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
+                }
+            }
+
+            if (_points.Count() <= 1) return;
+
+            float widthVar;
+
+            float colorSin = (float)Math.Sin(_counter / 3f);
+            {
+                widthVar = 0;
+
+                Vector2 normalAhead = CurveNormal(_points, 1);
+                Vector2 secondUp = _points[1] - normalAhead * widthVar;
+                Vector2 secondDown = _points[1] + normalAhead * widthVar;
+                Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
+
+                AddVertex(_points[0], color * Alpha, v);
+                AddVertex(secondUp, color * Alpha, v);
+                AddVertex(secondDown, color * Alpha, v);
+            }
+
+            for (int i = 1; i < _points.Count - 1; i++)
+            {
+                widthVar = ((i) / (float)_points.Count) * _width;
+
+                Vector2 normal = CurveNormal(_points, i);
+                Vector2 normalAhead = CurveNormal(_points, i + 1);
+
+                float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
+                widthVar *= j;
+
+                Vector2 firstUp = _points[i] - normal * widthVar;
+                Vector2 firstDown = _points[i] + normal * widthVar;
+                Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
+                Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
+
+                AddVertex(firstDown, color * Alpha, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, color * Alpha, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, color * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
+
+                AddVertex(secondUp, color * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, color * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, color * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap)) % 1, 0));
+            }
+        }
+
+        public override void SetShaders()
+        {
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(_device.Viewport.Width / 2, _device.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(Main.GameViewMatrix.Zoom.X, Main.GameViewMatrix.Zoom.Y, 1f);
+
+            Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
+
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, EEMod.TornSailShader, Main.GameViewMatrix.ZoomMatrix);
+
+            //EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/BeamGradientThick2").Value);
+
+            //EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
+
+            //EEMod.LightningShader.Parameters["transformMatrix"].SetValue(view * projection);
+
+            EEMod.BasicEffect.Projection = view * projection;
+
+            if (vertices.Length == 0) return;
+
+            DynamicVertexBuffer buffer = VertexBufferPool.Shared.RentDynamicVertexBuffer(VertexPositionColorTexture.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
+            buffer.SetData(vertices);
+
+            Main.graphics.GraphicsDevice.SetVertexBuffer(buffer);
+
+            foreach (EffectPass pass in EEMod.BasicEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+            }
+
+            if (_points.Count() * 6 >= 1)
+            {
+                _device.DrawPrimitives(PrimitiveType.TriangleList, 0, _noOfPoints / 3);
+            }
+
+            VertexBufferPool.Shared.Return(buffer);
+        }
+
+        public override void OnUpdate()
+        {
+            _counter++;
+            _noOfPoints = _points.Count() * 6;
+        }
+
+        public override void OnDestroy()
+        {
+            _destroyed = true;
+            _width *= 0.9f;
+            if (_width < 0.05f)
+            {
+                Dispose();
+            }
+        }
+
+        public override void PostDraw()
+        {
+            Main.spriteBatch.End(); Main.spriteBatch.Begin();
+        }
     }
 }

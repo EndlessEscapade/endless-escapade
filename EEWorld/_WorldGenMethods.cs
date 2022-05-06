@@ -942,6 +942,35 @@ namespace EEMod.EEWorld
             }
         }
 
+        public static void MakeFlattenedTriangle(Vector2 startingPoint, int width, int height, int slope, int tileType = -1, int wallType = -1, bool pointingUp = true, int randFactor = 0)
+        {
+            int dir = 0;
+
+            if (pointingUp) dir = 1;
+            else dir = -1;
+
+            int j = 0;
+
+            while (j < height * dir)
+            {
+                for (int k = 0; k < slope + Main.rand.Next(-randFactor, randFactor + 1); k++)
+                {
+                    for (int i = 0; i < width; i++)
+                    {
+                        if (tileType == -1)
+                            WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), tileType);
+                        if (wallType != -1)
+                            WorldGen.PlaceWall(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), wallType);
+                    }
+                }
+                startingPoint.X += 1;
+                width -= 2;
+                j += slope * dir;
+
+                if (width <= 2) break;
+            }
+        }
+
         public static void FillRegion(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;

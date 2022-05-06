@@ -44,7 +44,8 @@ namespace EEMod.Tiles.Foliage
         {
             if (Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<SeagrassTile>() && 
                 Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<CoralSandTile>() && 
-                Framing.GetTileSafely(i, j + 1).TileType != TileID.Sand && 
+                Framing.GetTileSafely(i, j + 1).TileType != TileID.Sand &&
+                Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<DirtySandTile>() &&
                 Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<KelpRockTile>())
             {
                 //Main.tile[i, j].ClearTile();

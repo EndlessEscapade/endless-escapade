@@ -24,10 +24,10 @@ namespace EEMod.Prim
         protected Entity BindableEntity { get; set; }
         protected ITrailShader TrailShader { get; set; }
 
-        protected float _width;
+        public float _width;
         protected float Alpha;
         protected int _cap;
-        protected int _counter;
+        public int _counter;
         protected int _noOfPoints;
         public List<Vector2> _points = new List<Vector2>();
         protected bool _destroyed = false;
