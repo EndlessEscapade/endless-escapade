@@ -32,14 +32,14 @@ namespace EEMod.Prim
 
         public void DrawTrailsAboveTiles()
         {
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null);
 
             if (PrimitiveSystem.primitives.primTargetPixelated != null)
             {
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetPixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null);
 
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetPixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             }
@@ -49,7 +49,7 @@ namespace EEMod.Prim
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetUnpixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null);
 
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetUnpixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             }
@@ -59,14 +59,14 @@ namespace EEMod.Prim
 
         public void DrawTrailsBehindTiles()
         {
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null);
 
             if (PrimitiveSystem.primitives.primTargetBTPixelated != null)
             {
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetBTPixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null);
 
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetBTPixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             }
@@ -76,7 +76,7 @@ namespace EEMod.Prim
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetBTUnpixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null);
 
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetBTUnpixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             }

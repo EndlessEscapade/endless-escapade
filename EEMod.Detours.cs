@@ -219,6 +219,13 @@ namespace EEMod
                 Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, Seamap.Core.Seamap.seamapHeight - 200 - Main.screenHeight);
             }
 
+            if (SubworldLibrary.SubworldSystem.IsActive<Sea>() && SeamapObjects.localship != null)
+            {
+                Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
+
+                ClampScreenPositionToWorld(Seamap.Core.Seamap.seamapWidth, Seamap.Core.Seamap.seamapHeight - 200);
+            }
+
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
             {
                 RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
@@ -239,8 +246,6 @@ namespace EEMod
                 Main.spriteBatch.End();
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
-
-                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
             }
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
@@ -263,8 +268,6 @@ namespace EEMod
                 Main.spriteBatch.End();
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
-
-                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
             }
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
@@ -309,13 +312,6 @@ namespace EEMod
                 Main.spriteBatch.End();
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
-            }
-
-            if (SubworldLibrary.SubworldSystem.IsActive<Sea>() && SeamapObjects.localship != null)
-            {
-                Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
-
-                ClampScreenPositionToWorld(Seamap.Core.Seamap.seamapWidth, Seamap.Core.Seamap.seamapHeight - 200);
             }
         }
 
