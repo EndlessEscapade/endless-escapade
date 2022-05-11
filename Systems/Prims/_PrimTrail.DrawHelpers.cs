@@ -114,7 +114,7 @@ namespace EEMod.Prim
         protected void AddVertex(Vector2 position, Color color, Vector2 uv)
         {
             if (currentIndex < vertices.Length)
-                vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw() * (pixelated ? 0.5f : 1f), 0f), color, uv);
+                vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw() * (pixelated ? 0.5f : 1f)/* * Main.GameZoomTarget*/, 0f), color, uv);
         }
 
         protected void MakePrimHelix(int i, int Width, float alphaValue, Color baseColour = default, float fadeValue = 1, float sineFactor = 0)

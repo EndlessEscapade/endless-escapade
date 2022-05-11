@@ -131,6 +131,8 @@ namespace EEMod
         {
             if (!SubworldLibrary.SubworldSystem.IsActive<Sea>()) return;
 
+            Main.GameZoomTarget = 1f;
+
             Player.position = Player.oldPosition;
 
             Player.position.X = (Main.maxTilesX * 16 * (2f / 3f)) + 300;

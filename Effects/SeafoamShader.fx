@@ -49,11 +49,11 @@ float4 SeafoamFloat(VertexShaderOutput input) : COLOR0
 
     float opacityVal = (texColor.r * 1.5f) * (inputColor.r - abs((input.TexCoords.y - 0.5f) * 0.2f));
 
-    if (opacityVal < 0.15f) {
+    if (opacityVal < 0.1f) {
         return noColor;
     }
     if (opacityVal < 0.2f) {
-        return lerp(noColor, color1, (opacityVal - 0.15f) * 20.0f);
+        return lerp(noColor, color1, (opacityVal - 0.1f) * 10.0f);
     }
     if (opacityVal < 0.25f) {
         return color1;
