@@ -1,6 +1,7 @@
 sampler uImage0 : register(s0);
 
-texture maskTexture;
+texture foamTexture;
+texture rippleTexture;
 
 matrix WorldViewProjection;
 
@@ -8,13 +9,19 @@ float4 noColor; //    no color/transparent
 float4 color1; //     darkest
 float4 color2;
 float4 color3;
-float4 color4; //     lightest
+float4 color4;
+float4 color5; //     lightest
 
 float2 offset;
 
-sampler maskSampler = sampler_state
+sampler foamSampler = sampler_state
 {
-    Texture = (maskTexture);
+    Texture = (foamTexture);
+};
+
+sampler rippleSampler = sampler_state
+{
+    Texture = (rippleTexture);
 };
 
 struct VertexShaderInput
@@ -44,37 +51,31 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 float4 SeafoamFloat(VertexShaderOutput input) : COLOR0
 {
-    float4 texColor = tex2D(maskSampler, input.TexCoords + offset);
+    float4 foamColor = tex2D(foamSampler, input.TexCoords + offset);
+    float4 rippleColor = tex2D(rippleSampler, input.TexCoords + offset);
+    
     float4 inputColor = input.Color;
 
-    float opacityVal = (texColor.r * 1.5f) * (inputColor.r - abs((input.TexCoords.y - 0.5f) * 0.2f));
+    float opacityVal = (foamColor.r * 1.3f) * (inputColor.r + abs((input.TexCoords.y - 0.5f) * 0.2f));
 
     if (opacityVal < 0.1f) {
         return noColor;
     }
-    if (opacityVal < 0.2f) {
-        return lerp(noColor, color1, (opacityVal - 0.1f) * 10.0f);
-    }
-    if (opacityVal < 0.25f) {
+    if (opacityVal < 0.3f) {
         return color1;
     }
-    if (opacityVal < 0.3f) {
-        return lerp(color1, color2, (opacityVal - 0.25f) * 20.0f);
-    }
-    if (opacityVal < 0.45f) {
-        return color2;
-    }
     if (opacityVal < 0.5f) {
-        return lerp(color2, color3, (opacityVal - 0.45f) * 20.0f);
+        return color2;
     }
     if (opacityVal < 0.7f) {
         return color3;
     }
-    if (opacityVal < 0.75f) {
-        return lerp(color3, color4, (opacityVal - 0.7f) * 20.0f);
+    if (opacityVal < 0.95f)
+    {
+        return color4;
     }
 
-    return color4;
+    return color5;
 }
 
 technique SeafoamShader

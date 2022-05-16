@@ -50,7 +50,7 @@ namespace EEMod.Seamap.Content
 
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
 
-            PrimitiveSystem.primitives.CreateTrail(foamTrail = new FoamTrail(this, Color.Orange, 0.25f, 130));
+            PrimitiveSystem.primitives.CreateTrail(foamTrail = new FoamTrail(this, Color.Orange, 0.25f, 260));
         }
 
         FoamTrail foamTrail;
@@ -59,30 +59,29 @@ namespace EEMod.Seamap.Content
 
         public float rot;
         public float forwardSpeed;
+        public float topSpeed = 2.4f;
 
         public Vector2 movementVel;
 
         public override void Update()
         {
+            float prevForwardSpeed = movementVel.Length();
+
             CollisionChecks();
 
-            if(invFrames > 0) invFrames--;
+            if (invFrames > 0) invFrames--;
 
             if (invFrames <= 0)
             {
-                if (myPlayer.controlUp && (forwardSpeed < 3))
+                if (myPlayer.controlUp && (forwardSpeed < topSpeed))
                 {
-                    //velocity += Vector2.UnitX.RotatedBy(rot) * boatSpeed;
-
                     forwardSpeed += boatSpeed;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, 2.4f);
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, topSpeed);
                 }
                 if (myPlayer.controlDown && forwardSpeed > (-boatSpeed * 5))
                 {
-                    //velocity -= Vector2.UnitX.RotatedBy(rot) * boatSpeed * 0.5f;
-
-                    forwardSpeed -= boatSpeed;
-                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, 2.4f);
+                    forwardSpeed -= boatSpeed * 0.5f;
+                    forwardSpeed = MathHelper.Clamp(forwardSpeed, -boatSpeed * 5, topSpeed);
                 }
                 if (myPlayer.controlRight)
                 {
@@ -92,8 +91,6 @@ namespace EEMod.Seamap.Content
                 {
                     rot -= (0.03f - MathHelper.Clamp(0.015f * (forwardSpeed / 2f), 0f, 0.015f));
                 }
-
-                //foamTrail._width = MathHelper.Clamp(0.2f * (forwardSpeed / 2f), 0f, 1000000f);
 
                 if (myPlayer.controlUseItem && cannonDelay <= 0 && myPlayer == Main.LocalPlayer)
                 {
@@ -119,10 +116,23 @@ namespace EEMod.Seamap.Content
 
             position += movementVel - (Seamap.Core.Seamap.windVector * 0.2f);
 
-            boatTrailVector += VectorAbs(movementVel - (Seamap.Core.Seamap.windVector * 0.2f));
-            boatTrailVector += VectorAbs(velocity);
+            if (!foamTrail.disposing)
+            {
+                boatTrailVector.X += VectorAbs(movementVel - (Seamap.Core.Seamap.windVector * 0.2f)).Length() / 2f;
+                boatTrailVector.X += VectorAbs(velocity).Length() / 2f;
+            }
 
             forwardSpeed = movementVel.Length();
+
+            if (movementVel.Length() <= 0.5f && prevForwardSpeed > 0.5f)
+            {
+                foamTrail.disposing = true;
+            }
+
+            if(prevForwardSpeed <= movementVel.Length())
+            {
+                foamTrail.disposing = false;
+            }
 
             base.Update();
 
@@ -208,7 +218,7 @@ namespace EEMod.Seamap.Content
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, yVal, 124, 114),
-                Color.White.LightSeamap(), spriteRot / 2f, 
+                Color.White.LightSeamap(), spriteRot, 
                 new Rectangle(0, 0, 124, 114).Size() / 2,
                 1, flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
@@ -379,16 +389,20 @@ namespace EEMod.Seamap.Content
             color = _color;
             _cap = cap;
 
-            PrimitiveSystem.primitives.CreateTrail(trailLeft = new WakeTrail(this, BindableEntity, new Color(74, 189, 255), 2, _width, 500, true));
-            PrimitiveSystem.primitives.CreateTrail(trailRight = new WakeTrail(this, BindableEntity, new Color(74, 189, 255), 2, _width, 500, false));
+            velocities = new List<float>();
 
-            //PrimitiveSystem.primitives.CreateTrail(foamTrail = new FoamTrail(this, Color.Orange, 0.25f, 130));
+            PrimitiveSystem.primitives.CreateTrail(trailLeft = new WakeTrail(this, BindableEntity, new Color(74, 189, 255), 2, _width, 1000, true));
+            PrimitiveSystem.primitives.CreateTrail(trailRight = new WakeTrail(this, BindableEntity, new Color(74, 189, 255), 2, _width, 1000, false));
         }
 
         private Color color;
 
         public WakeTrail trailLeft;
         public WakeTrail trailRight;
+
+        public List<float> velocities;
+
+        public bool disposing = false;
 
         public override void SetDefaults()
         {
@@ -400,6 +414,8 @@ namespace EEMod.Seamap.Content
             manualDraw = true;
         }
 
+        public float lastDisposalSpeed;
+
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
             if (_noOfPoints <= 1 || _points.Count() <= 1) return;
@@ -407,6 +423,8 @@ namespace EEMod.Seamap.Content
 
             for (int i = 0; i < 5; i++)
             {
+                velocities.Insert(velocities.Count - 1, (BindableEntity as SeamapPlayerShip).movementVel.Length());
+
                 _points.Insert(_points.Count - 1, BindableEntity.Center + new Vector2(0, 38) + new Vector2(-(((i / 5f) * 60f) - 30) * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), -(((i / 5f) * 16f) - 8) * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
             }
 
@@ -425,7 +443,10 @@ namespace EEMod.Seamap.Content
 
             for (int i = 1; i < _points.Count() - 1; i++)
             {
-                widthVar = (_points.Count() - 1 - i) * _width * MathHelper.Clamp((BindableEntity as SeamapPlayerShip).movementVel.Length(), 0f, 1f);
+                widthVar = (_points.Count() - 1 - i) * _width * (velocities[i] / (BindableEntity as SeamapPlayerShip).topSpeed)
+                    + ((float)Math.Sin(_points[i].X / 5f - _points[i].Y / 5f) - (float)Math.Cos(_points[i].Y / 5f - _points[i].X / 5f));
+
+                widthVar = MathHelper.Clamp(widthVar, 0, 25);
 
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
@@ -435,38 +456,62 @@ namespace EEMod.Seamap.Content
                 Vector2 secondUp = _points[i + 1] - normalAhead * (widthVar + 1f * (float)Math.Sin((i / 1f) + (_counter / 10f)));
                 Vector2 secondDown = _points[i + 1] + normalAhead * (widthVar + 1f * (float)Math.Sin((i / 1f) + (_counter / 10f)));
 
-                AddVertex(firstDown, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2((i / (float)(_points.Count())) % 1, 1));
-                AddVertex(firstUp, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2((i / (float)(_points.Count())) % 1, 0));
-                AddVertex(secondDown, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2(((i + 1) / (float)(_points.Count())) % 1, 1));
+                AddVertex(firstDown, Color.Lerp(Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), Color.Black, 1 - disposingFloat), new Vector2((i / (float)(_points.Count())) % 1, 1));
+                AddVertex(firstUp, Color.Lerp(Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), Color.Black, 1 - disposingFloat), new Vector2((i / (float)(_points.Count())) % 1, 0));
+                AddVertex(secondDown, Color.Lerp(Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), Color.Black, 1 - disposingFloat), new Vector2(((i + 1) / (float)(_points.Count())) % 1, 1));
 
-                AddVertex(secondUp, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2(((i + 1) / (float)(_points.Count())) % 1, 0));
-                AddVertex(secondDown, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2(((i + 1) / (float)(_points.Count())) % 1, 1));
-                AddVertex(firstUp, Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), new Vector2((i / (float)(_points.Count())) % 1, 0));
+                AddVertex(secondUp, Color.Lerp(Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), Color.Black, 1 - disposingFloat), new Vector2(((i + 1) / (float)(_points.Count())) % 1, 0));
+                AddVertex(secondDown, Color.Lerp(Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), Color.Black, 1 - disposingFloat), new Vector2(((i + 1) / (float)(_points.Count())) % 1, 1));
+                AddVertex(firstUp, Color.Lerp(Color.Lerp(Color.Black, Color.White, i / (float)(_points.Count() - 1)), Color.Black, 1 - disposingFloat), new Vector2((i / (float)(_points.Count())) % 1, 0));
             }
 
             for (int i = 0; i < 5; i++)
             {
+                velocities.RemoveAt(velocities.Count - 1);
+
                 _points.RemoveAt(_points.Count - 1);
+            }
+
+            if(disposing)
+            {
+                disposingFloat -= (1f / 260f);
+
+                disposingFloat = MathHelper.Clamp(disposingFloat, 0f, 1f);
+
+                if(disposingFloat == 0)
+                {
+                    _points.Clear();
+
+                    velocities.Clear();
+                }
+            }
+            else
+            {
+                disposingFloat = 1f;
             }
         }
 
+        public float disposingFloat = 1f;
+
         public override void SetShaders()
         {
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(_device.Viewport.Width / 2, _device.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(Main.GameViewMatrix.Zoom.X, Main.GameViewMatrix.Zoom.Y, 1f);
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(_device.Viewport.Width / 2, _device.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi);
 
             Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
 
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, EEMod.SeafoamShader);
 
-            EEMod.SeafoamShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/ClothTextureFoam").Value);
+            EEMod.SeafoamShader.Parameters["foamTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/FoamTrail3").Value);
+            EEMod.SeafoamShader.Parameters["rippleTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/FoamTrail3").Value);
 
             EEMod.SeafoamShader.Parameters["offset"].SetValue(new Vector2((BindableEntity as SeamapPlayerShip).boatTrailVector.X + (BindableEntity as SeamapPlayerShip).boatTrailVector.Y, 0) / 400f);
 
-            EEMod.SeafoamShader.Parameters["noColor"].SetValue(Color.Black.ToVector4() * 0f);
-            EEMod.SeafoamShader.Parameters["color1"].SetValue(new Color(78, 145, 187).ToVector4() * 0.15f);
-            EEMod.SeafoamShader.Parameters["color2"].SetValue(new Color(74, 189, 255).ToVector4() * 0.35f);
-            EEMod.SeafoamShader.Parameters["color3"].SetValue(new Color(156, 213, 246).ToVector4() * 0.55f);
-            EEMod.SeafoamShader.Parameters["color4"].SetValue(new Color(254, 255, 235).ToVector4() * 0.85f);
+            EEMod.SeafoamShader.Parameters["noColor"].SetValue(new Color(58, 110, 172).ToVector4() * 0f);
+            EEMod.SeafoamShader.Parameters["color1"].SetValue(new Color(98, 153, 217).ToVector4() * 0.15f);
+            EEMod.SeafoamShader.Parameters["color2"].SetValue(new Color(72, 159, 199).ToVector4() * 0.29f);
+            EEMod.SeafoamShader.Parameters["color3"].SetValue(new Color(65, 198, 224).ToVector4() * 0.35f);
+            EEMod.SeafoamShader.Parameters["color4"].SetValue(new Color(108, 211, 235).ToVector4() * 0.55f);
+            EEMod.SeafoamShader.Parameters["color5"].SetValue(new Color(250, 255, 224).ToVector4() * 0.85f);
 
             EEMod.SeafoamShader.Parameters["WorldViewProjection"].SetValue(view * projection);
 
@@ -497,6 +542,8 @@ namespace EEMod.Seamap.Content
             if (_cap < _noOfPoints / 6)
             {
                 _points.RemoveAt(0);
+
+                velocities.RemoveAt(0);
             }
             if ((!BindableEntity.active && BindableEntity != null) || _destroyed)
             {
@@ -505,6 +552,8 @@ namespace EEMod.Seamap.Content
             else
             {
                 _points.Add(BindableEntity.Center + new Vector2(0, 38) + new Vector2(-30f * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), -8f * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
+
+                velocities.Add((BindableEntity as SeamapPlayerShip).movementVel.Length());
             }
         }
 
@@ -567,7 +616,7 @@ namespace EEMod.Seamap.Content
                 {
                     Vector2 normal = CurveNormal(myTrail._points, i);
 
-                    _points.Add(myTrail._points[i] - normal * ((myTrail._points.Count() - 1 - i) * _myWidth + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
+                    _points.Add(myTrail._points[i] - normal * ((myTrail._points.Count() - 1 - i) * _myWidth * (myTrail.velocities[i] / (BindableEntity as SeamapPlayerShip).topSpeed) + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
                 }
             }
             else
@@ -576,7 +625,7 @@ namespace EEMod.Seamap.Content
                 {
                     Vector2 normal = CurveNormal(myTrail._points, i);
 
-                    _points.Add(myTrail._points[i] + normal * ((myTrail._points.Count() - 1 - i) * _myWidth + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
+                    _points.Add(myTrail._points[i] + normal * ((myTrail._points.Count() - 1 - i) * _myWidth * (myTrail.velocities[i] / (BindableEntity as SeamapPlayerShip).topSpeed) + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
                 }
             }
 
@@ -601,7 +650,7 @@ namespace EEMod.Seamap.Content
             for (int i = 1; i < _points.Count - 1; i++)
             {
                 Alpha = (i / (float)(_points.Count - 1)) * 0.5f;
-                widthVar = ((i) / (float)_points.Count) * _width * MathHelper.Clamp((BindableEntity as SeamapPlayerShip).movementVel.Length(), 0f, 1f);
+                widthVar = ((i) / (float)_points.Count) * _width * MathHelper.Clamp(myTrail.velocities[i], 0f, 1f);
 
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
@@ -614,19 +663,19 @@ namespace EEMod.Seamap.Content
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, color * Alpha, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, color * Alpha, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, color * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstDown, color * Alpha * myTrail.disposingFloat, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, color * Alpha * myTrail.disposingFloat, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, color * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
 
-                AddVertex(secondUp, color * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, color * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, color * Alpha, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap)) % 1, 0));
+                AddVertex(secondUp, color * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, color * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, color * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap)) % 1, 0));
             }
         }
 
         public override void SetShaders()
         {
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(_device.Viewport.Width / 2, _device.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(Main.GameViewMatrix.Zoom.X, Main.GameViewMatrix.Zoom.Y, 1f);
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(_device.Viewport.Width / 2, _device.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi);
 
             Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
 
