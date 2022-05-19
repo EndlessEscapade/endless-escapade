@@ -55,7 +55,7 @@ namespace EEMod.Seamap.Content
 
         FoamTrail foamTrail;
 
-        public float boatSpeed = 0.0175f;
+        public float boatSpeed = 0.01f;
 
         public float rot;
         public float forwardSpeed;
@@ -116,22 +116,26 @@ namespace EEMod.Seamap.Content
 
             position += movementVel - (Seamap.Core.Seamap.windVector * 0.2f);
 
-            if (!foamTrail.disposing)
+            if (foamTrail != null && !foamTrail.disposing)
             {
                 boatTrailVector.X += VectorAbs(movementVel - (Seamap.Core.Seamap.windVector * 0.2f)).Length() / 2f;
                 boatTrailVector.X += VectorAbs(velocity).Length() / 2f;
             }
 
-            forwardSpeed = movementVel.Length();
+            int sign = forwardSpeed < 0 ? -1 : 1;
 
-            if (movementVel.Length() <= 0.5f && prevForwardSpeed > 0.5f)
+            forwardSpeed = movementVel.Length() * sign;
+
+            if (forwardSpeed <= 0.6f && prevForwardSpeed > 0.6f)
             {
                 foamTrail.disposing = true;
+
+                foamTrail = null;
             }
 
-            if(prevForwardSpeed <= movementVel.Length())
+            if(forwardSpeed > prevForwardSpeed && foamTrail == null)
             {
-                foamTrail.disposing = false;
+                PrimitiveSystem.primitives.CreateTrail(foamTrail = new FoamTrail(this, Color.Orange, 0.25f, 260));
             }
 
             base.Update();
@@ -425,7 +429,7 @@ namespace EEMod.Seamap.Content
             {
                 velocities.Insert(velocities.Count - 1, (BindableEntity as SeamapPlayerShip).movementVel.Length());
 
-                _points.Insert(_points.Count - 1, BindableEntity.Center + new Vector2(0, 38) + new Vector2(-(((i / 5f) * 60f) - 30) * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), -(((i / 5f) * 16f) - 8) * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
+                _points.Insert(_points.Count - 1, BindableEntity.Center + new Vector2(0, 38) + new Vector2(-(((i / 5f) * 60f) - 30) * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), -(((i / 5f) * 48f) - 24) * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
             }
 
             float colorSin = (float)Math.Sin(_counter / 3f);
@@ -474,7 +478,7 @@ namespace EEMod.Seamap.Content
 
             if(disposing)
             {
-                disposingFloat -= (1f / 260f);
+                disposingFloat -= (1f / 65f);
 
                 disposingFloat = MathHelper.Clamp(disposingFloat, 0f, 1f);
 
@@ -506,12 +510,12 @@ namespace EEMod.Seamap.Content
 
             EEMod.SeafoamShader.Parameters["offset"].SetValue(new Vector2((BindableEntity as SeamapPlayerShip).boatTrailVector.X + (BindableEntity as SeamapPlayerShip).boatTrailVector.Y, 0) / 400f);
 
-            EEMod.SeafoamShader.Parameters["noColor"].SetValue(new Color(58, 110, 172).ToVector4() * 0f);
-            EEMod.SeafoamShader.Parameters["color1"].SetValue(new Color(98, 153, 217).ToVector4() * 0.15f);
-            EEMod.SeafoamShader.Parameters["color2"].SetValue(new Color(72, 159, 199).ToVector4() * 0.29f);
-            EEMod.SeafoamShader.Parameters["color3"].SetValue(new Color(65, 198, 224).ToVector4() * 0.35f);
-            EEMod.SeafoamShader.Parameters["color4"].SetValue(new Color(108, 211, 235).ToVector4() * 0.55f);
-            EEMod.SeafoamShader.Parameters["color5"].SetValue(new Color(250, 255, 224).ToVector4() * 0.85f);
+            EEMod.SeafoamShader.Parameters["noColor"].SetValue(new Color(58, 110, 172).ToVector4() * 0f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color1"].SetValue(new Color(98, 153, 217).ToVector4() * 0.15f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color2"].SetValue(new Color(72, 159, 199).ToVector4() * 0.29f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color3"].SetValue(new Color(65, 198, 224).ToVector4() * 0.35f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color4"].SetValue(new Color(108, 211, 235).ToVector4() * 0.55f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color5"].SetValue(new Color(250, 255, 224).ToVector4() * 0.85f * disposingFloat);
 
             EEMod.SeafoamShader.Parameters["WorldViewProjection"].SetValue(view * projection);
 
@@ -551,9 +555,21 @@ namespace EEMod.Seamap.Content
             }
             else
             {
-                _points.Add(BindableEntity.Center + new Vector2(0, 38) + new Vector2(-30f * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), -8f * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
+                if((BindableEntity as SeamapPlayerShip).forwardSpeed > 0)
+                {
+                    _points.Add(BindableEntity.Center + new Vector2(0, 38) + new Vector2(-30f * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), -8f * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
 
-                velocities.Add((BindableEntity as SeamapPlayerShip).movementVel.Length());
+                    velocities.Add((BindableEntity as SeamapPlayerShip).movementVel.Length());
+                }
+                else
+                {
+                    if (!disposing)
+                    {
+                        _points.RemoveAt(0);
+
+                        velocities.RemoveAt(0);
+                    }
+                }
             }
         }
 

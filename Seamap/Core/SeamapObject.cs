@@ -25,6 +25,8 @@ namespace EEMod.Seamap.Core
 
         public int[] ai = new int[3];
 
+        public bool netUpdate = true;
+
         public Rectangle rect => new Rectangle((int)position.X, (int)position.Y, width, height);
 
         public int spriteDirection;
