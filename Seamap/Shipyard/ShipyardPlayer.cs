@@ -225,30 +225,6 @@ namespace EEMod
                 Player.GetModPlayer<SeamapPlayer>().EnterSeamap();
             }
         }
-
-        bool placedShipTether = false;
-
-        public int tetherProj;
-        public int sailProj;
-
-        public void UpdateWorld()
-        {
-            if (!placedShipTether && !boatPlaced)
-            {
-                tetherProj = Projectile.NewProjectile(new EntitySource_Misc(""),
-                    shipCoords * 16, Vector2.Zero, ModContent.ProjectileType<TileExperimentation>(), 0, 0f);
-
-                TileExperimentation tether = (Main.projectile[tetherProj].ModProjectile as TileExperimentation);
-
-                tether.pos1 = (shipCoords * 16) + (new Vector2(43, 2) * 16) + new Vector2(8, 12);
-                tether.pos2 = (shipCoords * 16) + (new Vector2(56, 9) * 16) + new Vector2(8, 8);
-
-                sailProj = Projectile.NewProjectile(new EntitySource_Misc(""), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
-                    Vector2.Zero, ModContent.ProjectileType<TornSails>(), 0, 0);
-
-                placedShipTether = true;
-            }
-        }
     }
 
     public class ShipyardSystem : ModSceneEffect

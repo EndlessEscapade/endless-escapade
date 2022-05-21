@@ -82,6 +82,8 @@ namespace EEMod.Seamap.Core
             SeamapObjects.NewSeamapObject(new MoyaiIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
 
             SeamapObjects.NewSeamapObject(new JadeIsles(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
+
+            SeamapObjects.NewSeamapObject(new Iceberg2(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
             #endregion
 
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));

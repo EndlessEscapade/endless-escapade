@@ -32,6 +32,7 @@ using EEMod.Systems.Noise;
 using EEMod.Systems;
 using EEMod.Tiles.Foliage;
 using EEMod.Subworlds.CoralReefs;
+using EEMod.Projectiles;
 
 namespace EEMod.EEWorld
 {
@@ -193,17 +194,52 @@ namespace EEMod.EEWorld
             tag.TryGetByteArrayRef("LightStates", ref LightStates);
         }
 
-        public bool spawnedSailor;
+        public bool spawnedSailor = false;
 
-        public override void PostUpdateNPCs()
+        bool placedShipTether = false;
+
+        public static int tetherProj;
+        public static int sailProj;
+
+        public override void Load()
         {
-            if (!spawnedSailor)
-            {
-                NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), ((int)shipCoords.X + 108 + 7) * 16, ((int)shipCoords.Y - 8) * 16, ModContent.NPCType<Sailor>());
-                spawnedSailor = true;
-            }
+            placedShipTether = false;
 
-            base.PostUpdateNPCs();
+            base.Load();
+        }
+
+        public override void PreSaveAndQuit()
+        {
+            placedShipTether = false;
+
+            base.PreSaveAndQuit();
+        }
+
+        public override void PreUpdateEntities()
+        {
+            base.PreUpdateEntities();
+
+            if (!placedShipTether && !boatPlaced && !Main.gameMenu)
+            {
+                tetherProj = Projectile.NewProjectile(new EntitySource_Misc(""),
+                    shipCoords * 16, Vector2.Zero, ModContent.ProjectileType<TileExperimentation>(), 0, 0f);
+
+                TileExperimentation tether = (Main.projectile[tetherProj].ModProjectile as TileExperimentation);
+
+                tether.pos1 = (shipCoords * 16) + (new Vector2(43, 2) * 16) + new Vector2(8, 12);
+                tether.pos2 = (shipCoords * 16) + (new Vector2(56, 9) * 16) + new Vector2(8, 8);
+
+                sailProj = Projectile.NewProjectile(new EntitySource_Misc(""), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
+                    Vector2.Zero, ModContent.ProjectileType<TornSails>(), 0, 0);
+
+                placedShipTether = true;
+
+                if (!spawnedSailor)
+                {
+                    NPC.NewNPC(new EntitySource_WorldGen(), ((int)shipCoords.X + 108 + 7) * 16, ((int)shipCoords.Y - 8) * 16, ModContent.NPCType<Sailor>());
+                    spawnedSailor = true;
+                }
+            }
         }
 
         public override void SaveWorldData(TagCompound tag)
