@@ -72,16 +72,22 @@ namespace EEMod.Seamap.Core
                 PrimitiveSystem.primitives.DrawTrailsBehindTiles();
 
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
-
-                Particles.Update();
-
-                Particles.Draw(Main.spriteBatch);
             }
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             RenderEntities(spriteBatch); //Layer 1, postdraw layer 2
 
+            if(!Main.dedServ)
+            {
+                spriteBatch.End();
+
+                Particles.Update();
+
+                Particles.Draw(Main.spriteBatch);
+
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            }
 
             RenderClouds(spriteBatch); //Layer 3
 

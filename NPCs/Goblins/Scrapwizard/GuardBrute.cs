@@ -30,8 +30,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             NPC.lifeMax = 8000;
             NPC.defense = 10;
 
-            NPC.width = 96;
-            NPC.height = 96;
+            NPC.width = 108;
+            NPC.height = 108;
 
             NPC.friendly = false;
 

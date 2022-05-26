@@ -43,8 +43,8 @@ namespace EEMod.Seamap.Content
 
             myPlayer = player;
 
-            width = 124;
-            height = 98;
+            width = 192;
+            height = 160;
 
             rot = MathHelper.TwoPi * 3f / 4f;
 
@@ -165,32 +165,44 @@ namespace EEMod.Seamap.Content
             float rotForSprite = TwoPiRestrict(rot + MathHelper.PiOver2);
             float rotAbsed = Math.Abs(rotForSprite - MathHelper.Pi);
 
+            int origY = 86;
+
             if (rotForSprite > MathHelper.Pi && rotAbsed > (MathHelper.Pi / 9f) && rotAbsed < (8f * MathHelper.Pi / 9f)) flipped = true;
 
             if(rotAbsed < MathHelper.Pi / 9f)
             {
                 frame = 8;
                 spriteRot = (DynamicClamp(rotForSprite, MathHelper.Pi / 4.5f) - (MathHelper.Pi / 9f));
+
+                origY = 70;
             }
             else if(rotAbsed < 2 * MathHelper.Pi / 9f)
             {
                 frame = 7;
                 spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+
+                origY = 76;
             }
             else if(rotAbsed < 3 * MathHelper.Pi / 9f)
             {
                 frame = 6;
                 spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+
+                origY = 80;
             }
             else if(rotAbsed < 4 * MathHelper.Pi / 9f)
             {
                 frame = 5;
                 spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+
+                origY = 82;
             }
             else if(rotAbsed < 5 * MathHelper.Pi / 9f)
             {
                 frame = 4;
                 spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+
+                origY = 86;
             }
             else if(rotAbsed < 6 * MathHelper.Pi / 9f)
             {
@@ -214,19 +226,30 @@ namespace EEMod.Seamap.Content
             }
 
 
-            int yVal = 114 * frame;
+            int yVal = 160 * frame;
 
-            spriteRot += (float)Math.Sin(Main.GameUpdateCount / 5f) * (invFrames / 80f);
+            spriteRot += (float)Math.Sin(Main.GameUpdateCount / 6f) * (invFrames / 120f);
 
             //spriteRot += (float)Math.Sin(Main.GameUpdateCount / 60f) / 12f;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
-                new Rectangle(0, yVal, 124, 114),
+                new Rectangle(0, yVal, 192, 160),
                 Color.White.LightSeamap(), spriteRot, 
-                new Rectangle(0, 0, 124, 114).Size() / 2,
+                new Vector2(96, origY),
                 1, flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             return false;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch)
+        {
+            if (!Main.hideUI)
+            {
+                for (int i = 1; i < activeCollisionVertices.Count; i++)
+                {
+                    Utils.DrawLine(spriteBatch, activeCollisionVertices[i - 1] + Hitbox.Center.ToVector2(), activeCollisionVertices[i] + Hitbox.Center.ToVector2(), Color.Yellow, Color.Red, 2f);
+                }
+            }
         }
 
         public void LeftClickAbility()
@@ -316,58 +339,208 @@ namespace EEMod.Seamap.Content
             return val;
         }
 
-        #region Collision nonsense
-        public static bool IsTouchingLeft(Rectangle rect1, Rectangle rect2, Vector2 vel)
+        public List<Vector2> activeCollisionVertices = new List<Vector2>();
+
+        #region Collision
+        public bool IntersectsRectangle(Rectangle rect, float largestVertDist)
         {
-            return rect1.Right + vel.X > rect2.Left &&
-              rect1.Left < rect2.Left &&
-              rect1.Bottom > rect2.Top &&
-              rect1.Top < rect2.Bottom;
+            if (activeCollisionVertices.Count == 0) return false;
+
+            //check distance first     a/2 squared + b/2 squared + largest vertice diagonal squared < distance squared
+
+            //if ((rect.Width / 2f) * (rect.Width / 2f) + (rect.Height / 2f) * (rect.Height / 2f) + largestVertDist * largestVertDist > Vector2.DistanceSquared(Center, rect.Center.ToVector2())) return false;
+
+            //if (Math.Pow(Math.Sqrt((rect.Width / 2f) * (rect.Width / 2f) + (rect.Height / 2f) * (rect.Height / 2f)) + largestVertDist, 2) < Vector2.DistanceSquared(Center, rect.Center.ToVector2())) return false;
+
+            //if (400 * 400 < Vector2.DistanceSquared(Center, rect.Center.ToVector2())) return false;
+
+            Vector2[] vecArray = new Vector2[4] { rect.BottomLeft(), rect.BottomRight(), rect.TopRight(), rect.TopLeft() };
+
+            for (int j = 0; j < 4; j++)
+            {
+                if (IntersectsVertex(vecArray[j], largestVertDist))
+                {
+                    return true;
+                }
+            }
+
+            for(int i = 0; i < activeCollisionVertices.Count; i++)
+            {
+                if (rect.Contains(activeCollisionVertices[i].ToPoint() + Hitbox.Center))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        public static bool IsTouchingRight(Rectangle rect1, Rectangle rect2, Vector2 vel)
+        public bool IntersectsVertex(Vector2 vec, float largestVertDist)
         {
-            return rect1.Left + vel.X < rect2.Right &&
-              rect1.Right > rect2.Right &&
-              rect1.Bottom > rect2.Top &&
-              rect1.Top < rect2.Bottom;
+            int ticker = 0;
+
+            for (int i = 0; i < activeCollisionVertices.Count; i++)  //testing collision with 
+            {
+                Vector2 line1;
+                Vector2 line2;
+
+                if (i == activeCollisionVertices.Count - 1)
+                {
+                    line1 = activeCollisionVertices[i] + Hitbox.Center.ToVector2();
+                    line2 = activeCollisionVertices[0] + Hitbox.Center.ToVector2();
+                }
+                else
+                {
+                    line1 = activeCollisionVertices[i] + Hitbox.Center.ToVector2();
+                    line2 = activeCollisionVertices[i + 1] + Hitbox.Center.ToVector2();
+                }
+
+                if (PointAboveLine(vec, line1, line2) == PointAboveLine(Hitbox.Center.ToVector2(), line1, line2))
+                {
+                    ticker++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (ticker >= activeCollisionVertices.Count)
+            {
+                //this is the ONLY case in which collision is possible.
+
+                return true;
+            }
+ 
+            return false;
         }
 
-        public static bool IsTouchingTop(Rectangle rect1, Rectangle rect2, Vector2 vel)
-        {
-            return rect1.Bottom + vel.Y > rect2.Top &&
-              rect1.Top < rect2.Top &&
-              rect1.Right > rect2.Left &&
-              rect1.Left < rect2.Right;
-        }
-
-        public static bool IsTouchingBottom(Rectangle rect1, Rectangle rect2, Vector2 vel)
-        {
-            return rect1.Top + vel.Y < rect2.Bottom &&
-              rect1.Bottom > rect2.Bottom &&
-              rect1.Right > rect2.Left &&
-              rect1.Left < rect2.Right;
-        }
+        public bool PointAboveLine(Vector2 vec, Vector2 p1, Vector2 p2) => (vec.Y <= p1.Y + (((vec.X - p1.X) * (p2.Y - p1.Y)) / (float)(p2.X - p1.X)));
 
         public void CollisionChecks()
         {
+            rot = TwoPiRestrict(rot);
+
+            float rotForSprite = TwoPiRestrict(rot + MathHelper.PiOver2);
+            float rotAbsed = Math.Abs(rotForSprite - MathHelper.Pi);
+
+            float spriteRot = 0f;
+
+            bool flipped = false;
+
+            if (rotForSprite > MathHelper.Pi && rotAbsed > (MathHelper.Pi / 9f) && rotAbsed < (8f * MathHelper.Pi / 9f)) flipped = true;
+
+            List<Vector2> vertices = new List<Vector2>();
+
+            if (rotAbsed < MathHelper.Pi / 9f)
+            {
+                //frame = 8;
+                vertices = new List<Vector2>() { new Vector2(-7, 20), new Vector2(7, 20), new Vector2(15, -40), new Vector2(-15, -40) };
+
+                spriteRot = (DynamicClamp(rotForSprite, MathHelper.Pi / 4.5f) - (MathHelper.Pi / 9f));
+            }
+            else if (rotAbsed < 2 * MathHelper.Pi / 9f)
+            {
+                //frame = 7;
+                vertices = new List<Vector2>() { new Vector2(11, 26), new Vector2(9, -16), new Vector2(-35, -56), new Vector2(-31, -0) };
+
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+            }
+            else if (rotAbsed < 3 * MathHelper.Pi / 9f)
+            {
+                //frame = 6;
+                vertices = new List<Vector2>() { new Vector2(5, 28), new Vector2(25, 28), new Vector2(11, -12), new Vector2(-41, -52), new Vector2(-39, -8) };
+
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+            }
+            else if (rotAbsed < 4 * MathHelper.Pi / 9f)
+            {
+                //frame = 5;
+                vertices = new List<Vector2>() { new Vector2(5, 24), new Vector2(23, 24), new Vector2(41, 16), new Vector2(3, -20), new Vector2(-47, -40), new Vector2(-31, 6) };
+
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+            }
+            else if (rotAbsed < 5 * MathHelper.Pi / 9f)
+            {
+                //frame = 4;
+                vertices = new List<Vector2>() { new Vector2(21, 18), new Vector2(41, -4), new Vector2(-55, -4), new Vector2(-35, 18)};
+
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+            }
+            else if (rotAbsed < 6 * MathHelper.Pi / 9f)
+            {
+                //frame = 3;
+                vertices = new List<Vector2>() { new Vector2(-23, 26), new Vector2(27, 8), new Vector2(33, -18), new Vector2(-61, 2) };
+
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+            }
+            else if (rotAbsed < 7 * MathHelper.Pi / 9f)
+            {
+                //frame = 2;
+                vertices = new List<Vector2>() { new Vector2(-13, 36), new Vector2(37, -8), new Vector2(38, -36), new Vector2(-51, 22) };
+
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+            }
+            else if (rotAbsed < 8 * MathHelper.Pi / 9f)
+            {
+                //frame = 1;
+                vertices = new List<Vector2>() { new Vector2(-25, 36), new Vector2(5, 28), new Vector2(23, -40), new Vector2(1, -28), new Vector2(-25, 16) };
+
+                spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - (MathHelper.Pi / 18f);
+            }
+            else
+            {
+                //frame = 0;
+                vertices = new List<Vector2>() { new Vector2(9, 31), new Vector2(15, 21), new Vector2(13, -26), new Vector2(-13, -26), new Vector2(-15, 21), new Vector2(-9, 31) };
+
+                spriteRot = (DynamicClamp(rotAbsed, MathHelper.Pi / 4.5f) - (MathHelper.Pi / 9f)) * (rotForSprite > MathHelper.Pi ? 1f : -1f);
+            }
+
+            if (rotForSprite > MathHelper.Pi && rotAbsed > (MathHelper.Pi / 9f) && rotAbsed < (8f * MathHelper.Pi / 9f)) flipped = true;
+
+            for(int i = 0; i < vertices.Count; i++)
+            {
+                vertices[i] = vertices[i].RotatedBy(spriteRot * (flipped ? -1 : 1));
+            }
+
+            if (flipped)
+            {
+                for(int i = 0; i < vertices.Count; i++)
+                {
+                    vertices[i] = new Vector2(-vertices[i].X, vertices[i].Y);
+                }
+            }
+
+            activeCollisionVertices = vertices;
+
+            float distSquared = 100000000;
+            foreach (Vector2 vec in activeCollisionVertices)
+            {
+                if(Vector2.DistanceSquared(Hitbox.Center.ToVector2(), vec) < distSquared)
+                {
+                    distSquared = Vector2.DistanceSquared(Hitbox.Center.ToVector2(), vec);
+                }
+            }
+
             foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
             {
-                if (obj == null) continue;
+                if (obj == null || obj == this || !obj.active) continue;
 
-                if (obj.collides && invFrames <= 0)
+                if (obj.collides && invFrames <= 0) //This means a collision is possible
                 {
-                    if (new Rectangle((int)position.X, (int)position.Y, 124, 98).Intersects(obj.Hitbox))
+                    if (IntersectsRectangle(obj.Hitbox, distSquared)) //Check for collision here
                     {
                         if (obj is Cannonball)
                             if ((int)(obj as Cannonball).team == myPlayer.team) continue;
 
-                        shipHelth--;
+                        //Collision response
+
+                        //shipHelth--;
                         invFrames = 20;
 
                         SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipHurt"));
 
-                        velocity += Vector2.Normalize(obj.Center - Center) * boatSpeed * -15;
+                        velocity += Vector2.Normalize(obj.Center - Center) * boatSpeed * -120;
                         forwardSpeed = 0;
                     }
                 }
@@ -429,7 +602,7 @@ namespace EEMod.Seamap.Content
             {
                 velocities.Insert(velocities.Count - 1, (BindableEntity as SeamapPlayerShip).movementVel.Length());
 
-                _points.Insert(_points.Count - 1, BindableEntity.Center + new Vector2(0, 38) + new Vector2(-(((i / 5f) * 60f) - 30) * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), -(((i / 5f) * 48f) - 24) * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
+                _points.Insert(_points.Count - 1, BindableEntity.Center + new Vector2(0, 14) + new Vector2(21f * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), 24f * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
             }
 
             float colorSin = (float)Math.Sin(_counter / 3f);
@@ -439,6 +612,8 @@ namespace EEMod.Seamap.Content
                 Vector2 normalAhead = CurveNormal(_points, 1);
                 Vector2 secondUp = _points[1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
+
+                normalAhead.X *= 5f / 3f;
 
                 AddVertex(_points[0], Color.Lerp(Color.Black, Color.White, 1 / (float)(_points.Count() - 1)), new Vector2(0, 1));
                 AddVertex(secondUp, Color.Lerp(Color.Black, Color.White, 1 / (float)(_points.Count() - 1)), new Vector2(0, 0));
@@ -454,6 +629,9 @@ namespace EEMod.Seamap.Content
 
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
+
+                normal.X *= 4f / 3f;
+                normalAhead.X *= 4f / 3f;
 
                 Vector2 firstUp = _points[i] - normal * (widthVar + 1f * (float)Math.Sin((i / 1f) + (_counter / 10f)));
                 Vector2 firstDown = _points[i] + normal * (widthVar + 1f * (float)Math.Sin((i / 1f) + (_counter / 10f)));
@@ -557,7 +735,7 @@ namespace EEMod.Seamap.Content
             {
                 if((BindableEntity as SeamapPlayerShip).forwardSpeed > 0)
                 {
-                    _points.Add(BindableEntity.Center + new Vector2(0, 38) + new Vector2(-30f * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), -8f * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
+                    _points.Add(BindableEntity.Center + new Vector2(0, 14) + new Vector2(21f * (float)Math.Cos((BindableEntity as SeamapPlayerShip).rot), 24f * (float)Math.Sin((BindableEntity as SeamapPlayerShip).rot)));
 
                     velocities.Add((BindableEntity as SeamapPlayerShip).movementVel.Length());
                 }
@@ -567,7 +745,7 @@ namespace EEMod.Seamap.Content
                     {
                         _points.RemoveAt(0);
 
-                        velocities.RemoveAt(0);
+                        if(velocities.Count() > 0) velocities.RemoveAt(0);
                     }
                 }
             }
@@ -632,6 +810,8 @@ namespace EEMod.Seamap.Content
                 {
                     Vector2 normal = CurveNormal(myTrail._points, i);
 
+                    normal.X *= 4f / 3f;
+
                     _points.Add(myTrail._points[i] - normal * ((myTrail._points.Count() - 1 - i) * _myWidth * (myTrail.velocities[i] / (BindableEntity as SeamapPlayerShip).topSpeed) + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
                 }
             }
@@ -640,6 +820,8 @@ namespace EEMod.Seamap.Content
                 for (int i = 1; i < myTrail._points.Count() - 1; i++)
                 {
                     Vector2 normal = CurveNormal(myTrail._points, i);
+
+                    normal.X *= 4f / 3f;
 
                     _points.Add(myTrail._points[i] + normal * ((myTrail._points.Count() - 1 - i) * _myWidth * (myTrail.velocities[i] / (BindableEntity as SeamapPlayerShip).topSpeed) + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
                 }

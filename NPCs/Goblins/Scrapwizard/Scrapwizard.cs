@@ -104,6 +104,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     NPC.velocity.Y += 0.48f; //Force of gravity
                 }
                 #endregion
+
                 #region Starting the fight
                 if (!fightBegun)
                 {

@@ -45,8 +45,8 @@ namespace EEMod.NPCs.Goblins.Shaman
             NPC.lifeMax = 550;
             NPC.defense = 10;
 
-            NPC.width = 44;
-            NPC.height = 56;
+            NPC.width = 42;
+            NPC.height = 54;
 
             NPC.friendly = false;
 
@@ -142,9 +142,9 @@ namespace EEMod.NPCs.Goblins.Shaman
                     NPC.Center = newPos;
 
                     NPC.spriteDirection = Main.LocalPlayer.Center.X < NPC.Center.X ? -1 : 1;
-                    staffCenter = NPC.Center + new Vector2(-6 * NPC.spriteDirection, 6);
+                    staffCenter = NPC.Center + new Vector2(-24 * NPC.spriteDirection, 10);
 
-                    StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_SpawnNPC(), staffCenter + new Vector2(1, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
+                    StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_SpawnNPC(), staffCenter + new Vector2(2, -19), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
 
                     PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(StaffBolt, Color.Violet, 4));
                 }
@@ -265,7 +265,7 @@ namespace EEMod.NPCs.Goblins.Shaman
             Texture2D ShamanStaff = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/Shaman/ShamanStaff").Value;
             //Texture2D StaffGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/StaffGlow").Value;
 
-            Main.spriteBatch.Draw(ShamanStaff, staffCenter - Main.screenPosition, null, defaultDrawColor, staffRot, (ShamanStaff.Bounds.Size() / 2f) + new Vector2(1, 4), NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ShamanStaff, staffCenter - Main.screenPosition, null, defaultDrawColor, staffRot, new Vector2(8, 35), NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             //Main.spriteBatch.Draw(StaffGlow, NPC.Center - Main.screenPosition + new Vector2(-6 * NPC.spriteDirection, 0), null, Color.White, staffRot, StaffGlow.Bounds.Size() / 2f, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
 

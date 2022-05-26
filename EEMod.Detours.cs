@@ -101,13 +101,15 @@ namespace EEMod
                 Texture2D bgTex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Background").Value;
                 Texture2D bgTexGlass = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/BackgroundGlass").Value;
 
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+
                 for (int i = 0; i < bgTex.Width; i += 16)
                 {
                     for (int j = 0; j < bgTex.Height; j += 16)
                     {
                         Main.spriteBatch.Draw(bgTex,
                             new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i, ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) - Main.screenPosition, new Rectangle(i, j, 16, 16),
-                            Lighting.GetColor((int)((((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i) / 16f), (int)((((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) / 16f)), 
+                            Lighting.GetColor((int)((((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i) / 16f), (int)((((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) / 16f)),
                             0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
                         Main.spriteBatch.Draw(bgTexGlass,
@@ -117,6 +119,7 @@ namespace EEMod
                     }
                 }
 
+
                 Vector2 position = new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16), ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16));
 
                 LightingBuffer.Parameters["screenPosition"].SetValue(position);
@@ -125,6 +128,8 @@ namespace EEMod
                 LightingBuffer.CurrentTechnique.Passes[0].Apply();
 
                 Main.spriteBatch.Draw(bgTex, position - Main.screenPosition, Color.White);
+
+                Main.spriteBatch.End();
             }
 
             orig(self);

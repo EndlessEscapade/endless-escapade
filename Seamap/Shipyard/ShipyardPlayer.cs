@@ -79,6 +79,8 @@ namespace EEMod
             tag["cannonType"] = cannonType;
             tag["figureheadType"] = figureheadType;
             tag["boatTier"] = boatTier;
+            tag["ShipStorage"] = shipStorage;
+
             //tag["triggerSeaCutscene"] = triggerSeaCutscene;
             //tag["cutSceneTriggerTimer"] = cutSceneTriggerTimer;
 
@@ -90,11 +92,13 @@ namespace EEMod
             tag.TryGetRef("cannonType", ref cannonType);
             tag.TryGetRef("figureheadType", ref figureheadType);
             tag.TryGetRef("boatTier", ref boatTier);
+
             //tag.TryGetRef("triggerSeaCutscene", ref triggerSeaCutscene);
             //tag.TryGetRef("cutSceneTriggerTimer", ref cutSceneTriggerTimer);
 
-            if (boatTier == 0) shipStorage = new Item[20];
-            if (boatTier == 1) shipStorage = new Item[40];
+            shipStorage = tag.Get<Item[]>("ShipStorage");
+
+            tag.TryGet<Item[]>("ShipStorage", out shipStorage);
 
             //tag.TryGetIntArray("shipStorage", out shipStorage);
         }
@@ -130,9 +134,17 @@ namespace EEMod
 
             try
             {
-                (new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(
-                    boat, (new Item(ModContent.ItemType<MeteorCannonball>())).GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball(Player.team)
-                    );
+                for(int i = 0; i < shipStorage.Length; i++)
+                {
+                    if(shipStorage[i].type == ModContent.ItemType<MeteorCannonball>() ||
+                       shipStorage[i].type == ModContent.ItemType<LeadCannonball>() ||
+                       shipStorage[i].type == ModContent.ItemType<IronCannonball>())
+                    {
+                        (new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(
+                            boat, (new Item(shipStorage[i].type)).GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball(Player.team)
+                            );
+                    }
+                }
             }
             catch
             {

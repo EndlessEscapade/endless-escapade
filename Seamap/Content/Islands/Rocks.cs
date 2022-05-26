@@ -95,8 +95,6 @@ namespace EEMod.Seamap.Content.Islands
 
         public override bool CheckCollision(Rectangle hitbox)
         {
-            Main.NewText("auuuuugh");
-
             return (hitbox.Intersects(new Rectangle((int)position.X + 10, (int)position.Y + 36, 12, 12))
                 || hitbox.Intersects(new Rectangle((int)position.X + 40, (int)position.Y + 20, 14, 16)));
         }
