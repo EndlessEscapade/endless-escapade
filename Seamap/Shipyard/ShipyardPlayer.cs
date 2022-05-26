@@ -96,8 +96,6 @@ namespace EEMod
             //tag.TryGetRef("triggerSeaCutscene", ref triggerSeaCutscene);
             //tag.TryGetRef("cutSceneTriggerTimer", ref cutSceneTriggerTimer);
 
-            shipStorage = tag.Get<Item[]>("ShipStorage");
-
             tag.TryGet<Item[]>("ShipStorage", out shipStorage);
 
             //tag.TryGetIntArray("shipStorage", out shipStorage);
