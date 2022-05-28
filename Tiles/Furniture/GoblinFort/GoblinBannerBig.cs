@@ -139,16 +139,13 @@ namespace EEMod.Tiles.Furniture.GoblinFort
             Alpha = 1f;
 
             behindTiles = true;
-            ManualDraw = false;
             manualDraw = true;
             pixelated = true;
 
             myShader = new BasicEffect(Main.graphics.GraphicsDevice)
             {
-                VertexColorEnabled = true,
+                VertexColorEnabled = true
             };
-
-            myShader.Projection = Matrix.CreateOrthographic(_device.Viewport.Width / 2, _device.Viewport.Height / 2, 0, 1000);
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -188,9 +185,16 @@ namespace EEMod.Tiles.Furniture.GoblinFort
         {
             if (vertices.Length == 0) return;
 
-            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default);
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(_device.Viewport.Width / 2, _device.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi);
+
+            Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
+
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default);
 
             myShader.TextureEnabled = true;
+
+            myShader.View = view;
+            myShader.Projection = projection;
 
             if (!outline)
                 myShader.Texture = ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/GoblinFort/GoblinBannerBigBanner").Value;

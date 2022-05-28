@@ -32,7 +32,6 @@ namespace EEMod.Prim
             _cap = 80;
 
             behindTiles = false;
-            ManualDraw = false;
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)

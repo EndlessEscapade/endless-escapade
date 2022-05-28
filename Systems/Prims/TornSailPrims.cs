@@ -42,7 +42,6 @@ namespace EEMod.Prim
             _cap = 300;
 
             behindTiles = false;
-            ManualDraw = false;
             manualDraw = true;
             pixelated = true;
         }

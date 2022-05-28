@@ -39,7 +39,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
             TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.CoordinatePadding = 0;
 
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.LavaDeath = false;
@@ -84,7 +84,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
             {
                 Vector2 initPos = new Vector2(Position.X * 16, (Position.Y * 16));
 
-                chandelier = Projectile.NewProjectileDirect(new EntitySource_WorldGen(), initPos + new Vector2(8, 8 + 64), Vector2.Zero, ModContent.ProjectileType<GoblinChandelierLight>(), 0, 0).ModProjectile as GoblinChandelierLight;
+                chandelier = Projectile.NewProjectileDirect(new EntitySource_WorldGen(), initPos + new Vector2(8, 16 + 64), Vector2.Zero, ModContent.ProjectileType<GoblinChandelierLight>(), 0, 0).ModProjectile as GoblinChandelierLight;
                 chandelier.anchorPos = new Vector2(Position.X, Position.Y);
                 
                 placedPrims = true;
@@ -268,6 +268,9 @@ namespace EEMod.Tiles.Furniture.GoblinFort
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 localAnchorPos16 = (anchorPos * 16) + new Vector2(8, 16);
+
+            Projectile.Center = anchorPos16 + (Vector2.UnitY.RotatedBy(axisRotation) * chainLength);
+            Projectile.rotation = (anchorPos16 - Projectile.Center).ToRotation() + 1.57f;
 
             int distance = (int)Vector2.Distance(localAnchorPos16, Projectile.Center);
 

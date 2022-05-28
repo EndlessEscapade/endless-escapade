@@ -144,7 +144,6 @@ namespace EEMod.Tiles.Furniture.GoblinFort
             Alpha = 1f;
 
             behindTiles = false;
-            ManualDraw = false;
             manualDraw = true;
             pixelated = true;
 

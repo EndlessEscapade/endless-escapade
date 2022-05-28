@@ -487,7 +487,6 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Alpha = 1f;
 
             behindTiles = false;
-            ManualDraw = false;
             manualDraw = true;
             pixelated = true;
         }
@@ -746,7 +745,6 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Alpha = 1f;
 
             behindTiles = false;
-            ManualDraw = false;
             manualDraw = true;
             pixelated = true;
         }

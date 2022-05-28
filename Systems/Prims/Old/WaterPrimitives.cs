@@ -16,7 +16,6 @@ namespace EEMod.Prim
         private Color _color;
         public override void SetDefaults()
         {
-            ManualDraw = true;
             _color = new Color(26,147,217); //Setting the color of the prims
             Alpha = 0.2f; //Setting the alpha of the prims
             _width = 100; //The width of the prims(aka the amount the normalized vector is multiplied by)

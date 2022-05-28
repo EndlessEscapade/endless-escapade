@@ -35,7 +35,6 @@ namespace EEMod.Prim
             Alpha = 0.8f;
 
             behindTiles = false;
-            ManualDraw = false;
             pixelated = true;
             manualDraw = true;
         }

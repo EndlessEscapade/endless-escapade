@@ -586,7 +586,6 @@ namespace EEMod.Seamap.Content
             Alpha = 0.8f;
 
             behindTiles = false;
-            ManualDraw = false;
             pixelated = true;
             manualDraw = true;
         }
@@ -743,9 +742,9 @@ namespace EEMod.Seamap.Content
                 {
                     if (!disposing)
                     {
-                        _points.RemoveAt(0);
+                        if (_points != null && _points.Count() > 0) _points.RemoveAt(0);
 
-                        if(velocities.Count() > 0) velocities.RemoveAt(0);
+                        if (velocities != null && velocities.Count() > 0) velocities.RemoveAt(0);
                     }
                 }
             }
@@ -791,7 +790,6 @@ namespace EEMod.Seamap.Content
             Alpha = 0.8f;
 
             behindTiles = false;
-            ManualDraw = false;
             pixelated = true;
             manualDraw = true;
         }

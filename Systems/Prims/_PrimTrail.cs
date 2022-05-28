@@ -35,7 +35,6 @@ namespace EEMod.Prim
         public bool pixelated = false;
         public VertexPositionColorTexture[] vertices;
         protected int currentIndex;
-        public bool ManualDraw;
 
         public Primitive(Entity entity)
         {

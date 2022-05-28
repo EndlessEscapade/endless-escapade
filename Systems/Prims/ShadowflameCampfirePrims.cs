@@ -48,8 +48,7 @@ namespace EEMod.Prim
         private Color color;
         public override void SetDefaults()
         {
-            behindTiles = true;
-            ManualDraw = false;
+            behindTiles = false;
             pixelated = true;
             manualDraw = true;
         }

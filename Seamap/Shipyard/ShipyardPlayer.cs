@@ -79,6 +79,7 @@ namespace EEMod
             tag["cannonType"] = cannonType;
             tag["figureheadType"] = figureheadType;
             tag["boatTier"] = boatTier;
+
             tag["ShipStorage"] = shipStorage;
 
             //tag["triggerSeaCutscene"] = triggerSeaCutscene;

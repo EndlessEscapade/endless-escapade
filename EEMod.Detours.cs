@@ -94,10 +94,41 @@ namespace EEMod
                 return;
         }
 
+        private void UnloadDetours()
+        {
+            On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
+
+            On.Terraria.Main.Update -= Main_Update;
+            On.Terraria.Main.Draw -= Main_Draw;
+            On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
+            On.Terraria.Main.DrawWoF -= Main_DrawWoF;
+            On.Terraria.Main.DrawWater -= Main_DrawWater1;
+            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
+            On.Terraria.Main.DrawTiles -= Main_DrawTiles1;
+            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
+
+            On.Terraria.Main.DoDraw_Tiles_NonSolid -= Main_DoDraw_Tiles_NonSolid;
+
+            On.Terraria.UI.IngameFancyUI.Draw -= IngameFancyUI_Draw;
+
+            On.Terraria.Player.Update_NPCCollision -= Player_Update_NPCCollision;
+
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
+
+            On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
+
+            On.Terraria.Main.DoDraw_UpdateCameraPosition -= Main_DoDraw_UpdateCameraPosition;
+
+            Main.OnPreDraw -= Main_OnPreDraw;
+        }
+
         private void Main_DoDraw_Tiles_NonSolid(On.Terraria.Main.orig_DoDraw_Tiles_NonSolid orig, Main self)
         {
-            if (SubworldSystem.IsActive<GoblinFort>())
+            /*if (SubworldSystem.IsActive<GoblinFort>())
             {
+                Main.spriteBatch.End();
+
                 Texture2D bgTex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Background").Value;
                 Texture2D bgTexGlass = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/BackgroundGlass").Value;
 
@@ -130,7 +161,9 @@ namespace EEMod
                 Main.spriteBatch.Draw(bgTex, position - Main.screenPosition, Color.White);
 
                 Main.spriteBatch.End();
-            }
+
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+            }*/
 
             orig(self);
         }
@@ -139,31 +172,6 @@ namespace EEMod
         {
             if (SubworldSystem.IsActive<Sea>()) return false;
             else return orig(spriteBatch, gameTime);
-        }
-
-        private void UnloadDetours()
-        {
-            On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
-
-            On.Terraria.Main.Update -= Main_Update;
-            On.Terraria.Main.Draw -= Main_Draw;
-            On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
-            On.Terraria.Main.DrawWoF -= Main_DrawWoF;
-            On.Terraria.Main.DrawWater -= Main_DrawWater1;
-            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
-            On.Terraria.Main.DrawTiles -= Main_DrawTiles1;
-            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
-
-            On.Terraria.Player.Update_NPCCollision -= Player_Update_NPCCollision;
-
-            On.Terraria.Main.DoDraw_UpdateCameraPosition -= Main_DoDraw_UpdateCameraPosition;
-
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
-
-            On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
-
-            Main.OnPreDraw -= Main_OnPreDraw;
         }
 
         public void Player_Update_NPCCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
@@ -220,14 +228,6 @@ namespace EEMod
             {
                 Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
 
-                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, Seamap.Core.Seamap.seamapWidth - Main.screenWidth);
-                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, Seamap.Core.Seamap.seamapHeight - 200 - Main.screenHeight);
-            }
-
-            if (SubworldLibrary.SubworldSystem.IsActive<Sea>() && SeamapObjects.localship != null)
-            {
-                Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
-
                 ClampScreenPositionToWorld(Seamap.Core.Seamap.seamapWidth, Seamap.Core.Seamap.seamapHeight - 200);
             }
 
@@ -242,7 +242,7 @@ namespace EEMod
 
                 foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
                 {
-                    if (!trail.behindTiles && !trail.ManualDraw && trail.pixelated)
+                    if (!trail.behindTiles && trail.pixelated)
                     {
                         trail.Draw();
                     }
@@ -264,7 +264,7 @@ namespace EEMod
 
                 foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
                 {
-                    if (!trail.behindTiles && !trail.ManualDraw && !trail.pixelated)
+                    if (!trail.behindTiles && !trail.pixelated)
                     {
                         trail.Draw();
                     }
@@ -286,7 +286,7 @@ namespace EEMod
 
                 foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
                 {
-                    if (trail.behindTiles && !trail.ManualDraw && trail.pixelated)
+                    if (trail.behindTiles && trail.pixelated)
                     {
                         trail.Draw();
                     }
@@ -308,7 +308,7 @@ namespace EEMod
 
                 foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
                 {
-                    if (trail.behindTiles && !trail.ManualDraw && !trail.pixelated)
+                    if (trail.behindTiles && !trail.pixelated)
                     {
                         trail.Draw();
                     }
@@ -523,7 +523,7 @@ namespace EEMod
 
         private void Main_DrawWater1(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
         {
-            orig(self, bg, Style, Main.worldName == KeyID.CoralReefs ? Alpha/3.5f : Alpha);
+            orig(self, bg, Style, Main.worldName == KeyID.CoralReefs ? (Alpha / 3.5f) : Alpha);
         }
 
         private void WorldGen_SaveAndQuitCallBack(On.Terraria.WorldGen.orig_SaveAndQuitCallBack orig, object threadContext)
@@ -533,8 +533,6 @@ namespace EEMod
             orig(threadContext);
 
             isSaving = false;
-
-            //saveInterface?.SetState(null);
         }
 
         private void UIWorldListItem_DrawSelf(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_DrawSelf orig, UIWorldListItem self, SpriteBatch spriteBatch)
@@ -640,15 +638,6 @@ namespace EEMod
                 {
                     Seamap.Core.Seamap.Render();
                 }
-
-                //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null);
-
-                //if (additiveRT != null)
-                //{
-                //    Main.spriteBatch.Draw(additiveRT, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
-                //}
-
-                //Main.spriteBatch.End();
             }
 
             orig(self);

@@ -411,7 +411,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         for(int i = 1; i < 80; i++)
                         {
-                            Vector2 flamePos = Vector2.Lerp(myRoom.BottomLeft(), myRoom.BottomRight(), i / 80f) + new Vector2(0, 32);
+                            Vector2 flamePos = Vector2.Lerp(myRoom.BottomLeft(), myRoom.BottomRight(), i / 80f) + new Vector2(0, -16);
 
                             Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), flamePos, Vector2.Zero, ModContent.ProjectileType<Shadowfire>(), 0, 0);
                         }
@@ -570,7 +570,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             }
 
                             break;
-                        case 2: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
+                        case 3: //lengthens a chandelier and leans down to throw more shadowflame molotovs at the player
                             if (NPC.ai[1] % 40 == 0)
                             {
                                 Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, (Vector2.Normalize(target.Center - NPC.Center) * 6f), ModContent.ProjectileType<ShadowflameJarBounce>(), 0, 0);
@@ -580,11 +580,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             {
                                 if (!nextToTheLeft)
                                 {
-                                    resetVal = 45;
+                                    resetVal = (int)(NPC.ai[3] / 310) + 45;
                                 }
                                 else
                                 {
-                                    resetVal = 90;
+                                    resetVal = (int)(NPC.ai[3] / 310) + 90;
                                 }
 
                                 (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).chainLength++;
@@ -618,7 +618,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             }
 
                             break;
-                        case 3: // drops a chandelier down to you rapidly and the flames explode, pulls the chandelier back up afterward, repeat 5 times - come back to this
+                        case 2: // drops a chandelier down to you rapidly and the flames explode, pulls the chandelier back up afterward, repeat 5 times - come back to this
                             if (NPC.ai[1] % 120 == 0)
                             {
                                 NPC.ai[1]++;
@@ -722,16 +722,16 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         if (nextToTheLeft)
                         {
-                            resetVal = 0;
-                            NPC.ai[3] = 0;
+                            resetVal = (int)(NPC.ai[3] / 310) + 0;
+                            NPC.ai[3] = (int)(NPC.ai[3] / 310) + 0;
                         }
                         else
                         {
-                            resetVal = 45;
-                            NPC.ai[3] = 45;
+                            resetVal = (int)(NPC.ai[3] / 310) + 45;
+                            NPC.ai[3] = (int)(NPC.ai[3] / 310) + 45;
                         }
 
-                        if (potChandelier.Center.X < Main.projectile[(int)NPC.ai[2]].Center.X)
+                        if ((potChandelier.ModProjectile as GoblinChandelierLight).anchorPos16.X < (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).anchorPos16.X)
                         {
                             nextToTheLeft = true;
                         }
@@ -739,6 +739,17 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         {
                             nextToTheLeft = false;
                         }
+
+                        GoblinChandelierLight skrunkle = (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight);
+
+                        skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
+
+                        NPC.Center = skrunkle.anchorPos16 +
+                            ((Vector2.UnitY).RotatedBy(skrunkle.axisRotation)) * (skrunkle.chainLength - 40);
+
+                        //NPC.Center = skrunkle.Projectile.Center + new Vector2(0, -22 - 40).RotatedBy(skrunkle.axisRotation);
+
+                        NPC.rotation = skrunkle.axisRotation;
                     }
                     else if (NPC.ai[3] % 310 < 180) //Actively swinging on a chandelier
                     {
@@ -746,9 +757,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
 
-                        NPC.Center = skrunkle.anchorPos16 + new Vector2(0, 8) + 
-                            ((Vector2.UnitY)
-                            .RotatedBy(skrunkle.axisRotation) * (skrunkle.chainLength - 40));
+                        NPC.Center = skrunkle.anchorPos16 + 
+                            ((Vector2.UnitY).RotatedBy(skrunkle.axisRotation)) * (skrunkle.chainLength - 40);
 
                         //NPC.Center = skrunkle.Projectile.Center + new Vector2(0, -22 - 40).RotatedBy(skrunkle.axisRotation);
 
@@ -766,11 +776,12 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                                 skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
 
-                                NPC.Center = skrunkle.anchorPos16 + new Vector2(0, 8) +
-                                    ((Vector2.UnitY)
-                                    .RotatedBy(skrunkle.axisRotation) * (skrunkle.chainLength - 40));
+                                NPC.Center = skrunkle.anchorPos16 +
+                                    ((Vector2.UnitY).RotatedBy(skrunkle.axisRotation)) * (skrunkle.chainLength - 40);
 
                                 NPC.rotation = skrunkle.axisRotation;
+
+                                skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
 
                                 NPC.ai[3]++;
 
@@ -783,6 +794,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             NPC.ai[2] = potChandelier.whoAmI;
 
+                            (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).rotationVelocity = 0;
+
                             NPC.ai[3] = 270;
 
                             NPC.velocity.X = (Main.projectile[(int)NPC.ai[2]].Center.X - NPC.Center.X) / 40f;
@@ -794,9 +807,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             skrunkle.axisRotation = (float)Math.Sin(((NPC.ai[3] % 310) * MathHelper.TwoPi) / 90f) * 0.5f;
 
-                            NPC.Center = skrunkle.anchorPos16 + new Vector2(0, 8) +
-                                ((Vector2.UnitY)
-                                .RotatedBy(skrunkle.axisRotation) * (skrunkle.chainLength - 40));
+                            NPC.Center = skrunkle.anchorPos16 +
+                                ((Vector2.UnitY).RotatedBy(skrunkle.axisRotation)) * (skrunkle.chainLength - 40);
 
                             NPC.rotation = skrunkle.axisRotation;
                         }
@@ -858,7 +870,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Scrapwizard").Value;
 
-            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, rect, Color.White, NPC.rotation, new Vector2(16, 16), 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, rect, Color.White, NPC.rotation, tex.TextureCenter(), 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
             
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
@@ -871,7 +883,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardStaff").Value;
 
-            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition + new Vector2((NPC.spriteDirection == 1 ? -6 : 6), 0), null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            //spriteBatch.Draw(tex, NPC.Center - Main.screenPosition + new Vector2((NPC.spriteDirection == 1 ? -6 : 6), 0), null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
             //spriteBatch.Draw(tex, new Rectangle((int)myRoom.X - (int)Main.screenPosition.X, (int)myRoom.Y - (int)Main.screenPosition.Y, myRoom.Width, myRoom.Height), null, Color.White, 0f, Vector2.Zero, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
