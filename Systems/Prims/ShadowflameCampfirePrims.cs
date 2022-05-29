@@ -12,6 +12,7 @@ using EEMod.Items.Weapons.Mage;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 using EEMod.Items.Weapons.Melee;
+using System.Diagnostics;
 
 namespace EEMod.Prim
 {
@@ -48,7 +49,7 @@ namespace EEMod.Prim
         private Color color;
         public override void SetDefaults()
         {
-            behindTiles = false;
+            behindTiles = true;
             pixelated = true;
             manualDraw = true;
         }
@@ -111,7 +112,7 @@ namespace EEMod.Prim
 
             Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
 
-            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, EEMod.TornSailShader);
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default);
 
             if (_additive)
                 EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);

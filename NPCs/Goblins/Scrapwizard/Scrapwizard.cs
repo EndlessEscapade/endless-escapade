@@ -411,7 +411,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         for(int i = 1; i < 80; i++)
                         {
-                            Vector2 flamePos = Vector2.Lerp(myRoom.BottomLeft(), myRoom.BottomRight(), i / 80f) + new Vector2(0, -16);
+                            Vector2 flamePos = Vector2.Lerp(myRoom.BottomLeft(), myRoom.BottomRight(), i / 80f) + new Vector2(0, -8);
 
                             Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), flamePos, Vector2.Zero, ModContent.ProjectileType<Shadowfire>(), 0, 0);
                         }
@@ -848,10 +848,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public void InitShader(SpriteBatch spriteBatch)
         {
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(Main.GameViewMatrix.Zoom.X, Main.GameViewMatrix.Zoom.Y, 1f);
-
-            Matrix projection = Matrix.CreateOrthographic(Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height, 0, 1000);
-
             spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
             EEMod.ShadowWarp.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
@@ -883,9 +879,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardStaff").Value;
 
-            //spriteBatch.Draw(tex, NPC.Center - Main.screenPosition + new Vector2((NPC.spriteDirection == 1 ? -6 : 6), 0), null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
-
-            //spriteBatch.Draw(tex, new Rectangle((int)myRoom.X - (int)Main.screenPosition.X, (int)myRoom.Y - (int)Main.screenPosition.Y, myRoom.Width, myRoom.Height), null, Color.White, 0f, Vector2.Zero, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition + new Vector2((NPC.spriteDirection == 1 ? -6 : 6), 0), null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
 
             Texture2D tex2 = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardArm").Value;

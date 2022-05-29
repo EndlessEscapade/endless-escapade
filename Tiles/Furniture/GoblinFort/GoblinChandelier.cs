@@ -158,7 +158,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
         public override void AI()
         {
-            anchorPos16 = (anchorPos * 16) + new Vector2(8, 8);
+            anchorPos16 = (anchorPos * 16) + new Vector2(8, 16);
 
             if (rotationVelocity != 0)
             {
@@ -167,11 +167,6 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 axisRotation += rotationVelocity;
 
                 axisRotation *= 0.965f;
-
-                /*if(chainLength > 80)
-                {
-                    chainLength--;
-                }*/
             }
 
             if (Projectile.ai[0] == 0)
@@ -200,8 +195,8 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 trail.rot = axisRotation;
             }
 
-            if (!hideFlames)
-            {
+            //if (!hideFlames)
+            //{
                 if (flameHeight < 20) flameHeight++;
 
                 trails[0].startPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation);
@@ -216,6 +211,12 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 trails[2].controlPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
                 trails[2].endPoint = anchorPos16 + new Vector2(-flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
 
+
+
+
+
+
+
                 trails[3].startPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation);
                 trails[3].controlPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
                 trails[3].endPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 1.25f)).RotatedBy(axisRotation / 1.5f);
@@ -228,6 +229,14 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 trails[5].controlPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.75f)).RotatedBy(axisRotation / 1.5f);
                 trails[5].endPoint = anchorPos16 + new Vector2(0, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 1.25f)).RotatedBy(axisRotation / 1.5f);
 
+
+
+
+
+
+
+
+
                 trails[6].startPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation);
                 trails[6].controlPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
                 trails[6].endPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
@@ -239,7 +248,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 trails[8].startPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation);
                 trails[8].controlPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -(flameHeight * 0.5f)).RotatedBy(axisRotation / 1.5f);
                 trails[8].endPoint = anchorPos16 + new Vector2(flameDist, (chainLength - 7) + 22).RotatedBy(axisRotation) + new Vector2(0, -flameHeight).RotatedBy(axisRotation / 1.5f);
-            }
+            /*}
             else
             {
                 foreach(ShadowflameCampfirePrims trail in trails)
@@ -250,7 +259,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 }
 
                 flameHeight = 0;
-            }
+            }*/
 
             if (retracting && chainLength > 80)
             {
@@ -268,9 +277,6 @@ namespace EEMod.Tiles.Furniture.GoblinFort
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 localAnchorPos16 = (anchorPos * 16) + new Vector2(8, 16);
-
-            Projectile.Center = anchorPos16 + (Vector2.UnitY.RotatedBy(axisRotation) * chainLength);
-            Projectile.rotation = (anchorPos16 - Projectile.Center).ToRotation() + 1.57f;
 
             int distance = (int)Vector2.Distance(localAnchorPos16, Projectile.Center);
 

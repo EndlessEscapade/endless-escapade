@@ -289,7 +289,7 @@ namespace EEMod.Subworlds
                 PlaceTileEntity(hallX + (1360 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
                 PlaceTileEntity(hallX + (1536 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
                 PlaceTileEntity(hallX + (1760 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
-                PlaceTileEntity(hallX + (1968 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
+                //PlaceTileEntity(hallX + (1968 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
 
                 WorldGen.PlaceTile(hallX + (464 / 16) + 5, hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
                 WorldGen.PlaceTile(hallX + (880 / 16) + 5, hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
@@ -371,7 +371,7 @@ namespace EEMod.Subworlds
 
                 #region Spawning boss
 
-                NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), hallX * 16, hallY * 16, ModContent.NPCType<GuardBrute>(), ai0: 0, ai1: hallX * 16, ai2: hallY * 16);
+                //NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), hallX * 16, hallY * 16, ModContent.NPCType<GuardBrute>(), ai0: 0, ai1: hallX * 16, ai2: hallY * 16);
 
                 #endregion
             }

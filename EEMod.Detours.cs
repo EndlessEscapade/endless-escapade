@@ -626,7 +626,7 @@ namespace EEMod
         {
             if (!Main.dedServ)
             {
-                if (!SubworldLibrary.SubworldSystem.IsActive<Sea>())
+                if (!SubworldSystem.IsActive<Sea>())
                 {
                     PrimitiveSystem.primitives.DrawTrailsAboveTiles();
 
