@@ -32,8 +32,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             NPC.lifeMax = 3300;
             NPC.defense = 10;
 
-            NPC.width = 32;
-            NPC.height = 32;
+            NPC.width = 60;
+            NPC.height = 70;
 
             NPC.friendly = false;
 
@@ -62,6 +62,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public int currentAttack;
 
         public bool bruteDead;
+        public float guardShield;
 
         public bool fightBegun;
 
@@ -70,14 +71,13 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public float initialPosX;
 
         public List<Projectile> chandeliers;
-
-        public float guardShield;
+        public int resetVal;
 
         public List<Projectile> tables;
         public int tableTicks;
-        public int resetVal;
 
         public List<Projectile> scrapbits;
+        public List<Projectile> activeScrap;
 
         public override void AI()
         {
@@ -130,7 +130,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     if ((Vector2.DistanceSquared(target.Center, NPC.Center) <= 320 * 320 || myGuard.NPC.life < myGuard.NPC.lifeMax) && NPC.ai[1] == 1)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblinlaugh2"));
+                        //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblinlaugh2"));
 
                         NPC.velocity.X = (myGuard.NPC.Center.X - (NPC.Center.X - (-40 * myGuard.NPC.direction))) / 60f;
 
@@ -157,7 +157,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             }
                         }
 
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrr"));
+                        //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrr"));
                     }
                 }
                 #endregion
@@ -189,7 +189,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             else if (NPC.ai[1] == 80)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrunt2"));
+                                //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrunt2"));
                             }
 
                             //SLAM
@@ -217,7 +217,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             else if (NPC.ai[1] == 40)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrunt1"));
+                                //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrunt1"));
                             }
 
                             //less than a second to telegraph
@@ -228,7 +228,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             else if (NPC.ai[1] == 122)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingo"));
+                                //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingo"));
                             }
 
                             //charge!
@@ -361,10 +361,13 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             }
                         }
 
-                        //for(int i = 0; i < 20; i++)
-                        //{
-                        //    Projectile.NewProjectile();
-                        //}
+                        scrapbits = new List<Projectile>();
+                        activeScrap = new List<Projectile>();
+
+                        for (int i = 0; i < 6; i++)
+                        {
+                            scrapbits.Add(Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<LargeScrap>(), 0, 0));
+                        }
                     }
                     else if (NPC.ai[1] < 80)
                     {
@@ -391,7 +394,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         NPC.velocity = new Vector2((myProj.Center.X - NPC.Center.X) / 60f, -22.2f);
 
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblincry1"));
+                        //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblincry1"));
                     }
                     else if (NPC.ai[1] < 160)
                     {
@@ -511,7 +514,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if(NPC.ai[1] >= 300)
                             {
-                                currentAttack = Main.rand.Next(4);
+                                currentAttack = 4;
                                 NPC.ai[1] = 0;
                             }
 
@@ -565,7 +568,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if (NPC.ai[1] >= 300)
                             {
-                                currentAttack = Main.rand.Next(4);
+                                currentAttack = 4;
                                 NPC.ai[1] = 0;
                             }
 
@@ -578,13 +581,14 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if (NPC.ai[1] == 1)
                             {
-                                if (!nextToTheLeft)
+                                if (nextToTheLeft)
                                 {
-                                    resetVal = (int)(NPC.ai[3] / 310) + 45;
+                                    //resetVal = (int)(NPC.ai[3] / 310) + 90;
+                                    resetVal = (int)(NPC.ai[3] / 310) + 0;
                                 }
                                 else
                                 {
-                                    resetVal = (int)(NPC.ai[3] / 310) + 90;
+                                    resetVal = (int)(NPC.ai[3] / 310) + 45;
                                 }
 
                                 (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).chainLength++;
@@ -613,7 +617,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                                 (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).disabled = false;
 
-                                currentAttack = Main.rand.Next(4);
+                                currentAttack = 4;
                                 NPC.ai[1] = 0;
                             }
 
@@ -674,25 +678,96 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             
                             if(NPC.ai[1] >= (120 * 5) - 1)
                             {
-                                currentAttack = Main.rand.Next(4);
+                                currentAttack = 4;
                                 NPC.ai[1] = 0;
                             }
 
 
                             break;
                         case 4: //railgun shoots bits of scrap at yoy that stick to tables and explode as mines        SCRAAAAPA
-                            if(NPC.ai[1] % 60 == 1)
+
+                            //0-40: Loading the bolts
+                            //40-60: Bolts freeze
+                            //60-80: Bolts fire
+
+                            if(NPC.ai[1] == 1)
                             {
-                                foreach(Projectile bit in scrapbits)
+                                activeScrap = new List<Projectile>();
+
+                                foreach (Projectile bit in scrapbits)
                                 {
-                                    
+                                    if (activeScrap.Count < 4) activeScrap.Add(bit);
                                 }
+
+                                (activeScrap[0].ModProjectile as LargeScrap).movementDuration = 40;
+                                (activeScrap[1].ModProjectile as LargeScrap).movementDuration = 40;
+                                (activeScrap[2].ModProjectile as LargeScrap).movementDuration = 40;
+                                (activeScrap[3].ModProjectile as LargeScrap).movementDuration = 40;
                             }
-                            else if (NPC.ai[1] % 60 < 30)
+
+                            if (NPC.ai[1] >= 320)
                             {
+                                /*foreach (Projectile scrap in activeScrap)
+                                {
+                                    if ((scrap.ModProjectile as LargeScrap).AttackPhase != 0)
+                                    {
+                                        (scrap.ModProjectile as LargeScrap).AttackPhase =
+                                    }
+                                }
+                                */
 
+                                currentAttack = Main.rand.Next(5);
+                                NPC.ai[1] = 0;
                             }
 
+                            if (NPC.ai[1] % 160 < 40)
+                            {
+                                (activeScrap[0].ModProjectile as LargeScrap).AttackPhase = 1;
+                                (activeScrap[1].ModProjectile as LargeScrap).AttackPhase = 1;
+
+                                (activeScrap[0].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f);
+                                (activeScrap[1].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f);
+
+                                (activeScrap[0].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                                (activeScrap[1].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                            }
+                            else if (NPC.ai[1] % 160 < 60)
+                            {
+                                (activeScrap[0].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f);
+                                (activeScrap[1].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f);
+
+                                (activeScrap[0].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                                (activeScrap[1].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                            }
+                            else if (NPC.ai[1] % 160 < 120 && NPC.ai[1] % 160 > 80)
+                            {
+                                (activeScrap[2].ModProjectile as LargeScrap).AttackPhase = 1;
+                                (activeScrap[3].ModProjectile as LargeScrap).AttackPhase = 1;
+
+                                (activeScrap[2].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f);
+                                (activeScrap[3].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f);
+
+                                (activeScrap[2].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                                (activeScrap[3].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                            }
+                            else if (NPC.ai[1] % 160 < 140)
+                            {
+                                (activeScrap[2].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f);
+                                (activeScrap[3].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f);
+
+                                (activeScrap[2].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                                (activeScrap[3].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                            }
+                            else if (NPC.ai[1] % 160 == 159)
+                            {
+                                Projectile temp = activeScrap[0];
+                                activeScrap[0] = activeScrap[1];
+                                activeScrap[1] = temp;
+
+                                temp = activeScrap[2];
+                                activeScrap[2] = activeScrap[3];
+                                activeScrap[3] = temp;
+                            }
 
                             break;
                         case 5: // scrap wall attack where you must get in a good position or you get torn up        SCRAAAAPA
@@ -747,8 +822,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         NPC.Center = skrunkle.anchorPos16 +
                             ((Vector2.UnitY).RotatedBy(skrunkle.axisRotation)) * (skrunkle.chainLength - 40);
 
-                        //NPC.Center = skrunkle.Projectile.Center + new Vector2(0, -22 - 40).RotatedBy(skrunkle.axisRotation);
-
                         NPC.rotation = skrunkle.axisRotation;
                     }
                     else if (NPC.ai[3] % 310 < 180) //Actively swinging on a chandelier
@@ -759,8 +832,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         NPC.Center = skrunkle.anchorPos16 + 
                             ((Vector2.UnitY).RotatedBy(skrunkle.axisRotation)) * (skrunkle.chainLength - 40);
-
-                        //NPC.Center = skrunkle.Projectile.Center + new Vector2(0, -22 - 40).RotatedBy(skrunkle.axisRotation);
 
                         NPC.rotation = skrunkle.axisRotation;
                     }
@@ -816,7 +887,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     else if (NPC.ai[3] % 310 < 310) //In midair
                     {
                         NPC.velocity.Y += 2 / 20f;
-                        NPC.rotation += NPC.velocity.X / 10f;
+                        NPC.rotation += NPC.velocity.X / 15f;
                         NPC.spriteDirection = (NPC.velocity.X < 0 ? -1 : 1);
                     }
                     #endregion
@@ -862,7 +933,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         {
             InitShader(spriteBatch);
 
-            Rectangle rect = new Rectangle(0, 0, 32, 32);
+            Rectangle rect = new Rectangle(0, 0, 60, 70);
 
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Scrapwizard").Value;
 
@@ -879,12 +950,12 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardStaff").Value;
 
-            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition + new Vector2((NPC.spriteDirection == 1 ? -6 : 6), 0), null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            //spriteBatch.Draw(tex, NPC.Center - Main.screenPosition + new Vector2((NPC.spriteDirection == 1 ? -6 : 6), 0).RotatedBy(NPC.rotation), null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
 
             Texture2D tex2 = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardArm").Value;
 
-            spriteBatch.Draw(tex2, NPC.Center - Main.screenPosition, null, Color.White, NPC.rotation, tex2.Size() / 2f, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            //spriteBatch.Draw(tex2, NPC.Center - Main.screenPosition, null, Color.White, NPC.rotation, tex2.Size() / 2f, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
             if (bruteDead && fightBegun)
             {

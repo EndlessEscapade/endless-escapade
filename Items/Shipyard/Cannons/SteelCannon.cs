@@ -36,7 +36,7 @@ namespace EEMod.Items.Shipyard.Cannons
     {
         public override void LeftClickAbility(SeamapPlayerShip boat, SeamapObject cannonball)
         {
-            cannonball.Center = boat.Center + new Vector2(0, 41);
+            cannonball.Center = boat.Center;
             cannonball.velocity = boat.velocity - (Vector2.UnitX.RotatedBy(boat.CannonRestrictRange()) * 4);
 
             boat.velocity -= Vector2.Normalize(Main.MouseWorld - boat.Center) * 0.5f;

@@ -48,10 +48,10 @@ namespace EEMod.NPCs.SurfaceReefs
             return true;
         }
 
-        public override void OnCatchNPC(Player player, Item item)
+        /*public override void OnCatchNPC(Player player, Item item)
         {
             item.stack = 2;
-        }
+        }*/
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

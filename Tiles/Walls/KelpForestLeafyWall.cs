@@ -19,7 +19,7 @@ namespace EEMod.Tiles.Walls
             Main.wallHouse[Type] = true;
             DustType = DustID.Rain;
             ItemDrop = ModContent.ItemType<LightGemsandWall>();
-            SoundStyle = 1;
+            //SoundStyle = 1;
         }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)

@@ -35,7 +35,7 @@ namespace EEMod.Items.Armor.Dalantinium
             flag = true;
         }
 
-        public override bool CanConsumeAmmo(Player player)
+        /*public override bool CanConsumeAmmo(Player player)
         {
             if (flag)
             {
@@ -45,7 +45,7 @@ namespace EEMod.Items.Armor.Dalantinium
             {
                 return true;
             }
-        }
+        }*/
 
         public override void UpdateArmorSet(Player player)
         {

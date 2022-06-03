@@ -53,8 +53,8 @@ namespace EEMod.NPCs.Bosses.Hydros
 
             NPC.value = Item.buyPrice(0, 3, 5, 0);
 
-            NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
-            NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
+            //NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
+            //NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
             //NPC.Expert = ItemType<HydrosBag>();
             NPC.width = 314;
             NPC.height = 162;

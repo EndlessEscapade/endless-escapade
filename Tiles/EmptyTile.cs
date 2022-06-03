@@ -19,7 +19,7 @@ namespace EEMod.Tiles
             TileID.Sets.DrawsWalls[Type] = true;
 
             AddMapEntry(new Color(253, 247, 173));
-            SoundStyle = 1;
+            //SoundStyle = 1;
             MineResist = 4f;
             MinPick = 100;
         }

@@ -14,7 +14,7 @@ using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+//using System.Reflection;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
@@ -39,6 +39,7 @@ using EEMod.Subworlds;
 using EEMod.NPCs.Goblins.Scrapwizard;
 using EEMod.Subworlds.CoralReefs;
 using SubworldLibrary;
+using System.Reflection;
 
 namespace EEMod
 {
@@ -55,12 +56,7 @@ namespace EEMod
 
         float bgAlpha;
 
-        public int loadingScreenTicker;
-        public float textPositionLeft;
-
         public bool wasDoingWorldGen;
-
-        public static float lerp;
 
         private void LoadDetours()
         {
@@ -72,7 +68,7 @@ namespace EEMod
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DrawWater += Main_DrawWater1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
-            On.Terraria.Main.DrawTiles += Main_DrawTiles1;
+            On.Terraria.Main.DoDraw_Tiles_Solid += Main_DoDraw_Tiles_Solid;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
 
             On.Terraria.Main.DoDraw_Tiles_NonSolid += Main_DoDraw_Tiles_NonSolid;
@@ -81,8 +77,8 @@ namespace EEMod
 
             On.Terraria.Player.Update_NPCCollision += Player_Update_NPCCollision;
 
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
+            //On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
+            //On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
 
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
 
@@ -104,7 +100,7 @@ namespace EEMod
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
             On.Terraria.Main.DrawWater -= Main_DrawWater1;
             On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
-            On.Terraria.Main.DrawTiles -= Main_DrawTiles1;
+            On.Terraria.Main.DoDraw_Tiles_Solid -= Main_DoDraw_Tiles_Solid;
             On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
 
             On.Terraria.Main.DoDraw_Tiles_NonSolid -= Main_DoDraw_Tiles_NonSolid;
@@ -113,14 +109,73 @@ namespace EEMod
 
             On.Terraria.Player.Update_NPCCollision -= Player_Update_NPCCollision;
 
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
+            //On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
+            //On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
 
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
 
             On.Terraria.Main.DoDraw_UpdateCameraPosition -= Main_DoDraw_UpdateCameraPosition;
 
             Main.OnPreDraw -= Main_OnPreDraw;
+        }
+
+        private void Main_DoDraw_Tiles_Solid(On.Terraria.Main.orig_DoDraw_Tiles_Solid orig, Main self)
+        {
+            if (SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
+            {
+                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
+                {
+                    bgAlpha += 0.01f;
+                }
+                else
+                {
+                    bgAlpha -= 0.01f;
+                }
+
+                bgAlpha = MathHelper.Clamp(bgAlpha, 0, 1);
+
+                if (bgAlpha > 0)
+                {
+                    Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
+                    Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
+                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value; 
+
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default);
+
+                    ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
+
+                    Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
+                    Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
+                    Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
+
+                    for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
+                        for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                            tex,
+                            new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)), bgAlpha);
+
+                    for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
+                        for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                            tex2,
+                            new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)), bgAlpha);
+
+                    for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
+                        for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                            tex3,
+                            new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)), bgAlpha);
+
+                    Main.spriteBatch.End();
+                }
+                else
+                {
+                    //int a = 2;
+                    //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
+                }
+            }
+
+            orig(self);
         }
 
         private void Main_DoDraw_Tiles_NonSolid(On.Terraria.Main.orig_DoDraw_Tiles_NonSolid orig, Main self)
@@ -322,57 +377,6 @@ namespace EEMod
 
         private void Main_DrawTiles1(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
         {
-            if (SubworldLibrary.SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
-            {
-                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
-                {
-                    bgAlpha += 0.01f;
-                }
-                else
-                {
-                    bgAlpha -= 0.01f;
-                }
-
-                bgAlpha = MathHelper.Clamp(bgAlpha, 0, 1);
-
-                if (bgAlpha > 0)
-                {
-                    Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
-                    Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
-                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
-
-                    ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
-
-                    Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
-                    Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
-                    Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
-
-
-                    for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
-                        for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex,
-                            new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)), bgAlpha);
-
-                    for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
-                        for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex2,
-                            new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)), bgAlpha);
-
-                    for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
-                        for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex3,
-                            new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)), bgAlpha);
-                }
-                else
-                {
-                    //int a = 2;
-                    //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
-                }
-            }
-
             /*if (SubworldLibrary.SubworldSystem.IsActive<GoblinFort>() && !Main.gameMenu && Main.spriteBatch != null && !Main.gamePaused)
             {
                 Texture2D bgTex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Background").Value;
@@ -469,7 +473,7 @@ namespace EEMod
             buttonLabel.Left.Set(num + 10, 0f);
             buttonLabel.Top.Set(-3f, 0f);
 
-            DetourReflectionCache.UIWorldListItem_buttonLabel.SetValue(self, buttonLabel);
+            //DetourReflectionCache.UIWorldListItem_buttonLabel.SetValue(self, buttonLabel);
 
             //self.Append(buttonLabel);
         }
@@ -535,12 +539,12 @@ namespace EEMod
             isSaving = false;
         }
 
-        private void UIWorldListItem_DrawSelf(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_DrawSelf orig, UIWorldListItem self, SpriteBatch spriteBatch)
+        /*private void UIWorldListItem_DrawSelf(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_DrawSelf orig, UIWorldListItem self, SpriteBatch spriteBatch)
         {
             orig(self, spriteBatch);
 
-            WorldFileData data = (WorldFileData)DetourReflectionCache.UIWorldListItem_data.GetValue(self);
-            UIImage worldIcon = (UIImage)DetourReflectionCache.UIWorldListItem_worldIcon.GetValue(self);
+            //WorldFileData data = (WorldFileData)DetourReflectionCache.UIWorldListItem_data.GetValue(self);
+            //UIImage worldIcon = (UIImage)DetourReflectionCache.UIWorldListItem_worldIcon.GetValue(self);
             CalculatedStyle innerDimensions = self.GetInnerDimensions();
             CalculatedStyle dimensions = worldIcon.GetDimensions();
             float num = 56f;
@@ -564,7 +568,7 @@ namespace EEMod
             //spriteBatch.Draw(texture, position, new Rectangle(0, 0, 8, texture.Height), Color.White);
             //spriteBatch.Draw(texture, new Vector2(position.X + 8f, position.Y), new Rectangle(8, 0, 8, texture.Height), Color.White, 0f, Vector2.Zero, new Vector2((width - 16f) / 8f, 1f), SpriteEffects.None, 0f);
             //spriteBatch.Draw(texture, new Vector2(position.X + width - 8f, position.Y), new Rectangle(16, 0, 8, texture.Height), Color.White);
-        }
+        }*/
 
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
@@ -678,313 +682,13 @@ namespace EEMod
             
             if ((isSaving && Main.gameMenu) || (isSaving) || Main.MenuUI.CurrentState is UIWorldLoad)
             {
-                alpha += 0.01f;
-                if (lerp != 1)
-                    lerp += (1 - lerp) / 16f;
-                if (lerp > 0.99f)
-                {
-                    lerp = 1;
-                }
-                if (alpha > 1)
-                {
-                    alpha = 1;
-                }
-
                 Main.numClouds = 0;
-
-                if (loadingFlag)
-                {
-                    loadingChoose = Main.rand.Next(68);
-                    loadingChooseImage = Main.rand.Next(5);
-                    frame2.Y = 0;
-                    loadingFlag = false;
-                    loadingScreenTicker = 0;
-                    textPositionLeft = 0;
-                }
-
-                switch (loadingChoose)
-                {
-                    case 0:
-                        screenMessageText = "All good idiocy done by EpicCrownKing";
-                        break;
-
-                    case 1:
-                        screenMessageText = "All good sprites made by Nomis";
-                        break;
-
-                    case 2:
-                        screenMessageText = "Tip of the Day: Loading screens are useless!";
-                        break;
-
-                    case 3:
-                        screenMessageText = "Fear the MS Paint cat";
-                        break;
-
-                    case 4:
-                        screenMessageText = "Terraria sprites need outlines... except when I make them";
-                        break;
-
-                    case 5:
-                        screenMessageText = "Remove the banding";
-                        break;
-
-                    case 6:
-                        screenMessageText = Main.LocalPlayer.name + " ... huh? What a cruddy name";
-                        break;
-
-                    case 7:
-                        screenMessageText = "Don't ping everyone you big dumb stupid";
-                        break;
-
-                    case 8:
-                        screenMessageText = "I'm nothing without attention";
-                        break;
-
-                    case 9:
-                        screenMessageText = "Why are you even reading this?";
-                        break;
-
-                    case 10:
-                        screenMessageText = "We actually think we're funny";
-                        break;
-
-                    case 11:
-                        screenMessageText = "Interitos... what's that?";
-                        break;
-
-                    case 12:
-                        screenMessageText = "It's my style";
-                        break;
-
-                    case 13:
-                        screenMessageText = "Now featuring 50% more monkey per chimp!";
-                        break;
-
-                    case 14:
-                        screenMessageText = "im angy";
-                        break;
-
-                    case 15:
-                        screenMessageText = "All good music made by A44";
-                        break;
-
-                    case 16:
-                        screenMessageText = "Mod is not edgy, I swear!";
-                        break;
-
-                    case 17:
-                        screenMessageText = "All good art made by cynik";
-                        break;
-
-                    case 18:
-                        screenMessageText = "I'm gonna have to mute you for that";
-                        break;
-
-                    case 19:
-                        screenMessageText = "Gamers, rise up!";
-                        break;
-
-                    case 20:
-                        screenMessageText = "THAT'S NOT THE CONCEPT";
-                        break;
-
-                    case 21:
-                        screenMessageText = "All bad sprites made by Doodle";
-                        break;
-
-                    case 22:
-                        screenMessageText = "D D A G# G F D F G";
-                        break;
-
-                    case 23:
-                        screenMessageText = "We live in a society";
-                        break;
-
-                    case 24:
-                        screenMessageText = "Don't mine at night!";
-                        break;
-
-                    case 25:
-                        screenMessageText = "deleting system32...";
-                        break;
-
-                    case 26:
-                        screenMessageText = "Sans in real!";
-                        break;
-
-                    case 27:
-                        screenMessageText = "I sure hope I didnt break the codeghsduighshsy";
-                        break;
-
-                    case 28:
-                        screenMessageText = "If you like Endless Escapade, you'll love Endless Escapade Premium (patent pending)!";
-                        break;
-
-                    case 29:
-                        screenMessageText = "slight smile";
-                        break;
-
-                    case 30:
-                        screenMessageText = "mario in real life";
-                        break;
-
-                    case 31:
-                        screenMessageText = "when the fruit salad is \nis yummy yummy";
-                        break;
-
-                    case 32:
-                        screenMessageText = "EEMod Foretold? More like doesn't exist";
-                        break;
-
-                    case 33:
-                        screenMessageText = "You think this is a game? Look behind you 0_0";
-                        break;
-
-                    case 34:
-                        screenMessageText = "Respect the drip Karen";
-                        break;
-
-                    case 35:
-                        screenMessageText = "phosh";
-                        break;
-
-                    case 36:
-                        screenMessageText = "C Eb F F# F Eb C    Bb D C";
-                        break;
-
-                    case 37:
-                        screenMessageText = "All good music made by Universe";
-                        break;
-
-                    case 38:
-                        screenMessageText = "All good sprites made by Vadim";
-                        break;
-
-                    case 39:
-                        screenMessageText = "All good sprites made by Pyxis";
-                        break;
-
-                    case 40:
-                        screenMessageText = "All good builds made by Cherry";
-                        break;
-
-                    case 41:
-                        screenMessageText = "Haha funny mod go brrr";
-                        break;
-
-                    case 42:
-                        screenMessageText = "Do a Barrel Roll";
-                        break;
-
-                    case 43:
-                        screenMessageText = "The man behind the laughter";
-                        break;
-
-                    case 44:
-                        screenMessageText = "janding restart!";
-                        break;
-
-                    case 45:
-                        screenMessageText = "An apple a day keeps the errors away!";
-                        break;
-
-                    case 46:
-                        screenMessageText = "Poggers? Poggers.";
-                        break;
-
-                    case 47:
-                        screenMessageText = $"By the way, {Main.LocalPlayer.name} is a dumb name";
-                        break;
-
-                    case 48:
-                        screenMessageText = "It all ends eventually!";
-                        break;
-
-                    case 49:
-                        screenMessageText = "Illegal in 5 countries!";
-                        break;
-
-                    case 50:
-                        screenMessageText = "Inside jokes you wont understand!";
-                        break;
-
-                    case 51:
-                        screenMessageText = "Big content mod bad!";
-                        break;
-
-                    case 52:
-                        screenMessageText = "Loading the random chimp event...";
-                        break;
-
-                    case 53:
-                        screenMessageText = "Sending you to the Aether...";
-                        break;
-
-                    case 54:
-                        screenMessageText = "When";
-                        break;
-
-                    case 55:
-                        screenMessageText = "[Insert non funny joke here]";
-                        break;
-
-                    case 56:
-                        screenMessageText = "The dev server is indeed an asylum";
-                        break;
-
-                    case 57:
-                        screenMessageText = "full moon with face";
-                        break;
-
-                    case 58:
-                        screenMessageText = "That's how the mafia works";
-                        break;
-
-                    case 59:
-                        screenMessageText = "Hacking the mainframe...";
-                        break;
-
-                    case 60:
-                        screenMessageText = "Not Proud";
-                        break;
-
-                    case 61:
-                        screenMessageText = "You know I think the ocean needs more con- Haha the literal ocean goes brr";
-                        break;
-
-                    case 62:
-                        screenMessageText = "EA Jorts, it's in the seams.";
-                        break;
-
-                    case 63:
-                        screenMessageText = "Forged in Fury";
-                        break;
-
-                    case 64:
-                        screenMessageText = "Have you guys heard of calamity?";
-                        break;
-
-                    case 65:
-                        screenMessageText = "Who's the ideas guy?";
-                        break;
-
-                    case 66:
-                        screenMessageText = "When the impostor is Velma?!?!?";
-                        break;
-
-                    case 67:
-                        screenMessageText = "All existing code programmed by Stevie";
-                        break;
-                }
             }
             else
             {
                 if (!Main.dedServ)
                 {
-                    loadingChoose = Main.rand.Next(68);
-                    loadingChooseImage = Main.rand.Next(5);
                     Main.numClouds = 10;
-                    frame2.Y = 0;
                 }
             }
         }
@@ -995,10 +699,6 @@ namespace EEMod
             {
                 if (!Main.gameMenu && !isSaving)
                 {
-                    lerp = 0;
-                    alpha = 0;
-                    loadingChoose = Main.rand.Next(68);
-                    loadingChooseImage = Main.rand.Next(5);
                     Main.numClouds = 10;
                 }
 
@@ -1017,20 +717,25 @@ namespace EEMod
         }
 
         #pragma warning disable IDE0051 // Private members
-        private static class DetourReflectionCache
+        /*private static class DetourReflectionCache
         {
-            public static FieldInfo UIWorldListItem_data;
-            public static FieldInfo UIWorldListItem_worldIcon;
-            public static FieldInfo UIWorldListItem_buttonLabel;
+            //public static FieldInfo UIWorldListItem_data;
+            //public static FieldInfo UIWorldListItem_worldIcon;
+            //public static FieldInfo UIWorldListItem_buttonLabel;
 
             [LoadingMethod]
             private static void Load()
             {
-                Type t = typeof(UIWorldListItem);
-                UIWorldListItem_data = t.GetField("_data", BindingFlags.Instance | BindingFlags.NonPublic);
-                UIWorldListItem_worldIcon = t.GetField("_worldIcon", BindingFlags.Instance | BindingFlags.NonPublic);
-                UIWorldListItem_buttonLabel = t.GetField("_buttonLabel", BindingFlags.Instance | BindingFlags.NonPublic);
+                //Type t = typeof(UIWorldListItem);
+                //UIWorldListItem_data = t.GetField("_data", BindingFlags.Instance | BindingFlags.NonPublic);
+                //UIWorldListItem_worldIcon = t.GetField("_worldIcon", BindingFlags.Instance | BindingFlags.NonPublic);
+                //UIWorldListItem_buttonLabel = t.GetField("_buttonLabel", BindingFlags.Instance | BindingFlags.NonPublic);
             }
-        }
+        }*/
+    }
+
+    public class JITFixer : PreJITFilter
+    {
+        public override bool ShouldJIT(MemberInfo member) => member.Module.Assembly == typeof(EEMod).Assembly;
     }
 }

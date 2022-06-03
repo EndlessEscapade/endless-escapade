@@ -42,7 +42,7 @@ using SubworldLibrary;
 
 namespace EEMod.Subworlds.CoralReefs
 {
-    public class CoralReefs : Subworld
+    public class CoralReefs : EESubworld
     {
         [FieldInit] public static IList<CoralReefMinibiome> Minibiomes = new List<CoralReefMinibiome>();
 
@@ -69,27 +69,11 @@ namespace EEMod.Subworlds.CoralReefs
 
         public override bool ShouldSave => true;
 
-        public override void OnExit()
-        {
-            Main.LocalPlayer.GetModPlayer<SeamapPlayer>().prevKey = KeyID.CoralReefs;
-
-            base.OnExit();
-        }
-
-        public override void DrawMenu(GameTime gameTime)
-        {
-            Main.spriteBatch.Begin();
-
-            ModContent.GetInstance<EEMod>().DrawLoadingScreen();
-
-            Main.spriteBatch.End();
-
-            return;
-        }
+        public override string subworldKey => KeyID.CoralReefs;
 
         public override List<GenPass> Tasks => new List<GenPass>()
         {
-            new GoblinFortGeneration(progress =>
+            new SubworldGenerationPass(progress =>
             {
                 var rand = WorldGen.genRand;
                 EEMod.progressMessage = "Generating Coral Reefs";

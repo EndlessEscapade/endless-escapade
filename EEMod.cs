@@ -37,10 +37,6 @@ namespace EEMod
     {
         public static bool isSaving = false;
 
-        public static int loadingChoose;
-        public static int loadingChooseImage;
-        public static bool loadingFlag = true;
-
         public static GameTime lastGameTime;
 
         public static ModKeybind Inspect;
@@ -53,6 +49,8 @@ namespace EEMod
 
         public override void Load()
         {
+            PreJITFilter = new JITFixer();
+
             TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();
 

@@ -2,5 +2,5 @@ displayName = Endless Escapade
 author = Endless Escapade Developers
 version = 1.0
 buildIgnore = build.txt, .gitattributes, .gitignore, .git/, .vs/, .idea/, bin/, obj/, Thumbs.db, .csproj, .cs, .sln, .zip, .editorconfig
-dllReferences = Tweetinvi, Tweetinvi.Core, netstandard, Autofac, Tweetinvi.Controllers, Tweetinvi.Credentials, Tweetinvi.Streams, Tweetinvi.Security, Tweetinvi.WebLogic, Tweetinvi.Logic, System.ComponentModel.Composition
+dllReferences = 
 modReferences = SubworldLibrary

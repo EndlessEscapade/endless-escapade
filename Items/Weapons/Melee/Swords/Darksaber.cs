@@ -39,7 +39,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
             Item.DamageType = DamageClass.Melee;
 
-            Item.UseSound = SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/darksaber");
+            //Item.UseSound = SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/darksaber");
         }
 
         public override bool CanUseItem(Player player)

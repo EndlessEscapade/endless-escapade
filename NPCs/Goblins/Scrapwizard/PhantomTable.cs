@@ -123,6 +123,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override bool PreDraw(ref Color lightColor)
         {
+            //Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/PhantomTableBloom").Value, Projectile.Center - Main.screenPosition, Color.Pink, 1f, Projectile.rotation);
+
             return true;
         }
     }

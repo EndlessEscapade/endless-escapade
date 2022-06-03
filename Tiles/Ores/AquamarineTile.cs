@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace EEMod.Tiles.Ores
 {
@@ -26,8 +27,8 @@ namespace EEMod.Tiles.Ores
 
             DustType = DustID.Platinum;
             ItemDrop = ModContent.ItemType<Aquamarine>();
-            SoundType = SoundID.Tink;
-            SoundStyle = 1;
+            HitSound = SoundID.Tink;
+            //SoundStyle = 1;
             MineResist = 1f;
             MinPick = 100;
         }

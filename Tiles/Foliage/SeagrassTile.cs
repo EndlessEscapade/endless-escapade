@@ -25,7 +25,7 @@ namespace EEMod.Tiles.Foliage
             //Main.tileCut[Type] = true;
             DustType = DustID.Grass;
             ItemDrop = ModContent.ItemType<Kelp>();
-            SoundStyle = SoundID.Grass;
+            //SoundStyle = SoundID.Grass;
             MineResist = 1f;
             MinPick = 0;
 

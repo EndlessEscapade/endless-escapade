@@ -15,7 +15,7 @@ namespace EEMod.Tiles.Walls
             Main.wallHouse[Type] = true;
             DustType = DustID.Rain;
             ItemDrop = ModContent.ItemType<GemsandstoneWall>();
-            SoundStyle = 1;
+            //SoundStyle = 1;
         }
     }
 }

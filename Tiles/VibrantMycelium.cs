@@ -1,8 +1,10 @@
 using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace EEMod.Tiles
 {
@@ -21,7 +23,7 @@ namespace EEMod.Tiles
 
             DustType = DustID.Rain;
             //drop = ModContent.ItemType<MagmastoneBrick>();
-            SoundStyle = 1;
+            //HitSound = 1;
             MineResist = 1f;
             MinPick = 0;
         }

@@ -78,7 +78,7 @@ namespace EEMod
 
         public bool isHangingOnVine;
 
-        public override bool CloneNewInstances => false; // just in case something doesn't reset
+        protected override bool CloneNewInstances => false; // just in case something doesn't reset
 
         public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
         {

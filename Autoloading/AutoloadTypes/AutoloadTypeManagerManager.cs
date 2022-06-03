@@ -52,6 +52,7 @@ namespace EEMod.Autoloading.AutoloadTypes
         {
             foreach (var manager in managers)
                 manager.Unload();
+
             managers?.Clear();
             managers = null;
         }

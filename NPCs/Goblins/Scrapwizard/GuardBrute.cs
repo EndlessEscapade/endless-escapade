@@ -124,7 +124,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 }
                             }
 
-                            NPC.Center = new Vector2(target.Center.X + (84 * (Main.rand.NextBool() ? -1 : 1)), (((int)(target.Center.Y / 16f) + y) * 16) - 48);
+                            NPC.Center = new Vector2(target.Center.X + (84 * (Main.rand.NextBool() ? -1 : 1)), (((int)(target.Center.Y / 16f) + y) * 16) - 54);
                         }
 
                         //less than a second to telegraph
@@ -165,7 +165,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 }
                             }
 
-                            NPC.Center = new Vector2(x, (((int)(target.Center.Y / 16f) + y) * 16) - 48);
+                            NPC.Center = new Vector2(x, (((int)(target.Center.Y / 16f) + y) * 16) - 54);
 
                             NPC.ai[2] = NPC.Center.X;
 

@@ -68,9 +68,9 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             {
                 desiredHeight = Main.rand.Next(60, 70);
 
-                PrimitiveSystem.primitives.CreateTrail(trail1 = new ShadowflameCampfirePrims(Color.Violet * 0.2f, Projectile.position, Projectile.position + new Vector2(0, -(heightFloat / 2)), Projectile.position + new Vector2(0, -heightFloat), 18, 20, true, 1));
-                PrimitiveSystem.primitives.CreateTrail(trail2 = new ShadowflameCampfirePrims(Color.Violet, Projectile.position, Projectile.position + new Vector2(0, -(heightFloat / 2) + 4), Projectile.position + new Vector2(0, -heightFloat + 4), 10, 20, true, 1));
-                PrimitiveSystem.primitives.CreateTrail(trail3 = new ShadowflameCampfirePrims(Color.Violet, Projectile.position, Projectile.position + new Vector2(0, -(heightFloat / 2)), Projectile.position + new Vector2(0, -heightFloat), 14, 20, false, 1));
+                PrimitiveSystem.primitives.CreateTrail(trail1 = new ShadowflameCampfirePrims(Color.Violet * 0.2f, Projectile.Bottom, Projectile.Bottom + new Vector2(0, -(heightFloat / 2)), Projectile.Bottom + new Vector2(0, -heightFloat), 18, 20, true, 1));
+                PrimitiveSystem.primitives.CreateTrail(trail2 = new ShadowflameCampfirePrims(Color.Violet, Projectile.Bottom, Projectile.Bottom + new Vector2(0, -(heightFloat / 2) + 4), Projectile.Bottom + new Vector2(0, -heightFloat + 4), 10, 20, true, 1));
+                PrimitiveSystem.primitives.CreateTrail(trail3 = new ShadowflameCampfirePrims(Color.Violet, Projectile.Bottom, Projectile.Bottom + new Vector2(0, -(heightFloat / 2)), Projectile.Bottom + new Vector2(0, -heightFloat), 14, 20, false, 1));
 
                 Projectile.ai[0] = 1;
             }
@@ -85,17 +85,17 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 if (heightFloat <= 0) Projectile.Kill();
             }
 
-            trail1.startPoint = Projectile.position;
-            trail1.controlPoint = Projectile.position + new Vector2(0, -(heightFloat / 2));
-            trail1.endPoint = Projectile.position + new Vector2(0, -heightFloat);
+            trail1.startPoint = Projectile.Bottom;
+            trail1.controlPoint = Projectile.Bottom + new Vector2(0, -(heightFloat / 2));
+            trail1.endPoint = Projectile.Bottom + new Vector2(0, -heightFloat);
 
-            trail2.startPoint = Projectile.position;
-            trail2.controlPoint = Projectile.position + new Vector2(0, -(heightFloat / 2) + 4);
-            trail2.endPoint = Projectile.position + new Vector2(0, -heightFloat + 4);
+            trail2.startPoint = Projectile.Bottom;
+            trail2.controlPoint = Projectile.Bottom + new Vector2(0, -(heightFloat / 2) + 4);
+            trail2.endPoint = Projectile.Bottom + new Vector2(0, -heightFloat + 4);
 
-            trail3.startPoint = Projectile.position;
-            trail3.controlPoint = Projectile.position + new Vector2(0, -(heightFloat / 2));
-            trail3.endPoint = Projectile.position + new Vector2(0, -heightFloat);
+            trail3.startPoint = Projectile.Bottom;
+            trail3.controlPoint = Projectile.Bottom + new Vector2(0, -(heightFloat / 2));
+            trail3.endPoint = Projectile.Bottom + new Vector2(0, -heightFloat);
         }
 
         public override void Kill(int timeLeft)

@@ -131,7 +131,12 @@ namespace EEMod
                 }
             }*/
 
-            try
+
+            (new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(
+                boat, (new Item(ModContent.ItemType<IronCannonball>())).GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball(Player.team)
+                );
+
+            /*try
             {
                 for(int i = 0; i < shipStorage.Length; i++)
                 {
@@ -150,7 +155,7 @@ namespace EEMod
                 Main.NewText("Something's wrong. Report this to the developers.");
 
                 return;
-            }
+            }*/
         }
 
         public void RightClickAbility(SeamapPlayerShip boat)

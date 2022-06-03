@@ -35,7 +35,7 @@ using Terraria.GameContent;
 
 namespace EEMod.Subworlds
 {
-    public class Sea : Subworld
+    public class Sea : EESubworld
     {
         public override int Width => 600;
         public override int Height => 600;
@@ -44,7 +44,7 @@ namespace EEMod.Subworlds
 
         public override List<GenPass> Tasks => new List<GenPass>()
         {
-            new SeaGenPass(progress =>
+            new SubworldGenerationPass(progress =>
             {
                 progress.Message = "Spawning Seamap"; //Sets the text above the worldgen progress bar
 
@@ -58,16 +58,7 @@ namespace EEMod.Subworlds
             SubworldSystem.Exit();
         }
 
-        public override void DrawMenu(GameTime gameTime)
-        {
-            Main.spriteBatch.Begin();
-
-            ModContent.GetInstance<EEMod>().DrawLoadingScreen();
-
-            Main.spriteBatch.End();
-
-            return;
-        }
+        public override string subworldKey => KeyID.Sea;
 
         public override void OnEnter()
         {
@@ -96,26 +87,6 @@ namespace EEMod.Subworlds
         public override bool IsSceneEffectActive(Player player)
         {
             return SubworldLibrary.SubworldSystem.IsActive<Sea>();
-        }
-    }
-
-    public class SeaGenPass : GenPass
-    {
-        private Action<GenerationProgress> method;
-
-        public SeaGenPass(Action<GenerationProgress> method) : base("", 1)
-        {
-            this.method = method;
-        }
-
-        public SeaGenPass(float weight, Action<GenerationProgress> method) : base("", weight)
-        {
-            this.method = method;
-        }
-
-        protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
-        {
-            method(progress);
         }
     }
 }

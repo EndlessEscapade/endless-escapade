@@ -24,7 +24,7 @@ namespace EEMod.Tiles
 
             DustType = DustID.Rain;
             ItemDrop = ModContent.ItemType<LightGemsand>();
-            SoundStyle = 1;
+            //SoundStyle = 1;
             MineResist = 1f;
             MinPick = 0;
         }

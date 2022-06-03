@@ -33,7 +33,7 @@ using Terraria.DataStructures;
 
 namespace EEMod.Subworlds
 {
-    public class GoblinFort : Subworld
+    public class GoblinFort : EESubworld
     {
         public override int Height => 1200;
         public override int Width => 2400;
@@ -47,9 +47,11 @@ namespace EEMod.Subworlds
 
         //public override bool NoPlayerSaving => base.NoPlayerSaving;
 
+        public override string subworldKey => KeyID.GoblinFort;
+
         public override List<GenPass> Tasks => new List<GenPass>()
         {
-            new GoblinFortGeneration(progress =>
+            new SubworldGenerationPass(progress =>
             {
                 Main.worldSurface = 1000;
                 
@@ -289,7 +291,7 @@ namespace EEMod.Subworlds
                 PlaceTileEntity(hallX + (1360 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
                 PlaceTileEntity(hallX + (1536 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
                 PlaceTileEntity(hallX + (1760 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
-                //PlaceTileEntity(hallX + (1968 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
+                PlaceTileEntity(hallX + (1968 / 16), hallY + (464 / 16), ModContent.TileType<GoblinChandelier>(), ModContent.GetInstance<GoblinChandelierTE>());
 
                 WorldGen.PlaceTile(hallX + (464 / 16) + 5, hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
                 WorldGen.PlaceTile(hallX + (880 / 16) + 5, hallY + (1008 / 16), ModContent.TileType<GoblinBanquetTable>());
@@ -371,7 +373,7 @@ namespace EEMod.Subworlds
 
                 #region Spawning boss
 
-                //NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), hallX * 16, hallY * 16, ModContent.NPCType<GuardBrute>(), ai0: 0, ai1: hallX * 16, ai2: hallY * 16);
+                NPC.NewNPC(new Terraria.DataStructures.EntitySource_WorldGen(), hallX * 16, hallY * 16, ModContent.NPCType<GuardBrute>(), ai0: 0, ai1: hallX * 16, ai2: hallY * 16);
 
                 #endregion
             }
@@ -389,37 +391,6 @@ namespace EEMod.Subworlds
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().prevKey = KeyID.GoblinFort;
 
             base.OnExit();
-        }
-
-        public override void DrawMenu(GameTime gameTime)
-        {
-            Main.spriteBatch.Begin();
-
-            ModContent.GetInstance<EEMod>().DrawLoadingScreen();
-
-            Main.spriteBatch.End();
-
-            return;
-        }
-    }
-
-    public class GoblinFortGeneration : GenPass
-    {
-        private Action<GenerationProgress> method;
-
-        public GoblinFortGeneration(Action<GenerationProgress> method) : base("", 1)
-        {
-            this.method = method;
-        }
-
-        public GoblinFortGeneration(float weight, Action<GenerationProgress> method) : base("", weight)
-        {
-            this.method = method;
-        }
-
-        protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
-        {
-            method(progress);
         }
     }
 

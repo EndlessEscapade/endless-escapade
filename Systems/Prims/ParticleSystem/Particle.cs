@@ -124,7 +124,7 @@ namespace EEMod
                 Module.Draw(this);
             }
 
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             Vector2 positionDraw = position.ForDraw();
 

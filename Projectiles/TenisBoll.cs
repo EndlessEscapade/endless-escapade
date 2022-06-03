@@ -181,7 +181,7 @@ namespace EEMod.Projectiles
                             // dust.noLight = false;
                         }
 
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/TennisBall1"));
+                        //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/TennisBall1"));
                     }
                     Projectile.netUpdate = true;
                     chosenRacket.netUpdate = true;

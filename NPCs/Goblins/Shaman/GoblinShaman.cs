@@ -107,7 +107,7 @@ namespace EEMod.NPCs.Goblins.Shaman
 
                 if (NPC.ai[0] % 540 == 0 && NPC.ai[1] == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, style: 61);
+                    //SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, style: 61);
 
                     NPC.ai[1] = 1;
                 }

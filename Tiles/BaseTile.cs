@@ -29,7 +29,6 @@ namespace EEMod.Tiles
 
             DustType = _dustType;
             ItemDrop = _drop;
-            SoundStyle = _soundStyle;
             MineResist = _mineResist;
             MinPick = _minPick;
         }

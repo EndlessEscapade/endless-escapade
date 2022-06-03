@@ -46,7 +46,7 @@ namespace EEMod.Seamap.Content
             width = 192;
             height = 160;
 
-            rot = MathHelper.TwoPi * 3f / 4f;
+            rot = MathHelper.TwoPi * 2f / 4f;
 
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
 
@@ -247,7 +247,7 @@ namespace EEMod.Seamap.Content
             {
                 for (int i = 1; i < activeCollisionVertices.Count; i++)
                 {
-                    Utils.DrawLine(spriteBatch, activeCollisionVertices[i - 1] + Hitbox.Center.ToVector2(), activeCollisionVertices[i] + Hitbox.Center.ToVector2(), Color.Yellow, Color.Red, 2f);
+                    //Utils.DrawLine(spriteBatch, activeCollisionVertices[i - 1] + Hitbox.Center.ToVector2(), activeCollisionVertices[i] + Hitbox.Center.ToVector2(), Color.Yellow, Color.Red, 2f);
                 }
             }
         }
@@ -264,7 +264,7 @@ namespace EEMod.Seamap.Content
 
         public void Die()
         {
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipDeath"));
+            //SoundEngine.PlaySound(SoundLoad.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipDeath"));
 
             myPlayer.GetModPlayer<SeamapPlayer>().ReturnHome();
 
@@ -538,7 +538,7 @@ namespace EEMod.Seamap.Content
                         //shipHelth--;
                         invFrames = 20;
 
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipHurt"));
+                        //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipHurt"));
 
                         velocity += Vector2.Normalize(obj.Center - Center) * boatSpeed * -120;
                         forwardSpeed = 0;

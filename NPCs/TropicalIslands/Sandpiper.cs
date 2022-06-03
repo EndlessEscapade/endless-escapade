@@ -22,8 +22,8 @@ namespace EEMod.NPCs.TropicalIslands
             NPC.aiStyle = 68;
             NPC.knockBackResist = 10;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
-            NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
-            NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
+            //NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
+            //NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
         }
     }
 }

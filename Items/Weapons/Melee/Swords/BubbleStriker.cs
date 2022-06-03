@@ -97,7 +97,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
 					Projectile.position -= new Vector2(EXPLOSIONRADIUS, EXPLOSIONRADIUS);
 					Projectile.width = EXPLOSIONRADIUS * 2;
 					Projectile.height = EXPLOSIONRADIUS * 2;
-					SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
+					//SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
 					for (int i = 0; i < Main.projectile.Length; i++)
 					{
 						Projectile proj = Main.projectile[i];

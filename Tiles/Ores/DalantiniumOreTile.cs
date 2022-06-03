@@ -25,8 +25,8 @@ namespace EEMod.Tiles.Ores
 
             DustType = DustID.Platinum;
             ItemDrop = ModContent.ItemType<DalantiniumOre>();
-            SoundType = SoundID.Tink;
-            SoundStyle = 1;
+            //SoundType = SoundID.Tink;
+            //SoundStyle = 1;
             MineResist = 1f;
             MinPick = 60;
         }

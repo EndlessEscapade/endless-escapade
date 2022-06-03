@@ -69,7 +69,7 @@ namespace EEMod
 
         public void UnloadUI()
         {
-            UI.UnLoad();
+            if(UI != null) UI.UnLoad();
         }
 
         public void UIControls()

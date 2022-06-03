@@ -63,10 +63,10 @@ namespace EEMod.NPCs.TropicalIslands
             return true;
         }
 
-        public override void OnCatchNPC(Player player, Item item)
+        /*public override void OnCatchNPC(Player player, Item item)
         {
             item.stack = 2;
-        }
+        }*/
 
         public void Animate(int delay, bool flip)
         {

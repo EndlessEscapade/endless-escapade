@@ -24,7 +24,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             //Main.tileCut[Type] = true;
             DustType = DustID.Plantera_Green;
             ItemDrop = ModContent.ItemType<Kelp>();
-            SoundStyle = SoundID.Grass;
+            //SoundStyle = SoundID.Grass;
             MineResist = 1f;
             MinPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);

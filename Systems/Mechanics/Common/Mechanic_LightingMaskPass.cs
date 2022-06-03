@@ -73,12 +73,16 @@ namespace EEMod
         {
             BufferCalls += () =>
             {
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default);
+
                 EEMod.LightingBuffer.Parameters["screenPosition"].SetValue(position.ForDraw());
                 EEMod.LightingBuffer.Parameters["texSize"].SetValue(texture.Bounds.Size());
                 EEMod.LightingBuffer.Parameters["alpha"].SetValue(alpha);
                 EEMod.LightingBuffer.CurrentTechnique.Passes[0].Apply();
 
                 Main.spriteBatch.Draw(texture, position.ForDraw(), Color.White);
+
+                Main.spriteBatch.End();
             };
         }
         public override void PostUpdateEverything()
