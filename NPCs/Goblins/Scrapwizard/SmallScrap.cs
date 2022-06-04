@@ -39,25 +39,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void AI()
         {
-            Projectile.velocity.X = MathHelper.Clamp(Projectile.velocity.X, -12f, 12f);
 
-            Projectile.rotation += Projectile.velocity.X * 0.05f;
-
-            Projectile.velocity.Y += 0.4f;
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            //explode into flames or whatever
-
-            for(int i = 0; i < 3; i++)
-            {
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.UnitY.RotatedBy(Main.rand.NextFloat(-3.14f, 3.14f)) * 4f, ModContent.ProjectileType<ShadowEmberTemp>(), 0, 0);
-            }
-
-            Projectile.Kill();
-
-            return true;
         }
     }
 }

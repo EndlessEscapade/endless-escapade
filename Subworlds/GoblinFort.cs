@@ -45,6 +45,8 @@ namespace EEMod.Subworlds
 
         public override bool NormalUpdates => true;
 
+        public override bool ShouldSave => false;
+
         //public override bool NoPlayerSaving => base.NoPlayerSaving;
 
         public override string subworldKey => KeyID.GoblinFort;
@@ -383,7 +385,7 @@ namespace EEMod.Subworlds
 
         public override void OnEnter()
         {
-
+            //ShouldSave = false;
         }
 
         public override void OnExit()

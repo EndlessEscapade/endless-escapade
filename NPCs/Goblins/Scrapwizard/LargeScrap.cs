@@ -101,7 +101,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                 while (collisionCheck)
                 {
-                    if(Main.tile[(int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f)].HasTile)
+                    if(Main.tile[(int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f)].HasTile && Main.tileSolid[(int)Main.tile[(int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f)].BlockType])
                     {
                         Projectile.Center -= Vector2.Normalize(Projectile.oldVelocity);
                     }

@@ -53,20 +53,18 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             return false;
         }
 
-        public GuardBrute myGuard;
-
         public Rectangle myRoom;
 
         public int attackDelay;
 
         public int currentAttack;
 
+        public bool mountedOnBrute;
+        public GuardBrute myGuard;
         public bool bruteDead;
         public float guardShield;
 
         public bool fightBegun;
-
-        public bool mountedOnBrute;
 
         public float initialPosX;
 
@@ -79,6 +77,25 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public List<Projectile> scrapbits;
         public List<Projectile> activeScrap;
 
+        public float teleportFloat;
+
+        public bool threeSwing;
+        public Projectile potChandelier;
+        public float swingDir;
+        public bool nextToTheLeft;
+
+        public Projectile attackChandelier;
+        public Vector2 attackVector;
+
+        public Vector2 archivePoint1;
+        public Vector2 archivePoint2;
+        public Vector2 archivePoint3;
+
+        public ref float myGuardID => ref NPC.ai[0];
+        public ref float attackTimer => ref NPC.ai[1];
+        public ref float activeChandelierID => ref NPC.ai[2];
+        public ref float chandelierSwingTimer => ref NPC.ai[3];
+
         public override void AI()
         {
             NPC.TargetClosest();
@@ -86,7 +103,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             if (target.Center.X < NPC.Center.X) NPC.direction = -1;
             else NPC.direction = 1;
-
             NPC.spriteDirection = NPC.direction;
 
             if (!bruteDead) //Phase 1
@@ -164,8 +180,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                 else
                 {
-                    NPC.ai[1]++;
-
                     switch (currentAttack)
                     {
                         case 0: //teleports the brute behind the player and then does a rapid slam
@@ -201,70 +215,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             //next attack
                             else
                             {
-                                currentAttack = Main.rand.Next(6);
-                                NPC.ai[1] = 0;
-
-                                myGuard.frameY = 0;
+                                PickNewAttack(true);
                             }
                             break;
-                        case 1: //teleports the brute across the arena from the player, and the brute charges across the arena,
-                                //dragging its sword, leaving behind fire. at the end of its charge, does an uppercut.
-                            //less than a second to teleport
-                            if (NPC.ai[1] < 40)
-                            {
-
-                            }
-
-                            else if (NPC.ai[1] == 40)
-                            {
-                                //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrunt1"));
-                            }
-
-                            //less than a second to telegraph
-                            else if (NPC.ai[1] < 122)
-                            {
-                                //throw potion at some point
-                            }
-
-                            else if (NPC.ai[1] == 122)
-                            {
-                                //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingo"));
-                            }
-
-                            //charge!
-                            else
-                            {
-                                if ((myGuard.NPC.velocity.X < 0 && myGuard.NPC.Center.X < myRoom.Center.X - Math.Abs(myRoom.Center.X - myGuard.NPC.ai[2])) ||
-                                    (myGuard.NPC.velocity.X > 0 && myGuard.NPC.Center.X > myRoom.Center.X + Math.Abs(myRoom.Center.X - myGuard.NPC.ai[2])))
-                                {
-                                    myGuard.NPC.velocity = Vector2.Zero;
-                                    myGuard.frameY = 0;
-
-                                    currentAttack = Main.rand.Next(6);
-                                    NPC.ai[1] = 0;
-                                }
-                            }
-
-                            break;
-                        case 2: //Starts swinging his sword in a slashing motion while scrapwizard throws concoctions and moving towards the player.
-                            //starts throwing while brute starts swinging
-                            if(NPC.ai[1] % 30 == 0)
-                            {
-                                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, (Vector2.Normalize(target.Center - NPC.Center) * 6f) + myGuard.NPC.velocity, ModContent.ProjectileType<ShadowflameJar>(), 0, 0);
-                            }
-
-                            if(NPC.ai[1] > 180)
-                            {
-                                myGuard.NPC.velocity = Vector2.Zero;
-                                myGuard.frameY = 0;
-
-                                currentAttack = Main.rand.Next(6);
-                                NPC.ai[1] = 0;
-                            }
-
-                            //stop and next attack
-                            break;
-                        case 3: //teleports brute upwards, throws potion down, scatters flames, repeat 3 times.
+                        case 1: //Brute leaps towards the player, and does a punch down when above, and slams fist into the ground so he gets stuck briefly,
+                                //sends out shadowflame fire ripples to either side of him
                             //less than a second to teleport
                             if (NPC.ai[1] % 80 < 40)
                             {
@@ -280,10 +235,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             {
                                 if(myGuard.NPC.velocity.Y <= 0 && NPC.ai[1] >= 80)
                                 {
-                                    myGuard.NPC.velocity = Vector2.Zero;
-
-                                    currentAttack = Main.rand.Next(6);
-                                    NPC.ai[1] = 0;
+                                    PickNewAttack(true);
                                 }
                             }
 
@@ -293,29 +245,17 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             //next attack
                             break;
-                        case 4: //brute rapidly slices up and down towards the player, then slams his sword into the ground and gets stuck.
+                        case 2: //teleports to one corner of the arena, punches rapidly sending out shadowflame shockwaves, and gets stuck at the end
                             if(NPC.ai[1] > 200)
                             {
-                                myGuard.NPC.velocity = Vector2.Zero;
-
-                                currentAttack = Main.rand.Next(6);
-                                NPC.ai[1] = 0;
-
-                                myGuard.frameY = 0;
+                                PickNewAttack(true);
                             }
                             break;
-                        case 5: //throws up a shadowflame potion, brute breaks it on its sword, then shoots a temporary flame column at the player
-                            if (NPC.ai[1] > 80 + 360)
-                            {
-                                myGuard.NPC.velocity = Vector2.Zero;
-
-                                currentAttack = Main.rand.Next(6);
-                                NPC.ai[1] = 0;
-
-                                myGuard.frameY = 0;
-                            }
+                        case 3: //Scrapwizard shoots hard-hitting and fast shadowflame bolts(not hitscan) at the player while brute moves slowly towards the player
                             break;
                     }
+
+                    NPC.ai[1]++;
                 }
 
                 guardShield = (float)myGuard.NPC.life / (float)myGuard.NPC.lifeMax;
@@ -325,6 +265,10 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 tableTicks++;
 
                 guardShield = 0f;
+
+                NPC.dontTakeDamage = false;
+
+                NPC.knockBackResist = 0f;
 
                 #region Initializing
                 if (!fightBegun)
@@ -439,14 +383,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 #endregion
                 else
                 {
-                    NPC.dontTakeDamage = false;
-
-                    NPC.knockBackResist = 0f;
-
-                    //NPC.velocity.Y += 0.48f; //Force of gravity
-
-                    NPC.ai[1]++;
-
+                    #region Table management
                     foreach (Projectile table in tables)
                     {
                         (table.ModProjectile as PhantomTable).oldCenter = (table.ModProjectile as PhantomTable).desiredCenter;
@@ -456,17 +393,14 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                     (float)Math.Cos(((tableTicks + (700 * 3.14f)) / 700f) + ((table.ai[1]) * (MathHelper.Pi / 3.5f))) * 600f,
                                     (float)Math.Sin(((tableTicks + (350 * 3.14f)) / 350f) + ((table.ai[1]) * (MathHelper.TwoPi / 3.5f))) * 100f);
                         (table.ModProjectile as PhantomTable).falseVelocity = ((table.ModProjectile as PhantomTable).desiredCenter - (table.ModProjectile as PhantomTable).desiredCenter);
-
-                        //if(Main.rand.NextBool(600))
-                        //{
-                            //(table.ModProjectile as PhantomTable).slamTicks = 180;
-                        //}
                     }
+                    #endregion
 
+                    #region Attacking logic
                     switch (currentAttack)
                     {
                         case 0: //turns all the chandelier flames but the one he's on into shadowflame, telegraph beams
-                            if (NPC.ai[1] % 100 == 2) 
+                            if (NPC.ai[1] % 100 == 1) 
                             {
                                 List<Projectile> potChandeliers = new List<Projectile>();
 
@@ -514,14 +448,12 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if(NPC.ai[1] >= 300)
                             {
-                                currentAttack = 4;
-                                NPC.ai[1] = 0;
+                                PickNewAttack(false);
                             }
-
 
                             break;
                         case 1: //combines the chandelier flames into one big fireball each and casts them down with a meteor fashion towards the player
-                            if (NPC.ai[1] % 100 == 1)
+                            if (NPC.ai[1] % 100 == 0)
                             {
                                 List<Projectile> potChandeliers = new List<Projectile>();
 
@@ -568,8 +500,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             if (NPC.ai[1] >= 300)
                             {
-                                currentAttack = 4;
-                                NPC.ai[1] = 0;
+                                PickNewAttack(false);
                             }
 
                             break;
@@ -579,7 +510,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), NPC.Center, (Vector2.Normalize(target.Center - NPC.Center) * 6f), ModContent.ProjectileType<ShadowflameJarBounce>(), 0, 0);
                             }
 
-                            if (NPC.ai[1] == 1)
+                            if (NPC.ai[1] == 0)
                             {
                                 if (nextToTheLeft)
                                 {
@@ -617,8 +548,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                                 (Main.projectile[(int)NPC.ai[2]].ModProjectile as GoblinChandelierLight).disabled = false;
 
-                                currentAttack = 4;
-                                NPC.ai[1] = 0;
+                                PickNewAttack(false);
                             }
 
                             break;
@@ -628,7 +558,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 NPC.ai[1]++;
                             }
 
-                            if (NPC.ai[1] % 120 == 1)
+                            if (NPC.ai[1] % 120 == 0)
                             {
                                 float currDist = 1000000;
                                 foreach (Projectile chandelier in chandeliers)
@@ -678,8 +608,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             
                             if(NPC.ai[1] >= (120 * 5) - 1)
                             {
-                                currentAttack = 4;
-                                NPC.ai[1] = 0;
+                                PickNewAttack(false);
                             }
 
 
@@ -690,13 +619,16 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             //40-60: Bolts freeze
                             //60-80: Bolts fire
 
-                            if(NPC.ai[1] == 1)
+                            if(NPC.ai[1] == 0)
                             {
-                                activeScrap = new List<Projectile>();
+                                activeScrap.Clear();
 
-                                foreach (Projectile bit in scrapbits)
+                                while (activeScrap.Count < 4)
                                 {
-                                    if (activeScrap.Count < 4) activeScrap.Add(bit);
+                                    foreach (Projectile bit in scrapbits)
+                                    {
+                                        if (activeScrap.Count < 4 && bit.ModProjectile is LargeScrap) activeScrap.Add(bit);
+                                    }
                                 }
 
                                 (activeScrap[0].ModProjectile as LargeScrap).movementDuration = 40;
@@ -705,68 +637,64 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 (activeScrap[3].ModProjectile as LargeScrap).movementDuration = 40;
                             }
 
-                            if (NPC.ai[1] >= 320)
+                            if (NPC.ai[1] >= 322)
                             {
-                                /*foreach (Projectile scrap in activeScrap)
-                                {
-                                    if ((scrap.ModProjectile as LargeScrap).AttackPhase != 0)
-                                    {
-                                        (scrap.ModProjectile as LargeScrap).AttackPhase =
-                                    }
-                                }
-                                */
-
-                                currentAttack = Main.rand.Next(5);
-                                NPC.ai[1] = 0;
+                                PickNewAttack(false);
                             }
 
-                            if (NPC.ai[1] % 160 < 40)
+                            if (NPC.ai[1] % 161 < 40)
                             {
                                 (activeScrap[0].ModProjectile as LargeScrap).AttackPhase = 1;
                                 (activeScrap[1].ModProjectile as LargeScrap).AttackPhase = 1;
 
-                                (activeScrap[0].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f);
-                                (activeScrap[1].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f);
+                                if (NPC.ai[1] % 161 == 0)
+                                {
+                                    float randFloat = Main.rand.NextFloat(0, MathHelper.Pi);
+                                    float randFloat2 = Main.rand.NextFloat(0, MathHelper.Pi);
 
-                                (activeScrap[0].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
-                                (activeScrap[1].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                                    (activeScrap[0].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.Center.X, myRoom.Top) + new Vector2(0, 240) + new Vector2(myRoom.Width * 0.33f * (float)Math.Cos(randFloat), -120 * (float)Math.Sin(randFloat));
+                                    (activeScrap[1].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.Center.X, myRoom.Top) + new Vector2(0, 240) + new Vector2(myRoom.Width * 0.33f * (float)Math.Cos(randFloat2), -120 * (float)Math.Sin(randFloat2));
+                                }
+
+                                (activeScrap[0].ModProjectile as LargeScrap).desiredRotation = (target.Center - (activeScrap[0].ModProjectile as LargeScrap).desiredPosition).ToRotation();
+                                (activeScrap[1].ModProjectile as LargeScrap).desiredRotation = (target.Center - (activeScrap[1].ModProjectile as LargeScrap).desiredPosition).ToRotation();
                             }
-                            else if (NPC.ai[1] % 160 < 60)
+                            else if (NPC.ai[1] % 161 < 60)
                             {
-                                (activeScrap[0].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f);
-                                (activeScrap[1].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f);
-
-                                (activeScrap[0].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
-                                (activeScrap[1].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                                (activeScrap[0].ModProjectile as LargeScrap).desiredRotation = (target.Center - (activeScrap[0].ModProjectile as LargeScrap).desiredPosition).ToRotation();
+                                (activeScrap[1].ModProjectile as LargeScrap).desiredRotation = (target.Center - (activeScrap[1].ModProjectile as LargeScrap).desiredPosition).ToRotation();
                             }
-                            else if (NPC.ai[1] % 160 < 120 && NPC.ai[1] % 160 > 80)
+                            else if (NPC.ai[1] % 161 < 120 && NPC.ai[1] % 161 >= 80)
                             {
                                 (activeScrap[2].ModProjectile as LargeScrap).AttackPhase = 1;
                                 (activeScrap[3].ModProjectile as LargeScrap).AttackPhase = 1;
 
-                                (activeScrap[2].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f);
-                                (activeScrap[3].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f);
+                                if (NPC.ai[1] % 161 == 80)
+                                {
+                                    float randFloat = Main.rand.NextFloat(0, MathHelper.Pi);
+                                    float randFloat2 = Main.rand.NextFloat(0, MathHelper.Pi);
 
-                                (activeScrap[2].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
-                                (activeScrap[3].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                                    (activeScrap[2].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.Center.X, myRoom.Top) + new Vector2(0, 240) + new Vector2(myRoom.Width * 0.33f * (float)Math.Cos(randFloat), -120 * (float)Math.Sin(randFloat));
+                                    (activeScrap[3].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.Center.X, myRoom.Top) + new Vector2(0, 240) + new Vector2(myRoom.Width * 0.33f * (float)Math.Cos(randFloat2), -120 * (float)Math.Sin(randFloat2));
+                                }
+
+                                (activeScrap[2].ModProjectile as LargeScrap).desiredRotation = (target.Center - (activeScrap[2].ModProjectile as LargeScrap).desiredPosition).ToRotation();
+                                (activeScrap[3].ModProjectile as LargeScrap).desiredRotation = (target.Center - (activeScrap[3].ModProjectile as LargeScrap).desiredPosition).ToRotation();
                             }
-                            else if (NPC.ai[1] % 160 < 140)
+                            else if (NPC.ai[1] % 161 < 140)
                             {
-                                (activeScrap[2].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f);
-                                (activeScrap[3].ModProjectile as LargeScrap).desiredPosition = new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f);
-
-                                (activeScrap[2].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.33f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
-                                (activeScrap[3].ModProjectile as LargeScrap).desiredRotation = (target.Center - new Vector2(myRoom.X + myRoom.Width * 0.66f, myRoom.Y + myRoom.Height * 0.2f)).ToRotation();
+                                (activeScrap[2].ModProjectile as LargeScrap).desiredRotation = (target.Center - (activeScrap[2].ModProjectile as LargeScrap).desiredPosition).ToRotation();
+                                (activeScrap[3].ModProjectile as LargeScrap).desiredRotation = (target.Center - (activeScrap[3].ModProjectile as LargeScrap).desiredPosition).ToRotation();
                             }
-                            else if (NPC.ai[1] % 160 == 159)
+                            else if (NPC.ai[1] % 161 == 160)
                             {
                                 Projectile temp = activeScrap[0];
                                 activeScrap[0] = activeScrap[1];
                                 activeScrap[1] = temp;
 
-                                temp = activeScrap[2];
+                                Projectile temp2 = activeScrap[2];
                                 activeScrap[2] = activeScrap[3];
-                                activeScrap[3] = temp;
+                                activeScrap[3] = temp2;
                             }
 
                             break;
@@ -777,6 +705,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                             break;
                     }
+                    #endregion
 
                     #region Chandelier swinging logic
                     if (NPC.ai[3] % 310 == 0)
@@ -893,23 +822,25 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     #endregion
 
                     NPC.ai[3]++;
+                    NPC.ai[1]++;
                 }
             }
         }
 
-        public float teleportFloat;
+        public void PickNewAttack(bool phase1)
+        {
+            if (phase1)
+            {
+                myGuard.frameY = 0;
+                currentAttack = Main.rand.Next(6);
+                myGuard.NPC.velocity = Vector2.Zero;
+            }
+            else
+                currentAttack = Main.rand.Next(5);
 
-        public bool threeSwing;
+            NPC.ai[1] = 0;
+        }
 
-        public Projectile potChandelier;
-
-        public float swingDir;
-
-        public bool nextToTheLeft;
-
-        public Projectile attackChandelier;
-        public Vector2 attackVector;
-        
         public void Trigger()
         {
             NPC.ai[1] = 0;
@@ -985,11 +916,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
         }
-
-
-        public Vector2 archivePoint1;
-        public Vector2 archivePoint2;
-        public Vector2 archivePoint3;
 
         public override void OnKill()
         {
