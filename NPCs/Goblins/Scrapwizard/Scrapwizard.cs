@@ -47,6 +47,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public Vector2 staffPos;
         public Vector2 targetOldPos;
+        public Vector2 targetOldPosOld;
+        public Vector2 targetOldPosNew;
 
         public ref float currentAttack => ref NPC.ai[0];
         public ref float attackTimer => ref NPC.ai[1];
@@ -744,17 +746,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         Vector2 sideLong1Offset = new Vector2(24, -156) + new Vector2(0, -60);
                         Vector2 sideLong2Offset = new Vector2(-24, -156) + new Vector2(0, -60);
 
-                        Easing.CurveSegment anticipation = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.15f);
-                        Easing.CurveSegment swingback = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0.25f, -0.15f, 0.15f);
-                        Easing.CurveSegment slash = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.5f, 0f, 1.1f);
-
-                        //Easing.CurveSegment anticipation2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
-                        Easing.CurveSegment swingback2 = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0f, 1.1f, -0.1f);
-                        Easing.CurveSegment slash2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.25f, 1f, -1.1f);
-
-                        //Easing.CurveSegment anticipation3 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
-                        Easing.CurveSegment slash3 = new Easing.CurveSegment(Easing.EasingType.PolyIn, 0f, -0.1f, 3.3f, 2);
-
                         void UpdateScrapPositions()
                         {
                             activeScrap[0].Center = swordOrig + sideLong1Offset.RotatedBy(swordRot) + new Vector2(0, 2).RotatedBy((Main.GameUpdateCount / 10f) + activeScrap[0].whoAmI);
@@ -832,9 +823,14 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         if (attackTimer < 60)
                         {
+                            if (attackTimer == 0) targetOldPosOld = targetOldPos;
+
                             swordRot = targetOldPos.ToRotation() + MathHelper.PiOver2 - 1.25f;
 
-                            swordOrig = staffPos + new Vector2((float)Math.Cos(swordRot - MathHelper.PiOver2) * 120f, (float)Math.Sin(swordRot - MathHelper.PiOver2) * 60f);
+                            staffPos = new Vector2(myRoom.Center.X, myRoom.Center.Y);
+
+                            swordOrig = staffPos + new Vector2((float)Math.Cos(swordRot - MathHelper.PiOver2 - targetOldPos.ToRotation()) * 150f, (float)Math.Sin(swordRot - MathHelper.PiOver2 - targetOldPos.ToRotation()) * 40f)
+                                .RotatedBy((targetOldPos).ToRotation());
 
                             activeScrap[0].Center = Vector2.SmoothStep((activeScrap[0].ModProjectile as LargeScrap).lastPosition, swordOrig + sideLong1Offset.RotatedBy(swordRot) + new Vector2(0, 2).RotatedBy((Main.GameUpdateCount / 10f) + activeScrap[0].whoAmI), attackTimer / 60f);
                             activeScrap[1].Center = Vector2.SmoothStep((activeScrap[1].ModProjectile as LargeScrap).lastPosition, swordOrig + centerLong1Offset.RotatedBy(swordRot) + new Vector2(0, 2).RotatedBy((Main.GameUpdateCount / 10f) + activeScrap[1].whoAmI), attackTimer / 60f);
@@ -854,45 +850,73 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         }
                         else if (attackTimer < 120)
                         {
-                            if (attackTimer == 60) targetOldPos = target.Center - staffPos;
+                            if (attackTimer < 65)
+                            {
+                                targetOldPosNew = target.Center - staffPos;
+
+                                targetOldPos = Vector2.SmoothStep(targetOldPosOld, targetOldPosNew, (attackTimer - 60) / 5f);
+
+                                if (attackTimer == 65 - 1) targetOldPosOld = targetOldPos;
+                            }
 
                             swordRot = targetOldPos.ToRotation() + MathHelper.PiOver2 + 
                                 (Easing.PiecewiseAnimation((attackTimer - 60) / 60f, new Easing.CurveSegment[] { anticipation, swingback, slash }) * 2.5f) - 1.25f;
 
                             staffPos += Vector2.Normalize(targetOldPos) *
-                                (Easing.PiecewiseAnimation((attackTimer - 60 + 1) / 60f, new Easing.CurveSegment[] { anticipation, swingback, slash }) -
+                                Math.Abs(Easing.PiecewiseAnimation((attackTimer - 60 + 1) / 60f, new Easing.CurveSegment[] { anticipation, swingback, slash }) -
                                  Easing.PiecewiseAnimation((attackTimer - 60) / 60f, new Easing.CurveSegment[] { anticipation, swingback, slash }))
-                                * 30f;
+                                * 40f;
 
-                            swordOrig = staffPos + new Vector2((float)Math.Cos(swordRot - MathHelper.PiOver2) * 100f, (float)Math.Sin(swordRot - MathHelper.PiOver2) * 60f)
+                            swordOrig = staffPos + new Vector2((float)Math.Cos(swordRot - MathHelper.PiOver2 - targetOldPos.ToRotation()) * 150f, (float)Math.Sin(swordRot - MathHelper.PiOver2 - targetOldPos.ToRotation()) * 40f)
                                 .RotatedBy((targetOldPos).ToRotation());
 
                             UpdateScrapPositions();
                         }
                         else if (attackTimer < 180)
                         {
-                            if (attackTimer == 120) targetOldPos = target.Center - staffPos;
+                            if (attackTimer < 125)
+                            {
+                                targetOldPosNew = target.Center - staffPos;
+
+                                targetOldPos = Vector2.SmoothStep(targetOldPosOld, targetOldPosNew, (attackTimer - 120) / 5f);
+
+                                if (attackTimer == 125 - 1) targetOldPosOld = targetOldPos;
+                            }
 
                             swordRot = targetOldPos.ToRotation() + MathHelper.PiOver2 + 
                                 (Easing.PiecewiseAnimation(((attackTimer - 120) / 60f), new Easing.CurveSegment[] { swingback2, slash2 }) * 2.5f) - 1.25f;
 
                             staffPos += Vector2.Normalize(targetOldPos) * 
-                                (Easing.PiecewiseAnimation(((attackTimer - 120 + 1) / 60f), new Easing.CurveSegment[] { swingback2, slash2 }) -
+                                Math.Abs(Easing.PiecewiseAnimation(((attackTimer - 120 + 1) / 60f), new Easing.CurveSegment[] { swingback2, slash2 }) -
                                  Easing.PiecewiseAnimation(((attackTimer - 120) / 60f), new Easing.CurveSegment[] { swingback2, slash2 }))
-                                * 30f;
+                                * 40f;
 
-                            swordOrig = staffPos + new Vector2((float)Math.Cos(swordRot - MathHelper.PiOver2) * 100f, (float)Math.Sin(swordRot - MathHelper.PiOver2) * 60f)
+                            swordOrig = staffPos + new Vector2((float)Math.Cos(swordRot - MathHelper.PiOver2 - targetOldPos.ToRotation()) * 150f, (float)Math.Sin(swordRot - MathHelper.PiOver2 - targetOldPos.ToRotation()) * 40f)
                                 .RotatedBy((targetOldPos).ToRotation());
 
                             UpdateScrapPositions();
                         }
                         else if (attackTimer < 240)
                         {
-                            swordRot = MathHelper.Pi + MathHelper.PiOver2 + (Easing.PiecewiseAnimation(((attackTimer - 180) / 60f), new Easing.CurveSegment[] { slash3 }) * 2.5f) - 1.25f;
+                            if (attackTimer < 185)
+                            {
+                                targetOldPosNew = target.Center - staffPos;
 
-                            //staffPos += Vector2.Normalize(targetOldPos - staffPos) * Easing.PiecewiseAnimation(((attackTimer - 180) / 60f), new Easing.CurveSegment[] { slash3 }) * 3f;
+                                targetOldPos = Vector2.SmoothStep(targetOldPosOld, targetOldPosNew, (attackTimer - 180) / 5f);
 
-                            swordOrig = staffPos + new Vector2((float)Math.Cos(swordRot - MathHelper.PiOver2) * 100f, (float)Math.Sin(swordRot - MathHelper.PiOver2) * 60f).RotatedBy((targetOldPos - staffPos).ToRotation());
+                                if (attackTimer == 180 - 1) targetOldPosOld = targetOldPos;
+                            }
+
+                            swordRot = targetOldPos.ToRotation() + MathHelper.PiOver2 + 
+                                (Easing.PiecewiseAnimation(((attackTimer - 180) / 60f), new Easing.CurveSegment[] { slash3 }) * 2.5f) - 1.25f;
+
+                            staffPos += Vector2.Normalize(targetOldPos) *
+                                Math.Abs(Easing.PiecewiseAnimation(((attackTimer - 180 + 1) / 60f), new Easing.CurveSegment[] { slash3 }) -
+                                Easing.PiecewiseAnimation(((attackTimer - 180) / 60f), new Easing.CurveSegment[] { slash3 }) )
+                                * 60f;
+
+                            swordOrig = staffPos + Vector2.SmoothStep(new Vector2((float)Math.Cos(swordRot - MathHelper.PiOver2 - targetOldPos.ToRotation()) * 150f, (float)Math.Sin(swordRot - MathHelper.PiOver2 - targetOldPos.ToRotation()) * 40f)
+                                .RotatedBy((targetOldPos).ToRotation()), Vector2.Zero, MathHelper.Clamp((attackTimer - 180) / 10f, 0f, 1f));
 
                             (activeScrap[0].ModProjectile as LargeScrap).lastPosition = activeScrap[0].Center;
                             (activeScrap[1].ModProjectile as LargeScrap).lastPosition = activeScrap[1].Center;
@@ -930,7 +954,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             activeScrap[5].velocity = (activeScrap[5].Center - (activeScrap[5].ModProjectile as ArmrestScrap).lastPosition);
                             activeScrap[6].velocity = (activeScrap[6].Center - (activeScrap[6].ModProjectile as CenterScrap).lastPosition);
                         }
-                        else if (attackTimer < 270)
+                        else if (attackTimer < 300)
                         {
                             activeScrap[0].rotation = MathHelper.Lerp((activeScrap[0].ModProjectile as LargeScrap).lastRotation, activeScrap[0].velocity.ToRotation(), MathHelper.Clamp((attackTimer - 240) / 5f, 0f, 1f));
                             activeScrap[1].rotation = MathHelper.Lerp((activeScrap[1].ModProjectile as LargeScrap).lastRotation, activeScrap[1].velocity.ToRotation(), MathHelper.Clamp((attackTimer - 240) / 5f, 0f, 1f));
@@ -1087,6 +1111,17 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             }
         }
 
+        Easing.CurveSegment anticipation = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.15f);
+        Easing.CurveSegment swingback = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0.15f, -0.15f, 0.15f);
+        Easing.CurveSegment slash = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.3f, 0f, 1.3f);
+
+        //Easing.CurveSegment anticipation2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
+        Easing.CurveSegment swingback2 = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0f, 1.3f, -0.1f);
+        Easing.CurveSegment slash2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.15f, 1f, -1.1f);
+
+        //Easing.CurveSegment anticipation3 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
+        Easing.CurveSegment slash3 = new Easing.CurveSegment(Easing.EasingType.PolyIn, 0f, -0.1f, 3.3f, 2);
+
         public void PickNewAttack(bool phase1)
         {
             if (phase1)
@@ -1154,11 +1189,71 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             return false;
         }
 
+        public Vector2 staffVelocity;
+        public Vector2 oldSwordOrig;
+        public bool staffReturned;
+
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardStaff").Value;
 
-            spriteBatch.Draw(tex, swordOrig - Main.screenPosition + new Vector2(0, -56).RotatedBy(swordRot), null, Color.White, swordRot, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            if (fightPhase == 3 && currentAttack == 4)
+            {
+                if (attackTimer < 60)
+                {
+                    staffReturned = false;
+
+                    spriteBatch.Draw(tex, Vector2.SmoothStep(NPC.Center, swordOrig + new Vector2(0, -56).RotatedBy(swordRot), attackTimer / 60f) - Main.screenPosition, null, Color.White, MathHelper.Lerp(0f, swordRot, attackTimer / 60f), tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+                }
+                else if (attackTimer < 240)
+                {
+                    spriteBatch.Draw(tex, swordOrig - Main.screenPosition + new Vector2(0, -56).RotatedBy(swordRot), null, Color.White, swordRot, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+
+                    if (attackTimer == 239) oldSwordOrig = swordOrig + new Vector2(0, -56).RotatedBy(swordRot);
+                }
+                else
+                {
+                    if (!staffReturned)
+                    {
+                        if (attackTimer == 240)
+                        {
+                            swordOrig += new Vector2(0, -56).RotatedBy(swordRot);
+
+                            staffVelocity = (swordOrig - oldSwordOrig);
+                        }
+
+                        float staffVelMag = staffVelocity.Length();
+
+                        staffVelocity += Vector2.Normalize(NPC.Center - swordOrig)  * 2f;
+
+                        staffVelocity = Vector2.Normalize(staffVelocity) * staffVelMag;
+
+                        swordOrig += staffVelocity;
+
+                        swordRot += ((targetOldPos.ToRotation() + MathHelper.PiOver2 +
+                                    (Easing.PiecewiseAnimation(((240 - 180) / 60f), new Easing.CurveSegment[] { slash3 }) * 2.5f) - 1.25f) -
+                                    (targetOldPos.ToRotation() + MathHelper.PiOver2 +
+                                    (Easing.PiecewiseAnimation(((240 - 180 - 1) / 60f), new Easing.CurveSegment[] { slash3 }) * 2.5f) - 1.25f));
+
+                        if (Vector2.Distance(NPC.Center, swordOrig) <= staffVelocity.Length())
+                        {
+                            swordOrig = NPC.Center;
+                            staffReturned = true;
+                            swordRot = 0f;
+                        }
+
+                        spriteBatch.Draw(tex, swordOrig - Main.screenPosition, null, Color.White, swordRot, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.White, swordRot, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+                    }
+                }
+            }
+            else
+            {
+                spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            }
 
 
             //Texture2D tex2 = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardArm").Value;
