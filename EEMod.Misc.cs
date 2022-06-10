@@ -27,6 +27,7 @@ using Terraria.UI.Chat;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics;
 using EEMod.Config;
+using Terraria.GameInput;
 
 namespace EEMod
 {
@@ -45,7 +46,7 @@ namespace EEMod
         private bool mode = true;
         public string text;
 
-        //MechanicPort
+        //TODO move this to the verlet system
         public void UpdateVerlet()
         {
             ScTex = Main.screenTarget;
@@ -56,6 +57,7 @@ namespace EEMod
                 delays--;
         }
 
+        //TODO move this to a separate ModSystem
         public void DrawZipline()
         {
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
@@ -69,7 +71,7 @@ namespace EEMod
             Main.spriteBatch.End();
         }
 
-        //This needs to be fixed. 
+        //TODO move this to a separate system
         public void UpdateGame(GameTime gameTime)
         {
             lerps++;
@@ -98,7 +100,7 @@ namespace EEMod
                                 alphas += 0.01f;
                             }
 
-                            if (Inspect.JustPressed && delays == 0)
+                            if (PlayerInput.Triggers.JustPressed.Jump && delays == 0)
                             {
                                 var modp = Main.LocalPlayer.GetModPlayer<EEPlayer>();
                                 if (!modp.isPickingUp)
@@ -125,7 +127,7 @@ namespace EEMod
                 Player player = Main.player[i];
                 if (player.active && !player.dead)
                 {
-                    if (Inspect.JustPressed && player.GetModPlayer<EEPlayer>().playingGame == true)
+                    if (PlayerInput.Triggers.JustPressed.Jump && player.GetModPlayer<EEPlayer>().playingGame == true)
                     {
                         player.GetModPlayer<EEPlayer>().playingGame = false;
                         player.webbed = false;
@@ -133,7 +135,7 @@ namespace EEMod
                         break;
                     }
 
-                    if (Inspect.JustPressed && Framing.GetTileSafely((int)player.Center.X / 16, (int)player.Center.Y / 16).TileType == ModContent.TileType<AirHockeyTableTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
+                    if (PlayerInput.Triggers.JustPressed.Jump && Framing.GetTileSafely((int)player.Center.X / 16, (int)player.Center.Y / 16).TileType == ModContent.TileType<AirHockeyTableTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
                     {
                         simpleGame = new IceHockey();
                         SoundEngine.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
@@ -149,6 +151,8 @@ namespace EEMod
         //should be in helper class
         public static void UIText(string text, Color colour, Vector2 position, int style)
         {
+            if (text == null) text = "";
+
             var font = style == 0 ? FontAssets.DeathText.Value : FontAssets.MouseText.Value;
             Vector2 textSize = font.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
@@ -157,24 +161,6 @@ namespace EEMod
         }
 
         internal void DoPostDrawTiles(SpriteBatch spriteBatch) => AfterTiles?.Invoke(spriteBatch);
-
-        public void DrawLoadingScreen()
-        {
-            Viewport viewport = Main.graphics.GraphicsDevice.Viewport;
-
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/Pure").Value, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.Black);
-
-            Vector2[] vecs = new Vector2[10];
-
-            for (int i = 0; i < 10; i++)
-            {
-                float sineOffset = i * (MathHelper.Pi / 10f);
-
-                float value = (float)Math.Sin((Main.GameUpdateCount / 240f) + i);
-
-                //Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, vec - Main.screenPosition, Color.White * 0.5f);
-            }
-        }
 
         public void DrawRef()
         {
@@ -204,6 +190,7 @@ namespace EEMod
             colors.BottomRightColor = c;
         }
 
+        //TODO move these three to their own ModSystem
         public void DrawGlobalShaderTextures()
         {
             double num10;
@@ -309,6 +296,7 @@ namespace EEMod
             Filters.Scene["EEMod:Saturation"].GetShader().UseImageOffset(_sunShaderPos).UseIntensity(_intensityFunction).UseOpacity(4f).UseProgress(Main.dayTime ? 0 : 1).UseColor(Base, _nightHarshness, 0).UseSecondaryColor(_baseColor);
         }
 
+        //TODO move to a helper class
         private static void ClampScreenPositionToWorld(int maxRight, int maxBottom)
         {
             Vector2 vector = new Vector2(0, 0) - Main.GameViewMatrix.Translation;
@@ -319,6 +307,5 @@ namespace EEMod
 
             Main.screenPosition = Vector2.Clamp(Main.screenPosition, vector, vector2);
         }
-
     }
 }

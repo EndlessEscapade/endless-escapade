@@ -43,7 +43,9 @@ namespace EEMod.Projectiles
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
             Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Projectiles/Gradient").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 200, 100), Color.White * 0.5f * Projectile.ai[0], Projectile.rotation, new Vector2(0, 50), 1, SpriteEffects.None, 0);
+            
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }

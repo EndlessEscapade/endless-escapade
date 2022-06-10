@@ -22,5 +22,10 @@ namespace EEMod.Waters
             g = 1.09f;
             b = 1.09f;
         }
+
+        public override void SetStaticDefaults()
+        {
+            
+        }
     }
 }

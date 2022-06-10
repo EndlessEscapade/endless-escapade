@@ -41,6 +41,8 @@ namespace EEMod.Subworlds
         public override List<GenPass> Tasks => new List<GenPass>();
         public virtual string subworldKey => KeyID.Island;
 
+        public static string progressMessage = "";
+
         public override void OnExit()
         {
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().prevKey = subworldKey;
@@ -50,9 +52,29 @@ namespace EEMod.Subworlds
 
         public override void DrawMenu(GameTime gameTime)
         {
-            ModContent.GetInstance<EEMod>().DrawLoadingScreen();
+            DrawLoadingScreen();
 
             return;
+        }
+
+        public void DrawLoadingScreen()
+        {
+            Viewport viewport = Main.graphics.GraphicsDevice.Viewport;
+
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/Pure").Value, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.Black);
+
+            Vector2[] vecs = new Vector2[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                float sineOffset = i * (MathHelper.Pi / 10f);
+
+                float value = (float)Math.Sin((Main.GameUpdateCount / 240f) + i);
+
+                EEMod.UIText(progressMessage, Color.White, new Vector2(Main.screenWidth / 2f, Main.screenHeight * 2f / 3f), 0);
+
+                //Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, vec - Main.screenPosition, Color.White * 0.5f);
+            }
         }
     }
 

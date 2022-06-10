@@ -65,7 +65,7 @@ namespace EEMod.Subworlds.CoralReefs
         private int depth = 120;
         private int boatPos = 300;
 
-        public override string Name => "CoralReefs";
+        public override string Name => "Coral Reefs";
 
         public override bool ShouldSave => true;
 
@@ -76,7 +76,7 @@ namespace EEMod.Subworlds.CoralReefs
             new SubworldGenerationPass(progress =>
             {
                 var rand = WorldGen.genRand;
-                EEMod.progressMessage = "Generating Coral Reefs";
+                EESubworld.progressMessage = "Generating Coral Reefs";
 
                 int roomsPerLayer = 10;
 
@@ -84,7 +84,7 @@ namespace EEMod.Subworlds.CoralReefs
 
                 //Placing initial blocks
                 #region Initial block placement
-                EEMod.progressMessage = "Initial generation";
+                EESubworld.progressMessage = "Initial generation";
 
                 FillRegion(Main.maxTilesX, (Main.maxTilesY / 10) * 4, Vector2.Zero, ModContent.TileType<LightGemsandTile>());
 
@@ -99,7 +99,7 @@ namespace EEMod.Subworlds.CoralReefs
                 #endregion
 
                 #region Surface reefs
-                EEMod.progressMessage = "Making the surface";
+                EESubworld.progressMessage = "Making the surface";
 
                 NoiseGenWave(new Vector2(0, 130), new Vector2(Main.maxTilesX, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralsandstoneTile>(), 0.5f);
                 NoiseGenWave(new Vector2(0, 110), new Vector2(Main.maxTilesX, Main.maxTilesY / 20), new Vector2(50, 50), TileID.StoneSlab, 0.6f);
@@ -144,7 +144,7 @@ namespace EEMod.Subworlds.CoralReefs
                 #endregion
 
                 #region Finding suitable room positions
-                EEMod.progressMessage = "Finding suitable room positions";
+                EESubworld.progressMessage = "Finding suitable room positions";
 
                 int[] biomes = Helpers.FillUniformArray(roomsPerLayer * 2, 0, 3);
 
@@ -155,7 +155,7 @@ namespace EEMod.Subworlds.CoralReefs
                 #endregion
 
                 #region Generating chasms
-                EEMod.progressMessage = "Generating chasms";
+                EESubworld.progressMessage = "Generating chasms";
 
                 int highestUpperRoom = 0;
                 int lowestUpperRoom = 0;
@@ -196,7 +196,7 @@ namespace EEMod.Subworlds.CoralReefs
 
                 RemoveStoneSlabs();
 
-                EEMod.progressMessage = "Placing chasm coral";
+                EESubworld.progressMessage = "Placing chasm coral";
                 TilePopulate(
                     new int[] { ModContent.TileType<Hanging1x2Coral>(),
                     ModContent.TileType<Hanging1x3Coral>(),
@@ -243,7 +243,7 @@ namespace EEMod.Subworlds.CoralReefs
 
                 for (int i = 0; i < upperRoomPositions.Length; i++)
                 {
-                    EEMod.progressMessage = "Generating rooms pt. 1 " + (i * 100f / upperRoomPositions.Length) + "%";
+                    EESubworld.progressMessage = "Generating rooms pt. 1 " + (i * 100f / upperRoomPositions.Length) + "%";
                     MakeCoralRoom((int)upperRoomPositions[i].X, (int)upperRoomPositions[i].Y, 100, 50, biomes[i]);
                 }
 
@@ -252,7 +252,7 @@ namespace EEMod.Subworlds.CoralReefs
                     int biome = biomes[j + (upperRoomPositions.Length - 1)];
                     if (biome > 0) biome += 2;
 
-                    EEMod.progressMessage = "Generating rooms pt. 2 " + (j * 100f / lowerRoomPositions.Length) + "%";
+                    EESubworld.progressMessage = "Generating rooms pt. 2 " + (j * 100f / lowerRoomPositions.Length) + "%";
                     MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 150, 75, biome);
                 }
 
@@ -269,7 +269,7 @@ namespace EEMod.Subworlds.CoralReefs
                 try
                 {
                     #region Shipwrecks
-                    EEMod.progressMessage = "Wrecking ships";
+                    EESubworld.progressMessage = "Wrecking ships";
                     #endregion
 
                     FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
@@ -336,7 +336,7 @@ namespace EEMod.Subworlds.CoralReefs
                     #endregion
 
                     #region Smoothing
-                    EEMod.progressMessage = "Making the world look nice";
+                    EESubworld.progressMessage = "Making the world look nice";
 
                     for (int i = 2; i < Main.maxTilesX - 2; i++)
                     {
@@ -370,7 +370,7 @@ namespace EEMod.Subworlds.CoralReefs
                     #endregion
 
                     #region Placing the boat
-                    EEMod.progressMessage = "Placing boat";
+                    EESubworld.progressMessage = "Placing boat";
 
                     int watercheck = depth - 22;
 
@@ -545,13 +545,13 @@ namespace EEMod.Subworlds.CoralReefs
                 }
 
                 //Finishing initialization stuff
-                EEMod.progressMessage = "Successful!";
+                EESubworld.progressMessage = "Successful!";
                 // EEMod.isSaving = false;
 
                 Main.spawnTileX = boatPos;
                 Main.spawnTileY = depth - 22;
 
-                EEMod.progressMessage = null;
+                EESubworld.progressMessage = null;
             })
         };
 
@@ -904,6 +904,7 @@ namespace EEMod.Subworlds.CoralReefs
             PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh, WorldGen.genRand);
             int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
             float[] disp = PerlinArrayNoZero((int)size.X, size.Y * 0.5f, new Vector2(50, 100));
+
             for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
             {
                 for (int j = (int)topLeft.Y + (int)disp[i - (int)topLeft.X]; j < (int)topLeft.Y + (int)size.Y; j++)
@@ -911,7 +912,7 @@ namespace EEMod.Subworlds.CoralReefs
                     //Tile tile = Framing.GetTileSafely(i, j);
                     if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
                     {
-                        WorldGen.PlaceTile(i, j, type);
+                        //WorldGen.PlaceTile(i, j, type);
                         WorldGen.PlaceTile(i, j, (ushort)GetGemsandType(j));
                     }
                 }

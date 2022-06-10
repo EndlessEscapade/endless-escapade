@@ -164,15 +164,15 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 Vector2 secondUp = _points[i + 1] - normalAhead * 40;
                 Vector2 secondDown = _points[i + 1] + normalAhead * 40;
 
-                Color color2 = new Color((color * colorVal).ToVector3());
+                float bungleVal(Vector2 point) => MathHelper.Clamp((Lighting.GetColor((point / 16f).ToPoint()).R + Lighting.GetColor((point / 16f).ToPoint()).G + Lighting.GetColor((point / 16f).ToPoint()).B) / 3f, 0f, 255f) / 255f;
 
-                AddVertex(firstDown, color2, new Vector2(1, i / (float)(_points.Count() - 1)));
-                AddVertex(firstUp, color2, new Vector2(0, i / (float)(_points.Count() - 1)));
-                AddVertex(secondDown, color2, new Vector2(1, (i + 1) / (float)(_points.Count() - 1)));
+                AddVertex(firstDown, new Color((color * bungleVal(firstDown)).ToVector3()), new Vector2(1, i / (float)(_points.Count() - 1)));
+                AddVertex(firstUp, new Color((color * bungleVal(firstUp)).ToVector3()), new Vector2(0, i / (float)(_points.Count() - 1)));
+                AddVertex(secondDown, new Color((color * bungleVal(secondDown)).ToVector3()), new Vector2(1, (i + 1) / (float)(_points.Count() - 1)));
 
-                AddVertex(secondUp, color2, new Vector2(0, (i + 1) / (float)(_points.Count() - 1)));
-                AddVertex(secondDown, color2, new Vector2(1, (i + 1) / (float)(_points.Count() - 1)));
-                AddVertex(firstUp, color2, new Vector2(0, i / (float)(_points.Count() - 1)));
+                AddVertex(secondUp, new Color((color * bungleVal(secondUp)).ToVector3()), new Vector2(0, (i + 1) / (float)(_points.Count() - 1)));
+                AddVertex(secondDown, new Color((color * bungleVal(secondDown)).ToVector3()), new Vector2(1, (i + 1) / (float)(_points.Count() - 1)));
+                AddVertex(firstUp, new Color((color * bungleVal(firstUp)).ToVector3()), new Vector2(0, i / (float)(_points.Count() - 1)));
             }
         }
 
@@ -220,9 +220,6 @@ namespace EEMod.Tiles.Furniture.GoblinFort
 
         public override void OnUpdate()
         {
-            Color lightColor = Lighting.GetColor((myPos / 16f).ToPoint());
-            colorVal = ((lightColor.R + lightColor.G + lightColor.B) / 3f) / 255f;
-
             ticks++;
 
             _counter++;

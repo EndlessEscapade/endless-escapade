@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Goblins.Scrapwizard
 {
-    public class SmallScrap : EEProjectile
+    public class ArmrestScrap : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -20,8 +20,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void SetDefaults()
         {
-            Projectile.width = 70;
-            Projectile.height = 16;
+            Projectile.width = 42;
+            Projectile.height = 22;
 
             Projectile.alpha = 0;
 
@@ -43,6 +43,9 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public Vector2 offset;
         public Vector2 desiredPosition;
 
+        public Vector2 lastPosition;
+        public float lastRotation;
+
         public float initRotation;
         public float desiredRotation;
 
@@ -51,23 +54,53 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             behindNPCsAndTiles.Add(index);
         }
 
+        public int AttackPhase;
+
+        public override void AI()
+        {
+            Projectile.spriteDirection = Projectile.ai[0] == 0 ? -1 : 1;
+
+            if (desiredPosition != Vector2.Zero)
+            {
+                Projectile.Center = desiredPosition + offset.RotatedBy(desiredRotation);
+                Projectile.rotation = desiredRotation + initRotation;
+            }
+
+            if(AttackPhase == 0)
+            {
+                lastPosition = Projectile.Center;
+                lastRotation = Projectile.rotation;
+
+                Projectile.velocity = Vector2.Zero;
+            }
+        }
+
         public override bool PreDraw(ref Color lightColor)
         {
             lightColor = Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f));
             return true;
         }
 
-        public override void AI()
-        {
-            if (desiredPosition != Vector2.Zero)
-            {
-                Projectile.Center = desiredPosition + offset.RotatedBy(desiredRotation);
-                Projectile.rotation = desiredRotation + initRotation;
-            }
-        }
-
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            if (AttackPhase == 2 || AttackPhase == 3)
+            {
+                bool collisionCheck = true;
+
+                while (collisionCheck)
+                {
+                    if (Main.tile[(int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f)].HasTile && Main.tileSolid[(int)Main.tile[(int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f)].BlockType])
+                    {
+                        Projectile.Center -= Vector2.Normalize(Projectile.oldVelocity);
+                    }
+                    else
+                    {
+                        AttackPhase = 0;
+                        collisionCheck = false;
+                    }
+                }
+            }
+
             return false;
         }
     }

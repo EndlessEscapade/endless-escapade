@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria;
 using System.Reflection;
 using EEMod.Config;
+using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod
 {
@@ -29,37 +30,37 @@ namespace EEMod
         {
             var mod = ModContent.GetInstance<EEMod>();
 
-            /*if (!Main.dedServ)
+            if (!Main.dedServ)
             {
-                mod.Dolphins = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceDolphins");
+                mod.Dolphins = ModContent.Request<SoundEffect>("EEMod/Assets/Ambient/SurfaceReefsAmbienceDolphins", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
                 mod.DolphinsInstance = mod.Dolphins.CreateInstance();
                 mod.Dolphins.Name = "Dolphins";
 
-                mod.Seagulls = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceSeagulls");
+                mod.Seagulls = ModContent.Request<SoundEffect>("EEMod/Assets/Ambient/SurfaceReefsAmbienceSeagulls", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
                 mod.SeagullsInstance = mod.Seagulls.CreateInstance();
                 mod.Seagulls.Name = "Seagulls";
 
-                mod.Seagulls2 = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceSeagulls2");
+                mod.Seagulls2 = ModContent.Request<SoundEffect>("EEMod/Assets/Ambient/SurfaceReefsAmbienceSeagulls2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
                 mod.Seagulls2Instance = mod.Seagulls2.CreateInstance();
                 mod.Seagulls2.Name = "Seagulls2";
 
-                mod.Waves = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceWaves");
+                mod.Waves = ModContent.Request<SoundEffect>("EEMod/Assets/Ambient/SurfaceReefsAmbienceWaves", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
                 mod.WavesInstance = mod.Waves.CreateInstance();
                 mod.Waves.Name = "Waves";
 
                 mod.WavesInstance.IsLooped = true;
-            }*/
+            }
         }
 
         public static void UpdateAmbience()
         {
-            /*if (Main.gameMenu) return;
+            if (Main.gameMenu) return;
 
             Player player = Main.LocalPlayer;
 
             var loader = ModContent.GetInstance<EEMod>();
 
-            if (player.GetModPlayer<EEPlayer>().ZoneCoralReefs && player.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
+            if (SubworldLibrary.SubworldSystem.IsActive<CoralReefs>() && player.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
             {
                 loader.WavesInstance.Volume = Main.ambientVolume;
 
@@ -81,7 +82,7 @@ namespace EEMod
             else
             {
                 loader.WavesInstance.Volume = 0;
-            }*/
+            }
         }
     }
 }

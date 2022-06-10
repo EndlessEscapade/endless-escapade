@@ -94,6 +94,10 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     myWizard = Main.npc[NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Scrapwizard>(), ai0: NPC.whoAmI, ai1: 0)].ModNPC as Scrapwizard;
 
+                    myWizard.myGuard = this;
+                    myWizard.myRoom = myRoom;
+                    myWizard.NPC.Center = new Vector2(myRoom.X + (56 * 16), myRoom.Y + (20 * 16));
+
                     NPC.ai[0]++; //Ticker
                 }
             }     
@@ -317,7 +321,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void OnKill()
         {
-            myWizard.Trigger();
+            myWizard.attackTimer = 0;
+            myWizard.fightPhase = 2;
 
             base.OnKill();
         }

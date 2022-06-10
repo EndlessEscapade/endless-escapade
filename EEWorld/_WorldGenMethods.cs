@@ -28,6 +28,7 @@ using EEMod.Systems.Noise;
 using EEMod.Systems;
 using EEMod.Tiles.Foliage;
 using EEMod.Tiles.Furniture.Shipyard;
+using EEMod.Subworlds;
 
 namespace EEMod.EEWorld
 {
@@ -44,7 +45,7 @@ namespace EEMod.EEWorld
     {
         public static void FillRegionNoEdit(int width, int height, Vector2 startingPoint, int type)
         {
-            string messageBefore = EEMod.progressMessage;
+            string messageBefore = EESubworld.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -52,11 +53,11 @@ namespace EEMod.EEWorld
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     tile.TileType = (ushort)type;
                     tile.HasTile = true;
-                    EEMod.progressMessage = messageBefore;
-                    EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    EESubworld.progressMessage = messageBefore;
+                    EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
             }
-            EEMod.progressMessage = messageBefore;
+            EESubworld.progressMessage = messageBefore;
         }
 
         public static void BuildBoat(int x, int y)
@@ -98,7 +99,7 @@ namespace EEMod.EEWorld
 
         public static float[] PerlinArrayNoZero(int width, float amplitude, Vector2 res, int seedVar = 1000)
         {
-            PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f,WorldGen.genRand);
+            PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f, WorldGen.genRand);
             int rand = Main.rand.Next(0, seedVar);
             float[] PerlinStrip = new float[width];
             for (int i = 0; i < width; i++)
@@ -127,7 +128,7 @@ namespace EEMod.EEWorld
 
         public static void FillRegionNoEditWithNoise(int width, int height, Vector2 startingPoint, int type, int amplitude)
         {
-            string messageBefore = EEMod.progressMessage;
+            string messageBefore = EESubworld.progressMessage;
             float[] PerlinStrip = PerlinArray(width, 1000, amplitude, new Vector2(60, 200));
             for (int i = 0; i < width; i++)
             {
@@ -136,16 +137,16 @@ namespace EEMod.EEWorld
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     tile.TileType = (ushort)type;
                     tile.HasTile = true;
-                    EEMod.progressMessage = messageBefore;
-                    EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    EESubworld.progressMessage = messageBefore;
+                    EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
             }
-            EEMod.progressMessage = messageBefore;
+            EESubworld.progressMessage = messageBefore;
         }
 
         public static void FillRegionNoChangeWithNoise(int width, int height, Vector2 startingPoint, int type, int amplitude)
         {
-            string messageBefore = EEMod.progressMessage;
+            string messageBefore = EESubworld.progressMessage;
             float[] PerlinStrip = PerlinArray(width, 1000, amplitude, new Vector2(60, 200));
             for (int i = 0; i < width; i++)
             {
@@ -156,17 +157,17 @@ namespace EEMod.EEWorld
                     {
                         tile.TileType = (ushort)type;
                         tile.HasTile = true;
-                        EEMod.progressMessage = messageBefore;
-                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                        EESubworld.progressMessage = messageBefore;
+                        EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
-            EEMod.progressMessage = messageBefore;
+            EESubworld.progressMessage = messageBefore;
         }
 
         public static void FillRegionEditWithNoise(int width, int height, Vector2 startingPoint, int type, int amplitude)
         {
-            string messageBefore = EEMod.progressMessage;
+            string messageBefore = EESubworld.progressMessage;
             float[] PerlinStrip = PerlinArray(width, 1000, amplitude, new Vector2(60, 200));
             for (int i = 0; i < width; i++)
             {
@@ -176,17 +177,17 @@ namespace EEMod.EEWorld
                     if (tile.HasTile)
                     {
                         tile.TileType = (ushort)type;
-                        EEMod.progressMessage = messageBefore;
-                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                        EESubworld.progressMessage = messageBefore;
+                        EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
-            EEMod.progressMessage = messageBefore;
+            EESubworld.progressMessage = messageBefore;
         }
 
         public static void FillWall(int width, int height, Vector2 startingPoint, int type)
         {
-            string messageBefore = EEMod.progressMessage;
+            string messageBefore = EESubworld.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -194,8 +195,8 @@ namespace EEMod.EEWorld
                     WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
                     if (EEMod.isSaving)
                     {
-                        EEMod.progressMessage = messageBefore;
-                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                        EESubworld.progressMessage = messageBefore;
+                        EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
@@ -355,7 +356,7 @@ namespace EEMod.EEWorld
 
         public static void ClearRegionSafely(int width, int height, Vector2 startingPoint, int type)
         {
-            string messageBefore = EEMod.progressMessage;
+            string messageBefore = EESubworld.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -365,8 +366,8 @@ namespace EEMod.EEWorld
                     {
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                         //WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                        EEMod.progressMessage = messageBefore;
-                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                        EESubworld.progressMessage = messageBefore;
+                        EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
@@ -973,7 +974,7 @@ namespace EEMod.EEWorld
 
         public static void FillRegion(int width, int height, Vector2 startingPoint, int type)
         {
-            string messageBefore = EEMod.progressMessage;
+            string messageBefore = EESubworld.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -981,11 +982,11 @@ namespace EEMod.EEWorld
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     tile.TileType = (ushort)type;
                     tile.HasTile = true;
-                    EEMod.progressMessage = messageBefore;
-                    EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    EESubworld.progressMessage = messageBefore;
+                    EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
             }
-            EEMod.progressMessage = messageBefore;
+            EESubworld.progressMessage = messageBefore;
         }
 
         public static void MakeCoral(Vector2 startingPoint, int type, int strength)

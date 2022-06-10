@@ -197,6 +197,7 @@ namespace EEMod.Tiles.Furniture.GoblinFort
                 chainLength = 80;
             }
 
+            if (!disabled && chainLength > 80) chainLength -= 8;
             if (chainLength < 80) chainLength = 80;
 
             Projectile.ai[0]++;

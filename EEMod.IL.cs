@@ -39,7 +39,6 @@ namespace EEMod
     {
         private delegate void ModifyWaterColorDelegate(ref VertexColors colors);
 
-        private float _alphaBG;
         private Vector2 _sunPos;
         private float _globalAlpha;
         private float _intensityFunction;
@@ -47,9 +46,6 @@ namespace EEMod
         private float _nightHarshness = 1f;
         private Color _baseColor;
         public float alpha;
-
-        public static string screenMessageText;
-        public static string progressMessage;
 
         /// <summary>
         /// Instance for adding and handling il hooks
@@ -68,9 +64,6 @@ namespace EEMod
         private void UnloadIL()
         {
             IL.Terraria.IO.WorldFile.SaveWorldTiles -= WorldFile_SaveWorldTiles;
-
-            screenMessageText = null;
-            progressMessage = null;
 
             hooklist?.UnloadAll();
             hooklist?.Dispose();

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -26,7 +27,7 @@ namespace EEMod
                 {
                     float lerp = 1f - (vec - Main.LocalPlayer.Center).LengthSquared() / (40 * 40);
 
-                    if (EEMod.Inspect.Current)
+                    if (PlayerInput.Triggers.JustPressed.Jump)
                     {
                         if ((vec - Main.LocalPlayer.Center).LengthSquared() < 10 * 10)
                         {
@@ -45,7 +46,7 @@ namespace EEMod
                             if (index > 0)
                                 Main.LocalPlayer.fullRotation = ((Verlet.Points[index - 1].point - Verlet.Points[index].point).ToRotation() + (float)Math.PI / 2f) * 0.45f;
                         }
-                        if (EEMod.Inspect.JustPressed)
+                        if (PlayerInput.Triggers.JustPressed.Jump)
                         {
                             Verlet.Points[index].point.X += Main.LocalPlayer.velocity.X * 1.5f;
                         }

@@ -39,8 +39,6 @@ namespace EEMod
 
         public static GameTime lastGameTime;
 
-        public static ModKeybind Inspect;
-
         public static Noise2D Noise2D;
         public static ParticleZoneHandler Particles;
         internal static ParticleZone MainParticles;
@@ -57,8 +55,6 @@ namespace EEMod
             //TagSerializer.AddSerializer(new BigCrystalSerializer());
             //TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
             //TagSerializer.AddSerializer(new CrystalSerializer());
-
-            Inspect = KeybindLoader.RegisterKeybind(this, "Inspect", Keys.OemCloseBrackets);
 
             if (!Main.dedServ)
             {
@@ -87,6 +83,8 @@ namespace EEMod
                 }
             });
 
+            InitializeAmbience();
+
             //Example
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
@@ -96,7 +94,6 @@ namespace EEMod
 
         public override void Unload()
         {
-            Inspect = null;
             simpleGame = null;
 
             UnloadIL();

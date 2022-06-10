@@ -352,7 +352,7 @@ namespace EEMod.Subworlds
 
 
 
-                EEMod.progressMessage = null;
+                EESubworld.progressMessage = null;
 
                 Main.spawnTileX = 2400 - 90 + 12;
                 Main.spawnTileY = 545 + 25;

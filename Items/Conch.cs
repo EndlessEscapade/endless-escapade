@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Systems;
+using EEMod.Subworlds;
 
 namespace EEMod.Items
 {
@@ -32,9 +33,10 @@ namespace EEMod.Items
         public override bool? UseItem(Player player)
         {
             //Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
-            //SubworldManager.EnterSubworld<CoralReefs>();
 
-            Structure.SaveWorldStructureTo(1980, 165, 160, 68, System.IO.Path.Combine(Main.SavePath, "goblinhall"));
+            SubworldLibrary.SubworldSystem.Enter<GoblinFort>();
+
+            //Structure.SaveWorldStructureTo(1980, 165, 160, 68, System.IO.Path.Combine(Main.SavePath, "goblinhall"));
 
             //Structure.SaveWorldStructureTo(690, 273, 8, 4, System.IO.Path.Combine(Main.SavePath, "GoblinRaft2"));
 
