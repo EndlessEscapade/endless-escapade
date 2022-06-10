@@ -33,16 +33,16 @@ namespace EEMod.Systems
 				/*9*/ "Sorry, you don't have enough resources for me to repair the ship.",
 				/*10*/"Oh, well, a while ago a storm hit my ship, and my brother was cast into the depths.",
 				/*11*/"After that, I couldn't stomach going sailing the seas again. Brings back too much for me, ye know.",
-				/*12*/"My memories with him are too fond to lose, though, so I stay by the sea in hopes that one day he'll come back. ",
+				/*12*/"My memories with him are too fond to lose, though, so I stay \nby the sea in hopes that one day he'll come back. ",
 				/*13*/"Sorry about that.",
 				/*14*/"Ah well, it's fine; it was years ago. I just hope one day I can see him again.",
 				/*15*/"How do I use my boat?",
 				/*16*/$"To set sail with yer ship, [c/E4A214:{"right-click"}] the steering wheel on the helm of your boat.",
 				/*17*/$"Once ye're on the seven seas, use [c/E4A214:{"W"}] to accelerate forward, [c/E4A214:{"S"}] to decelerate and move backwards, and [c/E4A214:{"A and D"}] to steer left and right.",
-				/*18*/$"To use yer cannons, [c/E4A214:{"left-click"}] to shoot yer cannons in the direction of your mouse.",
+				/*18*/$"To use yer cannons, [c/E4A214:{"left-click"}] to shoot yer cannons in the \ndirection of your mouse.",
 				/*19*/$"To use yer figurehead, [c/E4A214:{"right-click"}] to activate yer ability, if yer figurehead has one.",
-				/*20*/$"You can swap out yer cannons and figureheads at the workbench in the first floor of my house by [c/E4A214:{"right-clicking"}].",
-				/*21*/$"You can access yer ship's hold, a perfect place for storing items and cannonballs, in the inside of yet ship by [c/E4A214:{"right-clicking"}]."
+				/*20*/$"You can swap out yer cannons and figureheads at the \nworkbench in the first floor of my house by [c/E4A214:{"right-clicking"}].",
+				/*21*/$"You can access yer ship's hold, a perfect place for storing items and cannonballs, in the inside of yer ship by [c/E4A214:{"right-clicking"}]."
 			};
 			if (!Main.player[Main.myPlayer].GetModPlayer<DialoguePlayer>().HasTalkedToSailor)
             {

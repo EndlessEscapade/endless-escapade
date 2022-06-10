@@ -1087,17 +1087,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             }
         }
 
-        /*public Easing.CurveSegment anticipation = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.15f);
-        public Easing.CurveSegment swingback = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0.25f, -0.15f, 0.15f);
-        public Easing.CurveSegment slash = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.5f, 0f, 1f);
-
-        public Easing.CurveSegment anticipation2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
-        public Easing.CurveSegment swingback2 = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0.1f, -0.1f, 0.1f);
-        public Easing.CurveSegment slash2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.15f, 0f, 1f);
-
-        //public Easing.CurveSegment anticipation3 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
-        public Easing.CurveSegment slash3 = new Easing.CurveSegment(Easing.EasingType.PolyIn, 0.25f, -0.1f, 3.6f, 2);*/
-
         public void PickNewAttack(bool phase1)
         {
             if (phase1)

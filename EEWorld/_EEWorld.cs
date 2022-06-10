@@ -219,9 +219,9 @@ namespace EEMod.EEWorld
         {
             base.PreUpdateEntities();
 
-            if (!placedShipTether && !boatPlaced && !Main.gameMenu)
+            if (!placedShipTether && !boatPlaced && !Main.gameMenu && shipCoords != default)
             {
-                tetherProj = Projectile.NewProjectile(new EntitySource_Misc(""),
+                tetherProj = Projectile.NewProjectile(new EntitySource_WorldGen(),
                     shipCoords * 16, Vector2.Zero, ModContent.ProjectileType<TileExperimentation>(), 0, 0f);
 
                 TileExperimentation tether = (Main.projectile[tetherProj].ModProjectile as TileExperimentation);
@@ -229,7 +229,7 @@ namespace EEMod.EEWorld
                 tether.pos1 = (shipCoords * 16) + (new Vector2(43, 2) * 16) + new Vector2(8, 12);
                 tether.pos2 = (shipCoords * 16) + (new Vector2(56, 9) * 16) + new Vector2(8, 8);
 
-                sailProj = Projectile.NewProjectile(new EntitySource_Misc(""), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
+                sailProj = Projectile.NewProjectile(new EntitySource_WorldGen(), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
                     Vector2.Zero, ModContent.ProjectileType<TornSails>(), 0, 0);
 
                 placedShipTether = true;
@@ -324,6 +324,8 @@ namespace EEMod.EEWorld
 
         public override void PostWorldGen()
         {
+            spawnedSailor = false;
+
             GenerateShipyard();
         }
 
@@ -460,7 +462,7 @@ namespace EEMod.EEWorld
 
                         break;
                     }
-                    else if (tile.HasTile && tile.TileType == TileID.Sand)
+                    if (tile.HasTile && tile.TileType == TileID.Sand)
                     {
                         PlaceShipyard(i, j - 13);
 
