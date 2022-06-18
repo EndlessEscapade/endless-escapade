@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using EEMod.Tiles.Furniture.GoblinFort;
 using System.Collections.Generic;
 using EEMod.Systems;
+using EEMod.NPCs.Goblins.Shaman;
 
 namespace EEMod.NPCs.Goblins.Scrapwizard
 {
@@ -205,7 +206,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         else if (attackTimer == 40)
                         {
-
+                            myGuard.NPC.Center = new Vector2(target.Center.X - (target.direction * 80), myRoom.Bottom - myGuard.NPC.height  / 2f);
                         }
 
                         //less than a second to telegraph
@@ -216,11 +217,12 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         else if (attackTimer == 80)
                         {
+                            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), myGuard.NPC.Bottom, Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+
                             //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrunt2"));
                         }
 
-                        //SLAM
-                        else if (attackTimer < 120)
+                        else if (attackTimer < 100)
                         {
 
                         }
@@ -234,37 +236,58 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     case 1: //Brute leaps towards the player, and does a punch down when above, and slams fist into the ground so he gets stuck briefly,
                             //sends out shadowflame fire ripples to either side of him
                             //less than a second to teleport
-                        if (attackTimer % 80 < 40)
+                        if (attackTimer < 40)
                         {
-
+                            //telegraph
                         }
-
-                        else if (attackTimer % 80 == 40)
+                        else if (attackTimer == 40)
                         {
-                            //warp
+                            myGuard.NPC.velocity.Y -= 15f;
+                            myGuard.NPC.velocity.X =  MathHelper.Clamp((myGuard.NPC.Center.X - target.Center.X) / 25f, -4f, 4f);
                         }
 
                         else
                         {
-                            if (myGuard.NPC.velocity.Y <= 0 && attackTimer >= 80)
+                            if (attackTimer % 15 == 0)
                             {
+                                int newBolt = NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ShadowflameHexBolt>(), 20, 2, Main.myPlayer);
+
+                                Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + NPC.velocity) * 3);
+
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet, 20, 10, true));
+                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet * 0.5f, 16, 10));
+
+                                SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                            } //Make it so the bolts "slingshot" when brute hits the ground
+
+                            if (myGuard.NPC.velocity.X == 0)
+                            {
+                                myGuard.NPC.velocity.Y += 0.6f;
+                            }
+                            else
+                            {
+                                if (Math.Abs(myGuard.NPC.Center.X - target.Center.X) <= 4)
+                                    myGuard.NPC.velocity.X = 0;
+                            }
+
+                            if (myGuard.NPC.velocity.Y <= 0 && myGuard.NPC.oldVelocity.Y > 0)
+                            {
+                                //Send out shadowflame spirals to left and right of brute's fist
+                                
                                 PickNewAttack(true);
                             }
                         }
 
-                        //throws potion down and explodes into flames
-
-                        //slams down and reteleports, repeat twice more
-
-                        //next attack
                         break;
                     case 2: //teleports to one corner of the arena, punches rapidly sending out shadowflame shockwaves, and gets stuck at the end
                         if (attackTimer > 200)
                         {
                             PickNewAttack(true);
                         }
+
                         break;
                     case 3: //Scrapwizard shoots hard-hitting and fast shadowflame bolts(not hitscan) at the player while brute moves slowly towards the player
+
                         break;
                 }
 
