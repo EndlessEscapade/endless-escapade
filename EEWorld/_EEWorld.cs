@@ -327,6 +327,8 @@ namespace EEMod.EEWorld
             spawnedSailor = false;
 
             GenerateShipyard();
+
+            PlaceIceBoat();
         }
 
         public static void GenerateShipyard()

@@ -272,6 +272,101 @@ namespace EEMod.EEWorld
             shipCoords = new Vector2(x - 108, y);
         }
 
+        public static void PlaceIceBoat()
+        {
+            EEMod eemood = ModContent.GetInstance<EEMod>();
+
+            //if(Main.dungeonX)
+
+            for(int i = 500; i < Main.maxTilesX - 500; i+=5)
+            {
+                if (Main.tile[i, (int)(Main.worldSurface)].TileType == TileID.IceBlock || Main.tile[i, (int)(Main.worldSurface)].TileType == TileID.SnowBlock)
+                {
+                    int randint = Main.rand.Next(100, 300);
+
+                    if (Main.tile[i + randint, (int)(Main.worldSurface)].TileType == TileID.IceBlock || Main.tile[i + randint, (int)(Main.worldSurface)].TileType == TileID.SnowBlock)
+                    {
+                        //build ship here
+
+                        Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoat.lcs")).PlaceAt(i + randint, (int)(Main.worldSurface), false, false, false, true);
+
+                        bool genSatisfied = false;
+
+                        while(!genSatisfied)
+                        {
+                            int xTestValue = i + randint + Main.rand.Next(-75, 75);
+
+                            for(int yTestValue = (int)(Main.worldSurface); yTestValue > (int)(Main.worldSurface * 0.35f); yTestValue--)
+                            {
+                                bool funnyCheck()
+                                {
+                                    for (int lmnop = -23; lmnop < 0; lmnop++)
+                                    {
+                                        if (!Main.tile[xTestValue, yTestValue - lmnop].HasTile)
+                                        {
+                                            return false;
+                                        }
+                                    }
+
+                                    for (int lmnop = 1; lmnop < 100; lmnop++)
+                                    {
+                                        if (Main.tile[xTestValue, yTestValue - lmnop].HasTile)
+                                        {
+                                            return false;
+                                        }
+                                    }
+
+                                    return true;
+                                }
+
+                                if (Main.tile[xTestValue, yTestValue].HasTile &&
+                                    funnyCheck())
+                                {
+                                    if ((Main.tile[xTestValue, yTestValue].TileType == TileID.SnowBlock ||
+                                        Main.tile[xTestValue, yTestValue].TileType == TileID.IceBlock) &&
+                                        Main.tile[xTestValue + 22, yTestValue + 3].HasTile &&
+                                        !Main.tile[xTestValue + 22, yTestValue - 3].HasTile)
+                                    {
+                                        //build ship debris
+
+                                        if(TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) < 
+                                            TileCheckDual(xTestValue + 22, TileID.SnowBlock, TileID.IceBlock))
+                                            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoatDebris.lcs"))
+                                                .PlaceAt(xTestValue, TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) - 4, false, false, false, true);
+                                        else
+                                            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoatDebris.lcs"))
+                                                .PlaceAt(xTestValue, TileCheckDual(xTestValue + 22, TileID.SnowBlock, TileID.IceBlock) - 4, false, false, false, true);
+
+                                        //tunnel
+
+                                        for(int lerpVal = 0; lerpVal < 5; lerpVal++)
+                                        {
+
+                                        }
+
+                                        Vector2 baseVec1 = new Vector2(i + randint + 32, (int)Main.worldSurface);
+                                        Vector2 baseVec2 = new Vector2(xTestValue + 11, TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) - 4 + 23);
+
+                                        //MakeWavyChasm3(baseVec1, baseVec2, TileID.SolarBrick, 100, 5, true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
+
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+
+                            continue;
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+
         public static int TileCheckWater(int positionX)
         {
             for (int i = 0; i < Main.maxTilesY; i++)
@@ -1123,6 +1218,19 @@ namespace EEMod.EEWorld
             {
                 Tile tile = Framing.GetTileSafely(positionX, i);
                 if (tile.TileType == type)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        public static int TileCheckDual(int positionX, int type, int type2)
+        {
+            for (int i = 0; i < Main.maxTilesY; i++)
+            {
+                Tile tile = Framing.GetTileSafely(positionX, i);
+                if ((tile.TileType == type || tile.TileType == type2) && tile.HasTile)
                 {
                     return i;
                 }

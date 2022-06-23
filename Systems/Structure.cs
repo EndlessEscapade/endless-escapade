@@ -150,7 +150,7 @@ namespace EEMod.Systems
 			PlacementActions = placementActions;
 		}
 
-		public void PlaceAt(int x, int y, bool keepWater = false, bool keepTiles = false, bool submerge = false)
+		public void PlaceAt(int x, int y, bool keepWater = false, bool keepTiles = false, bool submerge = false, bool dirtOnge = false)
 		{
 			int i = x;
 			int j = y;
@@ -210,30 +210,32 @@ namespace EEMod.Systems
 				}
 				else if (action.Type == PlacementActionType.PlaceTile)
 				{
-					Tile tile = Framing.GetTileSafely(i, j);
-					tile.TileType = EntryToTileID[action.EntryData];
-					tile.HasTile = true;
-
-					if (submerge)
+					if (dirtOnge && EntryToTileID[action.EntryData] == TileID.Dirt)
 					{
-						tile.LiquidType = 0;
-						tile.LiquidAmount = 255;
+
+					}
+					else
+					{
+						Tile tile = Framing.GetTileSafely(i, j);
+						tile.TileType = EntryToTileID[action.EntryData];
+						tile.HasTile = true;
 					}
 
 					i++;
 				}
 				else if (action.Type == PlacementActionType.PlaceTileRepeated)
 				{
-					for (int z = i; z < i + action.RepetitionData; z++)
+					if (dirtOnge && EntryToTileID[action.EntryData] == TileID.Dirt)
 					{
-						Tile tile = Framing.GetTileSafely(z, j);
-						tile.TileType = EntryToTileID[action.EntryData];
-						tile.HasTile = true;
 
-						if (submerge)
+					}
+					else
+					{
+						for (int z = i; z < i + action.RepetitionData; z++)
 						{
-							tile.LiquidType = 0;
-							tile.LiquidAmount = 255;
+							Tile tile = Framing.GetTileSafely(z, j);
+							tile.TileType = EntryToTileID[action.EntryData];
+							tile.HasTile = true;
 						}
 					}
 
@@ -294,12 +296,6 @@ namespace EEMod.Systems
 				{
 					PlaceWall(i, j, EntryToWallID[action.EntryData], true);
 
-					if (submerge)
-					{
-						Framing.GetTileSafely(i, j).LiquidType = 0;
-						Main.tile[i, j].LiquidAmount = 255;
-					}
-
 					i++;
 				}
 				else if (action.Type == PlacementActionType.PlaceWallRepeated)
@@ -307,12 +303,6 @@ namespace EEMod.Systems
 					for (int z = i; z < i + action.RepetitionData; z++)
 					{
 						PlaceWall(z, j, EntryToWallID[action.EntryData], true);
-
-						if (submerge)
-						{
-							Framing.GetTileSafely(z, j).LiquidType = 0;
-							Main.tile[z, j].LiquidAmount = 255;
-						}
 					}
 
 					i += action.RepetitionData;
@@ -321,12 +311,6 @@ namespace EEMod.Systems
 				{
 					KillWall(i, j, false);
 
-					if (submerge)
-					{
-						Framing.GetTileSafely(i, j).LiquidType = 0;
-						Main.tile[i, j].LiquidAmount = 255;
-					}
-
 					i++;
 				}
 				else if (action.Type == PlacementActionType.PlaceEmptyWallRepeated)
@@ -334,29 +318,28 @@ namespace EEMod.Systems
 					for (int z = i; z < i + action.RepetitionData; z++)
 					{
 						KillWall(z, j, false);
-
-						if (submerge)
-						{
-							Framing.GetTileSafely(z, j).LiquidType = 0;
-							Main.tile[z, j].LiquidAmount = 255;
-						}
 					}
 
 					i += action.RepetitionData;
 				}
 				else if (action.Type == PlacementActionType.PlaceSlope)
 				{
-					if (InWorld(i, j))
+					if (dirtOnge && EntryToTileID[action.EntryData] == TileID.Dirt)
 					{
-						Tile tile = Main.tile[i, j];
-						tile.TileType = EntryToTileID[action.EntryData];
-						tile.Slope = (SlopeType)action.SlopeData;
-						tile.HasTile = true;
-
-						if (submerge)
+						if (InWorld(i, j))
 						{
-							tile.LiquidType = 0;
-							tile.LiquidAmount = 255;
+							Tile tile = Main.tile[i, j];
+							tile.Slope = (SlopeType)action.SlopeData;
+						}
+					}
+					else
+					{
+						if (InWorld(i, j))
+						{
+							Tile tile = Main.tile[i, j];
+							tile.TileType = EntryToTileID[action.EntryData];
+							tile.Slope = (SlopeType)action.SlopeData;
+							tile.HasTile = true;
 						}
 					}
 
@@ -368,15 +351,17 @@ namespace EEMod.Systems
 					{
 						if (InWorld(z, j))
 						{
-							Tile tile = Main.tile[z, j];
-							tile.TileType = EntryToTileID[action.EntryData];
-							tile.Slope = (SlopeType)action.SlopeData;
-							tile.HasTile = true;
-
-							if (submerge)
+							if (dirtOnge && EntryToTileID[action.EntryData] == TileID.Dirt)
 							{
-								tile.LiquidType = 0;
-								tile.LiquidAmount = 255;
+								Tile tile = Main.tile[z, j];
+								tile.Slope = (SlopeType)action.SlopeData;
+							}
+							else
+                            {
+								Tile tile = Main.tile[z, j];
+								tile.TileType = EntryToTileID[action.EntryData];
+								tile.Slope = (SlopeType)action.SlopeData;
+								tile.HasTile = true;
 							}
 						}
 					}
@@ -385,17 +370,19 @@ namespace EEMod.Systems
 				}
 				else if (action.Type == PlacementActionType.PlaceHalfBrick)
 				{
-					if (InWorld(i, j))
+					if (dirtOnge && EntryToTileID[action.EntryData] == TileID.Dirt)
 					{
 						Tile tile = Main.tile[i, j];
-						tile.TileType = EntryToTileID[action.EntryData];
 						tile.IsHalfBlock = true;
-						tile.HasTile = true;
-
-						if (submerge)
+					}
+					else
+					{
+						if (InWorld(i, j))
 						{
-							tile.LiquidType = 0;
-							tile.LiquidAmount = 255;
+							Tile tile = Main.tile[i, j];
+							tile.TileType = EntryToTileID[action.EntryData];
+							tile.IsHalfBlock = true;
+							tile.HasTile = true;
 						}
 					}
 
@@ -407,15 +394,17 @@ namespace EEMod.Systems
 					{
 						if (InWorld(z, j))
 						{
-							Tile tile = Main.tile[z, j];
-							tile.TileType = EntryToTileID[action.EntryData];
-							tile.IsHalfBlock = true;
-							tile.HasTile = true;
-
-							if (submerge)
+							if (dirtOnge && EntryToTileID[action.EntryData] == TileID.Dirt)
 							{
-								tile.LiquidType = 0;
-								tile.LiquidAmount = 255;
+								Tile tile = Main.tile[z, j];
+								tile.IsHalfBlock = true;
+							}
+							else
+                            {
+								Tile tile = Main.tile[z, j];
+								tile.TileType = EntryToTileID[action.EntryData];
+								tile.IsHalfBlock = true;
+								tile.HasTile = true;
 							}
 						}
 					}
@@ -424,22 +413,23 @@ namespace EEMod.Systems
 				}
 				else if (action.Type == PlacementActionType.PlaceDirectFramed)
 				{
-					byte[] data = BitConverter.GetBytes(action.FrameData);
-					short TileFrameX = BitConverter.ToInt16(data, 0);
-					short TileFrameY = BitConverter.ToInt16(data, 2);
-
-					if (InWorld(i, j))
+					if (dirtOnge && EntryToTileID[action.EntryData] == TileID.Dirt)
 					{
-						Tile tile = Main.tile[i, j];
-						tile.TileType = EntryToTileID[action.EntryData];
-						tile.TileFrameX = TileFrameX;
-						tile.TileFrameY = TileFrameY;
-						tile.HasTile = true;
 
-						if (submerge)
+					}
+					else
+					{
+						byte[] data = BitConverter.GetBytes(action.FrameData);
+						short TileFrameX = BitConverter.ToInt16(data, 0);
+						short TileFrameY = BitConverter.ToInt16(data, 2);
+
+						if (InWorld(i, j))
 						{
-							tile.LiquidType = 0;
-							tile.LiquidAmount = 255;
+							Tile tile = Main.tile[i, j];
+							tile.TileType = EntryToTileID[action.EntryData];
+							tile.TileFrameX = TileFrameX;
+							tile.TileFrameY = TileFrameY;
+							tile.HasTile = true;
 						}
 					}
 
@@ -450,12 +440,6 @@ namespace EEMod.Systems
 					if (InWorld(i, j))
 					{
 						Framing.GetTileSafely(i, j).TileColor = (byte)action.EntryData;
-
-						if (submerge)
-						{
-							Framing.GetTileSafely(i, j).LiquidType = 0;
-							Main.tile[i, j].LiquidAmount = 255;
-						}
 					}
 
 					i++;
@@ -466,12 +450,6 @@ namespace EEMod.Systems
 						if (InWorld(z, j))
 						{
 							Framing.GetTileSafely(z, j).TileColor = (byte)action.EntryData;
-
-							if (submerge)
-							{
-								Framing.GetTileSafely(z, j).LiquidType = 0;
-								Main.tile[z, j].LiquidAmount = 255;
-							}
 						}
 
 					i += action.RepetitionData;
@@ -481,12 +459,6 @@ namespace EEMod.Systems
 					if (InWorld(i, j))
 					{
 						Framing.GetTileSafely(i, j).WallColor = (byte)action.EntryData;
-
-						if (submerge)
-						{
-							Framing.GetTileSafely(i, j).LiquidType = 0;
-							Main.tile[i, j].LiquidAmount = 255;
-						}
 					}
 
 					i++;
@@ -497,12 +469,6 @@ namespace EEMod.Systems
 						if (InWorld(z, j))
 						{
 							Framing.GetTileSafely(z, j).WallColor = (byte)action.EntryData;
-
-							if (submerge)
-							{
-								Framing.GetTileSafely(z, j).LiquidType = 0;
-								Main.tile[z, j].LiquidAmount = 255;
-							}
 						}
 
 					i += action.RepetitionData;

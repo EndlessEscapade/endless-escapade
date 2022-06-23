@@ -34,11 +34,11 @@ namespace EEMod.Items
         {
             //Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
 
-            SubworldLibrary.SubworldSystem.Enter<GoblinFort>();
+            //SubworldLibrary.SubworldSystem.Enter<GoblinFort>();
 
-            //Structure.SaveWorldStructureTo(1980, 165, 160, 68, System.IO.Path.Combine(Main.SavePath, "goblinhall"));
+            Structure.SaveWorldStructureTo(93, 158, 22, 23, System.IO.Path.Combine(Main.SavePath, "IceBoatDebris"));
 
-            //Structure.SaveWorldStructureTo(690, 273, 8, 4, System.IO.Path.Combine(Main.SavePath, "GoblinRaft2"));
+            Structure.SaveWorldStructureTo(68, 184, 63, 35, System.IO.Path.Combine(Main.SavePath, "IceBoat"));
 
             return true;
         }
