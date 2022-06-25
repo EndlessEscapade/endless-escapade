@@ -290,19 +290,23 @@ namespace EEMod.EEWorld
 
                         Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoat.lcs")).PlaceAt(i + randint, (int)(Main.worldSurface), false, false, false, true);
 
-                        bool genSatisfied = false;
+                        WorldGen.PlaceTile(i + randint + 38, (int)(Main.worldSurface) + 24, ModContent.TileType<CryoCannonTile>(), false, true);
 
-                        while(!genSatisfied)
+                        int genSatisfied = 0;
+
+                        while(genSatisfied < 1000)
                         {
-                            int xTestValue = i + randint + Main.rand.Next(-75, 75);
+                            int xTestValue = i + randint + Main.rand.Next(-100, 100);
 
                             for(int yTestValue = (int)(Main.worldSurface); yTestValue > (int)(Main.worldSurface * 0.35f); yTestValue--)
                             {
                                 bool funnyCheck()
                                 {
-                                    for (int lmnop = -23; lmnop < 0; lmnop++)
+                                    if (genSatisfied == 999) return true;
+
+                                    for (int lmnop = 0; lmnop < 23; lmnop++)
                                     {
-                                        if (!Main.tile[xTestValue, yTestValue - lmnop].HasTile)
+                                        if (!Main.tile[xTestValue + 11, yTestValue + lmnop].HasTile)
                                         {
                                             return false;
                                         }
@@ -319,8 +323,7 @@ namespace EEMod.EEWorld
                                     return true;
                                 }
 
-                                if (Main.tile[xTestValue, yTestValue].HasTile &&
-                                    funnyCheck())
+                                if (funnyCheck())
                                 {
                                     if ((Main.tile[xTestValue, yTestValue].TileType == TileID.SnowBlock ||
                                         Main.tile[xTestValue, yTestValue].TileType == TileID.IceBlock) &&
@@ -339,15 +342,21 @@ namespace EEMod.EEWorld
 
                                         //tunnel
 
-                                        for(int lerpVal = 0; lerpVal < 5; lerpVal++)
+                                        Vector2 baseVec1 = new Vector2(i + randint + 32, (int)Main.worldSurface - 4);
+                                        Vector2 baseVec2 = new Vector2(xTestValue + 11, TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) - 4 + 23 + 4);
+
+                                        MakeWavyChasm3Digout(baseVec1, baseVec2, TileID.SolarBrick, 99, 5, true, new Vector2(1, 1));
+
+                                        for(int lerpX = (int)baseVec1.X - 200; lerpX < (int)baseVec1.X + 200; lerpX++)
                                         {
-
+                                            for(int lerpY = (int)(Main.worldSurface * 0.35f); lerpY < (int)(Main.worldSurface * 1.1f); lerpY++)
+                                            {
+                                                if (Framing.GetTileSafely(lerpX, lerpY).BlockType == (BlockType)TileID.SolarBrick)
+                                                {
+                                                    Framing.GetTileSafely(lerpX, lerpY).HasTile = false;
+                                                }
+                                            }
                                         }
-
-                                        Vector2 baseVec1 = new Vector2(i + randint + 32, (int)Main.worldSurface);
-                                        Vector2 baseVec2 = new Vector2(xTestValue + 11, TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) - 4 + 23);
-
-                                        //MakeWavyChasm3(baseVec1, baseVec2, TileID.SolarBrick, 100, 5, true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
 
                                         return;
                                     }
@@ -357,6 +366,8 @@ namespace EEMod.EEWorld
                                     }
                                 }
                             }
+
+                            genSatisfied++;
 
                             continue;
                         }
@@ -1185,7 +1196,49 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        
+
+        public static void MakeWavyChasm3Digout(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override, Vector2 stepBounds, int waveInvolvment = 0, float frequency = 5, bool withBranches = false, int branchFrequency = 0, int lengthOfBranches = 0)
+        {
+            for (int i = 0; i < accuracy; i++)
+            {
+                // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
+                float perc = (float)i / (float)accuracy;
+                Vector2 currentPos = Vector2.Lerp(position1, position2, perc);
+
+                WorldGen.TileRunner((int)currentPos.X,
+                    (int)currentPos.Y,
+                    WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon),
+                    WorldGen.genRand.Next((int)stepBounds.X, (int)stepBounds.Y),
+                    type,
+                    true,
+                    0f,
+                    0f,
+                    false,
+                    Override);
+
+
+                if (withBranches)
+                {
+                    if (i % branchFrequency == 0 && WorldGen.genRand.Next(2) == 0)
+                    {
+                        int Side = Main.rand.Next(0, 2);
+                        if (Side == 0)
+                        {
+                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(MathHelper.PiOver2 + Main.rand.NextFloat(-0.3f, 0.3f));
+                            //int ChanceForRecursion = Main.rand.Next(0, 4);
+                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 20, true, new Vector2(0, 20), 2, 5, true, 50, (int)(lengthOfBranches * 0.5f));
+                        }
+                        if (Side == 1)
+                        {
+                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(-MathHelper.PiOver2);
+                            //int ChanceForRecursion = Main.rand.Next(0, 4);
+                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 20, true, new Vector2(0, 20), 7, 5, true, 50, (int)(lengthOfBranches * 0.5f));
+                        }
+                    }
+                }
+            }
+        }
+
         public static int TileCheckVertical(int positionX, int positionY, int step, int maxIterations = 100)
         {
             int a = 0;

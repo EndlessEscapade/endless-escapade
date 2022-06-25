@@ -134,6 +134,7 @@ namespace EEMod.Systems
 		private const ushort PlaceDirectFramedFlag = 0xFFED;
 		private const ushort EndOfTilesDataFlag = 0xFFEA;
 		private const ushort EndOfWallsDataFlag = 0xFFE9;
+		private const ushort PlaceTileFlag = 0xFFE8;
 
 		private const byte EndOfTilePaintDataFlag = 0x21;
 		private const byte RepeatedTilePaintFlag = 0x20;
@@ -593,11 +594,11 @@ namespace EEMod.Systems
 								{
 									Tile nextTile = Framing.GetTileSafely(i + 1, j);
 
-									if (i + 1 < endX && nextTile.TileType == tile.TileType && nextTile.Slope == 0 && !nextTile.IsHalfBlock)
+									if (i + 1 < endX && nextTile.TileType == tile.TileType && nextTile.Slope == 0 && !nextTile.IsHalfBlock && nextTile.HasTile)
 									{
 										ushort identicalTiles = 0;
 
-										while (i < endX && nextTile.TileType == tile.TileType && nextTile.Slope == 0 && !nextTile.IsHalfBlock)
+										while (i < endX && nextTile.TileType == tile.TileType && nextTile.Slope == 0 && !nextTile.IsHalfBlock && nextTile.HasTile)
 										{
 											identicalTiles++;
 											nextTile = Framing.GetTileSafely(++i, j);
@@ -1031,7 +1032,7 @@ namespace EEMod.Systems
 			return entryMap;
 		}
 
-		private void PrepareAreaForStructure(int x, int y)
+		private void PrepareAreaForStructure(int x, int y, bool submerge = false)
 		{
 			for (int a = y; a < y + Height; a++)
 			{
@@ -1047,7 +1048,7 @@ namespace EEMod.Systems
 						KillTile(b, a, false, noItem: true);
 					}
 
-					//Framing.GetTileSafely(b, a).LiquidAmount = 0;
+					if(!submerge) Framing.GetTileSafely(b, a).LiquidAmount = 0;
 					Framing.GetTileSafely(b, a).Slope = SlopeType.Solid;
 				}
 			}

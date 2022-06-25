@@ -71,6 +71,7 @@ namespace EEMod
             On.Terraria.Main.DoDraw_Tiles_Solid += DrawCoralReefsBg;
             On.Terraria.Main.DoDraw_UpdateCameraPosition += RenderPrimitives;
 
+            //On.Terraria.WorldGen.
             On.Terraria.UI.IngameFancyUI.Draw += DisableFancyUIOnSeamap;
 
             On.Terraria.Player.Update_NPCCollision += GoblinTableCollision;

@@ -5,12 +5,12 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Shipyard.Cannons
 {
-    public class LythenCannon : EEItem
+    public class CryoCannon : EEItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lythen Cannon");
-            Tooltip.SetDefault("haha this shoots balls lol");
+            DisplayName.SetDefault("Cryo Cannon");
+            Tooltip.SetDefault("Converts all cannonballs into frozen cannonballs\nFrozen cannonbaalls explode into shards on impact");
             ItemID.Sets.SortingPriorityMaterials[Item.type] = 59;
         }
 

@@ -16,7 +16,7 @@ using EEMod.Items.Shipyard.Cannons;
 
 namespace EEMod.Tiles.Furniture.Shipyard
 {
-    public class CannonTile : EETile
+    public class CryoCannonTile : EETile
     {
         public override void SetStaticDefaults()
         {
@@ -45,36 +45,12 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
         public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemID.DirtBlock);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<CryoCannon>());
         }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Color color = Lighting.GetColor(i, j);
-
-            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-            if (Main.drawToScreen)
-            {
-                zero = Vector2.Zero;
-            }
-
-            Vector2 position = new Vector2((i * 16) - (int)Main.screenPosition.X, (j * 16) - (int)Main.screenPosition.Y) + zero;
-
-            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Furniture/Shipyard/CannonTile").Value;
-
-
-
-            int type = 0;
-
-            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType == 0) type = 0;
-            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType == ModContent.ItemType<SteelCannon>()) type = 1;
-            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType == ModContent.ItemType<CryoCannon>()) type = 2;
-
-            Rectangle rect = new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY + (type * 36), 16, 16);
-
-            Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
-
-            return false;
+            return true;
         }
     }
 }
