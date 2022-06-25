@@ -288,7 +288,7 @@ namespace EEMod.EEWorld
                     {
                         //build ship here
 
-                        Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoat.lcs")).PlaceAt(i + randint, (int)(Main.worldSurface), false, false, false, true);
+                        Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoat.lcs")).PlaceAt(i + randint, (int)(Main.worldSurface) + 2, false, false, false, true);
 
                         WorldGen.PlaceTile(i + randint + 38, (int)(Main.worldSurface) + 24, ModContent.TileType<CryoCannonTile>(), false, true);
 
@@ -332,26 +332,33 @@ namespace EEMod.EEWorld
                                     {
                                         //build ship debris
 
-                                        if(TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) < 
+                                        if (TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) <
                                             TileCheckDual(xTestValue + 22, TileID.SnowBlock, TileID.IceBlock))
+                                        {
+                                            Vector2 baseVec1 = new Vector2(i + randint + 32, (int)Main.worldSurface + 2);
+                                            Vector2 baseVec2 = new Vector2(xTestValue + 11, TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) - 5 + 23);
+
+                                            MakeWavyChasm3Digout(baseVec1, baseVec2, TileID.SolarBrick, 50, 3, true, new Vector2(5, 10));
+
                                             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoatDebris.lcs"))
                                                 .PlaceAt(xTestValue, TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) - 4, false, false, false, true);
+                                        }
                                         else
+                                        {
+                                            Vector2 baseVec1 = new Vector2(i + randint + 32, (int)Main.worldSurface + 2);
+                                            Vector2 baseVec2 = new Vector2(xTestValue + 11, TileCheckDual(xTestValue + 22, TileID.SnowBlock, TileID.IceBlock) - 5 + 23);
+
+                                            MakeWavyChasm3Digout(baseVec1, baseVec2, TileID.SolarBrick, 50, 3, true, new Vector2(5, 10));
+
                                             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoatDebris.lcs"))
                                                 .PlaceAt(xTestValue, TileCheckDual(xTestValue + 22, TileID.SnowBlock, TileID.IceBlock) - 4, false, false, false, true);
+                                        }
 
-                                        //tunnel
-
-                                        Vector2 baseVec1 = new Vector2(i + randint + 32, (int)Main.worldSurface - 4);
-                                        Vector2 baseVec2 = new Vector2(xTestValue + 11, TileCheckDual(xTestValue, TileID.SnowBlock, TileID.IceBlock) - 4 + 23 + 4);
-
-                                        MakeWavyChasm3Digout(baseVec1, baseVec2, TileID.SolarBrick, 99, 5, true, new Vector2(1, 1));
-
-                                        for(int lerpX = (int)baseVec1.X - 200; lerpX < (int)baseVec1.X + 200; lerpX++)
+                                        for (int lerpX = 0; lerpX < Main.maxTilesX; lerpX++)
                                         {
                                             for(int lerpY = (int)(Main.worldSurface * 0.35f); lerpY < (int)(Main.worldSurface * 1.1f); lerpY++)
                                             {
-                                                if (Framing.GetTileSafely(lerpX, lerpY).BlockType == (BlockType)TileID.SolarBrick)
+                                                if (Framing.GetTileSafely(lerpX, lerpY).TileType == TileID.SolarBrick)
                                                 {
                                                     Framing.GetTileSafely(lerpX, lerpY).HasTile = false;
                                                 }
@@ -1197,45 +1204,22 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void MakeWavyChasm3Digout(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override, Vector2 stepBounds, int waveInvolvment = 0, float frequency = 5, bool withBranches = false, int branchFrequency = 0, int lengthOfBranches = 0)
+        public static void MakeWavyChasm3Digout(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override, Vector2 stepBounds)
         {
             for (int i = 0; i < accuracy; i++)
             {
-                // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
                 float perc = (float)i / (float)accuracy;
+
                 Vector2 currentPos = Vector2.Lerp(position1, position2, perc);
 
-                WorldGen.TileRunner((int)currentPos.X,
+                SolidTileRunner((int)currentPos.X,
                     (int)currentPos.Y,
-                    WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon),
+                    WorldGen.genRand.Next((sizeAddon * 2) / 3, (sizeAddon * 4) / 3),
                     WorldGen.genRand.Next((int)stepBounds.X, (int)stepBounds.Y),
                     type,
-                    true,
                     0f,
                     0f,
-                    false,
                     Override);
-
-
-                if (withBranches)
-                {
-                    if (i % branchFrequency == 0 && WorldGen.genRand.Next(2) == 0)
-                    {
-                        int Side = Main.rand.Next(0, 2);
-                        if (Side == 0)
-                        {
-                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(MathHelper.PiOver2 + Main.rand.NextFloat(-0.3f, 0.3f));
-                            //int ChanceForRecursion = Main.rand.Next(0, 4);
-                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 20, true, new Vector2(0, 20), 2, 5, true, 50, (int)(lengthOfBranches * 0.5f));
-                        }
-                        if (Side == 1)
-                        {
-                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(-MathHelper.PiOver2);
-                            //int ChanceForRecursion = Main.rand.Next(0, 4);
-                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 20, true, new Vector2(0, 20), 7, 5, true, 50, (int)(lengthOfBranches * 0.5f));
-                        }
-                    }
-                }
             }
         }
 
@@ -1451,7 +1435,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void SolidTileRunner(int i, int j, double strength, int steps, int type, bool addTile = false, float speedX = 0f, float speedY = 0f, bool noYChange = false, bool overRide = true, int ignoreTileType = -1)
+        public static void SolidTileRunner(int i, int j, double strength, int steps, int type, float speedX = 0f, float speedY = 0f, bool overRide = true)
         {
             double num = strength;
             float num2 = steps;
@@ -1472,10 +1456,6 @@ namespace EEMod.EEWorld
 
             while (num > 0.0 && num2 > 0f)
             {
-                if (vector.Y < 0f && num2 > 0f && type == 59)
-                {
-                    num2 = 0f;
-                }
                 num = strength * (double)(num2 / (float)steps);
                 num2 -= 1f;
                 int num3 = (int)((double)vector.X - num * 0.5);
@@ -1504,19 +1484,12 @@ namespace EEMod.EEWorld
                     {
                         if (overRide || !Framing.GetTileSafely(k, l).HasTile)
                         {
-                            if (Main.tileSolid[Framing.GetTileSafely(k, l).TileType] == true)
-                            {
-                                Framing.GetTileSafely(k, l).TileType = (ushort)type;
-                            }
-                        }
-                        if (addTile)
-                        {
+                            Framing.GetTileSafely(k, l).TileType = (ushort)type;
                             Framing.GetTileSafely(k, l).HasTile = true;
-                            Main.tile[k, l].LiquidAmount = 0;
-                            Framing.GetTileSafely(k, l).LiquidType = 0;
                         }
                     }
                 }
+
                 vector += vector2;
 
                 if ((WorldGen.genRand.NextBool(3)) && num > 50.0)
@@ -1614,44 +1587,24 @@ namespace EEMod.EEWorld
                 {
                     vector2.X = -1f;
                 }
-                if (!noYChange)
+
+                vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                if (vector2.Y > 1f)
                 {
-                    vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                    vector2.Y = 1f;
+                }
+                if (vector2.Y < -1f)
+                {
+                    vector2.Y = -1f;
+                }
+
+                else if (num < 3.0)
+                {
                     if (vector2.Y > 1f)
                     {
                         vector2.Y = 1f;
                     }
                     if (vector2.Y < -1f)
-                    {
-                        vector2.Y = -1f;
-                    }
-                }
-                else if (type != 59 && num < 3.0)
-                {
-                    if (vector2.Y > 1f)
-                    {
-                        vector2.Y = 1f;
-                    }
-                    if (vector2.Y < -1f)
-                    {
-                        vector2.Y = -1f;
-                    }
-                }
-                if (type == 59 && !noYChange)
-                {
-                    if ((double)vector2.Y > 0.5)
-                    {
-                        vector2.Y = 0.5f;
-                    }
-                    if ((double)vector2.Y < -0.5)
-                    {
-                        vector2.Y = -0.5f;
-                    }
-                    if ((double)vector.Y < Main.rockLayer + 100.0)
-                    {
-                        vector2.Y = 1f;
-                    }
-                    if (vector.Y > (float)(Main.maxTilesY - 300))
                     {
                         vector2.Y = -1f;
                     }

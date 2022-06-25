@@ -107,7 +107,7 @@ namespace EEMod.EEWorld
             {
                 if(Framing.GetTileSafely(i, j).TileType != ModContent.TileType<LightGemsandTile>() && Framing.GetTileSafely(i, j).TileType != ModContent.TileType<VibrantMycelium>() && Framing.GetTileSafely(i, j).HasTile && !Main.tileSolid[Framing.GetTileSafely(i, j).TileType])
                 {
-                    EEWorld.SolidTileRunner(i, j, 3, 10, ModContent.TileType<VibrantMycelium>(), false, 0, 0, false, true);
+                    //EEWorld.SolidTileRunner(i, j, 3, 10, ModContent.TileType<VibrantMycelium>(), false, 0, 0, false, true);
                 }
             });
         }
