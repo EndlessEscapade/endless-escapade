@@ -829,7 +829,6 @@ namespace EEMod.Seamap.Content
 
             float widthVar;
 
-            float colorSin = (float)Math.Sin(_counter / 3f);
             {
                 widthVar = 0;
 
