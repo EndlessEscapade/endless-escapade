@@ -201,7 +201,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         if (attackTimer < 40)
                         {
-
+                            teleportFloat += 1 / 40f;
                         }
 
                         else if (attackTimer == 40)
@@ -212,12 +212,36 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         //less than a second to telegraph
                         else if (attackTimer < 80)
                         {
+                            teleportFloat -= 1 / 40f;
+
+                            if (attackTimer >= 60)
+                            {
+                                if (attackTimer == 60) myGuard.frameY = 0;
+
+                                if (attackTimer % 4 == 0)
+                                {
+                                    myGuard.frameY++;
+                                }
+                            }
 
                         }
 
                         else if (attackTimer == 80)
                         {
-                            Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), myGuard.NPC.Bottom, Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+                            teleportFloat = 0f;
+
+                            //Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), myGuard.NPC.Bottom, Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+
+                            if (target.Center.X < NPC.Center.X)
+                            {
+                                Projectile spike1 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X - 124 + 62 - 30, myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+                                spike1.spriteDirection = 1;
+                            }
+                            else
+                            {
+                                Projectile spike1 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X + 62 + 30, myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+                                spike1.spriteDirection = -1;
+                            }
 
                             //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblingrunt2"));
                         }
@@ -238,55 +262,171 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             //less than a second to teleport
                         if (attackTimer < 40)
                         {
+                            if (attackTimer >= 20)
+                            {
+                                if (attackTimer % 4 == 0)
+                                {
+                                    myGuard.frameY++;
+                                }
+                            }
+
                             //telegraph
                         }
                         else if (attackTimer == 40)
                         {
-                            myGuard.NPC.velocity.Y -= 15f;
-                            myGuard.NPC.velocity.X =  MathHelper.Clamp((myGuard.NPC.Center.X - target.Center.X) / 25f, -4f, 4f);
-                        }
+                            myGuard.NPC.velocity.Y -= 22f;
+                            myGuard.NPC.velocity.X =  MathHelper.Clamp((target.Center.X - myGuard.NPC.Center.X) / 25f, -6f, 6f);
 
+                            chandelierSwingTimer = 0;
+                        }
                         else
                         {
-                            if (attackTimer % 15 == 0)
+                            if (chandelierSwingTimer <= 0)
                             {
-                                int newBolt = NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ShadowflameHexBolt>(), 20, 2, Main.myPlayer);
+                                if (attackTimer % 15 == 0)
+                                {
+                                    int newBolt = NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ShadowflameHexBolt>(), 20, 2, Main.myPlayer);
 
-                                Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + NPC.velocity) * 3);
+                                    Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + NPC.velocity) * 3);
 
-                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet, 20, 10, true));
-                                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet * 0.5f, 16, 10));
+                                    PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet, 20, 10, true));
+                                    PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet * 0.5f, 16, 10));
 
-                                SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
-                            } //Make it so the bolts "slingshot" when brute hits the ground
+                                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                                } //Make it so the bolts "slingshot" when brute hits the ground
 
-                            if (myGuard.NPC.velocity.X == 0)
-                            {
-                                myGuard.NPC.velocity.Y += 0.6f;
+                                if (attackTimer % 3 == 0 && (myGuard.NPC.velocity.X == 0 || Math.Abs(myGuard.NPC.Center.Y - myRoom.Bottom) < 250) && myGuard.frameY < 5)
+                                {
+                                    myGuard.frameY++;
+                                }
+
+                                if (myGuard.NPC.velocity.X == 0)
+                                {
+                                    myGuard.NPC.velocity.Y += 0.2f;
+                                }
+                                else
+                                {
+                                    if (attackTimer % 4 == 0 && myGuard.frameY > 0)
+                                    {
+                                        myGuard.frameY--;
+                                    }
+
+                                    if (Math.Abs(myGuard.NPC.Center.X - target.Center.X) <= 4)
+                                        myGuard.NPC.velocity.X = 0;
+                                }
+
+                                if (((myGuard.NPC.velocity.Y <= 0 && myGuard.NPC.oldVelocity.Y > 0) || (myGuard.NPC.position.Y == myGuard.NPC.oldPosition.Y)))
+                                {
+                                    //Send out shadowflame spirals to left and right of brute's fist
+
+                                    Projectile spike1 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X - 124 + 62 - 30, myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+                                    spike1.spriteDirection = 1;
+
+                                    Projectile spike2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X + 62 + 30, myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+                                    spike2.spriteDirection = -1;
+
+                                    myGuard.NPC.velocity.X = 0;
+
+                                    chandelierSwingTimer++;
+                                }
                             }
                             else
                             {
-                                if (Math.Abs(myGuard.NPC.Center.X - target.Center.X) <= 4)
-                                    myGuard.NPC.velocity.X = 0;
-                            }
+                                chandelierSwingTimer++;
 
-                            if (myGuard.NPC.velocity.Y <= 0 && myGuard.NPC.oldVelocity.Y > 0)
-                            {
-                                //Send out shadowflame spirals to left and right of brute's fist
-                                
-                                PickNewAttack(true);
+                                myGuard.NPC.velocity.X = 0;
+
+                                if (chandelierSwingTimer > 20)
+                                {
+                                    chandelierSwingTimer = 0;
+
+                                    PickNewAttack(true);
+                                }
                             }
                         }
 
                         break;
                     case 2: //teleports to one corner of the arena, punches rapidly sending out shadowflame shockwaves, and gets stuck at the end
-                        if (attackTimer > 200)
+                        if (attackTimer < 40)
+                        {
+                            if (attackTimer >= 20)
+                            {
+                                if (attackTimer % 4 == 0)
+                                {
+                                    myGuard.frameY++;
+                                }
+                            }
+
+                            //teleportFloat += 1 / 40f;
+                        }
+                        else if (attackTimer == 40)
+                        {  
+                            /*float minDist = 1000000;
+                            int minVal = -2;
+
+                            for(int minVal2 = -2; minVal2 < 3; minVal2++)
+                            {
+                                if(Vector2.Distance(new Vector2(myRoom.Center.X + (minVal2 * 240), myRoom.Bottom - (myGuard.NPC.height / 2)), target.Center) < minDist)
+                                {
+                                    minDist = Vector2.Distance(new Vector2(myRoom.Center.X + (minVal2 * 240), myRoom.Bottom - (myGuard.NPC.height / 2)), target.Center);
+
+                                    minVal = minVal2;
+                                }
+                            }*/
+
+                            myGuard.NPC.velocity.Y = -19.2f;
+                            myGuard.NPC.velocity.X = (target.Center.X - myGuard.NPC.Center.X) / 40f;
+
+                            //myGuard.NPC.Center = new Vector2(myRoom.Center.X + (minVal * 240), myRoom.Bottom - (myGuard.NPC.height / 2));
+                        }
+                        else if(attackTimer < 80)
+                        {
+                            myGuard.NPC.velocity.Y += 0.48f;
+                            
+                            //teleportFloat -= 1 / 40f;
+                        }
+                        else if(attackTimer < 200)
+                        {
+                            myGuard.NPC.velocity.X = 0;
+
+                            teleportFloat = 0f;
+
+                            //slamming animation
+
+                            if (attackTimer % 40 < 20)
+                            {
+                                if (attackTimer % 40 == 0) myGuard.frameY = 0;
+
+                                if (attackTimer % 4 == 0)
+                                {
+                                    myGuard.frameY++;
+                                }
+                            }
+                            else
+                            {
+                                if (attackTimer % 4 == 0)
+                                {
+                                    Projectile spike1 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X - 124 - (((attackTimer % 20)) * 15) + 62, myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+                                    spike1.spriteDirection = 1;
+
+                                    Projectile spike2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X + (((attackTimer % 20)) * 15) + 62, myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+                                    spike2.spriteDirection = -1;
+                                }
+
+                                myGuard.frameY = 6;
+                            }
+                        }
+                        else 
                         {
                             PickNewAttack(true);
                         }
 
                         break;
-                    case 3: //Scrapwizard shoots hard-hitting and fast shadowflame bolts(not hitscan) at the player while brute moves slowly towards the player
+                    case 3: //Scrapwizard lifts up a table, brute uses it as a springboard to do a slam
+                        if (attackTimer > 200)
+                        {
+                            PickNewAttack(true);
+                        }
 
                         break;
                 }
@@ -1150,13 +1290,13 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             if (phase1)
             {
                 myGuard.frameY = 0;
-                currentAttack = Main.rand.Next(4);
+                currentAttack = Main.rand.Next(3);
                 myGuard.NPC.velocity = Vector2.Zero;
             }
             else
             {
-                //currentAttack = Main.rand.Next(5);
-                currentAttack = 4;
+                currentAttack = Main.rand.Next(5);
+                //currentAttack = 4;
             }
 
             attackTimer = -1;
@@ -1191,7 +1331,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             EEMod.ShadowWarp.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
             EEMod.ShadowWarp.Parameters["newColor"].SetValue(new Vector4(Color.Violet.R, Color.Violet.G, Color.Violet.B, Color.Violet.A) / 255f);
-            EEMod.ShadowWarp.Parameters["lerpVal"].SetValue(1 - MathHelper.Clamp((fightPhase < 2 ? teleportFloat : myGuard.teleportFloat), 0f, 1f));
+            EEMod.ShadowWarp.Parameters["lerpVal"].SetValue(1 - MathHelper.Clamp((teleportFloat), 0f, 1f));
             EEMod.ShadowWarp.Parameters["baseColor"].SetValue(new Vector4(Color.White.R, Color.White.G, Color.White.B, Color.White.A) / 255f);
 
             EEMod.ShadowWarp.CurrentTechnique.Passes[0].Apply();

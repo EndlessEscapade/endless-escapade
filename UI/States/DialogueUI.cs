@@ -43,7 +43,7 @@ namespace EEMod.UI.States
             Box.Width.Set(780, 0f);
             Box.Height.Set(200, 0f);
             Box.HAlign = 0.5f;
-            Box.VAlign = 1f;
+            Box.VAlign = 0.95f;
 
             Background = new DialogueBox();
             Background.HAlign = 0.5f;

@@ -785,6 +785,9 @@ namespace EEMod.Seamap.Content
         public float _myWidth;
 
         public bool left;
+
+        public float counter;
+
         public override void SetDefaults()
         {
             Alpha = 0.8f;
@@ -810,7 +813,7 @@ namespace EEMod.Seamap.Content
 
                     normal.X *= 4f / 3f;
 
-                    _points.Add(myTrail._points[i] - normal * ((myTrail._points.Count() - 1 - i) * _myWidth * (myTrail.velocities[i] / (BindableEntity as SeamapPlayerShip).topSpeed) + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
+                    _points.Add(myTrail._points[i] - normal * ((myTrail._points.Count() - 1 - i) * _myWidth * (myTrail.velocities[i] / (BindableEntity as SeamapPlayerShip).topSpeed) + (1f * (float)Math.Sin((i) + (counter / 10f)))));
                 }
             }
             else
@@ -821,7 +824,7 @@ namespace EEMod.Seamap.Content
 
                     normal.X *= 4f / 3f;
 
-                    _points.Add(myTrail._points[i] + normal * ((myTrail._points.Count() - 1 - i) * _myWidth * (myTrail.velocities[i] / (BindableEntity as SeamapPlayerShip).topSpeed) + (1f * (float)Math.Sin((i / 1f) + (myTrail._counter / 10f)))));
+                    _points.Add(myTrail._points[i] + normal * ((myTrail._points.Count() - 1 - i) * _myWidth * (myTrail.velocities[i] / (BindableEntity as SeamapPlayerShip).topSpeed) + (1f * (float)Math.Sin((i) + (counter / 10f)))));
                 }
             }
 
@@ -900,6 +903,7 @@ namespace EEMod.Seamap.Content
 
         public override void OnUpdate()
         {
+            counter += BindableEntity.velocity.Length();
             _counter++;
             _noOfPoints = _points.Count() * 6;
             if (_cap < _noOfPoints / 6)

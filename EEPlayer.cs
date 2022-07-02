@@ -281,10 +281,10 @@ namespace EEMod
             }
         }
 
-        public override Texture2D GetMapBackgroundImage()
-        {
-            return null;
-        }
+        //public override Texture2D GetMapBackgroundImage()
+        //{
+        //    return null;
+        //}
 
         public override void SaveData(TagCompound tag)
         {

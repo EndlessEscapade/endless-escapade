@@ -34,14 +34,14 @@ namespace EEMod.Players
             CoralReefsPostUpdate();
         }
 
-        public override Texture2D GetMapBackgroundImage()
+        /*public override Texture2D GetMapBackgroundImage()
         {
             if (ZoneCoralReefs)
             {
                 return ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
             }
             return base.GetMapBackgroundImage();
-        }
+        }*/
 
         private void CoralReefsPostUpdate()
         {

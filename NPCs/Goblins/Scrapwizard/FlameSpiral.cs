@@ -19,8 +19,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void SetDefaults()
         {
-            Projectile.width = 0;
-            Projectile.height = 0;
+            Projectile.width = 124;
+            Projectile.height = 168;
 
             Projectile.alpha = 0;
 
@@ -34,7 +34,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             Projectile.damage = 20;
 
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 30;
         }
 
 
@@ -50,13 +50,14 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             if (Projectile.ai[1] == 3) animFlameHeight = 0.8f;
             if (Projectile.ai[1] == 4) animFlameHeight = 1f;
             if (Projectile.ai[1] == 5) animFlameHeight = 0.5f;
+            if (Projectile.ai[1] == 6) Projectile.Kill();
         }
 
         public float animFlameHeight;
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/FlameSpiral").Value, Projectile.position, new Rectangle(0, (int)Projectile.ai[1] * Projectile.height, Projectile.width, Projectile.height), Color.White);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/FlameSpiral").Value, Projectile.position - Main.screenPosition, new Rectangle(0, (int)Projectile.ai[1] * Projectile.height, Projectile.width, Projectile.height), Color.White, 0f, Vector2.Zero, 1f, Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 
             return false;
         }
@@ -64,6 +65,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.spriteDirection == 1 ? Projectile.BottomLeft : Projectile.BottomRight, Vector2.Lerp(Projectile.spriteDirection == 1 ? Projectile.BottomLeft : Projectile.BottomRight, Projectile.spriteDirection == 1 ? Projectile.TopRight : Projectile.TopLeft, animFlameHeight));
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            return false;
         }
     }
 }

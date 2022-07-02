@@ -71,7 +71,10 @@ namespace EEMod
             On.Terraria.Main.DoDraw_Tiles_Solid += DrawCoralReefsBg;
             On.Terraria.Main.DoDraw_UpdateCameraPosition += RenderPrimitives;
 
-            //On.Terraria.WorldGen.
+            On.Terraria.Collision.SolidCollision_Vector2_int_int += Collision_SolidCollision_Vector2_int_int;
+
+            On.Terraria.Main.DoDraw_Tiles_NonSolid += DrawGoblinFortBg;
+
             On.Terraria.UI.IngameFancyUI.Draw += DisableFancyUIOnSeamap;
 
             On.Terraria.Player.Update_NPCCollision += GoblinTableCollision;
@@ -87,6 +90,11 @@ namespace EEMod
                 return;
         }
 
+        private bool Collision_SolidCollision_Vector2_int_int(On.Terraria.Collision.orig_SolidCollision_Vector2_int_int orig, Vector2 Position, int Width, int Height)
+        {
+            throw new NotImplementedException();
+        }
+
         private void UnloadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= RegisterLightPoint;
@@ -99,6 +107,8 @@ namespace EEMod
             On.Terraria.Main.DoDraw_Tiles_Solid -= DrawCoralReefsBg;
             On.Terraria.Main.DoDraw_UpdateCameraPosition -= RenderPrimitives;
 
+            On.Terraria.Main.DoDraw_Tiles_NonSolid -= DrawGoblinFortBg;
+
             On.Terraria.UI.IngameFancyUI.Draw -= DisableFancyUIOnSeamap;
 
             On.Terraria.Player.Update_NPCCollision -= GoblinTableCollision;
@@ -109,6 +119,37 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack -= ManageSaving;
 
             Main.OnPreDraw -= PreparePrimitives;
+        }
+
+        private void DrawGoblinFortBg(On.Terraria.Main.orig_DoDraw_Tiles_NonSolid orig, Main self)
+        {
+            if (SubworldSystem.IsActive<GoblinFort>())
+            {
+                Texture2D bgTex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Background").Value;
+                Texture2D bgTexGlass = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/BackgroundGlass").Value;
+
+                for (int i = 0; i < bgTex.Width; i += 16)
+                {
+                    for (int j = 0; j < bgTex.Height; j += 16)
+                    {
+                        Main.spriteBatch.Draw(bgTex,
+                            new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i, ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) - Main.screenPosition, new Rectangle(i, j, 16, 16),
+                            Lighting.GetColor((int)((((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i) / 16f), (int)((((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) / 16f)),
+                            0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+
+                        Main.spriteBatch.Draw(bgTexGlass,
+                            new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i, ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) - Main.screenPosition, new Rectangle(i, j, 16, 16),
+                            Lighting.GetColor((int)((((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i) / 16f), (int)((((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) / 16f)) * 0.5f,
+                            0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    }
+                }
+
+                Vector2 position = new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16), ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16));
+
+                Main.spriteBatch.Draw(bgTex, position - Main.screenPosition, Color.White);
+            }
+
+            orig(self);
         }
 
         private void DrawCoralReefsBg(On.Terraria.Main.orig_DoDraw_Tiles_Solid orig, Main self)

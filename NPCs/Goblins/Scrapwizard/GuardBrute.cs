@@ -102,10 +102,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             #endregion
             else 
             {
-                switch (myWizard.currentAttack)
-                {
 
-                }
             }
         }
 
