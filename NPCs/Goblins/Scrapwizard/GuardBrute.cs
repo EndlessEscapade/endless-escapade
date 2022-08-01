@@ -127,5 +127,10 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             base.OnKill();
         }
+
+        public override bool? CanFallThroughPlatforms()
+        {
+            return true;
+        }
     }
 }

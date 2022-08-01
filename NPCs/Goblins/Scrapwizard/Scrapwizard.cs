@@ -374,18 +374,18 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 }
                             }*/
 
-                            myGuard.NPC.velocity.Y = -19.2f;
+                            myGuard.NPC.velocity.Y = -24f;
                             myGuard.NPC.velocity.X = (target.Center.X - myGuard.NPC.Center.X) / 40f;
 
                             //myGuard.NPC.Center = new Vector2(myRoom.Center.X + (minVal * 240), myRoom.Bottom - (myGuard.NPC.height / 2));
                         }
-                        else if(attackTimer < 80)
+                        else if(attackTimer < 120)
                         {
-                            myGuard.NPC.velocity.Y += 0.48f;
-                            
+                            if (myGuard.NPC.oldVelocity.Y > 0 && myGuard.NPC.oldVelocity.Y == 0) myGuard.NPC.velocity.X = 0;
+
                             //teleportFloat -= 1 / 40f;
                         }
-                        else if(attackTimer < 200)
+                        else if(attackTimer < 240)
                         {
                             myGuard.NPC.velocity.X = 0;
 
@@ -422,8 +422,74 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         }
 
                         break;
-                    case 3: //Scrapwizard lifts up a table, brute uses it as a springboard to do a slam
-                        if (attackTimer > 200)
+                    case 3:
+                        if (attackTimer < 40)
+                        {
+                            if (attackTimer >= 20)
+                            {
+                                if (attackTimer % 4 == 0)
+                                {
+                                    myGuard.frameY++;
+                                }
+                            }
+
+                            //teleportFloat += 1 / 40f;
+                        }
+                        else if (attackTimer == 40)
+                        {
+                            /*float minDist = 1000000;
+                            int minVal = -2;
+
+                            for(int minVal2 = -2; minVal2 < 3; minVal2++)
+                            {
+                                if(Vector2.Distance(new Vector2(myRoom.Center.X + (minVal2 * 240), myRoom.Bottom - (myGuard.NPC.height / 2)), target.Center) < minDist)
+                                {
+                                    minDist = Vector2.Distance(new Vector2(myRoom.Center.X + (minVal2 * 240), myRoom.Bottom - (myGuard.NPC.height / 2)), target.Center);
+
+                                    minVal = minVal2;
+                                }
+                            }*/
+
+                            myGuard.NPC.velocity.Y = -24f;
+                            myGuard.NPC.velocity.X = (target.Center.X - myGuard.NPC.Center.X) / 40f;
+
+                            //myGuard.NPC.Center = new Vector2(myRoom.Center.X + (minVal * 240), myRoom.Bottom - (myGuard.NPC.height / 2));
+                        }
+                        else if (attackTimer < 120)
+                        {
+                            if (myGuard.NPC.oldVelocity.Y > 0 && myGuard.NPC.oldVelocity.Y == 0) myGuard.NPC.velocity.X = 0;
+
+                            //teleportFloat -= 1 / 40f;
+                        }
+                        else if (attackTimer < 240)
+                        {
+                            myGuard.NPC.velocity.X = 0;
+
+                            teleportFloat = 0f;
+
+                            //slamming animation
+
+                            if (attackTimer % 40 < 20)
+                            {
+                                if (attackTimer % 40 == 0) myGuard.frameY = 0;
+
+                                if (attackTimer % 4 == 0)
+                                {
+                                    myGuard.frameY++;
+                                }
+                            }
+                            else
+                            {
+                                if (attackTimer % 2 == 0)
+                                {
+                                    Projectile spike1 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X - 124 - (((attackTimer % 20)) * 30) + 62, myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+                                    spike1.spriteDirection = 1;
+                                }
+
+                                myGuard.frameY = 6;
+                            }
+                        }
+                        else
                         {
                             PickNewAttack(true);
                         }
