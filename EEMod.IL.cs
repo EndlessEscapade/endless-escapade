@@ -84,27 +84,29 @@ namespace EEMod
 
         private void WorldGenBeaches()
         {
-            MethodInfo genWorld = typeof(WorldGen).GetMethod(nameof(WorldGen.GenerateWorld));
-            using (var dmd = new DynamicMethodDefinition(genWorld))
-            {
-                ILCursor c = new ILCursor(new ILContext(dmd.Definition));
-                MethodReference methodReference = null;
+            /*
+                MethodInfo genWorld = typeof(WorldGen).GetMethod(nameof(WorldGen.GenerateWorld));
+                using (var dmd = new DynamicMethodDefinition(genWorld))
+                {
+                    ILCursor c = new ILCursor(new ILContext(dmd.Definition));
+                    MethodReference methodReference = null;
 
-                if (!c.TryGotoNext(i => i.MatchLdstr("Beaches"),
-                    i => i.MatchLdloc(out _),
-                    i => i.MatchLdftn(out methodReference)
-                    ))
-                    throw new Exception("Could not match beaches generation delegate");
+                    if (!c.TryGotoNext(i => i.MatchLdstr("Beaches"),
+                        i => i.MatchLdloc(out _),
+                        i => i.MatchLdftn(out methodReference)
+                        ))
+                        throw new Exception("Could not match beaches generation delegate");
 
-                if (methodReference == null)
-                    throw new Exception("Method reference for the delegate was null");
+                    if (methodReference == null)
+                        throw new Exception("Method reference for the delegate was null");
 
-                MethodBase delegateMethodBase = methodReference.ResolveReflection();
-                if (delegateMethodBase == null)
-                    throw new Exception("Resolved method base for beaches generation delegate was null");
+                    MethodBase delegateMethodBase = methodReference.ResolveReflection();
+                    if (delegateMethodBase == null)
+                        throw new Exception("Resolved method base for beaches generation delegate was null");
 
-                hooklist.Add((MethodInfo)delegateMethodBase, new ILContext.Manipulator(IL_WorldgenPass_Beaches));
-            }
+                    hooklist.Add((MethodInfo)delegateMethodBase, new ILContext.Manipulator(IL_WorldgenPass_Beaches));
+                }
+             */
         }
 
         // NOTE: the indexes could break after updating

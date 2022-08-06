@@ -31,10 +31,9 @@ namespace EEMod
 
     public partial class EEMod
     {
-        [StaticShaderLoad]
-        public static Effect 
-            Noise2DShift, 
-            WaterShader, 
+        [StaticShaderLoad] public static Effect
+            Noise2DShift,
+            WaterShader,
             SeamapReflectionShader,
             WaterShaderBase,
             SeamapBorderVignette,
