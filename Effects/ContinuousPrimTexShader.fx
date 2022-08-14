@@ -43,7 +43,7 @@ float4 LoopTexFloat(VertexShaderOutput input) : COLOR0
 {
     float4 texColor = tex2D(maskSampler, input.TextureCoordinates);
     
-    return lerp(darkColor, lightColor, texColor.r);
+    return lerp(darkColor, lightColor, texColor.r) * input.Color.a;
 }
 
 technique ContinuousPrimTexShader

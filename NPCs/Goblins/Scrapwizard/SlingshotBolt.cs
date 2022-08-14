@@ -34,7 +34,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             NPC.defense = 0;
 
-            NPC.noTileCollide = true;
+            NPC.noTileCollide = false;
 
             NPC.DeathSound = SoundID.Item10;
 
@@ -43,12 +43,32 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void AI()
         {
-            NPC.ai[0]--;
-            if (NPC.ai[0] == 0) NPC.velocity = Vector2.Normalize(Main.player[(int)NPC.ai[1]].Center - NPC.Center) * 12;
+            if (NPC.ai[0] == 1)
+            {
+                NPC.velocity = Vector2.Normalize(Main.player[(int)NPC.ai[1]].Center - NPC.Center) * 21f;
+
+                NPC.ai[0] = 2;
+            }
+            else if (NPC.ai[0] == 0)
+            {
+                NPC.velocity = Vector2.Zero;
+            }
+            else
+            {
+                if ((NPC.position.X == NPC.oldPosition.X) || (NPC.position.Y == NPC.oldPosition.Y) || (NPC.velocity.X != NPC.oldVelocity.X) || (NPC.velocity.Y != NPC.oldVelocity.Y))
+                {
+                    NPC.StrikeNPC(100000, 0, 0);
+                }
+            }
 
             NPC.rotation = (Main.player[(int)NPC.ai[1]].Center - NPC.Center).ToRotation();
 
             //NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) * 8f, 0.02f);
+        }
+
+        public override bool? CanFallThroughPlatforms()
+        {
+            return true;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -58,6 +78,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
         public override void OnKill()
         {
+            NPC.velocity = Vector2.Zero;
+
             for (int i = 0; i < 10; i++)
             {
                 int dust = Dust.NewDust(NPC.position, 0, 0, DustID.CrystalSerpent_Pink);
@@ -79,7 +101,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             EEMod.LightningShader.Parameters["transformMatrix"].SetValue(view * projection);
 
-            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardHexBolt").Value, NPC.Center - Main.screenPosition, null, Color.Violet, NPC.rotation, new Vector2(12, 12), new Vector2(0.5f, 0.5f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardHexBolt").Value, NPC.Center - Main.screenPosition, null, Color.Violet, NPC.rotation, new Vector2(12, 12), new Vector2(0.5f, 0.3f), SpriteEffects.None, 0f);
 
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 

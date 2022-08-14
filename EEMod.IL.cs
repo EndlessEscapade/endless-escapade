@@ -58,7 +58,7 @@ namespace EEMod
 
             hooklist = new ILHookList();
 
-            WorldGenBeaches();
+            //WorldGenBeaches();
         }
 
         private void UnloadIL()
@@ -82,7 +82,7 @@ namespace EEMod
             c.EmitDelegate<Func<Tile[,], int, int, Tile>>((arrae, i, j) => Framing.GetTileSafely(i, j));
         }
 
-        private void WorldGenBeaches()
+        /*private void WorldGenBeaches()
         {
             MethodInfo genWorld = typeof(WorldGen).GetMethod(nameof(WorldGen.GenerateWorld));
             using (var dmd = new DynamicMethodDefinition(genWorld))
@@ -123,7 +123,7 @@ namespace EEMod
 
                 IL_0035: ldc.i4.1
                 IL_0036: stloc.1
-            */
+            
 
             if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcI4(1),
                 i => i.MatchStloc(0)
@@ -134,7 +134,7 @@ namespace EEMod
             c.Emit(OpCodes.Ldc_I4_0);
             c.Emit(OpCodes.Stloc_S, (byte)0); // (_S means the operand is 1 byte)
                                               // the statement would look like floridaStyle = false;
-        }
+        }*/
 
         public class ILHook : IDisposable
         {

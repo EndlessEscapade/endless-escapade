@@ -71,5 +71,18 @@ namespace EEMod.Prim
         }
 
         public void CreateTrail(Primitive PT) => _trails.Add(PT);
+
+        public void ClearTrailsOn(Entity entity)
+        {
+            //Primitive[] temp = _trails.ToArray();
+            for(int i = 0; i < _trails.Count; i++)
+            {
+                if(_trails[i].BindableEntity == entity)
+                {
+                    _trails[i].Dispose();
+                }
+            }
+            //_trails = new List<Primitive>(temp);
+        }
     }
 }

@@ -64,14 +64,14 @@ namespace EEMod.Items.Weapons.Mage
 
             Vector2 travelPos;
 
-            if (Vector2.DistanceSquared(Main.LocalPlayer.Center, Main.MouseWorld) > 192 * 192)
-                travelPos = Main.LocalPlayer.Center + (Vector2.Normalize(desiredPos) * 192f);
+            if (Vector2.DistanceSquared(Main.LocalPlayer.Center, Main.MouseWorld) > 1000 * 1000)
+                travelPos = Main.LocalPlayer.Center + (Vector2.Normalize(desiredPos) * 1000);
             else
                 travelPos = Main.LocalPlayer.Center + (Vector2.Normalize(desiredPos) * Vector2.Distance(Main.LocalPlayer.Center, Main.MouseWorld));
 
             if(stunned <= 0) Projectile.velocity = (travelPos - Projectile.Center) + Main.LocalPlayer.velocity;
 
-            if (Vector2.Distance(Projectile.Center, Main.LocalPlayer.Center) <= 128)
+            if (Vector2.Distance(Projectile.Center, Main.LocalPlayer.Center) <= 1000)
                 if (Projectile.velocity.LengthSquared() > 16 * 16) Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 16f * MathHelper.Clamp(-stunned / 3f, -1, 1);
             else
                 if (Projectile.velocity.LengthSquared() > 64 * 64) Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 64f;
@@ -192,6 +192,8 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool PreDraw(ref Color lightColor)
         {
+            return false;
+
             if (Main.LocalPlayer.controlUseItem) frame = 1;
             else frame = 0;
 

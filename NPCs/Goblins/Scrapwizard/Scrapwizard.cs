@@ -33,6 +33,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public List<Projectile> scrapbits;
         public List<Projectile> activeScrap;
 
+        public List<int> slingshotBolts = new List<int>();
+
         public float teleportFloat;
 
         public bool threeSwing;
@@ -55,6 +57,24 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
         public ref float attackTimer => ref NPC.ai[1];
         public ref float activeChandelierID => ref NPC.ai[2];
         public ref float chandelierSwingTimer => ref NPC.ai[3];
+
+
+        public Vector2 staffVelocity;
+        public Vector2 oldSwordOrig;
+        public bool staffReturned;
+
+
+        Easing.CurveSegment anticipation = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.15f);
+        Easing.CurveSegment swingback = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0.15f, -0.15f, 0.15f);
+        Easing.CurveSegment slash = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.3f, 0f, 1.3f);
+
+        //Easing.CurveSegment anticipation2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
+        Easing.CurveSegment swingback2 = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0f, 1.3f, -0.1f);
+        Easing.CurveSegment slash2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.15f, 1f, -1.1f);
+
+        //Easing.CurveSegment anticipation3 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
+        Easing.CurveSegment slash3 = new Easing.CurveSegment(Easing.EasingType.PolyIn, 0f, -0.1f, 3.3f, 2);
+
 
         public override void SetStaticDefaults()
         {
@@ -196,9 +216,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             {
                 switch (currentAttack)
                 {
-                    case 0: //teleports the brute behind the player and then does a rapid slam
-                            //less than a second to teleport
-
+                    case 0:
                         if (attackTimer < 40)
                         {
                             teleportFloat += 1 / 40f;
@@ -257,9 +275,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             PickNewAttack(true);
                         }
                         break;
-                    case 1: //Brute leaps towards the player, and does a punch down when above, and slams fist into the ground so he gets stuck briefly,
-                            //sends out shadowflame fire ripples to either side of him
-                            //less than a second to teleport
+                    case 1:
                         if (attackTimer < 40)
                         {
                             if (attackTimer >= 20)
@@ -285,14 +301,16 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             {
                                 if (attackTimer % 15 == 0)
                                 {
-                                    int newBolt = NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ShadowflameHexBolt>(), 20, 2, Main.myPlayer);
+                                    int newBolt = NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SlingshotBolt>(), 20, 0, Main.myPlayer);
 
-                                    Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + NPC.velocity) * 3);
+                                    Main.npc[newBolt].velocity = Vector2.Zero;
 
                                     PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet, 20, 10, true));
                                     PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet * 0.5f, 16, 10));
 
                                     SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+
+                                    slingshotBolts.Add(newBolt);
                                 } //Make it so the bolts "slingshot" when brute hits the ground
 
                                 if (attackTimer % 3 == 0 && (myGuard.NPC.velocity.X == 0 || Math.Abs(myGuard.NPC.Center.Y - myRoom.Bottom) < 250) && myGuard.frameY < 5)
@@ -318,6 +336,13 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 if (((myGuard.NPC.velocity.Y <= 0 && myGuard.NPC.oldVelocity.Y > 0) || (myGuard.NPC.position.Y == myGuard.NPC.oldPosition.Y)))
                                 {
                                     //Send out shadowflame spirals to left and right of brute's fist
+
+                                    foreach(int slingshotBolt in slingshotBolts)
+                                    {
+                                        Main.npc[slingshotBolt].ai[0] = 1;
+                                    }
+
+                                    slingshotBolts.Clear();
 
                                     Projectile spike1 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X - 124 + 62 - 30, myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
                                     spike1.spriteDirection = 1;
@@ -375,7 +400,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             }*/
 
                             myGuard.NPC.velocity.Y = -24f;
-                            myGuard.NPC.velocity.X = (target.Center.X - myGuard.NPC.Center.X) / 40f;
+                            myGuard.NPC.velocity.X = (target.Center.X - myGuard.NPC.Center.X) / 80f;
 
                             //myGuard.NPC.Center = new Vector2(myRoom.Center.X + (minVal * 240), myRoom.Bottom - (myGuard.NPC.height / 2));
                         }
@@ -437,23 +462,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         }
                         else if (attackTimer == 40)
                         {
-                            /*float minDist = 1000000;
-                            int minVal = -2;
-
-                            for(int minVal2 = -2; minVal2 < 3; minVal2++)
-                            {
-                                if(Vector2.Distance(new Vector2(myRoom.Center.X + (minVal2 * 240), myRoom.Bottom - (myGuard.NPC.height / 2)), target.Center) < minDist)
-                                {
-                                    minDist = Vector2.Distance(new Vector2(myRoom.Center.X + (minVal2 * 240), myRoom.Bottom - (myGuard.NPC.height / 2)), target.Center);
-
-                                    minVal = minVal2;
-                                }
-                            }*/
-
                             myGuard.NPC.velocity.Y = -24f;
-                            myGuard.NPC.velocity.X = (target.Center.X - myGuard.NPC.Center.X) / 40f;
-
-                            //myGuard.NPC.Center = new Vector2(myRoom.Center.X + (minVal * 240), myRoom.Bottom - (myGuard.NPC.height / 2));
+                            myGuard.NPC.velocity.X = (target.Center.X - myGuard.NPC.Center.X) / 80f;
                         }
                         else if (attackTimer < 120)
                         {
@@ -482,8 +492,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                             {
                                 if (attackTimer % 2 == 0)
                                 {
-                                    Projectile spike1 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X - 124 - (((attackTimer % 20)) * 30) + 62, myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
-                                    spike1.spriteDirection = 1;
+                                    Projectile spike1 = Projectile.NewProjectileDirect(new Terraria.DataStructures.EntitySource_Parent(NPC), new Vector2(myGuard.NPC.Center.X + (30 * myGuard.NPC.spriteDirection) + (((attackTimer % 20)) * 30 * myGuard.NPC.spriteDirection), myRoom.Bottom - (168 / 2)), Vector2.Zero, ModContent.ProjectileType<FlameSpiral>(), 0, 0);
+                                    spike1.spriteDirection = -myGuard.NPC.spriteDirection;
                                 }
 
                                 myGuard.frameY = 6;
@@ -552,11 +562,18 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 {
                     if (teleportFloat > 0) teleportFloat -= 1 / 40f;
                 }
-                else if (attackTimer < 100)
+                else if (attackTimer == 80)
+                {
+                    PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(scrapbits[5], NPC, 48f));
+
+                    PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[5], NPC, 24f, 0.65f));
+                    PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[5], NPC, 16f, 0.95f));
+                }
+                else if (attackTimer < 700)
                 {
 
                 }
-                else if (attackTimer == 100)
+                else if (attackTimer == 700)
                 {
                     //TODO
                     //Jump up to chandeliers instead of just starting the fight
@@ -578,11 +595,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                     //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/goblincry1"));
                 }
-                else if (attackTimer < 160)
+                else if (attackTimer < 760)
                 {
                     NPC.rotation -= 0.25f;
                 }
-                else if (attackTimer >= 160)
+                else if (attackTimer >= 760)
                 {
                     fightPhase = 3;
                     attackTimer = 0;
@@ -601,10 +618,12 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_Parent(NPC), flamePos, Vector2.Zero, ModContent.ProjectileType<Shadowfire>(), 0, 0);
                     }
 
+                    PrimitiveSystem.primitives.ClearTrailsOn(scrapbits[5]);
+
                     return;
                 }
 
-                if (attackTimer >= 40)
+                if (attackTimer >= 100)
                 {
                     foreach (Projectile table in tables)
                     {
@@ -837,6 +856,14 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 }
                             }
 
+                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(scrapbits[0], NPC, 48f));
+                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[0], NPC, 24f, 0.65f));
+                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[0], NPC, 16f, 0.95f));
+
+                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(scrapbits[1], NPC, 48f));
+                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[1], NPC, 24f, 0.65f));
+                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[1], NPC, 16f, 0.95f));
+
                             (activeScrap[0].ModProjectile as LargeScrap).movementDuration = 30 + 30 + 65;
                             (activeScrap[1].ModProjectile as LargeScrap).movementDuration = 30 + 30 + 65;
                             (activeScrap[2].ModProjectile as LargeScrap).movementDuration = 30 + 30 + 65;
@@ -855,6 +882,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         if (attackTimer >= (181 * 2) + 60)
                         {
+                            PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[0]);
+                            PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[1]);
+                            PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[2]);
+                            PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[3]);
+                            
                             PickNewAttack(false);
                         }
 
@@ -882,6 +914,17 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                                 (activeScrap[2].ModProjectile as LargeScrap).AttackPhase = 1;
                                 (activeScrap[3].ModProjectile as LargeScrap).AttackPhase = 1;
+
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(activeScrap[2], NPC, 48f));
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[2], NPC, 24f, 0.65f));
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[2], NPC, 16f, 0.95f));
+
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(activeScrap[3], NPC, 48f));
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[3], NPC, 24f, 0.65f));
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[3], NPC, 16f, 0.95f));
+
+                                PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[0]);
+                                PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[1]);
 
                                 float randFloat = 0;
                                 float randFloat2 = 0;
@@ -926,6 +969,17 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                                 (activeScrap[0].ModProjectile as LargeScrap).AttackPhase = 1;
                                 (activeScrap[1].ModProjectile as LargeScrap).AttackPhase = 1;
+
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(activeScrap[0], NPC, 48f));
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[0], NPC, 24f, 0.65f));
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[0], NPC, 16f, 0.95f));
+
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(activeScrap[1], NPC, 48f));
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[1], NPC, 24f, 0.65f));
+                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[1], NPC, 16f, 0.95f));
+
+                                PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[2]);
+                                PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[3]);
 
                                 float randFloat = 0;
                                 float randFloat2 = 0;
@@ -1340,23 +1394,12 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             }
         }
 
-        Easing.CurveSegment anticipation = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.15f);
-        Easing.CurveSegment swingback = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0.15f, -0.15f, 0.15f);
-        Easing.CurveSegment slash = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.3f, 0f, 1.3f);
-
-        //Easing.CurveSegment anticipation2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
-        Easing.CurveSegment swingback2 = new Easing.CurveSegment(Easing.EasingType.ExpIn, 0f, 1.3f, -0.1f);
-        Easing.CurveSegment slash2 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0.15f, 1f, -1.1f);
-
-        //Easing.CurveSegment anticipation3 = new Easing.CurveSegment(Easing.EasingType.ExpOut, 0f, 0f, -0.1f);
-        Easing.CurveSegment slash3 = new Easing.CurveSegment(Easing.EasingType.PolyIn, 0f, -0.1f, 3.3f, 2);
-
         public void PickNewAttack(bool phase1)
         {
             if (phase1)
             {
                 myGuard.frameY = 0;
-                currentAttack = Main.rand.Next(3);
+                currentAttack = Main.rand.Next(4);
                 myGuard.NPC.velocity = Vector2.Zero;
             }
             else
@@ -1418,13 +1461,11 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             return false;
         }
 
-        public Vector2 staffVelocity;
-        public Vector2 oldSwordOrig;
-        public bool staffReturned;
-
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/ScrapwizardStaff").Value;
+
+            InitShader(spriteBatch);
 
             if (fightPhase == 3 && currentAttack == 4)
             {
@@ -1481,6 +1522,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             }
             else
             {
+                staffPos = NPC.Center;
+
                 spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
             }
 
@@ -1506,7 +1549,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (attackTimer % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[3].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
                     spriteBatch.Draw(telegraphTex, new Rectangle(pos.X, pos.Y, 10, (int)Vector2.Distance((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint, attackVector)), null, Color.Pink * MathHelper.Clamp(1 + ((20 - (attackTimer % 100)) / 20f), 0, 1) * 0.75f, ((attackChandelier.ModProjectile as GoblinChandelierLight).trails[6].startPoint - attackVector).ToRotation() - (MathHelper.Pi / 2f), new Vector2(37 / 2f, 0), SpriteEffects.None, 0f);
                 }
-                if (currentAttack == 1 && (attackTimer % 100) > 48 && (attackTimer % 100) <= 60)
+                /*if (currentAttack == 1 && (attackTimer % 100) > 48 && (attackTimer % 100) <= 60)
                 {
                     spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
@@ -1515,7 +1558,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     Vector2 pos = (attackChandelier.Center - Main.screenPosition);
 
                     spriteBatch.Draw(godrayTex, pos, null, Color.Pink, Main.GameUpdateCount / 15f, godrayTex.TextureCenter(), 0.33f * Math.Sin(((attackTimer % 100) - 48) * MathHelper.Pi / 12f).PositiveSin(), SpriteEffects.None, 0f);
-                }
+                }*/
             }
 
             spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);

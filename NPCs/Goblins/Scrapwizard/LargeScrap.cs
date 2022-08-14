@@ -96,7 +96,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 case 1: //Moving towards a given position and rotation over a given duration
                     if (movementTimer < 30)
                     {
-                        Projectile.Center -= Vector2.UnitX.RotatedBy(Projectile.rotation) * MathHelper.Clamp((30 - movementTimer) / 5F, 0, 15);
+                        Projectile.Center -= Vector2.UnitX.RotatedBy(Projectile.rotation) * MathHelper.Clamp((30 - movementTimer) / 5f, 0, 15);
                     }
                     else if (movementTimer == 30)
                     {
