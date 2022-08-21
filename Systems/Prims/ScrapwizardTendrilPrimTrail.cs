@@ -16,7 +16,7 @@ using EEMod.NPCs.Goblins.Scrapwizard;
 
 namespace EEMod.Prim
 {
-    class ScrapwizardTendrilPrimTrail : Primitive
+    public class ScrapwizardTendrilPrimTrail : Primitive
     {
         public ScrapwizardTendrilPrimTrail(Projectile projectile, NPC _targetEntity, float width = 1, float alpha = 1f) : base(projectile)
         {
@@ -34,6 +34,8 @@ namespace EEMod.Prim
             behindTiles = false;
             pixelated = true;
             manualDraw = true;
+
+            Main.NewText(BindableEntity.whoAmI);
         }
 
         public NPC targetEntity;
@@ -60,7 +62,7 @@ namespace EEMod.Prim
 
             for (int i = 0; i < _points.Count - 1; i++)
             {
-                widthVar = _width * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f);
+                widthVar = _width * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp((i / 10f) * (i / 10f), 0f, 1f) * MathHelper.Clamp(((_points.Count - i) / 10f) * ((_points.Count - i) / 10f), 0f, 1f);
 
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
@@ -70,13 +72,13 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstDown, Color.White * Alpha * (0.65f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.35f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, Color.White * Alpha * (0.65f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.35f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, Color.White * Alpha * (0.65f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.35f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
 
-                AddVertex(secondUp, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2((((i + (_counter / 4f)) / (float)_cap)) % 1, 0));
+                AddVertex(secondUp, Color.White * Alpha * (0.65f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.35f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, Color.White * Alpha * (0.65f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.35f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, Color.White * Alpha * (0.65f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.35f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2((((i + (_counter / 4f)) / (float)_cap)) % 1, 0));
             }
         }
 
@@ -139,18 +141,18 @@ namespace EEMod.Prim
 
             _points.Clear();
 
-            Vector2 dir = Vector2.Normalize(BindableEntity.Center - (targetEntity.ModNPC as Scrapwizard).staffPos).RotatedBy(MathHelper.PiOver2);
+            Vector2 dir = Vector2.Normalize(BindableEntity.Center - (targetEntity.ModNPC as Scrapwizard).staffCastPos).RotatedBy(MathHelper.PiOver2);
 
             for (int i = 0; i < _cap; i++)
             {
-                Vector2 lerp1 = (targetEntity.ModNPC as Scrapwizard).staffPos;
+                Vector2 lerp1 = (targetEntity.ModNPC as Scrapwizard).staffCastPos;
                 Vector2 lerp2 = BindableEntity.Center;
 
                 Vector2 lerpFinal = Vector2.Lerp(lerp1, lerp2, (i / (float)_cap)) +
                    dir *
                    (0.5f - 0.5f * (float)Math.Cos(((float)i / (float)_cap) * MathHelper.TwoPi)) *
                    ((float)Math.Sin((i / 24f) - 2f * (Main.GameUpdateCount / 15f)) / 2f + (float)Math.Sin((i / 24f) - 3f * (Main.GameUpdateCount / 16f)) / 2f)
-                    * MathHelper.Clamp(0f, 1f, Vector2.Distance(BindableEntity.Center, (targetEntity.ModNPC as Scrapwizard).staffPos) / 500f) * 15f;
+                    * MathHelper.Clamp(0f, 1f, Vector2.Distance(BindableEntity.Center, (targetEntity.ModNPC as Scrapwizard).staffCastPos)) * 20f;
 
                 _points.Add(lerpFinal);
             }
@@ -158,7 +160,9 @@ namespace EEMod.Prim
 
         public override void OnDestroy()
         {
-            Dispose();
+            Alpha *= 0.95f;
+
+            if (Alpha < 0.1f) Dispose();
         }
 
         public override void PostDraw()
@@ -166,8 +170,8 @@ namespace EEMod.Prim
             Main.spriteBatch.End(); Main.spriteBatch.Begin();
         }
     }
-
-    class ScrapwizardTendrilPrimTrail2 : Primitive
+    
+    public class ScrapwizardTendrilPrimTrail2 : Primitive
     {
         public ScrapwizardTendrilPrimTrail2(Projectile projectile, NPC _targetEntity, float width = 1) : base(projectile)
         {
@@ -185,6 +189,8 @@ namespace EEMod.Prim
             behindTiles = true;
             pixelated = true;
             manualDraw = true;
+
+            Main.NewText(BindableEntity.whoAmI);
         }
 
         public NPC targetEntity;
@@ -211,7 +217,7 @@ namespace EEMod.Prim
 
             for (int i = 0; i < _points.Count - 1; i++)
             {
-                widthVar = _width * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f);
+                widthVar = _width * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp((i / 10f) * (i / 10f), 0f, 1f);
 
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
@@ -221,13 +227,13 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstDown, Color.White * Alpha * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, Color.White * Alpha * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2(((i + (_counter / 4f)) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, Color.White * Alpha * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
 
-                AddVertex(secondUp, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, Color.White * Alpha * (0.85f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.15f), new Vector2((((i + (_counter / 4f)) / (float)_cap)) % 1, 0));
+                AddVertex(secondUp, Color.White * Alpha * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, Color.White * Alpha * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2((((i + (_counter / 4f)) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, Color.White * Alpha * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp(_counter / 10f, 0f, 1f), new Vector2((((i + (_counter / 4f)) / (float)_cap)) % 1, 0));
             }
         }
 
@@ -275,18 +281,18 @@ namespace EEMod.Prim
 
             _points.Clear();
 
-            Vector2 dir = Vector2.Normalize(BindableEntity.Center - (targetEntity.ModNPC as Scrapwizard).staffPos).RotatedBy(MathHelper.PiOver2);
+            Vector2 dir = Vector2.Normalize(BindableEntity.Center - (targetEntity.ModNPC as Scrapwizard).staffCastPos).RotatedBy(MathHelper.PiOver2);
 
             for (int i = 0; i < _cap; i++)
             {
-                Vector2 lerp1 = (targetEntity.ModNPC as Scrapwizard).staffPos;
+                Vector2 lerp1 = (targetEntity.ModNPC as Scrapwizard).staffCastPos;
                 Vector2 lerp2 = BindableEntity.Center;
 
                 Vector2 lerpFinal = Vector2.Lerp(lerp1, lerp2, (i / (float)_cap)) +
                    dir *
                    (0.5f - 0.5f * (float)Math.Cos(((float)i / (float)_cap) * MathHelper.TwoPi)) *
                    ((float)Math.Sin((i / 24f) - 2f * (Main.GameUpdateCount / 15f)) / 2f + (float)Math.Sin((i / 24f) - 3f * (Main.GameUpdateCount / 16f)) / 2f)
-                    * MathHelper.Clamp(0f, 1f, Vector2.Distance(BindableEntity.Center, (targetEntity.ModNPC as Scrapwizard).staffPos) / 500f) * 15f;
+                    * MathHelper.Clamp(0f, 1f, Vector2.Distance(BindableEntity.Center, (targetEntity.ModNPC as Scrapwizard).staffCastPos)) * 20f;
 
                 _points.Add(lerpFinal);
             }
@@ -294,7 +300,9 @@ namespace EEMod.Prim
 
         public override void OnDestroy()
         {
-            Dispose();
+            Alpha *= 0.95f;
+
+            if(Alpha < 0.1f) Dispose();
         }
 
         public override void PostDraw()

@@ -141,6 +141,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                     break;
 
                 case 2: //Firing
+                    PrimitiveSystem.primitives.ClearTrailsOn(Projectile);
+
                     Projectile.velocity = Vector2.UnitX.RotatedBy(Projectile.rotation) * 80f;
 
                     break;

@@ -853,7 +853,7 @@ namespace EEMod.Seamap.Content
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
 
-                float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
+                float j = (_cap - ((float)(Math.Sin(_counter / 3f)) * 1) - i * 0.1f) / _cap;
                 widthVar *= j;
 
                 Vector2 firstUp = _points[i] - normal * widthVar;

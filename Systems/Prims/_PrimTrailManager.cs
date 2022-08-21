@@ -75,13 +75,30 @@ namespace EEMod.Prim
         public void ClearTrailsOn(Entity entity)
         {
             //Primitive[] temp = _trails.ToArray();
-            for(int i = 0; i < _trails.Count; i++)
+
+            Main.NewText("Entity attempt: " + entity.whoAmI);
+
+            for (int i = 0; i < _trails.Count; i++)
             {
-                if(_trails[i].BindableEntity == entity)
+                if (_trails[i] == null)
                 {
-                    _trails[i].Dispose();
+                    //_trails.RemoveAt(i);
+                    continue;
+                }
+                if (_trails[i].BindableEntity == null)
+                { 
+                    //_trails.RemoveAt(i);
+                    continue;
+                }
+
+                if (_trails[i].BindableEntity.whoAmI == entity.whoAmI)
+                {
+                    _trails[i].OnDestroy();
+
+                    Main.NewText("match found " + entity.whoAmI);
                 }
             }
+
             //_trails = new List<Primitive>(temp);
         }
     }

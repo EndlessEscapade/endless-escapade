@@ -71,9 +71,8 @@ namespace EEMod
             On.Terraria.Main.DoDraw_Tiles_Solid += DrawCoralReefsBg;
             On.Terraria.Main.DoDraw_UpdateCameraPosition += RenderPrimitives;
 
-            On.Terraria.Collision.SolidCollision_Vector2_int_int += Collision_SolidCollision_Vector2_int_int;
-
-            On.Terraria.Main.DoDraw_Tiles_NonSolid += DrawGoblinFortBg;
+            On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
+            //On.Terraria.Main.DoDraw_Tiles_NonSolid += DrawGoblinFortBg;
 
             On.Terraria.UI.IngameFancyUI.Draw += DisableFancyUIOnSeamap;
 
@@ -90,11 +89,6 @@ namespace EEMod
                 return;
         }
 
-        private bool Collision_SolidCollision_Vector2_int_int(On.Terraria.Collision.orig_SolidCollision_Vector2_int_int orig, Vector2 Position, int Width, int Height)
-        {
-            throw new NotImplementedException();
-        }
-
         private void UnloadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= RegisterLightPoint;
@@ -107,7 +101,7 @@ namespace EEMod
             On.Terraria.Main.DoDraw_Tiles_Solid -= DrawCoralReefsBg;
             On.Terraria.Main.DoDraw_UpdateCameraPosition -= RenderPrimitives;
 
-            On.Terraria.Main.DoDraw_Tiles_NonSolid -= DrawGoblinFortBg;
+            On.Terraria.Main.DoDraw_WallsAndBlacks -= DrawGoblinFortBg;
 
             On.Terraria.UI.IngameFancyUI.Draw -= DisableFancyUIOnSeamap;
 
@@ -121,8 +115,10 @@ namespace EEMod
             Main.OnPreDraw -= PreparePrimitives;
         }
 
-        private void DrawGoblinFortBg(On.Terraria.Main.orig_DoDraw_Tiles_NonSolid orig, Main self)
+        private void DrawGoblinFortBg(On.Terraria.Main.orig_DoDraw_WallsAndBlacks orig, Main self)
         {
+            orig(self);
+
             if (SubworldSystem.IsActive<GoblinFort>())
             {
                 Texture2D bgTex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Background").Value;
@@ -148,8 +144,6 @@ namespace EEMod
 
                 Main.spriteBatch.Draw(bgTex, position - Main.screenPosition, Color.White);
             }
-
-            orig(self);
         }
 
         private void DrawCoralReefsBg(On.Terraria.Main.orig_DoDraw_Tiles_Solid orig, Main self)

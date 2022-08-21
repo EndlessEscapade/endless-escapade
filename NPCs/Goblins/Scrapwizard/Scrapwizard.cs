@@ -564,10 +564,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 }
                 else if (attackTimer == 80)
                 {
-                    PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(scrapbits[5], NPC, 48f));
-
-                    PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[5], NPC, 24f, 0.65f));
-                    PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[5], NPC, 16f, 0.95f));
+                    MakeTendrilTrail(scrapbits[5]);
                 }
                 else if (attackTimer < 700)
                 {
@@ -856,13 +853,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 }
                             }
 
-                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(scrapbits[0], NPC, 48f));
-                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[0], NPC, 24f, 0.65f));
-                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[0], NPC, 16f, 0.95f));
-
-                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(scrapbits[1], NPC, 48f));
-                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[1], NPC, 24f, 0.65f));
-                            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(scrapbits[1], NPC, 16f, 0.95f));
+                            MakeTendrilTrail(activeScrap[0]);
+                            MakeTendrilTrail(activeScrap[1]);
 
                             (activeScrap[0].ModProjectile as LargeScrap).movementDuration = 30 + 30 + 65;
                             (activeScrap[1].ModProjectile as LargeScrap).movementDuration = 30 + 30 + 65;
@@ -882,11 +874,6 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
                         if (attackTimer >= (181 * 2) + 60)
                         {
-                            PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[0]);
-                            PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[1]);
-                            PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[2]);
-                            PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[3]);
-                            
                             PickNewAttack(false);
                         }
 
@@ -915,16 +902,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 (activeScrap[2].ModProjectile as LargeScrap).AttackPhase = 1;
                                 (activeScrap[3].ModProjectile as LargeScrap).AttackPhase = 1;
 
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(activeScrap[2], NPC, 48f));
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[2], NPC, 24f, 0.65f));
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[2], NPC, 16f, 0.95f));
-
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(activeScrap[3], NPC, 48f));
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[3], NPC, 24f, 0.65f));
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[3], NPC, 16f, 0.95f));
-
-                                PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[0]);
-                                PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[1]);
+                                MakeTendrilTrail(activeScrap[2]);
+                                MakeTendrilTrail(activeScrap[3]);
 
                                 float randFloat = 0;
                                 float randFloat2 = 0;
@@ -970,16 +949,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                                 (activeScrap[0].ModProjectile as LargeScrap).AttackPhase = 1;
                                 (activeScrap[1].ModProjectile as LargeScrap).AttackPhase = 1;
 
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(activeScrap[0], NPC, 48f));
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[0], NPC, 24f, 0.65f));
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[0], NPC, 16f, 0.95f));
-
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(activeScrap[1], NPC, 48f));
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[1], NPC, 24f, 0.65f));
-                                PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(activeScrap[1], NPC, 16f, 0.95f));
-
-                                PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[2]);
-                                PrimitiveSystem.primitives.ClearTrailsOn(activeScrap[3]);
+                                MakeTendrilTrail(activeScrap[0]);
+                                MakeTendrilTrail(activeScrap[1]);
 
                                 float randFloat = 0;
                                 float randFloat2 = 0;
@@ -1394,6 +1365,13 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             }
         }
 
+        public void MakeTendrilTrail(Projectile tendrilTarget)
+        {
+            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail2(tendrilTarget, NPC, 48f));
+            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(tendrilTarget, NPC, 24f, 0.65f));
+            PrimitiveSystem.primitives.CreateTrail(new ScrapwizardTendrilPrimTrail(tendrilTarget, NPC, 16f, 0.95f));
+        }
+
         public void PickNewAttack(bool phase1)
         {
             if (phase1)
@@ -1404,8 +1382,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             }
             else
             {
-                currentAttack = Main.rand.Next(5);
-                //currentAttack = 4;
+                //currentAttack = Main.rand.Next(5);
+                currentAttack = 3;
             }
 
             attackTimer = -1;
@@ -1460,6 +1438,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
 
             return false;
         }
+
+        public Vector2 staffCastPos;
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -1523,6 +1503,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             else
             {
                 staffPos = NPC.Center;
+
+                staffCastPos = staffPos + new Vector2(0, -28).RotatedBy(NPC.rotation);
 
                 spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.White, NPC.rotation, tex.Size() / 2f, 1f, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
             }

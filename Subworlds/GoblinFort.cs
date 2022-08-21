@@ -279,10 +279,10 @@ namespace EEMod.Subworlds
 
                 PlaceTileEntity(hallX + (432 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
                 PlaceTileEntity(hallX + (640 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
-                PlaceTileEntity(hallX + (864 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
-                PlaceTileEntity(hallX + (1104 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
-                PlaceTileEntity(hallX + (1376 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
-                PlaceTileEntity(hallX + (1616 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+                PlaceTileEntity(hallX + (848 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+                PlaceTileEntity(hallX + (1088 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+                PlaceTileEntity(hallX + (1392 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
+                PlaceTileEntity(hallX + (1632 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
                 PlaceTileEntity(hallX + (1840 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
                 PlaceTileEntity(hallX + (2048 / 16), hallY + (464 / 16), ModContent.TileType<GoblinBannerBig>(), ModContent.GetInstance<GoblinBannerBigTE>());
 
@@ -329,7 +329,7 @@ namespace EEMod.Subworlds
 
                         if (!Framing.GetTileSafely(i, j).HasTile && Framing.GetTileSafely(i, j).LiquidAmount >= 64)
                         {
-                            if (Main.rand.Next(80) == 0)
+                            if (Main.rand.NextBool(80))
                             {
                                 switch (WorldGen.genRand.NextBool())
                                 {

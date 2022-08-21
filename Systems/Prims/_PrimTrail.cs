@@ -21,7 +21,7 @@ namespace EEMod.Prim
 
         protected GraphicsDevice _device { get; private set; }
         protected Effect _effect { get; set; }
-        public Entity BindableEntity { get; set; }
+        public Entity BindableEntity;
         protected ITrailShader TrailShader { get; set; }
 
         public float _width;

@@ -106,8 +106,8 @@ namespace EEMod
 
                     hooklist.Add((MethodInfo)delegateMethodBase, new ILContext.Manipulator(IL_WorldgenPass_Beaches));
                 }
-             */
-        }
+             
+        }*/
 
         // NOTE: the indexes could break after updating
         private static void IL_WorldgenPass_Beaches(ILContext il)
@@ -125,7 +125,7 @@ namespace EEMod
 
                 IL_0035: ldc.i4.1
                 IL_0036: stloc.1
-            
+
 
             if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcI4(1),
                 i => i.MatchStloc(0)
@@ -137,6 +137,8 @@ namespace EEMod
             c.Emit(OpCodes.Stloc_S, (byte)0); // (_S means the operand is 1 byte)
                                               // the statement would look like floridaStyle = false;
         }*/
+        }
+        
 
         public class ILHook : IDisposable
         {
