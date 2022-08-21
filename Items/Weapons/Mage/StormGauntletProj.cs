@@ -48,7 +48,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void AI()
         {
-            if(Projectile.ai[1] == 0)
+            if (Projectile.ai[1] == 0)
             {
                 PrimitiveSystem.primitives.CreateTrail(new StormGauntletPrimTrail(Projectile, 18f, 1f));
                 PrimitiveSystem.primitives.CreateTrail(new StormGauntletPrimTrail(Projectile, 18f, 1f));
@@ -64,16 +64,16 @@ namespace EEMod.Items.Weapons.Mage
 
             Vector2 travelPos;
 
-            if (Vector2.DistanceSquared(Main.LocalPlayer.Center, Main.MouseWorld) > 1000 * 1000)
-                travelPos = Main.LocalPlayer.Center + (Vector2.Normalize(desiredPos) * 1000);
+            if (Vector2.DistanceSquared(Main.LocalPlayer.Center, Main.MouseWorld) > 192 * 192)
+                travelPos = Main.LocalPlayer.Center + (Vector2.Normalize(desiredPos) * 192f);
             else
                 travelPos = Main.LocalPlayer.Center + (Vector2.Normalize(desiredPos) * Vector2.Distance(Main.LocalPlayer.Center, Main.MouseWorld));
 
-            if(stunned <= 0) Projectile.velocity = (travelPos - Projectile.Center) + Main.LocalPlayer.velocity;
+            if (stunned <= 0) Projectile.velocity = (travelPos - Projectile.Center) + Main.LocalPlayer.velocity;
 
-            if (Vector2.Distance(Projectile.Center, Main.LocalPlayer.Center) <= 1000)
+            if (Vector2.Distance(Projectile.Center, Main.LocalPlayer.Center) <= 128)
                 if (Projectile.velocity.LengthSquared() > 16 * 16) Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 16f * MathHelper.Clamp(-stunned / 3f, -1, 1);
-            else
+                else
                 if (Projectile.velocity.LengthSquared() > 64 * 64) Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 64f;
 
 
@@ -124,7 +124,7 @@ namespace EEMod.Items.Weapons.Mage
             }
             else
             {
-                if(grabbed != null)
+                if (grabbed != null)
                 {
                     grabbed.velocity = Projectile.velocity + Main.LocalPlayer.velocity;
 
@@ -134,7 +134,7 @@ namespace EEMod.Items.Weapons.Mage
                 }
             }
 
-            if(grabbed != null)
+            if (grabbed != null)
             {
                 grabbed.Center = Projectile.Center;
             }
@@ -192,14 +192,12 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool PreDraw(ref Color lightColor)
         {
-            return false;
-
             if (Main.LocalPlayer.controlUseItem) frame = 1;
             else frame = 0;
 
             Texture2D mask = ModContent.Request<Texture2D>("EEMod/Textures/Extra_49").Value;
 
-            if(grabbed != null)
+            if (grabbed != null)
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

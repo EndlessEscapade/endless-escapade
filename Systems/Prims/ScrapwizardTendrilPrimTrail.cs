@@ -34,8 +34,6 @@ namespace EEMod.Prim
             behindTiles = false;
             pixelated = true;
             manualDraw = true;
-
-            Main.NewText(BindableEntity.whoAmI);
         }
 
         public NPC targetEntity;
@@ -156,13 +154,18 @@ namespace EEMod.Prim
 
                 _points.Add(lerpFinal);
             }
+
+            if(_destroyed)
+            {
+                Alpha *= 0.92f;
+
+                if (Alpha < 0.1f) Dispose();
+            }
         }
 
         public override void OnDestroy()
         {
-            Alpha *= 0.95f;
-
-            if (Alpha < 0.1f) Dispose();
+            _destroyed = true;
         }
 
         public override void PostDraw()
@@ -189,8 +192,6 @@ namespace EEMod.Prim
             behindTiles = true;
             pixelated = true;
             manualDraw = true;
-
-            Main.NewText(BindableEntity.whoAmI);
         }
 
         public NPC targetEntity;
@@ -217,7 +218,7 @@ namespace EEMod.Prim
 
             for (int i = 0; i < _points.Count - 1; i++)
             {
-                widthVar = _width * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp((i / 10f) * (i / 10f), 0f, 1f);
+                widthVar = _width * (0.95f + (float)Math.Cos(((float)i / (float)_points.Count) * MathHelper.TwoPi) * 0.05f) * MathHelper.Clamp((i / 10f) * (i / 10f), 0f, 1f) * MathHelper.Clamp(((_points.Count - i) / 10f) * ((_points.Count - i) / 10f), 0f, 1f);
 
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
@@ -296,13 +297,18 @@ namespace EEMod.Prim
 
                 _points.Add(lerpFinal);
             }
+
+            if (_destroyed)
+            {
+                Alpha *= 0.92f;
+
+                if (Alpha < 0.1f) Dispose();
+            }
         }
 
         public override void OnDestroy()
         {
-            Alpha *= 0.95f;
-
-            if(Alpha < 0.1f) Dispose();
+            _destroyed = true;
         }
 
         public override void PostDraw()

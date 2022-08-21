@@ -70,6 +70,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 lastRotation = Projectile.rotation;
 
                 Projectile.velocity = Vector2.Zero;
+
+                PrimitiveSystem.primitives.ClearTrailsOn(Projectile);
             }
         }
 

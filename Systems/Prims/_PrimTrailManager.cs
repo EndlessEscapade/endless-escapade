@@ -76,8 +76,6 @@ namespace EEMod.Prim
         {
             //Primitive[] temp = _trails.ToArray();
 
-            Main.NewText("Entity attempt: " + entity.whoAmI);
-
             for (int i = 0; i < _trails.Count; i++)
             {
                 if (_trails[i] == null)
@@ -94,8 +92,6 @@ namespace EEMod.Prim
                 if (_trails[i].BindableEntity.whoAmI == entity.whoAmI)
                 {
                     _trails[i].OnDestroy();
-
-                    Main.NewText("match found " + entity.whoAmI);
                 }
             }
 

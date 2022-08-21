@@ -38,6 +38,8 @@ namespace EEMod.Seamap.Core
 
             windVector = Vector2.UnitY.RotatedBy(windRot);
             windVector.Y *= 0.6f;
+
+            Main.LocalPlayer.cursorItemIconEnabled = false;
         }
 
         public static float windRot;

@@ -1,4 +1,4 @@
-//Massive props to triplefate; couldn't have done the cloud vignette effect without him - cloud shapes and shading by me(Crown) though
+//Thanks to triplefate for the cloud vignette effect
 sampler uImage0 : register(s0);
 
 texture cloudNoisemap; //controls the density of clouds in one "chunk"
@@ -17,6 +17,8 @@ float stepsX;
 float stepsY;
 
 float2 wind;
+
+float2 homeIslandPos;
 
 float2 vec;
 
@@ -42,6 +44,8 @@ float4 CloudShaderFloat(float2 coords : TEXCOORD0) : COLOR0
     specialCoords *= 1 - specialCoords;
     
     float vignetteThresh = pow(specialCoords.y * specialCoords.x * 70, 1.1);
+    
+    vignetteThresh += min(max(sqrt((specialCoords.y - 0.98) / (specialCoords.x - 0.98)), 0), 1.0 / 40.0) * 6.0;
     
     float cloudColor = tex2D(cloudNoisemapSampler, (coords + wind) % 1).r; //ranges 0-1
     

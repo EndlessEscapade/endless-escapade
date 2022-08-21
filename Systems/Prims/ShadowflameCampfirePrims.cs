@@ -83,7 +83,7 @@ namespace EEMod.Prim
 
             for (int i = 1; i < _points.Count - 1; i++)
             {
-                widthVar = ((i) / (float)_points.Count) * _width;
+                widthVar = _width;
 
                 Vector2 normal = -Vector2.UnitX.RotatedBy(rot / 1.5f);
                 Vector2 normalAhead = -Vector2.UnitX.RotatedBy(rot / 1.5f);
@@ -114,14 +114,21 @@ namespace EEMod.Prim
 
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default);
 
-            if (_additive)
-                EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
-            else
-                EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/FlameTrailBoosted").Value);
+            EEMod.ShadowMagic.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/EnergyTrailAlt").Value);
 
-            EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
+            EEMod.ShadowMagic.Parameters["transformMatrix"].SetValue(view * projection);
 
-            EEMod.LightningShader.Parameters["transformMatrix"].SetValue(view * projection);
+            EEMod.ShadowMagic.Parameters["xOffset"].SetValue(_counter / 35f);
+
+            EEMod.ShadowMagic.Parameters["myDist"].SetValue(3f);
+
+            EEMod.ShadowMagic.Parameters["alpha"].SetValue(1f);
+
+            EEMod.ShadowMagic.Parameters["color1"].SetValue(new Vector4(94, 20, 174, 10) / 255f);
+            EEMod.ShadowMagic.Parameters["color2"].SetValue(new Vector4(178, 54, 212, 70) / 255f);
+            EEMod.ShadowMagic.Parameters["color3"].SetValue(new Vector4(255, 100, 133, 150) / 255f);
+            EEMod.ShadowMagic.Parameters["color4"].SetValue(new Vector4(250, 170, 70, 230) / 255f);
+            EEMod.ShadowMagic.Parameters["color5"].SetValue(new Vector4(240, 235, 170, 230) / 255f);
 
             if (vertices.Length == 0) return;
 
@@ -130,7 +137,7 @@ namespace EEMod.Prim
 
             Main.graphics.GraphicsDevice.SetVertexBuffer(buffer);
 
-            foreach (EffectPass pass in EEMod.LightningShader.CurrentTechnique.Passes)
+            foreach (EffectPass pass in EEMod.ShadowMagic.CurrentTechnique.Passes)
             {
                 pass.Apply();
             }

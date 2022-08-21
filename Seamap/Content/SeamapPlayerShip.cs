@@ -838,7 +838,7 @@ namespace EEMod.Seamap.Content
                 Vector2 normalAhead = CurveNormal(_points, 1);
                 Vector2 secondUp = _points[1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
-                Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
+                Vector2 v = new Vector2((float)Math.Sin((_counter) / 20f));
 
                 AddVertex(_points[0], color * Alpha, v);
                 AddVertex(secondUp, color * Alpha, v);
@@ -853,7 +853,7 @@ namespace EEMod.Seamap.Content
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
 
-                float j = (_cap - ((float)(Math.Sin(_counter / 3f)) * 1) - i * 0.1f) / _cap;
+                float j = (_cap - ((float)(Math.Sin((_counter + i) / 3f)) * 1) - i * 0.1f) / _cap;
                 widthVar *= j;
 
                 Vector2 firstUp = _points[i] - normal * widthVar;
