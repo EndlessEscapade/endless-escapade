@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace EEMod.Items.Weapons.Ranger.Guns
 {
@@ -14,7 +15,6 @@ namespace EEMod.Items.Weapons.Ranger.Guns
 
         public override void SetDefaults()
         {
-            // Item.melee = false;
             Item.noMelee = true;
             Item.autoReuse = true;
             Item.DamageType = DamageClass.Ranged;
@@ -24,7 +24,7 @@ namespace EEMod.Items.Weapons.Ranger.Guns
             Item.useAnimation = 25;
             Item.width = 20;
             Item.height = 20;
-            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shoot = ModContent.ProjectileType<BlitzBubble>();
 			Item.shootSpeed = 20f;
 			Item.useAmmo = AmmoID.Bullet;
             Item.rare = ItemRarityID.Orange;
@@ -32,10 +32,12 @@ namespace EEMod.Items.Weapons.Ranger.Guns
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item11;
         }
+
         public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
+
         public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2)
@@ -44,28 +46,36 @@ namespace EEMod.Items.Weapons.Ranger.Guns
                 Item.useAnimation = 8;
                 Item.autoReuse = true;
                 Item.shootSpeed = 4f;
-			}
+
+                return true;
+            }
 			else
 			{
                 Item.useTime = 25;
                 Item.useAnimation = 25;
-				// Item.autoReuse = false;
+				Item.autoReuse = false;
                 Item.shootSpeed = 20f;
-			}
-			return true;
-		}
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (player.altFunctionUse == 2)
-            {
-                type = ModContent.ProjectileType<BlitzBubble>();
-                knockBack = 0;
-                Vector2 direction = new Vector2(speedX,speedY).RotatedBy(Main.rand.NextFloat(-0.1f, 0.1f)) * Main.rand.NextFloat(0.85f, 1.15f);
-                speedX = direction.X;
-                speedY = direction.Y;
+
+                return true;
             }
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+		}
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                Vector2 direction = velocity.RotatedBy(Main.rand.NextFloat(-0.1f, 0.1f)) * Main.rand.NextFloat(0.85f, 1.15f);
+
+                Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), position, direction, ModContent.ProjectileType<BlitzBubble>(), damage, knockback);
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
+
         public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 0);

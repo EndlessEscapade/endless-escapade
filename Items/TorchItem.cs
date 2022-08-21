@@ -16,7 +16,7 @@ namespace EEMod.Items
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.shootSpeed = 1f;
+            Item.shootSpeed = 0f;
             Item.rare = ItemRarityID.Orange;
             Item.width = 20;
             Item.shoot = ModContent.ProjectileType<Torch>();
@@ -25,6 +25,7 @@ namespace EEMod.Items
             Item.useAnimation = 1;
             Item.value = Item.buyPrice(0, 0, 30, 0);
             Item.autoReuse = true;
+            Item.noUseGraphic = true;
             Item.knockBack = 6f;
             Item.crit = 1;
         }

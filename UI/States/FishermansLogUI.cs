@@ -133,11 +133,72 @@ namespace EEMod.UI.States
         public void LoadAllFish()
         {
             //TODO: Put the habitats in a decent order
-
-            LoadFish(new FishElement(ItemID.Bass, "Plentiful", "Bass is a name shared by many species of fish, encompassing both freshwater and marine species, all belonging to the large order Perciformes.", 
-                "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
             //TODO: Check if Beehive and UG Beehive is actually possible
-            LoadFish(new FishElement(ItemID.ArmoredCavefish, "Uncommon", "WIP", "Underground|Caverns|UG Jungle|UG Beehive|UG Corruption|UG Crimson|UG Hallow|Ice|Corrupt Ice|Crimson Ice|Hallow Ice|UG Glowing Mush|Underworld"));
+
+            LoadFish(new FishElement(ItemID.ArmoredCavefish, "Uncommon", "WIP",
+    "Underground|Caverns|UG Jungle|UG Beehive|UG Corruption|UG Crimson|UG Hallow|Ice|Corrupt Ice|Crimson Ice|Hallow Ice|UG Glowing Mush|Underworld"));
+            LoadFish(new FishElement(ItemID.AtlanticCod, "Common", "WIP",
+    "Corrupt Ice|Crimson Ice|Hallow Ice|Ice|Tundra"));
+            LoadFish(new FishElement(ItemID.Bass, "Plentiful", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.BlueJellyfish, "Rare", "WIP",
+    "Caverns|UG Glowing Mush|UG Jungle"));
+            LoadFish(new FishElement(ItemID.ChaosFish, "Very Rare", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.CrimsonTigerfish, "Common", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Damselfish, "Uncommon", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.DoubleCod, "Uncommon", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.FlarefinKoi, "Very Rare", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Flounder, "Plentiful", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.FrostMinnow, "Uncommon", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.GoldenCarp, "Extremely Rare", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.GreenJellyfish, "Rare", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Hemopiranha, "Uncommon", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Honeyfin, "Uncommon", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.NeonTetra, "Common", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Obsidifish, "Rare", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.PinkJellyfish, "Rare", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.PrincessFish, "Uncommon", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Prismite, "Rare", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.RedSnapper, "Common", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.RockLobster, "Common", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Salmon, "Plentiful", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Shrimp, "Uncommon", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.SpecularFish, "Common", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Stinkfish, "Rare", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Trout, "Plentiful", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.Tuna, "Common", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            LoadFish(new FishElement(ItemID.VariegatedLardfish, "Uncommon", "WIP",
+    "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+
+
+
+
             //This is done so the fish are actually in the order they were loaded in since UIGrid is kinda wack.
             FishGrid._items = FullList;
         }

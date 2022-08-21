@@ -18,17 +18,19 @@ namespace EEMod.Projectiles
             Projectile.width = 200;
             Projectile.height = 100;
             Projectile.alpha = 0;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 100000;
             Projectile.penetrate = -1;
-            // Projectile.hostile = false;
-            // Projectile.friendly = false;
-            // Projectile.tileCollide = false;
+            Projectile.hostile = false;
+            Projectile.friendly = false;
+            Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.scale *= 1;
         }
 
         public override void AI()
         {
+            if (!Main.player[Projectile.owner].controlUseItem) Projectile.Kill();
+
             float brightness = 1;
             Projectile.timeLeft = 100;
             Projectile.Center = Main.player[Projectile.owner].Center + new Vector2(36, 0).RotatedBy(Projectile.rotation);
@@ -52,6 +54,8 @@ namespace EEMod.Projectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
+            pixelPlacmentHours();
+
             return false;
         }
     }

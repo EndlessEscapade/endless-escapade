@@ -20,9 +20,9 @@ namespace EEMod.Items.Weapons.Ranger.Guns
             Projectile.aiStyle = -1;
             Projectile.width = 32;
             Projectile.height = 32;
-            // Projectile.friendly = false;
-            // Projectile.tileCollide = false;
-            // Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
+            Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 200;

@@ -71,6 +71,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
                 Item.useAnimation = 35;
                 Item.noMelee = false;
             }
+
             return base.UseItem(player);
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

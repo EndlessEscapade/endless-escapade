@@ -37,7 +37,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
             TileObjectData.addTile(Type);
 
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Steel Cannon");
+            name.SetDefault("Cryo Cannon");
             AddMapEntry(new Color(255, 168, 28), name);
             DustType = DustID.Silver;
             DisableSmartCursor = true;

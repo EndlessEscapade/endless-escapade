@@ -290,7 +290,9 @@ namespace EEMod.EEWorld
 
                         Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoat.lcs")).PlaceAt(i + randint, (int)(Main.worldSurface) + 2, false, false, false, true);
 
-                        WorldGen.PlaceTile(i + randint + 38, (int)(Main.worldSurface) + 24, ModContent.TileType<CryoCannonTile>(), false, true);
+                        WorldGen.PlaceTile(i + randint + 38, (int)(Main.worldSurface) + 2 + 22 + 2, ModContent.TileType<CryoCannonTile>(), false, true);
+
+                        //WorldGen.PlaceTile(i + randint + 38, (int)(Main.worldSurface) + 2 + 22 + 2, TileID.Hellstone, false, true);
 
                         int genSatisfied = 0;
 

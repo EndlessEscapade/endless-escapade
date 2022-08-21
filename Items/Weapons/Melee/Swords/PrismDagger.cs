@@ -24,7 +24,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Projectile.penetrate = 1;
             Projectile.scale = 1f;
             Projectile.DamageType = DamageClass.Melee;
-            // Projectile.tileCollide = false;
+            Projectile.tileCollide = false;
             // Projectile.friendly = false;
             Projectile.damage = 20;
             Projectile.knockBack = 4.5f;
@@ -36,7 +36,6 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public override void AI()
         {
-
             Player player = Main.player[Projectile.owner];
             if (Projectile.ai[1] == 0)
             {
