@@ -45,29 +45,40 @@ namespace EEMod.Tiles.Furniture
                         if (EEWorld.EEWorld.PylonEnd[k] == default && new Vector2(i, j) * 16 + new Vector2(8, -8) != EEWorld.EEWorld.PylonBegin[k])
                         {
                             EEWorld.EEWorld.PylonEnd[k] = new Vector2(i, j) * 16 + new Vector2(8, -8);
-                            // Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = false;
+                            Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = false;
                             break;
                         }
                     }
                 }
             }
-            else
+            else if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon)
             {
-                Main.LocalPlayer.position = new Vector2(i, j) * 16;
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = true;
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin = new Vector2(i, j) * 16 + new Vector2(8, -8);
                 for (int k = 0; k < 100; k++)
                 {
                     if (EEWorld.EEWorld.PylonBegin[k] == new Vector2(i, j) * 16 + new Vector2(8, -8))
                     {
-                        Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd = EEWorld.EEWorld.PylonEnd[k];
+                        if (EEWorld.EEWorld.PylonEnd[k] == Vector2.Zero)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Main.LocalPlayer.Center = (new Vector2(i, j) * 16) + new Vector2(0, 44);
+
+                            Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = true;
+                            Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin = new Vector2(i, j) * 16 + new Vector2(8, -8);
+                            Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd = EEWorld.EEWorld.PylonEnd[k];
+                            Main.LocalPlayer.GetModPlayer<EEPlayer>().flipping = false;
+
+                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item52);
+                        }
                     }
                 }
             }
             return true;
         }
 
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
         {
             Texture2D zipline = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Items/Zipline").Value;
             for (int l = 0; l < 100; l++)
@@ -82,7 +93,7 @@ namespace EEMod.Tiles.Furniture
                     //Texture2D texture = TextureCache.Zipline;
                     for (float k = 0; k < 1; k += n)
                     {
-                        Main.spriteBatch.Draw(zipline, begin + (end - begin) * k - Main.screenPosition + new Vector2(11.5f * 16 + 8, 13.5f * 16 - 8), new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), Vector2.One, 1, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(zipline, begin + (end - begin) * k - Main.screenPosition + new Vector2(11.5f * 16 + 8, 13.5f * 16 - 8), new Rectangle(0, 0, 2, 2), Lighting.GetColor(i, j), (end - begin).ToRotation(), Vector2.One, 1, SpriteEffects.None, 0);
                         //Main.spriteBatch.Draw(texture, begin + endbegindistance * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, ebdistrot, Vector2.One, 1, SpriteEffects.None, 0);
                     }
                 }

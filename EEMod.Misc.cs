@@ -57,20 +57,6 @@ namespace EEMod
                 delays--;
         }
 
-        //TODO move this to a separate ModSystem
-        public void DrawZipline()
-        {
-            Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
-            Vector2 PylonEnd = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
-
-            Main.spriteBatch.Begin();
-
-            Main.spriteBatch.Draw(Assets.Request<Texture2D>("EEMod/Items/ZipCarrier2").Value, Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Vector2(2, 16) / 2, Vector2.One, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(Assets.Request<Texture2D>("EEMod/Items/ZipCarrier").Value, Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
-            
-            Main.spriteBatch.End();
-        }
-
         //TODO move this to a separate system
         public void UpdateGame(GameTime gameTime)
         {

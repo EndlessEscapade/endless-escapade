@@ -14,7 +14,6 @@ using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-//using System.Reflection;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
@@ -76,6 +75,8 @@ namespace EEMod
 
             On.Terraria.UI.IngameFancyUI.Draw += DisableFancyUIOnSeamap;
 
+            //On.Terraria.Main.Draw += DrawLoadingScreen;
+
             On.Terraria.Player.Update_NPCCollision += GoblinTableCollision;
 
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += PrepareSubworldList;
@@ -105,6 +106,8 @@ namespace EEMod
 
             On.Terraria.UI.IngameFancyUI.Draw -= DisableFancyUIOnSeamap;
 
+            //On.Terraria.Main.Draw -= DrawLoadingScreen;
+
             On.Terraria.Player.Update_NPCCollision -= GoblinTableCollision;
 
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= PrepareSubworldList;
@@ -113,6 +116,98 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack -= ManageSaving;
 
             Main.OnPreDraw -= PreparePrimitives;
+        }
+
+        public RenderTarget2D loadingScreenRT;
+
+        private void DrawLoadingScreen(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
+        {
+            orig(self, gameTime);
+
+            if (loadingScreenRT == default) loadingScreenRT = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height);
+
+            RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
+
+            Main.graphics.GraphicsDevice.SetRenderTarget(loadingScreenRT);
+            //Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+            Main.spriteBatch.Begin();
+
+            DrawLoadingScreenContent();
+
+            if((SubworldSystem.Current as EESubworld) != null)
+                (SubworldSystem.Current as EESubworld).DrawLoadingScreen();
+
+
+            Main.spriteBatch.End();
+
+            Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+
+
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+            if (loadingScreenRT != null)
+                Main.spriteBatch.Draw(loadingScreenRT, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White);
+
+            Main.spriteBatch.End();
+        }
+
+        public Vector2[] loadingScreenParticles = new Vector2[30];
+
+        private void DrawLoadingScreenContent()
+        {
+            //Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/PureStrip").Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black);
+
+            if(loadingScreenParticles[0] == Vector2.Zero)
+            {
+                for (int i = 0; i < 30; i++)
+                {
+                    loadingScreenParticles[i] = new Vector2(Main.rand.NextFloat(0, Main.graphics.GraphicsDevice.Viewport.Width), (i / 30f) * (Main.graphics.GraphicsDevice.Viewport.Height + 2 * (5f * 75f)) - (5f * 75f));
+                }
+            }
+
+            Texture2D bubbleTex = ModContent.Request<Texture2D>("EEMod/Textures/RadialGradientAdjusted").Value;
+
+
+            for (int i = 0; i < 25; i++)
+            {
+                Helpers.DrawAdditive(bubbleTex, loadingScreenParticles[i], Color.SandyBrown * 0.5f, 4f * (((float)Math.Sin(i) * 0.15f) + 0.85f));
+
+                loadingScreenParticles[i] += new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f) * 30f, -((float)Math.Sin(i) * 0.05f + 0.95f) * 0.75f);
+
+                if (loadingScreenParticles[i].Y < 0 - 5f * 75f)
+                {
+                    loadingScreenParticles[i].X = Main.rand.Next(0, Main.graphics.GraphicsDevice.Viewport.Width);
+                    loadingScreenParticles[i].Y = Main.graphics.GraphicsDevice.Viewport.Height + (1f * 75f);
+                }
+            }
+
+            for (int i = 25; i < 30; i++)
+            {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+                EEMod.PolkaDot.Parameters["dots"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/RandomPolkaDots").Value);
+                EEMod.PolkaDot.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/SeamapNoise").Value);
+                EEMod.PolkaDot.Parameters["random"].SetValue((float)Math.Sin(i));
+                EEMod.PolkaDot.Parameters["random"].SetValue((float)(Main.GameUpdateCount / 120f));
+                EEMod.PolkaDot.Parameters["color"].SetValue((Color.SkyBlue).ToVector4());
+
+                EEMod.PolkaDot.CurrentTechnique.Passes[0].Apply();
+
+                Main.spriteBatch.Draw(bubbleTex, loadingScreenParticles[i], bubbleTex.Bounds, Color.White * 0.2f, 0f, bubbleTex.TextureCenter(), 2f * (((float)Math.Sin(i) * 0.15f) + 0.85f), SpriteEffects.None, 0f);
+               
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+                loadingScreenParticles[i] += new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f) * 60f, -((float)Math.Sin(i) * 0.05f + 0.95f) * 0.5f);
+
+                if (loadingScreenParticles[i].Y < 0 - 1f * 75f)
+                {
+                    loadingScreenParticles[i].X = Main.rand.Next(0, Main.graphics.GraphicsDevice.Viewport.Width);
+                    loadingScreenParticles[i].Y = Main.graphics.GraphicsDevice.Viewport.Height + (5f * 75f);
+                }
+            }
         }
 
         private void DrawGoblinFortBg(On.Terraria.Main.orig_DoDraw_WallsAndBlacks orig, Main self)

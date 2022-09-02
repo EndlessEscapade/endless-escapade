@@ -59,7 +59,8 @@ namespace EEMod
             HydrosDye,
             AquamarineDye,
             SeafoamShader,
-            ShadowMagic;
+            ShadowMagic,
+            PolkaDot;
 
         public static Effect NoiseSurfacing;
 

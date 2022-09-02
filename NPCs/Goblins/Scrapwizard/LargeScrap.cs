@@ -112,7 +112,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                         Vector2 pos1 = Vector2.SmoothStep(lastPosition, controlPoint, MathHelper.Clamp((movementTimer - 60) / (movementDuration - 60), 0f, 1f));
                         Vector2 pos2 = Vector2.SmoothStep(controlPoint, desiredPosition, MathHelper.Clamp((movementTimer - 60) / (movementDuration - 60), 0f, 1f));
 
-                        Projectile.Center = Vector2.SmoothStep(pos1, pos2, MathHelper.Clamp((movementTimer - 60) / (movementDuration - 60), 0f, 1f));
+                        Projectile.Center = Vector2.SmoothStep(pos1, pos2, MathHelper.Clamp((movementTimer - 60) / (movementDuration - 60), 0f, 1f)) + Vector2.UnitX.RotatedBy(Main.GameUpdateCount / 10f) * 10f;
 
                         while (Math.Abs(Projectile.rotation - (Main.LocalPlayer.Center - Projectile.Center).ToRotation()) > MathHelper.Pi)
                         {
@@ -205,7 +205,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             if (AttackPhase == 1)
             {
                 if (((int)(((movementTimer - movementDuration) / (float)(delayDuration)) * 4f)) >= 0) 
-                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/LargeScrapAnim").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0/*96 * ((int)(((movementTimer - movementDuration) / (float)(delayDuration)) * 4f)) + 96*/, 340, 96), Color.White, Projectile.rotation, new Vector2(122, 32) + new Vector2(158 / 2, 16 / 2), 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/LargeScrapAnim").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 96 * ((int)(((movementTimer - movementDuration) / (float)(delayDuration)) * 4f)) + 96, 340, 96), Color.White, Projectile.rotation, new Vector2(122, 32) + new Vector2(158 / 2, 16 / 2), 1f, SpriteEffects.None, 0f);
                 
                 attackPhase2AnimTimer = (int)(delayDuration / 4f);
             }
@@ -213,7 +213,7 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
             {
                 if (attackPhase2AnimTimer > 0)
                 {
-                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/LargeScrapAnim").Value, desiredPosition - Main.screenPosition, new Rectangle(0, 96 * 0, 340, 96), Color.White, desiredRotation, new Vector2(122, 32) + new Vector2(158 / 2, 16 / 2), 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/LargeScrapAnim").Value, desiredPosition - Main.screenPosition, new Rectangle(0, 96 * 6, 340, 96), Color.White, desiredRotation, new Vector2(122, 32) + new Vector2(158 / 2, 16 / 2), 1f, SpriteEffects.None, 0f);
                     attackPhase2AnimTimer--;
                 }
             }

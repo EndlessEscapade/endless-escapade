@@ -80,6 +80,7 @@ namespace EEMod.Prim
             }
         }
 
+        private float xOffset;
 
         public override void SetShaders()
         {
@@ -93,7 +94,9 @@ namespace EEMod.Prim
 
             EEMod.ShadowMagic.Parameters["transformMatrix"].SetValue(view * projection);
 
-            EEMod.ShadowMagic.Parameters["xOffset"].SetValue((_counter / -35f) * Alpha);
+            xOffset += (1 / -35f) * Alpha;
+
+            EEMod.ShadowMagic.Parameters["xOffset"].SetValue(xOffset);
 
             EEMod.ShadowMagic.Parameters["myDist"].SetValue(3f);
 

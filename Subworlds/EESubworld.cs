@@ -61,7 +61,7 @@ namespace EEMod.Subworlds
         {
             Viewport viewport = Main.graphics.GraphicsDevice.Viewport;
 
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/Pure").Value, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.Black);
+            //Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/Pure").Value, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.Black);
 
             Vector2[] vecs = new Vector2[10];
 

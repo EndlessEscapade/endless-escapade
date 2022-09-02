@@ -237,46 +237,152 @@ namespace EEMod
             base.UpdateEquips();
         }
 
+        public override void PreUpdateMovement()
+        {
+            base.PreUpdateMovement();
+
+            UpdateZipLines();
+        }
+
+        public void DrawZipline()
+        {
+            Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
+            Vector2 PylonEnd = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
+
+            //Main.spriteBatch.Begin();
+
+            Vector2 zipCarryPos = new Vector2(Main.LocalPlayer.Center.X, Vector2.Lerp(PylonBegin,PylonEnd,(Main.LocalPlayer.Center.X - PylonBegin.X) / (PylonEnd.X-PylonBegin.X)).Y);
+
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/ZipCarrier2").Value, zipCarryPos.ForDraw() + new Vector2(6 * Main.LocalPlayer.direction, 12), new Rectangle(0, 0, 2, 32), Lighting.GetColor(Player.Center.ToPoint()), 0, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/ZipCarrier").Value, zipCarryPos.ForDraw() + new Vector2(6 * Main.LocalPlayer.direction, 12), new Rectangle(0, 0, 18, 8), Lighting.GetColor(Player.Center.ToPoint()), (PylonEnd.X < PylonBegin.X) ? (PylonEnd - PylonBegin).ToRotation() - MathHelper.Pi : (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, new Vector2(1f, 1f), SpriteEffects.None, 0);
+
+            Main.LocalPlayer.direction = Main.LocalPlayer.velocity.X > 0 ? 1 : -1;
+
+            Main.LocalPlayer.bodyFrame.Y = Main.LocalPlayer.bodyFrame.Height * 5;
+            Main.LocalPlayer.legFrame.Y = 0;
+
+            if(Main.GameUpdateCount % 2 == 0)
+            {
+                if((float)Math.Sin((zipPosition - oldZipPosition).ToRotation()) < 0)
+                {
+                    Vector2 dustVelocity = -Vector2.Normalize(Main.LocalPlayer.velocity.RotatedBy(Main.rand.NextFloat(-0.1f, 0.1f))) * 1f;
+                    int dust = Dust.NewDust(zipPosition + Main.LocalPlayer.velocity, 0, 0, DustID.MinecartSpark, dustVelocity.X, dustVelocity.Y, 0, Scale: 2f);
+
+                    //Main.dust[dust].
+
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item55);
+                }
+            }
+
+            Main.LocalPlayer.fullRotation = MathHelper.Clamp((MathHelper.Clamp(Math.Abs(Main.LocalPlayer.velocity.X) - 5f, 0f, 10f) / 10f), -0.1f, 0.1f) * Main.LocalPlayer.direction;
+
+            //Main.LocalPlayer.bodyFrameCounter = 1;
+            //Main.spriteBatch.End();
+        }
+
+        public override void HideDrawLayers(PlayerDrawSet drawInfo)
+        {
+            if(!Main.gameMenu && ridingZipline) DrawZipline();
+
+            //Main.NewText(Main.LocalPlayer.fullRotation);
+
+            /*if (!Main.gameMenu && flipping) 
+                Main.LocalPlayer.fullRotation += MathHelper.Clamp((Player.velocity).X, -1f, 1f) / 2f;
+            if (!Main.gameMenu && flipping && Main.LocalPlayer.fullRotation > 6.1f || Main.LocalPlayer.fullRotation < 0.1f)
+            {
+                Main.LocalPlayer.fullRotation = 0f;
+                flipping = false;
+            }*/
+
+            base.HideDrawLayers(drawInfo);
+        }
+
+        public bool flipping;
+
+        public int staticZipTimer;
+        public Vector2 oldZipPosition;
+        public Vector2 zipPosition;
+
         public void UpdateZipLines()
         {
             EEPlayer eEPlayer = this; //Main.LocalPlayer.GetModPlayer<EEPlayer>();
+
             if (eEPlayer.ridingZipline)
             {
+                flipping = false;
+
+                oldZipPosition = zipPosition;
+                zipPosition = Main.LocalPlayer.Center - new Vector2(0, 44);
+
+                if (zipPosition == oldZipPosition && Vector2.DistanceSquared(zipPosition, eEPlayer.PylonBegin) > 16 * 16)
+                {
+                    Main.LocalPlayer.statLife -= (int)(Main.LocalPlayer.oldVelocity.Length() * 2f);
+
+                    eEPlayer.ridingZipline = false;
+                    zipMultiplier = 1;
+                    Main.LocalPlayer.ClearBuff(BuffID.Cursed);
+
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item52);
+
+                    //flipping = true;
+
+                    //Main.LocalPlayer.fullRotation += MathHelper.Clamp(Main.LocalPlayer.velocity.X, -1f, 1f) / 2f;
+
+                    //staticZipTimer = 0;
+                }
+
                 Vector2 begin = eEPlayer.PylonBegin;
                 Vector2 end = eEPlayer.PylonEnd;
+
                 Main.LocalPlayer.velocity = Vector2.Normalize(end - begin) * zipMultiplier;
                 Main.LocalPlayer.gravity = 0;
                 Main.LocalPlayer.AddBuff(BuffID.Cursed, 2, true);
-                if (zipMultiplier <= 30)
+
+                if (zipMultiplier <= 20)
                 {
-                    zipMultiplier *= 1.02f;
-                }
-            }
-            if (Vector2.DistanceSquared(Main.LocalPlayer.position, eEPlayer.PylonEnd) <= 32 * 32 && eEPlayer.ridingZipline)
-            {
-                int i;
-                for (i = 0; i <= 100; i++)
-                {
-                    if (i < 99 && EEWorld.EEWorld.PylonEnd[i] == EEWorld.EEWorld.PylonBegin[i + 1] && EEWorld.EEWorld.PylonEnd[i + 1] != default && eEPlayer.PylonBegin == EEWorld.EEWorld.PylonBegin[i] && eEPlayer.PylonEnd == EEWorld.EEWorld.PylonEnd[i])
-                    {
-                        break;
-                    }
+                    zipMultiplier *= (1f + ((float)Math.Sin((zipPosition - oldZipPosition).ToRotation()) * 0.05f));
                 }
 
-                if (i >= 99)
+                if (Vector2.DistanceSquared(zipPosition, end) <= 16 * 16)
                 {
-                    //Leaving zipline
-                    eEPlayer.PylonBegin = default;
-                    eEPlayer.PylonEnd = default;
-                    // eEPlayer.ridingZipline = false;
-                    zipMultiplier = 1;
-                }
-                else
-                {
-                    //Continue on zipline
-                    eEPlayer.PylonBegin = EEWorld.EEWorld.PylonEnd[i];
-                    eEPlayer.PylonEnd = EEWorld.EEWorld.PylonEnd[i + 1];
-                    eEPlayer.ridingZipline = true;
+                    int i;
+                    for (i = 0; i <= 100; i++)
+                    {
+                        if (i < 99 && EEWorld.EEWorld.PylonEnd[i] == EEWorld.EEWorld.PylonBegin[i + 1] && EEWorld.EEWorld.PylonEnd[i + 1] != default && eEPlayer.PylonBegin == EEWorld.EEWorld.PylonBegin[i] && eEPlayer.PylonEnd == EEWorld.EEWorld.PylonEnd[i])
+                        {
+                            break;
+                        }
+                    }
+
+                    if (i >= 99)
+                    {
+                        eEPlayer.PylonBegin = Vector2.Zero;
+                        eEPlayer.PylonEnd = Vector2.Zero;
+                        eEPlayer.ridingZipline = false;
+                        zipMultiplier = 1;
+                        Main.LocalPlayer.ClearBuff(BuffID.Cursed);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item52);
+
+                        //flipping = true;
+
+                        //Main.LocalPlayer.fullRotation += MathHelper.Clamp(Main.LocalPlayer.velocity.X, -1f, 1f) / 2f;
+                    }
+                    else
+                    {
+                        if (Vector2.Normalize(new Vector2(eEPlayer.PylonEnd.X - eEPlayer.PylonBegin.X, 0)) != Vector2.Normalize(new Vector2(EEWorld.EEWorld.PylonEnd[i + 1].X - EEWorld.EEWorld.PylonBegin[i + 1].X, 0)))
+                        {
+                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item56);
+                        }
+                        else
+                        {
+                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item52);
+                        }
+
+                        //Continue on zipline
+                        eEPlayer.PylonBegin = EEWorld.EEWorld.PylonEnd[i];
+                        eEPlayer.PylonEnd = EEWorld.EEWorld.PylonEnd[i + 1];
+                        eEPlayer.ridingZipline = true;
+                    }
                 }
             }
         }

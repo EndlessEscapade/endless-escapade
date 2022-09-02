@@ -42,7 +42,7 @@ namespace EEMod.Items.TennisRackets
 
         public override void HoldItem(Player player)
         {
-            if (player.controlUseItem && yeet == 0 && Main.myPlayer == player.whoAmI)
+            if (player.controlUseItem && yeet == 0 && Main.myPlayer == player.whoAmI && player.ownedProjectileCounts[ModContent.ProjectileType<TennisRacketProj>()] == 0)
             {
                 proj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_ItemUse(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<TennisRacketProj>(), 0, 0f, player.whoAmI);
                 yeet = 1;
