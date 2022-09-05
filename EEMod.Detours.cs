@@ -75,7 +75,7 @@ namespace EEMod
 
             On.Terraria.UI.IngameFancyUI.Draw += DisableFancyUIOnSeamap;
 
-            //On.Terraria.Main.Draw += DrawLoadingScreen;
+            On.Terraria.Main.Draw += DrawLoadingScreen;
 
             On.Terraria.Player.Update_NPCCollision += GoblinTableCollision;
 
@@ -85,10 +85,13 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack += ManageSaving;
 
             Main.OnPreDraw += PreparePrimitives;
+            Main.OnPreDraw += PrepLoadingScreen;
 
             if (Main.dedServ)
                 return;
         }
+
+        public Entity loadingEntity;
 
         private void UnloadDetours()
         {
@@ -106,7 +109,7 @@ namespace EEMod
 
             On.Terraria.UI.IngameFancyUI.Draw -= DisableFancyUIOnSeamap;
 
-            //On.Terraria.Main.Draw -= DrawLoadingScreen;
+            On.Terraria.Main.Draw -= DrawLoadingScreen;
 
             On.Terraria.Player.Update_NPCCollision -= GoblinTableCollision;
 
@@ -116,35 +119,94 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack -= ManageSaving;
 
             Main.OnPreDraw -= PreparePrimitives;
+            Main.OnPreDraw -= PrepLoadingScreen;
         }
 
         public RenderTarget2D loadingScreenRT;
 
-        private void DrawLoadingScreen(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
+        private void PrepLoadingScreen(GameTime obj)
         {
-            orig(self, gameTime);
-
-            if (loadingScreenRT == default) loadingScreenRT = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height);
+            if (loadingScreenRT == default)
+            {
+                loadingScreenRT = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height);
+            }
 
             RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
 
             Main.graphics.GraphicsDevice.SetRenderTarget(loadingScreenRT);
-            //Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+            Main.graphics.GraphicsDevice.Clear(Color.Black);
 
             Main.spriteBatch.Begin();
 
             DrawLoadingScreenContent();
 
-            if((SubworldSystem.Current as EESubworld) != null)
-                (SubworldSystem.Current as EESubworld).DrawLoadingScreen();
+            //Main.spriteBatch.End();
 
+            //if (loadingEntity != default) PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+
+            //if (loadingEntity != default) loadingEntity.position = new Vector2((rightBound + leftBound) * Main.graphics.GraphicsDevice.Viewport.Width / 2f, Main.graphics.GraphicsDevice.Viewport.Height / 2f);
+
+            //Main.spriteBatch.Begin();
+
+            Texture2D shipTex = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip").Value;
+
+            //Main.spriteBatch.Draw(shipTex, new Vector2((rightBound + leftBound) * Main.graphics.GraphicsDevice.Viewport.Width / 2f, Main.graphics.GraphicsDevice.Viewport.Height / 2f), 
+            //    new Rectangle(0, 4 * shipTex.Height / 9, shipTex.Width, shipTex.Height / 9), Color.White, 0f, new Vector2(shipTex.Width / 2f, shipTex.Height / 18f), 1f, (leftBound < 0.5f) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+
+            if ((SubworldSystem.Current as EESubworld) != null)
+                (SubworldSystem.Current as EESubworld).DrawLoadingScreen();
 
             Main.spriteBatch.End();
 
             Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+        }
 
+        public float leftBound = 1.2f;
+        public float rightBound = 1.2f;
+
+        private void DrawLoadingScreen(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
+        {
+            orig(self, gameTime);
+
+            if (!Main.gameMenu && !SubworldSystem.IsActive<Sea>() && Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene) leftBound -= 1.4f / 40f;
+            if (!Main.gameMenu && SubworldSystem.IsActive<Sea>() && !Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamap) rightBound -= 1.4f / 40f;
+            if (!Main.gameMenu && SubworldSystem.IsActive<Sea>() && Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamap) rightBound += 1.4f / 40f;
+            if (!Main.gameMenu && !SubworldSystem.IsActive<Sea>() && !Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene) leftBound += 1.4f / 40f;
+
+            //if(!Main.gameMenu)
+            //{
+            //loadingEntity = new BlankLoadEntity();
+
+            //PrimitiveSystem.primitives.CreateTrail(new FoamTrail(loadingEntity, Color.Orange, 0.25f, 260));
+            //}
+
+            //MusicLoader.GetMusicSlot(ModContent.GetInstance<EEMod>(), "Assets/Music/Seamap");
+
+            //MusicLoader.
+
+            leftBound = MathHelper.Clamp(leftBound, -0.2f, 1.2f);
+            rightBound = MathHelper.Clamp(rightBound, -0.2f, 1.2f);
+
+            //leftBound = -0.2f;
+            //rightBound = 1.2f;
+
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+            EEMod.LoadingScreenVeil.Parameters["leftBound"].SetValue(leftBound);
+            EEMod.LoadingScreenVeil.Parameters["rightBound"].SetValue(rightBound);
+
+            EEMod.LoadingScreenVeil.CurrentTechnique.Passes[0].Apply();
+
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/Black").Value, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White);
+
+            Main.spriteBatch.End();
 
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+            EEMod.LoadingScreenVeil.Parameters["leftBound"].SetValue(leftBound);
+            EEMod.LoadingScreenVeil.Parameters["rightBound"].SetValue(rightBound);
+
+            EEMod.LoadingScreenVeil.CurrentTechnique.Passes[0].Apply();
 
             if (loadingScreenRT != null)
                 Main.spriteBatch.Draw(loadingScreenRT, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White);
@@ -154,13 +216,21 @@ namespace EEMod
 
         public Vector2[] loadingScreenParticles = new Vector2[30];
 
+        public int constantTicker;
+
         private void DrawLoadingScreenContent()
         {
-            //Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/PureStrip").Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black);
+            constantTicker++;
 
-            if(loadingScreenParticles[0] == Vector2.Zero)
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/goodman").Value, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White);
+
+            return;
+
+            Main.spriteBatch.End();
+
+            for (int i = 0; i < 30; i++)
             {
-                for (int i = 0; i < 30; i++)
+                if (loadingScreenParticles[i] == Vector2.Zero)
                 {
                     loadingScreenParticles[i] = new Vector2(Main.rand.NextFloat(0, Main.graphics.GraphicsDevice.Viewport.Width), (i / 30f) * (Main.graphics.GraphicsDevice.Viewport.Height + 2 * (5f * 75f)) - (5f * 75f));
                 }
@@ -168,21 +238,77 @@ namespace EEMod
 
             Texture2D bubbleTex = ModContent.Request<Texture2D>("EEMod/Textures/RadialGradientAdjusted").Value;
 
-
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 30; i++)
             {
-                Helpers.DrawAdditive(bubbleTex, loadingScreenParticles[i], Color.SandyBrown * 0.5f, 4f * (((float)Math.Sin(i) * 0.15f) + 0.85f));
+                //Helpers.DrawAdditive(bubbleTex, loadingScreenParticles[i], Color.SandyBrown * 0.5f, 4f * (((float)Math.Sin(i) * 0.15f) + 0.85f));
 
-                loadingScreenParticles[i] += new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f) * 30f, -((float)Math.Sin(i) * 0.05f + 0.95f) * 0.75f);
+                loadingScreenParticles[i] += new Vector2((float)Math.Sin(constantTicker * 60f + i) * 0.2f, -((float)Math.Sin(i) * 0.05f + 0.95f) * 0.75f);
 
                 if (loadingScreenParticles[i].Y < 0 - 5f * 75f)
                 {
                     loadingScreenParticles[i].X = Main.rand.Next(0, Main.graphics.GraphicsDevice.Viewport.Width);
-                    loadingScreenParticles[i].Y = Main.graphics.GraphicsDevice.Viewport.Height + (1f * 75f);
+                    loadingScreenParticles[i].Y = Main.graphics.GraphicsDevice.Viewport.Height + 2f * (((float)Math.Sin(i) * 0.15f) + 0.85f) * 150f;
                 }
             }
 
-            for (int i = 25; i < 30; i++)
+
+
+
+            Texture2D waterTexture = ModContent.Request<Texture2D>("EEMod/Particles/Square").Value;
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+            SeamapCloudShader.Parameters["cloudNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/CloudNoise").Value);
+            SeamapCloudShader.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/SeamapNoise").Value);
+
+            SeamapCloudShader.Parameters["wind"].SetValue(new Vector2((float)Math.Sin(constantTicker / 120f) * 20f, constantTicker * 1f) / 4800f);
+
+            SeamapCloudShader.Parameters["weatherDensity"].SetValue(1.2f);
+            SeamapCloudShader.Parameters["stepsX"].SetValue(1f);
+            SeamapCloudShader.Parameters["stepsY"].SetValue(1f);
+
+            SeamapCloudShader.Parameters["vec"].SetValue(new Vector2(Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height));
+
+            SeamapCloudShader.Parameters["cloudsColor4"].SetValue(new Color(13, 28, 36).ToVector4());
+            SeamapCloudShader.Parameters["cloudsColor3"].SetValue(new Color(10, 23, 26).ToVector4());
+            SeamapCloudShader.Parameters["cloudsColor2"].SetValue(new Color(8, 17, 23).ToVector4());
+            SeamapCloudShader.Parameters["cloudsColor1"].SetValue(new Color(7, 9, 20).ToVector4());
+
+            SeamapCloudShader.Parameters["arrayOffset"].SetValue(0);
+            SeamapCloudShader.CurrentTechnique.Passes[0].Apply();
+
+            Main.spriteBatch.Draw(waterTexture, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White);
+
+
+
+
+
+
+            Texture2D noiseTex = ModContent.Request<Texture2D>("EEMod/Textures/Noise/noise2").Value;
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+            EEMod.PolkaDot.Parameters["dots"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/RandomPolkaDots").Value);
+            EEMod.PolkaDot.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/SeamapNoise").Value);
+            EEMod.PolkaDot.Parameters["radial"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value);
+
+            EEMod.PolkaDot.Parameters["random"].SetValue((float)(constantTicker / 600f));
+            EEMod.PolkaDot.Parameters["color"].SetValue((Color.SkyBlue).ToVector4());
+
+            EEMod.PolkaDot.CurrentTechnique.Passes[0].Apply();
+
+            Main.spriteBatch.Draw(noiseTex, new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 4f, Main.graphics.GraphicsDevice.Viewport.Height / 4f),
+                null, Color.White, constantTicker / 120f, new Vector2(noiseTex.Width / 2f, noiseTex.Height / 2f), 0.7f, SpriteEffects.None, 0f);
+
+            Main.spriteBatch.Draw(noiseTex, new Vector2(3 * Main.graphics.GraphicsDevice.Viewport.Width / 4f, 3 * Main.graphics.GraphicsDevice.Viewport.Height / 4f),
+                null, Color.White, constantTicker / 120f, new Vector2(noiseTex.Width / 2f, noiseTex.Height / 2f), 0.7f, SpriteEffects.None, 0f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+            /*for (int i = 30; i < 30; i++)
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -190,7 +316,7 @@ namespace EEMod
                 EEMod.PolkaDot.Parameters["dots"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/RandomPolkaDots").Value);
                 EEMod.PolkaDot.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/SeamapNoise").Value);
                 EEMod.PolkaDot.Parameters["random"].SetValue((float)Math.Sin(i));
-                EEMod.PolkaDot.Parameters["random"].SetValue((float)(Main.GameUpdateCount / 120f));
+                EEMod.PolkaDot.Parameters["random"].SetValue((float)(constantTicker / 600f));
                 EEMod.PolkaDot.Parameters["color"].SetValue((Color.SkyBlue).ToVector4());
 
                 EEMod.PolkaDot.CurrentTechnique.Passes[0].Apply();
@@ -200,14 +326,14 @@ namespace EEMod
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-                loadingScreenParticles[i] += new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f) * 60f, -((float)Math.Sin(i) * 0.05f + 0.95f) * 0.5f);
+                loadingScreenParticles[i] += new Vector2((float)Math.Sin(constantTicker * 60f + i) * 1f, -((float)Math.Sin(i) * 0.05f + 0.95f) * 0.5f);
 
                 if (loadingScreenParticles[i].Y < 0 - 1f * 75f)
                 {
                     loadingScreenParticles[i].X = Main.rand.Next(0, Main.graphics.GraphicsDevice.Viewport.Width);
-                    loadingScreenParticles[i].Y = Main.graphics.GraphicsDevice.Viewport.Height + (5f * 75f);
+                    loadingScreenParticles[i].Y = Main.graphics.GraphicsDevice.Viewport.Height + 1f * (((float)Math.Sin(i) * 0.15f) + 0.85f) * 150f;
                 }
-            }
+            }*/
         }
 
         private void DrawGoblinFortBg(On.Terraria.Main.orig_DoDraw_WallsAndBlacks orig, Main self)
@@ -645,5 +771,17 @@ namespace EEMod
     public class JITFixer : PreJITFilter
     {
         public override bool ShouldJIT(MemberInfo member) => member.Module.Assembly == typeof(EEMod).Assembly;
+    }
+
+    public class BlankLoadEntity : Entity
+    {
+        
+    }
+
+    public class LoadingScreenMusic : ModMenu
+    {
+        public override int Music => (ModContent.GetInstance<EEMod>().leftBound != ModContent.GetInstance<EEMod>().rightBound ?
+            MusicLoader.GetMusicSlot(ModContent.GetInstance<EEMod>(), "Assets/Music/goodman") : 
+            base.Music);
     }
 }

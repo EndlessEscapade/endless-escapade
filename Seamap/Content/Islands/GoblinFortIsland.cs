@@ -31,12 +31,10 @@ namespace EEMod.Seamap.Content.Islands
         public override void Interact()
         {
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().prevKey = KeyID.Sea;
-
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().myLastBoatPos = SeamapObjects.localship.position;
-
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamap = true;
-
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamapKey = KeyID.GoblinFort;
+
 
             EEMod.isSaving = true;
 

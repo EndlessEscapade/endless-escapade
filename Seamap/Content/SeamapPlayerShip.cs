@@ -687,12 +687,12 @@ namespace EEMod.Seamap.Content
 
             EEMod.SeafoamShader.Parameters["offset"].SetValue(new Vector2((BindableEntity as SeamapPlayerShip).boatTrailVector.X + (BindableEntity as SeamapPlayerShip).boatTrailVector.Y, 0) / 400f);
 
-            EEMod.SeafoamShader.Parameters["noColor"].SetValue(new Color(58, 110, 172).ToVector4() * 0f * disposingFloat);
-            EEMod.SeafoamShader.Parameters["color1"].SetValue(new Color(98, 153, 217).ToVector4() * 0.15f * disposingFloat);
-            EEMod.SeafoamShader.Parameters["color2"].SetValue(new Color(72, 159, 199).ToVector4() * 0.29f * disposingFloat);
-            EEMod.SeafoamShader.Parameters["color3"].SetValue(new Color(65, 198, 224).ToVector4() * 0.35f * disposingFloat);
-            EEMod.SeafoamShader.Parameters["color4"].SetValue(new Color(108, 211, 235).ToVector4() * 0.55f * disposingFloat);
-            EEMod.SeafoamShader.Parameters["color5"].SetValue(new Color(250, 255, 224).ToVector4() * 0.85f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["noColor"].SetValue(new Color(58, 110, 172).LightSeamap().ToVector4() * 0f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color1"].SetValue(new Color(98, 153, 217).LightSeamap().ToVector4() * 0.15f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color2"].SetValue(new Color(72, 159, 199).LightSeamap().ToVector4() * 0.29f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color3"].SetValue(new Color(65, 198, 224).LightSeamap().ToVector4() * 0.35f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color4"].SetValue(new Color(108, 211, 235).LightSeamap().ToVector4() * 0.55f * disposingFloat);
+            EEMod.SeafoamShader.Parameters["color5"].SetValue(new Color(250, 255, 224).LightSeamap().ToVector4() * 0.85f * disposingFloat);
 
             EEMod.SeafoamShader.Parameters["WorldViewProjection"].SetValue(view * projection);
 
@@ -840,9 +840,9 @@ namespace EEMod.Seamap.Content
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
                 Vector2 v = new Vector2((float)Math.Sin((_counter) / 20f));
 
-                AddVertex(_points[0], color * Alpha, v);
-                AddVertex(secondUp, color * Alpha, v);
-                AddVertex(secondDown, color * Alpha, v);
+                AddVertex(_points[0], color.LightSeamap() * Alpha, v);
+                AddVertex(secondUp, color.LightSeamap() * Alpha, v);
+                AddVertex(secondDown, color.LightSeamap() * Alpha, v);
             }
 
             for (int i = 1; i < _points.Count - 1; i++)
@@ -861,13 +861,13 @@ namespace EEMod.Seamap.Content
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, color * Alpha * myTrail.disposingFloat, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, color * Alpha * myTrail.disposingFloat, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, color * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstDown, color.LightSeamap() * Alpha * myTrail.disposingFloat, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, color.LightSeamap() * Alpha * myTrail.disposingFloat, new Vector2(((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, color.LightSeamap() * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
 
-                AddVertex(secondUp, color * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 0));
-                AddVertex(secondDown, color * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
-                AddVertex(firstUp, color * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap)) % 1, 0));
+                AddVertex(secondUp, color.LightSeamap() * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 0));
+                AddVertex(secondDown, color.LightSeamap() * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) + 1) / (float)_cap) % 1, 1));
+                AddVertex(firstUp, color.LightSeamap() * Alpha * myTrail.disposingFloat, new Vector2((((i + (_counter / BindableEntity.velocity.Length())) / (float)_cap)) % 1, 0));
             }
         }
 

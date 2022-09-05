@@ -56,7 +56,7 @@ namespace EEMod
 
         public bool lastKeySeamap;
 
-        public float quickOpeningFloat = 5f;
+        public float quickOpeningFloat = 60;
 
         public string exitingSeamapKey;
 
@@ -121,13 +121,15 @@ namespace EEMod
             EEMod.isSaving = true;
 
             Player.GetModPlayer<ShipyardPlayer>().cutSceneTriggerTimer = 0;
+
+            quickOpeningFloat = 60;
+
+            exitingSeamap = false;
         }
 
         public override void PreUpdate()
         {
             if (!SubworldLibrary.SubworldSystem.IsActive<Sea>()) return;
-
-            Main.GameZoomTarget = 1f;
 
             Player.position = Player.oldPosition;
 
@@ -138,31 +140,15 @@ namespace EEMod
 
             #region Opening cutscene for seamap
 
-            if (!exitingSeamap)
+            if(exitingSeamap)
             {
-                if (quickOpeningFloat > 0.01f)
-                    quickOpeningFloat -= quickOpeningFloat / 20f;
-                else
-                    quickOpeningFloat = 0;
+                quickOpeningFloat++;
 
-                Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(quickOpeningFloat);
-
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
-                    Filters.Scene.Activate("EEMod:SeaOpening", Player.Center).GetShader().UseIntensity(quickOpeningFloat);
+                if (quickOpeningFloat > 60) OnExitSeamap();
             }
-            else
+            else if(quickOpeningFloat > 0)
             {
-                if (quickOpeningFloat < 10f)
-                    quickOpeningFloat += 0.4f;
-                else
-                {
-                    OnExitSeamap();
-                }
-
-                Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(quickOpeningFloat);
-
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
-                    Filters.Scene.Activate("EEMod:SeaOpening", Player.Center).GetShader().UseIntensity(quickOpeningFloat);
+                quickOpeningFloat--;
             }
 
             #endregion
@@ -186,8 +172,7 @@ namespace EEMod
                     Player.ClearBuff(BuffID.Cursed);
                     Player.ClearBuff(BuffID.Invisibility);
 
-                    if (/*island.Hitbox.Intersects(SeamapObjects.localship.Hitbox) && */
-                        Vector2.DistanceSquared(SeamapObjects.localship.Hitbox.Center.ToVector2(), obj.Center) < (obj.width * 2f) * (obj.width * 2f) &&
+                    if (Vector2.DistanceSquared(SeamapObjects.localship.Hitbox.Center.ToVector2(), obj.Center) < (obj.width * 2f) * (obj.width * 2f) &&
                         Main.LocalPlayer.controlJump)
                     {
                         island.Interact();
@@ -195,21 +180,6 @@ namespace EEMod
                 }
             }
             #endregion
-
-            /*#region Warp cutscene
-            if (Player.GetModPlayer<EEPlayer>().importantCutscene)
-            {
-                EEMod.Noise2D.NoiseTexture = ModContent.Request<Texture2D>("EEMod/Textures/Noise/noise").Value;
-                Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(Player.GetModPlayer<EEPlayer>().cutSceneTriggerTimer / 180f);
-
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())
-                {
-                    Filters.Scene.Activate("EEMod:Noise2D", Player.Center).GetShader().UseOpacity(0);
-                }
-
-                Player.GetModPlayer<EEPlayer>().cutSceneTriggerTimer++;
-            }
-            #endregion*/
         }
 
         public override void SaveData(TagCompound tag)
@@ -224,7 +194,7 @@ namespace EEMod
 
         public void OnExitSeamap()
         {
-            quickOpeningFloat = 0f;
+            quickOpeningFloat = 0;
 
             switch (exitingSeamapKey)
             {

@@ -56,8 +56,6 @@ namespace EEMod
         public int cutSceneTriggerTimer;
         public float speedOfPan = 1;
 
-        private readonly string SeaTransShader = "EEMod:SeaTrans";
-
 
         //Seamap vars
         public float shipSpeed;
@@ -172,7 +170,7 @@ namespace EEMod
             }
         }
 
-        public override void ModifyScreenPosition()
+        /*public override void ModifyScreenPosition()
         {
             if (cutSceneTriggerTimer > 0 && triggerSeaCutscene)
             {
@@ -183,19 +181,19 @@ namespace EEMod
 
                 Main.screenPosition.X += cutSceneTriggerTimer * speedOfPan;
             }
-        }
+        }*/
 
         public override void PreUpdate()
         {
             if (!SubworldLibrary.SubworldSystem.IsActive<Sea>())
             {
-                if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
+                if (triggerSeaCutscene && cutSceneTriggerTimer < 60)
                 {
-                    cutSceneTriggerTimer += 2;
+                    cutSceneTriggerTimer++;
                 }
-            }
 
-            UpdateCutscenesAndTempShaders();
+                UpdateCutscenesAndTempShaders();
+            }
         }
 
         public override void PreUpdateMovement()
@@ -204,7 +202,7 @@ namespace EEMod
 
             if (!SubworldLibrary.SubworldSystem.IsActive<Sea>())
             {
-                if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
+                if (triggerSeaCutscene && cutSceneTriggerTimer < 60)
                 {
                     Player.controlDown = false;
                     Player.controlHook = false;
@@ -222,7 +220,7 @@ namespace EEMod
 
         public void UpdateCutscenesAndTempShaders()
         {
-            Filters.Scene[SeaTransShader].GetShader().UseOpacity(cutSceneTriggerTimer);
+            /*Filters.Scene[SeaTransShader].GetShader().UseOpacity(cutSceneTriggerTimer);
             if (!Filters.Scene[SeaTransShader].IsActive())
             {
                 Filters.Scene.Activate(SeaTransShader, Player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
@@ -234,9 +232,9 @@ namespace EEMod
                 {
                     Filters.Scene.Deactivate(SeaTransShader);
                 }
-            }
+            }*/
 
-            if (cutSceneTriggerTimer >= 500)
+            if (cutSceneTriggerTimer >= 60)
             {
                 Player.GetModPlayer<SeamapPlayer>().EnterSeamap();
             }

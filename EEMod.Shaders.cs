@@ -60,7 +60,8 @@ namespace EEMod
             AquamarineDye,
             SeafoamShader,
             ShadowMagic,
-            PolkaDot;
+            PolkaDot,
+            LoadingScreenVeil;
 
         public static Effect NoiseSurfacing;
 
