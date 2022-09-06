@@ -64,16 +64,16 @@ namespace EEMod.EEWorld
                 {
                     for (int a = 5; a < 5 + Main.rand.Next(1, 4); a++)
                     {
-                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpLeafTile>(), false, true);
+                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpLeafTile>(), true, true);
                     }
                     for (int a = 0; a < Main.rand.Next(1, 4); a++)
                     {
-                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpLeafTile>(), false, true);
+                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpLeafTile>(), true, true);
                     }
                 }
             });
 
-            CoralReefs.perlinNoise = new PerlinNoiseFunction(Bounds.Width + 1, Bounds.Height + 1, 50, 50, 0.5f);
+            CoralReefs.perlinNoise = new PerlinNoiseFunction(Bounds.Width + 1, Bounds.Height + 1, 50, 50, 0.5f, WorldGen.genRand);
             int[,] perlinNoiseFunction = CoralReefs.perlinNoise.perlinBinary;
 
             BoundClause((int i, int j) =>
@@ -93,32 +93,32 @@ namespace EEMod.EEWorld
                     for (int a = 0; a < WorldGen.genRand.Next(8, 25); a++)
                     {
                         if (!Framing.GetTileSafely(i, j + a).HasTile)
-                            WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpVine>());
+                            WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpVine>(), true);
                     }
                 }
             });
 
             BoundClause((int i, int j) =>
-                   {
-                       if (WorldGen.InWorld(i, j))
-                       {
-                           if (TileCheck2(i, j) != 0 && Main.rand.NextBool(8))
-                           {
-                               if (CoralReefs.GiantKelpRoots.Count == 0)
-                               {
-                                   CoralReefs.GiantKelpRoots.Add(new Vector2(i, j));
-                               }
-                               else
-                               {
-                                   Vector2 lastPos = CoralReefs.GiantKelpRoots[CoralReefs.GiantKelpRoots.Count - 1];
-                                   if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 110 * 110) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
-                                   {
-                                       CoralReefs.GiantKelpRoots.Add(new Vector2(i, j));
-                                   }
-                               }
-                           }
-                       }
-                   });
+            {
+                if (WorldGen.InWorld(i, j))
+                {
+                    if (TileCheck2(i, j) != 0 && Main.rand.NextBool(8))
+                    {
+                        if (CoralReefs.GiantKelpRoots.Count == 0)
+                        {
+                            CoralReefs.GiantKelpRoots.Add(new Vector2(i, j));
+                        }
+                        else
+                        {
+                            Vector2 lastPos = CoralReefs.GiantKelpRoots[CoralReefs.GiantKelpRoots.Count - 1];
+                            if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 110 * 110) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
+                            {
+                                CoralReefs.GiantKelpRoots.Add(new Vector2(i, j));
+                            }
+                        }
+                    }
+                }
+            });
 
             BoundClause((int i, int j) =>
             {
@@ -140,7 +140,7 @@ namespace EEMod.EEWorld
             {
                 if (TileCheck2(i, j) == 2 && Main.rand.NextBool(20))
                 {
-                    WorldGen.PlaceTile(i, j - 4, ModContent.TileType<KelpFlower>(), default, default, default, default);
+                    WorldGen.PlaceTile(i, j - 4, ModContent.TileType<KelpFlower>(), true, default, default, default);
                     ModTileEntity.PlaceEntityNet(i, j - 4, ModContent.TileEntityType<KelpFlowerTE>());
                 }
             });
@@ -185,7 +185,7 @@ namespace EEMod.EEWorld
                     || tile.TileType == ModContent.TileType<KelpLeafTile>()
                     || tile.TileType == ModContent.TileType<KelpMossTile>()))
                 {
-                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
+                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>(), true);
                 }
             });
         }

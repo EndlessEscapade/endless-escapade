@@ -39,6 +39,8 @@ using EEMod.Items.Weapons.Summon.Minions;
 using EEMod.Items.Weapons.Ammo;
 using EEMod.Subworlds;
 using SubworldLibrary;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EEMod.Subworlds.CoralReefs
 {
@@ -60,7 +62,7 @@ namespace EEMod.Subworlds.CoralReefs
         public static Vector2 SpirePosition = Vector2.Zero;
 
         public override int Width => 1500;
-        public override int Height => 2400; 
+        public override int Height => 2400;
 
         private int depth = 120;
         private int boatPos = 300;
@@ -75,6 +77,10 @@ namespace EEMod.Subworlds.CoralReefs
         {
             new SubworldGenerationPass(progress =>
             {
+                try
+                {
+                    //WorldGen.gen = true;
+
                 var rand = WorldGen.genRand;
                 EESubworld.progressMessage = "Generating Coral Reefs";
 
@@ -266,8 +272,7 @@ namespace EEMod.Subworlds.CoralReefs
 
                 RemoveStoneSlabs();
 
-                try
-                {
+
                     #region Shipwrecks
                     EESubworld.progressMessage = "Wrecking ships";
                     #endregion
@@ -355,11 +360,19 @@ namespace EEMod.Subworlds.CoralReefs
                     #endregion
 
                     #region Removing dirt walls
+
                     for (int i = 2; i < Main.maxTilesX - 2; i++)
                     {
                         for (int j = 2; j < Main.maxTilesY - 2; j++)
                         {
-                            if (Framing.GetTileSafely(i, j).WallType == WallID.Dirt || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe1 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe2 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe3 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe4)
+                            var tile = Framing.GetTileSafely(i, j);
+                            int wallType = tile.WallType;
+                            if (wallType == WallID.Dirt || 
+                            wallType == WallID.DirtUnsafe || 
+                            wallType == WallID.DirtUnsafe1 || 
+                            wallType == WallID.DirtUnsafe2 || 
+                            wallType == WallID.DirtUnsafe3 ||
+                            wallType == WallID.DirtUnsafe4)
                             {
                                 WorldGen.KillWall(i, j);
                             }
@@ -392,7 +405,7 @@ namespace EEMod.Subworlds.CoralReefs
                                 {
                                     if (Framing.GetTileSafely(i, ballfart - j).HasTile || Framing.GetTileSafely(i, ballfart - j).LiquidAmount < 64) break;
 
-                                    WorldGen.PlaceTile(i, ballfart - j, ModContent.TileType<SeagrassTile>());
+                                    WorldGen.PlaceTile(i, ballfart - j, ModContent.TileType<SeagrassTile>(), true);
                                 }
                             }
                         }
@@ -542,6 +555,10 @@ namespace EEMod.Subworlds.CoralReefs
                     //EEMod.progressMessage = e.ToString();
                     //SubworldManager.PreSaveAndQuit();
                     return;
+                }
+                finally
+                {
+
                 }
 
                 //Finishing initialization stuff
@@ -893,7 +910,7 @@ namespace EEMod.Subworlds.CoralReefs
                     //Tile tile = Framing.GetTileSafely(i, j);
                     if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
                     {
-                        WorldGen.PlaceTile(i, j, type);
+                        WorldGen.PlaceTile(i, j, type, true);
                     }
                 }
             }
@@ -913,7 +930,7 @@ namespace EEMod.Subworlds.CoralReefs
                     if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
                     {
                         //WorldGen.PlaceTile(i, j, type);
-                        WorldGen.PlaceTile(i, j, (ushort)GetGemsandType(j));
+                        WorldGen.PlaceTile(i, j, (ushort)GetGemsandType(j), true);
                     }
                 }
             }

@@ -532,9 +532,9 @@ namespace EEMod.Systems
 
 								if (Main.tileFrameImportant[tile.TileType])
 								{
-									byte[] firstHalf = BitConverter.GetBytes(tile.TileFrameX);
-									byte[] secondHalf = BitConverter.GetBytes(tile.TileFrameY);
-									int frameData = BitConverter.ToInt32(new[] { firstHalf[0], firstHalf[1], secondHalf[0], secondHalf[1] }, 0);
+									//byte[] firstHalf = BitConverter.GetBytes(tile.TileFrameX);
+									//byte[] secondHalf = BitConverter.GetBytes(tile.TileFrameY);
+									int frameData = (int)(ushort)tile.TileFrameX << 16 | (int)(ushort)tile.TileFrameY; //BitConverter.ToInt32(new[] { firstHalf[0], firstHalf[1], secondHalf[0], secondHalf[1] }, 0);
 
 									writer.Write(PlaceDirectFramedFlag);
 									writer.Write(indexInMap);

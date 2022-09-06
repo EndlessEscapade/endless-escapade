@@ -33,14 +33,6 @@ namespace EEMod.Extensions
             }
         }
 
-        public static void SetAllDefault<T>(this T[] t)
-        {
-            for (int i = 0; i < t.Length; i++)
-            {
-                t[i] = default;
-            }
-        }
-
         public static Array CloneAndCopy(this Array array)
         {
             int[] lengths = new int[array.Rank];

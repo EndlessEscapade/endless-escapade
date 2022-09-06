@@ -53,8 +53,8 @@ namespace EEMod.EEWorld
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     tile.TileType = (ushort)type;
                     tile.HasTile = true;
-                    EESubworld.progressMessage = messageBefore;
-                    EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    //EESubworld.progressMessage = messageBefore;
+                    //EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
             }
             EESubworld.progressMessage = messageBefore;
@@ -78,11 +78,11 @@ namespace EEMod.EEWorld
                 }
             }
 
-            WorldGen.PlaceTile(x + 12, y + 25, ModContent.TileType<WoodenShipsWheelTile>());
-            WorldGen.PlaceTile(x + 12 - 9, y + 25 + 5, ModContent.TileType<FigureheadTile>());
-            WorldGen.PlaceTile(x + 12 + 12, y + 25 + 1, ModContent.TileType<CannonTile>());
-            WorldGen.PlaceTile(x + 12 + 24, y + 25 + 1, ModContent.TileType<MapTable>());
-            WorldGen.PlaceTile(x + 12 + 24 - 3, y + 25 + 1 + 7, ModContent.TileType<ShipStorage>());
+            WorldGen.PlaceTile(x + 12, y + 25, ModContent.TileType<WoodenShipsWheelTile>(), true);
+            WorldGen.PlaceTile(x + 12 - 9, y + 25 + 5, ModContent.TileType<FigureheadTile>(), true);
+            WorldGen.PlaceTile(x + 12 + 12, y + 25 + 1, ModContent.TileType<CannonTile>(), true);
+            WorldGen.PlaceTile(x + 12 + 24, y + 25 + 1, ModContent.TileType<MapTable>(), true);
+            WorldGen.PlaceTile(x + 12 + 24 - 3, y + 25 + 1 + 7, ModContent.TileType<ShipStorage>(), true);
         }
 
         public static float[] PerlinArray(int width, int seedVar, float amplitude, Vector2 res)
@@ -137,8 +137,8 @@ namespace EEMod.EEWorld
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     tile.TileType = (ushort)type;
                     tile.HasTile = true;
-                    EESubworld.progressMessage = messageBefore;
-                    EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    //EESubworld.progressMessage = messageBefore;
+                    //EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
             }
             EESubworld.progressMessage = messageBefore;
@@ -157,8 +157,8 @@ namespace EEMod.EEWorld
                     {
                         tile.TileType = (ushort)type;
                         tile.HasTile = true;
-                        EESubworld.progressMessage = messageBefore;
-                        EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                        //EESubworld.progressMessage = messageBefore;
+                        //EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
@@ -177,8 +177,8 @@ namespace EEMod.EEWorld
                     if (tile.HasTile)
                     {
                         tile.TileType = (ushort)type;
-                        EESubworld.progressMessage = messageBefore;
-                        EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                        //EESubworld.progressMessage = messageBefore;
+                        //EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
@@ -192,11 +192,11 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                    WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, true);
                     if (EEMod.isSaving)
                     {
-                        EESubworld.progressMessage = messageBefore;
-                        EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                        //EESubworld.progressMessage = messageBefore;
+                        //EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
@@ -240,8 +240,8 @@ namespace EEMod.EEWorld
             {
                 while (Framing.GetTileSafely(x2, y2 - 3).LiquidAmount > 64 || Framing.GetTileSafely(x2, y2).LiquidAmount > 64)
                 {
-                    WorldGen.PlaceTile(x2, y2, TileID.LivingWood, false, true);
-                    WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, false, true);
+                    WorldGen.PlaceTile(x2, y2, TileID.LivingWood, true, true);
+                    WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, true, true);
 
                     Framing.GetTileSafely(x2, y2).Slope = SlopeType.Solid;
                     Framing.GetTileSafely(x2 + 1, y2).Slope = SlopeType.Solid;
@@ -264,7 +264,7 @@ namespace EEMod.EEWorld
 
             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/SailorHouse.lcs")).PlaceAt(x, y - 13, true, true);
 
-            WorldGen.PlaceTile(x + 7, y - 13 + 18, ModContent.TileType<ShipbuildersWorkbench>());
+            WorldGen.PlaceTile(x + 7, y - 13 + 18, ModContent.TileType<ShipbuildersWorkbench>(), true);
 
             //7, 18
             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/ruinedboat.lcs")).PlaceAt(x - 108, y, true, true);
@@ -290,7 +290,7 @@ namespace EEMod.EEWorld
 
                         Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/IceBoat.lcs")).PlaceAt(i + randint, (int)(Main.worldSurface) + 2, false, false, false, true);
 
-                        WorldGen.PlaceTile(i + randint + 38, (int)(Main.worldSurface) + 2 + 22 + 2, ModContent.TileType<CryoCannonTile>(), false, true);
+                        WorldGen.PlaceTile(i + randint + 38, (int)(Main.worldSurface) + 2 + 22 + 2, ModContent.TileType<CryoCannonTile>(), true, true);
 
                         //WorldGen.PlaceTile(i + randint + 38, (int)(Main.worldSurface) + 2 + 22 + 2, TileID.Hellstone, false, true);
 
@@ -703,7 +703,7 @@ namespace EEMod.EEWorld
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
                     {
-                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, true);
                     }
 
                     if (i == width / 2 && j == height / 2)
@@ -743,7 +743,7 @@ namespace EEMod.EEWorld
                         float Param = PN.perlin2[i + width, j + height] * 15;
                         if (OvalCheck((int)Middle.X, (int)Middle.Y, (int)Middle.X + i, (int)Middle.Y + j, width, height + (int)Param))
                         {
-                            WorldGen.PlaceTile(i + (int)Middle.X, j + (int)Middle.Y, type, false, true);
+                            WorldGen.PlaceTile(i + (int)Middle.X, j + (int)Middle.Y, type, true, true);
                         }
                     }
                 }
@@ -764,7 +764,7 @@ namespace EEMod.EEWorld
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2) + steps, i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
                     {
-                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, true);
                     }
                 }
             }
@@ -803,7 +803,7 @@ namespace EEMod.EEWorld
                         {
                             if (TileCheck2(i, j) == (int)TileSpacing.Bottom)
                             {
-                                WorldGen.PlaceTile(i, j + 1, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                WorldGen.PlaceTile(i, j + 1, tile, true, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                                 for (int a = 0; a < TOD.Width; a++)
                                     Framing.GetTileSafely(i + a, j).Slope = 0;
                             }
@@ -812,7 +812,7 @@ namespace EEMod.EEWorld
                         {
                             if (TileCheck2(i, j) == (int)TileSpacing.Top)
                             {
-                                WorldGen.PlaceTile(i, j - TOD.Height, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                WorldGen.PlaceTile(i, j - TOD.Height, tile, true, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                                 for (int a = 0; a < TOD.Width; a++)
                                     Framing.GetTileSafely(i + a, j).Slope = 0;
                             }
@@ -821,14 +821,14 @@ namespace EEMod.EEWorld
                         {
                             if (TileCheck2(i, j) == (int)TileSpacing.Right)
                             {
-                                WorldGen.PlaceTile(i + 1, j, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                WorldGen.PlaceTile(i + 1, j, tile, true, true, default, Main.rand.Next(0, TOD.RandomStyleRange));
                             }
                         }
                         else if (TOD?.AnchorRight != AnchorData.Empty)
                         {
                             if (TileCheck2(i, j) == (int)TileSpacing.Left)
                             {
-                                WorldGen.PlaceTile(i + TOD.Width, j, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                WorldGen.PlaceTile(i + TOD.Width, j, tile, true, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                             }
                         }
                     }
@@ -855,7 +855,7 @@ namespace EEMod.EEWorld
                             {
                                 if (TileCheck2(i, j) == (int)TileSpacing.Bottom)
                                 {
-                                    WorldGen.PlaceTile(i, j + 1, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                    WorldGen.PlaceTile(i, j + 1, tile, true, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                                     for (int a = 0; a < TOD.Width; a++)
                                         Framing.GetTileSafely(i + a, j).Slope = 0;
                                 }
@@ -864,7 +864,7 @@ namespace EEMod.EEWorld
                             {
                                 if (TileCheck2(i, j) == (int)TileSpacing.Top)
                                 {
-                                    WorldGen.PlaceTile(i, j - TOD.Height, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                    WorldGen.PlaceTile(i, j - TOD.Height, tile, true, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                                     for (int a = 0; a < TOD.Width; a++)
                                         Framing.GetTileSafely(i + a, j).Slope = 0;
                                 }
@@ -873,14 +873,14 @@ namespace EEMod.EEWorld
                             {
                                 if (TileCheck2(i, j) == (int)TileSpacing.Right)
                                 {
-                                    WorldGen.PlaceTile(i + 1, j, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                    WorldGen.PlaceTile(i + 1, j, tile, true, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                                 }
                             }
                             else if (TOD.AnchorRight != AnchorData.Empty)
                             {
                                 if (TileCheck2(i, j) == (int)TileSpacing.Left)
                                 {
-                                    WorldGen.PlaceTile(i + TOD.Width, j, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                    WorldGen.PlaceTile(i + TOD.Width, j, tile, true, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                                 }
                             }
                         }
@@ -899,7 +899,7 @@ namespace EEMod.EEWorld
                     {
                         if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
                         {
-                            WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                            WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, true);
                         }
                     }
                     if (i == width / 2 && j == height / 2)
@@ -918,7 +918,7 @@ namespace EEMod.EEWorld
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
                     {
-                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, true, forced);
                     }
 
                     if (i == width / 2 && j == height / 2)
@@ -939,7 +939,7 @@ namespace EEMod.EEWorld
                     float f = size * 0.5f;
                     if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
                     {
-                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, true, forced);
                     }
                 }
             }
@@ -954,7 +954,7 @@ namespace EEMod.EEWorld
                     float f = size * 0.5f;
                     if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
                     {
-                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, true, forced);
                     }
                 }
             }
@@ -969,7 +969,7 @@ namespace EEMod.EEWorld
                     float f = size * 0.5f;
                     if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
                     {
-                        WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                        WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, true);
                     }
                 }
             }
@@ -1022,7 +1022,7 @@ namespace EEMod.EEWorld
                 {
                     for (int i = 0; i < width; i++)
                     {
-                        WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), type);
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), type, true);
                     }
                 }
                 startingPoint.X += 1;
@@ -1047,9 +1047,9 @@ namespace EEMod.EEWorld
                     for (int i = 0; i < width; i++)
                     {
                         if (tileType == -1)
-                            WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), tileType);
+                            WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), tileType, true);
                         if (wallType != -1)
-                            WorldGen.PlaceWall(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), wallType);
+                            WorldGen.PlaceWall(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), wallType, true);
                     }
                 }
                 startingPoint.X += 1;
@@ -1074,9 +1074,9 @@ namespace EEMod.EEWorld
                     for (int i = 0; i < width; i++)
                     {
                         if (tileType == -1)
-                            WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), tileType);
+                            WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), tileType, true);
                         if (wallType != -1)
-                            WorldGen.PlaceWall(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), wallType);
+                            WorldGen.PlaceWall(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), wallType, true);
                     }
                 }
                 startingPoint.X += 1;
@@ -1097,8 +1097,8 @@ namespace EEMod.EEWorld
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     tile.TileType = (ushort)type;
                     tile.HasTile = true;
-                    EESubworld.progressMessage = messageBefore;
-                    EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    //EESubworld.progressMessage = messageBefore;
+                    //EESubworld.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
             }
             EESubworld.progressMessage = messageBefore;
@@ -1115,7 +1115,7 @@ namespace EEMod.EEWorld
                     {
                         displacement += Main.rand.Next(-1, 2);
                     }
-                    WorldGen.PlaceTile(displacement + (int)startingPoint.X, (int)startingPoint.Y - i, type, false, true);
+                    WorldGen.PlaceTile(displacement + (int)startingPoint.X, (int)startingPoint.Y - i, type, true, true);
                 }
             }
         }

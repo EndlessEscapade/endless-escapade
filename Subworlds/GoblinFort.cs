@@ -68,7 +68,7 @@ namespace EEMod.Subworlds
                     {
                         if (j < (((i / 30f) * (i / 30f)) + 10f))
                         {
-                            WorldGen.PlaceTile((2399 - i), (50 - j) + 274 + 400 + 10 + 10 - 100 - 5, TileID.Adamantite);
+                            WorldGen.PlaceTile((2399 - i), (50 - j) + 274 + 400 + 10 + 10 - 100 - 5, TileID.Adamantite, true);
                         }
                     }
                 }
@@ -164,7 +164,7 @@ namespace EEMod.Subworlds
                     {
                         if (j < (((i / 50f) * (i / 50f)) + 30f) && !Framing.GetTileSafely((2399 - i) + 0, (70 - j) + 274 + 400 + 10 + 10 - 100 - 5 - 5 - 10 - 10).HasTile)
                         {
-                            WorldGen.PlaceTile((2399 - i) + 0, (70 - j) + 274 + 400 + 10 + 10 - 100 - 5 - 5 - 10 - 10, ModContent.TileType<DirtySandTile>());
+                            WorldGen.PlaceTile((2399 - i) + 0, (70 - j) + 274 + 400 + 10 + 10 - 100 - 5 - 5 - 10 - 10, ModContent.TileType<DirtySandTile>(), true);
                         }
                     }
                 }

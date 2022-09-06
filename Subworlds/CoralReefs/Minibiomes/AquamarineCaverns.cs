@@ -239,7 +239,7 @@ namespace EEMod.EEWorld
 
                     while (!Framing.GetTileSafely(i, newJ).HasTile)
                     {
-                        WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarinePillar>());
+                        WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarinePillar>(), true);
 
                         newJ++;
                     }
@@ -256,7 +256,7 @@ namespace EEMod.EEWorld
 
                     while (!Main.tile[i, newJ].HasTile && newJ - j < length)
                     {
-                        WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarineChime>());
+                        WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarineChime>(), true);
 
                         newJ++;
                     }
@@ -269,9 +269,9 @@ namespace EEMod.EEWorld
                 if(TileCheck2(i, j) == 2 && WorldGen.genRand.NextBool(10))
                 {
                     if(WorldGen.genRand.NextBool())
-                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<AquamarineLamp1>());
+                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<AquamarineLamp1>(), true);
                     else
-                        WorldGen.PlaceTile(i, j - 4, ModContent.TileType<AquamarineLamp2>());
+                        WorldGen.PlaceTile(i, j - 4, ModContent.TileType<AquamarineLamp2>(), true);
                 }
             });
 

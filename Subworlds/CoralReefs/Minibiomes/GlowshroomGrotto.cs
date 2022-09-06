@@ -98,7 +98,7 @@ namespace EEMod.EEWorld
                     for (int a = 0; a < WorldGen.genRand.Next(4, 15); a++)
                     {
                         if (!Framing.GetTileSafely(i, j + a).HasTile)
-                            WorldGen.PlaceTile(i, j + a, ModContent.TileType<GlowshroomVines>());
+                            WorldGen.PlaceTile(i, j + a, ModContent.TileType<GlowshroomVines>(), true);
                     }
                 }
             });

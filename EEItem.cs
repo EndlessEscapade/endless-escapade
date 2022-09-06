@@ -22,14 +22,23 @@ namespace EEMod
             return Shoot(player, ref position, ref velocity.X, ref velocity.Y, ref type, ref damage, ref knockback);
         }
 
+        public override void HoldStyle(Player player, Rectangle heldItemFrame)
+        {
+            HoldStyle(player);
+        }
+
         public virtual void HoldStyle(Player player)
         {
-            HoldStyle(player, Item.getRect());
+
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+
         }
 
         public virtual void UpdateVanity(Player player, EquipType type)
         {
-            UpdateVanity(player);
         }
     }
 }

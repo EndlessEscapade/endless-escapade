@@ -10,6 +10,7 @@ namespace EEMod.Extensions
 
         public static Vector2 ParalaxXY(this Vector2 vec, Vector2 paralax) => vec - Main.screenPosition * paralax;
 
+        /// <summary>Substracts <see cref="Main.screenPosition"/> from the current vector</summary>
         public static Vector2 ForDraw(this Vector2 vec) => vec - Main.screenPosition;
 
         public static float ToRadians(this float num) => num * (float)(Math.PI / 180f);

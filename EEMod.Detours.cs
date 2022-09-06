@@ -322,7 +322,7 @@ namespace EEMod
                 EEMod.PolkaDot.CurrentTechnique.Passes[0].Apply();
 
                 Main.spriteBatch.Draw(bubbleTex, loadingScreenParticles[i], bubbleTex.Bounds, Color.White * 0.2f, 0f, bubbleTex.TextureCenter(), 2f * (((float)Math.Sin(i) * 0.15f) + 0.85f), SpriteEffects.None, 0f);
-               
+
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
@@ -386,7 +386,7 @@ namespace EEMod
                 {
                     Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
                     Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
-                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value; 
+                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
 
                     Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default);
 
@@ -434,12 +434,12 @@ namespace EEMod
 
         public void GoblinTableCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
         {
-            for(int i = 0; i < Main.maxProjectiles; i++) 
+            for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile proj = Main.projectile[i];
 
-                if (proj.ModProjectile is PhantomTable table) 
-                { 
+                if (proj.ModProjectile is PhantomTable table)
+                {
                     if (!self.active || self.controlDown) return;
 
                     var playerBox = new Rectangle((int)self.position.X, (int)self.position.Y + self.height, self.width, 1);
@@ -448,7 +448,7 @@ namespace EEMod
                     if (/*player.Bottom.Y > (Projectile.position.Y - player.height + ((float)Math.Sin(Projectile.rotation) * (player.Center.X - Projectile.Center.X)))
                             && */playerBox.Intersects(floorBox) && self.velocity.Y > 0 && !Collision.SolidCollision(self.Bottom, self.width, (int)Math.Max(1 + table.falseVelocity.Y, 0)))
                     {
-                        if(self.velocity.Y > 1 && table.offsetVel.Y <= 0)
+                        if (self.velocity.Y > 1 && table.offsetVel.Y <= 0)
                         {
                             table.offsetVel.Y = self.velocity.Y / 3f;
                         }
@@ -750,7 +750,7 @@ namespace EEMod
             orig(i, j, R, G, B);
         }
 
-        #pragma warning disable IDE0051 // Private members
+#pragma warning disable IDE0051 // Private members
         private static class DetourReflectionCache
         {
             public static FieldInfo UIWorldListItem_data;

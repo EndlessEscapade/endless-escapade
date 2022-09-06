@@ -43,10 +43,10 @@ namespace EEMod.Items.Weapons.Melee.Swords
                 for (int i = 0; i < 5; i++)
                     EEMod.MainParticles.SpawnParticles(Projectile.Center, default, 3, Main.hslToRgb((Projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f), new Spew(6.14f, 1f, Vector2.One, 0.95f), new RotateVelocity(Main.rand.NextFloat(-0.03f, 0.03f)), new AfterImageTrail(1.5f));
             }
+
             Projectile.ai[1] = (Main.GameUpdateCount / 60f * 6.28f) + Projectile.ai[0];
             if (!Projectile.friendly)
             {
-
                 Vector2 circle = new Vector2(40 * (float)Math.Sin((double)Projectile.ai[1]), 20 * (float)Math.Cos((double)Projectile.ai[1]) + 50);
                 Vector2 mouseToPlayer = Main.MouseWorld - player.Center;
                 circle = circle.RotatedBy(mouseToPlayer.ToRotation() + 1.57);
