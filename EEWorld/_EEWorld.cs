@@ -58,7 +58,7 @@ namespace EEMod.EEWorld
 
         public static IList<Vector2> Vines = new List<Vector2>();
 
-        public static bool boatPlaced = false;
+        public static bool boatPlaced;
 
 
         public override void LoadWorldData(TagCompound tag)
@@ -329,6 +329,8 @@ namespace EEMod.EEWorld
             GenerateShipyard();
 
             PlaceIceBoat();
+
+            boatPlaced = false;
         }
 
         public static void GenerateShipyard()

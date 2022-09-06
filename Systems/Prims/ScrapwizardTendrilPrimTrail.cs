@@ -144,12 +144,12 @@ namespace EEMod.Prim
 
             Vector2 dir = Vector2.Normalize(BindableEntity.Center - (targetEntity.ModNPC as Scrapwizard).staffCastPos).RotatedBy(MathHelper.PiOver2);
 
-            for (int i = 0; i < _cap; i++)
+            for (int i = 0; i < 60; i++)
             {
                 Vector2 lerp1 = (targetEntity.ModNPC as Scrapwizard).staffCastPos;
                 Vector2 lerp2 = BindableEntity.Center;
 
-                Vector2 lerpFinal = Vector2.Lerp(lerp1, lerp2, (i / (float)_cap)) +
+                Vector2 lerpFinal = Vector2.Lerp(lerp1, Vector2.Lerp(targetEntity.Center, BindableEntity.Center, 60f / _cap), (i / (float)60)) +
                    dir *
                    (0.5f - 0.5f * (float)Math.Cos(((float)i / (float)_cap) * MathHelper.TwoPi)) *
                    ((float)Math.Sin((i / 24f) - 2f * (Main.GameUpdateCount / 15f)) / 2f + (float)Math.Sin((i / 24f) - 3f * (Main.GameUpdateCount / 16f)) / 2f)
@@ -158,7 +158,21 @@ namespace EEMod.Prim
                 _points.Add(lerpFinal);
             }
 
-            if(_destroyed)
+            for (int i = 60; i < _cap; i++)
+            {
+                Vector2 lerp1 = targetEntity.Center;
+                Vector2 lerp2 = BindableEntity.Center;
+
+                Vector2 lerpFinal = Vector2.Lerp(Vector2.Lerp(targetEntity.Center, BindableEntity.Center, 60f / _cap), lerp2, ((i - 60) / (float)(_cap - 60))) +
+                   dir *
+                   (0.5f - 0.5f * (float)Math.Cos(((float)i / (float)_cap) * MathHelper.TwoPi)) *
+                   ((float)Math.Sin((i / 24f) - 2f * (Main.GameUpdateCount / 15f)) / 2f + (float)Math.Sin((i / 24f) - 3f * (Main.GameUpdateCount / 16f)) / 2f)
+                    * MathHelper.Clamp(0f, 1f, Vector2.Distance(BindableEntity.Center, (targetEntity.ModNPC as Scrapwizard).staffCastPos)) * 20f;
+
+                _points.Add(lerpFinal);
+            }
+
+            if (_destroyed)
             {
                 Alpha *= 0.92f;
 
@@ -287,12 +301,26 @@ namespace EEMod.Prim
 
             Vector2 dir = Vector2.Normalize(BindableEntity.Center - (targetEntity.ModNPC as Scrapwizard).staffCastPos).RotatedBy(MathHelper.PiOver2);
 
-            for (int i = 0; i < _cap; i++)
+            for (int i = 0; i < 60; i++)
             {
                 Vector2 lerp1 = (targetEntity.ModNPC as Scrapwizard).staffCastPos;
                 Vector2 lerp2 = BindableEntity.Center;
 
-                Vector2 lerpFinal = Vector2.Lerp(lerp1, lerp2, (i / (float)_cap)) +
+                Vector2 lerpFinal = Vector2.Lerp(lerp1, Vector2.Lerp(targetEntity.Center, BindableEntity.Center, 60f / _cap), (i / (float)60)) +
+                   dir *
+                   (0.5f - 0.5f * (float)Math.Cos(((float)i / (float)_cap) * MathHelper.TwoPi)) *
+                   ((float)Math.Sin((i / 24f) - 2f * (Main.GameUpdateCount / 15f)) / 2f + (float)Math.Sin((i / 24f) - 3f * (Main.GameUpdateCount / 16f)) / 2f)
+                    * MathHelper.Clamp(0f, 1f, Vector2.Distance(BindableEntity.Center, (targetEntity.ModNPC as Scrapwizard).staffCastPos)) * 20f;
+
+                _points.Add(lerpFinal);
+            }
+
+            for (int i = 60; i < _cap; i++)
+            {
+                Vector2 lerp1 = targetEntity.Center;
+                Vector2 lerp2 = BindableEntity.Center;
+
+                Vector2 lerpFinal = Vector2.Lerp(Vector2.Lerp(targetEntity.Center, BindableEntity.Center, 60f / _cap), lerp2, ((i - 60) / (float)(_cap - 60))) +
                    dir *
                    (0.5f - 0.5f * (float)Math.Cos(((float)i / (float)_cap) * MathHelper.TwoPi)) *
                    ((float)Math.Sin((i / 24f) - 2f * (Main.GameUpdateCount / 15f)) / 2f + (float)Math.Sin((i / 24f) - 3f * (Main.GameUpdateCount / 16f)) / 2f)

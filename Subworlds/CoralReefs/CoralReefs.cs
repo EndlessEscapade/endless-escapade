@@ -81,196 +81,196 @@ namespace EEMod.Subworlds.CoralReefs
                 {
                     //WorldGen.gen = true;
 
-                var rand = WorldGen.genRand;
-                EESubworld.progressMessage = "Generating Coral Reefs";
+                    var rand = WorldGen.genRand;
+                    EESubworld.progressMessage = "Generating Coral Reefs";
 
-                int roomsPerLayer = 10;
+                    int roomsPerLayer = 10;
 
-                VerletHelpers.SwingableVines.Clear();
+                    VerletHelpers.SwingableVines.Clear();
 
-                //Placing initial blocks
-                #region Initial block placement
-                EESubworld.progressMessage = "Initial generation";
+                    //Placing initial blocks
+                    #region Initial block placement
+                    EESubworld.progressMessage = "Initial generation";
 
-                FillRegion(Main.maxTilesX, (Main.maxTilesY / 10) * 4, Vector2.Zero, ModContent.TileType<LightGemsandTile>());
+                    FillRegion(Main.maxTilesX, (Main.maxTilesY / 10) * 4, Vector2.Zero, ModContent.TileType<LightGemsandTile>());
 
-                FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 60, new Vector2(0, (Main.maxTilesY / 10) * 4 - (Main.maxTilesY / 60)), ModContent.TileType<GemsandTile>(), 20);
-                FillRegionNoEdit(Main.maxTilesX, (Main.maxTilesY / 10) * 3, new Vector2(0, (Main.maxTilesY / 10) * 4), ModContent.TileType<GemsandTile>());
+                    FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 60, new Vector2(0, (Main.maxTilesY / 10) * 4 - (Main.maxTilesY / 60)), ModContent.TileType<GemsandTile>(), 20);
+                    FillRegionNoEdit(Main.maxTilesX, (Main.maxTilesY / 10) * 3, new Vector2(0, (Main.maxTilesY / 10) * 4), ModContent.TileType<GemsandTile>());
 
-                FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 60, new Vector2(0, (Main.maxTilesY / 10) * 7 - (Main.maxTilesY / 60)), ModContent.TileType<DarkGemsandTile>(), 20);
-                FillRegionNoEdit(Main.maxTilesX, (Main.maxTilesY / 10) * 3, new Vector2(0, (Main.maxTilesY / 10) * 7), ModContent.TileType<DarkGemsandTile>());
+                    FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 60, new Vector2(0, (Main.maxTilesY / 10) * 7 - (Main.maxTilesY / 60)), ModContent.TileType<DarkGemsandTile>(), 20);
+                    FillRegionNoEdit(Main.maxTilesX, (Main.maxTilesY / 10) * 3, new Vector2(0, (Main.maxTilesY / 10) * 7), ModContent.TileType<DarkGemsandTile>());
 
-                ClearRegion(Main.maxTilesX, (Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60), Vector2.Zero);
+                    ClearRegion(Main.maxTilesX, (Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60), Vector2.Zero);
 
-                #endregion
+                    #endregion
 
-                #region Surface reefs
-                EESubworld.progressMessage = "Making the surface";
+                    #region Surface reefs
+                    EESubworld.progressMessage = "Making the surface";
 
-                NoiseGenWave(new Vector2(0, 130), new Vector2(Main.maxTilesX, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralsandstoneTile>(), 0.5f);
-                NoiseGenWave(new Vector2(0, 110), new Vector2(Main.maxTilesX, Main.maxTilesY / 20), new Vector2(50, 50), TileID.StoneSlab, 0.6f);
+                    NoiseGenWave(new Vector2(0, 130), new Vector2(Main.maxTilesX, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralsandstoneTile>(), 0.5f);
+                    NoiseGenWave(new Vector2(0, 110), new Vector2(Main.maxTilesX, Main.maxTilesY / 20), new Vector2(50, 50), TileID.StoneSlab, 0.6f);
 
-                RemoveStoneSlabs();
+                    RemoveStoneSlabs();
 
-                //Plateaus
-                FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 120), ModContent.TileType<CoralSandTile>(), 8);
-                FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 120, new Vector2(0, 155), ModContent.TileType<CoralsandstoneTile>(), 8);
+                    //Plateaus
+                    FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 120), ModContent.TileType<CoralSandTile>(), 8);
+                    FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 120, new Vector2(0, 155), ModContent.TileType<CoralsandstoneTile>(), 8);
 
-                //Ground
-                FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 80, new Vector2(0, 170), ModContent.TileType<CoralsandstoneTile>(), 5);
-                FillRegionNoChangeWithNoise(Main.maxTilesX, Main.maxTilesY / 80, new Vector2(0, 165), ModContent.TileType<CoralSandTile>(), 8);
+                    //Ground
+                    FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 80, new Vector2(0, 170), ModContent.TileType<CoralsandstoneTile>(), 5);
+                    FillRegionNoChangeWithNoise(Main.maxTilesX, Main.maxTilesY / 80, new Vector2(0, 165), ModContent.TileType<CoralSandTile>(), 8);
 
-                FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 190), ModContent.TileType<LightGemsandTile>(), 10);
+                    FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 190), ModContent.TileType<LightGemsandTile>(), 10);
 
-                for (int i = 50; i < Main.maxTilesX - 100; i++)
-                {
-                    if (i >= boatPos - 60 && i <= boatPos) i += 50;
-
-                    if (WorldGen.genRand.NextBool(200))
+                    for (int i = 50; i < Main.maxTilesX - 100; i++)
                     {
-                        int width = WorldGen.genRand.Next(40, 60);
-                        int height = WorldGen.genRand.Next(20, 25);
+                        if (i >= boatPos - 60 && i <= boatPos) i += 50;
 
-                        MakeOvalJaggedTop(width, height, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
-
-                        MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
-
-                        for (int k = i; k < i + 25; k++)
+                        if (WorldGen.genRand.NextBool(200))
                         {
-                            for (int l = depth - 15; l < depth + 10; l++)
+                            int width = WorldGen.genRand.Next(40, 60);
+                            int height = WorldGen.genRand.Next(20, 25);
+
+                            MakeOvalJaggedTop(width, height, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
+
+                            MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
+
+                            for (int k = i; k < i + 25; k++)
                             {
-                                WorldGen.SpreadGrass(k, l);
+                                for (int l = depth - 15; l < depth + 10; l++)
+                                {
+                                    WorldGen.SpreadGrass(k, l);
+                                }
+                            }
+
+                            i += 50;
+                        }
+                    }
+
+                    #endregion
+
+                    #region Finding suitable room positions
+                    EESubworld.progressMessage = "Finding suitable room positions";
+
+                    int[] biomes = Helpers.FillUniformArray(roomsPerLayer * 2, 0, 3);
+
+                    Vector2[] upperRoomPositions = MakeDistantLocations(roomsPerLayer, 150, new Rectangle(200, 265, Main.maxTilesX - 400, ((Main.maxTilesY / 10) * 4) - (265 + 100)), 5000);
+                    Vector2[] lowerRoomPositions = MakeDistantLocations((int)(roomsPerLayer * 0.75f), 170, new Rectangle(100, (Main.maxTilesY / 10) * 4, Main.maxTilesX - 200, (Main.maxTilesY / 10) * 3), 5000);
+                    Vector2[] depthsRoomPositions = MakeDistantLocations(roomsPerLayer / 2, 200, new Rectangle(300, (Main.maxTilesY / 10) * 7, Main.maxTilesX - 600, ((Main.maxTilesY / 10) * 3) - 300), 5000);
+
+                    #endregion
+
+                    #region Generating chasms
+                    EESubworld.progressMessage = "Generating chasms";
+
+                    int highestUpperRoom = 0;
+                    int lowestUpperRoom = 0;
+                    for (int i = 0; i < upperRoomPositions.Length; i++)
+                    {
+                        if (upperRoomPositions[i].Y < upperRoomPositions[highestUpperRoom].Y) highestUpperRoom = i;
+                        if (upperRoomPositions[i].Y > upperRoomPositions[lowestUpperRoom].Y) lowestUpperRoom = i;
+                    }
+
+                    MakeWavyChasm3(upperRoomPositions[highestUpperRoom], new Vector2(upperRoomPositions[highestUpperRoom].X + WorldGen.genRand.Next(-100, 100), 0), TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
+
+                    MakeWavyChasm3(upperRoomPositions[highestUpperRoom], new Vector2(upperRoomPositions[highestUpperRoom].X + rand.Next(-100, 100), 0), TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
+
+                    float dist = 1000000;
+                    int closestLowerRoom = 0;
+
+                    for (int i = 0; i < lowerRoomPositions.Length; i++)
+                    {
+                        if (Vector2.DistanceSquared(upperRoomPositions[lowestUpperRoom], lowerRoomPositions[i]) < dist)
+                        {
+                            dist = Vector2.DistanceSquared(upperRoomPositions[lowestUpperRoom], lowerRoomPositions[i]);
+                            closestLowerRoom = i;
+                        }
+                    }
+
+                    MakeWavyChasm3(upperRoomPositions[lowestUpperRoom], lowerRoomPositions[closestLowerRoom], TileID.StoneSlab, 100, WorldGen.genRand.Next(7, 15), true, new Vector2(7, 15), WorldGen.genRand.Next(7, 15), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
+
+                    for (int i = 0; i < upperRoomPositions.Length; i++)
+                    {
+                        for (int j = i; j < upperRoomPositions.Length; j++)
+                        {
+                            if (Vector2.DistanceSquared(upperRoomPositions[i], upperRoomPositions[j]) <= 90000)
+                            {
+                                MakeWavyChasm3(upperRoomPositions[i], upperRoomPositions[j], TileID.StoneSlab, 100, WorldGen.genRand.Next(7, 15), true, new Vector2(7, 15), WorldGen.genRand.Next(7, 15), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
                             }
                         }
-
-                        i += 50;
                     }
-                }
 
-                #endregion
+                    RemoveStoneSlabs();
 
-                #region Finding suitable room positions
-                EESubworld.progressMessage = "Finding suitable room positions";
+                    EESubworld.progressMessage = "Placing chasm coral";
+                    TilePopulate(
+                        new int[] { ModContent.TileType<Hanging1x2Coral>(),
+                        ModContent.TileType<Hanging1x3Coral>(),
+                        ModContent.TileType<Hanging2x3Coral>(),
+                        ModContent.TileType<Hanging2x4Coral>(),
+                        ModContent.TileType<Hanging1x4Coral>(),
 
-                int[] biomes = Helpers.FillUniformArray(roomsPerLayer * 2, 0, 3);
+                        ModContent.TileType<Floor1x1Coral>(),
+                        ModContent.TileType<Floor1x2Coral>(),
+                        ModContent.TileType<Floor2x1Coral>(),
+                        ModContent.TileType<Floor2x2Coral>(),
+                        ModContent.TileType<FloorGlow2x2Coral>(),
+                        ModContent.TileType<Floor2x6Coral>(),
+                        ModContent.TileType<Floor3x2Coral>(),
+                        ModContent.TileType<Floor3x3Coral>(),
+                        ModContent.TileType<Floor4x3Coral>(),
+                        ModContent.TileType<Floor7x7Coral>(),
+                        ModContent.TileType<Floor8x7Coral>(),
+                        ModContent.TileType<Floor8x3Coral>(),
+                        ModContent.TileType<BulboBall>(),
+                        ModContent.TileType<Floor9x9Coral>(),
+                        ModContent.TileType<Floor11x11Coral>(),
 
-                Vector2[] upperRoomPositions = MakeDistantLocations(roomsPerLayer, 150, new Rectangle(200, 265, Main.maxTilesX - 400, ((Main.maxTilesY / 10) * 4) - (265 + 100)), 5000);
-                Vector2[] lowerRoomPositions = MakeDistantLocations((int)(roomsPerLayer * 0.75f), 170, new Rectangle(100, (Main.maxTilesY / 10) * 4, Main.maxTilesX - 200, (Main.maxTilesY / 10) * 3), 5000);
-                Vector2[] depthsRoomPositions = MakeDistantLocations(roomsPerLayer / 2, 200, new Rectangle(300, (Main.maxTilesY / 10) * 7, Main.maxTilesX - 600, ((Main.maxTilesY / 10) * 3) - 300), 5000);
+                        ModContent.TileType<Wall2x2CoralL>(),
+                        ModContent.TileType<Wall3x2CoralL>(),
+                        ModContent.TileType<Wall3x2NonsolidCoralL>(),
+                        ModContent.TileType<Wall5x2NonsolidCoralL>(),
+                        ModContent.TileType<Wall6x3CoralL>(),
 
-                #endregion
+                        ModContent.TileType<Wall2x2CoralR>(),
+                        ModContent.TileType<Wall3x2CoralR>(),
+                        ModContent.TileType<Wall3x2NonsolidCoralR>(),
+                        ModContent.TileType<Wall5x2NonsolidCoralR>(),
+                        ModContent.TileType<Wall6x3CoralR>() },
+                    new Rectangle(42, depth, Main.maxTilesX - 42, Main.maxTilesY - depth - 42));
 
-                #region Generating chasms
-                EESubworld.progressMessage = "Generating chasms";
+                    TilePopulate(
+                        new int[] { ModContent.TileType<BigTropicalTree>(),
+                        ModContent.TileType<TropicalTree>(), },
+                    new Rectangle(42, 42, Main.maxTilesX - 42, depth), 3);
+                    #endregion
 
-                int highestUpperRoom = 0;
-                int lowestUpperRoom = 0;
-                for (int i = 0; i < upperRoomPositions.Length; i++)
-                {
-                    if (upperRoomPositions[i].Y < upperRoomPositions[highestUpperRoom].Y) highestUpperRoom = i;
-                    if (upperRoomPositions[i].Y > upperRoomPositions[lowestUpperRoom].Y) lowestUpperRoom = i;
-                }
+                    #region Spawning rooms
 
-                MakeWavyChasm3(upperRoomPositions[highestUpperRoom], new Vector2(upperRoomPositions[highestUpperRoom].X + WorldGen.genRand.Next(-100, 100), 0), TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
-
-                MakeWavyChasm3(upperRoomPositions[highestUpperRoom], new Vector2(upperRoomPositions[highestUpperRoom].X + rand.Next(-100, 100), 0), TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
-
-                float dist = 1000000;
-                int closestLowerRoom = 0;
-
-                for (int i = 0; i < lowerRoomPositions.Length; i++)
-                {
-                    if (Vector2.DistanceSquared(upperRoomPositions[lowestUpperRoom], lowerRoomPositions[i]) < dist)
+                    for (int i = 0; i < upperRoomPositions.Length; i++)
                     {
-                        dist = Vector2.DistanceSquared(upperRoomPositions[lowestUpperRoom], lowerRoomPositions[i]);
-                        closestLowerRoom = i;
+                        EESubworld.progressMessage = "Generating rooms pt. 1 " + (i * 100f / upperRoomPositions.Length) + "%";
+                        MakeCoralRoom((int)upperRoomPositions[i].X, (int)upperRoomPositions[i].Y, 100, 50, biomes[i]);
                     }
-                }
 
-                MakeWavyChasm3(upperRoomPositions[lowestUpperRoom], lowerRoomPositions[closestLowerRoom], TileID.StoneSlab, 100, WorldGen.genRand.Next(7, 15), true, new Vector2(7, 15), WorldGen.genRand.Next(7, 15), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
-
-                for (int i = 0; i < upperRoomPositions.Length; i++)
-                {
-                    for (int j = i; j < upperRoomPositions.Length; j++)
+                    for (int j = 0; j < lowerRoomPositions.Length; j++)
                     {
-                        if (Vector2.DistanceSquared(upperRoomPositions[i], upperRoomPositions[j]) <= 90000)
-                        {
-                            MakeWavyChasm3(upperRoomPositions[i], upperRoomPositions[j], TileID.StoneSlab, 100, WorldGen.genRand.Next(7, 15), true, new Vector2(7, 15), WorldGen.genRand.Next(7, 15), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
-                        }
+                        int biome = biomes[j + (upperRoomPositions.Length - 1)];
+                        if (biome > 0) biome += 2;
+
+                        EESubworld.progressMessage = "Generating rooms pt. 2 " + (j * 100f / lowerRoomPositions.Length) + "%";
+                        MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 150, 75, biome);
                     }
-                }
 
-                RemoveStoneSlabs();
+                    /*for (int k = 0; k < depthsRoomPositions.Length; k++)
+                    {
+                        EEMod.progressMessage = "Generating rooms pt. 3 " + (k * 100 / depthsRoomPositions.Length) + "%";
+                        MakeCoralRoom((int)depthsRoomPositions[k].X, (int)depthsRoomPositions[k].Y, 150, 75, 0);
+                    }*/
 
-                EESubworld.progressMessage = "Placing chasm coral";
-                TilePopulate(
-                    new int[] { ModContent.TileType<Hanging1x2Coral>(),
-                    ModContent.TileType<Hanging1x3Coral>(),
-                    ModContent.TileType<Hanging2x3Coral>(),
-                    ModContent.TileType<Hanging2x4Coral>(),
-                    ModContent.TileType<Hanging1x4Coral>(),
+                    #endregion
 
-                    ModContent.TileType<Floor1x1Coral>(),
-                    ModContent.TileType<Floor1x2Coral>(),
-                    ModContent.TileType<Floor2x1Coral>(),
-                    ModContent.TileType<Floor2x2Coral>(),
-                    ModContent.TileType<FloorGlow2x2Coral>(),
-                    ModContent.TileType<Floor2x6Coral>(),
-                    ModContent.TileType<Floor3x2Coral>(),
-                    ModContent.TileType<Floor3x3Coral>(),
-                    ModContent.TileType<Floor4x3Coral>(),
-                    ModContent.TileType<Floor7x7Coral>(),
-                    ModContent.TileType<Floor8x7Coral>(),
-                    ModContent.TileType<Floor8x3Coral>(),
-                    ModContent.TileType<BulboBall>(),
-                    ModContent.TileType<Floor9x9Coral>(),
-                    ModContent.TileType<Floor11x11Coral>(),
-
-                    ModContent.TileType<Wall2x2CoralL>(),
-                    ModContent.TileType<Wall3x2CoralL>(),
-                    ModContent.TileType<Wall3x2NonsolidCoralL>(),
-                    ModContent.TileType<Wall5x2NonsolidCoralL>(),
-                    ModContent.TileType<Wall6x3CoralL>(),
-
-                    ModContent.TileType<Wall2x2CoralR>(),
-                    ModContent.TileType<Wall3x2CoralR>(),
-                    ModContent.TileType<Wall3x2NonsolidCoralR>(),
-                    ModContent.TileType<Wall5x2NonsolidCoralR>(),
-                    ModContent.TileType<Wall6x3CoralR>() },
-                new Rectangle(42, depth, Main.maxTilesX - 42, Main.maxTilesY - depth - 42));
-
-                TilePopulate(
-                    new int[] { ModContent.TileType<BigTropicalTree>(),
-                    ModContent.TileType<TropicalTree>(), },
-                new Rectangle(42, 42, Main.maxTilesX - 42, depth), 3);
-                #endregion
-
-                #region Spawning rooms
-
-                for (int i = 0; i < upperRoomPositions.Length; i++)
-                {
-                    EESubworld.progressMessage = "Generating rooms pt. 1 " + (i * 100f / upperRoomPositions.Length) + "%";
-                    MakeCoralRoom((int)upperRoomPositions[i].X, (int)upperRoomPositions[i].Y, 100, 50, biomes[i]);
-                }
-
-                for (int j = 0; j < lowerRoomPositions.Length; j++)
-                {
-                    int biome = biomes[j + (upperRoomPositions.Length - 1)];
-                    if (biome > 0) biome += 2;
-
-                    EESubworld.progressMessage = "Generating rooms pt. 2 " + (j * 100f / lowerRoomPositions.Length) + "%";
-                    MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 150, 75, biome);
-                }
-
-                /*for (int k = 0; k < depthsRoomPositions.Length; k++)
-                {
-                    EEMod.progressMessage = "Generating rooms pt. 3 " + (k * 100 / depthsRoomPositions.Length) + "%";
-                    MakeCoralRoom((int)depthsRoomPositions[k].X, (int)depthsRoomPositions[k].Y, 150, 75, 0);
-                }*/
-
-                #endregion
-
-                RemoveStoneSlabs();
+                    RemoveStoneSlabs();
 
 
                     #region Shipwrecks
@@ -347,34 +347,25 @@ namespace EEMod.Subworlds.CoralReefs
                     {
                         for (int j = 2; j < Main.maxTilesY - 2; j++)
                         {
-                            if (WorldGen.genRand.NextBool(3))
+                            int wallType = Framing.GetTileSafely(i, j).WallType;
+
+                            if (!Framing.GetTileSafely(i, j + 1).HasTile && !Framing.GetTileSafely(i, j - 1).HasTile && !Framing.GetTileSafely(i + 1, j).HasTile && !Framing.GetTileSafely(i - 1, j).HasTile)
+                            {
+                                Framing.GetTileSafely(i, j).ClearTile();
+                            }
+                            else if (WorldGen.genRand.NextBool(3))
                             {
                                 Tile.SmoothSlope(i, j);
                             }
-                            if (!Framing.GetTileSafely(i, j + 1).HasTile && !Framing.GetTileSafely(i, j - 1).HasTile && !Framing.GetTileSafely(i + 1, j).HasTile && !Framing.GetTileSafely(i - 1, j).HasTile)
-                            {
-                                WorldGen.KillTile(i, j);
-                            }
-                        }
-                    }
-                    #endregion
 
-                    #region Removing dirt walls
-
-                    for (int i = 2; i < Main.maxTilesX - 2; i++)
-                    {
-                        for (int j = 2; j < Main.maxTilesY - 2; j++)
-                        {
-                            var tile = Framing.GetTileSafely(i, j);
-                            int wallType = tile.WallType;
-                            if (wallType == WallID.Dirt || 
-                            wallType == WallID.DirtUnsafe || 
-                            wallType == WallID.DirtUnsafe1 || 
-                            wallType == WallID.DirtUnsafe2 || 
-                            wallType == WallID.DirtUnsafe3 ||
-                            wallType == WallID.DirtUnsafe4)
+                            if (wallType == WallID.Dirt ||
+                                wallType == WallID.DirtUnsafe ||
+                                wallType == WallID.DirtUnsafe1 ||
+                                wallType == WallID.DirtUnsafe2 ||
+                                wallType == WallID.DirtUnsafe3 ||
+                                wallType == WallID.DirtUnsafe4)
                             {
-                                WorldGen.KillWall(i, j);
+                                Framing.GetTileSafely(i, j).WallType = WallID.None;
                             }
 
                             WorldGen.SquareTileFrame(i, j);
@@ -551,9 +542,6 @@ namespace EEMod.Subworlds.CoralReefs
                 }
                 catch (Exception e)
                 {
-                    //EEMod.progressMessage = "Unsuccessful!";
-                    //EEMod.progressMessage = e.ToString();
-                    //SubworldManager.PreSaveAndQuit();
                     return;
                 }
                 finally

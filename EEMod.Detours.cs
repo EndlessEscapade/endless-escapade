@@ -369,7 +369,7 @@ namespace EEMod
 
         private void DrawCoralReefsBg(On.Terraria.Main.orig_DoDraw_Tiles_Solid orig, Main self)
         {
-            if (SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
+            /*if (SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
             {
                 if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
                 {
@@ -421,7 +421,7 @@ namespace EEMod
                     //int a = 2;
                     //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
                 }
-            }
+            }*/
 
             orig(self);
         }
