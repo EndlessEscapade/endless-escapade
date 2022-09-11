@@ -43,7 +43,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public override void RandomUpdate(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j - 1);
-            if (!tile.HasTile && Main.rand.Next(4) == 0)
+            if (!tile.HasTile && Main.rand.NextBool(4))
             {
                 WorldGen.PlaceObject(i, j - 1, ModContent.TileType<GreenKelpTile>());
                 NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<GreenKelpTile>(), 0, 0, -1, -1);
@@ -83,10 +83,12 @@ namespace EEMod.Tiles.Foliage.KelpForest
                     WorldGen.KillTile(i, j);
                 }
             }
+
             if (!Main.tileSolid[tile.TileType])
                 return false;
+
             Vector2 pos = new Vector2((i + 12) * 16, (j + 14) * 16);
-            Vector2 sprout = new Vector2((float)(Math.Sin(Main.time / 60f + i) * 20), 30 * (i * j % 10) + 50);
+            Vector2 sprout = new Vector2((float)(Math.Sin(Main.GameUpdateCount / 60f + i) * 20), 30 * (i * j % 10) + 50);
             Vector2 end = pos - sprout;
             Vector2 lerp = Vector2.Lerp(pos, end, 0.5f);
             float dist = (end - pos).Length();
@@ -94,13 +96,13 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
 
             int noOfFrames = 10;
-            int frame = (int)((Main.time / 10f + j * i) % noOfFrames);
+            int frame = (int)((Main.GameUpdateCount / 10f + j * i) % noOfFrames);
 
 
             if (Main.tileSolid[tile.TileType] && tile.HasTile)
             {
                 Helpers.DrawBezierBreakOnTiles(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, 0f, frame, noOfFrames, 3);
-                if (Main.rand.Next(100) == 0)
+                if (Main.rand.NextBool(100))
                 {
                     Helpers.DrawParticlesAlongBezier(end, pos, pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, Color.Lerp(Color.LightGreen, Color.DarkGreen, Main.rand.NextFloat(1f)), 0.001f, new Spew(6.14f, 1f, Vector2.One / 5f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f));
                 }

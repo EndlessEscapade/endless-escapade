@@ -67,10 +67,16 @@ namespace EEMod
             On.Terraria.Main.DrawWoF += RenderBehindTiles;
             On.Terraria.Main.DrawWater += WaterAlphaMod;
             On.Terraria.Main.CacheNPCDraws += PreRenderNPCs;
-            On.Terraria.Main.DoDraw_Tiles_Solid += DrawCoralReefsBg;
+
+            On.Terraria.Main.DrawWater += Main_DrawWater;
+
+            //On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DoDraw_UpdateCameraPosition += RenderPrimitives;
 
+            On.Terraria.Main.DoDraw_WallsAndBlacks += Main_DoDraw_WallsAndBlacks;
+
             On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
+
             //On.Terraria.Main.DoDraw_Tiles_NonSolid += DrawGoblinFortBg;
 
             On.Terraria.UI.IngameFancyUI.Draw += DisableFancyUIOnSeamap;
@@ -91,6 +97,74 @@ namespace EEMod
                 return;
         }
 
+        private void Main_DrawWater(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
+        {
+            orig(self, bg, Style, SubworldSystem.IsActive<CoralReefs>() ? Alpha / 3.5f : Alpha);
+        }
+
+        private void Main_DoDraw_WallsAndBlacks(On.Terraria.Main.orig_DoDraw_WallsAndBlacks orig, Main self)
+        {
+            if (SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
+            {
+                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
+                {
+                    bgAlpha += 0.01f;
+                }
+                else
+                {
+                    bgAlpha -= 0.01f;
+                }
+
+                bgAlpha = 0;
+
+                bgAlpha = MathHelper.Clamp(bgAlpha, 0, 1);
+
+                if (bgAlpha > 0)
+                {
+                    Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
+                    Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
+                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
+
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default);
+
+                    ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
+
+                    Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
+                    Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
+                    Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
+
+                    for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
+                        for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                            tex,
+                            new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)), bgAlpha);
+
+                    for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
+                        for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                            tex2,
+                            new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)), bgAlpha);
+
+                    for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
+                        for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                            tex3,
+                            new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)), bgAlpha);
+
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                }
+                else
+                {
+                    //int a = 2;
+                    //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
+                }
+            }
+            
+            orig(self);
+        }
+
         public Entity loadingEntity;
 
         private void UnloadDetours()
@@ -105,9 +179,13 @@ namespace EEMod
             On.Terraria.Main.DoDraw_Tiles_Solid -= DrawCoralReefsBg;
             On.Terraria.Main.DoDraw_UpdateCameraPosition -= RenderPrimitives;
 
+            On.Terraria.Main.DoDraw_WallsAndBlacks -= Main_DoDraw_WallsAndBlacks;
+
             On.Terraria.Main.DoDraw_WallsAndBlacks -= DrawGoblinFortBg;
 
             On.Terraria.UI.IngameFancyUI.Draw -= DisableFancyUIOnSeamap;
+
+            On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
 
             On.Terraria.Main.Draw -= DrawLoadingScreen;
 
@@ -140,18 +218,20 @@ namespace EEMod
 
             DrawLoadingScreenContent();
 
-            //Main.spriteBatch.End();
+            Main.spriteBatch.End();
 
-            //if (loadingEntity != default) PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+            if (loadingEntity != default)
+            {
+                (loadingEntity as LoadingShip).Update();
 
-            //if (loadingEntity != default) loadingEntity.position = new Vector2((rightBound + leftBound) * Main.graphics.GraphicsDevice.Viewport.Width / 2f, Main.graphics.GraphicsDevice.Viewport.Height / 2f);
+                PrimitiveSystem.primitives.UpdateTrails();
 
-            //Main.spriteBatch.Begin();
+                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+            }
 
-            Texture2D shipTex = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip").Value;
+            Main.spriteBatch.Begin();
 
-            //Main.spriteBatch.Draw(shipTex, new Vector2((rightBound + leftBound) * Main.graphics.GraphicsDevice.Viewport.Width / 2f, Main.graphics.GraphicsDevice.Viewport.Height / 2f), 
-            //    new Rectangle(0, 4 * shipTex.Height / 9, shipTex.Width, shipTex.Height / 9), Color.White, 0f, new Vector2(shipTex.Width / 2f, shipTex.Height / 18f), 1f, (leftBound < 0.5f) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            if (loadingEntity != default) (loadingEntity as LoadingShip).Draw(Main.spriteBatch);
 
             if ((SubworldSystem.Current as EESubworld) != null)
                 (SubworldSystem.Current as EESubworld).DrawLoadingScreen();
@@ -173,24 +253,29 @@ namespace EEMod
             if (!Main.gameMenu && SubworldSystem.IsActive<Sea>() && Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamap) rightBound += 1.4f / 40f;
             if (!Main.gameMenu && !SubworldSystem.IsActive<Sea>() && !Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene) leftBound += 1.4f / 40f;
 
-            //if(!Main.gameMenu)
-            //{
-            //loadingEntity = new BlankLoadEntity();
+            if(loadingEntity == default)
+            {
+                loadingEntity = new LoadingShip(new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 2f, Main.graphics.GraphicsDevice.Viewport.Height / 2f), Vector2.Zero, null);
+            }
 
-            //PrimitiveSystem.primitives.CreateTrail(new FoamTrail(loadingEntity, Color.Orange, 0.25f, 260));
-            //}
+            if(loadingEntity != default && !Main.gameMenu && (loadingEntity as LoadingShip).foamTrail == null)
+            {
+                PrimitiveSystem.primitives.CreateTrail((loadingEntity as LoadingShip).foamTrail = new FoamTrailLoading(loadingEntity, Color.Orange, 0.25f, 260));
+            }
 
-            //MusicLoader.GetMusicSlot(ModContent.GetInstance<EEMod>(), "Assets/Music/Seamap");
-
-            //MusicLoader.
+            if(leftBound == rightBound)
+            {
+                (loadingEntity as LoadingShip).foamTrail = null;
+            }
 
             leftBound = MathHelper.Clamp(leftBound, -0.2f, 1.2f);
             rightBound = MathHelper.Clamp(rightBound, -0.2f, 1.2f);
 
-            //leftBound = -0.2f;
+            //leftBound = 0.5f;
+            //rightBound = -0.2f;
             //rightBound = 1.2f;
 
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
 
             EEMod.LoadingScreenVeil.Parameters["leftBound"].SetValue(leftBound);
             EEMod.LoadingScreenVeil.Parameters["rightBound"].SetValue(rightBound);
@@ -201,7 +286,7 @@ namespace EEMod
 
             Main.spriteBatch.End();
 
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null);
 
             EEMod.LoadingScreenVeil.Parameters["leftBound"].SetValue(leftBound);
             EEMod.LoadingScreenVeil.Parameters["rightBound"].SetValue(rightBound);
@@ -218,122 +303,68 @@ namespace EEMod
 
         public int constantTicker;
 
+        public bool flipBoat;
+
         private void DrawLoadingScreenContent()
         {
             constantTicker++;
 
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/goodman").Value, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White);
-
-            return;
-
-            Main.spriteBatch.End();
-
-            for (int i = 0; i < 30; i++)
-            {
-                if (loadingScreenParticles[i] == Vector2.Zero)
-                {
-                    loadingScreenParticles[i] = new Vector2(Main.rand.NextFloat(0, Main.graphics.GraphicsDevice.Viewport.Width), (i / 30f) * (Main.graphics.GraphicsDevice.Viewport.Height + 2 * (5f * 75f)) - (5f * 75f));
-                }
-            }
-
-            Texture2D bubbleTex = ModContent.Request<Texture2D>("EEMod/Textures/RadialGradientAdjusted").Value;
-
-            for (int i = 0; i < 30; i++)
-            {
-                //Helpers.DrawAdditive(bubbleTex, loadingScreenParticles[i], Color.SandyBrown * 0.5f, 4f * (((float)Math.Sin(i) * 0.15f) + 0.85f));
-
-                loadingScreenParticles[i] += new Vector2((float)Math.Sin(constantTicker * 60f + i) * 0.2f, -((float)Math.Sin(i) * 0.05f + 0.95f) * 0.75f);
-
-                if (loadingScreenParticles[i].Y < 0 - 5f * 75f)
-                {
-                    loadingScreenParticles[i].X = Main.rand.Next(0, Main.graphics.GraphicsDevice.Viewport.Width);
-                    loadingScreenParticles[i].Y = Main.graphics.GraphicsDevice.Viewport.Height + 2f * (((float)Math.Sin(i) * 0.15f) + 0.85f) * 150f;
-                }
-            }
-
-
-
-
             Texture2D waterTexture = ModContent.Request<Texture2D>("EEMod/Particles/Square").Value;
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null);
 
-            SeamapCloudShader.Parameters["cloudNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/CloudNoise").Value);
-            SeamapCloudShader.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/SeamapNoise").Value);
+            SeamapCloudShaderLoading.Parameters["cloudNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/CloudNoise").Value);
+            SeamapCloudShaderLoading.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/WaveNoiseAlt").Value);
 
-            SeamapCloudShader.Parameters["wind"].SetValue(new Vector2((float)Math.Sin(constantTicker / 120f) * 20f, constantTicker * 1f) / 4800f);
+            Vector2 wind = new Vector2((float)Math.Sin(constantTicker / 120f) * 20f, constantTicker * 1f) / 4800f;
 
-            SeamapCloudShader.Parameters["weatherDensity"].SetValue(1.2f);
-            SeamapCloudShader.Parameters["stepsX"].SetValue(1f);
-            SeamapCloudShader.Parameters["stepsY"].SetValue(1f);
+            SeamapCloudShaderLoading.Parameters["wind"].SetValue(new Vector2(wind.X % 1, wind.Y % 1));
 
-            SeamapCloudShader.Parameters["vec"].SetValue(new Vector2(Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height));
+            SeamapCloudShaderLoading.Parameters["weatherDensity"].SetValue(1.2f);
+            SeamapCloudShaderLoading.Parameters["stepsX"].SetValue(1f);
+            SeamapCloudShaderLoading.Parameters["stepsY"].SetValue(0.8f);
 
-            SeamapCloudShader.Parameters["cloudsColor4"].SetValue(new Color(13, 28, 36).ToVector4());
-            SeamapCloudShader.Parameters["cloudsColor3"].SetValue(new Color(10, 23, 26).ToVector4());
-            SeamapCloudShader.Parameters["cloudsColor2"].SetValue(new Color(8, 17, 23).ToVector4());
-            SeamapCloudShader.Parameters["cloudsColor1"].SetValue(new Color(7, 9, 20).ToVector4());
+            SeamapCloudShaderLoading.Parameters["counter"].SetValue((constantTicker / 300f) % MathHelper.TwoPi);
 
-            SeamapCloudShader.Parameters["arrayOffset"].SetValue(0);
-            SeamapCloudShader.CurrentTechnique.Passes[0].Apply();
+            SeamapCloudShaderLoading.Parameters["vec"].SetValue(new Vector2(Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height));
+
+            SeamapCloudShaderLoading.Parameters["cloudsColor4"].SetValue(new Color(13, 22, 36).ToVector4());
+            SeamapCloudShaderLoading.Parameters["cloudsColor3"].SetValue(new Color(10, 17, 26).ToVector4());
+            SeamapCloudShaderLoading.Parameters["cloudsColor2"].SetValue(new Color(8, 14, 23).ToVector4());
+            SeamapCloudShaderLoading.Parameters["cloudsColor1"].SetValue(new Color(7, 9, 20).ToVector4());
+
+            SeamapCloudShaderLoading.Parameters["arrayOffset"].SetValue(0);
+            SeamapCloudShaderLoading.CurrentTechnique.Passes[0].Apply();
 
             Main.spriteBatch.Draw(waterTexture, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White);
 
 
-
-
-
+            //Rendering the shiny blue particles in the corners
 
             Texture2D noiseTex = ModContent.Request<Texture2D>("EEMod/Textures/Noise/noise2").Value;
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null);
 
-            EEMod.PolkaDot.Parameters["dots"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/RandomPolkaDots").Value);
-            EEMod.PolkaDot.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/SeamapNoise").Value);
-            EEMod.PolkaDot.Parameters["radial"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value);
+            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.75f));
 
-            EEMod.PolkaDot.Parameters["random"].SetValue((float)(constantTicker / 600f));
-            EEMod.PolkaDot.Parameters["color"].SetValue((Color.SkyBlue).ToVector4());
+            EEMod.MainParticles.SpawnParticles(new Vector2(0 + Main.rand.Next(0, 300), -10), Vector2.UnitY, 
+                ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 200, 1, Color.Cyan, 
+                new RotateTexture(0.02f), new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, Color.Aqua * 0.6f), new RotateVelocity(0.1f));
 
-            EEMod.PolkaDot.CurrentTechnique.Passes[0].Apply();
+            //Main.screenPosition = Vector2.Zero;
 
-            Main.spriteBatch.Draw(noiseTex, new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 4f, Main.graphics.GraphicsDevice.Viewport.Height / 4f),
-                null, Color.White, constantTicker / 120f, new Vector2(noiseTex.Width / 2f, noiseTex.Height / 2f), 0.7f, SpriteEffects.None, 0f);
+            Particles.Update();
 
-            Main.spriteBatch.Draw(noiseTex, new Vector2(3 * Main.graphics.GraphicsDevice.Viewport.Width / 4f, 3 * Main.graphics.GraphicsDevice.Viewport.Height / 4f),
-                null, Color.White, constantTicker / 120f, new Vector2(noiseTex.Width / 2f, noiseTex.Height / 2f), 0.7f, SpriteEffects.None, 0f);
+            Particles.Draw(Main.spriteBatch);
 
+            Main.spriteBatch.Begin();
+            Main.DrawThickCursor();
+            Main.DrawCursor(new Vector2(2, 2));
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            /*for (int i = 30; i < 30; i++)
-            {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-
-                EEMod.PolkaDot.Parameters["dots"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/RandomPolkaDots").Value);
-                EEMod.PolkaDot.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/SeamapNoise").Value);
-                EEMod.PolkaDot.Parameters["random"].SetValue((float)Math.Sin(i));
-                EEMod.PolkaDot.Parameters["random"].SetValue((float)(constantTicker / 600f));
-                EEMod.PolkaDot.Parameters["color"].SetValue((Color.SkyBlue).ToVector4());
-
-                EEMod.PolkaDot.CurrentTechnique.Passes[0].Apply();
-
-                Main.spriteBatch.Draw(bubbleTex, loadingScreenParticles[i], bubbleTex.Bounds, Color.White * 0.2f, 0f, bubbleTex.TextureCenter(), 2f * (((float)Math.Sin(i) * 0.15f) + 0.85f), SpriteEffects.None, 0f);
-
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-
-                loadingScreenParticles[i] += new Vector2((float)Math.Sin(constantTicker * 60f + i) * 1f, -((float)Math.Sin(i) * 0.05f + 0.95f) * 0.5f);
-
-                if (loadingScreenParticles[i].Y < 0 - 1f * 75f)
-                {
-                    loadingScreenParticles[i].X = Main.rand.Next(0, Main.graphics.GraphicsDevice.Viewport.Width);
-                    loadingScreenParticles[i].Y = Main.graphics.GraphicsDevice.Viewport.Height + 1f * (((float)Math.Sin(i) * 0.15f) + 0.85f) * 150f;
-                }
-            }*/
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
         }
 
         private void DrawGoblinFortBg(On.Terraria.Main.orig_DoDraw_WallsAndBlacks orig, Main self)
@@ -369,7 +400,7 @@ namespace EEMod
 
         private void DrawCoralReefsBg(On.Terraria.Main.orig_DoDraw_Tiles_Solid orig, Main self)
         {
-            /*if (SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
+            if (SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
             {
                 if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
                 {
@@ -421,7 +452,7 @@ namespace EEMod
                     //int a = 2;
                     //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
                 }
-            }*/
+            }
 
             orig(self);
         }

@@ -130,9 +130,9 @@ namespace EEMod
             }*/
 
 
-            (new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(
+            /*(new Item(cannonType)).GetGlobalItem<ShipyardGlobalItem>().info.LeftClickAbility(
                 boat, (new Item(ModContent.ItemType<IronCannonball>())).GetGlobalItem<ShipyardGlobalItem>().info.GetCannonball(Player.team)
-                );
+                );*/
 
             /*try
             {
@@ -160,7 +160,7 @@ namespace EEMod
         {
             try
             {
-                (new Item(figureheadType)).GetGlobalItem<ShipyardGlobalItem>().info.RightClickAbility(boat);
+                //(new Item(figureheadType)).GetGlobalItem<ShipyardGlobalItem>().info.RightClickAbility(boat);
             }
             catch
             {

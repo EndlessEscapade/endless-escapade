@@ -39,6 +39,7 @@ namespace EEMod
             SeamapBorderVignette,
             SeamapShadowShader,
             SeamapCloudShader,
+            SeamapCloudShaderLoading,
             PrismShader,
             SpireShine,
             NonBasicEffectShader,

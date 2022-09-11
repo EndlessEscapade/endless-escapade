@@ -46,6 +46,22 @@ namespace EEMod.Prim
             Main.spriteBatch.End();
         }
 
+        public void DrawTrailsAboveTilesAlt()
+        {
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+
+            if (PrimitiveSystem.primitives.primTargetPixelated != null)
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetPixelated, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+
+            if (PrimitiveSystem.primitives.primTargetUnpixelated != null)
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetUnpixelated, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White);
+
+            Main.spriteBatch.End();
+        }
+
         public void DrawTrailsBehindTiles()
         {
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.TransformationMatrix);

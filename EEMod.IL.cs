@@ -55,6 +55,7 @@ namespace EEMod
         private void LoadIL()
         {
             IL.Terraria.IO.WorldFile.SaveWorldTiles += WorldFile_SaveWorldTiles;
+            IL.Terraria.Main.DrawTiles += Main_DrawTiles;
 
             hooklist = new ILHookList();
 
@@ -64,10 +65,16 @@ namespace EEMod
         private void UnloadIL()
         {
             IL.Terraria.IO.WorldFile.SaveWorldTiles -= WorldFile_SaveWorldTiles;
+            IL.Terraria.Main.DrawTiles -= Main_DrawTiles;
 
             hooklist?.UnloadAll();
             hooklist?.Dispose();
             hooklist = null;
+        }
+
+        private void Main_DrawTiles(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
         }
 
         private void WorldFile_SaveWorldTiles(ILContext il)

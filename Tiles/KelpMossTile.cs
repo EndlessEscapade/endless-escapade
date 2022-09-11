@@ -66,25 +66,34 @@ namespace EEMod.Tiles
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Color color = Color.White*Math.Abs((float)Math.Sin(Main.GameUpdateCount/200f));
-            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
-            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
-            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-            if(Main.rand.Next(4) == 1 && !Framing.GetTileSafely(i,j-1).HasTile)
+            if (!Framing.GetTileSafely(i, j - 1).HasTile || (!Main.tileSolid[(int)Framing.GetTileSafely(i, j - 1).TileType] && Framing.GetTileSafely(i, j - 1).HasTile))
             {
-                Color chosen = Color.Lerp(Color.Yellow, Color.LightYellow, Main.rand.NextFloat(1f));
-                EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
-                EEMod.MainParticles.SpawnParticles(new Vector2(i*16,j*16), -Vector2.UnitY,3, chosen, new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.02f,0.02f)), new SetLighting(chosen.ToVector3(),0.1f));
-            }    
-            if (Main.drawToScreen)
-            {
-                zero = Vector2.Zero;
+                Color color = Color.White * Math.Abs((float)Math.Sin(Main.GameUpdateCount / 200f));
+
+                Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+
+                if (Main.rand.NextBool() && !Framing.GetTileSafely(i, j - 1).HasTile)
+                {
+                    Color chosen = Color.Lerp(Color.Yellow, Color.LightYellow, Main.rand.NextFloat(1f));
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16, j * 16), -Vector2.UnitY, 3, chosen, new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.02f, 0.02f)), new SetLighting(chosen.ToVector3(), 0.1f));
+                }
+                if (Main.drawToScreen)
+                {
+                    zero = Vector2.Zero;
+                }
+
+                Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
+                Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/KelpMossTileGlow").Value;
+
+                int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+                int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
+
+                Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
+
+                Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
-            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/KelpMossTileGlow").Value;
-            Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
-            Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i,j), 0f, default, 1f, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }
 }

@@ -32,6 +32,8 @@ namespace EEMod.Seamap.Content.Islands
 
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamapKey = KeyID.CoralReefs;
 
+            ModContent.GetInstance<EEMod>().flipBoat = false;
+
             EEMod.isSaving = true;
 
             base.Interact();

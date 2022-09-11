@@ -70,6 +70,8 @@ namespace EEMod.Tiles.Furniture.Shipyard
                 player.GetModPlayer<SeamapPlayer>().myLastBoatPos = Vector2.Zero;
 
                 player.GetModPlayer<ShipyardPlayer>().triggerSeaCutscene = true;
+
+                ModContent.GetInstance<EEMod>().flipBoat = true;
             }
             else
             {

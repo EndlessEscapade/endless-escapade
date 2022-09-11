@@ -30,6 +30,8 @@ namespace EEMod.Seamap.Content.Islands
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamapKey = "Main";
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamap = true;
 
+            ModContent.GetInstance<EEMod>().flipBoat = false;
+
             base.Interact();
         }
     }

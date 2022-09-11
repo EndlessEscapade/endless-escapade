@@ -1543,6 +1543,8 @@ namespace EEMod.NPCs.Goblins.Scrapwizard
                 }*/
             }
 
+            EEMod.UIText("" + currentAttack, Color.White, NPC.Center - new Vector2(0, 100) - Main.screenPosition, 0);
+
             spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, default, Main.GameViewMatrix.ZoomMatrix);
         }
     }

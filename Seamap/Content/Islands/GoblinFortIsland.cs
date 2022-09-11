@@ -35,6 +35,9 @@ namespace EEMod.Seamap.Content.Islands
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamap = true;
             Main.LocalPlayer.GetModPlayer<SeamapPlayer>().exitingSeamapKey = KeyID.GoblinFort;
 
+            ModContent.GetInstance<EEMod>().flipBoat = false;
+
+
 
             EEMod.isSaving = true;
 

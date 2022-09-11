@@ -100,7 +100,7 @@ namespace EEMod.Prim
 
             EEMod.ShadowMagic.Parameters["myDist"].SetValue(3f);
 
-            EEMod.ShadowMagic.Parameters["alpha"].SetValue(Alpha);
+            EEMod.ShadowMagic.Parameters["alpha"].SetValue(Alpha * 0.5f);
 
             //EEMod.ShadowMagic.Parameters["color1"].SetValue(new Vector4(94, 20, 174, 10) / 255f);
             //EEMod.ShadowMagic.Parameters["color2"].SetValue(new Vector4(178, 54, 212, 70) / 255f);
@@ -203,7 +203,7 @@ namespace EEMod.Prim
 
         public override void SetDefaults()
         {
-            Alpha = 1f;
+            Alpha = 0.5f;
             _cap = 300;
 
             behindTiles = true;
