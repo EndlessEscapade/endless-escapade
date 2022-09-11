@@ -52,7 +52,7 @@ namespace EEMod.Subworlds
 
         public override void DrawMenu(GameTime gameTime)
         {
-            DrawLoadingScreen();
+            //DrawLoadingScreen();
 
             return;
         }
@@ -60,8 +60,6 @@ namespace EEMod.Subworlds
         public void DrawLoadingScreen()
         {
             Viewport viewport = Main.graphics.GraphicsDevice.Viewport;
-
-            //Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/Pure").Value, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.Black);
 
             Vector2[] vecs = new Vector2[10];
 
@@ -72,8 +70,6 @@ namespace EEMod.Subworlds
                 float value = (float)Math.Sin((Main.GameUpdateCount / 240f) + i);
 
                 EEMod.UIText(progressMessage, Color.White, new Vector2(Main.screenWidth / 2f, Main.screenHeight * 2f / 3f), 0);
-
-                //Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, vec - Main.screenPosition, Color.White * 0.5f);
             }
         }
     }

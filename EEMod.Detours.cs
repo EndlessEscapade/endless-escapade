@@ -224,9 +224,9 @@ namespace EEMod
             {
                 (loadingEntity as LoadingShip).Update();
 
-                PrimitiveSystem.primitives.UpdateTrails();
+                //PrimitiveSystem.primitives.UpdateTrails();
 
-                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+                //PrimitiveSystem.primitives.DrawTrailsAboveTiles();
             }
 
             Main.spriteBatch.Begin();
@@ -234,7 +234,7 @@ namespace EEMod
             if (loadingEntity != default) (loadingEntity as LoadingShip).Draw(Main.spriteBatch);
 
             if ((SubworldSystem.Current as EESubworld) != null)
-                (SubworldSystem.Current as EESubworld).DrawLoadingScreen();
+                EEMod.UIText(EESubworld.progressMessage, Color.White, new Vector2(Main.screenWidth / 2f, Main.screenHeight * 2f / 3f), 0);
 
             Main.spriteBatch.End();
 
@@ -255,10 +255,11 @@ namespace EEMod
 
             if(loadingEntity == default)
             {
-                loadingEntity = new LoadingShip(new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 2f, Main.graphics.GraphicsDevice.Viewport.Height / 2f), Vector2.Zero, null);
+                loadingEntity = new LoadingShip(new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 2f, Main.graphics.GraphicsDevice.Viewport.Height / 2f - 200), Vector2.Zero, null);
+                loadingEntity.Center = new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 2f, Main.graphics.GraphicsDevice.Viewport.Height / 2f - 200);
             }
 
-            if(loadingEntity != default && !Main.gameMenu && (loadingEntity as LoadingShip).foamTrail == null)
+            /*if(loadingEntity != default && !Main.gameMenu && (loadingEntity as LoadingShip).foamTrail == null)
             {
                 PrimitiveSystem.primitives.CreateTrail((loadingEntity as LoadingShip).foamTrail = new FoamTrailLoading(loadingEntity, Color.Orange, 0.25f, 260));
             }
@@ -266,7 +267,7 @@ namespace EEMod
             if(leftBound == rightBound)
             {
                 (loadingEntity as LoadingShip).foamTrail = null;
-            }
+            }*/
 
             leftBound = MathHelper.Clamp(leftBound, -0.2f, 1.2f);
             rightBound = MathHelper.Clamp(rightBound, -0.2f, 1.2f);

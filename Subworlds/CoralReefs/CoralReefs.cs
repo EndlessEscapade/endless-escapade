@@ -272,7 +272,6 @@ namespace EEMod.Subworlds.CoralReefs
 
                     RemoveStoneSlabs();
 
-
                     #region Shipwrecks
                     EESubworld.progressMessage = "Wrecking ships";
                     #endregion
@@ -340,48 +339,7 @@ namespace EEMod.Subworlds.CoralReefs
 
                     #endregion
 
-                    #region Smoothing
-                    EESubworld.progressMessage = "Making the world look nice";
-
-                    for (int i = 2; i < Main.maxTilesX - 2; i++)
-                    {
-                        for (int j = 2; j < Main.maxTilesY - 2; j++)
-                        {
-                            int wallType = Framing.GetTileSafely(i, j).WallType;
-
-                            if (!Framing.GetTileSafely(i, j + 1).HasTile && !Framing.GetTileSafely(i, j - 1).HasTile && !Framing.GetTileSafely(i + 1, j).HasTile && !Framing.GetTileSafely(i - 1, j).HasTile)
-                            {
-                                Framing.GetTileSafely(i, j).ClearTile();
-                            }
-                            else if (WorldGen.genRand.NextBool(3))
-                            {
-                                Tile.SmoothSlope(i, j);
-                            }
-
-                            if (wallType == WallID.Dirt ||
-                                wallType == WallID.DirtUnsafe ||
-                                wallType == WallID.DirtUnsafe1 ||
-                                wallType == WallID.DirtUnsafe2 ||
-                                wallType == WallID.DirtUnsafe3 ||
-                                wallType == WallID.DirtUnsafe4)
-                            {
-                                Framing.GetTileSafely(i, j).WallType = WallID.None;
-                            }
-
-                            WorldGen.SquareTileFrame(i, j);
-                        }
-                    }
-                    #endregion
-
-                    #region Placing the boat
-                    EESubworld.progressMessage = "Placing boat";
-
-                    int watercheck = depth - 22;
-
-                    //PlaceShipWalls(boatPos, watercheck, ShipWalls);
-                    //PlaceShip(boatPos, watercheck, ShipTiles);
-                    CoralBoatPos = new Vector2(boatPos, watercheck);
-
+                    #region Surface foliage
                     for (int i = 42; i < Main.maxTilesX - 84; i++)
                     {
                         if (WorldGen.genRand.NextBool(4))
@@ -421,7 +379,9 @@ namespace EEMod.Subworlds.CoralReefs
                             }
                         }
                     }*/
+                    #endregion
 
+                    #region Coral chests
                     for (int i = 100; i < Main.maxTilesX - 200; i++)
                     {
                         for (int j = Main.maxTilesY / 10; j < Main.maxTilesY * 4 / 10; j++)
@@ -537,7 +497,49 @@ namespace EEMod.Subworlds.CoralReefs
                             }
                         }
                     }
+                    #endregion
 
+                    #region Smoothing
+                    EESubworld.progressMessage = "Making the world look nice";
+
+                    for (int i = 2; i < Main.maxTilesX - 2; i++)
+                    {
+                        for (int j = 2; j < Main.maxTilesY - 2; j++)
+                        {
+                            int wallType = Framing.GetTileSafely(i, j).WallType;
+
+                            if (!Framing.GetTileSafely(i, j + 1).HasTile && !Framing.GetTileSafely(i, j - 1).HasTile && !Framing.GetTileSafely(i + 1, j).HasTile && !Framing.GetTileSafely(i - 1, j).HasTile)
+                            {
+                                Framing.GetTileSafely(i, j).ClearTile();
+                            }
+                            else if (WorldGen.genRand.NextBool(3) && !Framing.GetTileSafely(i, j + 1).HasTile)
+                            {
+                                Tile.SmoothSlope(i, j);
+                            }
+
+                            if (wallType == WallID.Dirt ||
+                                wallType == WallID.DirtUnsafe ||
+                                wallType == WallID.DirtUnsafe1 ||
+                                wallType == WallID.DirtUnsafe2 ||
+                                wallType == WallID.DirtUnsafe3 ||
+                                wallType == WallID.DirtUnsafe4)
+                            {
+                                Framing.GetTileSafely(i, j).WallType = WallID.None;
+                            }
+
+                            WorldGen.SquareTileFrame(i, j);
+                        }
+                    }
+                    #endregion
+
+                    #region Placing the boat
+                    EESubworld.progressMessage = "Placing boat";
+
+                    int watercheck = depth - 22;
+
+                    //PlaceShipWalls(boatPos, watercheck, ShipWalls);
+                    //PlaceShip(boatPos, watercheck, ShipTiles);
+                    CoralBoatPos = new Vector2(boatPos, watercheck);
                     #endregion
                 }
                 catch (Exception e)
