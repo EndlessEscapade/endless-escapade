@@ -62,9 +62,9 @@ namespace EEMod.Subworlds.CoralReefs
         public static Vector2 SpirePosition = Vector2.Zero;
 
         public override int Width => 1500;
-        public override int Height => 2400;
+        public override int Height => 2600;
 
-        private int depth = 120;
+        private int depth = 320;
         private int boatPos = 300;
 
         public override string Name => "Coral Reefs";
@@ -122,28 +122,14 @@ namespace EEMod.Subworlds.CoralReefs
 
                     FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 190), ModContent.TileType<LightGemsandTile>(), 10);
 
+                    //Islands
                     for (int i = 50; i < Main.maxTilesX - 100; i++)
                     {
                         if (i >= boatPos - 60 && i <= boatPos) i += 50;
 
                         if (WorldGen.genRand.NextBool(200))
                         {
-                            int width = WorldGen.genRand.Next(40, 60);
-                            int height = WorldGen.genRand.Next(20, 25);
-
-                            MakeOvalJaggedTop(width, height, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
-
-                            MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
-
-                            for (int k = i; k < i + 25; k++)
-                            {
-                                for (int l = depth - 15; l < depth + 10; l++)
-                                {
-                                    WorldGen.SpreadGrass(k, l);
-                                }
-                            }
-
-                            i += 50;
+                            PlaceIslandAt(i, depth, Main.rand.Next(30, 60));
                         }
                     }
 
@@ -627,6 +613,11 @@ namespace EEMod.Subworlds.CoralReefs
                     }
                 }
             }
+        }
+
+        public static void PlaceIslandAt(int xPos, int yPos, int width)
+        {
+
         }
 
         public static void MakeCoralRoom(int xPos, int yPos, int sizeX, int sizeY, int type, bool ensureNoise = false)

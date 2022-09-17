@@ -17,6 +17,8 @@ namespace EEMod.Tiles
             Main.tileLighted[Type] = true;
             Main.tileBlockLight[Type] = true;
 
+            Main.tileMerge[Type][ModContent.TileType<CoralSandTile>()] = true;
+
             AddMapEntry(new Color(26, 13, 0));
 
             DustType = DustID.Rain;

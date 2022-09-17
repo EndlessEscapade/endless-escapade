@@ -40,6 +40,7 @@ using EEMod.Subworlds.CoralReefs;
 using SubworldLibrary;
 using System.Reflection;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace EEMod
 {
@@ -65,17 +66,20 @@ namespace EEMod
             On.Terraria.Main.Draw += ManageWorldLoadUI;
             On.Terraria.Main.DrawProjectiles += RenderSeamap;
             On.Terraria.Main.DrawWoF += RenderBehindTiles;
-            On.Terraria.Main.DrawWater += WaterAlphaMod;
             On.Terraria.Main.CacheNPCDraws += PreRenderNPCs;
 
-            On.Terraria.Main.DrawWater += Main_DrawWater;
+            On.Terraria.Main.DrawWater += WaterAlphaMod;
+
+            On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += TileDrawing_DrawPartialLiquid;
+
+            //On.Terraria.Main.DoDraw_WallsAndBlacks += Main_DoDraw_WallsAndBlacks1;
 
             //On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DoDraw_UpdateCameraPosition += RenderPrimitives;
 
-            On.Terraria.Main.DoDraw_WallsAndBlacks += Main_DoDraw_WallsAndBlacks;
+            //On.Terraria.Main.DoDraw_WallsAndBlacks += Main_DoDraw_WallsAndBlacks;
 
-            On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
+            //On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
 
             //On.Terraria.Main.DoDraw_Tiles_NonSolid += DrawGoblinFortBg;
 
@@ -97,7 +101,60 @@ namespace EEMod
                 return;
         }
 
-        private void Main_DrawWater(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
+        private void TileDrawing_DrawPartialLiquid(On.Terraria.GameContent.Drawing.TileDrawing.orig_DrawPartialLiquid orig, Terraria.GameContent.Drawing.TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
+        {
+            position += Main.screenPosition;
+
+            Vector2 drawOffset = (Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange)) - Main.screenPosition;
+
+            int @ref = (int)tileCache.Slope;
+            if (!TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.TileType] || @ref == 0)
+            {
+                Main.spriteBatch.End();
+                Main.tileBatch.Begin();
+
+                //Main.DrawTileInWater(drawOffset, (int)((position.X) / 16f), (int)((position.Y) / 16f));
+
+                int i = (int)((position.X) / 16f);
+                int j = (int)((position.Y) / 16f);
+
+                Lighting.GetCornerColors(i, j, out VertexColors vertices);
+                vertices.BottomLeftColor *= 255f;
+                vertices.BottomRightColor *= 255f;
+                vertices.TopLeftColor *= 255f;
+                vertices.TopRightColor *= 255f;
+
+                Main.DrawTileInWater(drawOffset, i, j);
+
+                float num20 = 0.75f;
+                float num21 = 0.25f;
+                float num22 = 0.75f;
+                float num23 = 0.25f;
+
+                Main.tileBatch.Draw(Terraria.GameContent.Liquid.LiquidRenderer.Instance._liquidTextures[liquidType].Value, 
+                    new Vector4((i * 16f) - Main.screenPosition.X, (j * 16f) - Main.screenPosition.Y, 16, 16), 
+                    new Rectangle((int)(16f - num21 * 16f) + 0, (int)(16f - num23 * 16f) + 0, (int)Math.Ceiling((num21 - num20) * 16f), (int)Math.Ceiling((num23 - num22) * 16f)), 
+                    vertices);
+
+                //Main.
+                //Main.tileBatch.Draw(Terraria.GameContent.Liquid.LiquidRenderer.Instance._liquidTextures[liquidType].Value,
+                    //new Vector2(i << 4, j << 4) + drawOffset, new Rectangle((int)(16f - num21 * 16f) + 0, (int)(16f - num23 * 16f) + 0, (int)Math.Ceiling((num21 - num20) * 16f), (int)Math.Ceiling((num23 - num22) * 16f)), vertices, Vector2.Zero, 1f, SpriteEffects.None);
+
+                Main.tileBatch.End();
+                Main.spriteBatch.Begin();
+
+                //Main.spriteBatch.Draw(TextureAssets.Liquid[liquidType].Value, position, liquidSize, Color.Red, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+                return;
+            }
+
+            liquidSize.X += 18 * (@ref - 1);
+
+            //Main.DrawTileInWater(drawOffset, (int)((position.X) / 16f), (int)((position.Y) / 16f));
+
+            //Main.spriteBatch.Draw(TextureAssets.LiquidSlope[liquidType].Value, position, liquidSize, Color.Red, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+        }
+
+        private void WaterAlphaMod(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
         {
             orig(self, bg, Style, SubworldSystem.IsActive<CoralReefs>() ? Alpha / 3.5f : Alpha);
         }
@@ -174,12 +231,13 @@ namespace EEMod
             On.Terraria.Main.Draw -= ManageWorldLoadUI;
             On.Terraria.Main.DrawProjectiles -= RenderSeamap;
             On.Terraria.Main.DrawWoF -= RenderBehindTiles;
-            On.Terraria.Main.DrawWater -= WaterAlphaMod;
             On.Terraria.Main.CacheNPCDraws -= PreRenderNPCs;
-            On.Terraria.Main.DoDraw_Tiles_Solid -= DrawCoralReefsBg;
+            //On.Terraria.Main.DoDraw_Tiles_Solid -= DrawCoralReefsBg;
             On.Terraria.Main.DoDraw_UpdateCameraPosition -= RenderPrimitives;
 
-            On.Terraria.Main.DoDraw_WallsAndBlacks -= Main_DoDraw_WallsAndBlacks;
+            //On.Terraria.Main.DoDraw_WallsAndBlacks -= Main_DoDraw_WallsAndBlacks;
+
+            On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= TileDrawing_DrawPartialLiquid;
 
             On.Terraria.Main.DoDraw_WallsAndBlacks -= DrawGoblinFortBg;
 
@@ -199,6 +257,9 @@ namespace EEMod
             Main.OnPreDraw -= PreparePrimitives;
             Main.OnPreDraw -= PrepLoadingScreen;
         }
+
+        //Unsafe.As<LiquidDrawCache[]>(typeof(Terraria.GameContent.Liquid.LiquidRenderer).GetField("_drawCache", flags).GetValue(self))
+        //typeof(Terraria.GameContent.Liquid.LiquidRenderer).GetField("_animationFrame", flags).GetValue(self)
 
         public RenderTarget2D loadingScreenRT;
 
@@ -699,11 +760,6 @@ namespace EEMod
             BeforeNPCCache?.Invoke(Main.spriteBatch);
 
             orig(self);
-        }
-
-        private void WaterAlphaMod(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
-        {
-            orig(self, bg, Style, Main.worldName == KeyID.CoralReefs ? (Alpha / 3.5f) : Alpha);
         }
 
         private void ManageSaving(On.Terraria.WorldGen.orig_SaveAndQuitCallBack orig, object threadContext)
