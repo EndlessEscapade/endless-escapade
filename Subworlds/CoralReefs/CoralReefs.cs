@@ -62,9 +62,9 @@ namespace EEMod.Subworlds.CoralReefs
         public static Vector2 SpirePosition = Vector2.Zero;
 
         public override int Width => 1500;
-        public override int Height => 2600;
+        public override int Height => 2400;
 
-        private int depth = 320;
+        private int depth = 120;
         private int boatPos = 300;
 
         public override string Name => "Coral Reefs";

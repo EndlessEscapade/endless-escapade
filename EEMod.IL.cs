@@ -55,7 +55,8 @@ namespace EEMod
         private void LoadIL()
         {
             IL.Terraria.IO.WorldFile.SaveWorldTiles += WorldFile_SaveWorldTiles;
-            IL.Terraria.Main.DrawTiles += Main_DrawTiles;
+            //IL.Terraria.GameContent.Drawing.TileDrawing.DrawTile_LiquidBehindTile += TileDrawing_DrawTile_LiquidBehindTile;
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalPrepareDraw1;
 
             hooklist = new ILHookList();
 
@@ -65,17 +66,34 @@ namespace EEMod
         private void UnloadIL()
         {
             IL.Terraria.IO.WorldFile.SaveWorldTiles -= WorldFile_SaveWorldTiles;
-            IL.Terraria.Main.DrawTiles -= Main_DrawTiles;
+            //IL.Terraria.GameContent.Drawing.TileDrawing.DrawTile_LiquidBehindTile -= TileDrawing_DrawTile_LiquidBehindTile;
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalPrepareDraw1;
 
             hooklist?.UnloadAll();
             hooklist?.Dispose();
             hooklist = null;
         }
 
-        private void Main_DrawTiles(ILContext il)
+        /*private void TileDrawing_DrawTile_LiquidBehindTile(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-        }
+
+            if (c.TryGotoNext(i => i.MatchLdsfld<Main>("worldSurface")))
+            {
+                var cLdfld = c.Clone();
+                if (c.Previous.MatchLdfld(out _))
+                {
+                    cLdfld.Emit(OpCodes.Pop);
+                    cLdfld.Emit(OpCodes.Ldc_R4, 0f);
+                    c.Emit(OpCodes.Pop);
+                    c.Emit(OpCodes.Ldc_R4, 0f);
+                }
+                else
+                {
+                    throw new Exception("didn't match bixh");
+                }
+            }
+        }*/
 
         private void WorldFile_SaveWorldTiles(ILContext il)
         {
@@ -88,6 +106,24 @@ namespace EEMod
             c.Remove();
             c.EmitDelegate<Func<Tile[,], int, int, Tile>>((arrae, i, j) => Framing.GetTileSafely(i, j));
         }
+
+        /*private void LiquidRenderer_InternalPrepareDraw1(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(i => i.MatchLdloc(41), j => j.MatchLdloc(4), k => k.MatchLdfld(typeof(LiquidRenderer).GetNestedType("LiquidCache").GetField("HasWall")), l => l.MatchBrtrue(out ILLabel _)))
+                return;
+
+            c.Index++;
+
+            c.Emit(OpCodes.Box, );
+
+            c.EmitDelegate<Func<object, bool>>((ptr2) =>
+            {
+                //ptr4->IsVisible = 
+
+                return (ptr2->HasWall || !ptr2->IsHalfBrick || !ptr2->HasLiquid || !(ptr2->LiquidLevel < 1f) || !(!solidLayer || drawData.tileCache.inActive() || _tileSolidTop[drawData.typeCache] || (drawData.tileCache.halfBrick() && (height.liquid > 160 || num.liquid > 160) && Main.instance.waterfallManager.CheckForWaterfall(tileX, tileY)) || (TileID.Sets.BlocksWaterDrawingBehindSelf[drawData.tileCache.type] && drawData.tileCache.slope() == 0)));
+            });
+        }*/
 
         /*private void WorldGenBeaches()
         {

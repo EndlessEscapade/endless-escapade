@@ -69,7 +69,7 @@ namespace EEMod.Seamap.Core
             }
 
             #region Tropical water generation
-            SeamapObjects.NewSeamapObject(new CoralReefsIsland(new Vector2(2600, seamapHeight - 600)));
+            SeamapObjects.NewSeamapObject(new CoralReefsIsland(new Vector2(seamapWidth - 402 - 30 - 200, seamapHeight - 600)));
 
             SeamapObjects.NewSeamapObject(new VolcanoIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
 

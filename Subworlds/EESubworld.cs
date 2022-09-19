@@ -59,7 +59,7 @@ namespace EEMod.Subworlds
 
         public void DrawLoadingScreen()
         {
-            Viewport viewport = Main.graphics.GraphicsDevice.Viewport;
+            /*Viewport viewport = Main.graphics.GraphicsDevice.Viewport;
 
             Vector2[] vecs = new Vector2[10];
 
@@ -70,7 +70,7 @@ namespace EEMod.Subworlds
                 float value = (float)Math.Sin((Main.GameUpdateCount / 240f) + i);
 
                 EEMod.UIText(progressMessage, Color.White, new Vector2(Main.screenWidth / 2f, Main.screenHeight * 2f / 3f), 0);
-            }
+            }*/
         }
     }
 

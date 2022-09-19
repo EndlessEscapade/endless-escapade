@@ -52,9 +52,9 @@ namespace EEMod.Systems.Noise
                 }
             }
 
-            /*if (ModContent.GetInstance<EEOptimizationsConfig>().MultithreadPerlinNoise)
+            if (ModContent.GetInstance<EEOptimizationsConfig>().MultithreadPerlinNoise)
                 Parallel.For(0, widthOfCell, perCell);
-            else*/
+            else
                 for (int i = 0; i < widthOfCell; i++)
                     perCell(i);
 

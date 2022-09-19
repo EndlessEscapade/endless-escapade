@@ -41,6 +41,10 @@ using SubworldLibrary;
 using System.Reflection;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Terraria.GameContent.Liquid;
+using Terraria.Utilities;
+using Terraria.Graphics.Light;
+using Terraria.GameContent.Shaders;
 
 namespace EEMod
 {
@@ -71,7 +75,9 @@ namespace EEMod
             On.Terraria.Main.DrawWater += WaterAlphaMod;
 
             On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += TileDrawing_DrawPartialLiquid;
+            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalPrepareDraw;
 
+            On.Terraria.Main.DrawBlack += Main_DrawBlack;
             //On.Terraria.Main.DoDraw_WallsAndBlacks += Main_DoDraw_WallsAndBlacks1;
 
             //On.Terraria.Main.DrawWoF += Main_DrawWoF;
@@ -101,57 +107,224 @@ namespace EEMod
                 return;
         }
 
-        private void TileDrawing_DrawPartialLiquid(On.Terraria.GameContent.Drawing.TileDrawing.orig_DrawPartialLiquid orig, Terraria.GameContent.Drawing.TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
+        private void UnloadDetours()
         {
+            On.Terraria.Lighting.AddLight_int_int_float_float_float -= RegisterLightPoint;
+
+            On.Terraria.Main.Draw -= ManageWorldLoadUI;
+            On.Terraria.Main.DrawProjectiles -= RenderSeamap;
+            On.Terraria.Main.DrawWoF -= RenderBehindTiles;
+            On.Terraria.Main.CacheNPCDraws -= PreRenderNPCs;
+            //On.Terraria.Main.DoDraw_Tiles_Solid -= DrawCoralReefsBg;
+            On.Terraria.Main.DoDraw_UpdateCameraPosition -= RenderPrimitives;
+
+            On.Terraria.Main.DrawBlack -= Main_DrawBlack;
+
+            //On.Terraria.Main.DoDraw_WallsAndBlacks -= Main_DoDraw_WallsAndBlacks;
+
+            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalPrepareDraw;
+
+            On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= TileDrawing_DrawPartialLiquid;
+
+            On.Terraria.Main.DoDraw_WallsAndBlacks -= DrawGoblinFortBg;
+
+            On.Terraria.UI.IngameFancyUI.Draw -= DisableFancyUIOnSeamap;
+
+            On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
+
+            On.Terraria.Main.Draw -= DrawLoadingScreen;
+
+            On.Terraria.Player.Update_NPCCollision -= GoblinTableCollision;
+
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= PrepareSubworldList;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= RenderSubworldList;
+
+            On.Terraria.WorldGen.SaveAndQuitCallBack -= ManageSaving;
+
+            Main.OnPreDraw -= PreparePrimitives;
+            Main.OnPreDraw -= PrepLoadingScreen;
+        }
+
+
+        private void Main_DrawBlack(On.Terraria.Main.orig_DrawBlack orig, Main self, bool force)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            Vector2 value = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+            int num = (Main.tileColor.R + Main.tileColor.G + Main.tileColor.B) / 3;
+            float num2 = (float)((double)num * 0.4) / 255f;
+            if (Lighting.Mode == LightMode.Retro)
+            {
+                num2 = (float)(Main.tileColor.R - 55) / 255f;
+                if (num2 < 0f)
+                {
+                    num2 = 0f;
+                }
+            }
+            else if (Lighting.Mode == LightMode.Trippy)
+            {
+                num2 = (float)(num - 55) / 255f;
+                if (num2 < 0f)
+                {
+                    num2 = 0f;
+                }
+            }
+            Microsoft.Xna.Framework.Point screenOverdrawOffset = Main.GetScreenOverdrawOffset();
+            Microsoft.Xna.Framework.Point point = new Microsoft.Xna.Framework.Point(-Main.offScreenRange / 16 + screenOverdrawOffset.X, -Main.offScreenRange / 16 + screenOverdrawOffset.Y);
+            int num3 = (int)((Main.screenPosition.X - value.X) / 16f - 1f) + point.X;
+            int num4 = (int)((Main.screenPosition.X + (float)Main.screenWidth + value.X) / 16f) + 2 - point.X;
+            int num5 = (int)((Main.screenPosition.Y - value.Y) / 16f - 1f) + point.Y;
+            int num6 = (int)((Main.screenPosition.Y + (float)Main.screenHeight + value.Y) / 16f) + 5 - point.Y;
+            if (num3 < 0)
+            {
+                num3 = point.X;
+            }
+            if (num4 > Main.maxTilesX)
+            {
+                num4 = Main.maxTilesX - point.X;
+            }
+            if (num5 < 0)
+            {
+                num5 = point.Y;
+            }
+            if (num6 > Main.maxTilesY)
+            {
+                num6 = Main.maxTilesY - point.Y;
+            }
+            if (!force)
+            {
+                if (num5 < Main.maxTilesY / 2)
+                {
+                    num6 = Math.Min(num6, (int)Main.worldSurface + 1);
+                    num5 = Math.Min(num5, (int)Main.worldSurface + 1);
+                }
+                else
+                {
+                    num6 = Math.Max(num6, Main.UnderworldLayer);
+                    num5 = Math.Max(num5, Main.UnderworldLayer);
+                }
+            }
+            for (int i = num5; i < num6; i++)
+            {
+                bool flag = i >= Main.UnderworldLayer;
+                if (flag)
+                {
+                    num2 = 0.2f;
+                }
+                for (int j = num3; j < num4; j++)
+                {
+                    int num7 = j;
+                    for (; j < num4; j++)
+                    {
+                        if (!WorldGen.InWorld(j, i))
+                        {
+                            return;
+                        }
+                        if (Main.tile[j, i] == null)
+                        {
+                            Main.tile[j, i].ClearEverything();
+                        }
+                        Tile tile = Main.tile[j, i];
+                        float num8 = Lighting.Brightness(j, i);
+                        num8 = (float)Math.Floor(num8 * 255f) / 255f;
+                        byte b = tile.LiquidAmount;
+                        if (!(num8 <= num2) || ((flag || b >= 250) && !WorldGen.SolidTile(tile) && (b < 200 || num8 != 0f)) || (WallID.Sets.Transparent[tile.WallType] && (!Main.tile[j, i].HasTile || !Main.tileBlockLight[(int)tile.BlockType])) || Framing.GetTileSafely(j, i - 1).LiquidAmount > 0 || Framing.GetTileSafely(j, i + 1).LiquidAmount > 0 || Framing.GetTileSafely(j + 1, i).LiquidAmount > 0 || Framing.GetTileSafely(j - 1, i).LiquidAmount > 0 || (tile.IsHalfBlock && Framing.GetTileSafely(j - 1, i).LiquidAmount > 0 && Lighting.Brightness(j, i) > 0f) || (!Main.drawToScreen && LiquidRenderer.Instance.HasFullWater(j, i) && tile.WallType == 0 && !tile.IsHalfBlock && !((double)i <= Main.worldSurface)))
+                        {
+                            break;
+                        }
+                    }
+                    if (j - num7 > 0)
+                    {
+                        Main.spriteBatch.Draw(TextureAssets.BlackTile.Value, new Vector2(num7 << 4, i << 4) - Main.screenPosition + value, new Microsoft.Xna.Framework.Rectangle(0, 0, j - num7 << 4, 16), Microsoft.Xna.Framework.Color.Black);
+                    }
+                }
+            }
+            TimeLogger.DrawTime(5, stopwatch.Elapsed.TotalMilliseconds);
+        }
+
+        private unsafe void TileDrawing_DrawPartialLiquid(On.Terraria.GameContent.Drawing.TileDrawing.orig_DrawPartialLiquid orig, Terraria.GameContent.Drawing.TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
+        {
+            const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
+
+            Vector2 rectangle = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                rectangle = Vector2.Zero;
+            }
+
+            Vector2 archivePos = position;
+
             position += Main.screenPosition;
+            position -= rectangle;
 
             Vector2 drawOffset = (Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange)) - Main.screenPosition;
 
-            int @ref = (int)tileCache.Slope;
-            if (!TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.TileType] || @ref == 0)
+            int i = (int)((position.X) / 16f);
+            int j = (int)((position.Y) / 16f);
+
+            int slope = (int)tileCache.Slope;
+            if (!TileID.Sets.BlocksWaterDrawingBehindSelf[(int)tileCache.BlockType] || slope == 0)
             {
-                Main.spriteBatch.End();
                 Main.tileBatch.Begin();
 
-                //Main.DrawTileInWater(drawOffset, (int)((position.X) / 16f), (int)((position.Y) / 16f));
-
-                int i = (int)((position.X) / 16f);
-                int j = (int)((position.Y) / 16f);
+                Main.DrawTileInWater(drawOffset, (int)((position.X) / 16f), (int)((position.Y) / 16f));
 
                 Lighting.GetCornerColors(i, j, out VertexColors vertices);
-                vertices.BottomLeftColor *= 255f;
-                vertices.BottomRightColor *= 255f;
-                vertices.TopLeftColor *= 255f;
-                vertices.TopRightColor *= 255f;
+
+                float opacity = Main.tile[i, j].LiquidType == 0 ? 0.65f : 0.95f;
+
+                Color color1 = vertices.BottomLeftColor;
+                Color color2 = vertices.BottomRightColor;
+                Color color3 = vertices.TopLeftColor;
+                Color color4 = vertices.TopRightColor;
+
+                if (SubworldSystem.IsActive<CoralReefs>())
+                {
+                    vertices.BottomLeftColor = aColor * opacity * Main.liquidAlpha[Main.waterStyle] * (color1.A / 255f);
+                    vertices.BottomRightColor = aColor * opacity * Main.liquidAlpha[Main.waterStyle] * (color2.A / 255f);
+                    vertices.TopLeftColor = aColor * opacity * Main.liquidAlpha[Main.waterStyle] * (color3.A / 255f);
+                    vertices.TopRightColor = aColor * opacity * Main.liquidAlpha[Main.waterStyle] * (color4.A / 255f);
+                }
+                else
+                {
+                    vertices.BottomLeftColor = aColor * Main.liquidAlpha[Main.waterStyle] * (color1.A / 255f);
+                    vertices.BottomRightColor = aColor * Main.liquidAlpha[Main.waterStyle] * (color2.A / 255f);
+                    vertices.TopLeftColor = aColor * Main.liquidAlpha[Main.waterStyle] * (color3.A / 255f);
+                    vertices.TopRightColor = aColor * Main.liquidAlpha[Main.waterStyle] * (color4.A / 255f);
+                }
+
 
                 Main.DrawTileInWater(drawOffset, i, j);
 
-                float num20 = 0.75f;
-                float num21 = 0.25f;
-                float num22 = 0.75f;
-                float num23 = 0.25f;
+                int frameYOffset = 48;
+                if (Framing.GetTileSafely(i, j - 1).LiquidAmount == 0 && !Framing.GetTileSafely(i, j - 1).HasTile)
+                {
+                    frameYOffset = 0;
+                }
 
-                Main.tileBatch.Draw(Terraria.GameContent.Liquid.LiquidRenderer.Instance._liquidTextures[liquidType].Value, 
-                    new Vector4((i * 16f) - Main.screenPosition.X, (j * 16f) - Main.screenPosition.Y, 16, 16), 
-                    new Rectangle((int)(16f - num21 * 16f) + 0, (int)(16f - num23 * 16f) + 0, (int)Math.Ceiling((num21 - num20) * 16f), (int)Math.Ceiling((num23 - num22) * 16f)), 
-                    vertices);
+                Rectangle sourceRectangle = new Rectangle(16, frameYOffset + (int)typeof(LiquidRenderer).GetField("_animationFrame", flags).GetValue(LiquidRenderer.Instance) * 80, 16, 16);
 
-                //Main.
-                //Main.tileBatch.Draw(Terraria.GameContent.Liquid.LiquidRenderer.Instance._liquidTextures[liquidType].Value,
-                    //new Vector2(i << 4, j << 4) + drawOffset, new Rectangle((int)(16f - num21 * 16f) + 0, (int)(16f - num23 * 16f) + 0, (int)Math.Ceiling((num21 - num20) * 16f), (int)Math.Ceiling((num23 - num22) * 16f)), vertices, Vector2.Zero, 1f, SpriteEffects.None);
+                /*Main.tileBatch.Draw(TextureAssets.Liquid[liquidType].Value, 
+                    new Vector4(archivePos.X, archivePos.Y, liquidSize.Width, liquidSize.Height),
+                    sourceRectangle, 
+                    vertices, default(Vector2), SpriteEffects.None, 0f);*/
+
+                if (Main.tile[i, j].IsHalfBlock)
+                    Main.tileBatch.Draw(TextureAssets.Liquid[liquidType].Value, archivePos + new Vector2(0, 8), liquidSize, vertices, default(Vector2), 1f, SpriteEffects.None);
+                else
+                    Main.tileBatch.Draw(TextureAssets.Liquid[liquidType].Value, archivePos, liquidSize, vertices, default(Vector2), 1f, SpriteEffects.None);
 
                 Main.tileBatch.End();
-                Main.spriteBatch.Begin();
 
-                //Main.spriteBatch.Draw(TextureAssets.Liquid[liquidType].Value, position, liquidSize, Color.Red, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
                 return;
             }
 
-            liquidSize.X += 18 * (@ref - 1);
+            liquidSize.X += 18 * (slope - 1);
 
-            //Main.DrawTileInWater(drawOffset, (int)((position.X) / 16f), (int)((position.Y) / 16f));
-
-            //Main.spriteBatch.Draw(TextureAssets.LiquidSlope[liquidType].Value, position, liquidSize, Color.Red, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            if (tileCache.Slope == (SlopeType)1 || tileCache.Slope == (SlopeType)2 || tileCache.Slope == (SlopeType)3 || tileCache.Slope == (SlopeType)4)
+            {
+                Main.spriteBatch.Draw(TextureAssets.LiquidSlope[liquidType].Value, archivePos, liquidSize, aColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            }
         }
 
         private void WaterAlphaMod(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
@@ -218,48 +391,11 @@ namespace EEMod
                     //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
                 }
             }
-            
+
             orig(self);
         }
 
         public Entity loadingEntity;
-
-        private void UnloadDetours()
-        {
-            On.Terraria.Lighting.AddLight_int_int_float_float_float -= RegisterLightPoint;
-
-            On.Terraria.Main.Draw -= ManageWorldLoadUI;
-            On.Terraria.Main.DrawProjectiles -= RenderSeamap;
-            On.Terraria.Main.DrawWoF -= RenderBehindTiles;
-            On.Terraria.Main.CacheNPCDraws -= PreRenderNPCs;
-            //On.Terraria.Main.DoDraw_Tiles_Solid -= DrawCoralReefsBg;
-            On.Terraria.Main.DoDraw_UpdateCameraPosition -= RenderPrimitives;
-
-            //On.Terraria.Main.DoDraw_WallsAndBlacks -= Main_DoDraw_WallsAndBlacks;
-
-            On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= TileDrawing_DrawPartialLiquid;
-
-            On.Terraria.Main.DoDraw_WallsAndBlacks -= DrawGoblinFortBg;
-
-            On.Terraria.UI.IngameFancyUI.Draw -= DisableFancyUIOnSeamap;
-
-            On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
-
-            On.Terraria.Main.Draw -= DrawLoadingScreen;
-
-            On.Terraria.Player.Update_NPCCollision -= GoblinTableCollision;
-
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= PrepareSubworldList;
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= RenderSubworldList;
-
-            On.Terraria.WorldGen.SaveAndQuitCallBack -= ManageSaving;
-
-            Main.OnPreDraw -= PreparePrimitives;
-            Main.OnPreDraw -= PrepLoadingScreen;
-        }
-
-        //Unsafe.As<LiquidDrawCache[]>(typeof(Terraria.GameContent.Liquid.LiquidRenderer).GetField("_drawCache", flags).GetValue(self))
-        //typeof(Terraria.GameContent.Liquid.LiquidRenderer).GetField("_animationFrame", flags).GetValue(self)
 
         public RenderTarget2D loadingScreenRT;
 
