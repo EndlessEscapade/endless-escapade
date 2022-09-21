@@ -1,10 +1,12 @@
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Subworlds.CoralReefs;
 using EEMod.Systems;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SubworldLibrary;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,7 +54,7 @@ namespace EEMod
         
         public override void PostUpdateEverything()
         {
-            if (Main.worldName == KeyID.CoralReefs)
+            if (SubworldSystem.IsActive<CoralReefs>())
             {
                 foreach (EmptyTileEntity ETE in ETES) // List because if the collection is modified an exception will be thrown
                 {
@@ -64,7 +66,7 @@ namespace EEMod
 
         public override void PostDrawTiles()
         {
-            if (Main.worldName == KeyID.CoralReefs)
+            if (SubworldSystem.IsActive<CoralReefs>())
             {
                 foreach (EmptyTileEntity ETE in ETES)
                 {

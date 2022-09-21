@@ -33,6 +33,7 @@ using EEMod.Systems;
 using EEMod.Tiles.Foliage;
 using EEMod.Subworlds.CoralReefs;
 using EEMod.Projectiles;
+using SubworldLibrary;
 
 namespace EEMod.EEWorld
 {
@@ -244,7 +245,7 @@ namespace EEMod.EEWorld
 
         public override void SaveWorldData(TagCompound tag)
         {
-            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+            if (SubworldSystem.IsActive<CoralReefs>())
             {
                 tag["CoralBoatPos"] = CoralReefs.CoralBoatPos;
                 tag["CoralReefVineLocations"] = CoralReefs.CoralReefVineLocations;

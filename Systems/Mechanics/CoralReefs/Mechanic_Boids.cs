@@ -1,10 +1,12 @@
 ﻿using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Players;
+using EEMod.Subworlds.CoralReefs;
 using EEMod.Systems;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SubworldLibrary;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,7 +39,7 @@ namespace EEMod
                 fishflock.Update();
             }
 
-            if (Main.GameUpdateCount % 150 == 0 && Main.worldName == KeyID.CoralReefs)
+            if (Main.GameUpdateCount % 150 == 0 && SubworldSystem.IsActive<CoralReefs>())
             {
                 Vector2 rand = new Vector2(Main.rand.Next(-(int)(Main.screenWidth / 1.5f), (int)(Main.screenWidth / 1.5f)), Main.rand.Next(-(int)(Main.screenHeight / 1.5f), (int)(Main.screenHeight / 1.5f)));
 

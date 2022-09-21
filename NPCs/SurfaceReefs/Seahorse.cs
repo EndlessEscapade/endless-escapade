@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Banners;
+using SubworldLibrary;
+using EEMod.Subworlds.CoralReefs;
 
 namespace EEMod.NPCs.SurfaceReefs
 {
@@ -61,7 +63,7 @@ namespace EEMod.NPCs.SurfaceReefs
 
         public override void OnKill()
         {
-            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+            if (SubworldSystem.IsActive<CoralReefs>())
             {
                 EEWorld.EEWorld.instance.minionsKilled++;
             }

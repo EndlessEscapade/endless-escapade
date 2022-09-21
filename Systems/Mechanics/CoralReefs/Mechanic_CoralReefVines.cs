@@ -7,6 +7,7 @@ using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SubworldLibrary;
 using System;
 using System.IO;
 using Terraria;
@@ -56,7 +57,7 @@ namespace EEMod
         }
         public override void PostDrawTiles()
         {
-            if(Main.worldName == KeyID.CoralReefs) DrawVines();
+            if(SubworldSystem.IsActive<CoralReefs>()) DrawVines();
         }
     }
 }

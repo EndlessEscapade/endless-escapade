@@ -29,6 +29,7 @@ using EEMod.Prim;
 using Terraria.UI;
 using EEMod.Subworlds;
 using EEMod.Subworlds.CoralReefs;
+using SubworldLibrary;
 
 namespace EEMod.ModSystems
 {
@@ -221,7 +222,7 @@ namespace EEMod.ModSystems
                     {
                         EEMod.UI.DrawWithScaleGame(EEMod.lastGameTime);
                         //UpdateGame(lastGameTime);
-                        if (Main.worldName == KeyID.CoralReefs)
+                        if (SubworldSystem.IsActive<CoralReefs>())
                         {
                             //DrawCR();
                         }

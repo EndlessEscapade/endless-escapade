@@ -266,8 +266,8 @@ namespace EEMod.Subworlds.CoralReefs
 
                     #region Implementing dynamic objects
 
-                    /*
-                    EEMod.progressMessage = "Adding Dynamics";
+                    
+                    //EEMod.progressMessage = "Adding Dynamics";
 
                     for (int j = 42; j < ((Main.maxTilesY / 10f) * 4f); j += 2)
                     {
@@ -303,7 +303,7 @@ namespace EEMod.Subworlds.CoralReefs
                         {
                             ifa++;
                         }
-                    }
+                    }*/
 
                     if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(3))
                     {
@@ -321,7 +321,9 @@ namespace EEMod.Subworlds.CoralReefs
                                 CoralReefVineLocations.Add(new Vector2(i, j));
                             }
                         }
-                    }*/
+                    }
+                        }
+                    }
 
                     #endregion
 

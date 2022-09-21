@@ -3,6 +3,7 @@ using EEMod.Subworlds.CoralReefs;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SubworldLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace EEMod.Players
 
         private void CoralReefsPostUpdate()
         {
-            ZoneCoralReefs = Main.ActiveWorldFileData.Name == KeyID.CoralReefs;
+            ZoneCoralReefs = SubworldSystem.IsActive<CoralReefs>();
             if (ZoneCoralReefs)
             {
                 reefMinibiomeID = MinibiomeID.None;

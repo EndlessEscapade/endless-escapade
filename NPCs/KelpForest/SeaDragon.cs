@@ -1,5 +1,7 @@
 ﻿using EEMod.ID;
+using EEMod.Subworlds.CoralReefs;
 using Microsoft.Xna.Framework;
+using SubworldLibrary;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
@@ -60,7 +62,7 @@ namespace EEMod.NPCs.KelpForest
 
         public override void OnKill()
         {
-            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+            if (SubworldSystem.IsActive<CoralReefs>())
             {
                 EEWorld.EEWorld.instance.minionsKilled++;
             }

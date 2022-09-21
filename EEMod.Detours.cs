@@ -83,7 +83,7 @@ namespace EEMod
             //On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DoDraw_UpdateCameraPosition += RenderPrimitives;
 
-            //On.Terraria.Main.DoDraw_WallsAndBlacks += Main_DoDraw_WallsAndBlacks;
+            On.Terraria.Main.DoDraw_WallsAndBlacks += Main_DoDraw_WallsAndBlacks;
 
             //On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
 
@@ -120,7 +120,7 @@ namespace EEMod
 
             On.Terraria.Main.DrawBlack -= Main_DrawBlack;
 
-            //On.Terraria.Main.DoDraw_WallsAndBlacks -= Main_DoDraw_WallsAndBlacks;
+            On.Terraria.Main.DoDraw_WallsAndBlacks -= Main_DoDraw_WallsAndBlacks;
 
             //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalPrepareDraw;
 
@@ -334,6 +334,10 @@ namespace EEMod
 
         private void Main_DoDraw_WallsAndBlacks(On.Terraria.Main.orig_DoDraw_WallsAndBlacks orig, Main self)
         {
+            orig(self);
+
+            return;
+
             if (SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
             {
                 if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
