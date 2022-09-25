@@ -34,6 +34,8 @@ using EEMod.Tiles.Foliage;
 using EEMod.Subworlds.CoralReefs;
 using EEMod.Projectiles;
 using SubworldLibrary;
+using EEMod.Tiles.Foliage.Coral.HangingCoral;
+using EEMod.Tiles.Foliage.Coral.WallCoral;
 
 namespace EEMod.EEWorld
 {
@@ -336,7 +338,78 @@ namespace EEMod.EEWorld
 
         public static void GenerateShipyard()
         {
-            for (int i = 0; i < 2000; i++)
+            TilePopulate(
+                new int[] { ModContent.TileType<Hanging1x2Coral>(),
+                    ModContent.TileType<Hanging1x3Coral>(),
+                    ModContent.TileType<Hanging2x3Coral>(),
+                    ModContent.TileType<Hanging2x4Coral>(),
+                    ModContent.TileType<Hanging1x4Coral>(),
+
+                    ModContent.TileType<Floor1x1Coral>(),
+                    ModContent.TileType<Floor1x2Coral>(),
+                    ModContent.TileType<Floor2x1Coral>(),
+                    ModContent.TileType<Floor2x2Coral>(),
+                    ModContent.TileType<FloorGlow2x2Coral>(),
+                    ModContent.TileType<Floor2x6Coral>(),
+                    ModContent.TileType<Floor3x2Coral>(),
+                    ModContent.TileType<Floor3x3Coral>(),
+                    ModContent.TileType<Floor4x3Coral>(),
+                    ModContent.TileType<Floor7x7Coral>(),
+                    ModContent.TileType<Floor8x7Coral>(),
+                    ModContent.TileType<Floor8x3Coral>(),
+                    ModContent.TileType<Floor9x9Coral>(),
+                    ModContent.TileType<Floor11x11Coral>(),
+
+                    ModContent.TileType<Wall2x2CoralL>(),
+                    ModContent.TileType<Wall3x2CoralL>(),
+                    ModContent.TileType<Wall3x2NonsolidCoralL>(),
+                    ModContent.TileType<Wall5x2NonsolidCoralL>(),
+                    ModContent.TileType<Wall6x3CoralL>(),
+
+                    ModContent.TileType<Wall2x2CoralR>(),
+                    ModContent.TileType<Wall3x2CoralR>(),
+                    ModContent.TileType<Wall3x2NonsolidCoralR>(),
+                    ModContent.TileType<Wall5x2NonsolidCoralR>(),
+                    ModContent.TileType<Wall6x3CoralR>() },
+                new Rectangle(0, (int)(Main.worldSurface * 0.35f), 1000, (int)Main.rockLayer - (int)(Main.worldSurface * 0.35f)), true);
+
+            TilePopulate(
+                new int[] { ModContent.TileType<Hanging1x2Coral>(),
+                    ModContent.TileType<Hanging1x3Coral>(),
+                    ModContent.TileType<Hanging2x3Coral>(),
+                    ModContent.TileType<Hanging2x4Coral>(),
+                    ModContent.TileType<Hanging1x4Coral>(),
+
+                    ModContent.TileType<Floor1x1Coral>(),
+                    ModContent.TileType<Floor1x2Coral>(),
+                    ModContent.TileType<Floor2x1Coral>(),
+                    ModContent.TileType<Floor2x2Coral>(),
+                    ModContent.TileType<FloorGlow2x2Coral>(),
+                    ModContent.TileType<Floor2x6Coral>(),
+                    ModContent.TileType<Floor3x2Coral>(),
+                    ModContent.TileType<Floor3x3Coral>(),
+                    ModContent.TileType<Floor4x3Coral>(),
+                    ModContent.TileType<Floor7x7Coral>(),
+                    ModContent.TileType<Floor8x7Coral>(),
+                    ModContent.TileType<Floor8x3Coral>(),
+                    ModContent.TileType<Floor9x9Coral>(),
+                    ModContent.TileType<Floor11x11Coral>(),
+
+                    ModContent.TileType<Wall2x2CoralL>(),
+                    ModContent.TileType<Wall3x2CoralL>(),
+                    ModContent.TileType<Wall3x2NonsolidCoralL>(),
+                    ModContent.TileType<Wall5x2NonsolidCoralL>(),
+                    ModContent.TileType<Wall6x3CoralL>(),
+
+                    ModContent.TileType<Wall2x2CoralR>(),
+                    ModContent.TileType<Wall3x2CoralR>(),
+                    ModContent.TileType<Wall3x2NonsolidCoralR>(),
+                    ModContent.TileType<Wall5x2NonsolidCoralR>(),
+                    ModContent.TileType<Wall6x3CoralR>() },
+            new Rectangle(Main.maxTilesX - 1000, (int)(Main.worldSurface * 0.35f), 1000, (int)Main.rockLayer - (int)(Main.worldSurface * 0.35f)), true);
+
+
+            for (int i = 0; i < 1000; i++)
             {
                 for (int j = (int)(Main.worldSurface * 0.35f); j < Main.rockLayer; j++)
                 {
@@ -346,22 +419,6 @@ namespace EEMod.EEWorld
 
                     if (tile.LiquidAmount > 0)
                     {
-                        //Ocean surface worldgen
-
-                        /*switch (WorldGen.genRand.Next(3))
-                        {
-                            case 0:
-                                WorldGen.PlaceTile(i, j, ModContent.TileType<LilyPadSmol>());
-                                break;
-
-                            case 1:
-                                WorldGen.PlaceTile(i, j, ModContent.TileType<LilyPadMedium>());
-                                break;
-
-                            default:
-                                break;
-                        }*/
-
                         for (int k = j; k < Main.rockLayer; k++)
                         {
                             Tile tile2 = Framing.GetTileSafely(i, k);
@@ -424,17 +481,6 @@ namespace EEMod.EEWorld
                                         }
                                         break;
                                     case 2:
-                                        //WorldGen.PlaceTile(i, k - 2, TileID.DyePlants, false, false, -1, 6);
-
-                                        /*Main.tile[i, k - 2].type = TileID.DyePlants;
-                                        Main.tile[i, k - 2].TileFrameX = 11 * 16;
-                                        Main.tile[i, k - 2].HasTile = true;
-
-                                        Main.tile[i, k - 1].type = TileID.DyePlants;
-                                        Main.tile[i, k - 1].TileFrameX = 11 * 16;
-                                        Main.tile[i, k - 1].TileFrameY = 1 * 16;
-                                        Main.tile[i, k - 1].HasTile = true;*/
-
                                         int rand3 = WorldGen.genRand.Next(4, 8);
 
                                         for (int l = k - 1; l >= k - rand3; l--)
@@ -472,6 +518,88 @@ namespace EEMod.EEWorld
                         PlaceShipyard(i, j - 13);
 
                         return;
+                    }
+                }
+            }
+
+            for (int i = Main.maxTilesX - 1000; i < Main.maxTilesX; i++)
+            {
+                for (int j = (int)(Main.worldSurface * 0.35f); j < Main.rockLayer; j++)
+                {
+                    if (!WorldGen.InWorld(i, j)) break;
+
+                    Tile tile = Framing.GetTileSafely(i, j);
+
+                    if (tile.LiquidAmount > 0)
+                    {
+                        for (int k = j; k < Main.rockLayer; k++)
+                        {
+                            Tile tile2 = Framing.GetTileSafely(i, k);
+
+                            if (tile2.HasTile && tile2.TileType == TileID.Sand &&
+                                !Framing.GetTileSafely(i, k - 1).HasTile && Framing.GetTileSafely(i, k - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(3))
+                            {
+                                Framing.GetTileSafely(i, k).Slope = 0;
+
+                                switch (WorldGen.genRand.Next(3))
+                                {
+                                    case 0:
+                                        int rand = WorldGen.genRand.Next(7, 20);
+
+                                        for (int l = k - 1; l >= k - rand; l--)
+                                        {
+                                            Framing.GetTileSafely(i, l).TileType = (ushort)ModContent.TileType<SeagrassTile>();
+                                            Framing.GetTileSafely(i, l).HasTile = true;
+                                        }
+                                        break;
+                                    case 1:
+                                        int rand2 = WorldGen.genRand.Next(4, 13);
+
+                                        for (int l = k - 1; l >= k - rand2; l--)
+                                        {
+                                            Framing.GetTileSafely(i, l).TileType = TileID.Seaweed;
+                                            Framing.GetTileSafely(i, l).HasTile = true;
+
+                                            if (l == k - rand2)
+                                            {
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(8, 13) * 18);
+                                            }
+                                            else
+                                            {
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(1, 8) * 18);
+                                            }
+                                        }
+                                        break;
+                                    case 2:
+                                        int rand3 = WorldGen.genRand.Next(4, 8);
+
+                                        for (int l = k - 1; l >= k - rand3; l--)
+                                        {
+                                            Main.tile[i, l].TileType = TileID.Bamboo;
+                                            Framing.GetTileSafely(i, l).HasTile = true;
+
+                                            if (l == k - 1)
+                                            {
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
+                                            }
+                                            else if (l == k - rand3)
+                                            {
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
+                                            }
+                                            else
+                                            {
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
+                                            }
+                                        }
+
+                                        break;
+                                }
+
+                                break;
+                            }
+                        }
+
+                        break;
                     }
                 }
             }

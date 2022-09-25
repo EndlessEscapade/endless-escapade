@@ -35,9 +35,9 @@ namespace EEMod.Tiles.Furniture
             DustType = DustID.Dirt;
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-            if (Framing.GetTileSafely(i, j).TileFrameY == 0 && Main.rand.Next(10) == 0)
+            if (Framing.GetTileSafely(i, j).TileFrameY == 0 && Main.rand.NextBool(10))
             {
                 int num = Dust.NewDust(new Vector2(i * 16 + 4, j * 16), 1, 1, DustID.Smoke, 0, 1);
                 Main.dust[num].velocity = new Vector2(0, -0.75f);

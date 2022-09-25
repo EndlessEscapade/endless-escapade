@@ -31,7 +31,7 @@ namespace EEMod
         float sineInt;
         void HandleWebDraw(Vector2 position)
         {
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
             Lighting.AddLight(position, new Vector3(0, 0.1f, 0.4f));
             Vector2 tilePos = position / 16;

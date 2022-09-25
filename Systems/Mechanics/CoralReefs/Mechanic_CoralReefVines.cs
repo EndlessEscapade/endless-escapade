@@ -22,7 +22,7 @@ namespace EEMod
         {
             if (CoralReefs.CoralReefVineLocations.Count > 0)
             {
-                Main.spriteBatch.Begin();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
                 for (int i = 1; i < CoralReefs.CoralReefVineLocations.Count - 2; i++)
                 {

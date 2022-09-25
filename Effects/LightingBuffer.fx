@@ -15,7 +15,7 @@ sampler light = sampler_state
 
 float4 White(float2 coords : TEXCOORD0) : COLOR0
 {
-	float2 screenPercentage = float2(screenPosition.x/ screenSize.x,screenPosition.y / screenSize.y);
+	float2 screenPercentage = float2(screenPosition.x / screenSize.x, screenPosition.y / screenSize.y);
 	float4 texColor = tex2D(uImage0, coords);
 
 	float percX = texSize.x / screenSize.x;

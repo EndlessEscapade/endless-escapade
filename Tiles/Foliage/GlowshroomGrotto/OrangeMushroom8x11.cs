@@ -39,27 +39,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
-        {
-            Tile t = Framing.GetTileSafely(i, j);
-            if (t.TileFrameX == 0 && t.TileFrameY == 0)
-            {
-                Main.specX[nextSpecialDrawIndex] = i;
-                Main.specY[nextSpecialDrawIndex] = j;
-                nextSpecialDrawIndex++;
-            }
-        }
-
-        private string path = "Tiles/Foliage/GlowshroomGrotto/";
-        private string[] tentacleTex = new string[]
-        {
-            "glowvinetop",
-            "glowvinemid1",
-            "glowvinemid2",
-            "glowvinebottom"
-        };
-
-        public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             if (Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0)
             {
@@ -76,9 +56,9 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
                 for (int l = 0; l < 3; l++)
                 {
                     Vector2 orig = Vector2.Zero;
-                    if(l == 0) orig = new Vector2((i * 16) + 26, (j * 16) + 70 - 6);
+                    if (l == 0) orig = new Vector2((i * 16) + 26, (j * 16) + 70 - 6);
 
-                    if(l == 1) orig = new Vector2((i * 16) + 76, (j * 16) + 56 - 6);
+                    if (l == 1) orig = new Vector2((i * 16) + 76, (j * 16) + 56 - 6);
 
                     if (l == 2) orig = new Vector2((i * 16) + 106, (j * 16) + 36 - 6);
 
@@ -106,6 +86,15 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
                 Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom8x11Cap").Value, new Rectangle((int)drawPos.X, (int)drawPos.Y, 128, 176), new Rectangle(0, 0, 128, 176), color);
             }
         }
+
+        private string path = "Tiles/Foliage/GlowshroomGrotto/";
+        private string[] tentacleTex = new string[]
+        {
+            "glowvinetop",
+            "glowvinemid1",
+            "glowvinemid2",
+            "glowvinebottom"
+        };
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {

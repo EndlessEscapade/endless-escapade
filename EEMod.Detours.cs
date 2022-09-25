@@ -59,8 +59,6 @@ namespace EEMod
 
         public List<IComponent> Updatables = new List<IComponent>();
 
-        float bgAlpha;
-
         public bool wasDoingWorldGen;
 
         private void LoadDetours()
@@ -70,24 +68,18 @@ namespace EEMod
             On.Terraria.Main.Draw += ManageWorldLoadUI;
             On.Terraria.Main.DrawProjectiles += RenderSeamap;
             On.Terraria.Main.DrawWoF += RenderBehindTiles;
+            On.Terraria.Main.DoDraw_WallsTilesNPCs += Main_DoDraw_WallsTilesNPCs;
             On.Terraria.Main.CacheNPCDraws += PreRenderNPCs;
 
             On.Terraria.Main.DrawWater += WaterAlphaMod;
 
             On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += TileDrawing_DrawPartialLiquid;
-            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalPrepareDraw;
 
             On.Terraria.Main.DrawBlack += Main_DrawBlack;
-            //On.Terraria.Main.DoDraw_WallsAndBlacks += Main_DoDraw_WallsAndBlacks1;
 
-            //On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DoDraw_UpdateCameraPosition += RenderPrimitives;
 
-            On.Terraria.Main.DoDraw_WallsAndBlacks += Main_DoDraw_WallsAndBlacks;
-
             //On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
-
-            //On.Terraria.Main.DoDraw_Tiles_NonSolid += DrawGoblinFortBg;
 
             On.Terraria.UI.IngameFancyUI.Draw += DisableFancyUIOnSeamap;
 
@@ -102,9 +94,13 @@ namespace EEMod
 
             Main.OnPreDraw += PreparePrimitives;
             Main.OnPreDraw += PrepLoadingScreen;
+        }
 
-            if (Main.dedServ)
-                return;
+        private void Main_DoDraw_WallsTilesNPCs(On.Terraria.Main.orig_DoDraw_WallsTilesNPCs orig, Main self)
+        {
+            global::EEMod.LightingBuffer.Instance.PreDrawTiles();
+
+            orig(self);
         }
 
         private void UnloadDetours()
@@ -114,23 +110,20 @@ namespace EEMod
             On.Terraria.Main.Draw -= ManageWorldLoadUI;
             On.Terraria.Main.DrawProjectiles -= RenderSeamap;
             On.Terraria.Main.DrawWoF -= RenderBehindTiles;
+            On.Terraria.Main.DoDraw_WallsTilesNPCs -= Main_DoDraw_WallsTilesNPCs;
             On.Terraria.Main.CacheNPCDraws -= PreRenderNPCs;
-            //On.Terraria.Main.DoDraw_Tiles_Solid -= DrawCoralReefsBg;
-            On.Terraria.Main.DoDraw_UpdateCameraPosition -= RenderPrimitives;
 
-            On.Terraria.Main.DrawBlack -= Main_DrawBlack;
-
-            On.Terraria.Main.DoDraw_WallsAndBlacks -= Main_DoDraw_WallsAndBlacks;
-
-            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalPrepareDraw;
+            On.Terraria.Main.DrawWater -= WaterAlphaMod;
 
             On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= TileDrawing_DrawPartialLiquid;
 
-            On.Terraria.Main.DoDraw_WallsAndBlacks -= DrawGoblinFortBg;
+            On.Terraria.Main.DrawBlack -= Main_DrawBlack;
+
+            On.Terraria.Main.DoDraw_UpdateCameraPosition -= RenderPrimitives;
+
+            //On.Terraria.Main.DoDraw_WallsAndBlacks -= DrawGoblinFortBg;
 
             On.Terraria.UI.IngameFancyUI.Draw -= DisableFancyUIOnSeamap;
-
-            On.Terraria.Main.DoDraw_WallsAndBlacks += DrawGoblinFortBg;
 
             On.Terraria.Main.Draw -= DrawLoadingScreen;
 
@@ -148,8 +141,8 @@ namespace EEMod
 
         private void Main_DrawBlack(On.Terraria.Main.orig_DrawBlack orig, Main self, bool force)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            if(SubworldSystem.IsActive<CoralReefs>() && global::EEMod.LightingBuffer.Instance.bgAlpha > 0) return;
+
             Vector2 value = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             int num = (Main.tileColor.R + Main.tileColor.G + Main.tileColor.B) / 3;
             float num2 = (float)((double)num * 0.4) / 255f;
@@ -169,8 +162,8 @@ namespace EEMod
                     num2 = 0f;
                 }
             }
-            Microsoft.Xna.Framework.Point screenOverdrawOffset = Main.GetScreenOverdrawOffset();
-            Microsoft.Xna.Framework.Point point = new Microsoft.Xna.Framework.Point(-Main.offScreenRange / 16 + screenOverdrawOffset.X, -Main.offScreenRange / 16 + screenOverdrawOffset.Y);
+            Point screenOverdrawOffset = Main.GetScreenOverdrawOffset();
+            Point point = new Point(-Main.offScreenRange / 16 + screenOverdrawOffset.X, -Main.offScreenRange / 16 + screenOverdrawOffset.Y);
             int num3 = (int)((Main.screenPosition.X - value.X) / 16f - 1f) + point.X;
             int num4 = (int)((Main.screenPosition.X + (float)Main.screenWidth + value.X) / 16f) + 2 - point.X;
             int num5 = (int)((Main.screenPosition.Y - value.Y) / 16f - 1f) + point.Y;
@@ -228,24 +221,30 @@ namespace EEMod
                         float num8 = Lighting.Brightness(j, i);
                         num8 = (float)Math.Floor(num8 * 255f) / 255f;
                         byte b = tile.LiquidAmount;
-                        if (!(num8 <= num2) || ((flag || b >= 250) && !WorldGen.SolidTile(tile) && (b < 200 || num8 != 0f)) || (WallID.Sets.Transparent[tile.WallType] && (!Main.tile[j, i].HasTile || !Main.tileBlockLight[(int)tile.BlockType])) || Framing.GetTileSafely(j, i - 1).LiquidAmount > 0 || Framing.GetTileSafely(j, i + 1).LiquidAmount > 0 || Framing.GetTileSafely(j + 1, i).LiquidAmount > 0 || Framing.GetTileSafely(j - 1, i).LiquidAmount > 0 || (tile.IsHalfBlock && Framing.GetTileSafely(j - 1, i).LiquidAmount > 0 && Lighting.Brightness(j, i) > 0f) || (!Main.drawToScreen && LiquidRenderer.Instance.HasFullWater(j, i) && tile.WallType == 0 && !tile.IsHalfBlock && !((double)i <= Main.worldSurface)))
+
+                        if (!(num8 <= num2) || ((flag || b >= 250) && !WorldGen.SolidTile(tile) && (b < 200 || num8 != 0f)) || (WallID.Sets.Transparent[tile.WallType] && (!Main.tile[j, i].HasTile || !Main.tileBlockLight[(int)tile.BlockType])) || (!Main.drawToScreen && LiquidRenderer.Instance.HasFullWater(j, i) && tile.WallType == 0 && !tile.IsHalfBlock && !((double)i <= Main.worldSurface)))
                         {
-                            break;
+                            if ((Framing.GetTileSafely(j, i).Slope != SlopeType.Solid && (Framing.GetTileSafely(j, i - 1).LiquidAmount > 0 || Framing.GetTileSafely(j, i + 1).LiquidAmount > 0 || Framing.GetTileSafely(j + 1, i).LiquidAmount > 0 || Framing.GetTileSafely(j - 1, i).LiquidAmount > 0)) || (Framing.GetTileSafely(j, i).IsHalfBlock && Framing.GetTileSafely(j, i - 1).LiquidAmount > 0))
+                            {
+                                if(num8 > 0)
+                                    break;
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
                     }
                     if (j - num7 > 0)
                     {
-                        Main.spriteBatch.Draw(TextureAssets.BlackTile.Value, new Vector2(num7 << 4, i << 4) - Main.screenPosition + value, new Microsoft.Xna.Framework.Rectangle(0, 0, j - num7 << 4, 16), Microsoft.Xna.Framework.Color.Black);
+                        Main.spriteBatch.Draw(TextureAssets.BlackTile.Value, new Vector2(num7 << 4, i << 4) - Main.screenPosition + value, new Rectangle(0, 0, j - num7 << 4, 16), Microsoft.Xna.Framework.Color.Black);
                     }
                 }
             }
-            TimeLogger.DrawTime(5, stopwatch.Elapsed.TotalMilliseconds);
         }
 
         private unsafe void TileDrawing_DrawPartialLiquid(On.Terraria.GameContent.Drawing.TileDrawing.orig_DrawPartialLiquid orig, Terraria.GameContent.Drawing.TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
         {
-            const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
-
             Vector2 rectangle = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {
@@ -263,56 +262,52 @@ namespace EEMod
             int j = (int)((position.Y) / 16f);
 
             int slope = (int)tileCache.Slope;
+
+            float[] DEFAULT_OPACITY = new float[3]
+            {
+                    0.6f,
+                    0.95f,
+                    0.95f
+            };
+
+            float num = DEFAULT_OPACITY[Main.tile[i, j].LiquidType];
+            int num2 = Main.tile[i, j].LiquidType;
+            switch (num2)
+            {
+                case 0:
+                    num2 = Main.waterStyle;
+                    num *= (SubworldSystem.IsActive<CoralReefs>() && global::EEMod.LightingBuffer.Instance.bgAlpha > 0 ? 0.5f : 2f);
+                    num *= (SubworldSystem.IsActive<CoralReefs>() && !(global::EEMod.LightingBuffer.Instance.bgAlpha > 0) ? 0.5f : 1f);
+                    break;
+                case 2:
+                    num2 = 11;
+                    break;
+            }
+
+
+            num = Math.Min(1f, num);
+
+            if (Framing.GetTileSafely(i, j).WallType != 0) num = 0.5f;
+
+            Lighting.GetCornerColors(i, j, out VertexColors vertices);
+
+            vertices.BottomLeftColor *= num;
+            vertices.BottomRightColor *= num;
+            vertices.TopLeftColor *= num;
+            vertices.TopRightColor *= num;
+
             if (!TileID.Sets.BlocksWaterDrawingBehindSelf[(int)tileCache.BlockType] || slope == 0)
             {
                 Main.tileBatch.Begin();
 
-                Main.DrawTileInWater(drawOffset, (int)((position.X) / 16f), (int)((position.Y) / 16f));
-
-                Lighting.GetCornerColors(i, j, out VertexColors vertices);
-
-                float opacity = Main.tile[i, j].LiquidType == 0 ? 0.65f : 0.95f;
-
-                Color color1 = vertices.BottomLeftColor;
-                Color color2 = vertices.BottomRightColor;
-                Color color3 = vertices.TopLeftColor;
-                Color color4 = vertices.TopRightColor;
-
-                if (SubworldSystem.IsActive<CoralReefs>())
-                {
-                    vertices.BottomLeftColor = aColor * opacity * Main.liquidAlpha[Main.waterStyle] * (color1.A / 255f);
-                    vertices.BottomRightColor = aColor * opacity * Main.liquidAlpha[Main.waterStyle] * (color2.A / 255f);
-                    vertices.TopLeftColor = aColor * opacity * Main.liquidAlpha[Main.waterStyle] * (color3.A / 255f);
-                    vertices.TopRightColor = aColor * opacity * Main.liquidAlpha[Main.waterStyle] * (color4.A / 255f);
-                }
-                else
-                {
-                    vertices.BottomLeftColor = aColor * Main.liquidAlpha[Main.waterStyle] * (color1.A / 255f);
-                    vertices.BottomRightColor = aColor * Main.liquidAlpha[Main.waterStyle] * (color2.A / 255f);
-                    vertices.TopLeftColor = aColor * Main.liquidAlpha[Main.waterStyle] * (color3.A / 255f);
-                    vertices.TopRightColor = aColor * Main.liquidAlpha[Main.waterStyle] * (color4.A / 255f);
-                }
-
-
                 Main.DrawTileInWater(drawOffset, i, j);
 
-                int frameYOffset = 48;
-                if (Framing.GetTileSafely(i, j - 1).LiquidAmount == 0 && !Framing.GetTileSafely(i, j - 1).HasTile)
-                {
-                    frameYOffset = 0;
-                }
-
-                Rectangle sourceRectangle = new Rectangle(16, frameYOffset + (int)typeof(LiquidRenderer).GetField("_animationFrame", flags).GetValue(LiquidRenderer.Instance) * 80, 16, 16);
-
-                /*Main.tileBatch.Draw(TextureAssets.Liquid[liquidType].Value, 
-                    new Vector4(archivePos.X, archivePos.Y, liquidSize.Width, liquidSize.Height),
-                    sourceRectangle, 
-                    vertices, default(Vector2), SpriteEffects.None, 0f);*/
-
-                if (Main.tile[i, j].IsHalfBlock)
-                    Main.tileBatch.Draw(TextureAssets.Liquid[liquidType].Value, archivePos + new Vector2(0, 8), liquidSize, vertices, default(Vector2), 1f, SpriteEffects.None);
+                if (Main.tile[i, j].IsHalfBlock && SubworldSystem.IsActive<CoralReefs>())
+                    Main.tileBatch.Draw(TextureAssets.Liquid[num2].Value, archivePos + new Vector2(0, 8), liquidSize, vertices, default(Vector2), 1f, SpriteEffects.None);
+                else if(Main.tile[i, j].IsHalfBlock)
+                    Main.tileBatch.Draw(TextureAssets.Liquid[num2].Value, archivePos, liquidSize, vertices, default(Vector2), 1f, SpriteEffects.None);
                 else
-                    Main.tileBatch.Draw(TextureAssets.Liquid[liquidType].Value, archivePos, liquidSize, vertices, default(Vector2), 1f, SpriteEffects.None);
+                    Main.tileBatch.Draw(TextureAssets.Liquid[num2].Value, archivePos, liquidSize, vertices, default(Vector2), 1f, SpriteEffects.None);
 
                 Main.tileBatch.End();
 
@@ -323,80 +318,14 @@ namespace EEMod
 
             if (tileCache.Slope == (SlopeType)1 || tileCache.Slope == (SlopeType)2 || tileCache.Slope == (SlopeType)3 || tileCache.Slope == (SlopeType)4)
             {
-                Main.spriteBatch.Draw(TextureAssets.LiquidSlope[liquidType].Value, archivePos, liquidSize, aColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                Main.NewText("NO WAY!!!");
+                Main.spriteBatch.Draw(TextureAssets.LiquidSlope[num2].Value, archivePos, liquidSize, aColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
         }
 
         private void WaterAlphaMod(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
         {
             orig(self, bg, Style, SubworldSystem.IsActive<CoralReefs>() ? Alpha / 3.5f : Alpha);
-        }
-
-        private void Main_DoDraw_WallsAndBlacks(On.Terraria.Main.orig_DoDraw_WallsAndBlacks orig, Main self)
-        {
-            orig(self);
-
-            return;
-
-            if (SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
-            {
-                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
-                {
-                    bgAlpha += 0.01f;
-                }
-                else
-                {
-                    bgAlpha -= 0.01f;
-                }
-
-                bgAlpha = 0;
-
-                bgAlpha = MathHelper.Clamp(bgAlpha, 0, 1);
-
-                if (bgAlpha > 0)
-                {
-                    Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
-                    Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
-                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
-
-                    Main.spriteBatch.End();
-                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default);
-
-                    ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
-
-                    Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
-                    Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
-                    Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
-
-                    for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
-                        for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex,
-                            new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)), bgAlpha);
-
-                    for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
-                        for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex2,
-                            new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)), bgAlpha);
-
-                    for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
-                        for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex3,
-                            new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)), bgAlpha);
-
-                    Main.spriteBatch.End();
-                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-                }
-                else
-                {
-                    //int a = 2;
-                    //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
-                }
-            }
-
-            orig(self);
         }
 
         public Entity loadingEntity;
@@ -598,65 +527,6 @@ namespace EEMod
 
                 Main.spriteBatch.Draw(bgTex, position - Main.screenPosition, Color.White);
             }
-        }
-
-        private void DrawCoralReefsBg(On.Terraria.Main.orig_DoDraw_Tiles_Solid orig, Main self)
-        {
-            if (SubworldSystem.IsActive<CoralReefs>() && !Main.gameMenu)
-            {
-                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
-                {
-                    bgAlpha += 0.01f;
-                }
-                else
-                {
-                    bgAlpha -= 0.01f;
-                }
-
-                bgAlpha = MathHelper.Clamp(bgAlpha, 0, 1);
-
-                if (bgAlpha > 0)
-                {
-                    Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
-                    Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
-                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
-
-                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default);
-
-                    ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
-
-                    Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
-                    Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
-                    Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
-
-                    for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
-                        for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex,
-                            new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)), bgAlpha);
-
-                    for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
-                        for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex2,
-                            new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)), bgAlpha);
-
-                    for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
-                        for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex3,
-                            new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)), bgAlpha);
-
-                    Main.spriteBatch.End();
-                }
-                else
-                {
-                    //int a = 2;
-                    //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
-                }
-            }
-
-            orig(self);
         }
 
         private bool DisableFancyUIOnSeamap(On.Terraria.UI.IngameFancyUI.orig_Draw orig, SpriteBatch spriteBatch, GameTime gameTime)
@@ -917,14 +787,14 @@ namespace EEMod
 
             PrimitiveSystem.primitives.DrawTrailsBehindTiles();
 
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
             foreach (IComponent Updateable in Updatables)
                 Updateable.Update();
 
             BeforeTiles?.Invoke(Main.spriteBatch);
 
-            DrawLensFlares();
+            //DrawLensFlares();
 
             orig(self);
         }
@@ -972,10 +842,10 @@ namespace EEMod
 
         private void RegisterLightPoint(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int i, int j, float R, float G, float B)
         {
+            orig(i, j, R, G, B);
+
             global::EEMod.LightingBuffer.Instance._lightPoints.Add(new Vector2(i + 0.5f, j + 0.5f));
             global::EEMod.LightingBuffer.Instance._colorPoints.Add(new Color(R, G, B));
-
-            orig(i, j, R, G, B);
         }
 
 #pragma warning disable IDE0051 // Private members

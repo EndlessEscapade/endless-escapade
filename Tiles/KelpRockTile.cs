@@ -17,6 +17,10 @@ namespace EEMod.Tiles
             Main.tileLighted[Type] = true;
             Main.tileBlockLight[Type] = true;
 
+            Main.tileMerge[Type][ModContent.TileType<KelpMossTile>()] = true;
+            Main.tileMerge[Type][ModContent.TileType<KelpLeafTile>()] = true;
+            Main.tileMerge[Type][ModContent.TileType<LightGemsandTile>()] = true;
+
             AddMapEntry(new Color(48, 200, 135));
 
             DustType = DustID.Rain;

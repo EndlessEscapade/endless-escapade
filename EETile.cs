@@ -25,14 +25,14 @@ namespace EEMod
             //SetDrawPositions(i, j, ref width, ref offsetY, ref height, ref tileFrameX, ref tileFrameY);
         }
 
-        [Obsolete("Old method, use DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData) instead")]
-        public virtual void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        //[Obsolete("Old method, use DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData) instead")]
+        /*public virtual void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             //DrawEffects(i, j, spriteBatch, ref TileDrawInfo);
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-
-        }
+        
+        }*/
     }
 }

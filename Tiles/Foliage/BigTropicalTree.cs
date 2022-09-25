@@ -40,7 +40,7 @@ namespace EEMod.Tiles.Foliage
 
         public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 NPC.NewNPC(new Terraria.DataStructures.EntitySource_SpawnNPC(), i, j, ModContent.NPCType<Cococritter>());
             }
@@ -48,18 +48,7 @@ namespace EEMod.Tiles.Foliage
             Item.NewItem(new Terraria.DataStructures.EntitySource_SpawnNPC(), new Vector2(i, j), ModContent.ItemType<Coconut>(), Main.rand.Next(3, 5));
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
-        {
-            Tile t = Framing.GetTileSafely(i, j);
-            if (t.TileFrameX == 0 && t.TileFrameY == 0)
-            {
-                Main.specX[nextSpecialDrawIndex] = i;
-                Main.specY[nextSpecialDrawIndex] = j;
-                nextSpecialDrawIndex++;
-            }
-        }
-
-        public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)

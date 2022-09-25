@@ -22,6 +22,8 @@ namespace EEMod
         {
             if (CoralReefs.GiantKelpRoots.Count > 0)
             {
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+
                 for (int i = 1; i < CoralReefs.GiantKelpRoots.Count - 2; i++)
                 {
                     Vector2 ChainConneccPos = CoralReefs.GiantKelpRoots[i] * 16;
@@ -46,6 +48,8 @@ namespace EEMod
                         }
                     }
                 }
+
+                Main.spriteBatch.End();
             }
         }
 

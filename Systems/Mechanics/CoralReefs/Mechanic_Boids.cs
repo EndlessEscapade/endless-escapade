@@ -22,7 +22,7 @@ namespace EEMod
 
         public override void PostDrawTiles()
         {
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
             foreach(Flock fishflock in fishflocks)
             {

@@ -20,6 +20,8 @@ namespace EEMod
 
         public override void PostDrawTiles()
         {
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+
             foreach (int index in VerletHelpers.EndPointChains)
             {
                 var vec = Verlet.Points[index].point;
@@ -66,6 +68,8 @@ namespace EEMod
                 }
                 Lighting.AddLight(vec, new Vector3(235, 166, 0) / 500);
             }
+
+            Main.spriteBatch.End();
         }
 
         public override void PreUpdateEntities()

@@ -109,7 +109,8 @@ namespace EEMod
 
         public override void PostDrawTiles() 
         { 
-           /*for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
+            /*
+           for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
            {
                Vector2 pos = EESubWorlds.BulbousTreePosition[i] * 16;
                if (pos.ForDraw().LengthSquared() < 2000 * 2000)

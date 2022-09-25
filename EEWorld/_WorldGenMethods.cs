@@ -787,12 +787,14 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void TilePopulate(int[] types, Rectangle bounds)
+        public static void TilePopulate(int[] types, Rectangle bounds, bool onlyWet = false)
         {
             for (int i = bounds.X; i < bounds.Width; i++)
             {
                 for (int j = bounds.Y; j < bounds.Height; j++)
                 {
+                    if (Framing.GetTileSafely(i, j).LiquidAmount < 16 && onlyWet) continue;
+
                     int chosen = WorldGen.genRand.Next(types.Length);
                     int tile = types[chosen];
 

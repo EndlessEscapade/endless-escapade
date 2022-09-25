@@ -86,7 +86,9 @@ namespace EEMod.Subworlds.CoralReefs
 
                     int roomsPerLayer = 10;
 
-                    VerletHelpers.SwingableVines.Clear();
+                    int surfaceLevel;
+                    int upperLevel;
+                    int lowerLevel;
 
                     //Placing initial blocks
                     #region Initial block placement
@@ -120,7 +122,7 @@ namespace EEMod.Subworlds.CoralReefs
                     FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 80, new Vector2(0, 170), ModContent.TileType<CoralsandstoneTile>(), 5);
                     FillRegionNoChangeWithNoise(Main.maxTilesX, Main.maxTilesY / 80, new Vector2(0, 165), ModContent.TileType<CoralSandTile>(), 8);
 
-                    FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 190), ModContent.TileType<LightGemsandTile>(), 10);
+                    FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40 - 10, new Vector2(0, 200), ModContent.TileType<LightGemsandTile>(), 10);
 
                     //Islands
                     for (int i = 50; i < Main.maxTilesX - 100; i++)
@@ -263,6 +265,8 @@ namespace EEMod.Subworlds.CoralReefs
                     #endregion
 
                     FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
+
+                    VerletHelpers.SwingableVines.Clear();
 
                     #region Implementing dynamic objects
 
@@ -547,7 +551,7 @@ namespace EEMod.Subworlds.CoralReefs
                 Main.spawnTileY = depth - 22;
 
                 EESubworld.progressMessage = null;
-            })
+            }),
         };
 
         public static PerlinNoiseFunction perlinNoise;
