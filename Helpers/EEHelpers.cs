@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
@@ -873,6 +874,23 @@ namespace EEMod
             int currentID = 0;
             while ((percent / total) > 1f && (currentID < vectors.Length - 2)) { total += per; currentID++; }
             return Vector2.Lerp(vectors[currentID], vectors[currentID + 1], (percent - (per * currentID)) / per);
+        }
+
+        public static Color[,] RawimgTo2DColorArray(Stream stream)
+        {
+            BinaryReader reader = new BinaryReader(stream);
+            int version = reader.ReadInt32();
+            int width = reader.ReadInt32();
+            int height = reader.ReadInt32();
+            Color[,] array = new Color[width, height];
+            for(int i = 0; i < width; i++)
+            {
+                for(int j = 0; j < height; j++)
+                {
+                    array[i, j].PackedValue = reader.ReadUInt32();
+                }
+            }
+            return array;
         }
 
         // e.g.
