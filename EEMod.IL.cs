@@ -54,7 +54,7 @@ namespace EEMod
 
         private void LoadIL()
         {
-            IL.Terraria.IO.WorldFile.SaveWorldTiles += WorldFile_SaveWorldTiles;
+            //IL.Terraria.IO.WorldFile.SaveWorldTiles += WorldFile_SaveWorldTiles;
             //IL.Terraria.GameContent.Drawing.TileDrawing.DrawTile_LiquidBehindTile += TileDrawing_DrawTile_LiquidBehindTile;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalPrepareDraw1;
 
@@ -65,7 +65,7 @@ namespace EEMod
 
         private void UnloadIL()
         {
-            IL.Terraria.IO.WorldFile.SaveWorldTiles -= WorldFile_SaveWorldTiles;
+            //IL.Terraria.IO.WorldFile.SaveWorldTiles -= WorldFile_SaveWorldTiles;
             //IL.Terraria.GameContent.Drawing.TileDrawing.DrawTile_LiquidBehindTile -= TileDrawing_DrawTile_LiquidBehindTile;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalPrepareDraw1;
 
@@ -95,7 +95,7 @@ namespace EEMod
             }
         }*/
 
-        private void WorldFile_SaveWorldTiles(ILContext il)
+        /*private void WorldFile_SaveWorldTiles(ILContext il) // obsolete in 1.4
         {
             ILCursor c = new ILCursor(il);
             if (!c.TryGotoNext(i => i.MatchLdsfld<Main>("tile")))
@@ -105,7 +105,7 @@ namespace EEMod
             //c.Index++;
             c.Remove();
             c.EmitDelegate<Func<Tile[,], int, int, Tile>>((arrae, i, j) => Framing.GetTileSafely(i, j));
-        }
+        }*/
 
         /*private void LiquidRenderer_InternalPrepareDraw1(ILContext il)
         {
@@ -181,7 +181,7 @@ namespace EEMod
                                               // the statement would look like floridaStyle = false;
         }*/
         }
-        
+
 
         public class ILHook : IDisposable
         {

@@ -507,23 +507,25 @@ namespace EEMod
                 Texture2D bgTex = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/Background").Value;
                 Texture2D bgTexGlass = ModContent.Request<Texture2D>("EEMod/NPCs/Goblins/Scrapwizard/BackgroundGlass").Value;
 
+                int x = ((SubworldSystem.Current as GoblinFort).hallX * 16);
+                int y = ((SubworldSystem.Current as GoblinFort).hallY * 16);
                 for (int i = 0; i < bgTex.Width; i += 16)
                 {
                     for (int j = 0; j < bgTex.Height; j += 16)
                     {
                         Main.spriteBatch.Draw(bgTex,
-                            new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i, ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) - Main.screenPosition, new Rectangle(i, j, 16, 16),
-                            Lighting.GetColor((int)((((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i) / 16f), (int)((((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) / 16f)),
+                            new Vector2(x + (24 * 16) + i, y + (23 * 16) + j) - Main.screenPosition, new Rectangle(i, j, 16, 16),
+                            Lighting.GetColor((int)((x + (24 * 16) + i) / 16f), (int)((y + (23 * 16) + j) / 16f)),
                             0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
                         Main.spriteBatch.Draw(bgTexGlass,
-                            new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i, ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) - Main.screenPosition, new Rectangle(i, j, 16, 16),
-                            Lighting.GetColor((int)((((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16) + i) / 16f), (int)((((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16) + j) / 16f)) * 0.5f,
+                            new Vector2(x + (24 * 16) + i, y + (23 * 16) + j) - Main.screenPosition, new Rectangle(i, j, 16, 16),
+                            Lighting.GetColor((int)((x + (24 * 16) + i) / 16f), (int)((y + (23 * 16) + j) / 16f)) * 0.5f,
                             0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     }
                 }
 
-                Vector2 position = new Vector2(((SubworldSystem.Current as GoblinFort).hallX * 16) + (24 * 16), ((SubworldSystem.Current as GoblinFort).hallY * 16) + (23 * 16));
+                Vector2 position = new Vector2(x + (24 * 16), y + (23 * 16));
 
                 Main.spriteBatch.Draw(bgTex, position - Main.screenPosition, Color.White);
             }
@@ -866,20 +868,8 @@ namespace EEMod
         }
     }
 
-    public class JITFixer : PreJITFilter
-    {
-        public override bool ShouldJIT(MemberInfo member) => member.Module.Assembly == typeof(EEMod).Assembly;
-    }
-
     public class BlankLoadEntity : Entity
     {
         
-    }
-
-    public class LoadingScreenMusic : ModMenu
-    {
-        public override int Music => (ModContent.GetInstance<EEMod>().leftBound != ModContent.GetInstance<EEMod>().rightBound ?
-            MusicLoader.GetMusicSlot(ModContent.GetInstance<EEMod>(), "Assets/Music/goodman") : 
-            base.Music);
     }
 }
