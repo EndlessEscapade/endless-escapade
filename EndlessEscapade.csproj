@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\tModLoader.targets" />
+	
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageId>EndlessEscapade</PackageId>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <Compile Remove="Skies\**" />
+    <EmbeddedResource Remove="Skies\**" />
+    <None Remove="Skies\**" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+		
+    <Reference Include="SubworldLibrary">
+      <HintPath>modReferences\SubworldLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+		
+  <Target Name="CompileEffects" BeforeTargets="Build">
+    <Exec WorkingDirectory="Effects" Command="fxcompiler_reach.exe" />
+  </Target>
+</Project>

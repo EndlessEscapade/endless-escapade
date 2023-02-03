@@ -1,6 +1,4 @@
 displayName = Endless Escapade
-author = Endless Escapade Developers
+author = Endless Escapade Team
 version = 1.0
-buildIgnore = build.txt, .gitattributes, .gitignore, .git/, .vs/, .idea/, bin/, obj/, Thumbs.db, .csproj, .cs, .sln, .zip, .editorconfig
-dllReferences = 
-modReferences = SubworldLibrary
+buildIgnore = build.txt, .gitignore, .git/, .vs/, .idea/, bin/, obj/, .csproj, .cs, .sln, .zip, .editorconfig
