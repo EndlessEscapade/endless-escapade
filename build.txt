@@ -1,4 +1,12 @@
 displayName = Endless Escapade
 author = Endless Escapade Team
 version = 1.0
+homepage = https://forums.terraria.org/index.php?threads/endless-escapade.98739/
+
+hideCode = false
+hideResources = false
+
+includePDB = true
+includeSource = true
+
 buildIgnore = build.txt, .gitignore, .git/, .vs/, .idea/, bin/, obj/, .csproj, .cs, .sln, .zip, .editorconfig
