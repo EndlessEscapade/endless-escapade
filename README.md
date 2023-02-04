@@ -1,3 +1,5 @@
+<img src="https://i.imgur.com/1gMvgdt.png" align="center"/>
+
 # Endless Escapade 
 > [Discord](https://discord.gg/aFnqEFB) | [Twitter](https://twitter.com/ProjectEEMod) | [Forums](https://forums.terraria.org/index.php?threads/endless-escapade.98739/) | [YouTube](https://www.youtube.com/@endlessescapade4859)
 
