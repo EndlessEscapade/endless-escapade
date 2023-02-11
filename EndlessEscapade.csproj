@@ -6,11 +6,25 @@
         <TargetFramework>net6.0</TargetFramework>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <LangVersion>latest</LangVersion>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <PackageId>EndlessEscapade</PackageId>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <BuildToolsAssemblyFile>lib\TerrariaOverhaul.BuildTools.dll</BuildToolsAssemblyFile>
+    </PropertyGroup>
+    
     <ItemGroup>
-        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*"/>
     </ItemGroup>
+    
+    <ItemGroup>
+        <LocalizationFiles Include="Localization\*.hjson"/>
+    </ItemGroup>
+
+    <UsingTask TaskName="UpdateLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)"/>
+
+    <Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile">
+        <Message Text="Updating localization files..." Importance="high"/>
+        <UpdateLocalizationFiles ResultsOutputPath="Localization\README.md" MainFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)"/>
+    </Target>
 </Project>

@@ -1,8 +1,8 @@
-﻿Mods: {
-    EndlessEscapade: {
-        ItemName: {
-            KelpLeafItem: "Kelp Leaf"
-            KelpRockItem: "Kelp Rock"
-        }    
-    }
+Mods: {
+	EndlessEscapade: {
+		ItemName: {
+			KelpLeafItem: "Kelp Leaf"
+			KelpRockItem: "Kelp Rock"
+		}
+	}
 }
