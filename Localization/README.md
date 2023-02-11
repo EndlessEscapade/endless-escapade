@@ -36,6 +36,11 @@ Translation files are automatically populated with new entries from the base eng
 - **Completion:** ***0.0%***
 - **Translated:** `0` out of `2` (`2` missing!)
 
+## pl-PL
+- **Status:** ❌ Not even started!
+- **Completion:** ***0.0%***
+- **Translated:** `0` out of `2` (`2` missing!)
+
 ## pt-BR
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
