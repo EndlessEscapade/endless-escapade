@@ -1,3 +1,14 @@
+
+# Translations
+
+Translation files are automatically populated with new entries from the base english (`en-US.hjson`) translations whenever the mod is built.
+
+## Guidelines
+
+* Untranslated keys are prefixed with `//`, please make sure to remove them if you are adding a new translation.
+
+* Quotemarks for key values are optional, but we prefer for you to explicitly use them for the sake of readability and consistency.
+
 # Results of the last localization refresh
 
 ## de-DE
