@@ -3,6 +3,12 @@ Mods: {
 		ItemName: {
 			//KelpLeafItem: "Kelp Leaf"
 			//KelpRockItem: "Kelp Rock"
+			//DarkGemsandItem: "Dark Gemsand"
+			//DarkGemsandstoneItem: "Dark Gemsandstone"
+			//LightGemsandItem: "Light Gemsand"
+			//LightGemsandstoneItem: "Light Gemsandstone"
+			//NormalGemsandItem: "Gemsand"
+			//NormalGemsandstoneItem: "Gemsandstone"
 		}
 	}
 }

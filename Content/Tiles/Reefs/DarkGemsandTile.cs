@@ -1,12 +1,11 @@
-﻿using EndlessEscapade.Content.Items.Reefs.Kelp;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Tiles.Reefs.Kelp;
+namespace EndlessEscapade.Content.Tiles.Reefs;
 
-public class KelpLeafTile : ModTile
+public class DarkGemsandTile : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
@@ -14,14 +13,12 @@ public class KelpLeafTile : ModTile
         Main.tileLighted[Type] = true;
         Main.tileBlockLight[Type] = true;
         
-        AddMapEntry(new Color(139, 131, 23));
+        AddMapEntry(new Color(71, 106, 183));
 
-        HitSound = SoundID.Grass;
-        DustType = DustID.JungleGrass;
-
-        ItemDrop = ModContent.ItemType<KelpLeafItem>();
+        HitSound = SoundID.Dig;
+        DustType = DustID.BlueMoss;
     }
-
+    
     public override void NumDust(int i, int j, bool fail, ref int num) {
         num = fail ? 1 : 3;
     }

@@ -1,8 +1,14 @@
 Mods: {
 	EndlessEscapade: {
 		ItemName: {
-			//KelpLeafItem: "Kelp Leaf"
-			//KelpRockItem: "Kelp Rock"
+			KelpLeafItem: "海带叶状体"
+			KelpRockItem: "海带岩"
+			//DarkGemsandItem: "Dark Gemsand"
+			//DarkGemsandstoneItem: "Dark Gemsandstone"
+			//LightGemsandItem: "Light Gemsand"
+			//LightGemsandstoneItem: "Light Gemsandstone"
+			//NormalGemsandItem: "Gemsand"
+			//NormalGemsandstoneItem: "Gemsandstone"
 		}
 	}
 }

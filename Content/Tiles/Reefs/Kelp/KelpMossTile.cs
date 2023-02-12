@@ -20,7 +20,7 @@ public class KelpMossTile : ModTile
         
         AddMapEntry(new Color(235, 166, 0));
 
-        MineResist = 1.5f;
+        MineResist = 1f;
         
         HitSound = SoundID.Tink;
         DustType = DustID.GemAmber;

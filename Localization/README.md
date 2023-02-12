@@ -14,45 +14,45 @@ Translation files are automatically populated with new entries from the base eng
 ## de-DE
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `2` (`2` missing!)
+- **Translated:** `0` out of `8` (`8` missing!)
 
 ## en-US
 - **Status:** ✅ Full!
 - **Completion:** ***100.0%***
-- **Translated:** `2` out of `2` (`0` missing!)
+- **Translated:** `8` out of `8` (`0` missing!)
 
 ## es-ES
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `2` (`2` missing!)
+- **Translated:** `0` out of `8` (`8` missing!)
 
 ## fr-FR
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `2` (`2` missing!)
+- **Translated:** `0` out of `8` (`8` missing!)
 
 ## it-IT
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `2` (`2` missing!)
+- **Translated:** `0` out of `8` (`8` missing!)
 
 ## pl-PL
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `2` (`2` missing!)
+- **Translated:** `0` out of `8` (`8` missing!)
 
 ## pt-BR
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `2` (`2` missing!)
+- **Translated:** `0` out of `8` (`8` missing!)
 
 ## ru-RU
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `2` (`2` missing!)
+- **Translated:** `0` out of `8` (`8` missing!)
 
 ## zh-Hans
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `2` (`2` missing!)
+- **Translated:** `0` out of `8` (`8` missing!)
 
