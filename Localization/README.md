@@ -52,7 +52,7 @@ Translation files are automatically populated with new entries from the base eng
 - **Translated:** `0` out of `2` (`2` missing!)
 
 ## zh-Hans
-- **Status:** ❌ Not even started!
-- **Completion:** ***0.0%***
-- **Translated:** `0` out of `2` (`2` missing!)
+- **Status:** ✅ Full! <!-- ✅ ❌ Not even started! Full! -->
+- **Completion:** ***100.0%***
+- **Translated:** `2` out of `2` (`0` missing!)
 
