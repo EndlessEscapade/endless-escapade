@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles.Reefs;
 
-public class NormalGemsand : ModTile
+public class GemsandTile : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
@@ -21,7 +21,7 @@ public class NormalGemsand : ModTile
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
         
-        ItemDrop = ModContent.ItemType<Items.Reefs.NormalGemsand>();
+        ItemDrop = ModContent.ItemType<GemsandItem>();
     }
     
     public override void NumDust(int i, int j, bool fail, ref int num) {

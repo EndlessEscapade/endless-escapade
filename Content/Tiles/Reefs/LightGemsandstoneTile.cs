@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles.Reefs;
 
-public class NormalGemsandstone : ModTile
+public class LightGemsandstoneTile : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
@@ -16,12 +16,12 @@ public class NormalGemsandstone : ModTile
 
         TileID.Sets.Conversion.Sandstone[Type] = true;
         
-        AddMapEntry(new Color(103, 202, 204));
+        AddMapEntry(new Color(104, 197, 185));
         
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
         
-        ItemDrop = ModContent.ItemType<Items.Reefs.NormalGemsandstone>();
+        ItemDrop = ModContent.ItemType<LightGemsandstoneItem>();
     }
     
     public override void NumDust(int i, int j, bool fail, ref int num) {

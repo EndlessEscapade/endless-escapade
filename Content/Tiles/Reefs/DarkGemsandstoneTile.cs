@@ -1,32 +1,31 @@
-﻿using EndlessEscapade.Common.Tiles.Bases;
-using EndlessEscapade.Content.Items.Reefs.Kelp;
+﻿using EndlessEscapade.Content.Items.Reefs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Tiles.Reefs.Kelp;
+namespace EndlessEscapade.Content.Tiles.Reefs;
 
-public class KelpRock : CompositeTileBase
+public class DarkGemsandstoneTile : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
         Main.tileSolid[Type] = true;
         Main.tileLighted[Type] = true;
         Main.tileBlockLight[Type] = true;
-
-        TileID.Sets.Conversion.Stone[Type] = true;
         
-        AddMapEntry(new Color(99, 136, 132));
+        TileID.Sets.Conversion.Sandstone[Type] = true;
+        
+        AddMapEntry(new Color(56, 78, 157));
 
         MineResist = 1f;
         
-        HitSound = SoundID.Tink;
-        DustType = DustID.JunglePlants;
+        HitSound = SoundID.Dig;
+        DustType = DustID.BlueMoss;
 
-        ItemDrop = ModContent.ItemType<Items.Reefs.Kelp.KelpRock>();
+        ItemDrop = ModContent.ItemType<DarkGemsandstoneItem>();
     }
-
+    
     public override void NumDust(int i, int j, bool fail, ref int num) {
         num = fail ? 1 : 3;
     }
