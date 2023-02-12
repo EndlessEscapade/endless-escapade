@@ -21,6 +21,5 @@ Thanks to all developers who contributed to the project!
 
 ## Libraries
 
-* [Overhaul Build Tools](https://github.com/Mirsario/TerrariaOverhaul/tree/1.4/BuildTools)
 * [Subworld Library](https://github.com/jjohnsnaill/SubworldLibrary)
 
