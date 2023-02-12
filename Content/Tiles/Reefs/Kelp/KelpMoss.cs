@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles.Reefs.Kelp;
 
-public class KelpMossTile : ModTile
+public class KelpMoss : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
@@ -20,12 +20,10 @@ public class KelpMossTile : ModTile
         
         AddMapEntry(new Color(235, 166, 0));
 
-        MineResist = 1f;
-        
         HitSound = SoundID.Tink;
         DustType = DustID.GemAmber;
 
-        ItemDrop = ModContent.ItemType<KelpRockItem>();
+        ItemDrop = ModContent.ItemType<Items.Reefs.Kelp.KelpRock>();
     }
     
     public override void NumDust(int i, int j, bool fail, ref int num) {

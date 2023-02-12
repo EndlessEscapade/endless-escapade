@@ -4,9 +4,9 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Items.Reefs;
 
-public class DarkGemsandstoneItem : ModItem
+public class DarkGemsand : ModItem
 {
     public override void SetDefaults() {
-        Item.DefaultToPlaceableTile(ModContent.TileType<DarkGemsandstoneTile>());
+        Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Reefs.DarkGemsand>());
     }
 }
