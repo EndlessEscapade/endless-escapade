@@ -12,47 +12,47 @@ Translation files are automatically populated with new entries from the base eng
 # Results of the last localization refresh
 
 ## de-DE
-- **Status:** ❌ Not even started!
+- **Status:** ☠️ Unstarted
 - **Completion:** ***0.0%***
 - **Translated:** `0` out of `14` (`14` missing!)
 
 ## en-US
-- **Status:** ✅ Full!
+- **Status:** ✅ Full
 - **Completion:** ***100.0%***
 - **Translated:** `14` out of `14` (`0` missing!)
 
 ## es-ES
-- **Status:** ❌ Not even started!
+- **Status:** ☠️ Unstarted
 - **Completion:** ***0.0%***
 - **Translated:** `0` out of `14` (`14` missing!)
 
 ## fr-FR
-- **Status:** ❌ Not even started!
+- **Status:** ☠️ Unstarted
 - **Completion:** ***0.0%***
 - **Translated:** `0` out of `14` (`14` missing!)
 
 ## it-IT
-- **Status:** ❌ Not even started!
+- **Status:** ☠️ Unstarted
 - **Completion:** ***0.0%***
 - **Translated:** `0` out of `14` (`14` missing!)
 
 ## pl-PL
-- **Status:** ❌ Not even started!
+- **Status:** ☠️ Unstarted
 - **Completion:** ***0.0%***
 - **Translated:** `0` out of `14` (`14` missing!)
 
 ## pt-BR
-- **Status:** ❌ Not even started!
+- **Status:** ☠️ Unstarted
 - **Completion:** ***0.0%***
 - **Translated:** `0` out of `14` (`14` missing!)
 
 ## ru-RU
-- **Status:** ❌ Not even started!
+- **Status:** ☠️ Unstarted
 - **Completion:** ***0.0%***
 - **Translated:** `0` out of `14` (`14` missing!)
 
 ## zh-Hans
-- **Status:** ⚠️ Incomplete!
+- **Status:** ⌛ Incomplete
 - **Completion:** ***14.3%***
 - **Translated:** `2` out of `14` (`12` missing!)
 

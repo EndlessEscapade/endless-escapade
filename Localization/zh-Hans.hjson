@@ -1,20 +1,20 @@
 Mods: {
 	EndlessEscapade: {
 		ItemName: {
-			KelpLeafItem: "海带叶状体"
-			KelpRockItem: "海带岩"
 			//DarkGemsandItem: "Dark Gemsand"
 			//DarkGemsandstoneItem: "Dark Gemsandstone"
-			//LightGemsandItem: "Light Gemsand"
-			//LightGemsandstoneItem: "Light Gemsandstone"
+			//DarkGemsandstoneWallItem: "Dark Gemsandstone Wall"
+			//DarkGemsandWallItem: "Dark Gemsand Wall"
 			//GemsandItem: "Gemsand"
 			//GemsandstoneItem: "Gemsandstone"
-			//DarkGemsandWallItem: "Dark Gemsand Wall"
-			//DarkGemsandstoneWallItem: "Dark Gemsandstone Wall"
-			//LightGemsandWallItem: "Light Gemsand Wall"
-			//LightGemsandstoneWallItem: "Light Gemsandstone Wall"
-			//GemsandWallItem: "Gemsand Wall"
 			//GemsandstoneWallItem: "Gemsandstone Wall"
+			//GemsandWallItem: "Gemsand Wall"
+			KelpLeafItem: "海带叶状体"
+			KelpRockItem: "海带岩"
+			//LightGemsandItem: "Light Gemsand"
+			//LightGemsandstoneItem: "Light Gemsandstone"
+			//LightGemsandstoneWallItem: "Light Gemsandstone Wall"
+			//LightGemsandWallItem: "Light Gemsand Wall"
 		}
 	}
 }

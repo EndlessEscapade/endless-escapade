@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <BuildToolsAssemblyFile>lib\TerrariaOverhaul.BuildTools.dll</BuildToolsAssemblyFile>
+        <BuildToolsAssemblyFile>lib\EndlessEscapade.BuildTools.dll</BuildToolsAssemblyFile>
     </PropertyGroup>
     
     <ItemGroup>
@@ -24,7 +24,7 @@
     <UsingTask TaskName="UpdateLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)" />
 
     <Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile">
-        <Message Text="Updating localization files..." Importance="high" />
-        <UpdateLocalizationFiles ResultsOutputPath="Localization\README.md" MainFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)" />
+        <Message Text="Updating localization file entries..." Importance="high" />
+        <UpdateLocalizationFiles ResultsOutputPath="Localization\README.md" BaseLocalizationFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)" />
     </Target>
 </Project>
