@@ -4,20 +4,20 @@ Mods: {
 		    # Tiles
 			KelpLeafItem: "海带叶状体"
 			KelpRockItem: "海带岩"			
-            //GemsandItem: "Gemsand"
-            //GemsandstoneItem: "Gemsandstone"
-            //DarkGemsandItem: "Dark Gemsand"
-            //DarkGemsandstoneItem: "Dark Gemsandstone"
-            //LightGemsandItem: "Light Gemsand"
-            //LightGemsandstoneItem: "Light Gemsandstone"
+            GemsandItem: "宝石砂"
+            GemsandstoneItem: "宝石砂岩"
+            DarkGemsandItem: "暗黑宝石砂"
+            DarkGemsandstoneItem: "暗黑宝石砂岩"
+            LightGemsandItem: "光明宝石砂"
+            LightGemsandstoneItem: "光明宝石砂岩"
 
             # Walls
-            //GemsandstoneWallItem: "Gemsandstone Wall"
-            //GemsandWallItem: "Gemsand Wall"
-            //DarkGemsandstoneWallItem: "Dark Gemsandstone Wall"
-            //DarkGemsandWallItem: "Dark Gemsand Wall"
-            //LightGemsandstoneWallItem: "Light Gemsandstone Wall"
-            //LightGemsandWallItem: "Light Gemsand Wall"
+            GemsandstoneWallItem: "宝石砂岩墙"
+            GemsandWallItem: "宝石砂墙"
+            DarkGemsandstoneWallItem: "暗黑宝石砂岩墙"
+            DarkGemsandWallItem: "暗黑宝石砂墙"
+            LightGemsandstoneWallItem: "光明宝石砂岩墙"
+            LightGemsandWallItem: "光明宝石砂墙"
 		}
 	}
 }
