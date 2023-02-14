@@ -1,9 +1,10 @@
 Mods: {
-    EndlessEscapade:
-        ItemName:
+    EndlessEscapade: {
+        ItemName: {
             # Tiles
             KelpLeafItem: "Feuille d'algue"
             KelpRockItem: "Roche d'algue"
+            //KelpMossItem: "Kelp Moss"
             GemsandItem: "Gemme sableuse"
             GemsandstoneItem: "Gemme de grès"
             DarkGemsandItem: "Gemme sableuse sombre"

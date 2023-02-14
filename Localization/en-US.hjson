@@ -4,6 +4,7 @@ Mods: {
 			# Tiles
 			KelpLeafItem: "Kelp Leaf"
 			KelpRockItem: "Kelp Rock"
+			KelpMossItem: "Kelp Moss"
 			GemsandItem: "Gemsand"
 			GemsandstoneItem: "Gemsandstone"
 			DarkGemsandItem: "Dark Gemsand"

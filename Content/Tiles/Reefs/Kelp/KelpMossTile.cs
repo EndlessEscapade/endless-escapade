@@ -14,6 +14,7 @@ public class KelpMossTile : CompositeTileBase
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
         Main.tileSolid[Type] = true;
+        Main.tileMoss[Type] = true;
         Main.tileLighted[Type] = true;
         Main.tileBlockLight[Type] = true;
 
