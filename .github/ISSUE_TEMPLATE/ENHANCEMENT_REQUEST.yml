@@ -1,24 +1,16 @@
 name: "⭐ Enhancement Request"
 description: Create a new issue for a new enhancement request.
-title: "⭐ [ENHANCEMENT] - <title>"
+title: "<title>"
 labels: [
   "Enhancement",
   "New Issue"
 ]
 body:
   - type: textarea
-    id: reference_issues
-    attributes:
-      label: "Reference Issues"
-      description: Common issues
-      placeholder: "#Issues IDs"
-    validations:
-      required: false
-  - type: textarea
     id: summary
     attributes:
       label: "Summary"
-      description: Provide a brief explanation of the feature
+      description: Provide a brief explanation of the request
       placeholder: Describe your request.
     validations:
       required: true
@@ -26,7 +18,7 @@ body:
     id: reasonings
     attributes:
       label: "Reasonings"
-      description: Provide reasons why your request should be considered.
-      placeholder: Describe purposes and meaningfulness of your request.
+      description: Provide reasons why your request should be taken into account
+      placeholder: Supply purposes and meaningfulness of your request.
     validations:
       required: true
