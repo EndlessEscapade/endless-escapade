@@ -18,7 +18,6 @@ body:
     attributes:
       label: "Reproduction steps"
       description: Please enter an explicit description of your issue.
-      render: bash
     validations:
       required: false
   - type: textarea
@@ -26,7 +25,6 @@ body:
     attributes:
       label: "Screenshots"
       description: If possible, attach screenshots to help further demonstrate your issue.
-      render: bash
     validations:
       required: false
   - type: textarea
