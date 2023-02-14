@@ -1,4 +1,5 @@
-﻿using EndlessEscapade.Content.Items.Reefs.Kelp;
+﻿using EndlessEscapade.Common.Tiles.Bases;
+using EndlessEscapade.Content.Items.Reefs.Kelp;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles.Reefs.Kelp;
 
-public class KelpLeafTile : ModTile
+public class KelpLeafTile : CompositeTileBase
 {
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
