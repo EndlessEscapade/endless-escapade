@@ -21,7 +21,7 @@ body:
       render: bash
     validations:
       required: false
-  - type: textarea
+  - type: markdown
     id: screenshot
     attributes:
       label: "Screenshots"
