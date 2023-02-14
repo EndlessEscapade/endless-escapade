@@ -1,0 +1,23 @@
+Mods: {
+    EndlessEscapade:
+        ItemName:
+            # Tiles
+            KelpLeafItem: "Feuille d'algue"
+            KelpRockItem: "Roche d'algue"
+            GemsandItem: "Gemme sableuse"
+            GemsandstoneItem: "Gemme de grès"
+            DarkGemsandItem: "Gemme sableuse sombre"
+            DarkGemsandstoneItem: "Gemme de grès sombre"
+            LightGemsandItem: "Gemme sableuse claire"
+            LightGemsandstoneItem: "Gemme de grès claire"
+
+            # Walls
+            GemsandstoneWallItem: "Mur en gemme de grès"
+            GemsandWallItem: "Mur en gemme sableuse"
+            DarkGemsandstoneWallItem: "Mur en gemme de grès sombre"
+            DarkGemsandWallItem: "Mur en gemme sableuse"
+            LightGemsandstoneWallItem: "Mur en gemme de grès claire"
+            LightGemsandWallItem: "Mur en gemme sableuse claire"
+        }
+    }
+}
