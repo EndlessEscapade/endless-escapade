@@ -22,4 +22,5 @@ Thanks to all developers who contributed to the project!
 ## Libraries
 
 * [Subworld Library](https://github.com/jjohnsnaill/SubworldLibrary)
+* [Structure Helper](https://github.com/ScalarVector1/StructureHelper)
 

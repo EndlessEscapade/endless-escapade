@@ -10,13 +10,22 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
-  <PropertyGroup>
-    <DotNetPath Condition=" '$(OS)' == 'Windows_NT' ">dotnet.exe</DotNetPath>
-    <DotNetPath Condition=" '$(OS)' == 'Unix' ">dotnet</DotNetPath>
-    <DotNetPath Condition=" '$(DotNetPath)' == '' ">dotnet</DotNetPath>
-  </PropertyGroup>
+    <PropertyGroup>
+        <DotNetPath Condition=" '$(OS)' == 'Windows_NT' ">dotnet.exe</DotNetPath>
+        <DotNetPath Condition=" '$(OS)' == 'Unix' ">dotnet</DotNetPath>
+        <DotNetPath Condition=" '$(DotNetPath)' == '' ">dotnet</DotNetPath>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="StructureHelper">
+        <HintPath>lib\StructureHelper.dll</HintPath>
+      </Reference>
+      <Reference Include="SubworldLibrary">
+        <HintPath>lib\SubworldLibrary.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>

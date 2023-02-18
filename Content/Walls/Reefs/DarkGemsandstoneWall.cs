@@ -9,7 +9,7 @@ public class DarkGemsandstoneWall : ModWall
 {
     public override void SetStaticDefaults() {
         Main.wallHouse[Type] = true;
-        
+
         WallID.Sets.Conversion.Sandstone[Type] = true;
 
         AddMapEntry(new Color(50, 56, 102));

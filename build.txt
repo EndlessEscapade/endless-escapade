@@ -9,6 +9,6 @@ hideResources = false
 includePDB = true
 includeSource = true
 
-modReferences = SubworldLibrary
+modReferences = SubworldLibrary, StructureHelper
 
 buildIgnore = build.txt, .gitignore, .git/, .vs/, .idea/, bin/, obj/, .csproj, .cs, .sln, .zip, .editorconfig

@@ -1,16 +1,16 @@
 ﻿using EndlessEscapade.Common.Tiles;
-using EndlessEscapade.Content.Items.Reefs.Kelp;
+using EndlessEscapade.Content.Items.Reefs.Thermal;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Tiles.Reefs.Kelp;
+namespace EndlessEscapade.Content.Tiles.Reefs.Thermal;
 
-public class KelpMossTile : CompositeTileBase
+public class ScorchedGemsandTile : CompositeTileBase
 {
-    public override int AtlasWidth { get; } = 3;
+    public override int AtlasWidth { get; } = 4;
 
     public override int AtlasHeight { get; } = 2;
 
@@ -21,14 +21,16 @@ public class KelpMossTile : CompositeTileBase
         Main.tileBlockLight[Type] = true;
         Main.tileFrameImportant[Type] = true;
 
-        TileID.Sets.Conversion.Moss[Type] = true;
+        TileID.Sets.Conversion.Sand[Type] = true;
 
-        AddMapEntry(new Color(235, 166, 0));
+        AddMapEntry(new Color(106, 96, 95));
 
-        HitSound = SoundID.Tink;
-        DustType = DustID.GemAmber;
+        MineResist = 1f;
 
-        ItemDrop = ModContent.ItemType<KelpRockItem>();
+        HitSound = SoundID.Dig;
+        DustType = DustID.Ash;
+
+        ItemDrop = ModContent.ItemType<ScorchedGemsandItem>();
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

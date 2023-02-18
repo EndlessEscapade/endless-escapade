@@ -11,7 +11,7 @@ public class LightGemsandWall : ModWall
         Main.wallHouse[Type] = true;
 
         WallID.Sets.Conversion.Sandstone[Type] = true;
-        
+
         AddMapEntry(new Color(53, 87, 83));
 
         HitSound = SoundID.Dig;

@@ -13,19 +13,19 @@ public class DarkGemsandstoneTile : ModTile
         Main.tileSolid[Type] = true;
         Main.tileLighted[Type] = true;
         Main.tileBlockLight[Type] = true;
-        
+
         TileID.Sets.Conversion.Sandstone[Type] = true;
-        
+
         AddMapEntry(new Color(56, 78, 157));
 
         MineResist = 1f;
-        
+
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
 
         ItemDrop = ModContent.ItemType<DarkGemsandstoneItem>();
     }
-    
+
     public override void NumDust(int i, int j, bool fail, ref int num) {
         num = fail ? 1 : 3;
     }

@@ -9,7 +9,7 @@ public class DarkGemsandWall : ModWall
 {
     public override void SetStaticDefaults() {
         Main.wallHouse[Type] = true;
-        
+
         AddMapEntry(new Color(64, 70, 116));
 
         HitSound = SoundID.Dig;
