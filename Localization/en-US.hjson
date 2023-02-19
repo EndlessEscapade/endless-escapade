@@ -11,6 +11,10 @@ Mods: {
 			DarkGemsandstoneItem: "Dark Gemsandstone"
 			LightGemsandItem: "Light Gemsand"
 			LightGemsandstoneItem: "Light Gemsandstone"
+			BrimstoneItem: "Brimstone"
+			RustyPipeItem: "Rusty Pipe"
+			RustyPlatingItem: "Rusty Plating"
+			ScorchedGemsandItem: "Scorched Gemsand"
 
 			# Walls
 			GemsandstoneWallItem: "Gemsandstone Wall"
