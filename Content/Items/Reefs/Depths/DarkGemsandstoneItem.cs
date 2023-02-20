@@ -1,7 +1,7 @@
 ﻿using EndlessEscapade.Content.Tiles.Reefs.Depths;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Items.Reefs;
+namespace EndlessEscapade.Content.Items.Reefs.Depths;
 
 public class DarkGemsandstoneItem : ModItem
 {

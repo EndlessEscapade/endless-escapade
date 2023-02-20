@@ -1,7 +1,7 @@
 ﻿using EndlessEscapade.Content.Tiles.Reefs.Lower;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Items.Reefs;
+namespace EndlessEscapade.Content.Items.Reefs.Lower;
 
 public class GemsandstoneItem : ModItem
 {

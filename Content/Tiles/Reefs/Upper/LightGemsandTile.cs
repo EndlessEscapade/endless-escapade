@@ -1,5 +1,5 @@
 ﻿using EndlessEscapade.Common.Tiles;
-using EndlessEscapade.Content.Items.Reefs;
+using EndlessEscapade.Content.Items.Reefs.Upper;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

@@ -1,7 +1,7 @@
 ﻿using EndlessEscapade.Content.Tiles.Reefs.Surface;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Items.Reefs;
+namespace EndlessEscapade.Content.Items.Reefs.Surface;
 
 public class CoralsandstoneItem : ModItem
 {

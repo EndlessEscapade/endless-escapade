@@ -1,4 +1,4 @@
-﻿using EndlessEscapade.Content.Items.Reefs;
+﻿using EndlessEscapade.Content.Items.Reefs.Depths;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

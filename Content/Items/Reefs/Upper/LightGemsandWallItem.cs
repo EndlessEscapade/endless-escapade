@@ -1,7 +1,7 @@
 ﻿using EndlessEscapade.Content.Walls.Reefs.Upper;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Items.Reefs;
+namespace EndlessEscapade.Content.Items.Reefs.Upper;
 
 public class LightGemsandWallItem : ModItem
 {
