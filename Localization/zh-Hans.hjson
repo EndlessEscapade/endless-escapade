@@ -4,7 +4,7 @@ Mods: {
 		    # Tiles
 			KelpLeafItem: "海带叶状体"
 			KelpRockItem: "海带岩"			
-            //KelpMossItem: "Kelp Moss"
+            KelpMossItem: "海带藻"
             GemsandItem: "宝石砂"
             GemsandstoneItem: "宝石砂岩"
             DarkGemsandItem: "暗黑宝石砂"
