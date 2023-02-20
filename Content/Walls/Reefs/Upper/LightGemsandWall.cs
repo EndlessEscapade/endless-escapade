@@ -3,16 +3,16 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Walls.Reefs;
+namespace EndlessEscapade.Content.Walls.Reefs.Upper;
 
-public class DarkGemsandstoneWall : ModWall
+public class LightGemsandWall : ModWall
 {
     public override void SetStaticDefaults() {
         Main.wallHouse[Type] = true;
 
         WallID.Sets.Conversion.Sandstone[Type] = true;
 
-        AddMapEntry(new Color(50, 56, 102));
+        AddMapEntry(new Color(53, 87, 83));
 
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;

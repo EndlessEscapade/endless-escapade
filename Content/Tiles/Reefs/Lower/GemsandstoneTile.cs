@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Tiles.Reefs;
+namespace EndlessEscapade.Content.Tiles.Reefs.Lower;
 
 public class GemsandstoneTile : ModTile
 {
@@ -19,7 +19,7 @@ public class GemsandstoneTile : ModTile
         AddMapEntry(new Color(103, 202, 204));
 
         MineResist = 1f;
-        
+
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
 

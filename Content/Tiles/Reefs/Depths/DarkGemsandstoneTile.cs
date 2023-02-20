@@ -4,9 +4,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Tiles.Reefs;
+namespace EndlessEscapade.Content.Tiles.Reefs.Depths;
 
-public class LightGemsandstoneTile : ModTile
+public class DarkGemsandstoneTile : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
@@ -16,14 +16,14 @@ public class LightGemsandstoneTile : ModTile
 
         TileID.Sets.Conversion.Sandstone[Type] = true;
 
-        AddMapEntry(new Color(104, 197, 185));
+        AddMapEntry(new Color(56, 78, 157));
 
         MineResist = 1f;
-        
+
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
 
-        ItemDrop = ModContent.ItemType<LightGemsandstoneItem>();
+        ItemDrop = ModContent.ItemType<DarkGemsandstoneItem>();
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

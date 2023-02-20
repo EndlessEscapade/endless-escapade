@@ -1,33 +1,27 @@
-﻿using EndlessEscapade.Common.Tiles;
-using EndlessEscapade.Content.Items.Reefs;
+﻿using EndlessEscapade.Content.Items.Reefs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Tiles.Reefs;
+namespace EndlessEscapade.Content.Tiles.Reefs.Surface;
 
-public class LightGemsandTile : CompositeTileBase
+public class CoralsandTile : ModTile
 {
-    public override int AtlasWidth { get; } = 3;
-
-    public override int AtlasHeight { get; } = 3;
-
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
         Main.tileSolid[Type] = true;
         Main.tileLighted[Type] = true;
         Main.tileBlockLight[Type] = true;
-        Main.tileFrameImportant[Type] = true;
 
         TileID.Sets.Conversion.Sand[Type] = true;
 
-        AddMapEntry(new Color(99, 173, 201));
+        AddMapEntry(new Color(179, 116, 65));
 
         HitSound = SoundID.Dig;
-        DustType = DustID.BlueMoss;
+        DustType = DustID.Sand;
 
-        ItemDrop = ModContent.ItemType<LightGemsandItem>();
+        ItemDrop = ModContent.ItemType<CoralsandItem>();
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Tiles.Reefs;
+namespace EndlessEscapade.Content.Tiles.Reefs.Lower;
 
-public class DarkGemsandTile : CompositeTileBase
+public class GemsandTile : CompositeTileBase
 {
     public override int AtlasWidth { get; } = 3;
 
@@ -22,12 +22,12 @@ public class DarkGemsandTile : CompositeTileBase
 
         TileID.Sets.Conversion.Sand[Type] = true;
 
-        AddMapEntry(new Color(71, 106, 183));
+        AddMapEntry(new Color(104, 197, 185));
 
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
 
-        ItemDrop = ModContent.ItemType<DarkGemsandItem>();
+        ItemDrop = ModContent.ItemType<GemsandItem>();
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

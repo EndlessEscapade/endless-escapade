@@ -3,9 +3,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Walls.Reefs;
+namespace EndlessEscapade.Content.Walls.Reefs.Lower;
 
-public class GemsandWall : ModWall
+public class GemsandstoneWall : ModWall
 {
     public override void SetStaticDefaults() {
         Main.wallHouse[Type] = true;

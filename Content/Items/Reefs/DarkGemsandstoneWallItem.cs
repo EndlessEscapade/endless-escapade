@@ -1,4 +1,4 @@
-﻿using EndlessEscapade.Content.Walls.Reefs;
+﻿using EndlessEscapade.Content.Walls.Reefs.Depths;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Items.Reefs;

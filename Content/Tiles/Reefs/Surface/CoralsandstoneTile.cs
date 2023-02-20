@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Tiles.Reefs;
+namespace EndlessEscapade.Content.Tiles.Reefs.Surface;
 
 public class CoralsandstoneTile : ModTile
 {
