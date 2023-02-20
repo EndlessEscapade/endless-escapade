@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Generation;
 
 // TODO: Separate each structure into its own system to avoid godclassing.
-public sealed class StructureSystem : ModSystem
+public class StructureSystem : ModSystem
 {
     public override void PostWorldGen() {
         // TODO: Turn into a utility method.

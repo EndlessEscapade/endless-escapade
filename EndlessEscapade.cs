@@ -2,4 +2,4 @@
 
 namespace EndlessEscapade;
 
-public sealed class EndlessEscapade : Mod { }
+public class EndlessEscapade : Mod { }

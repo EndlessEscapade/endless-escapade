@@ -1,8 +1,8 @@
-name: "⭐ Enhancement Request"
-description: Create a new issue for a new enhancement request.
+name: "⭐ Feature Request"
+description: Create an issue for a feature request.
 title: "<title>"
 labels: [
-  "Enhancement",
+  "Feature",
   "New Issue"
 ]
 body:
@@ -10,13 +10,13 @@ body:
     id: summary
     attributes:
       label: "Summary"
-      description: Provide a brief explanation of the request.
+      description: Please provide a brief explanation of the request.
     validations:
       required: true
   - type: textarea
     id: reasonings
     attributes:
       label: "Reasonings"
-      description: Provide reasons why your request should be taken into account.
+      description: Please provide reasons why your request should be taken into account.
     validations:
       required: true
