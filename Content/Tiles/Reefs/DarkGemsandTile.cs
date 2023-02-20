@@ -24,8 +24,6 @@ public class DarkGemsandTile : CompositeTileBase
 
         AddMapEntry(new Color(71, 106, 183));
 
-        MineResist = 1f;
-
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
 

@@ -1,12 +1,12 @@
-﻿using EndlessEscapade.Content.Items.Reefs.Thermal;
+﻿using EndlessEscapade.Content.Items.Reefs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Tiles.Reefs.Thermal;
+namespace EndlessEscapade.Content.Tiles.Reefs;
 
-public class RustyPipeTile : ModTile
+public class CoralsandstoneTile : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;
@@ -14,12 +14,16 @@ public class RustyPipeTile : ModTile
         Main.tileLighted[Type] = true;
         Main.tileBlockLight[Type] = true;
 
-        AddMapEntry(new Color(133, 49, 21));
+        TileID.Sets.Conversion.Sandstone[Type] = true;
 
-        HitSound = SoundID.Tink;
-        DustType = DustID.Copper;
+        AddMapEntry(new Color(86, 105, 98));
 
-        ItemDrop = ModContent.ItemType<RustyPipeItem>();
+        MineResist = 1f;
+
+        HitSound = SoundID.Dig;
+        DustType = DustID.GreenMoss;
+
+        ItemDrop = ModContent.ItemType<CoralsandstoneItem>();
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

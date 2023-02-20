@@ -18,6 +18,8 @@ public class LightGemsandstoneTile : ModTile
 
         AddMapEntry(new Color(104, 197, 185));
 
+        MineResist = 1f;
+        
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
 

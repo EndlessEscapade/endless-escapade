@@ -1,7 +1,6 @@
 Mods: {
 	EndlessEscapade: {
 		ItemName: {
-		    # Tiles
 			KelpLeafItem: "海带叶状体"
 			KelpRockItem: "海带岩"			
             KelpMossItem: "海带藻"
@@ -11,8 +10,9 @@ Mods: {
             DarkGemsandstoneItem: "暗黑宝石砂岩"
             LightGemsandItem: "光明宝石砂"
             LightGemsandstoneItem: "光明宝石砂岩"
-
-            # Walls
+			//CoralsandItem: "Coralsand"
+			//CoralsandstoneItem: "Coralsandstone"
+			
             GemsandstoneWallItem: "宝石砂岩墙"
             GemsandWallItem: "宝石砂墙"
             DarkGemsandstoneWallItem: "暗黑宝石砂岩墙"
@@ -20,5 +20,9 @@ Mods: {
             LightGemsandstoneWallItem: "光明宝石砂岩墙"
             LightGemsandWallItem: "光明宝石砂墙"
 		}
+		
+        NPCName: {
+            //SailorNPC: "Sailor"
+        }
 	}
 }

@@ -1,7 +1,6 @@
 Mods: {
 	EndlessEscapade: {
 		ItemName: {
-			# Tiles
 			KelpLeafItem: "Kelp Leaf"
 			KelpRockItem: "Kelp Rock"
 			KelpMossItem: "Kelp Moss"
@@ -11,18 +10,19 @@ Mods: {
 			DarkGemsandstoneItem: "Dark Gemsandstone"
 			LightGemsandItem: "Light Gemsand"
 			LightGemsandstoneItem: "Light Gemsandstone"
-			BrimstoneItem: "Brimstone"
-			RustyPipeItem: "Rusty Pipe"
-			RustyPlatingItem: "Rusty Plating"
-			ScorchedGemsandItem: "Scorched Gemsand"
+			CoralsandItem: "Coralsand"
+			CoralsandstoneItem: "Coralsandstone"
 
-			# Walls
 			GemsandstoneWallItem: "Gemsandstone Wall"
 			GemsandWallItem: "Gemsand Wall"
 			DarkGemsandstoneWallItem: "Dark Gemsandstone Wall"
 			DarkGemsandWallItem: "Dark Gemsand Wall"
 			LightGemsandstoneWallItem: "Light Gemsandstone Wall"
 			LightGemsandWallItem: "Light Gemsand Wall"
+		}
+		
+		NPCName: {
+			SailorNPC: "Sailor"
 		}
 	}
 }
