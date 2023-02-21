@@ -30,9 +30,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Assets\Structures\Ambient\" />
-      <Folder Include="Assets\Structures\Music\" />
-      <Folder Include="Assets\Structures\Sounds\" />
-      <Folder Include="Content\NPCs\" />
+        <Folder Include="Content\NPCs\" />
     </ItemGroup>
 </Project>
