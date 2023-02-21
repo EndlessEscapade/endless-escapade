@@ -1,10 +1,19 @@
-﻿using Terraria;
+﻿using System;
+using System.Collections.Generic;
+using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 
 namespace EndlessEscapade.Utilities;
 
-public static class WorldGenUtils
+public static class TileScanUtils
 {
+    /*
+     * TODO: Make this less primitive overall.
+     *
+     * - Allow for more modularity (Ignore specific liquids, multiple tile types...)
+     * - Allow for different scan types (Downwards, Sideways, etc...)
+     */
     public static Point16 ScanFromEdge(int type, int startX = 0, int startY = 0, bool ignoreLiquid = false) {
         bool foundScan = false;
 
@@ -14,10 +23,6 @@ public static class WorldGenUtils
         while (!foundScan) {
             Tile tile = Framing.GetTileSafely(scanX, scanY);
             Tile tileAbove = Framing.GetTileSafely(scanX, scanY - 1);
-
-            if (!WorldGen.InWorld(scanX, scanY) || !WorldGen.InWorld(scanX, scanY - 1)) {
-                continue;
-            }
 
             if (!ignoreLiquid && tileAbove.LiquidAmount > 0) {
                 scanX++;

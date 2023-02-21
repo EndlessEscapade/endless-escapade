@@ -12,7 +12,7 @@ public class ShipyardSystem : ModSystem
     public static Point16 ShipyardOrigin { get; private set; }
 
     public override void PostWorldGen() {
-        Point16 edge = WorldGenUtils.ScanFromEdge(TileID.Sand);
+        Point16 edge = TileScanUtils.ScanFromEdge(TileID.Sand);
         Point16 dims = Point16.Zero;
 
         if (!Generator.GetDimensions("Assets/Structures/Shipyard", Mod, ref dims)) {
