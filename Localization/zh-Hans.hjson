@@ -10,8 +10,8 @@ Mods: {
             DarkGemsandstoneItem: "暗黑宝石砂岩"
             LightGemsandItem: "光明宝石砂"
             LightGemsandstoneItem: "光明宝石砂岩"
-			//CoralsandItem: "Coralsand"
-			//CoralsandstoneItem: "Coralsandstone"
+			CoralsandItem: "珊瑚砂"
+			CoralsandstoneItem: "珊瑚砂岩"
 			
             GemsandstoneWallItem: "宝石砂岩墙"
             GemsandWallItem: "宝石砂墙"
@@ -22,7 +22,7 @@ Mods: {
 		}
 		
         NPCName: {
-            //SailorNPC: "Sailor"
+            SailorNPC: "水手"
         }
 	}
 }
