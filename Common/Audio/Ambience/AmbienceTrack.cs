@@ -23,28 +23,33 @@ public abstract class AmbienceTrack : ModType
     }
 
     public virtual void Update() {
-        if (soundInstance == null)
+        if (soundInstance == null) {
             return;
+        }
 
-        if (Active)
+        if (Active) {
             soundInstance.Volume += FadeIn;
-        else if (!Active)
+        }
+        else if (!Active) {
             soundInstance.Volume -= FadeOut;
+        }
 
         soundInstance.Volume = MathHelper.Clamp(soundInstance.Volume, 0f, Main.ambientVolume);
 
         if (Main.hasFocus && !Main.gameMenu) {
-            if (soundInstance.State == SoundState.Stopped)
+            if (soundInstance.State == SoundState.Stopped) {
                 soundInstance.Play();
-            else if (soundInstance.State == SoundState.Paused)
+            }
+            else if (soundInstance.State == SoundState.Paused) {
                 soundInstance.Resume();
+            }
         }
         else {
             soundInstance.Pause();
         }
     }
 
-    protected override sealed void Register() {
+    protected sealed override void Register() {
         ModTypeLookup<AmbienceTrack>.Register(this);
     }
 }
