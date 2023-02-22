@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Terraria;
+using ReLogic.Utilities;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
@@ -9,9 +12,9 @@ namespace EndlessEscapade.Common.Audio;
 [Autoload(Side = ModSide.Client)]
 public class AudioEffectsSystem : ModSystem
 {
-    private Action<SoundEffectInstance, float> highPassFilterAction;
-    private Action<SoundEffectInstance, float> lowPassFilterAction;
-    private Action<SoundEffectInstance, float> reverbAction;
+    private static Action<SoundEffectInstance, float> highPassFilterAction;
+    private static Action<SoundEffectInstance, float> lowPassFilterAction;
+    private static Action<SoundEffectInstance, float> reverbAction;
 
     public override void OnModLoad() {
         if (!SoundEngine.IsAudioSupported) {
