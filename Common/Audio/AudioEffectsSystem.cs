@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using EndlessEscapade.Common.Config;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Terraria;
@@ -16,11 +17,11 @@ public class AudioEffectsSystem : ModSystem
     private static Action<SoundEffectInstance, float> lowPassFilterAction;
     private static Action<SoundEffectInstance, float> reverbAction;
 
-    public override void OnModLoad() {
-        if (!SoundEngine.IsAudioSupported) {
-            return;
-        }
+    public override bool IsLoadingEnabled(Mod mod) {
+        return SoundEngine.IsAudioSupported && ClientSideConfig.Instance.ToggleAudioEffects;
+    }
 
+    public override void OnModLoad() {
         const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
 
         reverbAction = typeof(SoundEffectInstance).GetMethod("INTERNAL_applyReverb", flags).CreateDelegate<Action<SoundEffectInstance, float>>();
