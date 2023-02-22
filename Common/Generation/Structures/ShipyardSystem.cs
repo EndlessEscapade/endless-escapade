@@ -29,7 +29,6 @@ public class ShipyardSystem : ModSystem
         ExtendPillars(x, y);
     }
 
-
     private static void ExtendPillars(int x, int y) {
         const int firstPillarX = 5;
         const int secondPillarX = 21;
