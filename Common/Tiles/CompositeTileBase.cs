@@ -16,8 +16,6 @@ public abstract class CompositeTileBase : ModTile
     public virtual int FramePadding { get; } = 2;
 
     public sealed override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak) {
-        Tile tile = Framing.GetTileSafely(i, j);
-
         int tileScale = TileSize + FramePadding;
 
         int xOffset = i % AtlasWidth * ChunkWidth;
@@ -26,17 +24,19 @@ public abstract class CompositeTileBase : ModTile
         int newFrameX = 0;
         int newFrameY = 0;
 
+        Tile tile = Framing.GetTileSafely(i, j);
+
         Tile tileAbove = Framing.GetTileSafely(i, j - 1);
         Tile tileBelow = Framing.GetTileSafely(i, j + 1);
 
         Tile tileLeft = Framing.GetTileSafely(i - 1, j);
         Tile tileRight = Framing.GetTileSafely(i + 1, j);
 
-        Tile tileTopLeft = Main.tile[i - 1, j - 1];
-        Tile tileTopRight = Main.tile[i + 1, j - 1];
+        Tile tileTopLeft = Framing.GetTileSafely(i - 1, j - 1);
+        Tile tileTopRight = Framing.GetTileSafely(i + 1, j - 1);
 
-        Tile tileBottomLeft = Main.tile[i - 1, j + 1];
-        Tile tileBottomRight = Main.tile[i + 1, j + 1];
+        Tile tileBottomLeft = Framing.GetTileSafely(i - 1, j + 1);
+        Tile tileBottomRight = Framing.GetTileSafely(i + 1, j + 1);
 
         if (tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile) {
             newFrameX = 1;
