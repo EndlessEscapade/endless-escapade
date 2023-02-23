@@ -21,13 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="**/*.png" />
-        <None Remove="**/*.ogg" />
-        <None Remove="**/*.mp3" />
-        <None Remove="**/*.wav" />
-    </ItemGroup>
-    
-    <ItemGroup>
         <Reference Include="StructureHelper">
             <HintPath>lib\StructureHelper.dll</HintPath>
         </Reference>

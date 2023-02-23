@@ -2,7 +2,4 @@
 
 namespace EndlessEscapade;
 
-public class EndlessEscapade : Mod
-{
-    public object WavesInstance { get; set; }
-}
+public class EndlessEscapade : Mod { }

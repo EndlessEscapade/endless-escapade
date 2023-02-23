@@ -21,7 +21,8 @@ public class SailorNPC : ModNPC
         NPCID.Sets.HatOffsetY[Type] = 4;
 
         NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new(0) {
-            Velocity = 1f, Direction = 1
+            Velocity = 1f, 
+            Direction = 1
         };
 
         NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
@@ -52,7 +53,9 @@ public class SailorNPC : ModNPC
         for (int i = 0; i < Main.maxPlayers; i++) {
             Player player = Main.player[i];
 
-            if (!player.active) { }
+            if (!player.active) {
+                continue;
+            }
         }
 
         return false;
@@ -70,6 +73,7 @@ public class SailorNPC : ModNPC
     public override string GetChat() {
         WeightedRandom<string> randomChat = new();
 
+        // TODO: Localization entries
         if (NPC.FindFirstNPC(NPCID.Angler) <= -1) {
             randomChat.Add("Have you seen my son anywhere? He went out on a fishing trip recently and hasn't come back.");
             randomChat.Add("My son knows the waves well, so I hope he's alright...");
