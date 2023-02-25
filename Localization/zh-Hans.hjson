@@ -30,6 +30,14 @@ Mods: {
             DarkGemsandWall: "暗黑宝石砂墙"
             LightGemsandstoneWall: "光明宝石砂岩墙"
             LightGemsandWall: "光明宝石砂墙"
+            //TropicalWood: "Tropical Wood"
+            //TropicalWoodBow: "Tropical Wood Bow"
+            //TropicalWoodHammer: "Tropical Wood Hammer"
+            //TropicalWoodSword: "Tropical Wood Sword"
+            //TropicalWoodWall: "Tropical Wood Wall"
+            //TropicalWoodHelmet: "Tropical Wood Helmet"
+            //TropicalWoodChestplate: "Tropical Wood Chestplate"
+            //TropicalWoodBoots: "Tropical Wood Boots"
 		}
 		
         NPCName: {

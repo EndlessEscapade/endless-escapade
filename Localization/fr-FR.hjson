@@ -30,6 +30,14 @@ Mods: {
             DarkGemsandWall: "Mur en gemme sableuse"
             LightGemsandstoneWall: "Mur en gemme de grès claire"
             LightGemsandWall: "Mur en gemme sableuse claire"
+            //TropicalWood: "Tropical Wood"
+            //TropicalWoodBow: "Tropical Wood Bow"
+            //TropicalWoodHammer: "Tropical Wood Hammer"
+            //TropicalWoodSword: "Tropical Wood Sword"
+            //TropicalWoodWall: "Tropical Wood Wall"
+            //TropicalWoodHelmet: "Tropical Wood Helmet"
+            //TropicalWoodChestplate: "Tropical Wood Chestplate"
+            //TropicalWoodBoots: "Tropical Wood Boots"
         }
         
         NPCName: {
