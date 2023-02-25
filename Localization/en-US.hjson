@@ -13,28 +13,27 @@ Mods: {
         }
             
 		ItemName: {
-			KelpLeafItem: "Kelp Leaf"
-			KelpRockItem: "Kelp Rock"
-			KelpMossItem: "Kelp Moss"
-			GemsandItem: "Gemsand"
-			GemsandstoneItem: "Gemsandstone"
-			DarkGemsandItem: "Dark Gemsand"
-			DarkGemsandstoneItem: "Dark Gemsandstone"
-			LightGemsandItem: "Light Gemsand"
-			LightGemsandstoneItem: "Light Gemsandstone"
-			CoralsandItem: "Coralsand"
-			CoralsandstoneItem: "Coralsandstone"
-
-			GemsandstoneWallItem: "Gemsandstone Wall"
-			GemsandWallItem: "Gemsand Wall"
-			DarkGemsandstoneWallItem: "Dark Gemsandstone Wall"
-			DarkGemsandWallItem: "Dark Gemsand Wall"
-			LightGemsandstoneWallItem: "Light Gemsandstone Wall"
-			LightGemsandWallItem: "Light Gemsand Wall"
+			KelpLeaf: "Kelp Leaf"
+			KelpRock: "Kelp Rock"
+			KelpMoss: "Kelp Moss"
+			Gemsand: "Gemsand"
+			Gemsandstone: "Gemsandstone"
+			DarkGemsand: "Dark Gemsand"
+			DarkGemsandston: "Dark Gemsandstone"
+			LightGemsand: "Light Gemsand"
+			LightGemsandstone: "Light Gemsandstone"
+			Coralsand: "Coralsand"
+			Coralsandstone: "Coralsandstone"
+			GemsandstoneWall: "Gemsandstone Wall"
+			GemsandWall: "Gemsand Wall"
+			DarkGemsandstoneWall: "Dark Gemsandstone Wall"
+			DarkGemsandWall: "Dark Gemsand Wall"
+			LightGemsandstoneWall: "Light Gemsandstone Wall"
+			LightGemsandWall: "Light Gemsand Wall"
 		}
 		
 		NPCName: {
-			SailorNPC: "Sailor"
+			Sailor: "Sailor"
 		}
 	}
 }

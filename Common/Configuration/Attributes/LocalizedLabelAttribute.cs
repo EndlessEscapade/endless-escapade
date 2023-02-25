@@ -1,7 +1,6 @@
-﻿using System;
-using Terraria.ModLoader.Config;
+﻿using Terraria.ModLoader.Config;
 
-namespace EndlessEscapade.Common.Config.Attributes;
+namespace EndlessEscapade.Common.Configuration.Attributes;
 
 public class LocalizedLabelAttribute : LabelAttribute
 {

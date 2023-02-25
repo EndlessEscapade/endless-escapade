@@ -13,28 +13,27 @@ Mods: {
         }
             
         ItemName: {
-            KelpLeafItem: "Feuille d'algue"
-            KelpRockItem: "Roche d'algue"
-            //KelpMossItem: "Kelp Moss"
-            GemsandItem: "Gemme sableuse"
-            GemsandstoneItem: "Gemme de grès"
-            DarkGemsandItem: "Gemme sableuse sombre"
-            DarkGemsandstoneItem: "Gemme de grès sombre"
-            LightGemsandItem: "Gemme sableuse claire"
-            LightGemsandstoneItem: "Gemme de grès claire"
-			//CoralsandItem: "Coralsand"
-			//CoralsandstoneItem: "Coralsandstone"
-			
-            GemsandstoneWallItem: "Mur en gemme de grès"
-            GemsandWallItem: "Mur en gemme sableuse"
-            DarkGemsandstoneWallItem: "Mur en gemme de grès sombre"
-            DarkGemsandWallItem: "Mur en gemme sableuse"
-            LightGemsandstoneWallItem: "Mur en gemme de grès claire"
-            LightGemsandWallItem: "Mur en gemme sableuse claire"
+            KelpLeaf: "Feuille d'algue"
+            KelpRock: "Roche d'algue"
+            //KelpMoss: "Kelp Moss"
+            Gemsand: "Gemme sableuse"
+            Gemsandstone: "Gemme de grès"
+            DarkGemsand: "Gemme sableuse sombre"
+            DarkGemsandstone: "Gemme de grès sombre"
+            LightGemsand: "Gemme sableuse claire"
+            LightGemsandstone: "Gemme de grès claire"
+			//Coralsand: "Coralsand"
+			//Coralsandstone: "Coralsandstone"
+            GemsandstoneWall: "Mur en gemme de grès"
+            GemsandWall: "Mur en gemme sableuse"
+            DarkGemsandstoneWall: "Mur en gemme de grès sombre"
+            DarkGemsandWall: "Mur en gemme sableuse"
+            LightGemsandstoneWall: "Mur en gemme de grès claire"
+            LightGemsandWall: "Mur en gemme sableuse claire"
         }
         
         NPCName: {
-            //SailorNPC: "Sailor"
+            //Sailor: "Sailor"
         }
     }
 }

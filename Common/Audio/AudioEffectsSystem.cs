@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using EndlessEscapade.Common.Config;
-using Microsoft.Xna.Framework;
+using EndlessEscapade.Common.Configuration;
 using Microsoft.Xna.Framework.Audio;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour.HookGen;
-using Terraria;
-using ReLogic.Utilities;
 using Terraria.Audio;
 using Terraria.ModLoader;
 

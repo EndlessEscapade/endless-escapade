@@ -1,12 +1,11 @@
-﻿using EndlessEscapade.Common.Config;
-using MonoMod.RuntimeDetour.HookGen;
+﻿using EndlessEscapade.Common.Configuration;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Ambience;
+namespace EndlessEscapade.Common.Audio.Ambience;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class AmbienceSystem : ModSystem
+public class AmbienceSystem : ModSystem
 {
     public override bool IsLoadingEnabled(Mod mod) {
         return SoundEngine.IsAudioSupported && ClientSideConfig.Instance.ToggleAmbience;

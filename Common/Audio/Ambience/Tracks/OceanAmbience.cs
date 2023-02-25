@@ -1,15 +1,14 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 
-namespace EndlessEscapade.Common.Ambience.Tracks;
+namespace EndlessEscapade.Common.Audio.Ambience.Tracks;
 
 public class OceanAmbience : AmbienceTrack
 {
-    public override bool Condition => Main.LocalPlayer.HasItem(ItemID.Meowmere);
+    protected override bool Condition => Main.LocalPlayer.HasItem(ItemID.Meowmere);
 
-    public override void Initialize() {
+    protected override void Initialize() {
         LoopSoundStyle = new SoundStyle($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Loops/Waves", SoundType.Ambient) {
             PlayOnlyIfFocused = true,
             IsLooped = true

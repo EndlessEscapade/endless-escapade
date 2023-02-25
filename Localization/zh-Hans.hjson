@@ -13,28 +13,27 @@ Mods: {
         }
 	
 		ItemName: {
-			KelpLeafItem: "海带叶状体"
-			KelpRockItem: "海带岩"			
-            KelpMossItem: "海带藻"
-            GemsandItem: "宝石砂"
-            GemsandstoneItem: "宝石砂岩"
-            DarkGemsandItem: "暗黑宝石砂"
-            DarkGemsandstoneItem: "暗黑宝石砂岩"
-            LightGemsandItem: "光明宝石砂"
-            LightGemsandstoneItem: "光明宝石砂岩"
-			CoralsandItem: "珊瑚砂"
-			CoralsandstoneItem: "珊瑚砂岩"
-			
-            GemsandstoneWallItem: "宝石砂岩墙"
-            GemsandWallItem: "宝石砂墙"
-            DarkGemsandstoneWallItem: "暗黑宝石砂岩墙"
-            DarkGemsandWallItem: "暗黑宝石砂墙"
-            LightGemsandstoneWallItem: "光明宝石砂岩墙"
-            LightGemsandWallItem: "光明宝石砂墙"
+			KelpLeaf: "海带叶状体"
+			KelpRock: "海带岩"			
+            KelpMoss: "海带藻"
+            Gemsand: "宝石砂"
+            Gemsandstone: "宝石砂岩"
+            DarkGemsand: "暗黑宝石砂"
+            DarkGemsandstone: "暗黑宝石砂岩"
+            LightGemsand: "光明宝石砂"
+            LightGemsandstone: "光明宝石砂岩"
+			Coralsand: "珊瑚砂"
+			Coralsandstone: "珊瑚砂岩"
+            GemsandstoneWall: "宝石砂岩墙"
+            GemsandWall: "宝石砂墙"
+            DarkGemsandstoneWall: "暗黑宝石砂岩墙"
+            DarkGemsandWall: "暗黑宝石砂墙"
+            LightGemsandstoneWall: "光明宝石砂岩墙"
+            LightGemsandWall: "光明宝石砂墙"
 		}
 		
         NPCName: {
-            SailorNPC: "水手"
+            Sailor: "水手"
         }
 	}
 }

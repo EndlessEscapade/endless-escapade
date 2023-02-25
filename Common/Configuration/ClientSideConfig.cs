@@ -1,19 +1,24 @@
-﻿using EndlessEscapade.Common.Config.Attributes;
+﻿using System.ComponentModel;
+using EndlessEscapade.Common.Configuration.Attributes;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
-namespace EndlessEscapade.Common.Config;
+namespace EndlessEscapade.Common.Configuration;
 
 public class ClientSideConfig : ModConfig
 {
     public static ClientSideConfig Instance => ModContent.GetInstance<ClientSideConfig>();
-    
+
     public override ConfigScope Mode => ConfigScope.ClientSide;
-    
+
+    [DefaultValue(true)]
+    [ReloadRequired]
     [LocalizedLabel("ToggleAmbience")]
     [LocalizedTooltip("ToggleAmbience")]
     public bool ToggleAmbience { get; set; }
-    
+
+    [DefaultValue(true)]
+    [ReloadRequired]
     [LocalizedLabel("ToggleAudioEffects")]
     [LocalizedTooltip("ToggleAudioEffects")]
     public bool ToggleAudioEffects { get; set; }
