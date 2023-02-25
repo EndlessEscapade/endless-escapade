@@ -1,21 +1,18 @@
 ﻿using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 
 namespace EndlessEscapade.Common.Ambience.Tracks;
 
-public class ShipyardAmbience : AmbienceTrack
+public class OceanAmbience : AmbienceTrack
 {
-    public override bool Active => Main.LocalPlayer.ZoneBeach && Main.LocalPlayer.position.X / 16f < Main.maxTilesX / 2f;
+    public override bool Condition => Main.LocalPlayer.HasItem(ItemID.Meowmere);
 
-    public override string Path { get; } = $"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Loops/Waves";
-
-    public override void Setup() {
-        base.Setup();
-
-        AddAmbienceSound($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Dolphins", 1000);
-        
-        AddAmbienceSound($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Seagulls1", 1000);
-        AddAmbienceSound($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Seagulls1", 1000);
+    public override void Initialize() {
+        LoopSoundStyle = new SoundStyle($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Loops/Waves", SoundType.Ambient) {
+            PlayOnlyIfFocused = true,
+            IsLooped = true
+        };
     }
 }
