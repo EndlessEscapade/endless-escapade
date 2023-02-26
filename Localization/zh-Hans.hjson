@@ -33,8 +33,8 @@ Mods: {
         }
         
         Fishing: {
-            //RecordCatchMessage: "New record: {0} cm!"
-            //CommonCatchMessage: "Length: {0} cm."
+            RecordCatchMessage: "新纪录: {0}厘米!"
+            CommonCatchMessage: "体长: {0}厘米."
         }
         
         Dialogue: {
