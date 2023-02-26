@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -24,14 +25,16 @@ public class ItemFishingPickup : GlobalItem
         bool hasPlayer = player.TryGetModPlayer(out ItemFishingPlayer fishingPlayer);
         
         if (!HasBeenCatched && isFish && hasPlayer) {
-            if (fishingPlayer.FishingDataByType.TryGetValue(item.type, out var data)) {
-                data.Lengths.Add(length);
+            if (fishingPlayer.FishingLengthByType.TryGetValue(item.type, out var data)) {
+                data.Add(length);
             }
             else {
-                data = new ItemFishingPlayer.ItemFishingData();
-                data.Lengths.Add(length);
+                data = new List<int>();
+                data.Add(length);
+                
+                fishingPlayer.FishingLengthByType.Add(item.type, data);
             }
-            
+
             HasBeenCatched = true;
         }
 
