@@ -27,10 +27,15 @@ public class Sailor : ModNPC
         };
 
         NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
-
-        NPC.Happiness.SetBiomeAffection<OceanBiome>(AffectionLevel.Love);
+        
         NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
         NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love);
+        NPC.Happiness.SetNPCAffection(NPCID.DyeTrader, AffectionLevel.Like);
+        NPC.Happiness.SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Dislike);
+        
+        NPC.Happiness.SetBiomeAffection<OceanBiome>(AffectionLevel.Love);
+        NPC.Happiness.SetBiomeAffection<DesertBiome>(AffectionLevel.Like);
+        NPC.Happiness.SetBiomeAffection<UndergroundBiome>(AffectionLevel.Hate);
 
         Main.npcFrameCount[Type] = 25;
     }
@@ -58,22 +63,9 @@ public class Sailor : ModNPC
         NPC.DeathSound = SoundID.NPCDeath1;
         NPC.aiStyle = NPCAIStyleID.Passive;
     }
-
-    public override bool CanTownNPCSpawn(int numTownNPCs, int money) {
-        return true;
-    }
-
-    public override bool PreAI() {
-        if (NPC.CountNPCS(Type) > 1) {
-            NPC.active = false;
-            return false;
-        }
-
-        return true;
-    }
-
+    
     public override string GetChat() {
-        WeightedRandom<string> chat = new();
+        var chat = new WeightedRandom<string>();
 
         if (!NPC.AnyNPCs(NPCID.Angler)) {
             chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue1"));
@@ -104,17 +96,23 @@ public class Sailor : ModNPC
 
         return chat.ToString();
     }
+    
+    public override bool PreAI() {
+        bool existsAny = NPC.CountNPCS(Type) > 1;
+        
+        if (existsAny) {
+            NPC.active = false;
+        }
 
+        return existsAny;
+    }
+    
     public override List<string> SetNPCNameList() {
         return new List<string> {
             "Skipper"
         };
     }
-
-    public override bool CanGoToStatue(bool toKingStatue) {
-        return true;
-    }
-
+    
     public override void TownNPCAttackStrength(ref int damage, ref float knockback) {
         damage = 20;
         knockback = 4f;
@@ -133,5 +131,13 @@ public class Sailor : ModNPC
     public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset) {
         multiplier = 12f;
         randomOffset = 2f;
+    }
+    
+    public override bool CanTownNPCSpawn(int numTownNPCs, int money) {
+        return true;
+    }
+
+    public override bool CanGoToStatue(bool toKingStatue) {
+        return true;
     }
 }

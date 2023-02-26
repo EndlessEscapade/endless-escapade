@@ -1,8 +1,8 @@
 using Terraria.ID;
 
-namespace EndlessEscapade.Utilities.Sets;
+namespace EndlessEscapade.Common.Items;
 
-public static class ItemSets
+public static class ItemFishingSets
 {
     public static readonly bool[] IsSmallFish = ItemID.Sets.Factory.CreateBoolSet(
         ItemID.FrostMinnow,
