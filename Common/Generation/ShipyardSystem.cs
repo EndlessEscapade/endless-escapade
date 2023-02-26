@@ -4,7 +4,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Generation.Structures;
+namespace EndlessEscapade.Common.Generation;
 
 public class ShipyardSystem : ModSystem
 {
@@ -59,10 +59,10 @@ public class ShipyardSystem : ModSystem
     }
 
     private static Point16 GetOrigin() {
-        bool foundScan = false;
+        var foundScan = false;
 
-        int scanX = 0;
-        int scanY = 0;
+        var scanX = 0;
+        var scanY = 0;
 
         while (!foundScan) {
             Tile tile = Framing.GetTileSafely(scanX, scanY);

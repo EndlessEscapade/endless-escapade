@@ -17,7 +17,7 @@ public class ItemCreativeResearch : ModSystem
             bool isWeapon = item.damage > 0;
             bool isEquip = item.accessory || item.defense > 0;
 
-            int sacrificeCount = 25;
+            var sacrificeCount = 25;
 
             if (isEquip) {
                 sacrificeCount = 1;

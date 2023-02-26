@@ -21,8 +21,8 @@ public abstract class CompositeTileBase : ModTile
         int xOffset = i % AtlasWidth * ChunkWidth;
         int yOffset = j % AtlasHeight * ChunkHeight;
 
-        int newFrameX = 0;
-        int newFrameY = 0;
+        var newFrameX = 0;
+        var newFrameY = 0;
 
         Tile tile = Framing.GetTileSafely(i, j);
 

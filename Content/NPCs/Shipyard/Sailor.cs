@@ -36,10 +36,12 @@ public class Sailor : ModNPC
     }
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
-        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-            new FlavorTextBestiaryInfoElement($"Mods.{nameof(EndlessEscapade)}.Bestiary.Sailor")
-        });
+        bestiaryEntry.Info.AddRange(
+            new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+                new FlavorTextBestiaryInfoElement($"Mods.{nameof(EndlessEscapade)}.Bestiary.Sailor")
+            }
+        );
     }
 
     public override void SetDefaults() {
@@ -91,11 +93,11 @@ public class Sailor : ModNPC
             chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue3"));
             return chat;
         }
-        
+
         chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue1"));
         chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue2"));
         chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue3"));
-        
+
         if (Main.moonType == (int)MoonPhase.Empty) {
             chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NewMoonDialogue"));
         }

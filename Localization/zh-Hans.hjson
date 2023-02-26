@@ -32,6 +32,11 @@ Mods: {
             Sailor: "水手"
         }
         
+        Fishing: {
+            //RecordCatchMessage: "New record: {0} cm!"
+            //CommonCatchMessage: "Length: {0} cm."
+        }
+        
         Dialogue: {
             Sailor: {
                 //AnglerDialogue1: "Have you seen my son anywhere? He went out on a fishing trip recently and hasn't come back."

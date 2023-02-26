@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using EndlessEscapade.Common.Configuration.Attributes;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace EndlessEscapade.Common.Configuration;

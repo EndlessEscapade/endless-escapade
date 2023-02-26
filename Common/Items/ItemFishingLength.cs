@@ -28,7 +28,7 @@ public class ItemFishingLength : GlobalItem
         ItemID.Salmon,
         ItemID.Trout
     );
-    
+
     public static readonly bool[] IsBigFish = factory.CreateBoolSet(
         ItemID.ChaosFish,
         ItemID.Damselfish,
@@ -37,6 +37,6 @@ public class ItemFishingLength : GlobalItem
         ItemID.Prismite,
         ItemID.VariegatedLardfish
     );
-    
+
     // TODO: Fisherman's Log.
 }
