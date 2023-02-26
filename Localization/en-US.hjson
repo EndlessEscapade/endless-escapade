@@ -34,20 +34,20 @@ Mods: {
 		
 		TownNPCMood: {
 		    Sailor: {
-		        Content: " "
-		        NoHome: " "
-                LoveSpace: " "
-                FarFromHome: " "
-                DislikeCrowded: " "
-                HateCrowded: " "
-                LikeBiome: " "
-                LoveBiome: " "
-                DislikeBiome: " "
-                HateBiome: " "
-                LikeNPC: " "
-                LoveNPC: " "
-                DislikeNPC: " "
-                HateNPC: " "
+                Content: "The best feeling is being able to look in the past and feel grateful for everyone you've met and everything you've done."
+                NoHome: "I know i'm quite the explorer myself, but sometimes it'd be nice to have somewhere to stay. "
+                LoveSpace: "The perfect scenario for bonding, if they're up for hearing my stories of course."
+                FarFromHome: "This might be one long trip, but one worth taking. I just want to rest my legs. "
+                DislikeCrowded: "I bet half of these people wouldn't survive a day on a voyage to the [insert biome or place]! "
+                HateCrowded: "I can't handle this, I think I'm going to leave again. Sorry [name of the angler]. "
+                LikeBiome: "Actually, I kind of like the {BiomeName}, the sands reminds me of the Ocean..."
+                LoveBiome: "Past this beach you'll find a world of wonders waiting to be explored and discovered! Oh the excitement, the thrill! "
+                DislikeBiome: "How did I end up here, not a single drop of saltwater visible."
+                HateBiome: "Quite the contrast to the feeling of being in the middle of the ocean, I can feel the walls waiting to fall on me"
+                LikeNPC: "I'm glad I got to meet {NPCName}. He has also gone on his fair share of adventures. Maybe he could join my crew."
+                LoveNPC: "I'm finally able to have some quality time with {NPCName} after all these months."
+                DislikeNPC: "I need to get away from {NPCName}, he reminds me of truly terrible times."
+                HateNPC: "Why do i have to live near {NPCName}? Do you know how many times they've plundered my crew?!" 
 		    }   		    
 		}
 		
