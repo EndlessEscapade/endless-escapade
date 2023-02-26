@@ -8,23 +8,23 @@ namespace EndlessEscapade.Common.Items;
 
 public class ItemFishingPickup : GlobalItem
 {
-    public bool HasBeenCatched { get; private set; }
+    public bool HasBeenCaught { get; private set; }
 
     public override bool InstancePerEntity { get; } = true;
 
     public override void SaveData(Item item, TagCompound tag) {
-        tag.Add("hasBeenCatched", HasBeenCatched);
+        tag.Add("hasBeenCaught", HasBeenCaught);
     }
 
     public override void LoadData(Item item, TagCompound tag) {
-        HasBeenCatched = tag.GetBool("hasBeenCatched");
+        HasBeenCaught = tag.GetBool("hasBeenCaught");
     }
 
     public override bool OnPickup(Item item, Player player) {
         bool isFish = TryGetFishLength(item, player, out int newLength);
         bool hasPlayer = player.TryGetModPlayer(out ItemFishingPlayer fishingPlayer);
         
-        if (!HasBeenCatched && isFish && hasPlayer) {
+        if (!HasBeenCaught && isFish && hasPlayer) {
             bool hasPrevious = fishingPlayer.FishingLengthByType.TryGetValue(item.type, out int previousLength);
             bool isRecord = hasPrevious && newLength > previousLength;
 
@@ -32,7 +32,7 @@ public class ItemFishingPickup : GlobalItem
                 fishingPlayer.FishingLengthByType[item.type] = newLength;
             }
 
-            HasBeenCatched = true;
+            HasBeenCaught = true;
         }
 
         return true;
