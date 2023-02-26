@@ -21,18 +21,15 @@ public class ItemFishingPickup : GlobalItem
     }
 
     public override bool OnPickup(Item item, Player player) {
-        bool isFish = TryGetFishLength(item, player, out int length);
+        bool isFish = TryGetFishLength(item, player, out int newLength);
         bool hasPlayer = player.TryGetModPlayer(out ItemFishingPlayer fishingPlayer);
         
         if (!HasBeenCatched && isFish && hasPlayer) {
-            if (fishingPlayer.FishingLengthByType.TryGetValue(item.type, out var data)) {
-                data.Add(length);
-            }
-            else {
-                data = new List<int>();
-                data.Add(length);
-                
-                fishingPlayer.FishingLengthByType.Add(item.type, data);
+            bool hasPrevious = fishingPlayer.FishingLengthByType.TryGetValue(item.type, out int previousLength);
+            bool isRecord = hasPrevious && newLength > previousLength;
+
+            if (!hasPrevious || isRecord) {
+                fishingPlayer.FishingLengthByType[item.type] = newLength;
             }
 
             HasBeenCatched = true;

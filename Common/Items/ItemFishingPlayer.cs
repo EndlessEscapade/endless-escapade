@@ -8,7 +8,7 @@ namespace EndlessEscapade.Common.Items;
 
 public class ItemFishingPlayer : ModPlayer
 {
-    public Dictionary<int, List<int>> FishingLengthByType { get; private set; } = new();
+    public Dictionary<int, int> FishingLengthByType { get; private set; } = new();
 
     public override void SaveData(TagCompound tag) {
         tag.Add("fishingLengthKeys", FishingLengthByType.Keys.ToList());
@@ -16,6 +16,6 @@ public class ItemFishingPlayer : ModPlayer
     }
 
     public override void LoadData(TagCompound tag) {
-        FishingLengthByType = tag.GetDictionary<int, List<int>>("fishingLengthKeys", "fishingLengthValues");
+        FishingLengthByType = tag.GetDictionary<int, int>("fishingLengthKeys", "fishingLengthValues");
     }
 }
