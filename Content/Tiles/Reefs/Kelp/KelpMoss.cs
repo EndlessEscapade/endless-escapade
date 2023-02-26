@@ -35,12 +35,12 @@ public class KelpMoss : CompositeTileBase
     }
 
     public override void PostDraw(int i, int j, SpriteBatch spriteBatch) {
-        Texture2D texture = ModContent.Request<Texture2D>(Texture + "_Glow").Value;
+        var texture = ModContent.Request<Texture2D>(Texture + "_Glow").Value;
 
-        Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-        Vector2 position = new Vector2(i, j) * 16f - Main.screenPosition + zero;
+        var zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+        var position = new Vector2(i, j) * 16f - Main.screenPosition + zero;
 
-        Tile tile = Framing.GetTileSafely(i, j);
+        var tile = Framing.GetTileSafely(i, j);
 
         Rectangle frame = new(tile.TileFrameX, tile.TileFrameY, 16, 16);
 

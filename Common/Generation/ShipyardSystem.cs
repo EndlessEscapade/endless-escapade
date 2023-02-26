@@ -9,8 +9,8 @@ namespace EndlessEscapade.Common.Generation;
 public class ShipyardSystem : ModSystem
 {
     public override void PostWorldGen() {
-        Point16 edge = GetOrigin();
-        Point16 dims = Point16.Zero;
+        var edge = GetOrigin();
+        var dims = Point16.Zero;
 
         if (!Generator.GetDimensions("Assets/Structures/Shipyard", Mod, ref dims)) {
             return;
@@ -59,14 +59,14 @@ public class ShipyardSystem : ModSystem
     }
 
     private static Point16 GetOrigin() {
-        var foundScan = false;
+        bool foundScan = false;
 
-        var scanX = 0;
-        var scanY = 0;
+        int scanX = 0;
+        int scanY = 0;
 
         while (!foundScan) {
-            Tile tile = Framing.GetTileSafely(scanX, scanY);
-            Tile tileAbove = Framing.GetTileSafely(scanX, scanY - 1);
+            var tile = Framing.GetTileSafely(scanX, scanY);
+            var tileAbove = Framing.GetTileSafely(scanX, scanY - 1);
 
             if (tileAbove.LiquidAmount > 0) {
                 scanX++;

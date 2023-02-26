@@ -1,5 +1,4 @@
-﻿using Terraria;
-using Terraria.GameContent.Creative;
+﻿using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,8 +7,8 @@ namespace EndlessEscapade.Common.Items;
 public class ItemCreativeResearch : ModSystem
 {
     public override void PostSetupContent() {
-        foreach (ModItem modItem in ModContent.GetContent<ModItem>()) {
-            Item item = ContentSamples.ItemsByType[modItem.Type];
+        foreach (var modItem in ModContent.GetContent<ModItem>()) {
+            var item = ContentSamples.ItemsByType[modItem.Type];
 
             bool isTile = item.createTile > -1;
             bool isWall = item.createWall > -1;
@@ -17,7 +16,7 @@ public class ItemCreativeResearch : ModSystem
             bool isWeapon = item.damage > 0;
             bool isEquip = item.accessory || item.defense > 0;
 
-            var sacrificeCount = 25;
+            int sacrificeCount = 25;
 
             if (isEquip) {
                 sacrificeCount = 1;

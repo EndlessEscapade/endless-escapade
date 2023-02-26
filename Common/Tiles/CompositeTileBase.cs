@@ -21,22 +21,22 @@ public abstract class CompositeTileBase : ModTile
         int xOffset = i % AtlasWidth * ChunkWidth;
         int yOffset = j % AtlasHeight * ChunkHeight;
 
-        var newFrameX = 0;
-        var newFrameY = 0;
+        int newFrameX = 0;
+        int newFrameY = 0;
 
-        Tile tile = Framing.GetTileSafely(i, j);
+        var tile = Framing.GetTileSafely(i, j);
 
-        Tile tileAbove = Framing.GetTileSafely(i, j - 1);
-        Tile tileBelow = Framing.GetTileSafely(i, j + 1);
+        var tileAbove = Framing.GetTileSafely(i, j - 1);
+        var tileBelow = Framing.GetTileSafely(i, j + 1);
 
-        Tile tileLeft = Framing.GetTileSafely(i - 1, j);
-        Tile tileRight = Framing.GetTileSafely(i + 1, j);
+        var tileLeft = Framing.GetTileSafely(i - 1, j);
+        var tileRight = Framing.GetTileSafely(i + 1, j);
 
-        Tile tileTopLeft = Framing.GetTileSafely(i - 1, j - 1);
-        Tile tileTopRight = Framing.GetTileSafely(i + 1, j - 1);
+        var tileTopLeft = Framing.GetTileSafely(i - 1, j - 1);
+        var tileTopRight = Framing.GetTileSafely(i + 1, j - 1);
 
-        Tile tileBottomLeft = Framing.GetTileSafely(i - 1, j + 1);
-        Tile tileBottomRight = Framing.GetTileSafely(i + 1, j + 1);
+        var tileBottomLeft = Framing.GetTileSafely(i - 1, j + 1);
+        var tileBottomRight = Framing.GetTileSafely(i + 1, j + 1);
 
         if (tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile) {
             newFrameX = 1;
