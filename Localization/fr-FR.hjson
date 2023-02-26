@@ -60,5 +60,9 @@ Mods: {
                 //NewMoonDialogue: "The new moon is a sign that the jellyfish over the Coral Reefs are on the move."
             }
         }
+        
+        Bestiary: {
+            //Sailor: "Ahoy! The Sailor will provide useful resources and information all about sailing."
+        }
     }
 }

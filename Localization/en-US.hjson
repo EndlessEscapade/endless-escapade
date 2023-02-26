@@ -65,7 +65,7 @@ Mods: {
 
 		Dialogue: {
 		    Sailor: {
-		        AnglerDialogue1: "Have you seen my son anywhere? He went out on a fishing trip recently and hasn't come back."
+		        AnglerDialogue1: "I wonder where my son is... He went out on a fishing trip recently and hasn't come back ever since."
                 AnglerDialogue2: "My son knows the waves well, so I hope he's alright..."
                 AnglerDialogue3: "Have you seen my son? He wears a beige cap and a vest."
 		        DayDialogue1: "I always love stepping out on the pier at the crack of dawn."
@@ -78,6 +78,10 @@ Mods: {
 		        RainDialogue2: "I lost my rain slicker in a windy day a few years ago. Wish I had another one."
 		        NewMoonDialogue: "The new moon is a sign that the jellyfish over the Coral Reefs are on the move."
 		    }
+		}
+		
+		Bestiary: {
+		    Sailor: "Ahoy! The Sailor will provide useful resources and information all about sailing."
 		}
 	}
 }

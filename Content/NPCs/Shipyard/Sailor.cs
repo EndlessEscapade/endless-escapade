@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.Enums;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
@@ -22,8 +23,7 @@ public class Sailor : ModNPC
         NPCID.Sets.HatOffsetY[Type] = 4;
 
         NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new(0) {
-            Velocity = 1f,
-            Direction = 1
+            Velocity = 1f
         };
 
         NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
@@ -35,6 +35,13 @@ public class Sailor : ModNPC
         Main.npcFrameCount[Type] = 25;
     }
 
+    public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
+        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+            new FlavorTextBestiaryInfoElement($"Mods.{nameof(EndlessEscapade)}.Bestiary.Sailor")
+        });
+    }
+
     public override void SetDefaults() {
         NPC.townNPC = true;
         NPC.friendly = true;
@@ -42,7 +49,7 @@ public class Sailor : ModNPC
         NPC.height = 50;
         NPC.damage = 10;
         NPC.defense = 15;
-        NPC.lifeMax = 250;
+        NPC.lifeMax = 500;
         NPC.knockBackResist = 0.5f;
         AnimationType = NPCID.Guide;
         NPC.HitSound = SoundID.NPCHit1;

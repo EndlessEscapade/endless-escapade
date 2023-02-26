@@ -123,7 +123,6 @@ public abstract class CompositeTileBase : ModTile
             newFrameY = 0;
         }
 
-
         if (!tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && !tileRight.HasTile) {
             newFrameX = 2;
             newFrameY = 0;

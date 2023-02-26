@@ -5,9 +5,9 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Items;
 
-public sealed class CreativeResearchSystem : ModSystem
+public class ItemResearchData : GlobalItem
 {
-    public override void PostSetupContent() {
+    public override void SetStaticDefaults() {
         foreach (ModItem modItem in ModContent.GetContent<ModItem>()) {
             Item item = ContentSamples.ItemsByType[modItem.Type];
 
