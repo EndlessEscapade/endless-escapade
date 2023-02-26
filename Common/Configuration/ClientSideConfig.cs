@@ -10,16 +10,4 @@ public class ClientSideConfig : ModConfig
     public static ClientSideConfig Instance => ModContent.GetInstance<ClientSideConfig>();
 
     public override ConfigScope Mode => ConfigScope.ClientSide;
-
-    [DefaultValue(true)]
-    [ReloadRequired]
-    [LocalizedLabel("ToggleAmbience")]
-    [LocalizedTooltip("ToggleAmbience")]
-    public bool ToggleAmbience { get; set; }
-
-    [DefaultValue(true)]
-    [ReloadRequired]
-    [LocalizedLabel("ToggleAudioEffects")]
-    [LocalizedTooltip("ToggleAudioEffects")]
-    public bool ToggleAudioEffects { get; set; }
 }

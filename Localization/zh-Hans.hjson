@@ -1,17 +1,5 @@
 Mods: {
 	EndlessEscapade: {
-        Configuration: {
-            ToggleAmbience: {
-                //Label: "Ambience"
-                //Tooltip: "Toggles custom ambience, like ocean waves, dolphins, etc."
-            }
-            
-            ToggleAudioEffects: {
-                //Label: "Audio Effects"
-                //Tooltip: "Toggles custom audio effects, like water sound muffling."
-            }
-        }
-	
 		ItemName: {
 			KelpLeaf: "海带叶状体"
 			KelpRock: "海带岩"			

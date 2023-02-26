@@ -1,17 +1,5 @@
 Mods: {
-	EndlessEscapade: {
-        Configuration: {
-            ToggleAmbience: {
-                Label: "Ambience"
-                Tooltip: "Toggles custom ambience, like ocean waves, dolphins, etc."
-            }
-            
-            ToggleAudioEffects: {
-                Label: "Audio Effects"
-                Tooltip: "Toggles custom audio effects, like water sound muffling."
-            }
-        }
-            
+	EndlessEscapade: {        
 		ItemName: {
 			KelpLeaf: "Kelp Leaf"
 			KelpRock: "Kelp Rock"
@@ -61,6 +49,11 @@ Mods: {
                 DislikeNPC: " "
                 HateNPC: " "
 		    }   		    
+		}
+		
+		Fishing: {
+		    RecordCatchMessage: "New record: {0} cm!"
+		    CommonCatchMessage: "Length: {0} cm."
 		}
 
 		Dialogue: {
