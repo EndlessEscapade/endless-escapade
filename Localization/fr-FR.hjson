@@ -43,5 +43,22 @@ Mods: {
         NPCName: {
             //Sailor: "Sailor"
         }
+        
+        Dialogue: {
+            Sailor: {
+                //AnglerDialogue1: "Have you seen my son anywhere? He went out on a fishing trip recently and hasn't come back."
+                //AnglerDialogue2: "My son knows the waves well, so I hope he's alright..."
+                //AnglerDialogue3: "Have you seen my son? He wears a beige cap and a vest."
+                //DayDialogue1: "I always love stepping out on the pier at the crack of dawn."
+                //DayDialogue2: "The ocean's so enticing today, don't ya think?"
+                //DayDialogue3: "The sharks seem excited today."
+                //NightDialogue1: "The ocean waves are always so calm at nighttime."
+                //NightDialogue2: "The moon looks so beautiful on the water."
+                //NightDialogue3: "I love the glow of the jellies."
+                //RainDialogue1: "I hope this rain doesn't mean a hurricane's coming!"
+                //RainDialogue2: "I lost my rain slicker in a windy day a few years ago. Wish I had another one."
+                //NewMoonDialogue: "The new moon is a sign that the jellyfish over the Coral Reefs are on the move."
+            }
+        }
     }
 }

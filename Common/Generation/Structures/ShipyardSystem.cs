@@ -49,7 +49,7 @@ public class ShipyardSystem : ModSystem
             int pillarX = x + xOffset;
             int pillarY = y + yOffset;
 
-            while (!WorldGen.SolidTile(pillarX, pillarY) && WorldGen.InWorld(pillarX, pillarY)) {
+            while (WorldGen.InWorld(pillarX, pillarY) && !WorldGen.SolidTile(pillarX, pillarY)) {
                 WorldGen.PlaceTile(pillarX, pillarY, TileID.LivingWood, true, true);
                 WorldGen.SlopeTile(pillarX, pillarY);
 

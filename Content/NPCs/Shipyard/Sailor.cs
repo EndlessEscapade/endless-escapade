@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Enums;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
@@ -50,13 +51,7 @@ public class Sailor : ModNPC
     }
 
     public override bool CanTownNPCSpawn(int numTownNPCs, int money) {
-        for (int i = 0; i < Main.maxPlayers; i++) {
-            Player player = Main.player[i];
-
-            if (!player.active) { }
-        }
-
-        return false;
+        return true;
     }
 
     public override bool PreAI() {
@@ -69,37 +64,36 @@ public class Sailor : ModNPC
     }
 
     public override string GetChat() {
-        WeightedRandom<string> randomChat = new();
+        WeightedRandom<string> chat = new();
 
-        // TODO: Localization entries
-        if (NPC.FindFirstNPC(NPCID.Angler) <= -1) {
-            randomChat.Add("Have you seen my son anywhere? He went out on a fishing trip recently and hasn't come back.");
-            randomChat.Add("My son knows the waves well, so I hope he's alright...");
-            randomChat.Add("Have you seen my son? He wears a beige cap and a vest.");
-            return randomChat;
+        if (!NPC.AnyNPCs(NPCID.Angler)) {
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue1"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue2"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue3"));
+            return chat;
         }
 
         if (Main.raining) {
-            randomChat.Add("I hope this rain doesn't mean a hurricane's coming!");
-            randomChat.Add("I lost my rain slicker in a windy day a few years ago. Wish I had another one.");
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.RainDialogue1"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.RainDialogue2"));
         }
 
         if (Main.dayTime) {
-            randomChat.Add("I always love stepping out on the pier at the crack of dawn.");
-            randomChat.Add("The ocean's so enticing today, don't ya think?");
-            randomChat.Add("The sharks seem excited today.");
-            return randomChat;
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue1"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue2"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue3"));
+            return chat;
         }
-
-        randomChat.Add("The ocean waves are always so calm at nighttime.");
-        randomChat.Add("The moon looks so beautiful on the water.");
-        randomChat.Add("I love the glow of the jellies.");
-
+        
+        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue1"));
+        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue2"));
+        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue3"));
+        
         if (Main.moonType == (int)MoonPhase.Empty) {
-            randomChat.Add("The new moon is a sign that the jellyfish over the Coral Reefs are on the move.");
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NewMoonDialogue"));
         }
 
-        return randomChat;
+        return chat.ToString();
     }
 
     public override List<string> SetNPCNameList() {
