@@ -10,23 +10,22 @@ namespace EndlessEscapade.Common.FishermansLogUI;
 
 internal class FishermansLogGrid : UIGrid
 {
-    private float ElementSize;
+    internal float ElementSize;
 
-    public FishermansLogGrid(float padding, float elementSize, int elementsPerRow, int elementsPerColumn, List<int> elements) : base() {
+    public FishermansLogGrid(float padding, float elementSize, List<int> elements) : base() {
         HAlign = 0.5f;
         VAlign = 0.5f;
 
-        Width = StyleDimension.FromPixels(elementSize * elementsPerRow + padding * (elementsPerRow + 1));
-        Height = StyleDimension.FromPixels((elementSize + padding) * elementsPerColumn + padding);
+        Width = StyleDimension.Fill;
+        Height = StyleDimension.Fill;
         ListPadding = padding;
-        SetPadding(padding);
 
         ElementSize = elementSize;
 
         PopulateGrid(elements);
     }
 
-    private void PopulateGrid(List<int> elements) {
+    public void PopulateGrid(List<int> elements) {
         elements.ForEach(i => {
             FishermansLogGridElement Button = new FishermansLogGridElement(StyleDimension.FromPixels(ElementSize), i).With(e => {
                 e.BorderColor = Color.Black * 0.25f;
@@ -38,7 +37,6 @@ internal class FishermansLogGrid : UIGrid
 
     public void SwitchElements(List<int> newElements) {
         Clear();
-
         PopulateGrid(newElements);
     }
 }
