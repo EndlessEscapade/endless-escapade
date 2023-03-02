@@ -3,14 +3,28 @@ using Terraria.GameContent.UI.Elements;
 using Microsoft.Xna.Framework;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
+using System;
 
 namespace EndlessEscapade.Common.FishermansLogUI;
 internal class FishermansLogGridElement : UIPanel
 {
     public readonly string Name;
 
-    public FishermansLogGridElement(StyleDimension size, int itemID) : base() {
+    public string ComparisonString;
+    public int ComparisonInt;
+
+    public bool ReverseOrder;
+    public bool NumberedOrder;
+
+    public int ItemID;
+
+    public FishermansLogGridElement(StyleDimension size, int itemID, bool reverseOrder, bool numberedOrder) : base() {
         Name = new Item(itemID).Name;
+        ComparisonString = Name;
+        ComparisonInt = itemID;
+        ReverseOrder = reverseOrder;
+        NumberedOrder = numberedOrder;
+        ItemID = itemID;
 
         Width = size;
         Height = size;
@@ -23,8 +37,23 @@ internal class FishermansLogGridElement : UIPanel
         }));
     }
 
+    public void Reorder(string comparison) {
+        ComparisonString = comparison;
+    }
+
+    public void Reorder(int comparison) {
+        ComparisonInt = comparison;
+    }
+
     public override int CompareTo(object obj) {
         FishermansLogGridElement other = obj as FishermansLogGridElement;
-        return Name.CompareTo(other.Name);
+
+        if (!NumberedOrder) {
+            if (ReverseOrder) return other.ComparisonString.CompareTo(ComparisonString);
+            return ComparisonString.CompareTo(other.ComparisonString);
+        }
+
+        if (ReverseOrder) return other.ComparisonInt.CompareTo(ComparisonInt);
+        return ComparisonInt.CompareTo(other.ComparisonInt);
     }
 }

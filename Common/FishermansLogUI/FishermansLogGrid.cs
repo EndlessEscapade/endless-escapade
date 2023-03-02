@@ -22,12 +22,12 @@ internal class FishermansLogGrid : UIGrid
 
         ElementSize = elementSize;
 
-        PopulateGrid(elements);
+        PopulateGrid(elements, false, false);
     }
 
-    public void PopulateGrid(List<int> elements) {
+    public void PopulateGrid(List<int> elements, bool reverseOrder, bool numberedOrder) {
         elements.ForEach(i => {
-            FishermansLogGridElement Button = new FishermansLogGridElement(StyleDimension.FromPixels(ElementSize), i).With(e => {
+            FishermansLogGridElement Button = new FishermansLogGridElement(StyleDimension.FromPixels(ElementSize), i, reverseOrder, numberedOrder).With(e => {
                 e.BorderColor = Color.Black * 0.25f;
             });
 
@@ -35,8 +35,8 @@ internal class FishermansLogGrid : UIGrid
         });
     }
 
-    public void SwitchElements(List<int> newElements) {
+    public void SwitchElements(List<int> newElements, bool reverseOrder, bool numberedOrder) {
         Clear();
-        PopulateGrid(newElements);
+        PopulateGrid(newElements, reverseOrder, numberedOrder);
     }
 }

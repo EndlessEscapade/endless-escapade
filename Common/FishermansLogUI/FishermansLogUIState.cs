@@ -27,8 +27,8 @@ public class FishermansLogUIState : UIState
         return list;
     }
 
-    public static bool Visible => !Main.playerInventory;
-    private readonly string texturePath = "EndlessEscapade/Assets/UI";
+    public static bool Visible => Main.playerInventory;
+    readonly string texturePath = "EndlessEscapade/Assets/UI";
 
     readonly List<int> catches = new List<int>() { ItemID.ArmoredCavefish, ItemID.AtlanticCod, ItemID.Bass, ItemID.BlueJellyfish, ItemID.ChaosFish, ItemID.CrimsonTigerfish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.Ebonkoi, ItemID.FlarefinKoi, ItemID.Flounder, ItemID.FrostMinnow, ItemID.GoldenCarp, ItemID.GreenJellyfish, ItemID.Hemopiranha, ItemID.Honeyfin, ItemID.NeonTetra, ItemID.Obsidifish, ItemID.PinkJellyfish, ItemID.PrincessFish, ItemID.Prismite, ItemID.RedSnapper, ItemID.RockLobster, ItemID.Salmon, ItemID.Shrimp, ItemID.SpecularFish, ItemID.Stinkfish, ItemID.Trout, ItemID.Tuna, ItemID.VariegatedLardfish };
 
@@ -40,6 +40,7 @@ public class FishermansLogUIState : UIState
     int pageCount = 0;
     List<List<int>> pages;
     List<FishermansLogGrid> grids = new();
+    List<UIElement> gridElements = new();
 
     float padding = 15f;
     int elementsPerRow = 5;
@@ -48,11 +49,16 @@ public class FishermansLogUIState : UIState
     UISearchBar searchBar;
     Color searchBarBorderColor = Color.Black * 0.25f;
 
-    private string? searchString;
-    private bool clickedSearchBar;
+    string searchString;
+
+    List<string> sortMethods = new() { "Name", "Item ID", "Unlocks (WIP)", "Length (WIP)" };
+    int sortMethodIndex = 0;
+    UIText sortButtonText;
+    bool reverseOrder = false;
+    bool numberedOrder = false;
 
     public override void OnInitialize() {
-        allCatches = catches.Concat(questCatches).OrderBy(i => new Item(i).Name).ToList();
+        SortElements();
 
         // ELEMENT ATTRIBUTES ARE SORTED BY TYPE IN THIS ORDER:
         // - POSITIONING (Top, HAlign, etc.)
@@ -79,18 +85,24 @@ public class FishermansLogUIState : UIState
                 e.SetPadding(padding);
             }));
 
-            if (i == 0) {
-                UIPanel searchBarPanel = PageContentContainer.AddElement(new UIPanel().With(e => {
-                    e.Width = StyleDimension.Fill;
-                    e.Height = StyleDimension.FromPixels(28f);
+            UIPanel topBarPanel = PageContentContainer.AddElement(new UIPanel().With(e => {
+                e.Width = StyleDimension.Fill;
+                e.Height = StyleDimension.FromPixels(28f);
 
+                if (i == 0) {
                     e.BackgroundColor = new Color(191, 197, 201);
                     e.BorderColor = searchBarBorderColor;
+                }
+                else {
+                    e.BackgroundColor = Color.Transparent;
+                    e.BorderColor = Color.Transparent;
+                }
 
-                    e.SetPadding(0f);
-                }));
+                e.SetPadding(0f);
+            }));
 
-                searchBar = searchBarPanel.AddElement(new UISearchBar(Language.GetText("Search"), 0.8f).With(e => {
+            if (i == 0) {
+                searchBar = topBarPanel.AddElement(new UISearchBar(Language.GetText("Search"), 0.8f).With(e => {
                     e.VAlign = 0.5f;
 
                     e.Width = StyleDimension.Fill;
@@ -102,13 +114,42 @@ public class FishermansLogUIState : UIState
                     e.SetContents(null, true);
                 }));
 
-                UIImageButton searchCancelButton = searchBarPanel.AddElement(new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel", ReLogic.Content.AssetRequestMode.ImmediateLoad)).With(e => {
+                UIImageButton searchCancelButton = topBarPanel.AddElement(new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel", ReLogic.Content.AssetRequestMode.ImmediateLoad)).With(e => {
                     e.HAlign = 1f;
                     e.VAlign = 0.5f;
                     e.Left = StyleDimension.FromPixels(-2f);
 
                     e.OnMouseOver += searchCancelButton_OnMouseOver;
                     e.OnClick += searchCancelButton_OnClick;
+                }));
+            }
+            else {
+                UIHoverImageButton sortButton = topBarPanel.AddElement(new UIHoverImageButton(Main.Assets.Request<Texture2D>($"Images/UI/Bestiary/Button_Sorting", ReLogic.Content.AssetRequestMode.ImmediateLoad), "Sort by").With(e => {
+                    e.SetVisibility(1f, 1f);
+                    e.OnMouseOver += button_OnMouseOver;
+                    e.OnClick += sortButton_OnClick;
+                    e.OnRightClick += sortButton_OnRightClick;
+                }));
+
+                UIElement sortButtonTextPanel = sortButton.AddElement(new UIElement().With(e => {
+                    e.HAlign = 1f;
+
+                    e.Width = StyleDimension.FromPixels(86f);
+                    e.Height = StyleDimension.Fill;
+                    e.SetPadding(2f);
+                }));
+
+                sortButtonText = sortButtonTextPanel.AddElement(new UIText(sortMethods[sortMethodIndex], 0.8f).With(e => {
+                    e.HAlign = 0.5f;
+                    e.VAlign = 0.5f;
+                }));
+
+                UICheckbox sortReverseButton = topBarPanel.AddElement(new UICheckbox("Reverse", "").With(e => {
+                    e.Left = StyleDimension.FromPixels(sortButton.GetOuterDimensions().Width + padding);
+                    e.VAlign = 0.5f;
+                    e.Top = StyleDimension.FromPixels(-2f);
+
+                    e.OnClick += sortReverseButton_OnClick;
                 }));
             }
 
@@ -130,6 +171,7 @@ public class FishermansLogUIState : UIState
 
             FishermansLogGrid Grid = GridContainer.AddElement(new FishermansLogGrid(padding, elementSize, pages[currentPage + i]));
             grids.Add(Grid);
+            gridElements.AddRange(Grid._items);
 
             UIHoverImageButton paginateButton = PageContentContainer.AddElement(new UIHoverImageButton(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_" + (i == 0 ? "Back" : "Forward"), ReLogic.Content.AssetRequestMode.ImmediateLoad), (i == 0 ? "Previous" : "Next") + " Page").With(e => {
                 if (i == 1) e.HAlign = 1f;
@@ -137,7 +179,7 @@ public class FishermansLogUIState : UIState
 
                 e.SetHoverImage(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_Border"));
                 e.SetVisibility(1f, 1f);
-                e.OnMouseOver += paginateButton_OnMouseOver;
+                e.OnMouseOver += button_OnMouseOver;
                 e.OnClick += paginateButton_OnClick;
             }));
         }
@@ -145,8 +187,29 @@ public class FishermansLogUIState : UIState
         pageCount = pages.Count;
     }
 
+    private void sortReverseButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
+        UICheckbox target = (UICheckbox)listeningElement;
+
+        reverseOrder = target.Selected;
+        SortElements();
+        sortButtonFunction();
+    }
+
+    private void SortElements() {
+        switch (sortMethodIndex) {
+            case 0:
+                if (reverseOrder) allCatches = catches.Concat(questCatches).OrderByDescending(i => new Item(i).Name).ToList();
+                else allCatches = catches.Concat(questCatches).OrderBy(i => new Item(i).Name).ToList();
+                break;
+            case 1:
+                if (reverseOrder) allCatches = catches.Concat(questCatches).OrderByDescending(i => i).ToList();
+                else allCatches = catches.Concat(questCatches).OrderBy(i => i).ToList();
+                break;
+        }
+    }
+
     private void UpdateGrids() {
-        allCatches = catches.Concat(questCatches).OrderBy(i => new Item(i).Name).ToList();
+        SortElements();
         if (searchString != null) allCatches = allCatches.Where(e => new Item(e).Name.ToLower().Contains(searchString)).ToList();
 
         if (allCatches.Count == 0) pages = new() { new(), new() };
@@ -159,7 +222,7 @@ public class FishermansLogUIState : UIState
         pageCount = pages.Count;
 
         for (int i = 0; i < grids.Count; i++) {
-            grids[i].SwitchElements(pages[currentPage + i]);
+            grids[i].SwitchElements(pages[currentPage + i], reverseOrder, numberedOrder);
         }
     }
 
@@ -178,8 +241,39 @@ public class FishermansLogUIState : UIState
         if (searchBar.IsWritingText) searchBar.ToggleTakingText();
     }
 
-    private void paginateButton_OnMouseOver(UIMouseEvent evt, UIElement listeningElement) {
+    private void button_OnMouseOver(UIMouseEvent evt, UIElement listeningElement) {
         SoundEngine.PlaySound(SoundID.MenuTick);
+    }
+
+    private void sortButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
+        sortMethodIndex = sortMethodIndex >= sortMethods.Count - 1 ? 0 : sortMethodIndex + 1;
+        sortButtonFunction();
+    }
+
+    private void sortButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement) {
+        sortMethodIndex = sortMethodIndex <= 0 ? sortMethods.Count - 1 : sortMethodIndex - 1;
+        sortButtonFunction();
+    }
+
+    private void sortButtonFunction() {
+        sortButtonText.SetText(sortMethods[sortMethodIndex]);
+
+        gridElements.ForEach(e => {
+            FishermansLogGridElement element = (FishermansLogGridElement)e;
+
+            numberedOrder = false;
+            switch (sortMethodIndex) {
+                case 0:
+                    element.Reorder(element.Name);
+                    break;
+                case 1:
+                    element.Reorder(element.ItemID);
+                    numberedOrder = true;
+                    break;
+            }
+        });
+
+        UpdateGrids();
     }
 
     private void paginateButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
@@ -190,17 +284,13 @@ public class FishermansLogUIState : UIState
 
         currentPage += 2 * (target.HoverText.StartsWith("Previous") ? -1 : 1);
         for (int i = 0; i < grids.Count; i++) {
-            grids[i].SwitchElements(pages[currentPage + i]);
+            grids[i].SwitchElements(pages[currentPage + i], reverseOrder, numberedOrder);
         }
     }
 
     private void click_SearchArea(UIMouseEvent evt, UIElement listeningElement) {
         if (searchBar == null) return;
-
-        if (listeningElement == searchBar) {
-            searchBar.ToggleTakingText();
-            clickedSearchBar = true;
-        }
+        if (listeningElement == searchBar) searchBar.ToggleTakingText();
     }
 
     private void onSearchContentsChanged(string contents) {
