@@ -33,8 +33,8 @@ Mods: {
         }
         
         Fishing: {
-            //RecordCatchMessage: "New record: {0} cm!"
-            //CommonCatchMessage: "Length: {0} cm."
+            RecordCatchMessage: "新纪录: {0}厘米!"
+            CommonCatchMessage: "体长: {0}厘米."
         }
         
         Dialogue: {
@@ -55,23 +55,22 @@ Mods: {
         }
         
         Bestiary: {
-            Sailor: "嗨! 水手会提供航行所需的资源和信息."
+            Sailor: "嗨! 水手会告诉你关于海洋与航行的一切."
         }
         
-        # Window titles are generally not translatable. They are kept here nonetheless for convenience.
 		WindowTitles: {
-		    Title1: "WAIT WAIT WAIT WAIT WAIT WAIT WAIT"
-		    Title2: "Waltuh"
-		    Title3: "Nullification nullifier nullifi-nator"
-		    Title4: "Yettatia: Typo"
+		    Title1: "等等等等等等等下"
+		    Title2: "沃尔塔"
+		    Title3: "无效化无效化的无效化"
+		    Title4: "秦拉瑞巫: 识字"
 		    Title5: ":skull:"
-		    Title6: "Why Yuor Barin Can Raed Tihs"
-		    Title7: "Why did the Java developer need glasses? Because he couldn't C#"
-		    Title8: "The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength"
-		    Title9: "Do not the cat." 
-            Title10: "What is that flashy buggy thing?"
-            Title11: "Mod Dev Redemption"
-            Title12: "Mark my words."
+		    Title6: "为什么你看在这句话时会动自字将排好?"
+		    Title7: "为什么那个Java程序员需要戴眼镜? 因为他不能See Sharp"
+		    Title8: "按时睡觉: 严酷的意志考验"
+		    Title9: "不要__猫" 
+            Title10: "那个炫酷的罢格是什么?"
+            Title11: "模组开发救赎"
+            Title12: "全体向我看齐, 我宣布个事"
 		}
 	}
 }
