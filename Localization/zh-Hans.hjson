@@ -55,7 +55,7 @@ Mods: {
         }
         
         Bestiary: {
-            Sailor: "嗨! 水手会提供航行所需的资源和信息."
+            Sailor: "嗨! 水手会告诉你关于海洋与航行的一切."
         }
         
 		WindowTitles: {
