@@ -57,5 +57,21 @@ Mods: {
         Bestiary: {
             Sailor: "嗨! 水手会提供航行所需的资源和信息."
         }
+        
+        # Window titles are generally not translatable. They are kept here nonetheless for convenience.
+		WindowTitles: {
+		    Title1: "WAIT WAIT WAIT WAIT WAIT WAIT WAIT"
+		    Title2: "Waltuh"
+		    Title3: "Nullification nullifier nullifi-nator"
+		    Title4: "Yettatia: Typo"
+		    Title5: ":skull:"
+		    Title6: "Why Yuor Barin Can Raed Tihs"
+		    Title7: "Why did the Java developer need glasses? Because he couldn't C#"
+		    Title8: "The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength"
+		    Title9: "Do not the cat." 
+            Title10: "What is that flashy buggy thing?"
+            Title11: "Mod Dev Redemption"
+            Title12: "Mark my words."
+		}
 	}
 }
