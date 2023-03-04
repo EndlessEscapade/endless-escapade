@@ -24,6 +24,5 @@ public class WindowTitleSystem : ModSystem
 
     public override void OnWorldUnload() {
         Main.changeTheTitle = true;
-
     }
 }
