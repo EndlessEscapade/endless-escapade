@@ -31,7 +31,7 @@ public class ItemFishingPickup : GlobalItem
             if (!hasPrevious || isRecord) {
                 fishingPlayer.FishingLengthByType[item.type] = newLength;
             }
-
+            
             HasBeenCaught = true;
         }
 
