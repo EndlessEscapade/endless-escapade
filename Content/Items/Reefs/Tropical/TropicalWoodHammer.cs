@@ -1,4 +1,3 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,7 +13,7 @@ public class TropicalWoodHammer : ModItem
         Item.useTime = 18;
         Item.useAnimation = 30;
         Item.useStyle = ItemUseStyleID.Swing;
-        
+
         Item.width = 32;
         Item.height = 32;
 
@@ -24,7 +23,7 @@ public class TropicalWoodHammer : ModItem
     }
 
     public override void AddRecipes() {
-        Recipe recipe = CreateRecipe();
+        var recipe = CreateRecipe();
         recipe.AddIngredient<TropicalWood>(10);
         recipe.AddTile(TileID.WorkBenches);
         recipe.Register();

@@ -1,5 +1,16 @@
 Mods: {
 	EndlessEscapade: {        
+	    Configuration: {
+	        Miscellaneous: {
+	            Header: "[i:75] Miscellaneous"
+	            
+	            EnableWindowTitles: {
+	                Label: "Enable Window Titles"
+	                Tooltip: "Toggles custom window titles."
+	            }
+	        }
+	    }
+	
 		ItemName: {
 			KelpLeaf: "Kelp Leaf"
 			KelpRock: "Kelp Rock"
@@ -26,12 +37,17 @@ Mods: {
 		    TropicalWoodHelmet: "Tropical Wood Helmet"
 			TropicalWoodChestplate: "Tropical Wood Chestplate"
 			TropicalWoodBoots: "Tropical Wood Boots"
+			FishermansLog: "Fisherman's Log"
 		}
 		
 		NPCName: {
 			Sailor: "Sailor"
 		}
 		
+        Bestiary: {
+            Sailor: "Ahoy! The Sailor will provide useful resources and information all about sailing the seas."
+        }
+        
 		TownNPCMood: {
 		    Sailor: {
                 Content: "The best feeling is being able to look in the past and feel grateful for everyone you've met and everything you've done."
@@ -50,47 +66,46 @@ Mods: {
                 HateNPC: "Why do i have to live near {NPCName}? Do you know how many times they've plundered my crew?!" 
 		    }   		    
 		}
-		
-		Fishing: {
-		    RecordCatchMessage: "New record: {0} cm!"
-		    CommonCatchMessage: "Length: {0} cm."
-		}
 
-		Dialogue: {
+		TownNPCDialogue: {
 		    Sailor: {
-		        AnglerDialogue1: "I wonder where my son is... He went out on a fishing trip recently and hasn't come back ever since."
-                AnglerDialogue2: "My son knows the waves well, so I hope he's alright..."
-                AnglerDialogue3: "Have you seen my son? He wears a beige cap and a vest."
-		        DayDialogue1: "I always love stepping out on the pier at the crack of dawn."
-		        DayDialogue2: "The ocean's so enticing today, don't ya think?"
-		        DayDialogue3: "The sharks seem excited today."
-		        NightDialogue1: "The ocean waves are always so calm at nighttime."
-		        NightDialogue2: "The moon looks so beautiful on the water."
-		        NightDialogue3: "I love the glow of the jellies."
-		        RainDialogue1: "I hope this rain doesn't mean a hurricane's coming!"
-		        RainDialogue2: "I lost my rain slicker in a windy day a few years ago. Wish I had another one."
+		        AnglerDialogue0: "I wonder where my son is... He went out on a fishing trip recently and hasn't come back ever since."
+                AnglerDialogue1: "My son knows the waves well, so I hope he's alright..."
+                AnglerDialogue2: "Have you seen my son? He wears a beige cap and a vest."
+		        DayDialogue0: "I always love stepping out on the pier at the crack of dawn."
+		        DayDialogue1: "The ocean's so enticing today, don't ya think?"
+		        DayDialogue2: "The sharks seem excited today."
+		        NightDialogue0: "The ocean waves are always so calm at nighttime."
+		        NightDialogue1: "The moon looks so beautiful on the water."
+		        NightDialogue2: "I love the glow of the jellies."
+		        RainDialogue0: "I hope this rain doesn't mean a hurricane's coming!"
+		        RainDialogue1: "I lost my rain slicker in a windy day a few years ago. Wish I had another one."
 		        NewMoonDialogue: "The new moon is a sign that the jellyfish over the Coral Reefs are on the move."
 		    }
 		}
 		
-		Bestiary: {
-		    Sailor: "Ahoy! The Sailor will provide useful resources and information all about sailing the seas."
+		WindowTitles: {
+		    Title0: "WAIT WAIT WAIT WAIT WAIT WAIT WAIT"
+		    Title1: "Waltuh"
+		    Title2: "Nullification nullifier nullifi-nator"
+		    Title3: "Yettatia: Typo"
+		    Title4: ":skull:"
+		    Title5: "Why Yuor Barin Can Raed Tihs"
+		    Title6: "Why did the Java developer need glasses? Because he couldn't C#"
+		    Title7: "The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength"
+		    Title8: "Do not the cat." 
+            Title9: "What is that flashy buggy thing?"
+            Title10: "Mod Dev Redemption"
+            Title11: "Mark my words."
 		}
 		
-        # Window titles are generally not translatable. They are kept here nonetheless for convenience.
-		WindowTitles: {
-		    Title1: "WAIT WAIT WAIT WAIT WAIT WAIT WAIT"
-		    Title2: "Waltuh"
-		    Title3: "Nullification nullifier nullifi-nator"
-		    Title4: "Yettatia: Typo"
-		    Title5: ":skull:"
-		    Title6: "Why Yuor Barin Can Raed Tihs"
-		    Title7: "Why did the Java developer need glasses? Because he couldn't C#"
-		    Title8: "The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength"
-		    Title9: "Do not the cat." 
-            Title10: "What is that flashy buggy thing?"
-            Title11: "Mod Dev Redemption"
-            Title12: "Mark my words."
-		}
+        GameTips: {
+            Tip0: "You can talk to the Sailor at the Shipyard to get your sailboat fixed. Be advised though, you might need to bring some cash and materials for that as well."
+        }
+                
+        Fishing: {
+            RecordCatchMessage: "New record: {0} cm!"
+            CommonCatchMessage: "Length: {0} cm."
+        } 
 	}
 }

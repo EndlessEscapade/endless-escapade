@@ -1,4 +1,3 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,7 +14,7 @@ public class TropicalWoodChestplate : ModItem
     }
 
     public override void AddRecipes() {
-        Recipe recipe = CreateRecipe();
+        var recipe = CreateRecipe();
         recipe.AddIngredient<TropicalWood>(30);
         recipe.AddTile(TileID.WorkBenches);
         recipe.Register();
