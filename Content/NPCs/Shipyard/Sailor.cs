@@ -45,7 +45,7 @@ public class Sailor : ModNPC
         bestiaryEntry.Info.AddRange(
             new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement($"Mods.{nameof(EndlessEscapade)}.Bestiary.Sailor")
+                new FlavorTextBestiaryInfoElement(Mod.GetTextValue("Bestiary.Sailor"))
             }
         );
     }
@@ -99,13 +99,13 @@ public class Sailor : ModNPC
     }
 
     public override bool PreAI() {
-        bool existsAny = NPC.AnyNPCs(Type);
+        bool moreThanOne = NPC.CountNPCS(Type) > 1;
 
-        if (existsAny) {
+        if (moreThanOne) {
             NPC.active = false;
         }
 
-        return existsAny;
+        return moreThanOne;
     }
 
     public override List<string> SetNPCNameList() {
