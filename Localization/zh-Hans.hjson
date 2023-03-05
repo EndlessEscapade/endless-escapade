@@ -1,5 +1,16 @@
 Mods: {
 	EndlessEscapade: {
+        Configuration: {
+            Miscellaneous: {
+                //Header: "[i:75] Miscellaneous"
+                
+                EnableWindowTitles: {
+                    //Label: "Enable Window Titles"
+                    //Tooltip: "Toggles custom window titles."
+                }
+            }
+        }
+    	    
 		ItemName: {
 			KelpLeaf: "海带叶状体"
 			KelpRock: "海带岩"			
@@ -26,51 +37,75 @@ Mods: {
             TropicalWoodHelmet: "热带木头盔"
             TropicalWoodChestplate: "热带木胸甲"
             TropicalWoodBoots: "热带木靴"
+            //FishermansLog: "Fisherman's Log"
 		}
 		
         NPCName: {
             Sailor: "水手"
         }
         
-        Fishing: {
-            RecordCatchMessage: "新纪录: {0}厘米!"
-            CommonCatchMessage: "体长: {0}厘米."
-        }
-        
-        Dialogue: {
-            Sailor: {
-                AnglerDialogue1: "你见过我的儿子吗? 他上次出海钓鱼后就再也没回来."
-                AnglerDialogue2: "我儿子熟知海洋, 所以我希望他没事..."
-                AnglerDialogue3: "你见过我儿子吗? 他身着米黄色帽子和背心."
-                DayDialogue1: "我总喜欢在破晓时分漫步于海堤之上."
-                DayDialogue2: "大海今天很兴奋啊, 不是吗?"
-                DayDialogue3: "今天鲨鱼们看上去挺激动的."
-                NightDialogue1: "夜晚的海波总是如此平静."
-                NightDialogue2: "水中月色可真美啊."
-                NightDialogue3: "我喜欢水母的荧光."
-                RainDialogue1: "但愿这场雨不是飓风的前兆!"
-                RainDialogue2: "我在几年前的一个大风天弄丢了我的雨衣. 要是我还有一件就好了."
-                NewMoonDialogue: "新月是珊瑚礁里的水母开始活动的信号."
-            }
-        }
-        
         Bestiary: {
             Sailor: "嗨! 水手会告诉你关于海洋与航行的一切."
         }
         
-		WindowTitles: {
-		    Title1: "等等等等等等等下"
-		    Title2: "沃尔塔"
-		    Title3: "无效化无效化的无效化"
-		    Title4: "秦拉瑞巫: 识字"
-		    Title5: ":skull:"
-		    Title6: "为什么你看在这句话时会动自字将排好?"
-		    Title7: "为什么那个Java程序员需要戴眼镜? 因为他不能See Sharp"
-		    Title8: "按时睡觉: 严酷的意志考验"
-		    Title9: "不要__猫" 
-            Title10: "那个炫酷的罢格是什么?"
-            Title11: "模组开发救赎"
-            Title12: "全体向我看齐, 我宣布个事"
+		TownNPCMood: {
+		    Sailor: {
+                //Content: "The best feeling is being able to look in the past and feel grateful for everyone you've met and everything you've done."
+                //NoHome: "I know i'm quite the explorer myself, but sometimes it'd be nice to have somewhere to stay. "
+                //LoveSpace: "The perfect scenario for bonding, if they're up for hearing my stories of course."
+                //FarFromHome: "This might be one long trip, but one worth taking. I just want to rest my legs. "
+                //DislikeCrowded: "I bet half of these people wouldn't survive a day on a voyage to the [insert biome or place]! "
+                //HateCrowded: "I can't handle this, I think I'm going to leave again. Sorry [name of the angler]. "
+                //LikeBiome: "Actually, I kind of like the {BiomeName}, the sands reminds me of the Ocean..."
+                //LoveBiome: "Past this beach you'll find a world of wonders waiting to be explored and discovered! Oh the excitement, the thrill! "
+                //DislikeBiome: "How did I end up here, not a single drop of saltwater visible."
+                //HateBiome: "Quite the contrast to the feeling of being in the middle of the ocean, I can feel the walls waiting to fall on me"
+                //LikeNPC: "I'm glad I got to meet {NPCName}. He has also gone on his fair share of adventures. Maybe he could join my crew."
+                //LoveNPC: "I'm finally able to have some quality time with {NPCName} after all these months."
+                //DislikeNPC: "I need to get away from {NPCName}, he reminds me of truly terrible times."
+                //HateNPC: "Why do i have to live near {NPCName}? Do you know how many times they've plundered my crew?!" 
+		    }   		    
 		}
+        
+        TownNPCDialogue: {
+            Sailor: {
+                AnglerDialogue0: "你见过我的儿子吗? 他上次出海钓鱼后就再也没回来."
+                AnglerDialogue1: "我儿子熟知海洋, 所以我希望他没事..."
+                AnglerDialogue2: "你见过我儿子吗? 他身着米黄色帽子和背心."
+                DayDialogue0: "我总喜欢在破晓时分漫步于海堤之上."
+                DayDialogue1: "大海今天很兴奋啊, 不是吗?"
+                DayDialogue2: "今天鲨鱼们看上去挺激动的."
+                NightDialogue0: "夜晚的海波总是如此平静."
+                NightDialogue1: "水中月色可真美啊."
+                NightDialogue2: "我喜欢水母的荧光."
+                RainDialogue0: "但愿这场雨不是飓风的前兆!"
+                RainDialogue1: "我在几年前的一个大风天弄丢了我的雨衣. 要是我还有一件就好了."
+                NewMoonDialogue: "新月是珊瑚礁里的水母开始活动的信号."
+            }
+        }
+        
+		WindowTitles: {
+		    Title0: "等等等等等等等下"
+		    Title1: "沃尔塔"
+		    Title2: "无效化无效化的无效化"
+		    Title3: "秦拉瑞巫: 识字"
+		    Title4: ":skull:"
+		    Title5: "为什么你看在这句话时会动自字将排好?"
+		    Title6: "为什么那个Java程序员需要戴眼镜? 因为他不能See Sharp"
+		    Title7: "按时睡觉: 严酷的意志考验"
+		    Title8: "不要__猫" 
+            Title9: "那个炫酷的罢格是什么?"
+            Title10: "模组开发救赎"
+            Title11: "全体向我看齐, 我宣布个事"
+		}
+		
+        GameTips: {
+            //Tip0: "You can talk to the Sailor at the Shipyard to get your sailboat fixed. Be advised though, you might need to bring some cash and materials for that as well."
+        }
+		
+        Fishing: {
+            RecordCatchMessage: "新纪录: {0}厘米!"
+            CommonCatchMessage: "体长: {0}厘米."
+        }
 	}
 }

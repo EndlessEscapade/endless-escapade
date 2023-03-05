@@ -68,27 +68,27 @@ public class Sailor : ModNPC
         var chat = new WeightedRandom<string>();
 
         if (!NPC.AnyNPCs(NPCID.Angler)) {
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue0"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue1"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue2"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.AnglerDialogue0"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.AnglerDialogue1"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.AnglerDialogue2"));
             return chat;
         }
 
         if (Main.raining) {
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.RainDialogue0"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.RainDialogue1"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.RainDialogue0"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.RainDialogue1"));
         }
 
         if (Main.dayTime) {
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue0"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue1"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue2"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.DayDialogue0"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.DayDialogue1"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.DayDialogue2"));
             return chat;
         }
 
-        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue1"));
-        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue2"));
-        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue3"));
+        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.NightDialogue1"));
+        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.NightDialogue2"));
+        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.NightDialogue3"));
 
         if (Main.moonType == (int)MoonPhase.Empty) {
             chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NewMoonDialogue"));
