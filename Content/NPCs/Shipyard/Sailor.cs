@@ -86,12 +86,12 @@ public class Sailor : ModNPC
             return chat;
         }
 
+        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.NightDialogue0"));
         chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.NightDialogue1"));
         chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.NightDialogue2"));
-        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.NightDialogue3"));
 
         if (Main.moonType == (int)MoonPhase.Empty) {
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NewMoonDialogue"));
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.TownNPCDialogue.Sailor.NewMoonDialogue"));
         }
 
         return chat.ToString();
