@@ -70,6 +70,7 @@ Mods: {
 		TownNPCDialogue: {
 		    Sailor: {
 		        NewMoonDialogue: "The new moon is a sign that the jellyfish over the Coral Reefs are on the move."
+		        ShipFixedDialogue: "Ship fixed or something blablaaaaaa"
 		        AnglerDialogue0: "I wonder where my son is... He went out on a fishing trip recently and hasn't come back ever since."
                 AnglerDialogue1: "My son knows the waves well, so I hope he's alright..."
                 AnglerDialogue2: "Have you seen my son? He wears a beige cap and a vest."
@@ -83,8 +84,8 @@ Mods: {
 		        RainDialogue1: "I lost my rain slicker in a windy day a few years ago. Wish I had another one."
 		        ShipRepairDialogue0: "The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas."
 		        ShipRepairDialogue1: "If you brought me [i/s150:9] Wood and [i/s20:225] Silk along with a payment of [i/s5:73] Gold Coins, I'd get her fixed right up for you."
-		        ShipFixedDialogue0: "Before you go sailing, don't forget to make a [i:{0}] to steer your boat"
-		        ShipFixedDialogue1: "And, don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing"
+		        ShipCommonDialogue0: "Before you go sailing, don't forget to make a [i:{0}] to steer your boat"
+		        ShipCommonDialogue1: "And, don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing"
 		    }
 		}
 		

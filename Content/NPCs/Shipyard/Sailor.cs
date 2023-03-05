@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EndlessEscapade.Common.Structures;
 using EndlessEscapade.Content.Items;
 using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
@@ -104,8 +105,15 @@ public class Sailor : ModNPC
         bool hasMaterials = player.HasItemStack(ItemID.Wood, 150) && player.HasItemStack(ItemID.Silk, 20) && player.HasItemStack(ItemID.GoldCoin, 5);
 
         if (hasMaterials) {
+            if (!SailboatSystem.HasFixedBoat) {
+                Main.npcChatText = Mod.GetTextValue("TownNPCDialogue.Sailor.ShipFixedDialogue");
+                
+                SailboatSystem.FixBrokenBoat();
+                return;
+            }
+
             // Change to wood steering wheel, once it's added.
-            Main.npcChatText = Mod.GetTextValue($"TownNPCDialogue.Sailor.ShipFixedDialogue{lastShipDialogue}", ModContent.ItemType<FishermansLog>());
+            Main.npcChatText = Mod.GetTextValue($"TownNPCDialogue.Sailor.ShipCommonDialogue{lastShipDialogue}", ModContent.ItemType<FishermansLog>());
         }
         else {
             Main.npcChatText = Mod.GetTextValue($"TownNPCDialogue.Sailor.ShipRepairDialogue{lastShipDialogue}");
