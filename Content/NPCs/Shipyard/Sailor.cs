@@ -19,7 +19,7 @@ namespace EndlessEscapade.Content.NPCs.Shipyard;
 [AutoloadHead]
 public class Sailor : ModNPC
 {
-    private static int lastRepairDialogue;
+    private static int lastShipDialogue;
     
     public override void SetStaticDefaults() {
         NPCID.Sets.ExtraFramesCount[Type] = 9;
@@ -98,10 +98,20 @@ public class Sailor : ModNPC
             shop = true;
             return;
         }
-        
-        Main.npcChatText = Mod.GetTextValue($"TownNPCDialogue.Sailor.ShipRepairDialogue{lastRepairDialogue}");
 
-        lastRepairDialogue = lastRepairDialogue == 0 ? 1 : 0;
+        Player player = Main.LocalPlayer;
+
+        bool hasMaterials = player.HasItemStack(ItemID.Wood, 150) && player.HasItemStack(ItemID.Silk, 20) && player.HasItemStack(ItemID.GoldCoin, 5);
+
+        if (hasMaterials) {
+            // Change to wood steering wheel, once it's added.
+            Main.npcChatText = Mod.GetTextValue($"TownNPCDialogue.Sailor.ShipFixedDialogue{lastShipDialogue}", ModContent.ItemType<FishermansLog>());
+        }
+        else {
+            Main.npcChatText = Mod.GetTextValue($"TownNPCDialogue.Sailor.ShipRepairDialogue{lastShipDialogue}");
+        }
+
+        lastShipDialogue = lastShipDialogue == 0 ? 1 : 0;
     }
 
     public override string GetChat() {
