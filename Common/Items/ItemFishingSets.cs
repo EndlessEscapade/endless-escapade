@@ -1,4 +1,3 @@
-using System;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,9 +8,9 @@ public class ItemFishingSets : ModSystem
     public static bool[] IsSmallFish { get; private set; }
 
     public static bool[] IsMediumFish { get; private set; }
-    
+
     public static bool[] IsBigFish { get; private set; }
-    
+
     public override void PostSetupContent() {
         IsSmallFish = ItemID.Sets.Factory.CreateBoolSet(
             ItemID.FrostMinnow,
@@ -23,7 +22,7 @@ public class ItemFishingSets : ModSystem
             ItemID.Salmon,
             ItemID.Trout
         );
-        
+
         IsMediumFish = ItemID.Sets.Factory.CreateBoolSet(
             ItemID.FrostMinnow,
             ItemID.GoldenCarp,

@@ -27,12 +27,12 @@ public class Sailor : ModNPC
         };
 
         NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
-        
+
         NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
         NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love);
         NPC.Happiness.SetNPCAffection(NPCID.DyeTrader, AffectionLevel.Like);
         NPC.Happiness.SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Dislike);
-        
+
         NPC.Happiness.SetBiomeAffection<OceanBiome>(AffectionLevel.Love);
         NPC.Happiness.SetBiomeAffection<DesertBiome>(AffectionLevel.Like);
         NPC.Happiness.SetBiomeAffection<UndergroundBiome>(AffectionLevel.Hate);
@@ -63,26 +63,26 @@ public class Sailor : ModNPC
         NPC.DeathSound = SoundID.NPCDeath1;
         NPC.aiStyle = NPCAIStyleID.Passive;
     }
-    
+
     public override string GetChat() {
         var chat = new WeightedRandom<string>();
 
         if (!NPC.AnyNPCs(NPCID.Angler)) {
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue0"));
             chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue1"));
             chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue2"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue3"));
             return chat;
         }
 
         if (Main.raining) {
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.RainDialogue0"));
             chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.RainDialogue1"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.RainDialogue2"));
         }
 
         if (Main.dayTime) {
+            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue0"));
             chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue1"));
             chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue2"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue3"));
             return chat;
         }
 
@@ -96,23 +96,23 @@ public class Sailor : ModNPC
 
         return chat.ToString();
     }
-    
+
     public override bool PreAI() {
-        bool existsAny = NPC.CountNPCS(Type) > 1;
-        
+        bool existsAny = NPC.AnyNPCs(Type);
+
         if (existsAny) {
             NPC.active = false;
         }
 
         return existsAny;
     }
-    
+
     public override List<string> SetNPCNameList() {
         return new List<string> {
             "Skipper"
         };
     }
-    
+
     public override void TownNPCAttackStrength(ref int damage, ref float knockback) {
         damage = 20;
         knockback = 4f;
@@ -132,7 +132,7 @@ public class Sailor : ModNPC
         multiplier = 12f;
         randomOffset = 2f;
     }
-    
+
     public override bool CanTownNPCSpawn(int numTownNPCs, int money) {
         return true;
     }

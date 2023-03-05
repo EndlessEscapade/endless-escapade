@@ -24,7 +24,7 @@ public class TropicalWoodHelmet : ModItem
     }
 
     public override void AddRecipes() {
-        Recipe recipe = CreateRecipe();
+        var recipe = CreateRecipe();
         recipe.AddIngredient<TropicalWood>(20);
         recipe.AddTile(TileID.WorkBenches);
         recipe.Register();

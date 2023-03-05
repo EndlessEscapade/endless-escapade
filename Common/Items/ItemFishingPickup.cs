@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -23,7 +22,7 @@ public class ItemFishingPickup : GlobalItem
     public override bool OnPickup(Item item, Player player) {
         bool isFish = TryGetFishLength(item, player, out int newLength);
         bool hasPlayer = player.TryGetModPlayer(out ItemFishingPlayer fishingPlayer);
-        
+
         if (!HasBeenCaught && isFish && hasPlayer) {
             bool hasPrevious = fishingPlayer.FishingLengthByType.TryGetValue(item.type, out int previousLength);
             bool isRecord = hasPrevious && newLength > previousLength;
@@ -31,7 +30,7 @@ public class ItemFishingPickup : GlobalItem
             if (!hasPrevious || isRecord) {
                 fishingPlayer.FishingLengthByType[item.type] = newLength;
             }
-            
+
             HasBeenCaught = true;
         }
 

@@ -9,7 +9,7 @@ public static class TagCompoundExtensions
     public static Dictionary<TKey, TValue> GetDictionary<TKey, TValue>(this TagCompound tag, string keysTag, string valuesTag) {
         var keys = tag.GetList<TKey>(keysTag);
         var values = tag.GetList<TValue>(valuesTag);
-        
+
         var zipped = keys.Zip(
             values,
             (x, y) => new {
