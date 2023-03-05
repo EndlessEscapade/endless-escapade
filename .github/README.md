@@ -16,7 +16,7 @@ The mod is currently not released and we greatly discourage you to not build it 
 Thanks to all developers who contributed to the project!
 
 <a href="https://github.com/EndlessEscapade/EndlessEscapade/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=EndlessEscapade/EndlessEscapade&max=900&columns=20" width="50%" height="50%"/>
+  <img src="https://contrib.rocks/image?repo=EndlessEscapade/EndlessEscapade&max=900&columns=20"/>
 </a>
 
 ## Libraries
