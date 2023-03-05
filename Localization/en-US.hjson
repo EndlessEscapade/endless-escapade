@@ -2,8 +2,8 @@ Mods: {
 	EndlessEscapade: {        
 	    Configuration: {
 	        Miscellaneous: {
-	            Header: "[i:75] Miscellaneous"
-	            
+	            Label: "Miscellaneous Settings"
+	        
 	            EnableWindowTitles: {
 	                Label: "Enable Window Titles"
 	                Tooltip: "Toggles custom window titles."

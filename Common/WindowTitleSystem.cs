@@ -10,7 +10,7 @@ namespace EndlessEscapade.Common;
 public class WindowTitleSystem : ModSystem
 {
     public override void OnWorldLoad() {
-        if (Main.instance.Window == null || !ClientSideConfig.Instance.EnableWindowTitles) {
+        if (Main.instance.Window == null || !MiscellaneousConfig.Instance.EnableWindowTitles) {
             return;
         }
 
@@ -25,6 +25,10 @@ public class WindowTitleSystem : ModSystem
     }
 
     public override void OnWorldUnload() {
+        if (Main.instance.Window == null || !MiscellaneousConfig.Instance.EnableWindowTitles) {
+            return;
+        }
+        
         Main.changeTheTitle = true;
     }
 }
