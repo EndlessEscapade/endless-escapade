@@ -1,4 +1,5 @@
 using EndlessEscapade.Common.Configuration;
+using EndlessEscapade.Utilities.Extensions;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -17,7 +18,7 @@ public class WindowTitleSystem : ModSystem
 
         const int titleCount = 12;
 
-        string title = Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.WindowTitles.Title{Main.rand.Next(titleCount)}");
+        string title = Mod.GetTextValue($"WindowTitles.Title{Main.rand.Next(titleCount)}");
         string windowTitle = $"Endless Escapade: {title}";
 
         Main.instance.Window.Title = windowTitle;
