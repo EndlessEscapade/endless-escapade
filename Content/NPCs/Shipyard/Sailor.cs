@@ -1,7 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using EndlessEscapade.Content.Items;
 using EndlessEscapade.Utilities.Extensions;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Enums;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
@@ -14,6 +19,8 @@ namespace EndlessEscapade.Content.NPCs.Shipyard;
 [AutoloadHead]
 public class Sailor : ModNPC
 {
+    private static int lastRepairDialogue;
+    
     public override void SetStaticDefaults() {
         NPCID.Sets.ExtraFramesCount[Type] = 9;
         NPCID.Sets.AttackFrameCount[Type] = 4;
@@ -64,40 +71,7 @@ public class Sailor : ModNPC
         NPC.DeathSound = SoundID.NPCDeath1;
         NPC.aiStyle = NPCAIStyleID.Passive;
     }
-
-    public override string GetChat() {
-        var chat = new WeightedRandom<string>();
-
-        if (!NPC.AnyNPCs(NPCID.Angler)) {
-            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.AnglerDialogue0"));
-            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.AnglerDialogue1"));
-            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.AnglerDialogue2"));
-            return chat;
-        }
-
-        if (Main.raining) {
-            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.RainDialogue0"));
-            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.RainDialogue1"));
-        }
-
-        if (Main.dayTime) {
-            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.DayDialogue0"));
-            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.DayDialogue1"));
-            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.DayDialogue2"));
-            return chat;
-        }
-
-        chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.NightDialogue0"));
-        chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.NightDialogue1"));
-        chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.NightDialogue2"));
-
-        if (Main.moonType == (int)MoonPhase.Empty) {
-            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.NewMoonDialogue"));
-        }
-
-        return chat.ToString();
-    }
-
+    
     public override bool PreAI() {
         bool moreThanOne = NPC.CountNPCS(Type) > 1;
 
@@ -106,6 +80,54 @@ public class Sailor : ModNPC
         }
 
         return moreThanOne;
+    }
+
+    public override void SetupShop(Chest shop, ref int nextSlot) {
+        shop.item[nextSlot].SetDefaults(ModContent.ItemType<FishermansLog>());
+        shop.item[nextSlot].value = Item.buyPrice(gold: 1);
+        nextSlot++;
+    }
+
+    public override void SetChatButtons(ref string button, ref string button2) {
+        button = Language.GetTextValue("LegacyInterface.28");
+        button2 = Mod.GetTextValue("TownNPCButton.Sailor.SailingButton");
+    }
+
+    public override void OnChatButtonClicked(bool firstButton, ref bool shop) {
+        if (firstButton) {
+            shop = true;
+            return;
+        }
+        
+        Main.npcChatText = Mod.GetTextValue($"TownNPCDialogue.Sailor.ShipRepairDialogue{lastRepairDialogue}");
+
+        lastRepairDialogue = lastRepairDialogue == 0 ? 1 : 0;
+    }
+
+    public override string GetChat() {
+        var chat = new WeightedRandom<string>();
+
+        if (!NPC.AnyNPCs(NPCID.Angler)) {
+            chat.AddLocalizationRange(Mod, "TownNPCDialogue.Sailor.AnglerDialogue", 3);
+            return chat;
+        }
+
+        if (Main.raining) {
+            chat.AddLocalizationRange(Mod, "TownNPCDialogue.Sailor.RainDialogue", 2);
+        }
+
+        if (Main.dayTime) {
+            chat.AddLocalizationRange(Mod, "TownNPCDialogue.Sailor.DayDialogue", 3);
+            return chat;
+        }
+        
+        chat.AddLocalizationRange(Mod, "TownNPCDialogue.Sailor.NightDialogue", 3);
+
+        if (Main.moonType == (int)MoonPhase.Empty) {
+            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.NewMoonDialogue"));
+        }
+
+        return chat.Get();
     }
 
     public override List<string> SetNPCNameList() {
