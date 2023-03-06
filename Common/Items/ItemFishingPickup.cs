@@ -1,5 +1,6 @@
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -27,7 +28,7 @@ public class ItemFishingPickup : GlobalItem
             bool hasPrevious = fishingPlayer.FishingLengthByType.TryGetValue(item.type, out int previousLength);
             bool isRecord = hasPrevious && newLength > previousLength;
 
-            if (!hasPrevious || isRecord) {
+            if (!hasPrevious) {
                 fishingPlayer.FishingLengthByType[item.type] = newLength;
             }
 

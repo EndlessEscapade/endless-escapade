@@ -1,6 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using EndlessEscapade.Common.Structures;
+using EndlessEscapade.Content.Items;
+using EndlessEscapade.Utilities.Extensions;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Enums;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
@@ -13,6 +20,8 @@ namespace EndlessEscapade.Content.NPCs.Shipyard;
 [AutoloadHead]
 public class Sailor : ModNPC
 {
+    private static int lastShipDialogue;
+    
     public override void SetStaticDefaults() {
         NPCID.Sets.ExtraFramesCount[Type] = 9;
         NPCID.Sets.AttackFrameCount[Type] = 4;
@@ -44,7 +53,7 @@ public class Sailor : ModNPC
         bestiaryEntry.Info.AddRange(
             new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement($"Mods.{nameof(EndlessEscapade)}.Bestiary.Sailor")
+                new FlavorTextBestiaryInfoElement(Mod.GetTextValue("Bestiary.Sailor"))
             }
         );
     }
@@ -63,48 +72,80 @@ public class Sailor : ModNPC
         NPC.DeathSound = SoundID.NPCDeath1;
         NPC.aiStyle = NPCAIStyleID.Passive;
     }
+    
+    public override bool PreAI() {
+        bool moreThanOne = NPC.CountNPCS(Type) > 1;
+
+        if (moreThanOne) {
+            NPC.active = false;
+        }
+
+        return moreThanOne;
+    }
+
+    public override void SetupShop(Chest shop, ref int nextSlot) {
+        shop.item[nextSlot].SetDefaults(ModContent.ItemType<FishermansLog>());
+        shop.item[nextSlot].value = Item.buyPrice(gold: 1);
+        nextSlot++;
+    }
+
+    public override void SetChatButtons(ref string button, ref string button2) {
+        button = Language.GetTextValue("LegacyInterface.28");
+        button2 = Mod.GetTextValue("TownNPCButton.Sailor.SailingButton");
+    }
+
+    public override void OnChatButtonClicked(bool firstButton, ref bool shop) {
+        if (firstButton) {
+            shop = true;
+            return;
+        }
+
+        Player player = Main.LocalPlayer;
+
+        bool hasMaterials = player.HasItemStack(ItemID.Wood, 150) && player.HasItemStack(ItemID.Silk, 20) && player.HasItemStack(ItemID.GoldCoin, 5);
+
+        if (hasMaterials) {
+            if (!SailboatSystem.HasFixedBoat) {
+                Main.npcChatText = Mod.GetTextValue("TownNPCDialogue.Sailor.ShipFixedDialogue");
+                
+                SailboatSystem.FixBrokenBoat();
+                return;
+            }
+
+            // Change to wood steering wheel, once it's added.
+            Main.npcChatText = Mod.GetTextValue($"TownNPCDialogue.Sailor.ShipCommonDialogue{lastShipDialogue}", ModContent.ItemType<FishermansLog>());
+        }
+        else {
+            Main.npcChatText = Mod.GetTextValue($"TownNPCDialogue.Sailor.ShipRepairDialogue{lastShipDialogue}");
+        }
+
+        lastShipDialogue = lastShipDialogue == 0 ? 1 : 0;
+    }
 
     public override string GetChat() {
         var chat = new WeightedRandom<string>();
 
         if (!NPC.AnyNPCs(NPCID.Angler)) {
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue0"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue1"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.AnglerDialogue2"));
+            chat.AddLocalizationRange(Mod, "TownNPCDialogue.Sailor.AnglerDialogue", 3);
             return chat;
         }
 
         if (Main.raining) {
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.RainDialogue0"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.RainDialogue1"));
+            chat.AddLocalizationRange(Mod, "TownNPCDialogue.Sailor.RainDialogue", 2);
         }
 
         if (Main.dayTime) {
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue0"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue1"));
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.DayDialogue2"));
+            chat.AddLocalizationRange(Mod, "TownNPCDialogue.Sailor.DayDialogue", 3);
             return chat;
         }
-
-        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue1"));
-        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue2"));
-        chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NightDialogue3"));
+        
+        chat.AddLocalizationRange(Mod, "TownNPCDialogue.Sailor.NightDialogue", 3);
 
         if (Main.moonType == (int)MoonPhase.Empty) {
-            chat.Add(Language.GetTextValue($"Mods.{nameof(EndlessEscapade)}.Dialogue.Sailor.NewMoonDialogue"));
+            chat.Add(Mod.GetTextValue("TownNPCDialogue.Sailor.NewMoonDialogue"));
         }
 
-        return chat.ToString();
-    }
-
-    public override bool PreAI() {
-        bool existsAny = NPC.AnyNPCs(Type);
-
-        if (existsAny) {
-            NPC.active = false;
-        }
-
-        return existsAny;
+        return chat.Get();
     }
 
     public override List<string> SetNPCNameList() {

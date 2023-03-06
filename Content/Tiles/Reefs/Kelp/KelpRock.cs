@@ -8,9 +8,9 @@ namespace EndlessEscapade.Content.Tiles.Reefs.Kelp;
 
 public class KelpRock : CompositeTileBase
 {
-    public override int AtlasWidth { get; } = 3;
+    public override int HorizontalSheetCount { get; } = 3;
 
-    public override int AtlasHeight { get; } = 3;
+    public override int VerticalSheetCount { get; } = 3;
 
     public override void SetStaticDefaults() {
         Main.tileMergeDirt[Type] = false;

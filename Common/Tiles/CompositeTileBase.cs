@@ -9,17 +9,16 @@ public abstract class CompositeTileBase : ModTile
     private const int ChunkHeight = 90;
 
     private const int TileSize = 16;
+    private const int TilePadding = 2;
 
-    public abstract int AtlasWidth { get; }
-    public abstract int AtlasHeight { get; }
-
-    public virtual int FramePadding { get; } = 2;
-
+    public abstract int HorizontalSheetCount { get; }
+    public abstract int VerticalSheetCount { get; }
+    
     public sealed override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak) {
-        int tileScale = TileSize + FramePadding;
+        int tileScale = TileSize + TilePadding;
 
-        int xOffset = i % AtlasWidth * ChunkWidth;
-        int yOffset = j % AtlasHeight * ChunkHeight;
+        int xOffset = i % HorizontalSheetCount * ChunkWidth;
+        int yOffset = j % VerticalSheetCount * ChunkHeight;
 
         int newFrameX = 0;
         int newFrameY = 0;
