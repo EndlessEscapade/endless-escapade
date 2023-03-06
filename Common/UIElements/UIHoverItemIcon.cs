@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 
-namespace EndlessEscapade.Common.FishermansLogUI;
+namespace EndlessEscapade.Common.UIElements;
 
 internal class UIHoverItemIcon : UIItemIcon
 {

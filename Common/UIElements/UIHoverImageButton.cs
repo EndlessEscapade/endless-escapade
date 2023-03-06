@@ -3,7 +3,7 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 
-namespace EndlessEscapade.Common.FishermansLogUI;
+namespace EndlessEscapade.Common.UIElements;
 
 internal class UIHoverImageButton : UIImageButton
 {

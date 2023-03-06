@@ -7,7 +7,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace EndlessEscapade.Common.FishermansLogUI;
+namespace EndlessEscapade.Common.UIElements;
 
 internal class UICheckbox : UIText
 {
@@ -58,8 +58,8 @@ internal class UICheckbox : UIText
     protected override void DrawSelf(SpriteBatch spriteBatch) {
         base.DrawSelf(spriteBatch);
 
-        CalculatedStyle innerDimensions = base.GetInnerDimensions();
-        Vector2 pos = new Vector2(innerDimensions.X, innerDimensions.Y - 5);
+        var innerDimensions = GetInnerDimensions();
+        var pos = new Vector2(innerDimensions.X, innerDimensions.Y - 5);
 
         spriteBatch.Draw(checkboxTexture.Value, pos, null, disabled ? Color.Gray : Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         if (Selected)
