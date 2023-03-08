@@ -69,7 +69,7 @@ public class FishermansLogUIState : UIState
         // - COLORS (BackgroundColor, BorderColor, etc.)
         // - EVERYTHING ELSE
 
-        var MainPanel = this.AddElement(new UIImage(ModContent.Request<Texture2D>("EndlessEscapade/Assets/UI/FishermansLogUIPanel", ReLogic.Content.AssetRequestMode.ImmediateLoad)).With(e => {
+        var MainPanel = this.AddElement(new UIImage(ModContent.Request<Texture2D>("EndlessEscapade/Assets/UI/FishermansLog/BackgroundPanel", ReLogic.Content.AssetRequestMode.ImmediateLoad)).With(e => {
             e.HAlign = 0.5f;
             e.VAlign = 0.5f;
 

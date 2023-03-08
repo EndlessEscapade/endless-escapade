@@ -13,6 +13,10 @@ internal class UIHoverImageButton : UIImageButton
         HoverText = hoverText;
     }
 
+    public void SetHoverText(string hoverText) {
+        HoverText = hoverText;
+    }
+
     public override void Draw(SpriteBatch spriteBatch) {
         base.Draw(spriteBatch);
 

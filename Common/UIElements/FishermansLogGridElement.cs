@@ -3,6 +3,7 @@ using Terraria.GameContent.UI.Elements;
 using Microsoft.Xna.Framework;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EndlessEscapade.Common.UIElements;
 internal class FishermansLogGridElement : UIPanel
@@ -12,6 +13,7 @@ internal class FishermansLogGridElement : UIPanel
         Height = size;
 
         BackgroundColor = Color.Transparent;
+        BorderColor = Color.Black * 0.25f;
 
         var ButtonIcon = this.AddElement(new UIHoverItemIcon(itemID).With(e => {
             e.HAlign = 0.5f;
@@ -19,8 +21,16 @@ internal class FishermansLogGridElement : UIPanel
         }));
     }
 
-    public override int CompareTo(object obj) {
-        var other = obj as FishermansLogGridElement;
-        return CompareTo(other);
+    public override void Draw(SpriteBatch spriteBatch) {
+        base.Draw(spriteBatch);
+
+        if (IsMouseHovering) {
+            BackgroundColor = Color.Gold * 0.25f;
+            BorderColor = Color.Gold;
+        }
+        else {
+            BackgroundColor = Color.Transparent;
+            BorderColor = Color.Black * 0.25f;
+        }
     }
 }

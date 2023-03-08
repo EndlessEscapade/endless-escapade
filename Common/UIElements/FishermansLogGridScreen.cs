@@ -10,8 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
 using Terraria.ID;
 using System;
-using Terraria.Localization;
-using Microsoft.Xna.Framework.Input;
+using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.UIElements;
 
@@ -27,11 +26,23 @@ internal class FishermansLogGridScreen : UIElement
         return outputList;
     }
 
+    public enum SortMethod
+    {
+        Unlock = 0,
+        Alphabetical = 1,
+        Type = 2,
+        Length = 3
+    }
+
     public FishermansLogUIState.PageGrid grid;
+    public List<int> elements;
 
     public List<List<int>> pages;
     public int currentScreen = 0;
     public string searchQuery = "";
+    public Func<int, bool> filter;
+    public bool reverse = false;
+    public SortMethod sortMethod = SortMethod.Unlock;
 
     private List<FishermansLogGridPage> gridPages = new();
     private List<UIElement> bottomBarPanels = new();
@@ -45,8 +56,9 @@ internal class FishermansLogGridScreen : UIElement
         Height = StyleDimension.Fill;
 
         this.grid = grid;
+        this.elements = elements;
 
-        pages = SplitList(FishermansLogUIState.Fish, grid.Columns * grid.Rows);
+        pages = SplitList(elements, grid.Columns * grid.Rows);
 
         for (int i = 0; i < 1 + (pages.Count % 2); i++) {
             var ContentContainer = this.AddElement(new UIElement().With(e => {
@@ -87,12 +99,30 @@ internal class FishermansLogGridScreen : UIElement
 
                 topBarPanel.Append(searchBar);
 
-                UIImageButton searchCancelButton = topBarPanel.AddElement(new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel", ReLogic.Content.AssetRequestMode.ImmediateLoad)).With(e => {
+                var searchCancelButton = topBarPanel.AddElement(new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel", ReLogic.Content.AssetRequestMode.ImmediateLoad)).With(e => {
                     e.HAlign = 1f;
                     e.VAlign = 0.5f;
                     e.Left = StyleDimension.FromPixels(-2f);
 
                     e.OnClick += resetSearchBarText;
+                }));
+            }
+            else {
+                var sortDirectionButton = topBarPanel.AddElement(new UIHoverImageButton(ModContent.Request<Texture2D>($"EndlessEscapade/Assets/UI/FishermansLog/SortButtons/{(reverse ? "Reverse" : "Forwards")}", ReLogic.Content.AssetRequestMode.ImmediateLoad), $"Sort Direction: {(reverse ? "Reverse" : "Normal")}").With(e => {
+                    e.SetHoverImage(ModContent.Request<Texture2D>($"EndlessEscapade/Assets/UI/FishermansLog/SortButtons/{(reverse ? "Reverse" : "Forwards")}Hover", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+                    e.SetVisibility(1f, 1f);
+
+                    e.OnClick += sortDirectionToggle;
+                }));
+
+                var sortMethodButton = topBarPanel.AddElement(new UIHoverImageButton(ModContent.Request<Texture2D>($"EndlessEscapade/Assets/UI/FishermansLog/SortButtons/{sortMethod}", ReLogic.Content.AssetRequestMode.ImmediateLoad), $"Sort Method: {sortMethod}").With(e => {
+                    e.Left = StyleDimension.FromPixels(29f);
+
+                    e.SetHoverImage(ModContent.Request<Texture2D>($"EndlessEscapade/Assets/UI/FishermansLog/SortButtons/{sortMethod}Hover", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+                    e.SetVisibility(1f, 1f);
+
+                    e.OnClick += sortMethodForwards;
+                    e.OnRightClick += sortMethodBackwards;
                 }));
             }
 
@@ -141,9 +171,30 @@ internal class FishermansLogGridScreen : UIElement
         }
     }
 
-    private void UpdateElements(Func<int, bool> filter = null) {
+    private void OrderElements(bool reverse = false, SortMethod order = SortMethod.Unlock) {
+        switch (order) {
+            case SortMethod.Unlock: // UNIMPLEMENTED
+                elements = reverse ? elements.OrderByDescending(e => e).ToList() : elements.OrderBy(e => e).ToList();
+                break;
+            case SortMethod.Alphabetical:
+                elements = reverse ? elements.OrderByDescending(e => new Item(e).Name).ToList() : elements.OrderBy(e => new Item(e).Name).ToList();
+                break;
+            case SortMethod.Type:
+                elements = reverse ? elements.OrderByDescending(e => e).ToList() : elements.OrderBy(e => e).ToList();
+                break;
+            case SortMethod.Length: // UNIMPLEMENTED
+                elements = reverse ? elements.OrderByDescending(e => e).ToList() : elements.OrderBy(e => e).ToList();
+                break;
+            default:
+                break;
+        }
+
+        UpdateElements(filter, true);
+    }
+
+    private void UpdateElements(Func<int, bool> filter = null, bool maintainCurrentPage = false) {
         if (filter == null) {
-            pages = SplitList(FishermansLogUIState.Fish, grid.Columns * grid.Rows);
+            pages = SplitList(elements, grid.Columns * grid.Rows);
 
             for (int i = 0; i < gridPages.Count; i++) {
                 if (pages.Count % 2 != 0 && currentScreen * 2 == pages.Count - 1 && i == gridPages.Count - 1) {
@@ -166,9 +217,10 @@ internal class FishermansLogGridScreen : UIElement
             return;
         }
 
-        currentScreen = 0;
+        if (!maintainCurrentPage) currentScreen = 0;
 
-        var filteredList = FishermansLogUIState.Fish.Where(filter).ToList();
+        this.filter = filter;
+        var filteredList = elements.Where(filter).ToList();
         pages = SplitList(filteredList, grid.Columns * grid.Rows);
 
         for (int i = 0; i < gridPages.Count; i++) {
@@ -180,7 +232,7 @@ internal class FishermansLogGridScreen : UIElement
             }
 
             pageNumbers[i].SetText($"{currentScreen * 2 + i + 1}");
-            paginateButtons[0].Remove();
+            if (currentScreen == 0) paginateButtons[0].Remove();
             if (pages.Count < 3) paginateButtons[1].Remove();
 
             gridPages[i].UpdateElements(pages[i + currentScreen * gridPages.Count]);
@@ -206,6 +258,41 @@ internal class FishermansLogGridScreen : UIElement
         else SoundEngine.PlaySound(SoundID.MenuTick);
 
         if (searchBar.IsWritingText) searchBar.ToggleTakingText();
+    }
+
+    private void sortDirectionToggle(UIMouseEvent evt, UIElement listeningElement) {
+        var target = (UIHoverImageButton)listeningElement;
+
+        SoundEngine.PlaySound(SoundID.MenuTick);
+
+        reverse = !reverse;
+        target.SetImage(ModContent.Request<Texture2D>($"EndlessEscapade/Assets/UI/FishermansLog/SortButtons/{(reverse ? "Reverse" : "Forwards")}", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+        target.SetHoverImage(ModContent.Request<Texture2D>($"EndlessEscapade/Assets/UI/FishermansLog/SortButtons/{(reverse ? "Reverse" : "Forwards")}Hover", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+        target.SetHoverText($"Sort Direction: {(reverse ? "Reverse" : "Normal")}");
+
+        OrderElements(reverse, sortMethod);
+    }
+
+    private void sortMethodForwards(UIMouseEvent evt, UIElement listeningElement) {
+        sortMethod = sortMethod == SortMethod.Unlock ? SortMethod.Alphabetical : sortMethod == SortMethod.Alphabetical ? SortMethod.Type : sortMethod == SortMethod.Type ? SortMethod.Length : SortMethod.Unlock;
+
+        sortMethodButtonToggle((UIHoverImageButton)listeningElement);
+    }
+
+    private void sortMethodBackwards(UIMouseEvent evt, UIElement listeningElement) {
+        sortMethod = sortMethod == SortMethod.Length ? SortMethod.Type : sortMethod == SortMethod.Type ? SortMethod.Alphabetical : sortMethod == SortMethod.Alphabetical ? SortMethod.Unlock : SortMethod.Length;
+
+        sortMethodButtonToggle((UIHoverImageButton)listeningElement);
+    }
+
+    private void sortMethodButtonToggle(UIHoverImageButton target) {
+        SoundEngine.PlaySound(SoundID.MenuTick);
+
+        target.SetImage(ModContent.Request<Texture2D>($"EndlessEscapade/Assets/UI/FishermansLog/SortButtons/{sortMethod}", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+        target.SetHoverImage(ModContent.Request<Texture2D>($"EndlessEscapade/Assets/UI/FishermansLog/SortButtons/{sortMethod}Hover", ReLogic.Content.AssetRequestMode.ImmediateLoad));
+        target.SetHoverText($"Sort Method: {sortMethod}");
+
+        OrderElements(reverse, sortMethod);
     }
 
     private void paginateButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
@@ -246,8 +333,6 @@ internal class FishermansLogGridPage : UIElement
             var GridElement = this.AddElement(new FishermansLogGridElement(StyleDimension.FromPixels(grid.ElementSize), elements[i]).With(e => {
                 e.Left = StyleDimension.FromPixels((i % grid.Columns) * grid.ElementSize + (i % grid.Columns) * grid.Padding);
                 e.Top = StyleDimension.FromPixels(((i / grid.Columns) % grid.Rows) * grid.ElementSize + ((i / grid.Columns) % grid.Rows) * grid.Padding);
-
-                e.BorderColor = Color.Black * 0.25f;
             }));
         }
     }
