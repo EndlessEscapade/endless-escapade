@@ -106,7 +106,7 @@ Mods: {
 		}
 		
         GameTips: {
-            //Tip0: "You can talk to the Sailor at the Shipyard to get your sailboat fixed. Be advised though, you might need to bring some cash and materials for that as well."
+            Tip0: "你可以在船坞同水手交谈, 修复你的航船. 不过, 你可能还得带点现金和材料."
         }
 		
         Fishing: {
