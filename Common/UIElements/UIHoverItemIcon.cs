@@ -15,6 +15,8 @@ internal class UIHoverItemIcon : UIItemIcon
     public override void Draw(SpriteBatch spriteBatch) {
         base.Draw(spriteBatch);
 
-        if (IsMouseHovering) Main.hoverItemName = item.Name;
+        if (IsMouseHovering) {
+            Main.hoverItemName = item.Name;
+        }
     }
 }

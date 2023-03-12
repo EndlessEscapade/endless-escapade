@@ -33,7 +33,9 @@ public class FishermansLogUISystem : ModSystem
     public override void UpdateUI(GameTime gameTime) {
         lastUpdateUiGameTime = gameTime;
 
-        if (FishermansLogUIState.Visible) FishermansLogUserInterface.Update(gameTime);
+        if (FishermansLogUIState.Visible) {
+            FishermansLogUserInterface.Update(gameTime);
+        }
     }
 
     public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {

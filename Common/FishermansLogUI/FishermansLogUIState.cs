@@ -90,13 +90,17 @@ public class FishermansLogUIState : UIState
         Main.playerInventory = false;
 
         if (Main.keyState.IsKeyDown(Keys.Escape) && !Main.oldKeyState.IsKeyDown(Keys.Escape)) {
-            if (searchBar.IsWritingText) searchBar.ToggleTakingText();
+            if (searchBar.IsWritingText) {
+                searchBar.ToggleTakingText();
+            }
             else {
                 SoundEngine.PlaySound(new SoundStyle("EndlessEscapade/Assets/Sounds/UI/FishermansLogClose"));
                 Visible = false;
             }
 
-            if (Main.keyState.IsKeyDown(Keys.Enter) && !Main.oldKeyState.IsKeyDown(Keys.Enter) && searchBar.IsWritingText) searchBar.ToggleTakingText();
+            if (Main.keyState.IsKeyDown(Keys.Enter) && !Main.oldKeyState.IsKeyDown(Keys.Enter) && searchBar.IsWritingText) {
+                searchBar.ToggleTakingText();
+            }
         }
     }
 }
