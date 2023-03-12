@@ -79,8 +79,8 @@ Mods: {
                 NightDialogue2: "我喜欢水母的荧光."
                 RainDialogue0: "但愿这场雨不是飓风的前兆!"
                 RainDialogue1: "我在几年前的一个大风天弄丢了我的雨衣. 要是我还有一件就好了."
-                //ShipRepairDialogue0: "The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas."
-                //ShipRepairDialogue1: "If you brought me [i/s150:9] Wood and [i/s20:225] Silk along with a payment of [i/s5:73] Gold Coins, I'd get her fixed right up for you."
+                ShipRepairDialogue0: "停在码头的那艘老破船曾是我的. 我已经过了出海的年纪, 但看上去你想要亲眼见识下七大洋."
+                ShipRepairDialogue1: "如果你能给我[i/s150:9]木材和[i/s20:225]丝绸, 再付点[i/s5:73]金币, 我会给你把她修好的."
             }
         }
         
