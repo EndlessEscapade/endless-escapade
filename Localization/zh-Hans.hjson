@@ -3,8 +3,8 @@ Mods: {
         Configuration: {
             Miscellaneous: {
                 EnableWindowTitles: {
-                    //Label: "Enable Window Titles"
-                    //Tooltip: "Toggles custom window titles."
+                    Label: "启用模组窗口标题"
+                    Tooltip: "开关本模组自定义的窗口标题."
                 }
             }
         }
@@ -35,7 +35,7 @@ Mods: {
             TropicalWoodHelmet: "热带木头盔"
             TropicalWoodChestplate: "热带木胸甲"
             TropicalWoodBoots: "热带木靴"
-            //FishermansLog: "Fisherman's Log"
+            FishermansLog: "渔夫的日志"
 		}
 		
         NPCName: {
@@ -86,7 +86,7 @@ Mods: {
         
         TownNPCButton: {
             Sailor: {
-                //SailingButton: "Sailing"
+                SailingButton: "航行"
             }
         }
         
