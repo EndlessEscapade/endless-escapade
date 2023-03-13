@@ -1,7 +1,6 @@
 using EndlessEscapade.Common.Configuration;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common;
