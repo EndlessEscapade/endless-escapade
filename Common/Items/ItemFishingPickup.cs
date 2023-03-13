@@ -1,6 +1,5 @@
 using System;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 

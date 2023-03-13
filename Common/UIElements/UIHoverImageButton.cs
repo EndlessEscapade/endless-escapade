@@ -7,19 +7,21 @@ namespace EndlessEscapade.Common.UIElements;
 
 internal class UIHoverImageButton : UIImageButton
 {
-    internal string HoverText { get; set; }
+    internal string hoverText { get; set; }
 
     public UIHoverImageButton(Asset<Texture2D> texture, string hoverText) : base(texture) {
-        HoverText = hoverText;
+        this.hoverText = hoverText;
     }
 
     public void SetHoverText(string hoverText) {
-        HoverText = hoverText;
+        this.hoverText = hoverText;
     }
 
     public override void Draw(SpriteBatch spriteBatch) {
         base.Draw(spriteBatch);
 
-        if (IsMouseHovering) Main.hoverItemName = HoverText;
+        if (IsMouseHovering) {
+            Main.hoverItemName = hoverText;
+        }
     }
 }

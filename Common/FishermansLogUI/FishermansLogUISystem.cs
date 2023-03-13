@@ -13,6 +13,8 @@ public class FishermansLogUISystem : ModSystem
 
     public static UserInterface FishermansLogUserInterface;
 
+    private GameTime lastUpdateUiGameTime;
+
     public override void Load() {
         ResetUIKeybind = KeybindLoader.RegisterKeybind(Mod, "Reset UI (FOR TESTING PURPOSES)", "R");
 
@@ -28,12 +30,12 @@ public class FishermansLogUISystem : ModSystem
         ResetUIKeybind = null;
     }
 
-    private GameTime lastUpdateUiGameTime;
-
     public override void UpdateUI(GameTime gameTime) {
         lastUpdateUiGameTime = gameTime;
 
-        if (FishermansLogUIState.Visible) FishermansLogUserInterface.Update(gameTime);
+        if (FishermansLogUIState.Visible) {
+            FishermansLogUserInterface.Update(gameTime);
+        }
     }
 
     public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {

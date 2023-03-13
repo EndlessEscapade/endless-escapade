@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria.ID;
-using System.Linq;
 using System;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
@@ -18,30 +17,6 @@ namespace EndlessEscapade.Common.FishermansLogUI;
 
 public class FishermansLogUIState : UIState
 {
-    public static bool Visible { get; set; }
-
-    private static List<int> GetFishItems() {
-        List<int> items = new List<int>();
-
-        for (int i = 0; i < 5125; i++) {
-            Item item = new Item(i);
-
-            if (ContentSamples.CreativeHelper.GetItemGroup(item, out int x) == ContentSamples.CreativeHelper.ItemGroup.FishingQuestFish) {
-                items.Add(i);
-            }
-        }
-
-        return items;
-    }
-
-    public static readonly List<int> Fish = GetFishItems();
-
-    private enum ScreenType
-    {
-        Grid = 0,
-        Information = 1
-    }
-
     public struct PageGrid
     {
         public PageGrid(List<int> elements, float padding, int columns) {
@@ -57,10 +32,27 @@ public class FishermansLogUIState : UIState
         public float ElementSize { get; set; }
     }
 
-    private ScreenType currentScreen = ScreenType.Grid;
+    public static bool Visible { get; set; }
+
+    private UIImage MainPanel { get; set; }
+    private UISearchBar searchBar { get; set; }
+
+    private static readonly List<int> Fish = GetFishItems();
     private PageGrid grid = new(Fish, 15f, 5);
 
-    public UISearchBar searchBar { get; set; }
+    private static List<int> GetFishItems() {
+        List<int> items = new List<int>();
+
+        for (int i = 0; i < 5125; i++) {
+            Item item = new Item(i);
+
+            if (ContentSamples.CreativeHelper.GetItemGroup(item, out int x) == ContentSamples.CreativeHelper.ItemGroup.FishingQuestFish) {
+                items.Add(i);
+            }
+        }
+
+        return items;
+    }
 
     public override void OnInitialize() {
         // ELEMENT ATTRIBUTES SHOULD BE SORTED BY TYPE IN THIS ORDER:
@@ -69,7 +61,7 @@ public class FishermansLogUIState : UIState
         // - COLORS (BackgroundColor, BorderColor, etc.)
         // - EVERYTHING ELSE
 
-        var MainPanel = this.AddElement(new UIImage(ModContent.Request<Texture2D>("EndlessEscapade/Assets/UI/FishermansLog/BackgroundPanel", ReLogic.Content.AssetRequestMode.ImmediateLoad)).With(e => {
+        MainPanel = this.AddElement(new UIImage(ModContent.Request<Texture2D>("EndlessEscapade/Assets/UI/FishermansLog/BackgroundPanel", ReLogic.Content.AssetRequestMode.ImmediateLoad)).With(e => {
             e.HAlign = 0.5f;
             e.VAlign = 0.5f;
 
@@ -83,7 +75,17 @@ public class FishermansLogUIState : UIState
 
         searchBar = new(Language.GetText("Search"), 0.8f);
 
-        var GridScreen = MainPanel.AddElement(new FishermansLogGridScreen(grid, Fish, searchBar));
+        MainPanel.AddElement(new FishermansLogGridScreen(grid, Fish, searchBar));
+    }
+
+    public void SwitchToGridScreen() {
+        MainPanel.RemoveAllChildren();
+        MainPanel.AddElement(new FishermansLogGridScreen(grid, Fish, searchBar));
+    }
+
+    public void SwitchToInfoScreen(int type) {
+        MainPanel.RemoveAllChildren();
+        MainPanel.AddElement(new FishermansLogInfoScreen(type));
     }
 
     public override void Update(GameTime gameTime) {

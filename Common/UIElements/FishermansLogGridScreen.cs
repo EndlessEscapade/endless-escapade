@@ -11,12 +11,38 @@ using Terraria.Audio;
 using Terraria.ID;
 using System;
 using Terraria.ModLoader;
+using static EndlessEscapade.Common.FishermansLogUI.FishermansLogUIState;
 
 namespace EndlessEscapade.Common.UIElements;
 
 internal class FishermansLogGridScreen : UIElement
 {
-    public static List<List<int>> SplitList(List<int> inputList, int size) {
+    public enum SortMethod
+    {
+        Unlock = 0,
+        Alphabetical = 1,
+        Type = 2,
+        Length = 3
+    }
+
+    internal PageGrid grid;
+    internal List<int> elements;
+
+    internal List<List<int>> pages;
+    internal int currentScreen = 0;
+    internal string searchQuery = "";
+    internal Func<int, bool> filter;
+    internal bool reverse = false;
+    internal SortMethod sortMethod = SortMethod.Unlock;
+
+    internal List<FishermansLogGridPage> gridPages = new();
+    internal List<UIElement> bottomBarPanels = new();
+    internal List<UIHoverImageButton> paginateButtons = new();
+    internal List<UIText> pageNumbers = new();
+
+    internal UISearchBar searchBar { get; set; }
+
+    private static List<List<int>> SplitList(List<int> inputList, int size) {
         var outputList = new List<List<int>>();
 
         foreach (var group in inputList.Select((value, index) => new { value, index }).GroupBy(x => x.index / size, x => x.value)) {
@@ -26,32 +52,7 @@ internal class FishermansLogGridScreen : UIElement
         return outputList;
     }
 
-    public enum SortMethod
-    {
-        Unlock = 0,
-        Alphabetical = 1,
-        Type = 2,
-        Length = 3
-    }
-
-    public FishermansLogUIState.PageGrid grid;
-    public List<int> elements;
-
-    public List<List<int>> pages;
-    public int currentScreen = 0;
-    public string searchQuery = "";
-    public Func<int, bool> filter;
-    public bool reverse = false;
-    public SortMethod sortMethod = SortMethod.Unlock;
-
-    private List<FishermansLogGridPage> gridPages = new();
-    private List<UIElement> bottomBarPanels = new();
-    private List<UIHoverImageButton> paginateButtons = new();
-    private List<UIText> pageNumbers = new();
-
-    private UISearchBar searchBar { get; set; }
-
-    public FishermansLogGridScreen(FishermansLogUIState.PageGrid grid, List<int> elements, UISearchBar searchBar) : base() {
+    public FishermansLogGridScreen(PageGrid grid, List<int> elements, UISearchBar searchBar) : base() {
         Width = StyleDimension.Fill;
         Height = StyleDimension.Fill;
 
@@ -151,7 +152,9 @@ internal class FishermansLogGridScreen : UIElement
             }));
 
             var paginateButton = bottomBarPanel.AddElement(new UIHoverImageButton(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_" + (i == 0 ? "Back" : "Forward"), ReLogic.Content.AssetRequestMode.ImmediateLoad), (i == 0 ? "Previous" : "Next") + " Page").With(e => {
-                if (i == 1) e.HAlign = 1f;
+                if (i == 1) {
+                    e.HAlign = 1f;
+                }
 
                 e.SetHoverImage(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_Border"));
                 e.SetVisibility(1f, 1f);
@@ -160,10 +163,14 @@ internal class FishermansLogGridScreen : UIElement
                 paginateButtons.Add(e);
             }));
 
-            if (currentScreen == 0) paginateButtons[0].Remove();
+            if (currentScreen == 0) {
+                paginateButtons[0].Remove();
+            }
 
             var pageNumberText = bottomBarPanel.AddElement(new UIText($"{currentScreen + i + 1}").With(e => {
-                if (i % 2 == 0) e.HAlign = 1f;
+                if (i % 2 == 0) {
+                    e.HAlign = 1f;
+                }
                 e.VAlign = 0.5f;
 
                 pageNumbers.Add(e);
@@ -207,17 +214,27 @@ internal class FishermansLogGridScreen : UIElement
                 gridPages[i].UpdateElements(pages[i + currentScreen * gridPages.Count]);
                 pageNumbers[i].SetText($"{currentScreen * 2 + i + 1}");
 
-                if (currentScreen == 0) paginateButtons[0].Remove();
-                else bottomBarPanels[0].Append(paginateButtons[0]);
+                if (currentScreen == 0) {
+                    paginateButtons[0].Remove();
+                }
+                else {
+                    bottomBarPanels[0].Append(paginateButtons[0]);
+                }
 
-                if (currentScreen * 2 == pages.Count - 1) paginateButtons[1].Remove();
-                else bottomBarPanels[1].Append(paginateButtons[1]);
+                if (currentScreen * 2 == pages.Count - 1) {
+                    paginateButtons[1].Remove();
+                }
+                else {
+                    bottomBarPanels[1].Append(paginateButtons[1]);
+                }
             }
 
             return;
         }
 
-        if (!maintainCurrentPage) currentScreen = 0;
+        if (!maintainCurrentPage) {
+            currentScreen = 0;
+        }
 
         this.filter = filter;
         var filteredList = elements.Where(filter).ToList();
@@ -232,8 +249,12 @@ internal class FishermansLogGridScreen : UIElement
             }
 
             pageNumbers[i].SetText($"{currentScreen * 2 + i + 1}");
-            if (currentScreen == 0) paginateButtons[0].Remove();
-            if (pages.Count < 3) paginateButtons[1].Remove();
+            if (currentScreen == 0) {
+                paginateButtons[0].Remove();
+            }
+            if (pages.Count < 3) {
+                paginateButtons[1].Remove();
+            }
 
             gridPages[i].UpdateElements(pages[i + currentScreen * gridPages.Count]);
         }
@@ -246,8 +267,12 @@ internal class FishermansLogGridScreen : UIElement
 
     private void searchBar_OnContentsChanged(string obj) {
         searchQuery = obj ?? "";
-        if (searchQuery == "") UpdateElements();
-        else UpdateElements(e => new Item(e).Name.ToLower().Contains(searchQuery));
+        if (searchQuery == "") {
+            UpdateElements();
+        }
+        else {
+            UpdateElements(e => new Item(e).Name.ToLower().Contains(searchQuery));
+        }
     }
 
     private void resetSearchBarText(UIMouseEvent evt, UIElement listeningElement) {
@@ -255,9 +280,13 @@ internal class FishermansLogGridScreen : UIElement
             SoundEngine.PlaySound(SoundID.MenuClose);
             searchBar.SetContents(null, forced: true);
         }
-        else SoundEngine.PlaySound(SoundID.MenuTick);
+        else {
+            SoundEngine.PlaySound(SoundID.MenuTick);
+        }
 
-        if (searchBar.IsWritingText) searchBar.ToggleTakingText();
+        if (searchBar.IsWritingText) {
+            searchBar.ToggleTakingText();
+        }
     }
 
     private void sortDirectionToggle(UIMouseEvent evt, UIElement listeningElement) {
@@ -274,14 +303,12 @@ internal class FishermansLogGridScreen : UIElement
     }
 
     private void sortMethodForwards(UIMouseEvent evt, UIElement listeningElement) {
-        sortMethod = sortMethod == SortMethod.Unlock ? SortMethod.Alphabetical : sortMethod == SortMethod.Alphabetical ? SortMethod.Type : sortMethod == SortMethod.Type ? SortMethod.Length : SortMethod.Unlock;
-
+        sortMethod = sortMethod == (SortMethod)3 ? 0 : (sortMethod + 1);
         sortMethodButtonToggle((UIHoverImageButton)listeningElement);
     }
 
     private void sortMethodBackwards(UIMouseEvent evt, UIElement listeningElement) {
-        sortMethod = sortMethod == SortMethod.Length ? SortMethod.Type : sortMethod == SortMethod.Type ? SortMethod.Alphabetical : sortMethod == SortMethod.Alphabetical ? SortMethod.Unlock : SortMethod.Length;
-
+        sortMethod = sortMethod == 0 ? (SortMethod)3 : (sortMethod - 1);
         sortMethodButtonToggle((UIHoverImageButton)listeningElement);
     }
 
@@ -299,8 +326,12 @@ internal class FishermansLogGridScreen : UIElement
         SoundEngine.PlaySound(new SoundStyle("EndlessEscapade/Assets/Sounds/UI/FishermansLogOpen"));
 
         var target = (UIHoverImageButton)listeningElement;
-        if (target.HoverText.Contains("Previous") && currentScreen > 0) currentScreen--;
-        if (target.HoverText.Contains("Next") && currentScreen < Math.Floor((float)(pages.Count / 2))) currentScreen++;
+        if (target.hoverText.Contains("Previous") && currentScreen > 0) {
+            currentScreen--;
+        }
+        if (target.hoverText.Contains("Next") && currentScreen < Math.Floor((float)(pages.Count / 2))) {
+            currentScreen++;
+        }
 
         UpdateElements();
     }
@@ -308,9 +339,9 @@ internal class FishermansLogGridScreen : UIElement
 
 internal class FishermansLogGridPage : UIElement
 {
-    FishermansLogUIState.PageGrid grid;
+    internal PageGrid grid;
 
-    public FishermansLogGridPage(FishermansLogUIState.PageGrid grid, List<int> elements) : base() {
+    public FishermansLogGridPage(PageGrid grid, List<int> elements) : base() {
         this.grid = grid;
 
         Width = StyleDimension.FromPixels((grid.Padding + grid.ElementSize) * grid.Columns + grid.Padding);

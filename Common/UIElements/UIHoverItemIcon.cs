@@ -6,15 +6,17 @@ namespace EndlessEscapade.Common.UIElements;
 
 internal class UIHoverItemIcon : UIItemIcon
 {
-    Item item;
+    internal string hoverText { get; set; }
 
-    public UIHoverItemIcon(int itemType, bool blackedOut = false) : base(new Item(itemType), blackedOut) {
-        item = new Item(itemType);
+    public UIHoverItemIcon(int itemType, string hoverText = null) : base(new Item(itemType), false) {
+        this.hoverText = hoverText;
     }
 
     public override void Draw(SpriteBatch spriteBatch) {
         base.Draw(spriteBatch);
 
-        if (IsMouseHovering) Main.hoverItemName = item.Name;
+        if (IsMouseHovering && hoverText != null) {
+            Main.hoverItemName = hoverText;
+        }
     }
 }
