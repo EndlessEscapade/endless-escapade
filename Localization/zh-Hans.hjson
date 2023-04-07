@@ -4,7 +4,7 @@ Mods: {
             Miscellaneous: {
                 EnableWindowTitles: {
                     Label: "启用模组窗口标题"
-                    Tooltip: "开关本模组自定义的窗口标题."
+                    Tooltip: "开关本模组自定义的窗口标题。"
                 }
             }
         }
@@ -43,44 +43,44 @@ Mods: {
         }
         
         Bestiary: {
-            Sailor: "嗨! 水手会告诉你关于海洋与航行的一切."
+            Sailor: "嗨！水手会告诉你关于海洋与航行的一切。"
         }
         
 		TownNPCMood: {
 		    Sailor: {
-                //Content: "The best feeling is being able to look in the past and feel grateful for everyone you've met and everything you've done."
-                //NoHome: "I know i'm quite the explorer myself, but sometimes it'd be nice to have somewhere to stay. "
-                //LoveSpace: "The perfect scenario for bonding, if they're up for hearing my stories of course."
-                //FarFromHome: "This might be one long trip, but one worth taking. I just want to rest my legs. "
-                //DislikeCrowded: "I bet half of these people wouldn't survive a day on a voyage to the [insert biome or place]! "
-                //HateCrowded: "I can't handle this, I think I'm going to leave again. Sorry [name of the angler]. "
-                //LikeBiome: "Actually, I kind of like the {BiomeName}, the sands reminds me of the Ocean..."
-                //LoveBiome: "Past this beach you'll find a world of wonders waiting to be explored and discovered! Oh the excitement, the thrill! "
-                //DislikeBiome: "How did I end up here, not a single drop of saltwater visible."
-                //HateBiome: "Quite the contrast to the feeling of being in the middle of the ocean, I can feel the walls waiting to fall on me"
-                //LikeNPC: "I'm glad I got to meet {NPCName}. He has also gone on his fair share of adventures. Maybe he could join my crew."
-                //LoveNPC: "I'm finally able to have some quality time with {NPCName} after all these months."
-                //DislikeNPC: "I need to get away from {NPCName}, he reminds me of truly terrible times."
-                //HateNPC: "Why do i have to live near {NPCName}? Do you know how many times they've plundered my crew?!" 
+                Content: "最幸福的是，我能够回首过往，感谢遇到的每个人，庆幸走过的每一步。"
+                NoHome: "我是很喜欢冒险，但有时候有个地方呆着也不错啊。"
+                LoveSpace: "如果他们愿意听我讲故事的话，那将是增进感情的绝佳机会。"
+                FarFromHome: "这可能是一条漫漫归家路，却值得一试。我只是想歇下脚。"
+                DislikeCrowded: "我敢打赌，这些人中有一半在到[insert biome or place]的航行中活不过一天！"
+                HateCrowded: "这里太挤，我受不了了，我想再次出发。对不起[name of the angler]。"
+                LikeBiome: "实际上，我挺喜欢{BiomeName}的，这里的沙子让我想起了海滩……"
+                LoveBiome: "越过这片海滩，你会发现一个充满奇迹，等待探索和发掘的世界！多兴奋，多刺激！"
+                DislikeBiome: "我是怎么到这儿的，一滴咸水都看不见。"
+                HateBiome: "这跟身处茫茫大海完全不同，我感觉四周的墙快要压垮我了。"
+                LikeNPC: "我很高兴认识了{NPCName}。他也有过很多冒险。也许他可以上我的船。"
+                LoveNPC: "这么多个月，我终于可以跟{NPCName}共度美好时光了。"
+                DislikeNPC: "我得远离{NPCName}，他让我想起了那些糟糕的日子。"
+                HateNPC: "为什么我要住在{NPCName}旁边？你知道他们抢了我船员多少次吗？!" 
 		    }   		    
 		}
         
         TownNPCDialogue: {
             Sailor: {
-                NewMoonDialogue: "新月是珊瑚礁里的水母开始活动的信号."
-                AnglerDialogue0: "你见过我的儿子吗? 他上次出海钓鱼后就再也没回来."
-                AnglerDialogue1: "我儿子熟知海洋, 所以我希望他没事..."
-                AnglerDialogue2: "你见过我儿子吗? 他身着米黄色帽子和背心."
-                DayDialogue0: "我总喜欢在破晓时分漫步于海堤之上."
-                DayDialogue1: "大海今天很兴奋啊, 不是吗?"
-                DayDialogue2: "今天鲨鱼们看上去挺激动的."
-                NightDialogue0: "夜晚的海波总是如此平静."
-                NightDialogue1: "水中月色可真美啊."
-                NightDialogue2: "我喜欢水母的荧光."
-                RainDialogue0: "但愿这场雨不是飓风的前兆!"
-                RainDialogue1: "我在几年前的一个大风天弄丢了我的雨衣. 要是我还有一件就好了."
-                ShipRepairDialogue0: "停在码头的那艘老破船曾是我的. 我已经过了出海的年纪, 但看上去你想要亲眼见识下七大洋."
-                ShipRepairDialogue1: "如果你能给我[i/s150:9]木材和[i/s20:225]丝绸, 再付点[i/s5:73]金币, 我会给你把她修好的."
+                NewMoonDialogue: "新月是珊瑚礁里的水母开始活动的信号。"
+                AnglerDialogue0: "你见过我的儿子吗？他上次出海钓鱼后就再也没回来。"
+                AnglerDialogue1: "我儿子熟知海洋，所以我希望他没事……"
+                AnglerDialogue2: "你见过我儿子吗？他身着米黄色帽子和背心。"
+                DayDialogue0: "我总喜欢在破晓时分漫步于海堤之上。"
+                DayDialogue1: "大海今天很兴奋啊，不是吗？"
+                DayDialogue2: "今天鲨鱼们看上去挺激动的。"
+                NightDialogue0: "夜晚的海波总是如此平静。"
+                NightDialogue1: "水中月色可真美啊。"
+                NightDialogue2: "我喜欢水母的荧光。"
+                RainDialogue0: "但愿这场雨不是飓风的前兆！"
+                RainDialogue1: "我在几年前的一个大风天弄丢了我的雨衣。要是我还有一件就好了。"
+                ShipRepairDialogue0: "停在码头的那艘老破船曾是我的。我已经过了出海的年纪，但看上去你想要亲眼见识下七大洋。"
+                ShipRepairDialogue1: "如果你能给我[i/s150:9]木材和[i/s20:225]丝绸，再付点[i/s5:73]金币，我会给你把她修好的。"
             }
         }
         
@@ -94,24 +94,24 @@ Mods: {
 		    Title0: "等等等等等等等下"
 		    Title1: "沃尔塔"
 		    Title2: "无效化无效化的无效化"
-		    Title3: "秦拉瑞巫: 识字"
+		    Title3: "秦拉瑞巫：识字"
 		    Title4: ":skull:"
 		    Title5: "为什么你看在这句话时会动自字将排好?"
-		    Title6: "为什么那个Java程序员需要戴眼镜? 因为他不能See Sharp"
-		    Title7: "按时睡觉: 严酷的意志考验"
+		    Title6: "为什么那个Java程序员需要戴眼镜？因为他不能See Sharp"
+		    Title7: "按时睡觉：严酷的意志考验"
 		    Title8: "不要__猫" 
             Title9: "那个炫酷的罢格是什么?"
             Title10: "模组开发救赎"
-            Title11: "全体向我看齐, 我宣布个事"
+            Title11: "全体向我看齐，我宣布个事"
 		}
 		
         GameTips: {
-            Tip0: "你可以在船坞同水手交谈, 修复你的航船. 不过, 你可能还得带点现金和材料."
+            Tip0: "你可以在船坞同水手交谈，修复你的船。不过，你可能还得带点现金和材料。"
         }
 		
         Fishing: {
-            RecordCatchMessage: "新纪录: {0}厘米!"
-            CommonCatchMessage: "体长: {0}厘米."
+            RecordCatchMessage: "新纪录: {0}厘米！"
+            CommonCatchMessage: "体长: {0}厘米。"
         }
 	}
 }
