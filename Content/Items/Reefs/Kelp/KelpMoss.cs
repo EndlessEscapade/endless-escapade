@@ -11,12 +11,6 @@ public class KelpMoss : ModItem
         Item.createTile = -1;
     }
 
-    public override void HoldItem(Player player) {
-        if (IsHoveringRock()) {
-            player.cursorItemIconEnabled = true;
-        }
-    }
-
     public override bool? UseItem(Player player) {
         if (Main.netMode == NetmodeID.Server) {
             return false;
@@ -31,7 +25,13 @@ public class KelpMoss : ModItem
 
         return true;
     }
-
+    
+    public override void HoldItem(Player player) {
+        if (IsHoveringRock()) {
+            player.cursorItemIconEnabled = true;
+        }
+    }
+    
     private static bool IsHoveringRock() {
         var tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
 
