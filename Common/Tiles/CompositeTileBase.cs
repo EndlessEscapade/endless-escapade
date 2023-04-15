@@ -13,15 +13,15 @@ public abstract class CompositeTileBase : ModTile
 
     public abstract int HorizontalSheetCount { get; }
     public abstract int VerticalSheetCount { get; }
-    
+
     public sealed override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak) {
-        int tileScale = TileSize + TilePadding;
+        var tileScale = TileSize + TilePadding;
 
-        int xOffset = i % HorizontalSheetCount * ChunkWidth;
-        int yOffset = j % VerticalSheetCount * ChunkHeight;
+        var xOffset = i % HorizontalSheetCount * ChunkWidth;
+        var yOffset = j % VerticalSheetCount * ChunkHeight;
 
-        int newFrameX = 0;
-        int newFrameY = 0;
+        var newFrameX = 0;
+        var newFrameY = 0;
 
         var tile = Framing.GetTileSafely(i, j);
 

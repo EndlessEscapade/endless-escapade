@@ -10,13 +10,13 @@ public class ItemCreativeResearch : ModSystem
         foreach (var modItem in ModContent.GetContent<ModItem>()) {
             var item = ContentSamples.ItemsByType[modItem.Type];
 
-            bool isTile = item.createTile > -1;
-            bool isWall = item.createWall > -1;
+            var isTile = item.createTile > -1;
+            var isWall = item.createWall > -1;
 
-            bool isWeapon = item.damage > 0;
-            bool isEquip = item.accessory || item.defense > 0;
+            var isWeapon = item.damage > 0;
+            var isEquip = item.accessory || item.defense > 0;
 
-            int sacrificeCount = 25;
+            var sacrificeCount = 25;
 
             if (isEquip) {
                 sacrificeCount = 1;

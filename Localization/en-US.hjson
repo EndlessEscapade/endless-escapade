@@ -1,122 +1,85 @@
-Mods: {
-	EndlessEscapade: {        
-	    Configuration: {
-	        Miscellaneous: {
-	            Label: "Miscellaneous Settings"
-	        
-	            EnableWindowTitles: {
-	                Label: "Enable Window Titles"
-	                Tooltip: "Toggles custom window titles."
-	            }
-	        }
-	    }
-	
-		ItemName: {
-			KelpLeaf: "Kelp Leaf"
-			KelpRock: "Kelp Rock"
-			KelpMoss: "Kelp Moss"
-			Gemsand: "Gemsand"
-			Gemsandstone: "Gemsandstone"
-			DarkGemsand: "Dark Gemsand"
-			DarkGemsandston: "Dark Gemsandstone"
-			LightGemsand: "Light Gemsand"
-			LightGemsandstone: "Light Gemsandstone"
-			Coralsand: "Coralsand"
-			Coralsandstone: "Coralsandstone"
-			GemsandstoneWall: "Gemsandstone Wall"
-			GemsandWall: "Gemsand Wall"
-			DarkGemsandstoneWall: "Dark Gemsandstone Wall"
-			DarkGemsandWall: "Dark Gemsand Wall"
-			LightGemsandstoneWall: "Light Gemsandstone Wall"
-			LightGemsandWall: "Light Gemsand Wall"
-			TropicalWood: "Tropical Wood"
-			TropicalWoodBow: "Tropical Wood Bow"
-			TropicalWoodHammer: "Tropical Wood Hammer"
-			TropicalWoodSword: "Tropical Wood Sword"
-			TropicalWoodWall: "Tropical Wood Wall"
-		    TropicalWoodHelmet: "Tropical Wood Helmet"
-			TropicalWoodChestplate: "Tropical Wood Chestplate"
-			TropicalWoodBoots: "Tropical Wood Boots"
-			FishermansLog: "Fisherman's Log"
-		}
-		
-		NPCName: {
-			Sailor: "Sailor"
-		}
-		
-        Bestiary: {
-            Sailor: "Ahoy! The Sailor will provide useful resources and information all about sailing the seas."
-        }
-        
-		TownNPCMood: {
-		    Sailor: {
-                Content: "The best feeling is being able to look in the past and feel grateful for everyone you've met and everything you've done."
-                NoHome: "I know i'm quite the explorer myself, but sometimes it'd be nice to have somewhere to stay. "
-                LoveSpace: "The perfect scenario for bonding, if they're up for hearing my stories of course."
-                FarFromHome: "This might be one long trip, but one worth taking. I just want to rest my legs. "
-                DislikeCrowded: "I bet half of these people wouldn't survive a day on a voyage to the [insert biome or place]! "
-                HateCrowded: "I can't handle this, I think I'm going to leave again. Sorry [name of the angler]. "
-                LikeBiome: "Actually, I kind of like the {BiomeName}, the sands reminds me of the Ocean..."
-                LoveBiome: "Past this beach you'll find a world of wonders waiting to be explored and discovered! Oh the excitement, the thrill! "
-                DislikeBiome: "How did I end up here, not a single drop of saltwater visible."
-                HateBiome: "Quite the contrast to the feeling of being in the middle of the ocean, I can feel the walls waiting to fall on me"
-                LikeNPC: "I'm glad I got to meet {NPCName}. He has also gone on his fair share of adventures. Maybe he could join my crew."
-                LoveNPC: "I'm finally able to have some quality time with {NPCName} after all these months."
-                DislikeNPC: "I need to get away from {NPCName}, he reminds me of truly terrible times."
-                HateNPC: "Why do i have to live near {NPCName}? Do you know how many times they've plundered my crew?!" 
-		    }   		    
-		}
+Mods.EndlessEscapade: {
+    ItemName: {
+        KelpLeaf: "Kelp Leaf"
+        KelpRock: "Kelp Rock"
+        KelpMoss: "Kelp Moss"
+        Gemsand: "Gemsand"
+        Gemsandstone: "Gemsandstone"
+        DarkGemsand: "Dark Gemsand"
+        DarkGemsandston: "Dark Gemsandstone"
+        LightGemsand: "Light Gemsand"
+        LightGemsandstone: "Light Gemsandstone"
+        Coralsand: "Coralsand"
+        Coralsandstone: "Coralsandstone"
+        GemsandstoneWall: "Gemsandstone Wall"
+        GemsandWall: "Gemsand Wall"
+        DarkGemsandstoneWall: "Dark Gemsandstone Wall"
+        DarkGemsandWall: "Dark Gemsand Wall"
+        LightGemsandstoneWall: "Light Gemsandstone Wall"
+        LightGemsandWall: "Light Gemsand Wall"
+        TropicalWood: "Tropical Wood"
+        TropicalWoodBow: "Tropical Wood Bow"
+        TropicalWoodHammer: "Tropical Wood Hammer"
+        TropicalWoodSword: "Tropical Wood Sword"
+        TropicalWoodWall: "Tropical Wood Wall"
+        TropicalWoodHelmet: "Tropical Wood Helmet"
+        TropicalWoodChestplate: "Tropical Wood Chestplate"
+        TropicalWoodBoots: "Tropical Wood Boots"
+        FishermansLog: "Fisherman's Log"
+    }
+    
+    NPCName: {
+        Sailor: "Sailor"
+    }
+    
+    Bestiary: {
+        Sailor: "Ahoy! The Sailor will provide useful resources and information all about sailing the seas."
+    }
+    
+    TownNPCMood: {
+        Sailor: {
+            Content: "The best feeling is being able to look in the past and feel grateful for everyone you've met and everything you've done."
+            NoHome: "I know i'm quite the explorer myself, but sometimes it'd be nice to have somewhere to stay. "
+            LoveSpace: "The perfect scenario for bonding, if they're up for hearing my stories of course."
+            FarFromHome: "This might be one long trip, but one worth taking. I just want to rest my legs. "
+            DislikeCrowded: "I bet half of these people wouldn't survive a day on a voyage to the [insert biome or place]! "
+            HateCrowded: "I can't handle this, I think I'm going to leave again. Sorry [name of the angler]. "
+            LikeBiome: "Actually, I kind of like the {BiomeName}, the sands reminds me of the Ocean..."
+            LoveBiome: "Past this beach you'll find a world of wonders waiting to be explored and discovered! Oh the excitement, the thrill! "
+            DislikeBiome: "How did I end up here, not a single drop of saltwater visible."
+            HateBiome: "Quite the contrast to the feeling of being in the middle of the ocean, I can feel the walls waiting to fall on me"
+            LikeNPC: "I'm glad I got to meet {NPCName}. He has also gone on his fair share of adventures. Maybe he could join my crew."
+            LoveNPC: "I'm finally able to have some quality time with {NPCName} after all these months."
+            DislikeNPC: "I need to get away from {NPCName}, he reminds me of truly terrible times."
+            HateNPC: "Why do i have to live near {NPCName}? Do you know how many times they've plundered my crew?!" 
+        }   		    
+    }
 
-		TownNPCDialogue: {
-		    Sailor: {
-		        NewMoonDialogue: "The new moon is a sign that the jellyfish over the Coral Reefs are on the move."
-		        ShipFixedDialogue: "Ship fixed or something blablaaaaaa"
-		        AnglerDialogue0: "I wonder where my son is... He went out on a fishing trip recently and hasn't come back ever since."
-                AnglerDialogue1: "My son knows the waves well, so I hope he's alright..."
-                AnglerDialogue2: "Have you seen my son? He wears a beige cap and a vest."
-		        DayDialogue0: "I always love stepping out on the pier at the crack of dawn."
-		        DayDialogue1: "The ocean's so enticing today, don't ya think?"
-		        DayDialogue2: "The sharks seem excited today."
-		        NightDialogue0: "The ocean waves are always so calm at nighttime."
-		        NightDialogue1: "The moon looks so beautiful on the water."
-		        NightDialogue2: "I love the glow of the jellies."
-		        RainDialogue0: "I hope this rain doesn't mean a hurricane's coming!"
-		        RainDialogue1: "I lost my rain slicker in a windy day a few years ago. Wish I had another one."
-		        ShipRepairDialogue0: "The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas."
-		        ShipRepairDialogue1: "If you brought me [i/s150:9] Wood and [i/s20:225] Silk along with a payment of [i/s5:73] Gold Coins, I'd get her fixed right up for you."
-		        ShipCommonDialogue0: "Before you go sailing, don't forget to make a [i:{0}] to steer your boat"
-		        ShipCommonDialogue1: "And, don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing"
-		    }
-		}
-		
-		TownNPCButton: {
-		    Sailor: {
-		        SailingButton: "Sailing"
-		    }
-		}
-		
-		WindowTitles: {
-		    Title0: "WAIT WAIT WAIT WAIT WAIT WAIT WAIT"
-		    Title1: "Waltuh"
-		    Title2: "Nullification nullifier nullifi-nator"
-		    Title3: "Yettatia: Typo"
-		    Title4: ":skull:"
-		    Title5: "Why Yuor Barin Can Raed Tihs"
-		    Title6: "Why did the Java developer need glasses? Because he couldn't C#"
-		    Title7: "The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength"
-		    Title8: "Do not the cat." 
-            Title9: "What is that flashy buggy thing?"
-            Title10: "Mod Dev Redemption"
-            Title11: "Mark my words."
-		}
-		
-        GameTips: {
-            Tip0: "You can talk to the Sailor at the Shipyard to get your sailboat fixed. Be advised though, you might need to bring some cash and materials for that as well."
+    TownNPCDialogue: {
+        Sailor: {
+            ShipFixedDialogue: "Thanks, and there you go! I have fixed up the ship for you."
+            NewMoonDialogue: "The new moon is a sign that the jellyfish over the Coral Reefs are on the move."
+            AnglerDialogue0: "I wonder where my son is... He went out on a fishing trip recently and hasn't come back ever since."
+            AnglerDialogue1: "My son knows the waves well, so I hope he's alright..."
+            AnglerDialogue2: "Have you seen my son? He wears a beige cap and a vest."
+            DayDialogue0: "I always love stepping out on the pier at the crack of dawn."
+            DayDialogue1: "The ocean's so enticing today, don't ya think?"
+            DayDialogue2: "The sharks seem excited today."
+            NightDialogue0: "The ocean waves are always so calm at nighttime."
+            NightDialogue1: "The moon looks so beautiful on the water."
+            NightDialogue2: "I love the glow of the jellies."
+            RainDialogue0: "I hope this rain doesn't mean a hurricane's coming!"
+            RainDialogue1: "I lost my rain slicker in a windy day a few years ago. Wish I had another one."
+            ShipRepairDialogue0: "The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas."
+            ShipRepairDialogue1: "If you brought me [i/s150:9] Wood and [i/s20:225] Silk along with a payment of [i/s5:73] Gold Coins, I'd get her fixed right up for you."
+            ShipCommonDialogue0: "Before you go sailing, don't forget to make a [i:{0}] to steer your boat"
+            ShipCommonDialogue1: "And, don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing"
         }
-                
-        Fishing: {
-            RecordCatchMessage: "New record: {0} cm!"
-            CommonCatchMessage: "Length: {0} cm."
-        } 
-	}
+    }
+    
+    TownNPCButton: {
+        Sailor: {
+            SailingButton: "Sailing"
+        }
+    }
 }
