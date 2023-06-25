@@ -1,8 +1,9 @@
-﻿using EndlessEscapade.Common.Tiles;
+using EndlessEscapade.Common.Tiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ID.ContentSamples.CreativeHelper;
 
 namespace EndlessEscapade.Content.Tiles.Reefs.Kelp;
 
@@ -24,7 +25,7 @@ public class KelpLeaf : CompositeTileBase
         HitSound = SoundID.Grass;
         DustType = DustID.JungleGrass;
 
-        ItemDrop = ModContent.ItemType<Items.Reefs.Kelp.KelpLeaf>();
+        RegisterItemDrop(ModContent.ItemType<Items.Reefs.Kelp.KelpLeaf>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

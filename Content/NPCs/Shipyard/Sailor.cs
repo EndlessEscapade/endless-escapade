@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using EndlessEscapade.Content.Items;
 using EndlessEscapade.Utilities.Extensions;
@@ -13,11 +13,12 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using EndlessEscapade.Common;
 
 namespace EndlessEscapade.Content.NPCs.Shipyard;
 
 [AutoloadHead]
-public class Sailor : ModNPC
+public class Sailor : EENPC
 {
     private static bool alternateDialogue;
 
@@ -157,7 +158,7 @@ public class Sailor : ModNPC
         randomOffset = 2f;
     }
 
-    public override bool CanTownNPCSpawn(int numTownNPCs, int money) {
+    public override bool CanTownNPCSpawn(int numTownNPCs) {
         return true;
     }
 

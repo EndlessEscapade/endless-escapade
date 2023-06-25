@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +20,7 @@ public class Coralsand : ModTile
         HitSound = SoundID.Dig;
         DustType = DustID.Sand;
 
-        ItemDrop = ModContent.ItemType<Items.Reefs.Shoals.Coralsand>();
+        RegisterItemDrop(ModContent.ItemType<Items.Reefs.Shoals.Coralsand>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +22,7 @@ public class Gemsandstone : ModTile
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
 
-        ItemDrop = ModContent.ItemType<Items.Reefs.TwilightZone.Gemsandstone>();
+        RegisterItemDrop(ModContent.ItemType<Items.Reefs.TwilightZone.Gemsandstone>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

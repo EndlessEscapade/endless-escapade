@@ -1,4 +1,4 @@
-﻿using EndlessEscapade.Common.Tiles;
+using EndlessEscapade.Common.Tiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -26,7 +26,7 @@ public class DarkGemsand : CompositeTileBase
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
 
-        ItemDrop = ModContent.ItemType<Items.Reefs.DarkestTrenches.DarkGemsand>();
+        RegisterItemDrop(ModContent.ItemType<Items.Reefs.DarkestTrenches.DarkGemsand>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {
