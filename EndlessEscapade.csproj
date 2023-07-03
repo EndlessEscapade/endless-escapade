@@ -14,6 +14,7 @@
         <DotNetPath Condition=" '$(OS)' == 'Windows_NT' ">dotnet.exe</DotNetPath>
         <DotNetPath Condition=" '$(OS)' == 'Unix' ">dotnet</DotNetPath>
         <DotNetPath Condition=" '$(DotNetPath)' == '' ">dotnet</DotNetPath>
+        <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
     </PropertyGroup>
 
     <ItemGroup>
