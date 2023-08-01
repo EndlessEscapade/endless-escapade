@@ -12,16 +12,14 @@ public class KelpMoss : ModItem
     }
 
     public override bool? UseItem(Player player) {
-        if (Main.netMode == NetmodeID.Server) {
+        if (Main.netMode == NetmodeID.Server || !IsHoveringRock()) {
             return false;
         }
 
-        if (IsHoveringRock()) {
-            WorldGen.PlaceTile(Player.tileTargetX, Player.tileTargetY, ModContent.TileType<Tiles.Reefs.Kelp.KelpMoss>(), false, true);
+        WorldGen.PlaceTile(Player.tileTargetX, Player.tileTargetY, ModContent.TileType<Tiles.Reefs.Kelp.KelpMoss>(), false, true);
             
-            player.cursorItemIconEnabled = true;
-            player.inventory[player.selectedItem].stack--;
-        }
+        player.cursorItemIconEnabled = true;
+        player.inventory[player.selectedItem].stack--;
 
         return true;
     }
