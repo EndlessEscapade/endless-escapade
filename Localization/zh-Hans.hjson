@@ -1,57 +1,161 @@
 Mods: {
 	EndlessEscapade: {
-		ItemName: {
-			KelpLeaf: 海带叶状体
-			KelpRock: 海带岩
-			KelpMoss: 海带藻
-			Gemsand: 宝石砂
-			Gemsandstone: 宝石砂岩
-			DarkGemsand: 暗黑宝石砂
-			// DarkGemsandston: Dark Gemsandstone
-			LightGemsand: 光明宝石砂
-			LightGemsandstone: 光明宝石砂岩
-			Coralsand: 珊瑚砂
-			Coralsandstone: 珊瑚砂岩
-			GemsandstoneWall: 宝石砂岩墙
-			GemsandWall: 宝石砂墙
-			DarkGemsandstoneWall: 暗黑宝石砂岩墙
-			DarkGemsandWall: 暗黑宝石砂墙
-			LightGemsandstoneWall: 光明宝石砂岩墙
-			LightGemsandWall: 光明宝石砂墙
-			TropicalWood: 热带木
-			TropicalWoodBow: 热带木弓
-			TropicalWoodHammer: 热带木锤
-			TropicalWoodSword: 热带木剑
-			TropicalWoodWall: 热带木墙
-			TropicalWoodHelmet: 热带木头盔
-			TropicalWoodChestplate: 热带木胸甲
-			TropicalWoodBoots: 热带木靴
-			// FishermansLog: Fisherman's Log
-		}
+		Items: {
+			DarkGemsand: {
+				DisplayName: 暗黑宝石砂
+				Tooltip: ""
+			}
 
-		NPCName.Sailor: 水手
-		Bestiary.Sailor: 嗨! 水手会告诉你关于海洋与航行的一切.
+			DarkGemsandstone: {
+				DisplayName: 暗黑宝石砂岩
+				Tooltip: ""
+			}
 
-		TownNPCMood: {
-			Sailor: {
-				// Content: The best feeling is being able to look in the past and feel grateful for everyone you've met and everything you've done.
-				// NoHome: "I know i'm quite the explorer myself, but sometimes it'd be nice to have somewhere to stay. "
-				// LoveSpace: The perfect scenario for bonding, if they're up for hearing my stories of course.
-				// FarFromHome: "This might be one long trip, but one worth taking. I just want to rest my legs. "
-				// DislikeCrowded: "I bet half of these people wouldn't survive a day on a voyage to the [insert biome or place]! "
-				// HateCrowded: "I can't handle this, I think I'm going to leave again. Sorry [name of the angler]. "
-				// LikeBiome: Actually, I kind of like the {BiomeName}, the sands reminds me of the Ocean...
-				// LoveBiome: "Past this beach you'll find a world of wonders waiting to be explored and discovered! Oh the excitement, the thrill! "
-				// DislikeBiome: How did I end up here, not a single drop of saltwater visible.
-				// HateBiome: Quite the contrast to the feeling of being in the middle of the ocean, I can feel the walls waiting to fall on me
-				// LikeNPC: I'm glad I got to meet {NPCName}. He has also gone on his fair share of adventures. Maybe he could join my crew.
-				// LoveNPC: I'm finally able to have some quality time with {NPCName} after all these months.
-				// DislikeNPC: I need to get away from {NPCName}, he reminds me of truly terrible times.
-				// HateNPC: Why do i have to live near {NPCName}? Do you know how many times they've plundered my crew?!
+			DarkGemsandstoneWall: {
+				DisplayName: 暗黑宝石砂岩墙
+				Tooltip: ""
+			}
+
+			DarkGemsandWall: {
+				DisplayName: 暗黑宝石砂墙
+				Tooltip: ""
+			}
+
+			KelpLeaf: {
+				DisplayName: 海带叶状体
+				Tooltip: ""
+			}
+
+			KelpMoss: {
+				DisplayName: 海带藻
+				Tooltip: ""
+			}
+
+			KelpRock: {
+				DisplayName: 海带岩
+				Tooltip: ""
+			}
+
+			LightGemsand: {
+				DisplayName: 光明宝石砂
+				Tooltip: ""
+			}
+
+			LightGemsandstone: {
+				DisplayName: 光明宝石砂岩
+				Tooltip: ""
+			}
+
+			LightGemsandstoneWall: {
+				DisplayName: 光明宝石砂岩墙
+				Tooltip: ""
+			}
+
+			LightGemsandWall: {
+				DisplayName: 光明宝石砂墙
+				Tooltip: ""
+			}
+
+			Coralsand: {
+				DisplayName: 珊瑚砂
+				Tooltip: ""
+			}
+
+			Coralsandstone: {
+				DisplayName: 珊瑚砂岩
+				Tooltip: ""
+			}
+
+			TropicalWood: {
+				DisplayName: 热带木
+				Tooltip: ""
+			}
+
+			TropicalWoodBoots: {
+				DisplayName: 热带木靴
+				Tooltip: ""
+			}
+
+			TropicalWoodBow: {
+				DisplayName: 热带木弓
+				Tooltip: ""
+			}
+
+			TropicalWoodChestplate: {
+				DisplayName: 热带木胸甲
+				Tooltip: ""
+			}
+
+			TropicalWoodHammer: {
+				DisplayName: 热带木锤
+				Tooltip: ""
+			}
+
+			TropicalWoodHelmet: {
+				DisplayName: 热带木头盔
+				Tooltip: ""
+			}
+
+			TropicalWoodSword: {
+				DisplayName: 热带木剑
+				Tooltip: ""
+			}
+
+			Gemsand: {
+				DisplayName: 宝石砂
+				Tooltip: ""
+			}
+
+			Gemsandstone: {
+				DisplayName: 宝石砂岩
+				Tooltip: ""
+			}
+
+			GemsandstoneWall: {
+				DisplayName: 宝石砂岩墙
+				Tooltip: ""
+			}
+
+			GemsandWall: {
+				DisplayName: 宝石砂墙
+				Tooltip: ""
+			}
+
+			TropicalWoodWall: {
+				DisplayName: 热带木墙
+				Tooltip: ""
 			}
 		}
 
-		TownNPCDialogue: {
+		NPCs: {
+			Sailor: {
+				DisplayName: 水手
+
+				TownNPCMood: {
+					Content: The best feeling is being able to look in the past and feel grateful for everyone you've met and everything you've done.
+					NoHome: I know i'm quite the explorer myself, but sometimes it'd be nice to have somewhere to stay.
+					FarFromHome: This might be one long trip, but one worth taking. I just want to rest my legs.
+					LoveSpace: The perfect scenario for bonding, if they're up for hearing my stories of course.
+					DislikeCrowded: I bet half of these people wouldn't survive a day on a voyage to the {BiomeName}.
+					HateCrowded: I can't handle this, I think I'm going to leave again.
+					LoveBiome: Past this beach you'll find a world of wonders waiting to be explored and discovered! Oh the excitement, the thrill!
+					LikeBiome: Actually, I kind of like the {BiomeName}, the sands reminds me of the Ocean...
+					HateBiome: Quite the contrast to the feeling of being in the middle of the ocean, I can feel the walls waiting to fall on me.
+					LoveNPC: I'm finally able to have some quality time with {NPCName} after all these months.
+					LikeNPC: I'm glad I got to meet {NPCName}. He has also gone on his fair share of adventures. Maybe he could join my crew.
+					DislikeNPC: I need to get away from {NPCName}, he reminds me of truly terrible times.
+					HateNPC: Why do i have to live near {NPCName}? Do you know how many times they've plundered my crew?!
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+
+				Census.SpawnCondition: Conditions unknown
+			}
+		}
+
+		Bestiary.Sailor: 嗨! 水手会告诉你关于海洋与航行的一切.
+
+		Dialogue: {
 			Sailor: {
 				// ShipFixedDialogue: Thanks, and there you go! I have fixed up the ship for you.
 				NewMoonDialogue: 新月是珊瑚礁里的水母开始活动的信号.
@@ -66,161 +170,33 @@ Mods: {
 				NightDialogue2: 我喜欢水母的荧光.
 				RainDialogue0: 但愿这场雨不是飓风的前兆!
 				RainDialogue1: 我在几年前的一个大风天弄丢了我的雨衣. 要是我还有一件就好了.
-				// ShipRepairDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
-				// ShipRepairDialogue1: If you brought me 150 Wood ([i/s150:9]) and 20 Silk ([i/s20:225]) along with a payment of 5 Gold Coins ([i/s5:73]), I'd get her fixed right up for you.
-				// ShipCommonDialogue0: Before you go sailing, don't forget to make a [i:{0}] to steer your boat
-				// ShipCommonDialogue1: And, don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing
+				ShipRepairDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
+				ShipRepairDialogue1: If you brought me 150 Wood ([i/s150:9]) and 20 Silk ([i/s20:225]) along with a payment of 5 Gold Coins ([i/s5:73]), I'd get her fixed right up for you.
+				ShipCommonDialogue0: Before you go sailing, don't forget to make a [i:{0}] to steer your boat
+				ShipCommonDialogue1: And, don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing
 			}
 		}
 
-		// TownNPCButton.Sailor.SailingButton: Sailing
-
-		Items: {
-			DarkGemsand: {
-				// DisplayName: Dark Gemsand
-				// Tooltip: ""
-			}
-
-			DarkGemsandstone: {
-				// DisplayName: Dark Gemsandstone
-				// Tooltip: ""
-			}
-
-			DarkGemsandstoneWall: {
-				// DisplayName: Dark Gemsandstone Wall
-				// Tooltip: ""
-			}
-
-			DarkGemsandWall: {
-				// DisplayName: Dark Gemsand Wall
-				// Tooltip: ""
-			}
-
-			KelpLeaf: {
-				// DisplayName: Kelp Leaf
-				// Tooltip: ""
-			}
-
-			KelpMoss: {
-				// DisplayName: Kelp Moss
-				// Tooltip: ""
-			}
-
-			KelpRock: {
-				// DisplayName: Kelp Rock
-				// Tooltip: ""
-			}
-
-			LightGemsand: {
-				// DisplayName: Light Gemsand
-				// Tooltip: ""
-			}
-
-			LightGemsandstone: {
-				// DisplayName: Light Gemsandstone
-				// Tooltip: ""
-			}
-
-			LightGemsandstoneWall: {
-				// DisplayName: Light Gemsandstone Wall
-				// Tooltip: ""
-			}
-
-			LightGemsandWall: {
-				// DisplayName: Light Gemsand Wall
-				// Tooltip: ""
-			}
-
-			Coralsand: {
-				// DisplayName: Coralsand
-				// Tooltip: ""
-			}
-
-			Coralsandstone: {
-				// DisplayName: Coralsandstone
-				// Tooltip: ""
-			}
-
-			TropicalWood: {
-				// DisplayName: Tropical Wood
-				// Tooltip: ""
-			}
-
-			TropicalWoodBoots: {
-				// DisplayName: Tropical Wood Boots
-				// Tooltip: ""
-			}
-
-			TropicalWoodBow: {
-				// DisplayName: Tropical Wood Bow
-				// Tooltip: ""
-			}
-
-			TropicalWoodChestplate: {
-				// DisplayName: Tropical Wood Chestplate
-				// Tooltip: ""
-			}
-
-			TropicalWoodHammer: {
-				// DisplayName: Tropical Wood Hammer
-				// Tooltip: ""
-			}
-
-			TropicalWoodHelmet: {
-				// DisplayName: Tropical Wood Helmet
-				// Tooltip: ""
-			}
-
-			TropicalWoodSword: {
-				// DisplayName: Tropical Wood Sword
-				// Tooltip: ""
-			}
-
-			Gemsand: {
-				// DisplayName: Gemsand
-				// Tooltip: ""
-			}
-
-			Gemsandstone: {
-				// DisplayName: Gemsandstone
-				// Tooltip: ""
-			}
-
-			GemsandstoneWall: {
-				// DisplayName: Gemsandstone Wall
-				// Tooltip: ""
-			}
-
-			GemsandWall: {
-				// DisplayName: Gemsand Wall
-				// Tooltip: ""
-			}
+		Titles: {
+			Title0: 等等等等等等等下
+			Title1: 沃尔塔
+			Title2: 无效化无效化的无效化
+			Title3: 秦拉瑞巫: 识字
+			Title4: skull emoji'd
+			Title5: 为什么你看在这句话时会动自字将排好?
+			Title6: 为什么那个Java程序员需要戴眼镜? 因为他不能See Sharp
+			Title7: 按时睡觉: 严酷的意志考验
+			Title8: 不要__猫
+			Title9: 那个炫酷的罢格是什么?
+			Title10: 模组开发救赎
+			Title11: 全体向我看齐, 我宣布个事
 		}
 
-		NPCs: {
-			Sailor: {
-				// DisplayName: Sailor
-
-				TownNPCMood: {
-					// Content: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.Content}"
-					// NoHome: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.NoHome}"
-					// FarFromHome: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.FarFromHome}"
-					// LoveSpace: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.LoveSpace}"
-					// DislikeCrowded: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.DislikeCrowded}"
-					// HateCrowded: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.HateCrowded}"
-					// LoveBiome: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.LoveBiome}"
-					// LikeBiome: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.LikeBiome}"
-					// HateBiome: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.HateBiome}"
-					// LoveNPC: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.LoveNPC}"
-					// LikeNPC: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.LikeNPC}"
-					// DislikeNPC: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.DislikeNPC}"
-					// HateNPC: "{$Mods.EndlessEscapade.TownNPCMood.Sailor.HateNPC}"
-					// LikeNPC_Princess: I like {NPCName}.
-					// Princess_LovesNPC: I like {NPCName}.
-				}
-
-				// Census.SpawnCondition: Conditions unknown
-			}
+		Fishing: {
+			RecordCatchMessage: 新纪录: {0}厘米!
+			CommonCatchMessage: 体长: {0}厘米.
 		}
+
+		Buttons.Sailor.Sailing: 航行
 	}
 }

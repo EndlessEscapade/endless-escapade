@@ -19,7 +19,7 @@ public class TropicalWood : CompositeTileBase
         Main.tileBlockLight[Type] = true;
         Main.tileFrameImportant[Type] = true;
 
-        AddMapEntry(new Color(158, 106, 74));
+        AddMapEntry(new Color(102, 55, 45));
 
         HitSound = SoundID.Dig;
         DustType = DustID.WoodFurniture;
