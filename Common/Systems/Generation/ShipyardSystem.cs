@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using StructureHelper;
+﻿using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Generation;
+namespace EndlessEscapade.Common.Systems.Generation;
 
 // TODO: Spawn sailor upon generation.
 public class ShipyardSystem : ModSystem

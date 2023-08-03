@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common;
+namespace EndlessEscapade.Common.Systems;
 
 [Autoload(Side = ModSide.Client)]
 public class TitleSystem : ModSystem
