@@ -171,7 +171,14 @@ Mods: {
 				RainDialogue0: I hope this rain doesn't mean a hurricane's coming!
 				RainDialogue1: I lost my rain slicker in a windy day a few years ago. Wish I had another one.
 				ShipRepairDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
-				ShipRepairDialogue1: If you brought me 150 Wood ([i/s150:9]) and 20 Silk ([i/s20:225]) along with a payment of 5 Gold Coins ([i/s5:73]), I'd get her fixed right up for you.
+				ShipRepairDialogue1:
+					'''
+					If you brought me the following materials along with payment:
+					- [i/s150:9]
+					- [i/s20:225] 
+					- [i/s5:73]
+					I'd get 'er fixed right up for ya.
+					'''
 				ShipCommonDialogue0: Before you go sailing, don't forget to make a [i:{0}] to steer your boat
 				ShipCommonDialogue1: And, don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing
 			}
