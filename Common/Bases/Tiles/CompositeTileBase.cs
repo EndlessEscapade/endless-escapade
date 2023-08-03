@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Tiles;
+namespace EndlessEscapade.Common.Bases.Tiles;
 
 public abstract class CompositeTileBase : ModTile
 {

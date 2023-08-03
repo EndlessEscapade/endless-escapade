@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Generation;
 
 // TODO: Spawn sailor upon generation.
-public class ShipyardGeneration : ModSystem
+public class ShipyardSystem : ModSystem
 {
     public override void PostWorldGen() {
         // TODO: Optimize code, and allow for future reuse (Other structures).
