@@ -1,56 +1,86 @@
-﻿using StructureHelper;
+﻿using EndlessEscapade.Content.NPCs.Shipyard;
+using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.Systems.Generation;
 
-// TODO: Spawn sailor upon generation.
 public class ShipyardSystem : ModSystem
 {
     public override void PostWorldGen() {
-        // TODO: Optimize code, and allow for future reuse (Other structures).
-        var foundSurface = false;
+        GenerateShipyard();
+    }
 
-        var x = 0;
-        var y = 0;
+    private void GenerateShipyard() {
+        var foundOcean = false;
+        var foundBeach = false;
         
-        while (!foundSurface) {
-            if (Framing.GetTileSafely(x, y - 1).LiquidAmount > 0) {
-                x++;
-                y = 0;
-                continue;
-            }
-
-            if (WorldGen.SolidTile(x, y) && Framing.GetTileSafely(x, y).TileType == TileID.Sand) {
-                foundSurface = true;
+        var x = 0;
+        var y = (int)(Main.worldSurface * 0.35f);
+        
+        while (!foundOcean) {
+            var tile = Framing.GetTileSafely(x, y);
+            
+            if (tile.LiquidAmount >= 255 && tile.LiquidType == LiquidID.Water) {
+                foundOcean = true;
                 break;
             }
 
             y++;
         }
 
-        var shipyardDims = Point16.Zero;
+        y--;
 
-        if (!Generator.GetDimensions("Assets/Structures/Shipyard", Mod, ref shipyardDims)) {
-            return;
+        while (!foundBeach) {
+            var tile = Framing.GetTileSafely(x, y);
+
+            if (WorldGen.SolidTile(tile) && tile.HasTile && tile.TileType == TileID.Sand) {
+                foundBeach = true;
+                break;
+            }
+
+            x++;
         }
 
-        var shipyardXOffset = shipyardDims.X / 2;
-        var shipyardYOffset = shipyardDims.Y - shipyardDims.Y / 3;
+        var dims = Point16.Zero;
+    
+        if (!Generator.GetDimensions("Assets/Structures/Shipyard", Mod, ref dims)) {
+            return;
+        }
+        
+        
+        
+        var shipyardXOffset = dims.X / 2;
+        var shipyardYOffset = dims.Y - dims.Y / 3;
 
         PlaceShipyard(x - shipyardXOffset, y - shipyardYOffset);
-    }
 
-    private void PlaceShipyard(int i, int j) {
-        if (!Generator.GenerateStructure("Assets/Structures/Shipyard", new Point16(i, j), Mod)) {
+        WorldGen.PlaceTile(GenVars.leftBeachEnd, 0, TileID.Crimtane, true, true);
+    }
+    
+    private void PlaceShipyard(int x, int y) {
+        void ExtendPillar(int xOffset, int yOffset) {
+            var pillarX = x + xOffset;
+            var pillarY = y + yOffset;
+
+            while (!WorldGen.SolidTile(pillarX, pillarY) && WorldGen.InWorld(pillarX, pillarY)) {
+                WorldGen.PlaceTile(pillarX, pillarY, TileID.LivingWood, true, true);
+                WorldGen.SlopeTile(pillarX, pillarY, (int)SlopeType.Solid);
+
+                pillarY++;
+            }
+        }
+        
+        if (!Generator.GenerateStructure("Assets/Structures/Shipyard", new Point16(x, y), Mod)) {
             return;
         }
 
-        const int firstPillarX = 5;
-        const int secondPillarX = 21;
-        const int thirdPillarX = 37;
+        const int firstPillarX = 4;
+        const int secondPillarX = 20;
+        const int thirdPillarX = 36;
 
         const int pillarBottomY = 39;
 
@@ -62,17 +92,13 @@ public class ShipyardSystem : ModSystem
 
         ExtendPillar(thirdPillarX, pillarBottomY);
         ExtendPillar(thirdPillarX + 1, pillarBottomY);
+        
+        const int roomOffsetX = 60;
+        const int roomOffsetY = 10;
 
-        void ExtendPillar(int xOffset, int yOffset) {
-            var pillarX = i + xOffset;
-            var pillarY = j + yOffset;
-
-            while (!WorldGen.SolidTile(pillarX, pillarY) && WorldGen.InWorld(pillarX, pillarY)) {
-                WorldGen.PlaceTile(pillarX, pillarY, TileID.LivingWood, true, true);
-                WorldGen.SlopeTile(pillarX, pillarY, (int)SlopeType.Solid);
-
-                pillarY++;
-            }
-        }
+        var sailorX = (int)((x + roomOffsetX) * 16f);
+        var sailorY = (int)((y + roomOffsetY) * 16f);
+        
+        NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
     }
 }
