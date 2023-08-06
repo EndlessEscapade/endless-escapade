@@ -11,10 +11,6 @@ namespace EndlessEscapade.Common.Systems.Generation;
 public class ShipyardSystem : ModSystem
 {
     public override void PostWorldGen() {
-        GenerateShipyard();
-    }
-
-    private void GenerateShipyard() {
         var foundOcean = false;
         var foundBeach = false;
         
@@ -45,20 +41,23 @@ public class ShipyardSystem : ModSystem
             x++;
         }
 
+        const int sailboatDistance = 100;
+        
+        GenerateShipyard(x, y);
+        GenerateSailboat(x - sailboatDistance, y);
+    }
+
+    private void GenerateShipyard(int x, int y) {
         var dims = Point16.Zero;
     
         if (!Generator.GetDimensions("Assets/Structures/Shipyard", Mod, ref dims)) {
             return;
         }
         
-        
-        
-        var shipyardXOffset = dims.X / 2;
-        var shipyardYOffset = dims.Y - dims.Y / 3;
+        var offsetX = dims.X / 2;
+        var offsetY = dims.Y - dims.Y / 3;
 
-        PlaceShipyard(x - shipyardXOffset, y - shipyardYOffset);
-
-        WorldGen.PlaceTile(GenVars.leftBeachEnd, 0, TileID.Crimtane, true, true);
+        PlaceShipyard(x - offsetX, y - offsetY);
     }
     
     private void PlaceShipyard(int x, int y) {
@@ -100,5 +99,24 @@ public class ShipyardSystem : ModSystem
         var sailorY = (int)((y + roomOffsetY) * 16f);
         
         NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
+    }
+    
+    private void GenerateSailboat(int x, int y) {
+        var dims = Point16.Zero;
+        
+        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", Mod, ref dims)) {
+            return;
+        }
+        
+        var offsetX = dims.X / 2;
+        var offsetY = dims.Y - dims.Y / 3;
+        
+        PlaceSailboat(x - offsetX, y - offsetY);
+    }
+
+    private void PlaceSailboat(int x, int y) {
+        if (!Generator.GenerateStructure("Assets/Structures/BrokenSailboat", new Point16(x, y), Mod)) {
+            return;
+        }
     }
 }
