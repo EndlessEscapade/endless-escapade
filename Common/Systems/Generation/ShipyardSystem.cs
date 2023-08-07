@@ -39,7 +39,7 @@ public class ShipyardSystem : ModSystem
             }
 
             x++;
-        }
+        }   
 
         const int sailboatDistance = 100;
         
@@ -104,19 +104,13 @@ public class ShipyardSystem : ModSystem
     private void GenerateSailboat(int x, int y) {
         var dims = Point16.Zero;
         
-        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", Mod, ref dims)) {
+        if (!Generator.GetDimensions("Assets/Structures/ShipyardBrokenSailboat", Mod, ref dims)) {
             return;
         }
         
         var offsetX = dims.X / 2;
         var offsetY = dims.Y - dims.Y / 3;
         
-        PlaceSailboat(x - offsetX, y - offsetY);
-    }
-
-    private void PlaceSailboat(int x, int y) {
-        if (!Generator.GenerateStructure("Assets/Structures/BrokenSailboat", new Point16(x, y), Mod)) {
-            return;
-        }
+        Generator.GenerateStructure("Assets/Structures/ShipyardBrokenSailboat", new Point16(x - offsetX, y - offsetY), Mod);
     }
 }
