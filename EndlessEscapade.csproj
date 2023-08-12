@@ -32,6 +32,11 @@
 
     <ItemGroup>
       <Folder Include="Common\Bases\" />
+      <Folder Include="Common\Systems\Ambience\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove=".editorconfig" />
     </ItemGroup>
 
   <Target BeforeTargets="Build" Name="BuildEffects" Inputs="Assets/Effects/Compiler/*.fx" Outputs="Assets/Effects/Compiler/*.xnb">
