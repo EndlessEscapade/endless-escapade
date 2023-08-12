@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.Systems.Generation;
+namespace EndlessEscapade.Common.Systems.World;
 
 public class ShipyardSystem : ModSystem
 {
