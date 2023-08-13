@@ -5,7 +5,7 @@ on:
     branches: [master]
   
 env:
-    TML_PATH_OVERRIDE: bin/Saves
+    TML_PATH_OVERRIDE: ./bin/Saves
 
 jobs:
   build:
