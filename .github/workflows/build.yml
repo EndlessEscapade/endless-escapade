@@ -16,6 +16,13 @@ jobs:
           curl -s -L https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip -o tModLoader.zip
           unzip -q -o tModLoader.zip -d ../tModLoader
 
+      - name: Download XNA
+        run: |
+          echo Installing XNA
+          curl -s -L https://github.com/JavidPack/tModLoaderPublishIntegration/raw/master/xnafx40_redist.msi -O
+          msiexec //i xnafx40_redist.msi //quiet
+          echo XNA Installed
+
       - name: Generate targets file
         shell: bash
         run: |
