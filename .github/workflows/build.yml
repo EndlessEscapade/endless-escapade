@@ -26,8 +26,9 @@ jobs:
           EOF
 
       - name: Build mod
+        shell: bash
         run: |
-          dir /s
+          ls -R
           dotnet build EndlessEscapade.sln
 
       - name: Deploy mod
