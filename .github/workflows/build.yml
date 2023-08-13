@@ -17,8 +17,9 @@ jobs:
           unzip -o tModLoader.zip -d ./tModLoader
 
       - name: Generate targets file
+        shell: bash
         run: |
-          cat >> tModLoader.targets <<EOF
+          cat >> tModLoader.targets << EOF
           <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
             <Import Project="..\..\tModLoader\tMLMod.targets" />
           </Project>
