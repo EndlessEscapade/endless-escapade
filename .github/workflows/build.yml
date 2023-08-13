@@ -28,6 +28,12 @@ jobs:
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln --configuration Release
 
+      - name: Post .tmod file artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Mod file
+          path: EndlessEscapade.tmod
+
       - name: Deploy action across Discord
         uses: sarisia/actions-status-discord@v1  
         if: always()
