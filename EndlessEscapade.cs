@@ -1,8 +1,9 @@
 ﻿using Terraria.ModLoader;
 
-namespace EndlessEscapade;
-
-public class EndlessEscapade : Mod
+namespace EndlessEscapade
 {
-    public static EndlessEscapade Instance => ModContent.GetInstance<EndlessEscapade>();
+    public class EndlessEscapade : Mod
+    {
+        public static EndlessEscapade Instance => ModContent.GetInstance<EndlessEscapade>();
+    }
 }
