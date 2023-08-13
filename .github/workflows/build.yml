@@ -2,3 +2,11 @@ name: Build Endless Escapade
 
 on:
   push:
+  
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Build Mod
+        run: dotnet build EndlessEscapade.csproj
