@@ -10,15 +10,21 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-
-      - name: Download tModLoader
+      
+      - name: Download & Install .NET Framework
+        run: |
+          curl -s -L https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-offline-installer -o netframework.exe
+          netframework.exe
+          
+        
+      - name: Download & Install tModLoader
         run: |
           curl -s -L https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip -o tModLoader.zip
           unzip -q -o tModLoader.zip -d ../tModLoader
 
-      - name: Download XNA
+      - name: Download & Install XNA
         run: |
-          curl -s -L https://github.com/JavidPack/tModLoaderPublishIntegration/raw/master/xnafx40_redist.msi -O
+          curl -s -L https://github.com/JavidPack/tModLoaderPublishIntegration/raw/master/xnafx40_redist.msi -o xnafx40_redist.msi
           msiexec /i xnafx40_redist.msi
           
       - name: Generate targets
