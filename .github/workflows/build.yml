@@ -31,6 +31,10 @@ jobs:
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln --configuration Release
 
+      - name: List all
+        shell: bash
+        run: ls -R
+
       - name: Deploy .tmod artifact
         uses: actions/upload-artifact@v3
         with:
