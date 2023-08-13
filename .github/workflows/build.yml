@@ -12,6 +12,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           name: tModLoader/tModLoader
+          path: ./tModLoader
+          submodules: recursive
     
       - name: Build tModLoader
-        run: dotnet build src/tModLoader/Terraria/Terraria.csproj -c Release --nologo -v q -bl;
+        run: ls
