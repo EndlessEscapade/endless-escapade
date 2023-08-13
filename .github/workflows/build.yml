@@ -13,10 +13,9 @@ jobs:
       
       - name: Download & Install .NET Framework
         run: |
-          curl -s -L https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-offline-installer -o netframework.exe
-          netframework.exe
+          curl -s -L https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-offline-installer -o dotnetframework.exe
+          ./dotnetframework.exe
           
-        
       - name: Download & Install tModLoader
         run: |
           curl -s -L https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip -o tModLoader.zip
@@ -27,7 +26,7 @@ jobs:
           curl -s -L https://github.com/JavidPack/tModLoaderPublishIntegration/raw/master/xnafx40_redist.msi -o xnafx40_redist.msi
           msiexec /i xnafx40_redist.msi
           
-      - name: Generate targets
+      - name: Generate tModLoader.targets file
         shell: bash
         run: |
           cat >> ../tModLoader.targets << EOF
@@ -36,10 +35,10 @@ jobs:
           </Project>
           EOF
 
-      - name: Build mod
+      - name: Build mod solution
         run: dotnet build EndlessEscapade.sln
 
-      - name: Deploy mod
+      - name: Deploy mod across Discord
         uses: sarisia/actions-status-discord@v1  
         if: always()
         with:
