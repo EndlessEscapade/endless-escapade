@@ -26,7 +26,7 @@ jobs:
           EOF
 
       - name: Reformat mod solution
-        run: dotnet reformat style EndlessEscapade.sln
+        run: dotnet format style EndlessEscapade.sln
 
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln --configuration Release
