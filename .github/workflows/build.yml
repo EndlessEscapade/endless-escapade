@@ -9,6 +9,9 @@ jobs:
     runs-on: windows-latest
     
     steps:
-      - uses: actions/checkout@v3
-      - name: Build mod
-        run: dotnet build EndlessEscapade.sln
+      - name: Deploy mod
+        uses: sarisia/actions-status-discord@v1  
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          description: "Test"
