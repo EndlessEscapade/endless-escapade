@@ -16,7 +16,7 @@ jobs:
           curl -s -L https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip -o tModLoader.zip
           unzip -q -o tModLoader.zip -d ../tModLoader
           
-      - name: Generate tModLoader.targets file
+      - name: Create tModLoader.targets file
         shell: bash
         run: |
           cat >> ../tModLoader.targets << EOF
@@ -28,7 +28,7 @@ jobs:
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln --configuration Release
 
-      - name: Post .tmod file artifact
+      - name: Deploy .tmod file artifact
         uses: actions/upload-artifact@v3
         with:
           name: Mod file
