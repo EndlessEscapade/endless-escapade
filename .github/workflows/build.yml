@@ -10,6 +10,9 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+
+      - name: Clone tModLoader
+        uses: actions/checkout@v3
         with:
           name: tModLoader/tModLoader
           submodules: recursive
