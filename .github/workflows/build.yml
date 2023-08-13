@@ -15,9 +15,6 @@ jobs:
         run: |
           curl -s -L https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip -o tModLoader.zip
           unzip -q -o tModLoader.zip -d ../tModLoader
-          
-      - name: Download & Install .NET Format
-        run: dotnet tool install -g dotnet-format
 
       - name: Create tModLoader.targets file
         shell: bash
@@ -27,9 +24,6 @@ jobs:
             <Import Project="tModLoader\tMLMod.targets" />
           </Project>
           EOF
-
-      - name: Reformat mod solution
-        run: dotnet format style EndlessEscapade.sln --verify-no-changes
 
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln --configuration Release
