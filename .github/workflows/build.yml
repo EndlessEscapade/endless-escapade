@@ -13,15 +13,15 @@ jobs:
 
       - name: Download tModLoader
         run: |
-          curl -L https://github.com/tModLoader/tModLoader/releases/download/v2023.06.25.31/tModLoader.zip -o tModLoader.zip
-          unzip -o tModLoader.zip -d ./tModLoader
+          curl -s -L https://github.com/tModLoader/tModLoader/releases/download/v2023.06.25.31/tModLoader.zip -o tModLoader.zip
+          unzip -q -o tModLoader.zip -d ./tModLoader
 
       - name: Generate targets file
         shell: bash
         run: |
           cat >> ../tModLoader.targets << EOF
           <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-            <Import Project="..\..\tModLoader\tMLMod.targets" />
+            <Import Project="tModLoader\tMLMod.targets" />
           </Project>
           EOF
 
