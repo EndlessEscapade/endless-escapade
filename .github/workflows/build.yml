@@ -1,0 +1,4 @@
+name: Build Endless Escapade
+
+on:
+  push:
