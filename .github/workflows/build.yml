@@ -18,6 +18,7 @@ jobs:
         run: |
           curl -s -L https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip -o tModLoader.zip
           unzip -q -o tModLoader.zip -d ../tModLoader
+          delete tModLoader.zip
 
       - name: Create tModLoader.targets file
         shell: bash
