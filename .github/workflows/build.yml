@@ -31,11 +31,17 @@ jobs:
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln --configuration Release
 
-      - name: Deploy .tmod file artifact
+      - name: Deploy .tmod artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Mod file
-          path: EndlessEscapade.tmod
+          name: EndlessEscapade.tmod
+          path: ..\Saves\tModLoader\Mods\EndlessEscapade.tmod
+
+      - name: Deploy .dll artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: EndlessEscapade.dll
+          path: ./release/net6.0/EndlessEscapade.dll
 
       - name: Deploy action across Discord
         uses: sarisia/actions-status-discord@v1  
