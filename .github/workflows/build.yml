@@ -34,4 +34,4 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_DEPLOY }}
           description: |
-            Action available [here](https://github.com/tModLoader/tModLoader/actions/runs/${{ github.run_id }})
+            Action available [here](https://github.com/EndlessEscapade/EndlessEscapade/actions/runs/${{ github.run_id }})
