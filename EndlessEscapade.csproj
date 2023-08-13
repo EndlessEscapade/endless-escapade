@@ -30,9 +30,7 @@
         </Reference>
     </ItemGroup>
     
-    <!-- 
     <Target BeforeTargets="Build" Name="BuildEffects" Inputs="Assets/Effects/Compiler/*.fx" Outputs="Assets/Effects/Compiler/*.xnb">
         <Exec Command="fxcompiler_reach.exe" WorkingDirectory="Assets/Effects/Compiler" />
     </Target>
-    -->
 </Project>
