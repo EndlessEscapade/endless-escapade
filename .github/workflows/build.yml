@@ -9,4 +9,4 @@ jobs:
     
     steps:
       - name: Build mod
-        run: dotnet build ./EndlessEscapade.csproj
+        run: dotnet build EndlessEscapade.sln
