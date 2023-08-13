@@ -10,21 +10,11 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Download & Install .NET SDKs
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-          
+
       - name: Download & Install tModLoader
         run: |
           curl -s -L https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip -o tModLoader.zip
           unzip -q -o tModLoader.zip -d ../tModLoader
-
-      - name: Download & Install XNA
-        run: |
-          curl -s -L https://github.com/JavidPack/tModLoaderPublishIntegration/raw/master/xnafx40_redist.msi -o xnafx40_redist.msi
-          msiexec /i xnafx40_redist.msi
           
       - name: Generate tModLoader.targets file
         shell: bash
@@ -36,7 +26,7 @@ jobs:
           EOF
 
       - name: Build mod solution
-        run: dotnet build EndlessEscapade.sln
+        run: dotnet build EndlessEscapade.sln --configuration Release
 
       - name: Deploy action across Discord
         uses: sarisia/actions-status-discord@v1  
