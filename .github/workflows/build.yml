@@ -26,7 +26,9 @@ jobs:
           EOF
 
       - name: Build mod
-        run: dir
+        run: |
+          dir
+          dotnet build EndlessEscapade.sln
 
       - name: Deploy mod
         uses: sarisia/actions-status-discord@v1  
@@ -34,4 +36,4 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_DEPLOY }}
           description: |
-            Click [here] to view action(https://github.com/EndlessEscapade/EndlessEscapade/actions/runs/${{ github.run_id }})
+            Click [here](https://github.com/EndlessEscapade/EndlessEscapade/actions/runs/${{ github.run_id }}) to view action.
