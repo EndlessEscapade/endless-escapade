@@ -11,10 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Download & Install .NET Framework
-        run: |
-          curl -s -L https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-offline-installer -o dotnetframework.exe
-          ./dotnetframework.exe
+      - name: Download & Install .NET SDKs
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
           
       - name: Download & Install tModLoader
         run: |
@@ -38,7 +38,7 @@ jobs:
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln
 
-      - name: Deploy mod across Discord
+      - name: Deploy action across Discord
         uses: sarisia/actions-status-discord@v1  
         if: always()
         with:
