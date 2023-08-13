@@ -14,7 +14,18 @@ jobs:
       - name: Download tModLoader
         run: |
           curl -L https://github.com/tModLoader/tModLoader/releases/download/v2023.06.25.31/tModLoader.zip -o tModLoader.zip
-          unzip -o tModLoader.zip -d ../tModLoader
+          unzip -o tModLoader.zip -d ./tModLoader
+
+      - name: Generate targets file
+        run: |
+          printf 
+          "
+          <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+            <Import Project="..\..\tModLoader\tMLMod.targets" />
+          </Project>
+          " 
+          > 
+          tModLoader.targets
 
       - name: Build mod
         run: dir
@@ -24,4 +35,5 @@ jobs:
         if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_DEPLOY }}
-          description: "His name is Jeff."
+          description: |
+            Action available [here](https://github.com/tModLoader/tModLoader/actions/runs/${{ github.run_id }})
