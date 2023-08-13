@@ -78,7 +78,7 @@ public class TundraSystem : ModSystem
 
                 Generator.GenerateStructure("Assets/Structures/IceSailboat", new Point16(x, y), Mod);
 
-                WorldUtils.Gen(new Point(x, y), new Shapes.Rectangle(dims.X + 1, dims.Y + 1), new SmoothAction(snapshot, TileID.Dirt));
+                WorldUtils.Gen(new Point(x, y), new Shapes.Rectangle(dims.X + 1, dims.Y + 1), new PreserveAction(snapshot, TileID.Dirt));
 
                 break;
             }
