@@ -8,5 +8,7 @@ jobs:
     runs-on: windows-latest
     
     steps:
-      - name: Build Mod
-        run: dotnet build EndlessEscapade.csproj
+      - name: Build mod
+        run: dotnet build ./EndlessEscapade.csproj
+
+      - name: Deploy Mod
