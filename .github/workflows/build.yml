@@ -16,4 +16,4 @@ jobs:
           submodules: recursive
     
       - name: Build tModLoader
-        run: ls
+        run: dotnet build src/tModLoader/Terraria/Terraria.csproj 
