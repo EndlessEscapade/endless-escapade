@@ -7,6 +7,10 @@ namespace EndlessEscapade.Content.Items.Reefs.Tropical;
 [AutoloadEquip(EquipType.Head)]
 public class TropicalWoodHelmet : ModItem
 {
+    public override void SetStaticDefaults() {
+        ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
+    }
+
     public override void SetDefaults() {
         Item.defense = 2;
 
@@ -22,7 +26,7 @@ public class TropicalWoodHelmet : ModItem
         player.setBonus = "+1 defense";
         player.statDefense++;
     }
-
+    
     public override void AddRecipes() {
         var recipe = CreateRecipe();
         recipe.AddIngredient<TropicalWood>(20);
