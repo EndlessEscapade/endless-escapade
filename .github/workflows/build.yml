@@ -17,5 +17,5 @@ jobs:
     
       - name: Build tModLoader
         run: | 
-          ls -a
+          ls -all
           dotnet build ./tModLoader/src/tModLoader/Terraria/Terraria.csproj 
