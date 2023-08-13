@@ -1,9 +1,12 @@
-name: Build Mod
+﻿name: Build Mod
 
 on:
   push:
     branches: [master]
   
+env:
+    TML_PATH_OVERRIDE: ..\Saves\
+
 jobs:
   build:
     runs-on: windows-latest
@@ -15,7 +18,7 @@ jobs:
         run: |
           curl -s -L https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip -o tModLoader.zip
           unzip -q -o tModLoader.zip -d ../tModLoader
-          
+
       - name: Create tModLoader.targets file
         shell: bash
         run: |
@@ -24,9 +27,6 @@ jobs:
             <Import Project="tModLoader\tMLMod.targets" />
           </Project>
           EOF
-
-      - name: Reformat mod solution
-        run: dotnet format style EndlessEscapade.sln
 
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln --configuration Release

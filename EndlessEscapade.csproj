@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\tModLoader.targets" />
@@ -15,6 +15,9 @@
         <DotNetPath Condition=" '$(OS)' == 'Unix' ">dotnet</DotNetPath>
         <DotNetPath Condition=" '$(DotNetPath)' == '' ">dotnet</DotNetPath>
         <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+
+        <!-- for github workflows -->
+        <ExtraBuildModFlags Condition="'$(TML_PATH_OVERRIDE)' != ''">$(ExtraBuildModFlags) -savedirectory &quot;$(TML_PATH_OVERRIDE)&quot;</ExtraBuildModFlags>
     </PropertyGroup>
 
     <ItemGroup>
