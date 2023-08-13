@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: EndlessEscapade.dll
-          path: EndlessEscapade/bin/release/net6.0/EndlessEscapade.dll
+          path: bin/Release/net6.0/EndlessEscapade.dll
 
       - name: Deploy action across Discord
         uses: sarisia/actions-status-discord@v1  
