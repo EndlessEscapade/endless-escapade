@@ -14,13 +14,10 @@ jobs:
       - name: Download tModLoader
         run: |
           curl -L https://github.com/tModLoader/tModLoader/releases/download/v2023.06.25.31/tModLoader.zip -o tModLoader.zip
-          unzip -o tModLoader.zip -d ./tModLoader
-    
-      - name: Build tModLoader
-        run: dir
-        
+          unzip -o tModLoader.zip -d ../tModLoader
+
       - name: Build mod
-        run: dotnet build EndlessEscapade.sln
+        run: dir
 
       - name: Deploy mod
         uses: sarisia/actions-status-discord@v1  
