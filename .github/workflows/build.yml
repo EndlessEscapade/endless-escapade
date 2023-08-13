@@ -5,7 +5,7 @@ on:
     branches: [master]
   
 env:
-    TML_PATH_OVERRIDE: ..\\Saves
+    TML_PATH_OVERRIDE: bin/Saves
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: EndlessEscapade.tmod
-          path: Saves/tModLoader/Mods/EndlessEscapade.tmod
+          path: bin/Saves/tModLoader/Mods/EndlessEscapade.tmod
 
       - name: Deploy .dll artifact
         uses: actions/upload-artifact@v3
