@@ -2,6 +2,7 @@ name: Build Endless Escapade
 
 on:
   push:
+    branches: [master]
   
 jobs:
   build:
