@@ -10,5 +10,3 @@ jobs:
     steps:
       - name: Build mod
         run: dotnet build ./EndlessEscapade.csproj
-
-      - name: Deploy Mod
