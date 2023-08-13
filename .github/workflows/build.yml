@@ -19,5 +19,4 @@ jobs:
           submodules: recursive
     
       - name: Build tModLoader
-        run: | 
-          dir
+        run: ./tModLoader/setup.bat
