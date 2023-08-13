@@ -29,7 +29,9 @@ jobs:
           EOF
 
       - name: Build mod solution
-        run: dotnet build EndlessEscapade.sln --configuration Release
+        run: |
+            dotnet build EndlessEscapade.sln --configuration Release
+            mkdir ./bin/Saves
 
       - name: List all
         shell: bash
