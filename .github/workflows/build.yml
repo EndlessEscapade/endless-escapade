@@ -13,7 +13,7 @@ jobs:
 
       - name: Download tModLoader
         run: |
-          curl -s -L https://github.com/tModLoader/tModLoader/releases/download/v2023.06.25.31/tModLoader.zip -o tModLoader.zip
+          curl -s -L https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip -o tModLoader.zip
           unzip -q -o tModLoader.zip -d ./tModLoader
 
       - name: Generate targets file
@@ -27,7 +27,7 @@ jobs:
 
       - name: Build mod
         run: |
-          dir ./tModLoader
+          dir /s
           dotnet build EndlessEscapade.sln
 
       - name: Deploy mod
