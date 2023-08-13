@@ -16,14 +16,3 @@ jobs:
     
       - name: Build tModLoader
         run: dotnet build src/tModLoader/Terraria/Terraria.csproj -c Release --nologo -v q -bl;
-        
-      - name: Build mod
-        run: dotnet build EndlessEscapade.sln
-
-        
-      - name: Deploy mod
-        uses: sarisia/actions-status-discord@v1  
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_DEPLOY }}
-          description: "Test"
