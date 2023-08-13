@@ -18,12 +18,12 @@ jobs:
 
       - name: Generate targets file
         run: |
-          printf 
-          "
+          cat >> tModLoader.targets << 
+          EOF
           <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
             <Import Project="..\..\tModLoader\tMLMod.targets" />
           </Project>
-          " > tModLoader.targets
+          EOF
 
       - name: Build mod
         run: dir
