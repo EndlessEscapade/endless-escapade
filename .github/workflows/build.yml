@@ -27,7 +27,7 @@ jobs:
 
       - name: Build mod
         run: |
-          dir
+          dir ./tModLoader
           dotnet build EndlessEscapade.sln
 
       - name: Deploy mod
