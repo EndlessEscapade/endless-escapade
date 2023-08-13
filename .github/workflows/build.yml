@@ -18,12 +18,10 @@ jobs:
 
       - name: Download XNA
         run: |
-          echo Installing XNA
           curl -s -L https://github.com/JavidPack/tModLoaderPublishIntegration/raw/master/xnafx40_redist.msi -O
-          msiexec //i xnafx40_redist.msi //quiet
-          echo XNA Installed
-
-      - name: Generate targets file
+          msiexec /i xnafx40_redist.msi
+          
+      - name: Generate targets
         shell: bash
         run: |
           cat >> ../tModLoader.targets << EOF
@@ -33,10 +31,7 @@ jobs:
           EOF
 
       - name: Build mod
-        shell: bash
-        run: |
-          ls -R
-          dotnet build EndlessEscapade.sln
+        run: dotnet build EndlessEscapade.sln
 
       - name: Deploy mod
         uses: sarisia/actions-status-discord@v1  
