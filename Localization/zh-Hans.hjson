@@ -185,18 +185,18 @@ Mods: {
 		}
 
 		Titles: {
-			Title0: 等等等等等等等下
-			Title1: 沃尔塔
-			Title2: 无效化无效化的无效化
-			Title3: 秦拉瑞巫: 识字
-			Title4: skull emoji'd
-			Title5: 为什么你看在这句话时会动自字将排好?
-			Title6: 为什么那个Java程序员需要戴眼镜? 因为他不能See Sharp
-			Title7: 按时睡觉: 严酷的意志考验
-			Title8: 不要__猫
-			Title9: 那个炫酷的罢格是什么?
-			Title10: 模组开发救赎
-			Title11: 全体向我看齐, 我宣布个事
+			// Title0: WAIT WAIT WAIT WAIT WAIT WAIT WAIT
+			// Title1: Waltuh
+			// Title2: Nullification nullifier nullifi-nator
+			// Title3: Yettatia: Typo
+			// Title4: skull emoji'd
+			// Title5: Why Yuor Barin Can Raed Tihs
+			// Title6: Why did the Java developer need glasses? Because he couldn't C#
+			// Title7: The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength
+			// Title8: Do not the cat.
+			// Title9: What is that flashy buggy thing?
+			// Title10: Mod Dev Redemption
+			// Title11: Mark my words.
 		}
 
 		Fishing: {
