@@ -9,6 +9,18 @@ jobs:
     runs-on: windows-latest
     
     steps:
+      - uses: actions/checkout@v3
+        with:
+          name: tModLoader/tModLoader
+          ref: refs/heads/release
+    
+      - name: Build tModLoader
+        run: dotnet build src/tModLoader/Terraria/Terraria.csproj -c Release --nologo -v q -bl;
+        
+      - name: Build mod
+        run: dotnet build EndlessEscapade.sln
+
+        
       - name: Deploy mod
         uses: sarisia/actions-status-discord@v1  
         if: always()
