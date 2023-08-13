@@ -49,5 +49,7 @@ jobs:
         if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_DEPLOY }}
+          nodetail: true
+          title: New version of `Endless Escapade` is ready!
           description: |
-            Click [here](https://github.com/EndlessEscapade/EndlessEscapade/actions/runs/${{ github.run_id }}) to view full action reports.
+            Click [here](https://github.com/EndlessEscapade/EndlessEscapade/actions/runs/${{ github.run_id }}) to view.
