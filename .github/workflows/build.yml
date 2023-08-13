@@ -25,6 +25,9 @@ jobs:
           </Project>
           EOF
 
+      - name: Reformat mod solution
+        run: dotnet reformat EndlessEscapade.sln --verify-no-changes
+
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln --configuration Release
 
