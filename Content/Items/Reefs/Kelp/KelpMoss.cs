@@ -17,19 +17,19 @@ public class KelpMoss : ModItem
         }
 
         WorldGen.PlaceTile(Player.tileTargetX, Player.tileTargetY, ModContent.TileType<Tiles.Reefs.Kelp.KelpMoss>(), false, true);
-            
+
         player.cursorItemIconEnabled = true;
         player.inventory[player.selectedItem].stack--;
 
         return true;
     }
-    
+
     public override void HoldItem(Player player) {
         if (IsHoveringRock()) {
             player.cursorItemIconEnabled = true;
         }
     }
-    
+
     private static bool IsHoveringRock() {
         var tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
 

@@ -12,7 +12,7 @@ public class TitleSystem : ModSystem
     public override void PostSetupContent() {
         var selected = Mod.GetLocalizationValue($"Titles.Title{Main.rand.Next(TitleCount)}");
         var title = $"{Mod.DisplayName}: {selected}";
-        
+
         Main.instance.Window.Title = title;
     }
 

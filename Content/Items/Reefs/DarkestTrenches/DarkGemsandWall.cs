@@ -1,4 +1,4 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Items.Reefs.DarkestTrenches;
 

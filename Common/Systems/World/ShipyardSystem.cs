@@ -13,13 +13,13 @@ public class ShipyardSystem : ModSystem
     public override void PostWorldGen() {
         var foundOcean = false;
         var foundBeach = false;
-        
+
         var x = 0;
         var y = (int)(Main.worldSurface * 0.35f);
-        
+
         while (!foundOcean) {
             var tile = Framing.GetTileSafely(x, y);
-            
+
             if (tile.LiquidAmount >= 255 && tile.LiquidType == LiquidID.Water) {
                 foundOcean = true;
                 break;
@@ -39,27 +39,27 @@ public class ShipyardSystem : ModSystem
             }
 
             x++;
-        }   
+        }
 
         const int sailboatDistance = 100;
-        
+
         GenerateShipyard(x, y);
         GenerateSailboat(x - sailboatDistance, y);
     }
 
     private void GenerateShipyard(int x, int y) {
         var dims = Point16.Zero;
-    
+
         if (!Generator.GetDimensions("Assets/Structures/Shipyard", Mod, ref dims)) {
             return;
         }
-        
+
         var offsetX = dims.X / 2;
         var offsetY = dims.Y - dims.Y / 3;
 
         PlaceShipyard(x - offsetX, y - offsetY);
     }
-    
+
     private void PlaceShipyard(int x, int y) {
         void ExtendPillar(int xOffset, int yOffset) {
             var pillarX = x + xOffset;
@@ -72,7 +72,7 @@ public class ShipyardSystem : ModSystem
                 pillarY++;
             }
         }
-        
+
         if (!Generator.GenerateStructure("Assets/Structures/Shipyard", new Point16(x, y), Mod)) {
             return;
         }
@@ -91,26 +91,26 @@ public class ShipyardSystem : ModSystem
 
         ExtendPillar(thirdPillarX, pillarBottomY);
         ExtendPillar(thirdPillarX + 1, pillarBottomY);
-        
+
         const int roomOffsetX = 60;
         const int roomOffsetY = 10;
 
         var sailorX = (int)((x + roomOffsetX) * 16f);
         var sailorY = (int)((y + roomOffsetY) * 16f);
-        
+
         NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
     }
-    
+
     private void GenerateSailboat(int x, int y) {
         var dims = Point16.Zero;
-        
+
         if (!Generator.GetDimensions("Assets/Structures/ShipyardBrokenSailboat", Mod, ref dims)) {
             return;
         }
-        
+
         var offsetX = dims.X / 2;
         var offsetY = dims.Y - dims.Y / 3;
-        
+
         Generator.GenerateStructure("Assets/Structures/ShipyardBrokenSailboat", new Point16(x - offsetX, y - offsetY), Mod);
     }
 }

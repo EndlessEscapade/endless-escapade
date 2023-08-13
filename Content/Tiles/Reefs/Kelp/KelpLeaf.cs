@@ -1,4 +1,4 @@
-using EndlessEscapade.Common.Bases.Tiles;
+﻿using EndlessEscapade.Common.Bases.Tiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

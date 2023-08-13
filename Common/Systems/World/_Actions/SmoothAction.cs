@@ -18,7 +18,7 @@ public class SmoothAction : GenAction
         if (!WorldGen.InWorld(x, y) || WorldGen.TileType(x, y) != type) {
             return Fail();
         }
-        
+
         if (snapshot[x - origin.X, y - origin.Y] == -1) {
             WorldGen.KillTile(x, y);
         }

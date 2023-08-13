@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
@@ -20,7 +20,7 @@ public class TundraSystem : ModSystem
         if (!Generator.GetDimensions("Assets/Structures/IceSailboat", Mod, ref dims)) {
             return;
         }
-        
+
         var tries = 0;
 
         while (tries < maxTries) {
@@ -55,16 +55,16 @@ public class TundraSystem : ModSystem
             if (spawnedOnDungeon) {
                 continue;
             }
-            
+
             var lookup = new Dictionary<ushort, int>();
-            
+
             WorldUtils.Gen(new Point(x, y), new Shapes.Rectangle(dims.X, dims.Y), new Actions.TileScanner(TileID.IceBlock, TileID.SnowBlock).Output(lookup));
 
             var count = lookup[TileID.IceBlock] + lookup[TileID.SnowBlock];
 
             if (count >= minimumScan) {
                 var offsetX = dims.X / 2;
-                
+
                 var amount = WorldGen.genRand.Next(30, 40);
 
                 for (var i = 0; i < amount; i++) {
