@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EndlessEscapade.Common.Systems.World.Actions;
 using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
@@ -58,7 +59,7 @@ public class TundraSystem : ModSystem
 
             var lookup = new Dictionary<ushort, int>();
 
-            WorldUtils.Gen(new Point(x, y), new Shapes.Rectangle(dims.X, dims.Y), new Actions.TileScanner(TileID.IceBlock, TileID.SnowBlock).Output(lookup));
+            WorldUtils.Gen(new Point(x, y), new Shapes.Rectangle(dims.X, dims.Y), new Terraria.WorldBuilding.Actions.TileScanner(TileID.IceBlock, TileID.SnowBlock).Output(lookup));
 
             var count = lookup[TileID.IceBlock] + lookup[TileID.SnowBlock];
 

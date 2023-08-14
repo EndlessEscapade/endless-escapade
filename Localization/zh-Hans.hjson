@@ -170,8 +170,8 @@ Mods: {
 				NightDialogue2: 我喜欢水母的荧光.
 				RainDialogue0: 但愿这场雨不是飓风的前兆!
 				RainDialogue1: 我在几年前的一个大风天弄丢了我的雨衣. 要是我还有一件就好了.
-				ShipRepairDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
-				ShipRepairDialogue1:
+				ShipPromptDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
+				ShipPromptDialogue1:
 					'''
 					If you brought me the following materials along with payment:
 					- [i/s150:9]

@@ -16,7 +16,8 @@ public class AudioSystem : ModSystem
         SoundID.MenuClose,
         SoundID.MenuOpen,
         SoundID.MenuTick,
-        SoundID.Chat
+        SoundID.Chat,
+        SoundID.Grab
     );
 
     public static AudioModifiers SoundModifiers { get; private set; }

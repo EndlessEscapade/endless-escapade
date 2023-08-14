@@ -170,8 +170,8 @@ Mods: {
 				NightDialogue2: I love the glow of the jellies.
 				RainDialogue0: I hope this rain doesn't mean a hurricane's coming!
 				RainDialogue1: I lost my rain slicker in a windy day a few years ago. Wish I had another one.
-				ShipRepairDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
-				ShipRepairDialogue1:
+				ShipPromptDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
+				ShipPromptDialogue1:
 					'''
 					If you brought me the following materials along with payment:
 					- [i/s150:9]

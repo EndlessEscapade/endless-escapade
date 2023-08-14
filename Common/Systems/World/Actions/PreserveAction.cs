@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.Systems.World;
+namespace EndlessEscapade.Common.Systems.World.Actions;
 
 public class PreserveAction : GenAction
 {

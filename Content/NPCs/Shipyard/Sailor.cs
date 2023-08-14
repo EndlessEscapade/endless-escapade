@@ -88,7 +88,14 @@ public class Sailor : ModNPC
             return;
         }
 
-        Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipRepairDialogue{(alternateDialogue ? 0 : 1)}");
+        var player = Main.LocalPlayer;
+
+        if (player.HasItem(ItemID.Wood, 150) && player.HasItem(ItemID.Silk, 20)) {
+            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipRepairDialogue");
+            return;
+        }
+
+        Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipPromptDialogue{(alternateDialogue ? 0 : 1)}");
 
         alternateDialogue = !alternateDialogue;
     }
