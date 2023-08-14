@@ -205,5 +205,12 @@ Mods: {
 		}
 
 		Buttons.Sailor.Sailing: Sailing
+
+		Biomes: {
+			ShipyardBiome: {
+				DisplayName: Shipyard Biome
+				TownNPCDialogueName: the Shipyard Biome
+			}
+		}
 	}
 }
