@@ -36,6 +36,8 @@ public class AudioSystem : ModSystem
     }
 
     private static void SoundPlayerUpdateHook(On_SoundPlayer.orig_Update orig, SoundPlayer self) {
+        orig(self);
+        
         var value = (SlotVector<ActiveSound>)trackedSoundsField.GetValue(self);
 
         foreach (var item in value) {
@@ -48,7 +50,7 @@ public class AudioSystem : ModSystem
 
             LowPassSystem.ApplyModifiers(instance, SoundModifiers);
         }
-
-        orig(self);
+        
+        SetModifiers();
     }
 }

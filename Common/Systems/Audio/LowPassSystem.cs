@@ -17,6 +17,6 @@ public class LowPassSystem : ModSystem
     }
 
     public static void ApplyModifiers(SoundEffectInstance instance, AudioModifiers modifiers) {
-        lowPassAction?.Invoke(instance, 1f - modifiers.LowPass);
+        lowPassAction?.Invoke(instance, 1f - modifiers.LowPass * 0.9f);
     }
 }
