@@ -2,7 +2,7 @@ Mods: {
 	EndlessEscapade: {
 		Config: {
 			Audio: {
-				// Header: Audio Settings [i:890]
+				// Header: Audio Settings
 
 				EnableLowPassFiltering: {
 					// Label: Enable low pass filtering.

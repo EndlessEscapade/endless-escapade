@@ -17,7 +17,7 @@ public class TitleSystem : ModSystem
         Main.instance.Window.Title = title;
     }
 
-    public override void OnModUnload() {
+    public override void Unload() {
         Main.changeTheTitle = true;
     }
 }

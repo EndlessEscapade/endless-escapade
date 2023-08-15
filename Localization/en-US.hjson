@@ -2,12 +2,12 @@ Mods: {
 	EndlessEscapade: {
 		Config: {
 			Audio: {
-                Header: Audio Settings
+				Header: Audio Settings
 
-                EnableLowPassFiltering: {
-                    Label: Enable low pass filtering.
-                    Tooltip: Toggles low pass filtering, commonly used for sound muffling.
-                }
+				EnableLowPassFiltering: {
+					Label: Enable low pass filtering.
+					Tooltip: Toggles low pass filtering, commonly used for sound muffling.
+				}
 			}
 		}
 
