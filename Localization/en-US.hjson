@@ -1,5 +1,16 @@
 Mods: {
 	EndlessEscapade: {
+		Config: {
+			Audio: {
+                Header: Audio Settings
+
+                EnableLowPassFiltering: {
+                    Label: Enable low pass filtering.
+                    Tooltip: Toggles low pass filtering, commonly used for sound muffling.
+                }
+			}
+		}
+
 		Items: {
 			DarkGemsand: {
 				DisplayName: Dark Gemsand
@@ -210,6 +221,17 @@ Mods: {
 			ShipyardBiome: {
 				DisplayName: Shipyard Biome
 				TownNPCDialogueName: the Shipyard Biome
+			}
+		}
+
+		Configs: {
+			AudioConfig: {
+				DisplayName: Audio Config
+
+				EnableMuffling: {
+					Label: Enable Muffling
+					Tooltip: ""
+				}
 			}
 		}
 	}
