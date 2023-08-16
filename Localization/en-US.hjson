@@ -1,16 +1,5 @@
 Mods: {
 	EndlessEscapade: {
-		Config: {
-			Audio: {
-				Header: Audio Settings
-
-				EnableLowPassFiltering: {
-					Label: Enable low pass filtering.
-					Tooltip: Toggles low pass filtering, commonly used for sound muffling.
-				}
-			}
-		}
-
 		Items: {
 			DarkGemsand: {
 				DisplayName: Dark Gemsand
@@ -195,6 +184,33 @@ Mods: {
 			}
 		}
 
+		Biomes: {
+			ShipyardBiome: {
+				DisplayName: Shipyard Biome
+				TownNPCDialogueName: the Shipyard Biome
+			}
+		}
+
+		Fishing: {
+			RecordCatchMessage: New record: {0} {1}!
+			CommonCatchMessage: Length: {0} {1}.
+		}
+
+		Configs: {
+			AudioConfig: {
+				DisplayName: Audio Config
+
+				EnableLowPassFiltering: {
+					Label: Enable Low Pass Filtering
+					Tooltip:
+						'''
+						Toggles low pass filtering.
+						This is used for effects such as muffling sounds, etc...
+						'''
+				}
+			}
+		}
+
 		Titles: {
 			Title0: WAIT WAIT WAIT WAIT WAIT WAIT WAIT
 			Title1: Waltuh
@@ -210,29 +226,6 @@ Mods: {
 			Title11: Mark my words.
 		}
 
-		Fishing: {
-			RecordCatchMessage: New record: {0} cm!
-			CommonCatchMessage: Length: {0} cm.
-		}
-
 		Buttons.Sailor.Sailing: Sailing
-
-		Biomes: {
-			ShipyardBiome: {
-				DisplayName: Shipyard Biome
-				TownNPCDialogueName: the Shipyard Biome
-			}
-		}
-
-		Configs: {
-			AudioConfig: {
-				DisplayName: Audio Config
-
-				EnableMuffling: {
-					Label: Enable Muffling
-					Tooltip: ""
-				}
-			}
-		}
 	}
 }

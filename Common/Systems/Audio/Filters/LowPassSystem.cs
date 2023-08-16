@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Reflection;
 using EndlessEscapade.Common.Config;
 using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework.Audio;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Systems.Audio;
+namespace EndlessEscapade.Common.Systems.Audio.Filters;
 
 [Autoload(Side = ModSide.Client)]
-public class LowPassFilteringSystem : ModSystem
+public class LowPassSystem : ModSystem
 {
     private static readonly Action<SoundEffectInstance, float> lowPassAction;
 
-    static LowPassFilteringSystem() {
+    static LowPassSystem() {
         var type = typeof(SoundEffectInstance);
         var method = type.GetMethod("INTERNAL_applyLowPassFilter", ReflectionUtils.PrivateInstanceFlags);
         

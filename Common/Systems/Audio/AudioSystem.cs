@@ -1,8 +1,11 @@
 ﻿using System.Collections.Immutable;
 using System.Reflection;
+using EndlessEscapade.Common.Systems.Audio.Filters;
 using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using ReLogic.Utilities;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +16,7 @@ namespace EndlessEscapade.Common.Systems.Audio;
 public class AudioSystem : ModSystem
 {
     private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags);
-
+    
     public static readonly ImmutableArray<SoundStyle> IgnoredSounds = ImmutableArray.Create(
         SoundID.MenuClose,
         SoundID.MenuOpen,
@@ -40,7 +43,9 @@ public class AudioSystem : ModSystem
     }
 
     public override void PostUpdateEverything() {
-        ResetParameters();
+        MusicParameters = new AudioParameters() with {
+            LowPass = 1f
+        };
     }
 
     public override void Load() {
@@ -60,7 +65,7 @@ public class AudioSystem : ModSystem
             return slot;
         }
 
-        LowPassFilteringSystem.ApplyEffects(result.Sound, SoundParameters);
+        LowPassSystem.ApplyEffects(result.Sound, SoundParameters);
         
         return slot;
     }
@@ -78,7 +83,7 @@ public class AudioSystem : ModSystem
                 continue;
             }
 
-            LowPassFilteringSystem.ApplyEffects(instance, SoundParameters);
+            LowPassSystem.ApplyEffects(instance, SoundParameters);
         }
     }
 }
