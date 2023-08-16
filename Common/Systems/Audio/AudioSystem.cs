@@ -61,7 +61,7 @@ public class AudioSystem : ModSystem
     ) {
         var slot = orig(ref style, position, updatecallback);
 
-        if (IgnoredSounds.Contains(style) || !SoundEngine.TryGetActiveSound(slot, out ActiveSound? result) || result.Sound.IsDisposed) {
+        if (IgnoredSounds.Contains(style) || !SoundEngine.TryGetActiveSound(slot, out ActiveSound result) || result.Sound.IsDisposed) {
             return slot;
         }
 
