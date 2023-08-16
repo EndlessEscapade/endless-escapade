@@ -2,14 +2,14 @@
 using Terraria;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.Systems.World;
+namespace EndlessEscapade.Common.Systems.World.Actions;
 
-public class SmoothAction : GenAction
+public class PreserveAction : GenAction
 {
     private readonly int[,] snapshot;
     private readonly int type;
 
-    public SmoothAction(int[,] snapshot, int type) {
+    public PreserveAction(int[,] snapshot, int type) {
         this.snapshot = snapshot;
         this.type = type;
     }

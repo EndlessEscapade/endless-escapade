@@ -170,8 +170,8 @@ Mods: {
 				NightDialogue2: 我喜欢水母的荧光.
 				RainDialogue0: 但愿这场雨不是飓风的前兆!
 				RainDialogue1: 我在几年前的一个大风天弄丢了我的雨衣. 要是我还有一件就好了.
-				ShipRepairDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
-				ShipRepairDialogue1:
+				ShipPromptDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
+				ShipPromptDialogue1:
 					'''
 					If you brought me the following materials along with payment:
 					- [i/s150:9]
@@ -184,24 +184,46 @@ Mods: {
 			}
 		}
 
-		Titles: {
-			Title0: 等等等等等等等下
-			Title1: 沃尔塔
-			Title2: 无效化无效化的无效化
-			Title3: 秦拉瑞巫: 识字
-			Title4: skull emoji'd
-			Title5: 为什么你看在这句话时会动自字将排好?
-			Title6: 为什么那个Java程序员需要戴眼镜? 因为他不能See Sharp
-			Title7: 按时睡觉: 严酷的意志考验
-			Title8: 不要__猫
-			Title9: 那个炫酷的罢格是什么?
-			Title10: 模组开发救赎
-			Title11: 全体向我看齐, 我宣布个事
+		Biomes: {
+			ShipyardBiome: {
+				// DisplayName: Shipyard Biome
+				// TownNPCDialogueName: the Shipyard Biome
+			}
 		}
 
 		Fishing: {
-			RecordCatchMessage: 新纪录: {0}厘米!
-			CommonCatchMessage: 体长: {0}厘米.
+			RecordCatchMessage: 新纪录: {0} {1}!
+			CommonCatchMessage: 体长: {0} {1}.
+		}
+
+		Configs: {
+			AudioConfig: {
+				// DisplayName: Audio Config
+
+				EnableLowPassFiltering: {
+					// Label: Enable Low Pass Filtering
+					/* Tooltip:
+						'''
+						Toggles low pass filtering.
+						This is used for effects such as muffling sounds, etc...
+						''' */
+				}
+			}
+		}
+
+		Titles: {
+			// Title0: WAIT WAIT WAIT WAIT WAIT WAIT WAIT
+			// Title1: Waltuh
+			// Title2: Nullification nullifier nullifi-nator
+			// Title3: Yettatia: Typo
+			// Title4: skull emoji'd
+			// Title5: Why Yuor Barin Can Raed Tihs
+			// Title6: Why did the Java developer need glasses? Because he couldn't C#
+			// Title7: The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength
+			// Title8: Do not the cat.
+			// Title9: What is that flashy buggy thing?
+			// Title10: Mod Dev Redemption
+			// Title11: Mark my words.
 		}
 
 		Buttons.Sailor.Sailing: 航行

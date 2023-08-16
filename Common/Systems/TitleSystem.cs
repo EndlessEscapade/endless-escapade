@@ -7,6 +7,7 @@ namespace EndlessEscapade.Common.Systems;
 [Autoload(Side = ModSide.Client)]
 public class TitleSystem : ModSystem
 {
+    // tModLoader doesn't allow for the use of HJSON lists.
     public const int TitleCount = 11;
 
     public override void PostSetupContent() {
@@ -16,7 +17,7 @@ public class TitleSystem : ModSystem
         Main.instance.Window.Title = title;
     }
 
-    public override void OnModUnload() {
+    public override void Unload() {
         Main.changeTheTitle = true;
     }
 }

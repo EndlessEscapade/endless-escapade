@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.Systems.World;
 
@@ -67,7 +66,7 @@ public class ShipyardSystem : ModSystem
 
             while (!WorldGen.SolidTile(pillarX, pillarY) && WorldGen.InWorld(pillarX, pillarY)) {
                 WorldGen.PlaceTile(pillarX, pillarY, TileID.LivingWood, true, true);
-                WorldGen.SlopeTile(pillarX, pillarY, (int)SlopeType.Solid);
+                WorldGen.SlopeTile(pillarX, pillarY);
 
                 pillarY++;
             }

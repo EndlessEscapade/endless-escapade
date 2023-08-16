@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ID.ContentSamples.CreativeHelper;
 
 namespace EndlessEscapade.Content.Tiles.Reefs.Kelp;
 
