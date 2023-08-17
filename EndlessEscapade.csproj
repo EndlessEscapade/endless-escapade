@@ -18,6 +18,7 @@
 
         <!-- for github workflows -->
         <ExtraBuildModFlags Condition="'$(TML_PATH_OVERRIDE)' != ''">$(ExtraBuildModFlags)-savedirectory "$([System.IO.Path]::GetFullPath('.'))/$(TML_PATH_OVERRIDE)"</ExtraBuildModFlags>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
