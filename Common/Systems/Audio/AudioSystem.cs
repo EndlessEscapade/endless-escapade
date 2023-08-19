@@ -50,23 +50,19 @@ public class AudioSystem : ModSystem
     }
 
     public override void PostUpdateEverything() {
-        MusicParameters = new AudioParameters() {
-            LowPass = 1f
-        };
+        ResetParameters();
     }
 
     public override void Load() {
+        if (trackedSoundsField == null) {
+            Mod.Logger.Error("Audio effects were disabled: Could not find internal Terraria members.");
+            return;
+        }
+        
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
         On_SoundEngine.Update += SoundEngineUpdateHook;
 
         IL_LegacyAudioSystem.UpdateCommonTrack += IL_ApplyFrecuencyAfterStarting;
-
-        //Console.WriteLine($"XNA visualization: {FAudio.XNA_VisualizationEnabled()}");
-        //FAudio.FACTCue_GetProperties()
-    }
-
-    public override void PostUpdateDusts() {
-        base.PostUpdateDusts();
     }
 
     private unsafe void IL_ApplyFrecuencyAfterStarting(MonoMod.Cil.ILContext il) {
@@ -122,26 +118,21 @@ public class AudioSystem : ModSystem
                         FAudioVoice* voice = wave2->voice;
 
                         Marshal.ThrowExceptionForHR((int)FAudio.FAudioVoice_SetFilterParameters((nint)voice, ref parameters, 0u));
-
                     }
                 }
-
-
             }
 
             return;
         });
     }
 
-
-
     private static SlotId SoundEnginePlayHook(
         On_SoundEngine.orig_PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback orig,
         ref SoundStyle style,
         Vector2? position,
-        SoundUpdateCallback updatecallback
+        SoundUpdateCallback updateCallback
     ) {
-        var slot = orig(ref style, position, updatecallback);
+        var slot = orig(ref style, position, updateCallback);
 
         if (IgnoredSounds.Contains(style) || !SoundEngine.TryGetActiveSound(slot, out ActiveSound result) || result.Sound.IsDisposed) {
             return slot;

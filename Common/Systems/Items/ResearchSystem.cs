@@ -12,7 +12,6 @@ public class ResearchSystem : ModSystem
 
             var isTile = item.createTile > -1;
             var isWall = item.createWall > -1;
-
             var isWeapon = item.damage > 0;
             var isEquip = item.accessory || item.defense > 0;
 
