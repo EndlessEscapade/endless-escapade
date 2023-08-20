@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Items.Reefs.Tropical;
+namespace EndlessEscapade.Content.Items.Tropical;
 
 [AutoloadEquip(EquipType.Head)]
 public class TropicalWoodHelmet : ModItem
@@ -26,7 +26,7 @@ public class TropicalWoodHelmet : ModItem
         player.setBonus = "+1 defense";
         player.statDefense++;
     }
-    
+
     public override void AddRecipes() {
         var recipe = CreateRecipe();
         recipe.AddIngredient<TropicalWood>(20);

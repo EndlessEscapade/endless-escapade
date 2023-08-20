@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Walls.Reefs.Tropical;
+namespace EndlessEscapade.Content.Walls.Tropical;
 
 public class TropicalWoodWall : ModWall
 {
