@@ -110,7 +110,10 @@ public class ShipyardSystem : ModSystem
         var sailorX = (int)((origin.X + roomOffsetX) * 16f);
         var sailorY = (int)((origin.Y + roomOffsetY) * 16f);
 
-        NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
+        var index = NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
+        var sailor = Main.npc[index];
+        
+        sailor.UpdateHomeTileState(false, (int)(sailorX / 16f), (int)(sailorY / 16f));
     }
 
     private static void ExtendPillar(int x, int y) {

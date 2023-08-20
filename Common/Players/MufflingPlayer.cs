@@ -47,6 +47,8 @@ public class MufflingPlayer : ModPlayer
             return;
         }
 
-        AudioSystem.SetParameters(new AudioParameters() with { LowPass = Intensity }, new AudioParameters() with { LowPass = Intensity });
+        var parameters = new AudioParameters() with { LowPass = Intensity };
+
+        AudioSystem.SetParameters(parameters, parameters);
     }
 }
