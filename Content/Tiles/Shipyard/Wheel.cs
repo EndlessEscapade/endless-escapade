@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EndlessEscapade.Common.Systems.Shipyard;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -17,6 +18,8 @@ public class Wheel : ModTile
         Main.tileFrameImportant[Type] = true;
         Main.tileSolidTop[Type] = true;
         Main.tileBlockLight[Type] = true;
+        
+        TileID.Sets.HasOutlines[Type] = true;
 
         TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
         TileObjectData.newTile.Height = 3;
@@ -34,6 +37,10 @@ public class Wheel : ModTile
 
         HitSound = SoundID.Dig;
         DustType = DustID.WoodFurniture;
+    }
+
+    public override bool RightClick(int i, int j) {
+        return true;
     }
 
     public override void MouseOver(int i, int j) {

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using EndlessEscapade.Common.Systems.World;
+using EndlessEscapade.Common.Systems.Shipyard;
 using EndlessEscapade.Utilities.Extensions;
+using StructureHelper;
 using Terraria;
+using Terraria.Cinematics;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Personalities;
@@ -96,7 +98,7 @@ public class Sailor : ModNPC
             player.PayCurrency(Item.buyPrice(gold: 5));
 
             OnBoatRepair.Invoke();
-
+            
             Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
             return;
         }

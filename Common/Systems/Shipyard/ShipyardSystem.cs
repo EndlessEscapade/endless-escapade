@@ -1,5 +1,8 @@
-﻿using EndlessEscapade.Content.NPCs.Shipyard;
-using EndlessEscapade.Content.Tiles.Shipyard;
+﻿using System;
+using System.Collections.Generic;
+using EndlessEscapade.Common.Systems.Shipyard.Attachments;
+using EndlessEscapade.Content.NPCs.Shipyard;
+using EndlessEscapade.Utilities;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
@@ -7,12 +10,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-namespace EndlessEscapade.Common.Systems.World;
+namespace EndlessEscapade.Common.Systems.Shipyard;
 
 public class ShipyardSystem : ModSystem
 {
-    private const int BoatWidth = 46;
-    private const int BoatHeight = 37;
+    public const int BoatWidth = 46;
+    public const int BoatHeight = 37;
 
     public static int BoatX { get; private set; }
     public static int BoatY { get; private set; }
@@ -22,14 +25,12 @@ public class ShipyardSystem : ModSystem
     public override void SaveWorldData(TagCompound tag) {
         tag[nameof(BoatX)] = BoatX;
         tag[nameof(BoatY)] = BoatY;
-
         tag[nameof(BoatFixed)] = BoatFixed;
     }
 
     public override void LoadWorldData(TagCompound tag) {
         BoatX = tag.GetInt(nameof(BoatX));
         BoatY = tag.GetInt(nameof(BoatY));
-
         BoatFixed = tag.GetBool(nameof(BoatFixed));
     }
 
@@ -37,7 +38,7 @@ public class ShipyardSystem : ModSystem
         Sailor.OnBoatRepair += PrepareDefaultBoat;
         Sailor.OnBoatRepair += GenerateDefaultBoat;
     }
-
+    
     public override void PostWorldGen() {
         var foundOcean = false;
         var foundBeach = false;
@@ -56,8 +57,6 @@ public class ShipyardSystem : ModSystem
             y++;
         }
 
-        y--;
-
         while (!foundBeach) {
             var tile = Framing.GetTileSafely(x, y);
 
@@ -75,49 +74,8 @@ public class ShipyardSystem : ModSystem
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
 
-    public static void GenerateHull(string path) {
-        var mod = EndlessEscapade.Instance;
-
-        var offset = GetAttachmentOffset(AttachmentType.Hull);
-        var origin = new Point16(BoatX, BoatY) + offset;
-
-        Generator.GenerateStructure(path, origin, mod);
-    }
-
-    public static void GenerateSmallSail(string path) {
-        var mod = EndlessEscapade.Instance;
-
-        var offset = GetAttachmentOffset(AttachmentType.SmallSail);
-        var origin = new Point16(BoatX, BoatY) + offset;
-
-        Generator.GenerateStructure(path, origin, mod);
-    }
-
-    public static void GenerateLargeSail(string path) {
-        var mod = EndlessEscapade.Instance;
-
-        var offset = GetAttachmentOffset(AttachmentType.LargeSail);
-        var origin = new Point16(BoatX, BoatY) + offset;
-
-        Generator.GenerateStructure(path, origin, mod);
-    }
-
-    public static void GenerateCannon(int type) {
-        var mod = EndlessEscapade.Instance;
-
-        var offset = GetAttachmentOffset(AttachmentType.Cannon);
-        var origin = new Point16(BoatX, BoatY) + offset;
-
-        WorldGen.PlaceTile(origin.X, origin.Y, type, true, true);
-    }
-
-    public static void GenerateWheel(int type) {
-        var mod = EndlessEscapade.Instance;
-
-        var offset = GetAttachmentOffset(AttachmentType.Wheel);
-        var origin = new Point16(BoatX, BoatY) + offset;
-
-        WorldGen.PlaceTile(origin.X, origin.Y, type, true, true);
+    public static bool GenerateAttachment<T>(T attachment) where T : Attachment {
+        return attachment.Generate(BoatX, BoatY);
     }
 
     private static void GenerateShipyard(int x, int y) {
@@ -195,7 +153,7 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        ClearArea(BoatX, BoatY, dims.X + 1, dims.Y + 1);
+        WorldGenUtils.ClearArea(BoatX, BoatY, dims.X + 1, dims.Y + 1, true);
 
         BoatX += dims.X / 2;
         BoatY += dims.Y / 2;
@@ -211,66 +169,12 @@ public class ShipyardSystem : ModSystem
     private static void GenerateDefaultBoat() {
         var mod = EndlessEscapade.Instance;
 
-        GenerateHull("Assets/Structures/Boats/Default/Hull");
+        GenerateAttachment(new Hull("Assets/Structures/Boats/Default/Hull", TileID.WoodBlock, TileID.LivingWood, TileID.Platforms));
+        GenerateAttachment(new SmallSail("Assets/Structures/Boats/Default/SmallSail", TileID.WoodBlock, TileID.LivingWood, TileID.Platforms));
+        GenerateAttachment(new LargeSail("Assets/Structures/Boats/Default/LargeSail", TileID.WoodBlock, TileID.LivingWood, TileID.Platforms));
+        GenerateAttachment(new Cannon(ModContent.TileType<Content.Tiles.Shipyard.Cannon>()));
+        GenerateAttachment(new Wheel(ModContent.TileType<Content.Tiles.Shipyard.Wheel>()));
 
-        GenerateCannon(ModContent.TileType<Cannon>());
-        GenerateWheel(ModContent.TileType<Wheel>());
-
-        GenerateSmallSail("Assets/Structures/Boats/Default/SmallSail");
-        GenerateLargeSail("Assets/Structures/Boats/Default/LargeSail");
-
-        ReframeArea(BoatX, BoatY, BoatWidth, BoatHeight);
-    }
-
-    private static void ClearArea(int x, int y, int width, int height) {
-        for (var i = 0; i < width; i++) {
-            for (var j = 0; j < height; j++) {
-                if (!WorldGen.InWorld(x + i, y + j)) {
-                    continue;
-                }
-
-                var tile = Framing.GetTileSafely(x + i, y + j);
-
-                var oldType = tile.LiquidType;
-                var oldAmount = tile.LiquidAmount;
-
-                tile.ClearEverything();
-
-                tile.LiquidType = oldType;
-                tile.LiquidAmount = oldAmount;
-            }
-        }
-    }
-
-    private static void ReframeArea(int x, int y, int width, int height) {
-        for (var i = 0; i < width; i++) {
-            for (var j = 0; j < height; j++) {
-                if (!WorldGen.InWorld(x + i, y + j)) {
-                    continue;
-                }
-
-                WorldGen.Reframe(x + i, y + j, true);
-            }
-        }
-    }
-
-    private static Point16 GetAttachmentOffset(AttachmentType type) {
-        return type switch {
-            AttachmentType.Hull => new Point16(0, 17),
-            AttachmentType.Wheel => new Point16(12, 24),
-            AttachmentType.Cannon => new Point16(31, 25),
-            AttachmentType.SmallSail => new Point16(7, 9),
-            AttachmentType.LargeSail => new Point16(21, 0)
-        };
-    }
-
-    private enum AttachmentType
-    {
-        Hull,
-        Wheel,
-        Cannon,
-        SmallSail,
-        LargeSail,
-        Figurehead
+        WorldGenUtils.ReframeArea(BoatX, BoatY, BoatWidth, BoatHeight);
     }
 }
