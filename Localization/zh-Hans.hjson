@@ -125,6 +125,31 @@ Mods: {
 				DisplayName: 热带木墙
 				Tooltip: ""
 			}
+
+			Cannon: {
+				// DisplayName: Cannon
+				// Tooltip: ""
+			}
+
+			Wheel: {
+				// DisplayName: Wheel
+				// Tooltip: ""
+			}
+
+			CryoCannon: {
+				// DisplayName: Cryo Cannon
+				// Tooltip: ""
+			}
+
+			SailorHat: {
+				// DisplayName: Sailor Hat
+				// Tooltip: ""
+			}
+
+			TropicalWoodFence: {
+				// DisplayName: Tropical Wood Fence
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -157,7 +182,6 @@ Mods: {
 
 		Dialogue: {
 			Sailor: {
-				// ShipFixedDialogue: Thanks, and there you go! I have fixed up the ship for you.
 				NewMoonDialogue: 新月是珊瑚礁里的水母开始活动的信号.
 				AnglerDialogue0: 你见过我的儿子吗? 他上次出海钓鱼后就再也没回来.
 				AnglerDialogue1: 我儿子熟知海洋, 所以我希望他没事...
@@ -181,6 +205,7 @@ Mods: {
 					'''
 				ShipCommonDialogue0: Before you go sailing, don't forget to make a [i:{0}] to steer your boat
 				ShipCommonDialogue1: And, don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing
+				// ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
 			}
 		}
 

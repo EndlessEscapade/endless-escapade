@@ -5,7 +5,6 @@ using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Utilities;
-using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +14,8 @@ namespace EndlessEscapade.Common.Systems.Audio;
 [Autoload(Side = ModSide.Client)]
 public class AudioSystem : ModSystem
 {
-    private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags);
+    private static readonly FieldInfo? trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags);
+    private static readonly FieldInfo? soundInstanceField = typeof(ASoundEffectBasedAudioTrack).GetField("_soundEffectInstance", ReflectionUtils.PrivateInstanceFlags);
     
     public static readonly ImmutableArray<SoundStyle> IgnoredSounds = ImmutableArray.Create(
         SoundID.MenuClose,
@@ -33,40 +33,36 @@ public class AudioSystem : ModSystem
         MusicParameters = music;
     }
 
-    public static void ResetParameters() {
-        SoundParameters = default;
-        MusicParameters = default;
+    public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
+        LowPassSystem.ApplyParameters(instance, parameters);
     }
 
     public override bool IsLoadingEnabled(Mod mod) {
         return SoundEngine.IsAudioSupported;
     }
 
-    public override void PostUpdateEverything() {
-        MusicParameters = new AudioParameters() with {
-            LowPass = 1f
-        };
-    }
-
     public override void Load() {
+        if (trackedSoundsField == null || soundInstanceField == null) {
+            Mod.Logger.Error("Audio effects were disabled: Could not find internal Terraria members.");
+            return;
+        }
+
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
         On_SoundEngine.Update += SoundEngineUpdateHook;
+        
+        On_ASoundEffectBasedAudioTrack.Play += AudioTrackPlayHook;
+        On_ASoundEffectBasedAudioTrack.Update += AudioTrackUpdateHook;
     }
 
-    private static SlotId SoundEnginePlayHook(
-        On_SoundEngine.orig_PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback orig,
-        ref SoundStyle style,
-        Vector2? position,
-        SoundUpdateCallback updatecallback
-    ) {
-        var slot = orig(ref style, position, updatecallback);
+    private static SlotId SoundEnginePlayHook(On_SoundEngine.orig_PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback orig, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback) {
+        var slot = orig(ref style, position, callback);
 
-        if (IgnoredSounds.Contains(style) || !SoundEngine.TryGetActiveSound(slot, out ActiveSound result) || result.Sound.IsDisposed) {
+        if (IgnoredSounds.Contains(style) || !SoundEngine.TryGetActiveSound(slot, out var result) || result.Sound.IsDisposed) {
             return slot;
         }
 
-        LowPassSystem.ApplyEffects(result.Sound, SoundParameters);
-        
+        ApplyParameters(result.Sound, SoundParameters);
+
         return slot;
     }
 
@@ -83,7 +79,27 @@ public class AudioSystem : ModSystem
                 continue;
             }
 
-            LowPassSystem.ApplyEffects(instance, SoundParameters);
+            ApplyParameters(instance, SoundParameters);
         }
+
+        SoundParameters = default;
+    }
+    
+    private static void AudioTrackPlayHook(On_ASoundEffectBasedAudioTrack.orig_Play orig, ASoundEffectBasedAudioTrack self) {
+        orig(self);
+
+        var instance = (DynamicSoundEffectInstance)soundInstanceField.GetValue(self);
+        
+        ApplyParameters(instance, MusicParameters);
+    }
+    
+    private static void AudioTrackUpdateHook(On_ASoundEffectBasedAudioTrack.orig_Update orig, ASoundEffectBasedAudioTrack self) {
+        orig(self);
+        
+        var instance = (DynamicSoundEffectInstance)soundInstanceField.GetValue(self);
+        
+        ApplyParameters(instance, MusicParameters);
+        
+        MusicParameters = default;
     }
 }

@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using EndlessEscapade.Common.Systems.Shipyard;
 using EndlessEscapade.Utilities.Extensions;
+using StructureHelper;
 using Terraria;
+using Terraria.Cinematics;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
@@ -14,7 +19,7 @@ namespace EndlessEscapade.Content.NPCs.Shipyard;
 [AutoloadHead]
 public class Sailor : ModNPC
 {
-    private static bool alternateDialogue;
+    public static event Action OnBoatRepair;
 
     public override void SetStaticDefaults() {
         NPCID.Sets.ExtraFramesCount[Type] = 9;
@@ -25,9 +30,7 @@ public class Sailor : ModNPC
         NPCID.Sets.AttackAverageChance[Type] = 30;
         NPCID.Sets.HatOffsetY[Type] = 4;
 
-        NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
-            Velocity = 1f
-        };
+        var drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
 
         NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 
@@ -45,10 +48,7 @@ public class Sailor : ModNPC
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
         bestiaryEntry.Info.AddRange(
-            new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement(Mod.GetLocalizationValue("Bestiary.Sailor"))
-            }
+            new IBestiaryInfoElement[] { BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, new FlavorTextBestiaryInfoElement(Mod.GetLocalizationValue("Bestiary.Sailor")) }
         );
     }
 
@@ -77,6 +77,10 @@ public class Sailor : ModNPC
         return moreThanOne;
     }
 
+    public override void ModifyNPCLoot(NPCLoot npcLoot) {
+        npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Shipyard.SailorHat>(), 1));
+    }
+
     public override void SetChatButtons(ref string button, ref string button2) {
         button = Language.GetTextValue("LegacyInterface.28");
         button2 = Mod.GetLocalizationValue("Buttons.Sailor.Sailing");
@@ -90,14 +94,24 @@ public class Sailor : ModNPC
 
         var player = Main.LocalPlayer;
 
-        if (player.HasItem(ItemID.Wood, 150) && player.HasItem(ItemID.Silk, 20)) {
-            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipRepairDialogue");
+        var hasMaterials = player.HasItemStack(ItemID.Silk, 20) && player.HasItemStack(ItemID.Wood, 150);
+        var hasMoney = player.CanAfford(Item.buyPrice(gold: 5));
+
+        if (!ShipyardSystem.BoatFixed && hasMaterials && hasMoney) {
+            player.ConsumeItemStack(ItemID.Silk, 20);
+            player.ConsumeItemStack(ItemID.Wood, 150);
+            player.PayCurrency(Item.buyPrice(gold: 5));
+
+            OnBoatRepair.Invoke();
+            
+            Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
             return;
         }
 
-        Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipPromptDialogue{(alternateDialogue ? 0 : 1)}");
+        var dialogue = ShipyardSystem.BoatFixed ? "CommonDialogue" : "PromptDialogue";
+        var selected = $"Dialogue.Sailor.Ship{dialogue}{(Main.rand.NextBool() ? 0 : 1)}";
 
-        alternateDialogue = !alternateDialogue;
+        Main.npcChatText = Mod.GetLocalizationValue(selected);
     }
 
     public override string GetChat() {
@@ -110,21 +124,21 @@ public class Sailor : ModNPC
             return chat;
         }
 
+        if (Main.dayTime) {
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue0"));
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue1"));
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue2"));
+        }
+        else {
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue0"));
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue1"));
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue2"));
+        }
+
         if (Main.raining) {
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.RainDialogue0"));
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.RainDialogue1"));
         }
-
-        if (Main.dayTime) {
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue1"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue2"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue3"));
-            return chat;
-        }
-
-        chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue1"));
-        chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue2"));
-        chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue3"));
 
         if (Main.moonType == (int)MoonPhase.Empty) {
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NewMoonDialogue"));
@@ -134,9 +148,7 @@ public class Sailor : ModNPC
     }
 
     public override List<string> SetNPCNameList() {
-        return new List<string> {
-            "Skipper"
-        };
+        return new List<string> { "Skipper" };
     }
 
     public override void TownNPCAttackStrength(ref int damage, ref float knockback) {
