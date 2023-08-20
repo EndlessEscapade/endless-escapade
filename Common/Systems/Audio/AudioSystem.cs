@@ -13,7 +13,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 
-using FAudioINTERNAL;
+//using FAudioINTERNAL;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -62,69 +62,69 @@ public class AudioSystem : ModSystem
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
         On_SoundEngine.Update += SoundEngineUpdateHook;
 
-        IL_LegacyAudioSystem.UpdateCommonTrack += IL_ApplyFrecuencyAfterStarting;
+        // IL_LegacyAudioSystem.UpdateCommonTrack += IL_ApplyFrecuencyAfterStarting;
     }
 
-    private unsafe void IL_ApplyFrecuencyAfterStarting(MonoMod.Cil.ILContext il) {
-        ILCursor c = new(il);
-        c.TryGotoNext(i => i.MatchCallvirt<IAudioTrack>("Play"));
-        c.Emit(OpCodes.Dup);
-        c.Index++;
-        c.EmitDelegate((IAudioTrack track) => {
-            Console.WriteLine(track.GetType());
+    //private unsafe void IL_ApplyFrecuencyAfterStarting(MonoMod.Cil.ILContext il) {
+    //    ILCursor c = new(il);
+    //    c.TryGotoNext(i => i.MatchCallvirt<IAudioTrack>("Play"));
+    //    c.Emit(OpCodes.Dup);
+    //    c.Index++;
+    //    c.EmitDelegate((IAudioTrack track) => {
+    //        Console.WriteLine(track.GetType());
 
-            // smaller frequency = more high pitched part
-            // 
-            // 1 <------------- 0 - value
-            //         sound
-            // low <--------- high  
-            FAudio.FAudioFilterParameters parameters = new() {
-                Type = FAudio.FAudioFilterType.FAudioHighPassFilter,
-                Frequency = 0.3f, // <------------------ frequency
-                OneOverQ = 1
-            };
-            if (track is CueAudioTrack audiotrack) {
-                ReflectionUtils.GetField(audiotrack, "_cue", out Cue cue);
-                ReflectionUtils.GetField(cue, "handle", out nint handle);
+    //        // smaller frequency = more high pitched part
+    //        // 
+    //        // 1 <------------- 0 - value
+    //        //         sound
+    //        // low <--------- high  
+    //        FAudio.FAudioFilterParameters parameters = new() {
+    //            Type = FAudio.FAudioFilterType.FAudioHighPassFilter,
+    //            Frequency = 0.3f, // <------------------ frequency
+    //            OneOverQ = 1
+    //        };
+    //        if (track is CueAudioTrack audiotrack) {
+    //            ReflectionUtils.GetField(audiotrack, "_cue", out Cue cue);
+    //            ReflectionUtils.GetField(cue, "handle", out nint handle);
 
-                Thread.Sleep(100); // looks like there's a data race 
+    //            Thread.Sleep(100); // looks like there's a data race 
 
-                FACTCue* cuePtr = (FACTCue*)(void*)handle;
+    //            FACTCue* cuePtr = (FACTCue*)(void*)handle;
 
-                // debug print variable names
-                /*char** names = cuePtr->parentBank->parentEngine->variableNames;
-                int varCount = cuePtr->parentBank->parentEngine->variableCount;
-                float* variableValue = cuePtr->variableValues;
-                for (int i = 0; i < varCount; i++) {
-                    string variableName = new string((sbyte*)names[i]);
-                    Console.WriteLine($"{variableName}: {variableValue[i]} -- {FAudio.FACTCue_GetVariableIndex((nint)cuePtr, variableName)} - {i}");
-                }
-                Console.WriteLine("----------------------------");*/
+    //            // debug print variable names
+    //            /*char** names = cuePtr->parentBank->parentEngine->variableNames;
+    //            int varCount = cuePtr->parentBank->parentEngine->variableCount;
+    //            float* variableValue = cuePtr->variableValues;
+    //            for (int i = 0; i < varCount; i++) {
+    //                string variableName = new string((sbyte*)names[i]);
+    //                Console.WriteLine($"{variableName}: {variableValue[i]} -- {FAudio.FACTCue_GetVariableIndex((nint)cuePtr, variableName)} - {i}");
+    //            }
+    //            Console.WriteLine("----------------------------");*/
 
-                if (cuePtr->simpleWave != null) {
-                    FAudioVoice* voice = cuePtr->simpleWave->voice;
-                    //FAudio.FAudioVoice_GetVoiceDetails((nint)voice, out FAudio.FAudioVoiceDetails details);
+    //            if (cuePtr->simpleWave != null) {
+    //                FAudioVoice* voice = cuePtr->simpleWave->voice;
+    //                //FAudio.FAudioVoice_GetVoiceDetails((nint)voice, out FAudio.FAudioVoiceDetails details);
 
-                    FAudio.FAudioVoice_SetFilterParameters((nint)voice, ref parameters, 0u);
-                }
-                else if (cuePtr->playingSound != null) {
-                    FACTSound* factSound = cuePtr->playingSound->sound;
-                    int count = factSound->trackCount;
-                    for (int i = 0; i < count; i++) {
-                        ref var sound = ref cuePtr->playingSound;
-                        ref var tracks = ref sound->tracks[i];
-                        ref var wave1 = ref tracks.activeWave;
-                        FACTWave* wave2 = wave1.wave;
-                        FAudioVoice* voice = wave2->voice;
+    //                FAudio.FAudioVoice_SetFilterParameters((nint)voice, ref parameters, 0u);
+    //            }
+    //            else if (cuePtr->playingSound != null) {
+    //                FACTSound* factSound = cuePtr->playingSound->sound;
+    //                int count = factSound->trackCount;
+    //                for (int i = 0; i < count; i++) {
+    //                    ref var sound = ref cuePtr->playingSound;
+    //                    ref var tracks = ref sound->tracks[i];
+    //                    ref var wave1 = ref tracks.activeWave;
+    //                    FACTWave* wave2 = wave1.wave;
+    //                    FAudioVoice* voice = wave2->voice;
 
-                        Marshal.ThrowExceptionForHR((int)FAudio.FAudioVoice_SetFilterParameters((nint)voice, ref parameters, 0u));
-                    }
-                }
-            }
+    //                    Marshal.ThrowExceptionForHR((int)FAudio.FAudioVoice_SetFilterParameters((nint)voice, ref parameters, 0u));
+    //                }
+    //            }
+    //        }
 
-            return;
-        });
-    }
+    //        return;
+    //    });
+    //}
 
     private static SlotId SoundEnginePlayHook(
         On_SoundEngine.orig_PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback orig,
