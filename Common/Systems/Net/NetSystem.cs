@@ -15,6 +15,7 @@ public class NetSystem : ModSystem
     
     public static int MessageCount { get; internal set; }
 
+<<<<<<< HEAD
     /// <summary>Returns the assigned ID for the specified packet or 0 if the packet has not been registered.</summary>
     /// <typeparam name="T"></typeparam>
     /// <returns>The net ID of the packet.</returns>
@@ -26,6 +27,13 @@ public class NetSystem : ModSystem
         int messageID = reader.ReadByte();
         if (netMessagesHandlers.TryGetValue(messageID, out var value)) {
             value.Handle(reader, fromWho);
+=======
+        /// <summary>Returns the assigned ID for the specified packet or 0 if the packet has not been registered.</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>The net ID of the packet.</returns>
+        public static int PacketID<T>() where T : INetMessage<T> {
+            return MessageInfo<T>.ID;
+>>>>>>> 16c34049c6f66190f06d86ba3d55a46a5cc023b0
         }
         else {
             EndlessEscapade.Instance.Logger.Warn($"A message of type {messageID} has been recieved but no packet is associated with such ID");
@@ -58,6 +66,7 @@ public class NetSystem : ModSystem
                     continue;
                 }
 
+<<<<<<< HEAD
                 if (!methodPackageHandlers.TryGetValue(attribute.TargetMessageType, out var list)) {
                     methodPackageHandlers[attribute.TargetMessageType] = list = new List<MethodInfo>();
                 }
@@ -69,6 +78,25 @@ public class NetSystem : ModSystem
             var netMessageGeneric = typeof(INetMessage<>).MakeGenericType(type);
             if (type.IsAbstract || !type.IsAssignableTo(netMessageGeneric)) {
                 continue;
+=======
+                // value types dont require a ctor
+                if (!(type.IsValueType || type.GetConstructor(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance, Type.EmptyTypes) != null))
+                    continue;
+                object instance = Activator.CreateInstance(type)!;
+                if (!type.IsValueType) // structs cannot be fetched by ContentInstance.GetInstance
+                    ContentInstance.Register(instance);
+                Type genericMessageType = typeof(MessageInfo<>).MakeGenericType(type);
+                genericMessageType.GetMethod("Load", FlagsStatic)!.Invoke(null, new object[] { instance });
+                int id = (int)genericMessageType.GetProperty("ID", FlagsStatic)!.GetValue(null)!;
+
+                netMessagesHandlers[id] = (IMessageHandler)Activator.CreateInstance(typeof(MessageInfo<>).MakeGenericType(type))!;
+            }
+            foreach ((Type messageType, List<MethodInfo> handlers) in methodPackageHandlers) {
+                EventInfo onRecieveEvent = typeof(MessageInfo<>).MakeGenericType(messageType).GetEvent("OnRecieve", FlagsStatic)!;
+                Type actionType = typeof(Action<>).MakeGenericType(messageType);
+                foreach (MethodInfo handler in handlers)
+                    onRecieveEvent.AddEventHandler(null, handler.CreateDelegate(messageType));
+>>>>>>> 16c34049c6f66190f06d86ba3d55a46a5cc023b0
             }
 
             // value types dont require a ctor
