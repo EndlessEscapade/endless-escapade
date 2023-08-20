@@ -19,7 +19,7 @@ namespace EndlessEscapade.Common.Systems.Net
         internal static void Load(T instance) {
             Singleton = instance;
             boxedSingleton = instance;
-            ID = ++EENet.MessageCount;
+            ID = ++NetSystem.MessageCount;
         }
         string? IMessageHandler.DebugName => typeof(T).Name;
         object? IMessageHandler.PacketInstance => boxedSingleton;

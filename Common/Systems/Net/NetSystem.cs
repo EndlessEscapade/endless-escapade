@@ -12,7 +12,7 @@ using Terraria.ModLoader.Core;
 
 namespace EndlessEscapade.Common.Systems.Net
 {
-    public class EENet : ModSystem
+    public class NetSystem : ModSystem
     {
         public static int MessageCount { get; internal set; }
         private static Dictionary<int, IMessageHandler> netMessagesHandlers = new();
@@ -58,7 +58,7 @@ namespace EndlessEscapade.Common.Systems.Net
                     if (method.GetParameters() is not { Length: 1 } parameters || method.ReturnType != typeof(void) || method.GetCustomAttribute<MessageHandlerAttribute>() is not { } attribute)
                         continue;
                     if (parameters[0].ParameterType != attribute.TargetMessageType) {
-                        Mod.Logger.Error($"{nameof(EENet)}: Method {type.FullName}::{method.Name} cannot be registered for listening to packets because the method's parameter is not of type {attribute.TargetMessageType}");
+                        Mod.Logger.Error($"{nameof(NetSystem)}: Method {type.FullName}::{method.Name} cannot be registered for listening to packets because the method's parameter is not of type {attribute.TargetMessageType}");
                         continue;
                     }
                     if (!methodPackageHandlers.TryGetValue(attribute.TargetMessageType, out var list))
