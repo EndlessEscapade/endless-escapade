@@ -209,6 +209,20 @@ Mods: {
 						'''
 				}
 			}
+
+			DebugConfig: {
+				DisplayName: Debug Config
+
+				EnableReloadNRejoin: {
+					Label: Enable Reload N Rejoin
+					Tooltip: ""
+				}
+
+				ReloadNRejoinExitNoSaveByDefault: {
+					Label: Reload N Rejoin Exit No Save By Default
+					Tooltip: ""
+				}
+			}
 		}
 
 		Titles: {

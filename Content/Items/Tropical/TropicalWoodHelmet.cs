@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Items.Reefs.Tropical;
+namespace EndlessEscapade.Content.Items.Tropical;
 
 [AutoloadEquip(EquipType.Head)]
 public class TropicalWoodHelmet : ModItem

@@ -152,7 +152,7 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        ClearArea(BoatX - 2, BoatY - 2, dims.X + 2, dims.Y + 2);
+        ClearArea(BoatX, BoatY, dims.X, dims.Y);
     }
 
     private static void ClearArea(int x, int y, int width, int height) {

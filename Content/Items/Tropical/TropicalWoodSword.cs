@@ -1,7 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Items.Reefs.Tropical;
+namespace EndlessEscapade.Content.Items.Tropical;
 
 public class TropicalWoodSword : ModItem
 {
