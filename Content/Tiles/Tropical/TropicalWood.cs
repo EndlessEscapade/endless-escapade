@@ -24,7 +24,7 @@ public class TropicalWood : CompositeTileBase
         HitSound = SoundID.Dig;
         DustType = DustID.WoodFurniture;
 
-        RegisterItemDrop(ModContent.ItemType<EndlessEscapade.Content.Items.Tropical.TropicalWood>());
+        RegisterItemDrop(ModContent.ItemType<Items.Tropical.TropicalWood>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {
