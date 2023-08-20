@@ -14,8 +14,9 @@ namespace EndlessEscapade.Common.Systems.Audio;
 [Autoload(Side = ModSide.Client)]
 public class AudioSystem : ModSystem
 {
-    private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags);
-
+    private static readonly FieldInfo? trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags);
+    private static readonly FieldInfo? soundInstanceField = typeof(ASoundEffectBasedAudioTrack).GetField("_soundEffectInstance", ReflectionUtils.PrivateInstanceFlags);
+    
     public static readonly ImmutableArray<SoundStyle> IgnoredSounds = ImmutableArray.Create(
         SoundID.MenuClose,
         SoundID.MenuOpen,
@@ -32,11 +33,6 @@ public class AudioSystem : ModSystem
         MusicParameters = music;
     }
 
-    public static void ResetParameters() {
-        SoundParameters = default;
-        MusicParameters = default;
-    }
-
     public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
         LowPassSystem.ApplyParameters(instance, parameters);
     }
@@ -46,13 +42,16 @@ public class AudioSystem : ModSystem
     }
 
     public override void Load() {
-        if (trackedSoundsField == null) {
+        if (trackedSoundsField == null || soundInstanceField == null) {
             Mod.Logger.Error("Audio effects were disabled: Could not find internal Terraria members.");
             return;
         }
 
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
         On_SoundEngine.Update += SoundEngineUpdateHook;
+        
+        On_ASoundEffectBasedAudioTrack.Play += AudioTrackPlayHook;
+        On_ASoundEffectBasedAudioTrack.Update += AudioTrackUpdateHook;
     }
 
     private static SlotId SoundEnginePlayHook(On_SoundEngine.orig_PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback orig, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback) {
@@ -84,5 +83,23 @@ public class AudioSystem : ModSystem
         }
 
         SoundParameters = default;
+    }
+    
+    private static void AudioTrackPlayHook(On_ASoundEffectBasedAudioTrack.orig_Play orig, ASoundEffectBasedAudioTrack self) {
+        orig(self);
+
+        var instance = (DynamicSoundEffectInstance)soundInstanceField.GetValue(self);
+        
+        ApplyParameters(instance, MusicParameters);
+    }
+    
+    private static void AudioTrackUpdateHook(On_ASoundEffectBasedAudioTrack.orig_Update orig, ASoundEffectBasedAudioTrack self) {
+        orig(self);
+        
+        var instance = (DynamicSoundEffectInstance)soundInstanceField.GetValue(self);
+        
+        ApplyParameters(instance, MusicParameters);
+        
+        MusicParameters = default;
     }
 }
