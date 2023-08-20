@@ -21,12 +21,12 @@ public class CryoCannon : ModTile
         TileObjectData.newTile.Direction = TileObjectDirection.None;
         TileObjectData.addTile(Type);
 
-        AddMapEntry(new Color(0, 80, 192));
+        AddMapEntry(new Color(106, 210, 255));
 
         MineResist = 1f;
 
         HitSound = SoundID.Dig;
-        DustType = DustID.Stone;
+        DustType = DustID.Ice;
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

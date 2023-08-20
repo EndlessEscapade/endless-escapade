@@ -8,7 +8,7 @@ namespace EndlessEscapade.Content.Items.Shipyard;
 public class SailorHat : ModItem
 {
     public override void SetStaticDefaults() {
-        ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
+        ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
     }
 
     public override void SetDefaults() {
