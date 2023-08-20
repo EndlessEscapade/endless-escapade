@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using EndlessEscapade.Common.Systems.World;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Personalities;
@@ -95,16 +94,16 @@ public class Sailor : ModNPC
             player.ConsumeItemStack(ItemID.Silk, 20);
             player.ConsumeItemStack(ItemID.Wood, 150);
             player.PayCurrency(Item.buyPrice(gold: 5));
-            
+
             OnBoatRepair.Invoke();
-            
+
             Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
             return;
         }
-        
+
         var dialogue = ShipyardSystem.BoatFixed ? "CommonDialogue" : "PromptDialogue";
         var selected = $"Dialogue.Sailor.Ship{dialogue}{(Main.rand.NextBool() ? 0 : 1)}";
-        
+
         Main.npcChatText = Mod.GetLocalizationValue(selected);
     }
 
@@ -128,7 +127,7 @@ public class Sailor : ModNPC
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue1"));
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue2"));
         }
-        
+
         if (Main.raining) {
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.RainDialogue0"));
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.RainDialogue1"));

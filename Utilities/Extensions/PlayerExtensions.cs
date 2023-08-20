@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Terraria;
+﻿using Terraria;
 
 namespace EndlessEscapade.Utilities.Extensions;
 
@@ -8,7 +6,7 @@ public static class PlayerExtensions
 {
     public static bool HasItemStack(this Player player, int type, int stack) {
         var count = 0;
-        
+
         for (var i = 0; i < player.inventory.Length; i++) {
             var item = player.inventory[i];
 
@@ -26,7 +24,7 @@ public static class PlayerExtensions
         }
 
         var count = stack;
-        
+
         for (var i = 0; i < player.inventory.Length; i++) {
             var item = player.inventory[i];
 
@@ -36,7 +34,7 @@ public static class PlayerExtensions
 
             if (!item.IsAir && item.type == type) {
                 var previousStack = item.stack;
-                
+
                 item.stack -= count;
                 count -= previousStack;
             }

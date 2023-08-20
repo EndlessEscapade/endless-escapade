@@ -21,21 +21,21 @@ public class Wheel : ModTile
         TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
         TileObjectData.newTile.Height = 3;
 
-        for (int i = 0; i < TileObjectData.newTile.Height; i++) {
+        for (var i = 0; i < TileObjectData.newTile.Height; i++) {
             TileObjectData.newTile.CoordinateHeights[i] = 16;
         }
-        
+
         TileObjectData.newTile.Origin = Point16.Zero;
         TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
         TileObjectData.newTile.Direction = TileObjectDirection.None;
         TileObjectData.addTile(Type);
 
         AddMapEntry(new Color(119, 71, 59));
-        
+
         HitSound = SoundID.Dig;
         DustType = DustID.WoodFurniture;
     }
-    
+
     public override void MouseOver(int i, int j) {
         var player = Main.LocalPlayer;
         player.noThrow = 2;

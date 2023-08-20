@@ -22,9 +22,9 @@ public class Cannon : ModTile
         TileObjectData.addTile(Type);
 
         AddMapEntry(new Color(47, 55, 69));
-        
+
         MineResist = 1f;
-        
+
         HitSound = SoundID.Dig;
         DustType = DustID.Stone;
     }
