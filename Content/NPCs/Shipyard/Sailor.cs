@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Cinematics;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
@@ -74,6 +75,10 @@ public class Sailor : ModNPC
         }
 
         return moreThanOne;
+    }
+
+    public override void ModifyNPCLoot(NPCLoot npcLoot) {
+        npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Shipyard.SailorHat>(), 1));
     }
 
     public override void SetChatButtons(ref string button, ref string button2) {

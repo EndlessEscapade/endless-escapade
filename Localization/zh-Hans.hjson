@@ -135,6 +135,21 @@ Mods: {
 				// DisplayName: Wheel
 				// Tooltip: ""
 			}
+
+			CryoCannon: {
+				// DisplayName: Cryo Cannon
+				// Tooltip: ""
+			}
+
+			SailorHat: {
+				// DisplayName: Sailor Hat
+				// Tooltip: ""
+			}
+
+			TropicalWoodFence: {
+				// DisplayName: Tropical Wood Fence
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {
