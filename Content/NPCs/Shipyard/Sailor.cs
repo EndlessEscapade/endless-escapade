@@ -19,8 +19,6 @@ public class Sailor : ModNPC
 {
     public static event Action OnBoatRepair;
 
-    private static bool alternateDialogue;
-
     public override void SetStaticDefaults() {
         NPCID.Sets.ExtraFramesCount[Type] = 9;
         NPCID.Sets.AttackFrameCount[Type] = 4;
@@ -90,20 +88,19 @@ public class Sailor : ModNPC
 
         var player = Main.LocalPlayer;
 
-        if (player.HasItemStack(ItemID.Silk, 20) && player.HasItemStack(ItemID.Wood, 150)) {
-            Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
-            
+        var hasMaterials = player.HasItemStack(ItemID.Silk, 20) && player.HasItemStack(ItemID.Wood, 150);
+        var hasMoney = player.CanAfford(Item.buyPrice(gold: 5));
+
+        if (!ShipyardSystem.BoatFixed && hasMaterials && hasMoney) {
             player.ConsumeItemStack(ItemID.Silk, 20);
             player.ConsumeItemStack(ItemID.Wood, 150);
+            player.PayCurrency(Item.buyPrice(gold: 5));
             
             OnBoatRepair.Invoke();
             
+            Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
             return;
         }
-
-        Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipPromptDialogue{(alternateDialogue ? 0 : 1)}");
-
-        alternateDialogue = !alternateDialogue;
     }
 
     public override string GetChat() {
@@ -116,21 +113,21 @@ public class Sailor : ModNPC
             return chat;
         }
 
+        if (Main.dayTime) {
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue0"));
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue1"));
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue2"));
+        }
+        else {
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue0"));
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue1"));
+            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue2"));
+        }
+        
         if (Main.raining) {
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.RainDialogue0"));
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.RainDialogue1"));
         }
-
-        if (Main.dayTime) {
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue1"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue2"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue3"));
-            return chat;
-        }
-
-        chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue1"));
-        chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue2"));
-        chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue3"));
 
         if (Main.moonType == (int)MoonPhase.Empty) {
             chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NewMoonDialogue"));

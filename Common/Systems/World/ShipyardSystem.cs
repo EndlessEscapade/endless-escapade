@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using EndlessEscapade.Content.NPCs.Shipyard;
+using EndlessEscapade.Content.Tiles.Shipyard;
 using EndlessEscapade.Utilities;
 using StructureHelper;
 using Terraria;
@@ -34,7 +35,8 @@ public class ShipyardSystem : ModSystem
     }
 
     public override void Load() {
-        Sailor.OnBoatRepair += Recalculate;
+        Sailor.OnBoatRepair += PrepareDefaultBoat;
+        Sailor.OnBoatRepair += GenerateDefaultBoat;
     }
 
     public override void PostWorldGen() {
@@ -74,19 +76,16 @@ public class ShipyardSystem : ModSystem
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
 
-    private static void GenerateShipyard(int x, int y) {
-        void ExtendPillar(int xOffset, int yOffset) {
-            var pillarX = x + xOffset;
-            var pillarY = y + yOffset;
+    private static void ExtendPillar(int x, int y) {
+        while (WorldGen.InWorld(x, y) && !WorldGen.SolidTile(x, y)) {
+            WorldGen.PlaceTile(x, y, TileID.LivingWood, true, true);
+            WorldGen.SlopeTile(x, y);
 
-            while (WorldGen.InWorld(pillarX, pillarY) && !WorldGen.SolidTile(pillarX, pillarY)) {
-                WorldGen.PlaceTile(pillarX, pillarY, TileID.LivingWood, true, true);
-                WorldGen.SlopeTile(pillarX, pillarY);
-
-                pillarY++;
-            }
+            y++;
         }
-        
+    }
+
+    private static void GenerateShipyard(int x, int y) {
         const string path = "Assets/Structures/Shipyard";
         
         var mod = EndlessEscapade.Instance;
@@ -103,7 +102,17 @@ public class ShipyardSystem : ModSystem
             return;
         }
         
-        ExtendPillar(4 - offset.X, 39 - offset.Y);
+        ExtendPillar(origin.X + 4, origin.Y + 39);
+        ExtendPillar(origin.X + 5, origin.Y + 39);
+        
+        ExtendPillar(origin.X + 20, origin.Y + 39);
+        ExtendPillar(origin.X + 21, origin.Y + 39);
+        
+        ExtendPillar(origin.X + 36, origin.Y + 39);
+        ExtendPillar(origin.X + 37, origin.Y + 39);
+        
+        /*
+         *         ExtendPillar(4 - offset.X, 39 - offset.Y);
         ExtendPillar(4 - offset.X + 1, 39 - offset.Y);
 
         ExtendPillar(20 - offset.X, 39 - offset.Y);
@@ -111,6 +120,7 @@ public class ShipyardSystem : ModSystem
 
         ExtendPillar(36 - offset.X, 39 - offset.Y);
         ExtendPillar(36 - offset.X + 1, 39 - offset.Y);
+         */
 
         const int roomOffsetX = 60;
         const int roomOffsetY = 10;
@@ -120,7 +130,7 @@ public class ShipyardSystem : ModSystem
 
         NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
     }
-    
+
     private static void GenerateBrokenBoat(int x, int y) {
         const string path = "Assets/Structures/Boats/Default/Broken";
         
@@ -142,7 +152,23 @@ public class ShipyardSystem : ModSystem
         BoatY = origin.Y;
     }
     
-    private static void Recalculate() {
+    private static void GenerateDefaultBoat() {
+        const string path = "Assets/Structures/Boats/Default/";
+
+        var mod = EndlessEscapade.Instance;
+
+        Generator.GenerateStructure($"{path}Hull", new Point16(BoatX, BoatY) + GetAttachmentOffset(AttachmentType.Hull), mod);
+        Generator.GenerateStructure($"{path}SailSmall", new Point16(BoatX, BoatY) + GetAttachmentOffset(AttachmentType.SailSmall), mod);
+        Generator.GenerateStructure($"{path}SailLarge", new Point16(BoatX, BoatY) + GetAttachmentOffset(AttachmentType.SailLarge), mod);
+
+        var cannon = new Point16(BoatX, BoatY) + GetAttachmentOffset(AttachmentType.Cannon);
+
+        WorldGen.PlaceTile(cannon.X, cannon.Y, ModContent.TileType<Cannon>());
+        
+        ReframeArea(BoatX, BoatY, BoatWidth, BoatHeight);
+    }
+    
+    private static void PrepareDefaultBoat() {
         const string path = "Assets/Structures/Boats/Default/Broken";
         
         var mod = EndlessEscapade.Instance;
@@ -152,13 +178,33 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        ClearArea(BoatX, BoatY, dims.X, dims.Y);
+        ClearArea(BoatX, BoatY, dims.X + 1, dims.Y + 1);
+
+        BoatX += dims.X / 2;
+        BoatY += dims.Y / 2;
+
+        BoatX -= BoatWidth / 2;
+        BoatY -= BoatHeight - BoatHeight / 3;
+        
+        BoatFixed = true;
     }
 
     private static void ClearArea(int x, int y, int width, int height) {
         for (var i = 0; i < width; i++) {
             for (var j = 0; j < height; j++) {
-                Framing.GetTileSafely(x + i, y + j).ClearEverything();
+                if (!WorldGen.InWorld(x + i, y + j)) {
+                    continue;
+                }
+                
+                var tile = Framing.GetTileSafely(x + i, y + j);
+                
+                var oldType = tile.LiquidType;
+                var oldAmount = tile.LiquidAmount;
+                
+                tile.ClearEverything();
+
+                tile.LiquidType = oldType;
+                tile.LiquidAmount = oldAmount;
             }
         }
     }
@@ -166,6 +212,10 @@ public class ShipyardSystem : ModSystem
     private static void ReframeArea(int x, int y, int width, int height) {
         for (var i = 0; i < width; i++) {
             for (var j = 0; j < height; j++) {
+                if (!WorldGen.InWorld(x + i, y + j)) {
+                    continue;
+                }
+                
                 WorldGen.Reframe(x + i, y + j, true);
             }
         }

@@ -125,6 +125,11 @@ Mods: {
 				DisplayName: Tropical Wood Wall
 				Tooltip: ""
 			}
+
+			Cannon: {
+				DisplayName: Cannon
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -157,7 +162,6 @@ Mods: {
 
 		Dialogue: {
 			Sailor: {
-				ShipFixedDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
 				NewMoonDialogue: Ahoy there, when the new moon rises, keep a weathered eye on the Coral Reefs – them jellyfish'll be driftin' 'bout like ghostly lanterns.
 				AnglerDialogue0: Aye, me heart aches for me son, off fishin' he went, but the sea's a fickle mistress, and he's yet to make his return.
 				AnglerDialogue1: Me lad, he knows the ocean's whispers, so I'm prayin' he's still ridin' those waves.
@@ -181,6 +185,7 @@ Mods: {
 					'''
 				ShipCommonDialogue0: And don't ye forget, before weighin' anchor, craft a sturdy [i:{0}] to guide yer ship true through the tempest's embrace.
 				ShipCommonDialogue1: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
+				ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
 			}
 		}
 
