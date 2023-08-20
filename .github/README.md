@@ -13,7 +13,7 @@ The mod is currently not released and we greatly discourage you to not build it 
 
 ## Contributors
 
-Thanks to all developers who contributed to the project!
+Shoutout to all people who contributed!
 
 <a href="https://github.com/EndlessEscapade/EndlessEscapade/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=EndlessEscapade/EndlessEscapade&max=900&columns=20"/>
