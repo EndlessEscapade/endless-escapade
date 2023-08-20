@@ -6,7 +6,7 @@ namespace EndlessEscapade.Common.Systems.Net
 {
     /// <summary>Contains information specific to a net message.</summary>
     /// <typeparam name="T"></typeparam>
-    public class EEMessage<T> : IMessageHandler where T : INetMessage<T>
+    public class MessageInfo<T> : IMessageHandler where T : INetMessage<T>
     {
         /// <summary>The ID that was given to this net message.</summary>
         public static int ID { get; internal set; }

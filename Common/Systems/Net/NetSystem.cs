@@ -21,7 +21,7 @@ namespace EndlessEscapade.Common.Systems.Net
         /// <typeparam name="T"></typeparam>
         /// <returns>The net ID of the packet.</returns>
         public static int PacketID<T>() where T : INetMessage<T> {
-            return EEMessage<T>.ID;
+            return MessageInfo<T>.ID;
         }
         /*/// <summary>Allows registering for a custom action under a net ID.</summary>
         /// <param name="callback"></param>
@@ -78,14 +78,14 @@ namespace EndlessEscapade.Common.Systems.Net
                 object instance = Activator.CreateInstance(type)!;
                 if (!type.IsValueType) // structs cannot be fetched by ContentInstance.GetInstance
                     ContentInstance.Register(instance);
-                Type genericMessageType = typeof(EEMessage<>).MakeGenericType(type);
+                Type genericMessageType = typeof(MessageInfo<>).MakeGenericType(type);
                 genericMessageType.GetMethod("Load", FlagsStatic)!.Invoke(null, new object[] { instance });
                 int id = (int)genericMessageType.GetProperty("ID", FlagsStatic)!.GetValue(null)!;
 
-                netMessagesHandlers[id] = (IMessageHandler)Activator.CreateInstance(typeof(EEMessage<>).MakeGenericType(type))!;
+                netMessagesHandlers[id] = (IMessageHandler)Activator.CreateInstance(typeof(MessageInfo<>).MakeGenericType(type))!;
             }
             foreach ((Type messageType, List<MethodInfo> handlers) in methodPackageHandlers) {
-                EventInfo onRecieveEvent = typeof(EEMessage<>).MakeGenericType(messageType).GetEvent("OnRecieve", FlagsStatic)!;
+                EventInfo onRecieveEvent = typeof(MessageInfo<>).MakeGenericType(messageType).GetEvent("OnRecieve", FlagsStatic)!;
                 Type actionType = typeof(Action<>).MakeGenericType(messageType);
                 foreach (MethodInfo handler in handlers)
                     onRecieveEvent.AddEventHandler(null, handler.CreateDelegate(messageType));
