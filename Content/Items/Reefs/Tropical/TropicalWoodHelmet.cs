@@ -26,7 +26,7 @@ public class TropicalWoodHelmet : ModItem
         player.setBonus = "+1 defense";
         player.statDefense++;
     }
-    
+
     public override void AddRecipes() {
         var recipe = CreateRecipe();
         recipe.AddIngredient<TropicalWood>(20);

@@ -157,7 +157,7 @@ Mods: {
 
 		Dialogue: {
 			Sailor: {
-				// ShipFixedDialogue: Thanks, and there you go! I have fixed up the ship for you.
+				// ShipFixedDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
 				NewMoonDialogue: 新月是珊瑚礁里的水母开始活动的信号.
 				AnglerDialogue0: 你见过我的儿子吗? 他上次出海钓鱼后就再也没回来.
 				AnglerDialogue1: 我儿子熟知海洋, 所以我希望他没事...

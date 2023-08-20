@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using EndlessEscapade.Common.Systems.World;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Personalities;
@@ -14,6 +17,8 @@ namespace EndlessEscapade.Content.NPCs.Shipyard;
 [AutoloadHead]
 public class Sailor : ModNPC
 {
+    public static event Action OnBoatRepair;
+
     private static bool alternateDialogue;
 
     public override void SetStaticDefaults() {
@@ -25,9 +30,7 @@ public class Sailor : ModNPC
         NPCID.Sets.AttackAverageChance[Type] = 30;
         NPCID.Sets.HatOffsetY[Type] = 4;
 
-        NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
-            Velocity = 1f
-        };
+        var drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
 
         NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 
@@ -45,10 +48,7 @@ public class Sailor : ModNPC
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
         bestiaryEntry.Info.AddRange(
-            new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement(Mod.GetLocalizationValue("Bestiary.Sailor"))
-            }
+            new IBestiaryInfoElement[] { BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, new FlavorTextBestiaryInfoElement(Mod.GetLocalizationValue("Bestiary.Sailor")) }
         );
     }
 
@@ -90,8 +90,14 @@ public class Sailor : ModNPC
 
         var player = Main.LocalPlayer;
 
-        if (player.HasItem(ItemID.Wood, 150) && player.HasItem(ItemID.Silk, 20)) {
-            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipRepairDialogue");
+        if (player.HasItemStack(ItemID.Silk, 20) && player.HasItemStack(ItemID.Wood, 150)) {
+            Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
+            
+            player.ConsumeItemStack(ItemID.Silk, 20);
+            player.ConsumeItemStack(ItemID.Wood, 150);
+            
+            OnBoatRepair.Invoke();
+            
             return;
         }
 
@@ -134,9 +140,7 @@ public class Sailor : ModNPC
     }
 
     public override List<string> SetNPCNameList() {
-        return new List<string> {
-            "Skipper"
-        };
+        return new List<string> { "Skipper" };
     }
 
     public override void TownNPCAttackStrength(ref int damage, ref float knockback) {

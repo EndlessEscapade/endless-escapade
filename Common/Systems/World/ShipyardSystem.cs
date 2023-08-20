@@ -1,4 +1,6 @@
-﻿using EndlessEscapade.Content.NPCs.Shipyard;
+﻿using System.IO;
+using EndlessEscapade.Content.NPCs.Shipyard;
+using EndlessEscapade.Utilities;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
@@ -9,6 +11,32 @@ namespace EndlessEscapade.Common.Systems.World;
 
 public class ShipyardSystem : ModSystem
 {
+    private const int BoatWidth = 46;
+    private const int BoatHeight = 37;
+    
+    public static bool BoatFixed { get; private set; }
+    
+    public static int BoatX { get; private set; }
+    public static int BoatY { get; private set; }
+    
+    public override void NetSend(BinaryWriter writer) {
+        writer.Write(BoatFixed);
+        
+        writer.Write(BoatX);
+        writer.Write(BoatY);
+    }
+
+    public override void NetReceive(BinaryReader reader) {
+        BoatFixed = reader.ReadBoolean();
+        
+        BoatX = reader.ReadInt32();
+        BoatY = reader.ReadInt32();
+    }
+
+    public override void Load() {
+        Sailor.OnBoatRepair += Recalculate;
+    }
+
     public override void PostWorldGen() {
         var foundOcean = false;
         var foundBeach = false;
@@ -43,73 +71,123 @@ public class ShipyardSystem : ModSystem
         const int sailboatDistance = 100;
 
         GenerateShipyard(x, y);
-        GenerateSailboat(x - sailboatDistance, y);
+        GenerateBrokenBoat(x - sailboatDistance, y);
     }
 
-    private void GenerateShipyard(int x, int y) {
-        var dims = Point16.Zero;
-
-        if (!Generator.GetDimensions("Assets/Structures/Shipyard", Mod, ref dims)) {
-            return;
-        }
-
-        var offsetX = dims.X / 2;
-        var offsetY = dims.Y - dims.Y / 3;
-
-        PlaceShipyard(x - offsetX, y - offsetY);
-    }
-
-    private void PlaceShipyard(int x, int y) {
+    private static void GenerateShipyard(int x, int y) {
         void ExtendPillar(int xOffset, int yOffset) {
             var pillarX = x + xOffset;
             var pillarY = y + yOffset;
 
-            while (!WorldGen.SolidTile(pillarX, pillarY) && WorldGen.InWorld(pillarX, pillarY)) {
+            while (WorldGen.InWorld(pillarX, pillarY) && !WorldGen.SolidTile(pillarX, pillarY)) {
                 WorldGen.PlaceTile(pillarX, pillarY, TileID.LivingWood, true, true);
                 WorldGen.SlopeTile(pillarX, pillarY);
 
                 pillarY++;
             }
         }
-
-        if (!Generator.GenerateStructure("Assets/Structures/Shipyard", new Point16(x, y), Mod)) {
+        
+        const string path = "Assets/Structures/Shipyard";
+        
+        var mod = EndlessEscapade.Instance;
+        var dims = Point16.Zero;
+        
+        if (!Generator.GetDimensions(path, mod, ref dims)) {
             return;
         }
+        
+        var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
+        var origin = new Point16(x, y) - offset;
 
-        const int firstPillarX = 4;
-        const int secondPillarX = 20;
-        const int thirdPillarX = 36;
+        if (!Generator.GenerateStructure(path, origin, mod)) {
+            return;
+        }
+        
+        ExtendPillar(4 - offset.X, 39 - offset.Y);
+        ExtendPillar(4 - offset.X + 1, 39 - offset.Y);
 
-        const int pillarBottomY = 39;
+        ExtendPillar(20 - offset.X, 39 - offset.Y);
+        ExtendPillar(20 - offset.X + 1, 39 - offset.Y);
 
-        ExtendPillar(firstPillarX, pillarBottomY);
-        ExtendPillar(firstPillarX + 1, pillarBottomY);
-
-        ExtendPillar(secondPillarX, pillarBottomY);
-        ExtendPillar(secondPillarX + 1, pillarBottomY);
-
-        ExtendPillar(thirdPillarX, pillarBottomY);
-        ExtendPillar(thirdPillarX + 1, pillarBottomY);
+        ExtendPillar(36 - offset.X, 39 - offset.Y);
+        ExtendPillar(36 - offset.X + 1, 39 - offset.Y);
 
         const int roomOffsetX = 60;
         const int roomOffsetY = 10;
 
-        var sailorX = (int)((x + roomOffsetX) * 16f);
-        var sailorY = (int)((y + roomOffsetY) * 16f);
+        var sailorX = (int)((origin.X + roomOffsetX) * 16f);
+        var sailorY = (int)((origin.Y + roomOffsetY) * 16f);
 
         NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
     }
-
-    private void GenerateSailboat(int x, int y) {
+    
+    private static void GenerateBrokenBoat(int x, int y) {
+        const string path = "Assets/Structures/Boats/Default/Broken";
+        
+        var mod = EndlessEscapade.Instance;
         var dims = Point16.Zero;
 
-        if (!Generator.GetDimensions("Assets/Structures/ShipyardBrokenSailboat", Mod, ref dims)) {
+        if (!Generator.GetDimensions(path, mod, ref dims)) {
             return;
         }
 
-        var offsetX = dims.X / 2;
-        var offsetY = dims.Y - dims.Y / 3;
+        var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
+        var origin = new Point16(x, y) - offset;
 
-        Generator.GenerateStructure("Assets/Structures/ShipyardBrokenSailboat", new Point16(x - offsetX, y - offsetY), Mod);
+        if (!Generator.GenerateStructure(path, origin, mod)) {
+            return;
+        }
+
+        BoatX = origin.X;
+        BoatY = origin.Y;
+    }
+    
+    private static void Recalculate() {
+        const string path = "Assets/Structures/Boats/Default/Broken";
+        
+        var mod = EndlessEscapade.Instance;
+        var dims = Point16.Zero;
+        
+        if (!Generator.GetDimensions(path, mod, ref dims)) {
+            return;
+        }
+
+        ClearArea(BoatX - 2, BoatY - 2, dims.X + 2, dims.Y + 2);
+    }
+
+    private static void ClearArea(int x, int y, int width, int height) {
+        for (var i = 0; i < width; i++) {
+            for (var j = 0; j < height; j++) {
+                Framing.GetTileSafely(x + i, y + j).ClearEverything();
+            }
+        }
+    }
+    
+    private static void ReframeArea(int x, int y, int width, int height) {
+        for (var i = 0; i < width; i++) {
+            for (var j = 0; j < height; j++) {
+                WorldGen.Reframe(x + i, y + j, true);
+            }
+        }
+    }
+
+    private static Point16 GetAttachmentOffset(AttachmentType type) {
+        return type switch {
+            AttachmentType.Hull => new Point16(0, 17),
+            AttachmentType.Wheel => new Point16(13, 26),
+            AttachmentType.Cannon => new Point16(32, 26),
+            AttachmentType.SailSmall => new Point16(7, 9),
+            AttachmentType.SailLarge => new Point16(21, 0)
+        };
+    }
+    
+    public enum AttachmentType
+    {
+        Hull,
+        Wheel,
+        Cannon,
+        SailSmall,
+        SailLarge,
+        Figurehead
     }
 }
