@@ -5,6 +5,7 @@ namespace EndlessEscapade.Utilities;
 public static class ReflectionUtils
 {
     public const BindingFlags PrivateInstanceFlags = BindingFlags.Instance | BindingFlags.NonPublic;
+    public const BindingFlags Any = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
 
     // Shorthands for quickly accessing a field inside an object
     // these should preferiably be used for quick debugging or code that doesnt run often, for actual use, cache the FieldInfo for speed
