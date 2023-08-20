@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace EndlessEscapade.Common.Systems.World;
 
@@ -15,23 +16,23 @@ public class ShipyardSystem : ModSystem
     private const int BoatWidth = 46;
     private const int BoatHeight = 37;
     
-    public static bool BoatFixed { get; private set; }
-    
     public static int BoatX { get; private set; }
     public static int BoatY { get; private set; }
     
-    public override void NetSend(BinaryWriter writer) {
-        writer.Write(BoatFixed);
+    public static bool BoatFixed { get; private set; }
+    
+    public override void SaveWorldData(TagCompound tag) {
+        tag[nameof(BoatX)] = BoatX;
+        tag[nameof(BoatY)] = BoatY;
         
-        writer.Write(BoatX);
-        writer.Write(BoatY);
+        tag[nameof(BoatFixed)] = BoatFixed;
     }
 
-    public override void NetReceive(BinaryReader reader) {
-        BoatFixed = reader.ReadBoolean();
+    public override void LoadWorldData(TagCompound tag) {
+        BoatX = tag.GetInt(nameof(BoatX));
+        BoatY = tag.GetInt(nameof(BoatY));
         
-        BoatX = reader.ReadInt32();
-        BoatY = reader.ReadInt32();
+        BoatFixed = tag.GetBool(nameof(BoatFixed));
     }
 
     public override void Load() {
@@ -76,13 +77,49 @@ public class ShipyardSystem : ModSystem
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
 
-    private static void ExtendPillar(int x, int y) {
-        while (WorldGen.InWorld(x, y) && !WorldGen.SolidTile(x, y)) {
-            WorldGen.PlaceTile(x, y, TileID.LivingWood, true, true);
-            WorldGen.SlopeTile(x, y);
+    public static void GenerateHull(string path) {
+        var mod = EndlessEscapade.Instance;
 
-            y++;
-        }
+        var offset = GetAttachmentOffset(AttachmentType.Hull);
+        var origin = new Point16(BoatX, BoatY) + offset;
+
+        Generator.GenerateStructure(path, origin, mod);
+    }
+    
+    public static void GenerateSmallSail(string path) {
+        var mod = EndlessEscapade.Instance;
+
+        var offset = GetAttachmentOffset(AttachmentType.SmallSail);
+        var origin = new Point16(BoatX, BoatY) + offset;
+
+        Generator.GenerateStructure(path, origin, mod);
+    }
+    
+    public static void GenerateLargeSail(string path) {
+        var mod = EndlessEscapade.Instance;
+
+        var offset = GetAttachmentOffset(AttachmentType.LargeSail);
+        var origin = new Point16(BoatX, BoatY) + offset;
+
+        Generator.GenerateStructure(path, origin, mod);
+    }
+    
+    public static void GenerateCannon(int type) {
+        var mod = EndlessEscapade.Instance;
+
+        var offset = GetAttachmentOffset(AttachmentType.Cannon);
+        var origin = new Point16(BoatX, BoatY) + offset;
+
+        WorldGen.PlaceTile(origin.X, origin.Y, type, true, true);
+    }
+    
+    public static void GenerateWheel(int type) {
+        var mod = EndlessEscapade.Instance;
+
+        var offset = GetAttachmentOffset(AttachmentType.Wheel);
+        var origin = new Point16(BoatX, BoatY) + offset;
+
+        WorldGen.PlaceTile(origin.X, origin.Y, type, true, true);
     }
 
     private static void GenerateShipyard(int x, int y) {
@@ -110,17 +147,6 @@ public class ShipyardSystem : ModSystem
         
         ExtendPillar(origin.X + 36, origin.Y + 39);
         ExtendPillar(origin.X + 37, origin.Y + 39);
-        
-        /*
-         *         ExtendPillar(4 - offset.X, 39 - offset.Y);
-        ExtendPillar(4 - offset.X + 1, 39 - offset.Y);
-
-        ExtendPillar(20 - offset.X, 39 - offset.Y);
-        ExtendPillar(20 - offset.X + 1, 39 - offset.Y);
-
-        ExtendPillar(36 - offset.X, 39 - offset.Y);
-        ExtendPillar(36 - offset.X + 1, 39 - offset.Y);
-         */
 
         const int roomOffsetX = 60;
         const int roomOffsetY = 10;
@@ -129,6 +155,15 @@ public class ShipyardSystem : ModSystem
         var sailorY = (int)((origin.Y + roomOffsetY) * 16f);
 
         NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
+    }
+    
+    private static void ExtendPillar(int x, int y) {
+        while (WorldGen.InWorld(x, y) && !WorldGen.SolidTile(x, y)) {
+            WorldGen.PlaceTile(x, y, TileID.LivingWood, true, true);
+            WorldGen.SlopeTile(x, y);
+
+            y++;
+        }
     }
 
     private static void GenerateBrokenBoat(int x, int y) {
@@ -152,22 +187,6 @@ public class ShipyardSystem : ModSystem
         BoatY = origin.Y;
     }
     
-    private static void GenerateDefaultBoat() {
-        const string path = "Assets/Structures/Boats/Default/";
-
-        var mod = EndlessEscapade.Instance;
-
-        Generator.GenerateStructure($"{path}Hull", new Point16(BoatX, BoatY) + GetAttachmentOffset(AttachmentType.Hull), mod);
-        Generator.GenerateStructure($"{path}SailSmall", new Point16(BoatX, BoatY) + GetAttachmentOffset(AttachmentType.SailSmall), mod);
-        Generator.GenerateStructure($"{path}SailLarge", new Point16(BoatX, BoatY) + GetAttachmentOffset(AttachmentType.SailLarge), mod);
-
-        var cannon = new Point16(BoatX, BoatY) + GetAttachmentOffset(AttachmentType.Cannon);
-
-        WorldGen.PlaceTile(cannon.X, cannon.Y, ModContent.TileType<Cannon>());
-        
-        ReframeArea(BoatX, BoatY, BoatWidth, BoatHeight);
-    }
-    
     private static void PrepareDefaultBoat() {
         const string path = "Assets/Structures/Boats/Default/Broken";
         
@@ -187,6 +206,22 @@ public class ShipyardSystem : ModSystem
         BoatY -= BoatHeight - BoatHeight / 3;
         
         BoatFixed = true;
+        
+        NetMessage.SendData(MessageID.WorldData);
+    }
+    
+    private static void GenerateDefaultBoat() {
+        var mod = EndlessEscapade.Instance;
+
+        GenerateHull("Assets/Structures/Boats/Default/Hull");
+        
+        GenerateCannon(ModContent.TileType<Cannon>());
+        GenerateWheel(ModContent.TileType<Wheel>());
+        
+        GenerateSmallSail("Assets/Structures/Boats/Default/SmallSail");
+        GenerateLargeSail("Assets/Structures/Boats/Default/LargeSail");
+        
+        ReframeArea(BoatX, BoatY, BoatWidth, BoatHeight);
     }
 
     private static void ClearArea(int x, int y, int width, int height) {
@@ -224,20 +259,20 @@ public class ShipyardSystem : ModSystem
     private static Point16 GetAttachmentOffset(AttachmentType type) {
         return type switch {
             AttachmentType.Hull => new Point16(0, 17),
-            AttachmentType.Wheel => new Point16(13, 26),
-            AttachmentType.Cannon => new Point16(32, 26),
-            AttachmentType.SailSmall => new Point16(7, 9),
-            AttachmentType.SailLarge => new Point16(21, 0)
+            AttachmentType.Wheel => new Point16(12, 24),
+            AttachmentType.Cannon => new Point16(31, 25),
+            AttachmentType.SmallSail => new Point16(7, 9),
+            AttachmentType.LargeSail => new Point16(21, 0)
         };
     }
     
-    public enum AttachmentType
+    private enum AttachmentType
     {
         Hull,
         Wheel,
         Cannon,
-        SailSmall,
-        SailLarge,
+        SmallSail,
+        LargeSail,
         Figurehead
     }
 }

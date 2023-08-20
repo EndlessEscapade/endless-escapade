@@ -101,6 +101,11 @@ public class Sailor : ModNPC
             Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
             return;
         }
+        
+        var dialogue = ShipyardSystem.BoatFixed ? "CommonDialogue" : "PromptDialogue";
+        var selected = $"Dialogue.Sailor.Ship{dialogue}{(Main.rand.NextBool() ? 0 : 1)}";
+        
+        Main.npcChatText = Mod.GetLocalizationValue(selected);
     }
 
     public override string GetChat() {

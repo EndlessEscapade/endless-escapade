@@ -130,6 +130,11 @@ Mods: {
 				// DisplayName: Cannon
 				// Tooltip: ""
 			}
+
+			Wheel: {
+				// DisplayName: Wheel
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {

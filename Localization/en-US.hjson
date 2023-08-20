@@ -130,6 +130,11 @@ Mods: {
 				DisplayName: Cannon
 				Tooltip: ""
 			}
+
+			Wheel: {
+				DisplayName: Wheel
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -183,7 +188,7 @@ Mods: {
 					- [i/s5:73]
 					I'd get 'er fixed right up for ya.
 					'''
-				ShipCommonDialogue0: And don't ye forget, before weighin' anchor, craft a sturdy [i:{0}] to guide yer ship true through the tempest's embrace.
+				ShipCommonDialogue0: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
 				ShipCommonDialogue1: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
 				ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
 			}
