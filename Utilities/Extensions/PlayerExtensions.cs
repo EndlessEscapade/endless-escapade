@@ -28,9 +28,9 @@ public static class PlayerExtensions
         return count >= stack;
     }
 
-    public static void ConsumeItemStack(this Player player, int type, int stack) {
+    public static bool TryConsumeItemStack(this Player player, int type, int stack) {
         if (!player.HasItemStack(type, stack)) {
-            return;
+            return false;
         }
 
         var count = stack;
@@ -49,5 +49,7 @@ public static class PlayerExtensions
                 count -= previousStack;
             }
         }
+
+        return true;
     }
 }
