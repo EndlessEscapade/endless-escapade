@@ -97,16 +97,16 @@ public class Sailor : ModNPC
 
         var player = Main.LocalPlayer;
 
-        var hasMaterials = player.HasItemStack(ItemID.Silk, 20) && player.HasItemStack(ItemID.Wood, 150);
+        var hasMaterials = player.HasItemStack(ItemID.Silk, 20) && player.HasItemGroupStack(RecipeGroupID.Wood, 150);
         var hasMoney = player.CanAfford(Item.buyPrice(gold: 5));
 
-        if (!ShipyardSystem.BoatFixed) {
+        if (!ShipyardSystem.ShipFixed) {
             if (hasMaterials && hasMoney && CurrentShipDialogue == RepairPromptDialogue) {
                 var repaired = true;
 
-                repaired &= player.TryConsumeItemStack(ItemID.Silk, 20);
-                repaired &= player.TryConsumeItemStack(ItemID.Wood, 150);
                 repaired &= player.PayCurrency(Item.buyPrice(gold: 5));
+                repaired &= player.TryConsumeItemStack(ItemID.Silk, 20);
+                repaired &= player.TryConsumeItemGroupStack(RecipeGroupID.Wood, 150);
 
                 if (repaired) {
                     OnBoatRepair.Invoke();
@@ -122,6 +122,8 @@ public class Sailor : ModNPC
         else {
             Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipCommonDialogue{CurrentShipDialogue}");
         }
+        
+        Main.NewText(ShipyardSystem.ShipFixed);
 
         CurrentShipDialogue = 1 - CurrentShipDialogue;
     }
