@@ -25,12 +25,14 @@ public class ShipyardSystem : ModSystem
     public override void SaveWorldData(TagCompound tag) {
         tag[nameof(BoatX)] = BoatX;
         tag[nameof(BoatY)] = BoatY;
+        
         tag[nameof(BoatFixed)] = BoatFixed;
     }
 
     public override void LoadWorldData(TagCompound tag) {
         BoatX = tag.GetInt(nameof(BoatX));
         BoatY = tag.GetInt(nameof(BoatY));
+        
         BoatFixed = tag.GetBool(nameof(BoatFixed));
     }
 
@@ -74,7 +76,7 @@ public class ShipyardSystem : ModSystem
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
 
-    public static bool GenerateAttachment<T>(T attachment) where T : Attachment {
+    public static bool GenerateAttachment<T>(T attachment) where T : IAttachment {
         return attachment.Generate(BoatX, BoatY);
     }
 
@@ -172,9 +174,13 @@ public class ShipyardSystem : ModSystem
     private static void GenerateDefaultBoat() {
         var mod = EndlessEscapade.Instance;
 
-        GenerateAttachment(new Hull("Assets/Structures/Boats/Default/Hull", TileID.WoodBlock, TileID.LivingWood, TileID.Platforms));
-        GenerateAttachment(new SmallSail("Assets/Structures/Boats/Default/SmallSail", TileID.WoodBlock, TileID.LivingWood, TileID.Platforms));
-        GenerateAttachment(new LargeSail("Assets/Structures/Boats/Default/LargeSail", TileID.WoodBlock, TileID.LivingWood, TileID.Platforms));
+        var validTiles = new ushort[] { TileID.Platforms, TileID.WoodBlock, TileID.LivingWood };
+        var validWalls = new ushort[] { WallID.Wood, WallID.LivingWood, WallID.Sail };
+
+        GenerateAttachment(new Hull("Assets/Structures/Boats/Default/Hull", validTiles, validWalls));
+        GenerateAttachment(new SmallSail("Assets/Structures/Boats/Default/SmallSail", validTiles, validWalls));
+        GenerateAttachment(new LargeSail("Assets/Structures/Boats/Default/LargeSail", validTiles, validWalls));
+        
         GenerateAttachment(new Cannon(ModContent.TileType<Content.Tiles.Shipyard.Cannon>()));
         GenerateAttachment(new Wheel(ModContent.TileType<Content.Tiles.Shipyard.Wheel>()));
 
