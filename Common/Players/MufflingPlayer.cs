@@ -1,47 +1,39 @@
 ﻿using EndlessEscapade.Common.Systems.Audio;
+using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Players;
 
 public class MufflingPlayer : ModPlayer
 {
-    public const float Duration = 180f;
-
     private float intensity;
-
-    private float timer;
 
     public float Intensity {
         get => intensity;
-        set => intensity = MathHelper.Clamp(value, 0f, 1f);
+        set => intensity = MathHelper.Clamp(value, Player.wet ? 0.25f : 0f, 1f);
     }
 
-    public float Timer {
-        get => timer;
-        set => timer = MathHelper.Clamp(value, 0f, Duration);
-    }
+    private bool wasWetHead;
 
     public override void PreUpdate() {
         var headPosition = Player.Center - new Vector2(0f, 20f);
-        var wetHead = Collision.WetCollision(headPosition, 10, 10);
+        var wetHead = Collision.WetCollision(headPosition, 10, 10) || Player.HasItemEquip(ItemID.FishBowl);
 
         if (wetHead) {
-            Timer++;
-
-            if (Timer < 180) {
-                Intensity += 0.025f;
+            if (!wasWetHead) {
+                Intensity = 1f;
             }
-            else {
-                Intensity -= 0.025f;
-            }
+            
+            Intensity -= 0.001f;
         }
         else {
-            Timer--;
-
             Intensity -= 0.05f;
         }
+
+        wasWetHead = wetHead;
 
         if (Intensity <= 0f) {
             return;

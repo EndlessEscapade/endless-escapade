@@ -4,6 +4,16 @@ namespace EndlessEscapade.Utilities.Extensions;
 
 public static class PlayerExtensions
 {
+    public static bool HasItemEquip(this Player player, int type) {
+        for (var i = 0; i < 8 + player.extraAccessorySlots; i++) {
+            if (player.armor[i].type == type) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static bool HasItemStack(this Player player, int type, int stack) {
         var count = 0;
 
