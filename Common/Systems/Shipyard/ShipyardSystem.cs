@@ -17,12 +17,11 @@ public class ShipyardSystem : ModSystem
     public const int ShipWidth = 46;
     public const int ShipHeight = 37;
 
-    public static int ShipX { get; private set; } = -1;
-    public static int ShipY { get; private set; } = -1;
+    public static int ShipX { get; private set; }
+    public static int ShipY { get; private set; }
 
     public static bool ShipFixed { get; private set; }
 
-    // TODO: Fix issue with data serialization not being per-world.
     public override void SaveWorldData(TagCompound tag) {
         tag[nameof(ShipX)] = ShipX;
         tag[nameof(ShipY)] = ShipY;
@@ -33,6 +32,12 @@ public class ShipyardSystem : ModSystem
         ShipX = tag.GetInt(nameof(ShipX));
         ShipY = tag.GetInt(nameof(ShipY));
         ShipFixed = tag.GetBool(nameof(ShipFixed));
+    }
+    
+    public override void ClearWorld() {
+        ShipX = 0;
+        ShipY = 0;
+        ShipFixed = false;
     }
 
     public override void Load() {

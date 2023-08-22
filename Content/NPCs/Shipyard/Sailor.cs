@@ -20,9 +20,10 @@ public class Sailor : ModNPC
 {
     public const int RepairPromptDialogue = 1;
 
+    public int CurrentShipDialogue { get; private set; }
+    public int LastShipDialogue { get; private set; }
+    
     public static event Action OnBoatRepair;
-
-    public static int CurrentShipDialogue { get; private set; }
 
     public override void SetStaticDefaults() {
         NPCID.Sets.ExtraFramesCount[Type] = 9;
@@ -94,6 +95,7 @@ public class Sailor : ModNPC
             shopName = "Shop";
             return;
         }
+        
 
         var player = Main.LocalPlayer;
 
@@ -101,7 +103,7 @@ public class Sailor : ModNPC
         var hasMoney = player.CanAfford(Item.buyPrice(gold: 5));
 
         if (!ShipyardSystem.ShipFixed) {
-            if (hasMaterials && hasMoney && CurrentShipDialogue == RepairPromptDialogue) {
+            if (hasMaterials && hasMoney && LastShipDialogue == RepairPromptDialogue) {
                 var repaired = true;
 
                 repaired &= player.PayCurrency(Item.buyPrice(gold: 5));
@@ -123,8 +125,7 @@ public class Sailor : ModNPC
             Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipCommonDialogue{CurrentShipDialogue}");
         }
         
-        Main.NewText(ShipyardSystem.ShipFixed);
-
+        LastShipDialogue = CurrentShipDialogue;
         CurrentShipDialogue = 1 - CurrentShipDialogue;
     }
 

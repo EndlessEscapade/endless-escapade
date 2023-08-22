@@ -1,4 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿#nullable enable
+
+using System.Collections.Immutable;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -12,18 +14,15 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-#nullable enable
+
 namespace EndlessEscapade.Common.Systems.Audio;
 
 [Autoload(Side = ModSide.Client)]
 public class AudioSystem : ModSystem
 {
+    private static readonly FieldInfo cueInstanceField = typeof(CueAudioTrack).GetField("_cue", ReflectionUtils.PrivateInstanceFlags)!;
     private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags)!;
     private static readonly FieldInfo soundInstanceField = typeof(ASoundEffectBasedAudioTrack).GetField("_soundEffectInstance", ReflectionUtils.PrivateInstanceFlags)!;
-    private static readonly FieldInfo cueInstanceField = typeof(CueAudioTrack).GetField("_cue", ReflectionUtils.PrivateInstanceFlags)!;
-
-    /// <summary>A value that indicates if this system loaded succesfully and is supported.</summary>
-    public static bool IsSupported { get; private set; }
 
     public static readonly ImmutableArray<SoundStyle> IgnoredSounds = ImmutableArray.Create(
         SoundID.MenuClose,
@@ -40,11 +39,17 @@ public class AudioSystem : ModSystem
         SoundParameters = sound;
         MusicParameters = music;
     }
+    
+    public static void ResetParameters() {
+        SoundParameters = default;
+        MusicParameters = default;
+    }
 
     public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
         LowPassSystem.ApplyParameters(instance, parameters);
     }
-    internal static void ApplyParameters(Cue instance, AudioParameters parameters) {
+    
+    public static void ApplyParameters(Cue instance, AudioParameters parameters) {
         LowPassSystem.ApplyParameters(instance, parameters);
     }
 
@@ -61,27 +66,11 @@ public class AudioSystem : ModSystem
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
         On_SoundEngine.Update += SoundEngineUpdateHook;
 
+        On_CueAudioTrack.Play += CueAudioTrackPlayHook;
+        On_CueAudioTrack.Update += CueAudioTrackUpdateHook;
+
         On_ASoundEffectBasedAudioTrack.Play += AudioTrackPlayHook;
         On_ASoundEffectBasedAudioTrack.Update += AudioTrackUpdateHook;
-
-        On_CueAudioTrack.Play += On_CueAudioTrack_Play;
-        On_CueAudioTrack.Update += On_CueAudioTrack_Update; ;
-        IsSupported = true;
-    }
-
-    private void On_CueAudioTrack_Update(On_CueAudioTrack.orig_Update orig, CueAudioTrack self) {
-        orig(self);
-
-        Cue cue = (Cue)cueInstanceField.GetValue(self)!;
-        ApplyParameters(cue, MusicParameters);
-    }
-
-    private static unsafe void On_CueAudioTrack_Play(On_CueAudioTrack.orig_Play orig, CueAudioTrack self) {
-        orig(self);
-
-        Cue cue = (Cue)cueInstanceField.GetValue(self)!;
-        //Thread.Sleep(100); // apperently theres a data race
-        ApplyParameters(cue, MusicParameters);
     }
 
     private static SlotId SoundEnginePlayHook(On_SoundEngine.orig_PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback orig, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback) {
@@ -111,8 +100,22 @@ public class AudioSystem : ModSystem
 
             ApplyParameters(instance, SoundParameters);
         }
+    }
+    
+    private static void CueAudioTrackPlayHook(On_CueAudioTrack.orig_Play orig, CueAudioTrack self) {
+        orig(self);
 
-        SoundParameters = default;
+        var cue = (Cue)cueInstanceField.GetValue(self)!;
+        
+        ApplyParameters(cue, MusicParameters);
+    }
+    
+    private static void CueAudioTrackUpdateHook(On_CueAudioTrack.orig_Update orig, CueAudioTrack self) {
+        orig(self);
+
+        var cue = (Cue)cueInstanceField.GetValue(self)!;
+        
+        ApplyParameters(cue, MusicParameters);
     }
 
     private static void AudioTrackPlayHook(On_ASoundEffectBasedAudioTrack.orig_Play orig, ASoundEffectBasedAudioTrack self) {
@@ -129,7 +132,5 @@ public class AudioSystem : ModSystem
         var instance = (DynamicSoundEffectInstance)soundInstanceField.GetValue(self)!;
 
         ApplyParameters(instance, MusicParameters);
-
-        MusicParameters = default;
     }
 }

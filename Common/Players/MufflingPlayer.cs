@@ -2,6 +2,7 @@
 using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,7 +14,12 @@ public class MufflingPlayer : ModPlayer
 
     public float Intensity {
         get => intensity;
-        set => intensity = MathHelper.Clamp(value, Player.wet ? 0.25f : 0f, 1f);
+        set {
+            var headPosition = Player.Center - new Vector2(0f, 20f);
+            var wetHead = Collision.WetCollision(headPosition, 10, 10) || Player.HasItemEquip(ItemID.FishBowl);
+            
+            intensity = MathHelper.Clamp(value, wetHead ? 0.5f : 0f, 1f);
+        }
     }
 
     private bool wasWetHead;
@@ -22,17 +28,15 @@ public class MufflingPlayer : ModPlayer
         var headPosition = Player.Center - new Vector2(0f, 20f);
         var wetHead = Collision.WetCollision(headPosition, 10, 10) || Player.HasItemEquip(ItemID.FishBowl);
 
-        wetHead |= Player.armor[0].type == ItemID.FishBowl;
-
         if (wetHead) {
             if (!wasWetHead) {
                 Intensity = 1f;
             }
             
-            Intensity -= 0.001f;
+            Intensity -= 0.0025f;
         }
         else {
-            Intensity -= 0.05f;
+            Intensity -= 0.025f;
         }
 
         wasWetHead = wetHead;
@@ -40,7 +44,7 @@ public class MufflingPlayer : ModPlayer
         if (Intensity <= 0f) {
             return;
         }
-
+        
         var parameters = new AudioParameters() with { LowPass = Intensity };
 
         AudioSystem.SetParameters(parameters, parameters);
