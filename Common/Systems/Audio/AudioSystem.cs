@@ -17,6 +17,7 @@ using Terraria.ModLoader.IO;
 
 namespace EndlessEscapade.Common.Systems.Audio;
 
+// TODO: Find a place to reset audio parameters. Should run after all effects are applied.
 [Autoload(Side = ModSide.Client)]
 public class AudioSystem : ModSystem
 {
@@ -58,8 +59,8 @@ public class AudioSystem : ModSystem
     }
 
     public override void Load() {
-        if (trackedSoundsField == null || soundInstanceField == null) {
-            Mod.Logger.Error("Audio effects were disabled: Could not find internal Terraria members.");
+        if (trackedSoundsField == null || soundInstanceField == null || cueInstanceField == null) {
+            Mod.Logger.Error("Audio effects were disabled: Could not find internal Terraria/FNA objects.");
             return;
         }
 
