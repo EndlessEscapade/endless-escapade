@@ -22,6 +22,8 @@ public class MufflingPlayer : ModPlayer
         var headPosition = Player.Center - new Vector2(0f, 20f);
         var wetHead = Collision.WetCollision(headPosition, 10, 10) || Player.HasItemEquip(ItemID.FishBowl);
 
+        wetHead |= Player.armor[0].type == ItemID.FishBowl;
+
         if (wetHead) {
             if (!wasWetHead) {
                 Intensity = 1f;
