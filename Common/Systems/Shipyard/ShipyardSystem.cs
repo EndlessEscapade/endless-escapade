@@ -165,7 +165,7 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        WorldGenUtils.ClearArea(ShipX, ShipY, dims.X + 1, dims.Y + 1, true);
+        WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Actions.ClearTile());
 
         ShipX += dims.X / 2;
         ShipY += dims.Y / 2;

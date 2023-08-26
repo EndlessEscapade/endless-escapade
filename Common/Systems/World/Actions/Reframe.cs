@@ -8,7 +8,7 @@ public class Reframe : GenAction
 {
     public override bool Apply(Point origin, int x, int y, params object[] args) {
         WorldGen.Reframe(x, y, true);
-        
-        return Fail();
+
+        return UnitApply(origin, x, y, args);
     }
 }
