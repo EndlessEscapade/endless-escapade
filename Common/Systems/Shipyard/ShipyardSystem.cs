@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using EndlessEscapade.Common.Systems.Shipyard.Attachments;
+using EndlessEscapade.Common.Systems.World.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
 using EndlessEscapade.Utilities;
+using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.Systems.Shipyard;
 
@@ -188,6 +191,6 @@ public class ShipyardSystem : ModSystem
         GenerateAttachment(new Cannon(ModContent.TileType<Content.Tiles.Shipyard.Cannon>()));
         GenerateAttachment(new Wheel(ModContent.TileType<Content.Tiles.Shipyard.Wheel>()));
 
-        WorldGenUtils.ReframeArea(ShipX, ShipY, ShipWidth, ShipHeight);
+        WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Reframe());
     }
 }
