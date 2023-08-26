@@ -10,7 +10,7 @@ namespace EndlessEscapade.Common.Players;
 public class MufflingPlayer : ModPlayer
 {
     private float intensity;
-
+    
     private bool wasWetHead;
 
     public float Intensity {

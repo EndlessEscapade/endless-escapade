@@ -1,5 +1,4 @@
-﻿using EndlessEscapade.Common.Systems.Shipyard.Attachments;
-using EndlessEscapade.Common.Systems.World.Actions;
+﻿using EndlessEscapade.Common.Systems.World.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
 using Microsoft.Xna.Framework;
 using StructureHelper;
@@ -43,7 +42,6 @@ public class ShipyardSystem : ModSystem
     }
 
     public override void Load() {
-        Sailor.OnBoatRepair += PrepareDefaultBoat;
         Sailor.OnBoatRepair += GenerateDefaultBoat;
     }
 
@@ -80,10 +78,6 @@ public class ShipyardSystem : ModSystem
 
         GenerateShipyard(x, y);
         GenerateBrokenBoat(x - sailboatDistance, y);
-    }
-
-    public static bool GenerateAttachment<T>(T attachment) where T : IAttachment {
-        return attachment.Generate(ShipX, ShipY);
     }
 
     private static void GenerateShipyard(int x, int y) {
@@ -154,7 +148,7 @@ public class ShipyardSystem : ModSystem
         ShipY = origin.Y;
     }
 
-    private static void PrepareDefaultBoat() {
+    private static void GenerateDefaultBoat() {
         const string path = "Assets/Structures/Boats/Default/Broken";
 
         var mod = EndlessEscapade.Instance;
@@ -175,21 +169,7 @@ public class ShipyardSystem : ModSystem
         ShipFixed = true;
 
         NetMessage.SendData(MessageID.WorldData);
-    }
-
-    private static void GenerateDefaultBoat() {
-        var mod = EndlessEscapade.Instance;
-
-        var validTiles = new[] { TileID.Platforms, TileID.WoodBlock, TileID.LivingWood };
-        var validWalls = new[] { WallID.Wood, WallID.LivingWood, WallID.Sail };
-
-        GenerateAttachment(new Hull("Assets/Structures/Boats/Default/Hull", validTiles, validWalls));
-        GenerateAttachment(new SmallSail("Assets/Structures/Boats/Default/SmallSail", validTiles, validWalls));
-        GenerateAttachment(new LargeSail("Assets/Structures/Boats/Default/LargeSail", validTiles, validWalls));
-
-        GenerateAttachment(new Attachments.Cannon(ModContent.TileType<Cannon>()));
-        GenerateAttachment(new Attachments.Wheel(ModContent.TileType<Wheel>()));
-
+    
         WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Reframe());
     }
 }

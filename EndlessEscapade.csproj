@@ -37,4 +37,9 @@
             <HintPath>lib\SubworldLibrary.dll</HintPath>
         </Reference>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Common\Systems\Ambience\" />
+      <Folder Include="Common\Systems\Shipyard\Attachments\" />
+    </ItemGroup>
 </Project>
