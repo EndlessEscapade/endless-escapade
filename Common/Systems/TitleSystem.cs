@@ -1,4 +1,5 @@
-﻿using EndlessEscapade.Utilities.Extensions;
+﻿using EndlessEscapade.Common.Config;
+using EndlessEscapade.Utilities.Extensions;
 using Terraria;
 using Terraria.ModLoader;
 

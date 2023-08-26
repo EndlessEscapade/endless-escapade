@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using EndlessEscapade.Common.Systems.Shipyard;
+using EndlessEscapade.Content.Items.Shipyard;
 using EndlessEscapade.Utilities.Extensions;
-using StructureHelper;
 using Terraria;
-using Terraria.Cinematics;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -19,6 +18,11 @@ namespace EndlessEscapade.Content.NPCs.Shipyard;
 [AutoloadHead]
 public class Sailor : ModNPC
 {
+    public const int RepairPromptDialogue = 1;
+
+    public int CurrentShipDialogue { get; private set; }
+    public int LastShipDialogue { get; private set; }
+    
     public static event Action OnBoatRepair;
 
     public override void SetStaticDefaults() {
@@ -78,7 +82,7 @@ public class Sailor : ModNPC
     }
 
     public override void ModifyNPCLoot(NPCLoot npcLoot) {
-        npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Shipyard.SailorHat>(), 1));
+        npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SailorHat>()));
     }
 
     public override void SetChatButtons(ref string button, ref string button2) {
@@ -91,27 +95,38 @@ public class Sailor : ModNPC
             shopName = "Shop";
             return;
         }
+        
 
         var player = Main.LocalPlayer;
 
-        var hasMaterials = player.HasItemStack(ItemID.Silk, 20) && player.HasItemStack(ItemID.Wood, 150);
+        var hasMaterials = player.HasItemStack(ItemID.Silk, 20) && player.HasItemGroupStack(RecipeGroupID.Wood, 150);
         var hasMoney = player.CanAfford(Item.buyPrice(gold: 5));
 
-        if (!ShipyardSystem.BoatFixed && hasMaterials && hasMoney) {
-            player.ConsumeItemStack(ItemID.Silk, 20);
-            player.ConsumeItemStack(ItemID.Wood, 150);
-            player.PayCurrency(Item.buyPrice(gold: 5));
+        if (!ShipyardSystem.ShipFixed) {
+            if (hasMaterials && hasMoney && LastShipDialogue == RepairPromptDialogue) {
+                var repaired = true;
 
-            OnBoatRepair.Invoke();
-            
-            Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
-            return;
+                repaired &= player.PayCurrency(Item.buyPrice(gold: 5));
+                repaired &= player.TryConsumeItemStack(ItemID.Silk, 20);
+                repaired &= player.TryConsumeItemGroupStack(RecipeGroupID.Wood, 150);
+
+                if (repaired) {
+                    OnBoatRepair.Invoke();
+
+                    Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
+                }
+
+                return;
+            }
+
+            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipPromptDialogue{CurrentShipDialogue}");
         }
-
-        var dialogue = ShipyardSystem.BoatFixed ? "CommonDialogue" : "PromptDialogue";
-        var selected = $"Dialogue.Sailor.Ship{dialogue}{(Main.rand.NextBool() ? 0 : 1)}";
-
-        Main.npcChatText = Mod.GetLocalizationValue(selected);
+        else {
+            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipCommonDialogue{CurrentShipDialogue}");
+        }
+        
+        LastShipDialogue = CurrentShipDialogue;
+        CurrentShipDialogue = 1 - CurrentShipDialogue;
     }
 
     public override string GetChat() {

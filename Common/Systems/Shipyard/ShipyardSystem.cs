@@ -1,37 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using EndlessEscapade.Common.Systems.Shipyard.Attachments;
+using EndlessEscapade.Common.Systems.World.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
 using EndlessEscapade.Utilities;
+using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.Systems.Shipyard;
 
 public class ShipyardSystem : ModSystem
 {
-    public const int BoatWidth = 46;
-    public const int BoatHeight = 37;
+    public const int ShipWidth = 46;
+    public const int ShipHeight = 37;
 
-    public static int BoatX { get; private set; }
-    public static int BoatY { get; private set; }
+    public static int ShipX { get; private set; }
+    public static int ShipY { get; private set; }
 
-    public static bool BoatFixed { get; private set; }
+    public static bool ShipFixed { get; private set; }
 
     public override void SaveWorldData(TagCompound tag) {
-        tag[nameof(BoatX)] = BoatX;
-        tag[nameof(BoatY)] = BoatY;
-        tag[nameof(BoatFixed)] = BoatFixed;
+        tag[nameof(ShipX)] = ShipX;
+        tag[nameof(ShipY)] = ShipY;
+        tag[nameof(ShipFixed)] = ShipFixed;
     }
 
     public override void LoadWorldData(TagCompound tag) {
-        BoatX = tag.GetInt(nameof(BoatX));
-        BoatY = tag.GetInt(nameof(BoatY));
-        BoatFixed = tag.GetBool(nameof(BoatFixed));
+        ShipX = tag.GetInt(nameof(ShipX));
+        ShipY = tag.GetInt(nameof(ShipY));
+        ShipFixed = tag.GetBool(nameof(ShipFixed));
+    }
+    
+    public override void ClearWorld() {
+        ShipX = 0;
+        ShipY = 0;
+        ShipFixed = false;
     }
 
     public override void Load() {
@@ -74,8 +83,8 @@ public class ShipyardSystem : ModSystem
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
 
-    public static bool GenerateAttachment<T>(T attachment) where T : Attachment {
-        return attachment.Generate(BoatX, BoatY);
+    public static bool GenerateAttachment<T>(T attachment) where T : IAttachment {
+        return attachment.Generate(ShipX, ShipY);
     }
 
     private static void GenerateShipyard(int x, int y) {
@@ -142,8 +151,8 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        BoatX = origin.X;
-        BoatY = origin.Y;
+        ShipX = origin.X;
+        ShipY = origin.Y;
     }
 
     private static void PrepareDefaultBoat() {
@@ -156,15 +165,15 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        WorldGenUtils.ClearArea(BoatX, BoatY, dims.X + 1, dims.Y + 1, true);
+        WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Actions.ClearTile());
 
-        BoatX += dims.X / 2;
-        BoatY += dims.Y / 2;
+        ShipX += dims.X / 2;
+        ShipY += dims.Y / 2;
 
-        BoatX -= BoatWidth / 2;
-        BoatY -= BoatHeight - BoatHeight / 3;
+        ShipX -= ShipWidth / 2;
+        ShipY -= ShipHeight - ShipHeight / 3;
 
-        BoatFixed = true;
+        ShipFixed = true;
 
         NetMessage.SendData(MessageID.WorldData);
     }
@@ -172,12 +181,16 @@ public class ShipyardSystem : ModSystem
     private static void GenerateDefaultBoat() {
         var mod = EndlessEscapade.Instance;
 
-        GenerateAttachment(new Hull("Assets/Structures/Boats/Default/Hull", TileID.WoodBlock, TileID.LivingWood, TileID.Platforms));
-        GenerateAttachment(new SmallSail("Assets/Structures/Boats/Default/SmallSail", TileID.WoodBlock, TileID.LivingWood, TileID.Platforms));
-        GenerateAttachment(new LargeSail("Assets/Structures/Boats/Default/LargeSail", TileID.WoodBlock, TileID.LivingWood, TileID.Platforms));
+        var validTiles = new ushort[] { TileID.Platforms, TileID.WoodBlock, TileID.LivingWood };
+        var validWalls = new ushort[] { WallID.Wood, WallID.LivingWood, WallID.Sail };
+
+        GenerateAttachment(new Hull("Assets/Structures/Boats/Default/Hull", validTiles, validWalls));
+        GenerateAttachment(new SmallSail("Assets/Structures/Boats/Default/SmallSail", validTiles, validWalls));
+        GenerateAttachment(new LargeSail("Assets/Structures/Boats/Default/LargeSail", validTiles, validWalls));
+        
         GenerateAttachment(new Cannon(ModContent.TileType<Content.Tiles.Shipyard.Cannon>()));
         GenerateAttachment(new Wheel(ModContent.TileType<Content.Tiles.Shipyard.Wheel>()));
 
-        WorldGenUtils.ReframeArea(BoatX, BoatY, BoatWidth, BoatHeight);
+        WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Reframe());
     }
 }
