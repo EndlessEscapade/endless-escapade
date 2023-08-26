@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using EndlessEscapade.Common.Systems.Audio.Filters;
 using EndlessEscapade.Utilities;
-using FAudioINTERNAL;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Utilities;
@@ -48,7 +47,7 @@ public class AudioSystem : ModSystem
         LowPassSystem.ApplyParameters(instance, parameters);
     }
     
-    public static unsafe void ApplyParameters(Cue instance, AudioParameters parameters) {
+    public static void ApplyParameters(Cue instance, AudioParameters parameters) {
         LowPassSystem.ApplyParameters(instance, parameters);
     }
 

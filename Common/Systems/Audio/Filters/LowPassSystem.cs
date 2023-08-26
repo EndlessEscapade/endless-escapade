@@ -25,12 +25,16 @@ public class LowPassSystem : ModSystem
     }
 
     public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
+        if (!ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering)
+            return;
         var intensity = 1f - parameters.LowPass * 0.9f;
 
         lowPassAction.Invoke(instance, intensity);
     }
 
     public static unsafe void ApplyParameters(Cue cue, AudioParameters parameters) {
+        if (!ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering)
+            return;
         var handle = (nint)cueHandleInstanceField.GetValue(cue)!;
         var cuePtr = (FACTCue*)handle;
 
