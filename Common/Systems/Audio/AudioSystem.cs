@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -50,7 +48,7 @@ public class AudioSystem : ModSystem
         LowPassSystem.ApplyParameters(instance, parameters);
     }
     
-    public static void ApplyParameters(Cue instance, AudioParameters parameters) {
+    public static unsafe void ApplyParameters(Cue instance, AudioParameters parameters) {
         LowPassSystem.ApplyParameters(instance, parameters);
     }
 
