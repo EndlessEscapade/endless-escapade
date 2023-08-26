@@ -22,7 +22,7 @@ public class Sailor : ModNPC
 
     public int CurrentShipDialogue { get; private set; }
     public int LastShipDialogue { get; private set; }
-    
+
     public static event Action OnBoatRepair;
 
     public override void SetStaticDefaults() {
@@ -95,7 +95,7 @@ public class Sailor : ModNPC
             shopName = "Shop";
             return;
         }
-        
+
 
         var player = Main.LocalPlayer;
 
@@ -124,7 +124,7 @@ public class Sailor : ModNPC
         else {
             Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipCommonDialogue{CurrentShipDialogue}");
         }
-        
+
         LastShipDialogue = CurrentShipDialogue;
         CurrentShipDialogue = 1 - CurrentShipDialogue;
     }

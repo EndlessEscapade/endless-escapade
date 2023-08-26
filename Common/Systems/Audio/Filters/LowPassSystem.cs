@@ -5,7 +5,6 @@ using EndlessEscapade.Common.Config;
 using EndlessEscapade.Utilities;
 using FAudioINTERNAL;
 using Microsoft.Xna.Framework.Audio;
-using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Audio.Filters;
@@ -18,27 +17,29 @@ public class LowPassSystem : ModSystem
 
     private static readonly FieldInfo cueHandleInstanceField = typeof(Cue).GetField("handle", ReflectionUtils.PrivateInstanceFlags);
 
-    public override bool IsLoadingEnabled(Mod mod) {
-        var config = ModContent.GetInstance<AudioConfig>();
-
-        return SoundEngine.IsAudioSupported && config.EnableLowPassFiltering;
-    }
-
     public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
-        if (!ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering)
+        if (!ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering) {
             return;
+        }
+
         var intensity = 1f - parameters.LowPass * 0.9f;
 
         lowPassAction.Invoke(instance, intensity);
     }
 
     public static unsafe void ApplyParameters(Cue cue, AudioParameters parameters) {
-        if (!ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering)
+        if (!ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering) {
             return;
+        }
+
         var handle = (nint)cueHandleInstanceField.GetValue(cue)!;
         var cuePtr = (FACTCue*)handle;
 
-        var filterParameters = new FAudio.FAudioFilterParameters { Frequency = 1f - parameters.LowPass * 0.9f, OneOverQ = 1, Type = FAudio.FAudioFilterType.FAudioLowPassFilter };
+        var filterParameters = new FAudio.FAudioFilterParameters {
+            Frequency = 1f - parameters.LowPass * 0.9f,
+            OneOverQ = 1,
+            Type = FAudio.FAudioFilterType.FAudioLowPassFilter
+        };
 
         if (cuePtr->simpleWave != null && cuePtr->simpleWave->voice != null) {
             var voice = cuePtr->simpleWave->voice;

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using EndlessEscapade.Common.Systems.Shipyard.Attachments;
+﻿using EndlessEscapade.Common.Systems.Shipyard.Attachments;
 using EndlessEscapade.Common.Systems.World.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
-using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
@@ -12,6 +9,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.WorldBuilding;
+using Cannon = EndlessEscapade.Content.Tiles.Shipyard.Cannon;
+using Wheel = EndlessEscapade.Content.Tiles.Shipyard.Wheel;
 
 namespace EndlessEscapade.Common.Systems.Shipyard;
 
@@ -36,7 +35,7 @@ public class ShipyardSystem : ModSystem
         ShipY = tag.GetInt(nameof(ShipY));
         ShipFixed = tag.GetBool(nameof(ShipFixed));
     }
-    
+
     public override void ClearWorld() {
         ShipX = 0;
         ShipY = 0;
@@ -47,7 +46,7 @@ public class ShipyardSystem : ModSystem
         Sailor.OnBoatRepair += PrepareDefaultBoat;
         Sailor.OnBoatRepair += GenerateDefaultBoat;
     }
-    
+
     public override void PostWorldGen() {
         var foundOcean = false;
         var foundBeach = false;
@@ -121,7 +120,7 @@ public class ShipyardSystem : ModSystem
 
         var index = NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
         var sailor = Main.npc[index];
-        
+
         sailor.UpdateHomeTileState(false, (int)(sailorX / 16f), (int)(sailorY / 16f));
     }
 
@@ -181,15 +180,15 @@ public class ShipyardSystem : ModSystem
     private static void GenerateDefaultBoat() {
         var mod = EndlessEscapade.Instance;
 
-        var validTiles = new ushort[] { TileID.Platforms, TileID.WoodBlock, TileID.LivingWood };
-        var validWalls = new ushort[] { WallID.Wood, WallID.LivingWood, WallID.Sail };
+        var validTiles = new[] { TileID.Platforms, TileID.WoodBlock, TileID.LivingWood };
+        var validWalls = new[] { WallID.Wood, WallID.LivingWood, WallID.Sail };
 
         GenerateAttachment(new Hull("Assets/Structures/Boats/Default/Hull", validTiles, validWalls));
         GenerateAttachment(new SmallSail("Assets/Structures/Boats/Default/SmallSail", validTiles, validWalls));
         GenerateAttachment(new LargeSail("Assets/Structures/Boats/Default/LargeSail", validTiles, validWalls));
-        
-        GenerateAttachment(new Cannon(ModContent.TileType<Content.Tiles.Shipyard.Cannon>()));
-        GenerateAttachment(new Wheel(ModContent.TileType<Content.Tiles.Shipyard.Wheel>()));
+
+        GenerateAttachment(new Attachments.Cannon(ModContent.TileType<Cannon>()));
+        GenerateAttachment(new Attachments.Wheel(ModContent.TileType<Wheel>()));
 
         WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Reframe());
     }

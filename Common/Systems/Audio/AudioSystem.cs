@@ -1,7 +1,5 @@
 ﻿using System.Collections.Immutable;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
 using EndlessEscapade.Common.Systems.Audio.Filters;
 using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
@@ -10,7 +8,6 @@ using ReLogic.Utilities;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace EndlessEscapade.Common.Systems.Audio;
 
@@ -37,7 +34,7 @@ public class AudioSystem : ModSystem
         SoundParameters = sound;
         MusicParameters = music;
     }
-    
+
     public static void ResetParameters() {
         SoundParameters = default;
         MusicParameters = default;
@@ -46,7 +43,7 @@ public class AudioSystem : ModSystem
     public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
         LowPassSystem.ApplyParameters(instance, parameters);
     }
-    
+
     public static void ApplyParameters(Cue instance, AudioParameters parameters) {
         LowPassSystem.ApplyParameters(instance, parameters);
     }
@@ -99,20 +96,20 @@ public class AudioSystem : ModSystem
             ApplyParameters(instance, SoundParameters);
         }
     }
-    
+
     private static void CueAudioTrackPlayHook(On_CueAudioTrack.orig_Play orig, CueAudioTrack self) {
         orig(self);
 
         var cue = (Cue)cueInstanceField.GetValue(self)!;
-        
+
         ApplyParameters(cue, MusicParameters);
     }
-    
+
     private static void CueAudioTrackUpdateHook(On_CueAudioTrack.orig_Update orig, CueAudioTrack self) {
         orig(self);
 
         var cue = (Cue)cueInstanceField.GetValue(self)!;
-        
+
         ApplyParameters(cue, MusicParameters);
     }
 

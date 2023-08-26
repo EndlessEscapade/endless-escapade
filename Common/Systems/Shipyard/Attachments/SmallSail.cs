@@ -2,7 +2,7 @@
 
 namespace EndlessEscapade.Common.Systems.Shipyard.Attachments;
 
-public class SmallSail: StructureAttachment
+public class SmallSail : StructureAttachment
 {
     public SmallSail(string path, ushort[] tileTypes, ushort[] wallTypes) : base(path, tileTypes, wallTypes) { }
 

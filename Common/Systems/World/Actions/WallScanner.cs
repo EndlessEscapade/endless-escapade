@@ -21,7 +21,7 @@ public class WallScanner : GenAction
 
     public override bool Apply(Point origin, int x, int y, params object[] args) {
         var tile = _tiles[x, y];
-        
+
         if (tile.HasTile && WallLookup.ContainsKey(tile.WallType)) {
             WallLookup[tile.WallType]++;
         }

@@ -27,14 +27,14 @@ public static class PlayerExtensions
 
         return count >= stack;
     }
-    
+
     public static bool HasItemGroupStack(this Player player, int type, int stack) {
         var group = RecipeGroup.recipeGroups[type];
-        
+
         if (group == null) {
             return false;
         }
-        
+
         var count = 0;
 
         for (var i = 0; i < player.inventory.Length; i++) {

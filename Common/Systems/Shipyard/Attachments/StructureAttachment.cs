@@ -57,12 +57,8 @@ public abstract class StructureAttachment : IAttachment, TagSerializable
 
         return Generator.GenerateStructure(Path, origin, mod);
     }
-    
+
     public virtual TagCompound SerializeData() {
-        return new TagCompound {
-            ["Path"] = Path,
-            ["TileTypes"] = TileTypes,
-            ["WallTypes"] = WallTypes
-        };
+        return new TagCompound { ["Path"] = Path, ["TileTypes"] = TileTypes, ["WallTypes"] = WallTypes };
     }
 }
