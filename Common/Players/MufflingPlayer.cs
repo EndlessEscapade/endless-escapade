@@ -9,36 +9,44 @@ namespace EndlessEscapade.Common.Players;
 
 public class MufflingPlayer : ModPlayer
 {
-    private float intensity;
+    public bool WetHead {
+        get {
+            var headPosition = Player.Center - new Vector2(0f, 16f);
+            var wetHead = Collision.WetCollision(headPosition, 10, 10) || Player.HasItemEquip(ItemID.FishBowl);
+
+            return wetHead;
+        }
+    }
     
-    private bool wasWetHead;
+    private float intensity;
 
     public float Intensity {
         get => intensity;
         set {
-            var headPosition = Player.Center - new Vector2(0f, 20f);
-            var wetHead = Collision.WetCollision(headPosition, 10, 10) || Player.HasItemEquip(ItemID.FishBowl);
-
-            intensity = MathHelper.Clamp(value, wetHead ? 0.5f : 0f, 1f);
+            intensity = MathHelper.Clamp(value, WetHead ? 0.5f : 0f, 1f);
         }
     }
+    
+    private bool wetFadeOut;
 
     public override void PreUpdate() {
-        var headPosition = Player.Center - new Vector2(0f, 20f);
-        var wetHead = Collision.WetCollision(headPosition, 10, 10) || Player.HasItemEquip(ItemID.FishBowl);
-
-        if (wetHead) {
-            if (!wasWetHead) {
-                Intensity = 1f;
+        if (WetHead) {
+            if (!wetFadeOut){
+                Intensity += 0.05f;
+                
+                if (Intensity >= 1f) {
+                    wetFadeOut = true;
+                }
             }
-
-            Intensity -= 0.0025f;
+            else {
+                Intensity -= 0.0025f;
+            }
         }
         else {
             Intensity -= 0.025f;
-        }
 
-        wasWetHead = wetHead;
+            wetFadeOut = false;
+        }
 
         if (Intensity <= 0f) {
             return;

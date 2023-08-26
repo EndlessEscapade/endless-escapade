@@ -12,17 +12,18 @@ namespace EndlessEscapade.Common.Systems.Audio.Filters;
 [Autoload(Side = ModSide.Client)]
 public class LowPassSystem : ModSystem
 {
+    // TODO: Handle missing.
     private static readonly Action<SoundEffectInstance, float> lowPassAction
         = typeof(SoundEffectInstance).GetMethod("INTERNAL_applyLowPassFilter", ReflectionUtils.PrivateInstanceFlags).CreateDelegate<Action<SoundEffectInstance, float>>();
 
     private static readonly FieldInfo cueHandleInstanceField = typeof(Cue).GetField("handle", ReflectionUtils.PrivateInstanceFlags);
-
+    
     public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
         if (!ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering) {
             return;
         }
 
-        var intensity = 1f - parameters.LowPass * 0.9f;
+        var intensity = 1f - parameters.LowPass * 0.99f;
 
         lowPassAction.Invoke(instance, intensity);
     }
@@ -32,11 +33,11 @@ public class LowPassSystem : ModSystem
             return;
         }
 
-        var handle = (nint)cueHandleInstanceField.GetValue(cue)!;
+        var handle = (nint)cueHandleInstanceField.GetValue(cue);
         var cuePtr = (FACTCue*)handle;
 
         var filterParameters = new FAudio.FAudioFilterParameters {
-            Frequency = 1f - parameters.LowPass * 0.9f,
+            Frequency = 1f - parameters.LowPass * 0.99f,
             OneOverQ = 1,
             Type = FAudio.FAudioFilterType.FAudioLowPassFilter
         };

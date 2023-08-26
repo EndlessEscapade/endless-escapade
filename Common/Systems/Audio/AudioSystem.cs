@@ -5,16 +5,17 @@ using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Utilities;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Audio;
 
-// TODO: Find a place to reset audio parameters. Should run after all effects are applied.
 [Autoload(Side = ModSide.Client)]
 public class AudioSystem : ModSystem
 {
+    // TODO: Handle missing.
     private static readonly FieldInfo cueInstanceField = typeof(CueAudioTrack).GetField("_cue", ReflectionUtils.PrivateInstanceFlags)!;
     private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags)!;
     private static readonly FieldInfo soundInstanceField = typeof(ASoundEffectBasedAudioTrack).GetField("_soundEffectInstance", ReflectionUtils.PrivateInstanceFlags)!;
@@ -36,8 +37,8 @@ public class AudioSystem : ModSystem
     }
 
     public static void ResetParameters() {
-        SoundParameters = default;
-        MusicParameters = default;
+        SoundParameters = new AudioParameters();
+        MusicParameters = new AudioParameters();
     }
 
     public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
@@ -59,30 +60,18 @@ public class AudioSystem : ModSystem
         }
 
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
-        On_SoundEngine.Update += SoundEngineUpdateHook;
-
-        On_CueAudioTrack.Play += CueAudioTrackPlayHook;
-        On_CueAudioTrack.Update += CueAudioTrackUpdateHook;
-
         On_ASoundEffectBasedAudioTrack.Play += AudioTrackPlayHook;
-        On_ASoundEffectBasedAudioTrack.Update += AudioTrackUpdateHook;
+        On_CueAudioTrack.Play += CueAudioTrackPlayHook;
     }
 
-    private static SlotId SoundEnginePlayHook(On_SoundEngine.orig_PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback orig, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback) {
-        var slot = orig(ref style, position, callback);
-
-        if (IgnoredSounds.Contains(style) || !SoundEngine.TryGetActiveSound(slot, out var result) || result.Sound?.IsDisposed is not false) {
-            return slot;
-        }
-
-        ApplyParameters(result.Sound, SoundParameters);
-
-        return slot;
+    public override void PostUpdateEverything() {
+        UpdateSounds();
+        UpdateMusic();
+        
+        ResetParameters();
     }
 
-    private static void SoundEngineUpdateHook(On_SoundEngine.orig_Update orig) {
-        orig();
-
+    private static void UpdateSounds() {
         var value = (SlotVector<ActiveSound>)trackedSoundsField.GetValue(SoundEngine.SoundPlayer)!;
 
         foreach (var item in value) {
@@ -97,35 +86,53 @@ public class AudioSystem : ModSystem
         }
     }
 
-    private static void CueAudioTrackPlayHook(On_CueAudioTrack.orig_Play orig, CueAudioTrack self) {
-        orig(self);
+    private static void UpdateMusic() {
+        if (Main.audioSystem is not LegacyAudioSystem system) {
+            return;
+        }
 
-        var cue = (Cue)cueInstanceField.GetValue(self)!;
+        for (var i = 0; i < system.AudioTracks.Length; i++) {
+            var track = system.AudioTracks[i];
+            
+            if (track is CueAudioTrack cueTrack) {
+                var cue = (Cue)cueInstanceField.GetValue(cueTrack);
+                
+                ApplyParameters(cue, MusicParameters);
+            }
 
-        ApplyParameters(cue, MusicParameters);
+            if (track is ASoundEffectBasedAudioTrack audioTrack) {
+                var instance = (DynamicSoundEffectInstance)soundInstanceField.GetValue(audioTrack);
+
+                ApplyParameters(instance, MusicParameters);
+            }
+        }
     }
 
-    private static void CueAudioTrackUpdateHook(On_CueAudioTrack.orig_Update orig, CueAudioTrack self) {
-        orig(self);
+    private static SlotId SoundEnginePlayHook(On_SoundEngine.orig_PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback orig, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback) {
+        var slot = orig(ref style, position, callback);
 
-        var cue = (Cue)cueInstanceField.GetValue(self)!;
+        if (IgnoredSounds.Contains(style) || !SoundEngine.TryGetActiveSound(slot, out var result) || result.Sound?.IsDisposed is not false) {
+            return slot;
+        }
 
-        ApplyParameters(cue, MusicParameters);
+        ApplyParameters(result.Sound, SoundParameters);
+
+        return slot;
     }
 
     private static void AudioTrackPlayHook(On_ASoundEffectBasedAudioTrack.orig_Play orig, ASoundEffectBasedAudioTrack self) {
         orig(self);
 
-        var instance = (DynamicSoundEffectInstance)soundInstanceField.GetValue(self)!;
+        var instance = (DynamicSoundEffectInstance)soundInstanceField.GetValue(self);
 
         ApplyParameters(instance, MusicParameters);
     }
-
-    private static void AudioTrackUpdateHook(On_ASoundEffectBasedAudioTrack.orig_Update orig, ASoundEffectBasedAudioTrack self) {
+    
+    private static void CueAudioTrackPlayHook(On_CueAudioTrack.orig_Play orig, CueAudioTrack self) {
         orig(self);
 
-        var instance = (DynamicSoundEffectInstance)soundInstanceField.GetValue(self)!;
+        var cue = (Cue)cueInstanceField.GetValue(self);
 
-        ApplyParameters(instance, MusicParameters);
+        ApplyParameters(cue, MusicParameters);
     }
 }
