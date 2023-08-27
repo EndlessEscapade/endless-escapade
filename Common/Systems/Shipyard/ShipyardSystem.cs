@@ -1,9 +1,11 @@
-﻿using EndlessEscapade.Common.Systems.World.Actions;
+﻿using EndlessEscapade.Common.Systems.Shipyard.Attachments;
+using EndlessEscapade.Common.Systems.World.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
 using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -76,6 +78,10 @@ public class ShipyardSystem : ModSystem
 
         GenerateShipyard(x, y);
         GenerateBrokenBoat(x - sailboatDistance, y);
+    }
+    
+    public static bool GenerateAttachment<T>(T attachment) where T : IAttachment {
+        return attachment.Generate(ShipX, ShipY);
     }
 
     private static void GenerateShipyard(int x, int y) {
@@ -158,7 +164,10 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Actions.ClearTile());
+        WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), Actions.Chain(new GenAction[] {
+            new Actions.ClearTile(),
+            new Actions.ClearWall()
+        }));
 
         ShipX += dims.X / 2;
         ShipY += dims.Y / 2;
@@ -168,6 +177,12 @@ public class ShipyardSystem : ModSystem
 
         ShipFixed = true;
 
+        GenerateAttachment(new Hull("Assets/Structures/Boats/Default/Hull"));
+        GenerateAttachment(new SmallSail("Assets/Structures/Boats/Default/SmallSail"));
+        GenerateAttachment(new LargeSail("Assets/Structures/Boats/Default/LargeSail"));
+        GenerateAttachment(new Cannon(ModContent.TileType<Content.Tiles.Shipyard.Cannon>()));
+        GenerateAttachment(new Wheel(ModContent.TileType<Content.Tiles.Shipyard.Wheel>()));
+        
         NetMessage.SendData(MessageID.WorldData);
 
         WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Reframe());
