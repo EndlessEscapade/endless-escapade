@@ -8,8 +8,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.WorldBuilding;
-using Cannon = EndlessEscapade.Content.Tiles.Shipyard.Cannon;
-using Wheel = EndlessEscapade.Content.Tiles.Shipyard.Wheel;
 
 namespace EndlessEscapade.Common.Systems.Shipyard;
 
@@ -146,6 +144,8 @@ public class ShipyardSystem : ModSystem
 
         ShipX = origin.X;
         ShipY = origin.Y;
+
+        NetMessage.SendData(MessageID.WorldData);
     }
 
     private static void GenerateDefaultBoat() {
@@ -169,7 +169,7 @@ public class ShipyardSystem : ModSystem
         ShipFixed = true;
 
         NetMessage.SendData(MessageID.WorldData);
-    
+
         WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Reframe());
     }
 }

@@ -15,7 +15,6 @@ namespace EndlessEscapade.Common.Systems.Audio;
 [Autoload(Side = ModSide.Client)]
 public class AudioSystem : ModSystem
 {
-    // TODO: Handle missing.
     private static readonly FieldInfo cueInstanceField = typeof(CueAudioTrack).GetField("_cue", ReflectionUtils.PrivateInstanceFlags)!;
     private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags)!;
     private static readonly FieldInfo soundInstanceField = typeof(ASoundEffectBasedAudioTrack).GetField("_soundEffectInstance", ReflectionUtils.PrivateInstanceFlags)!;
@@ -28,8 +27,37 @@ public class AudioSystem : ModSystem
         SoundID.Grab
     );
 
+    public static bool Enabled { get; private set; }
+
     public static AudioParameters SoundParameters { get; private set; }
     public static AudioParameters MusicParameters { get; private set; }
+
+    public override void Load() {
+        Enabled = false;
+
+        if (!SoundEngine.IsAudioSupported) {
+            Mod.Logger.Error("Audio effects were disabled: Sound engine does not support audio.");
+            return;
+        }
+
+        if (trackedSoundsField == null) {
+            Mod.Logger.Error("Audio effects were disabled: Could not find internal Terraria/FNA objects.");
+            return;
+        }
+
+        On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
+        On_ASoundEffectBasedAudioTrack.Play += AudioTrackPlayHook;
+        On_CueAudioTrack.Play += CueAudioTrackPlayHook;
+
+        Enabled = true;
+    }
+
+    public override void PostUpdateEverything() {
+        UpdateSounds();
+        UpdateMusic();
+
+        ResetParameters();
+    }
 
     public static void SetParameters(AudioParameters sound, AudioParameters music) {
         SoundParameters = sound;
@@ -42,33 +70,19 @@ public class AudioSystem : ModSystem
     }
 
     public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
+        if (!Enabled) {
+            return;
+        }
+
         LowPassSystem.ApplyParameters(instance, parameters);
     }
 
     public static void ApplyParameters(Cue instance, AudioParameters parameters) {
-        LowPassSystem.ApplyParameters(instance, parameters);
-    }
-
-    public override bool IsLoadingEnabled(Mod mod) {
-        return SoundEngine.IsAudioSupported;
-    }
-
-    public override void Load() {
-        if (trackedSoundsField == null || soundInstanceField == null || cueInstanceField == null) {
-            Mod.Logger.Error("Audio effects were disabled: Could not find internal Terraria/FNA objects.");
+        if (!Enabled) {
             return;
         }
 
-        On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
-        On_ASoundEffectBasedAudioTrack.Play += AudioTrackPlayHook;
-        On_CueAudioTrack.Play += CueAudioTrackPlayHook;
-    }
-
-    public override void PostUpdateEverything() {
-        UpdateSounds();
-        UpdateMusic();
-        
-        ResetParameters();
+        LowPassSystem.ApplyParameters(instance, parameters);
     }
 
     private static void UpdateSounds() {
@@ -93,10 +107,10 @@ public class AudioSystem : ModSystem
 
         for (var i = 0; i < system.AudioTracks.Length; i++) {
             var track = system.AudioTracks[i];
-            
+
             if (track is CueAudioTrack cueTrack) {
                 var cue = (Cue)cueInstanceField.GetValue(cueTrack);
-                
+
                 ApplyParameters(cue, MusicParameters);
             }
 
@@ -127,7 +141,7 @@ public class AudioSystem : ModSystem
 
         ApplyParameters(instance, MusicParameters);
     }
-    
+
     private static void CueAudioTrackPlayHook(On_CueAudioTrack.orig_Play orig, CueAudioTrack self) {
         orig(self);
 

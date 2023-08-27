@@ -9,6 +9,10 @@ namespace EndlessEscapade.Common.Players;
 
 public class MufflingPlayer : ModPlayer
 {
+    private float intensity;
+
+    private bool wetFadeOut;
+
     public bool WetHead {
         get {
             var headPosition = Player.Center - new Vector2(0f, 16f);
@@ -17,23 +21,22 @@ public class MufflingPlayer : ModPlayer
             return wetHead;
         }
     }
-    
-    private float intensity;
 
     public float Intensity {
         get => intensity;
-        set {
-            intensity = MathHelper.Clamp(value, WetHead ? 0.5f : 0f, 1f);
-        }
+        set => intensity = MathHelper.Clamp(value, WetHead ? 0.5f : 0f, 1f);
     }
-    
-    private bool wetFadeOut;
 
     public override void PreUpdate() {
+        UpdateIntensity();
+        UpdateAudio();
+    }
+
+    private void UpdateIntensity() {
         if (WetHead) {
-            if (!wetFadeOut){
+            if (!wetFadeOut) {
                 Intensity += 0.05f;
-                
+
                 if (Intensity >= 1f) {
                     wetFadeOut = true;
                 }
@@ -47,7 +50,9 @@ public class MufflingPlayer : ModPlayer
 
             wetFadeOut = false;
         }
+    }
 
+    private void UpdateAudio() {
         if (Intensity <= 0f) {
             return;
         }

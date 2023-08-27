@@ -44,6 +44,16 @@ public class KelpMoss : CompositeTileBase
 
         var frame = new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16);
 
-        spriteBatch.Draw(texture, position, frame, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
+        spriteBatch.Draw(
+            texture,
+            position,
+            frame,
+            Color.White,
+            0f,
+            default,
+            1f,
+            SpriteEffects.None,
+            0f
+        );
     }
 }

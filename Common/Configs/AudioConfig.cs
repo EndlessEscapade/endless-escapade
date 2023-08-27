@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
-namespace EndlessEscapade.Common.Config;
+namespace EndlessEscapade.Common.Configs;
 
 public class AudioConfig : ModConfig
 {

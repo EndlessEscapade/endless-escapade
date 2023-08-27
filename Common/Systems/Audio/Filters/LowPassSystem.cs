@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using EndlessEscapade.Common.Config;
+using EndlessEscapade.Common.Configs;
 using EndlessEscapade.Utilities;
 using FAudioINTERNAL;
 using Microsoft.Xna.Framework.Audio;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Audio.Filters;
@@ -12,24 +13,40 @@ namespace EndlessEscapade.Common.Systems.Audio.Filters;
 [Autoload(Side = ModSide.Client)]
 public class LowPassSystem : ModSystem
 {
-    // TODO: Handle missing.
-    private static readonly Action<SoundEffectInstance, float> lowPassAction
-        = typeof(SoundEffectInstance).GetMethod("INTERNAL_applyLowPassFilter", ReflectionUtils.PrivateInstanceFlags).CreateDelegate<Action<SoundEffectInstance, float>>();
+    private static readonly Action<SoundEffectInstance, float> lowPassAction = typeof(SoundEffectInstance)
+        .GetMethod("INTERNAL_applyLowPassFilter", ReflectionUtils.PrivateInstanceFlags)
+        .CreateDelegate<Action<SoundEffectInstance, float>>();
 
     private static readonly FieldInfo cueHandleInstanceField = typeof(Cue).GetField("handle", ReflectionUtils.PrivateInstanceFlags);
-    
-    public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
-        if (!ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering) {
+
+    public static bool Enabled { get; private set; }
+
+    public override void Load() {
+        Enabled = false;
+
+        if (!SoundEngine.IsAudioSupported) {
+            Mod.Logger.Error("Audio effects were disabled: Sound engine does not support audio.");
             return;
         }
 
-        var intensity = 1f - parameters.LowPass * 0.99f;
+        if (lowPassAction == null || cueHandleInstanceField == null) {
+            Mod.Logger.Error("Audio effects were disabled: Could not find internal Terraria/FNA objects.");
+            return;
+        }
 
-        lowPassAction.Invoke(instance, intensity);
+        Enabled = true;
+    }
+
+    public static void ApplyParameters(SoundEffectInstance instance, AudioParameters parameters) {
+        if (!Enabled || !ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering) {
+            return;
+        }
+
+        lowPassAction.Invoke(instance, 1f - parameters.LowPass * 0.99f);
     }
 
     public static unsafe void ApplyParameters(Cue cue, AudioParameters parameters) {
-        if (!ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering) {
+        if (!Enabled || !ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering) {
             return;
         }
 

@@ -33,10 +33,7 @@ public class Sailor : ModNPC
         NPCID.Sets.AttackTime[Type] = 90;
         NPCID.Sets.AttackAverageChance[Type] = 30;
         NPCID.Sets.HatOffsetY[Type] = 4;
-
-        var drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
-
-        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
+        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f });
 
         NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
         NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love);
@@ -52,7 +49,10 @@ public class Sailor : ModNPC
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
         bestiaryEntry.Info.AddRange(
-            new IBestiaryInfoElement[] { BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, new FlavorTextBestiaryInfoElement(Mod.GetLocalizationValue("Bestiary.Sailor")) }
+            new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+                new FlavorTextBestiaryInfoElement(Mod.GetLocalizationValue("Bestiary.Sailor"))
+            }
         );
     }
 
@@ -72,13 +72,13 @@ public class Sailor : ModNPC
     }
 
     public override bool PreAI() {
-        var moreThanOne = NPC.CountNPCS(Type) > 1;
+        var exists = NPC.CountNPCS(Type) > 1;
 
-        if (moreThanOne) {
+        if (exists) {
             NPC.active = false;
         }
 
-        return moreThanOne;
+        return exists;
     }
 
     public override void ModifyNPCLoot(NPCLoot npcLoot) {
