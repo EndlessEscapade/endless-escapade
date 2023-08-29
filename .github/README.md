@@ -9,7 +9,7 @@ existing features and overall improving general quality of gameplay.
 
 ## How to play
 
-The mod is currently not released and we greatly discourage you to not build it yourself, however feel more than free to. The development builds are replenished of unfinished work and potential bugs, so we advise waiting for any official public releases. Doing so will grant you far better enjoyability and most importantly, stability.
+The mod is currently not released and we greatly discourage you to build it yourself, however feel more than free to. The development builds are replenished of unfinished work and potential bugs, so we advise waiting for any official public releases. Doing so will grant you far better enjoyability, and most importantly, stability.
 
 ## Contributors
 

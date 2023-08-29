@@ -9,7 +9,7 @@
     "TerrariaServer": {
       "commandName": "Executable",
       "executablePath": "$(DotNetPath)",
-      "commandLineArgs": "$(tMLServerPath)",
+      "commandLineArgs": "$(tMLServerPath) -unsafe true",
       "workingDirectory": "$(tMLSteamPath)"
     }
   }

@@ -2,15 +2,14 @@
 using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Players;
 
-public class MufflingPlayer : ModPlayer
+public class WaterImmersionPlayer : ModPlayer
 {
-    private float intensity;
-
     private bool wetFadeOut;
 
     public bool WetHead {
@@ -21,6 +20,8 @@ public class MufflingPlayer : ModPlayer
             return wetHead;
         }
     }
+    
+    private float intensity;
 
     public float Intensity {
         get => intensity;
