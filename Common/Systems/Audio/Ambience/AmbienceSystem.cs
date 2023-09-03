@@ -3,4 +3,7 @@
 namespace EndlessEscapade.Common.Systems.Audio.Ambience;
 
 [Autoload(Side = ModSide.Client)]
-public class AmbienceSystem : ModSystem { }
+public class AmbienceSystem : ModSystem
+{
+    
+}
