@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Reflection;
-using EndlessEscapade.Common.Systems.Audio.Filters;
+using EndlessEscapade.Common.Systems.Audio.Effects;
 using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;

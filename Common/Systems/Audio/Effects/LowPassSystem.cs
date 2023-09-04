@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Audio;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Systems.Audio.Filters;
+namespace EndlessEscapade.Common.Systems.Audio.Effects;
 
 [Autoload(Side = ModSide.Client)]
 public class LowPassSystem : ModSystem
