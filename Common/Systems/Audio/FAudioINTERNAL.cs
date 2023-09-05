@@ -51,6 +51,14 @@ using FAudioFilterState = Microsoft.Xna.Framework.Vector4;
 // and other files
 // Make public the types that are going to be used
 
+
+#pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable IDE0051 // Remove private unused members
+#pragma warning disable IDE0250 // Make struct readonly  
+#pragma warning disable IDE1006 // Naming style
+#pragma warning disable CS0169 // Unused field
+#pragma warning disable CS0649 // Unasigned field has value 0
+
 namespace FAudioINTERNAL;
 
 #region FAudio.h
@@ -86,6 +94,7 @@ internal enum FAudioFilterType
 
 internal struct FAudioFilterParametersEXT
 {
+
     private FAudioFilterType Type;
     private float Frequency; /* [0, FAUDIO_MAX_FILTER_FREQUENCY] */
     private float OneOverQ; /* [0, FAUDIO_MAX_FILTER_ONEOVERQ] */
