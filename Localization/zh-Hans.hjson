@@ -230,8 +230,18 @@ Mods: {
 					/* Tooltip:
 						'''
 						Toggles low pass filtering.
-						This is used for effects such as muffling sounds, etc...
+						This is used for effects such as muffling sounds, etc.
 						''' */
+				}
+
+				Headers: {
+					// Sounds: Sounds Header
+					// Effects: Effects Header
+				}
+
+				EnableAmbienceSounds: {
+					// Label: Enable Ambience Sounds
+					// Tooltip: ""
 				}
 			}
 		}

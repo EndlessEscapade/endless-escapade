@@ -58,8 +58,6 @@ public class WaterImmersionPlayer : ModPlayer
             return;
         }
 
-        var parameters = new AudioParameters { LowPass = Intensity };
-
-        AudioSystem.SetParameters(parameters, parameters);
+        SoundSystem.SetParameters(new SoundModifiers { LowPass = Intensity });
     }
 }

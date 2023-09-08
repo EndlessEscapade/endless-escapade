@@ -2,7 +2,7 @@
 
 namespace EndlessEscapade.Common.Systems.Audio;
 
-public struct AudioParameters
+public struct SoundModifiers
 {
     private float lowPass = 0f;
 
@@ -11,5 +11,5 @@ public struct AudioParameters
         set => lowPass = MathHelper.Clamp(value, 0f, 1f);
     }
 
-    public AudioParameters() { }
+    public SoundModifiers() { }
 }
