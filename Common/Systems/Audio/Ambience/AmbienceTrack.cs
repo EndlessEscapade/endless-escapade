@@ -11,16 +11,8 @@ namespace EndlessEscapade.Common.Systems.Audio.Ambience;
 // TODO: Implement support for conditional sounds.
 public abstract class AmbienceTrack : ModType
 {
-    public readonly struct AmbienceSoundData
+    public readonly record struct AmbienceSoundData(SoundStyle Style, Func<Player, bool> Condition)
     {
-        public readonly SoundStyle Style;
-        public readonly Func<Player, bool> Condition;
-
-        public AmbienceSoundData(SoundStyle style, Func<Player, bool> condition) {
-            Style = style;
-            Condition = condition;
-        }
-
         public AmbienceSoundData(SoundStyle style) : this(style, (x) => true) { }
     }
     
@@ -37,7 +29,8 @@ public abstract class AmbienceTrack : ModType
         set => volume = MathHelper.Clamp(value, 0f, Main.ambientVolume);
     }
 
-    protected virtual int Rate { get; set; } = 100;
+    /// <summary>Defines 1/N chance for a sound to play every tick. </summary>
+    protected virtual int SoundPlayRate { get; set; } = 100;
 
     protected sealed override void Register() {
         Initialize();
@@ -97,7 +90,7 @@ public abstract class AmbienceTrack : ModType
         soundSlot = SlotId.Invalid;
 
         foreach (var data in Sounds) {
-            if (!data.Style.IsLooped && data.Condition.Invoke(Main.LocalPlayer) && Main.rand.NextBool(Rate)) {
+            if (!data.Style.IsLooped && data.Condition.Invoke(Main.LocalPlayer) && Main.rand.NextBool(SoundPlayRate)) {
                 soundSlot = SoundEngine.PlaySound(data.Style);
                 break;
             }
