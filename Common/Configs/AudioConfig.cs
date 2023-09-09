@@ -10,7 +10,7 @@ public class AudioConfig : ModConfig
     [Header("Sounds")]
     [DefaultValue(true)]
     public bool EnableAmbienceSounds { get; set; } = true;
-    
+
     [Header("Effects")]
     [DefaultValue(true)]
     public bool EnableLowPassFiltering { get; set; } = true;

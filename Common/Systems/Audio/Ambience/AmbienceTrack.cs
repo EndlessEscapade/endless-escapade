@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -9,13 +11,26 @@ namespace EndlessEscapade.Common.Systems.Audio.Ambience;
 // TODO: Implement support for conditional sounds.
 public abstract class AmbienceTrack : ModType
 {
+    public readonly struct AmbienceSoundData
+    {
+        public readonly SoundStyle Style;
+        public readonly Func<Player, bool> Condition;
+
+        public AmbienceSoundData(SoundStyle style, Func<Player, bool> condition) {
+            Style = style;
+            Condition = condition;
+        }
+
+        public AmbienceSoundData(SoundStyle style) : this(style, (x) => true) { }
+    }
+    
     private SlotId loopSlot;
     private SlotId soundSlot;
 
-    public SoundStyle Loop { get; protected set; }
-    public SoundStyle Sounds { get; protected set; }
-    
     private float volume;
+
+    public List<AmbienceSoundData> Loops { get; protected set; }
+    public List<AmbienceSoundData> Sounds { get; protected set; }
 
     public float Volume {
         get => volume;
@@ -32,6 +47,7 @@ public abstract class AmbienceTrack : ModType
 
     internal void Update() {
         UpdateVolume();
+        
         UpdateLoop();
         UpdateSounds();
     }
@@ -40,29 +56,36 @@ public abstract class AmbienceTrack : ModType
         var active = IsActive(Main.LocalPlayer);
 
         if (active) {
-            Volume += 0.005f;
+            Volume += 0.05f;
         }
         else {
-            Volume -= 0.005f;
+            Volume -= 0.05f;
         }
     }
 
     private void UpdateLoop() {
         var active = IsActive(Main.LocalPlayer);
         var exists = SoundEngine.TryGetActiveSound(loopSlot, out var sound);
-
-        if (active && (!exists || sound == null)) {
-            loopSlot = SoundEngine.PlaySound(Loop);
-            return;
-        }
-        else if (exists && sound != null) {
-            if (!active && Volume <= 0f) {
-                sound.Stop();
-                loopSlot = SlotId.Invalid;
-                return;
+        
+        foreach (var data in Loops) {
+            if (!data.Style.IsLooped) {
+                continue;
             }
             
-            sound.Volume = Volume;
+            if (active && (!exists || sound == null)) {
+                loopSlot = SoundEngine.PlaySound(data.Style);
+                return;
+            }
+
+            if (exists && sound != null) {
+                if (!active && Volume <= 0f) {
+                    sound.Stop();
+                    loopSlot = SlotId.Invalid;
+                    return;
+                }
+
+                sound.Volume = Volume;
+            }
         }
     }
 
@@ -70,11 +93,14 @@ public abstract class AmbienceTrack : ModType
         if (!IsActive(Main.LocalPlayer) || SoundEngine.TryGetActiveSound(soundSlot, out _)) {
             return;
         }
-
+        
         soundSlot = SlotId.Invalid;
 
-        if (Main.rand.NextBool(Rate)) {
-            soundSlot = SoundEngine.PlaySound(Sounds);
+        foreach (var data in Sounds) {
+            if (!data.Style.IsLooped && data.Condition.Invoke(Main.LocalPlayer) && Main.rand.NextBool(Rate)) {
+                soundSlot = SoundEngine.PlaySound(data.Style);
+                break;
+            }
         }
     }
 

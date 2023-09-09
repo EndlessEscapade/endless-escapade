@@ -234,14 +234,18 @@ Mods: {
 						'''
 				}
 
-				Headers: {
-					Sounds: Sounds Header
-					Effects: Effects Header
-				}
-
 				EnableAmbienceSounds: {
 					Label: Enable Ambience Sounds
-					Tooltip: ""
+					Tooltip:
+						'''
+						Toggles ambience sounds.
+						This is used for sound effects like seagulls, dolphins, waves, etc.
+						'''
+				}
+
+				Headers: {
+					Sounds: Sounds
+					Effects: Effects
 				}
 			}
 		}
