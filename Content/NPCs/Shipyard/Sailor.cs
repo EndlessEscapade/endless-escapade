@@ -81,9 +81,7 @@ public class Sailor : ModNPC
         return exists;
     }
 
-    public override void ModifyNPCLoot(NPCLoot npcLoot) {
-        npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SailorHat>()));
-    }
+    public override void ModifyNPCLoot(NPCLoot npcLoot) { npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SailorHat>())); }
 
     public override void SetChatButtons(ref string button, ref string button2) {
         button = Language.GetTextValue("LegacyInterface.28");
@@ -162,9 +160,7 @@ public class Sailor : ModNPC
         return chat.Get();
     }
 
-    public override List<string> SetNPCNameList() {
-        return new List<string> { "Skipper" };
-    }
+    public override List<string> SetNPCNameList() { return new List<string> { "Skipper" }; }
 
     public override void TownNPCAttackStrength(ref int damage, ref float knockback) {
         damage = 20;
@@ -186,11 +182,7 @@ public class Sailor : ModNPC
         randomOffset = 2f;
     }
 
-    public override bool CanTownNPCSpawn(int numTownNPCs) {
-        return true;
-    }
+    public override bool CanTownNPCSpawn(int numTownNPCs) { return true; }
 
-    public override bool CanGoToStatue(bool toKingStatue) {
-        return true;
-    }
+    public override bool CanGoToStatue(bool toKingStatue) { return true; }
 }

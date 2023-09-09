@@ -7,9 +7,7 @@ public abstract class StructureAttachment : IAttachment
 {
     public readonly string Path;
 
-    public StructureAttachment(string path) {
-        Path = path;
-    }
+    public StructureAttachment(string path) { Path = path; }
 
     public abstract Point16 Offset { get; }
 

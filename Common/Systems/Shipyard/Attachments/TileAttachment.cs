@@ -7,9 +7,7 @@ public abstract class TileAttachment : IAttachment
 {
     public readonly int Type;
 
-    public TileAttachment(int type) {
-        Type = type;
-    }
+    public TileAttachment(int type) { Type = type; }
 
     public abstract Point16 Offset { get; }
 

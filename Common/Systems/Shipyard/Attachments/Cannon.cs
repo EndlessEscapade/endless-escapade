@@ -6,5 +6,5 @@ public class Cannon : TileAttachment
 {
     public Cannon(int type) : base(type) { }
 
-    public override Point16 Offset => new Point16(31, 25);
+    public override Point16 Offset => new(31, 25);
 }

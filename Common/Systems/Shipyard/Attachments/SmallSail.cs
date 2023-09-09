@@ -6,5 +6,5 @@ public class SmallSail : StructureAttachment
 {
     public SmallSail(string path) : base(path) { }
 
-    public override Point16 Offset => new Point16(7, 9);
+    public override Point16 Offset => new(7, 9);
 }

@@ -38,9 +38,7 @@ public class Wheel : ModTile
         DustType = DustID.WoodFurniture;
     }
 
-    public override bool RightClick(int i, int j) {
-        return true;
-    }
+    public override bool RightClick(int i, int j) { return true; }
 
     public override void MouseOver(int i, int j) {
         var player = Main.LocalPlayer;
@@ -49,11 +47,7 @@ public class Wheel : ModTile
         player.cursorItemIconID = ModContent.ItemType<Items.Shipyard.Wheel>();
     }
 
-    public override void NumDust(int i, int j, bool fail, ref int num) {
-        num = fail ? 1 : 3;
-    }
+    public override void NumDust(int i, int j, bool fail, ref int num) { num = fail ? 1 : 3; }
 
-    public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) {
-        return true;
-    }
+    public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) { return true; }
 }

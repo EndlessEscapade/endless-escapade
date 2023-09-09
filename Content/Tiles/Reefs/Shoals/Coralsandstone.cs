@@ -25,7 +25,5 @@ public class Coralsandstone : ModTile
         RegisterItemDrop(ModContent.ItemType<Items.Reefs.Shoals.Coralsandstone>());
     }
 
-    public override void NumDust(int i, int j, bool fail, ref int num) {
-        num = fail ? 1 : 3;
-    }
+    public override void NumDust(int i, int j, bool fail, ref int num) { num = fail ? 1 : 3; }
 }

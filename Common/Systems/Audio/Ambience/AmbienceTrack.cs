@@ -8,14 +8,8 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Audio.Ambience;
 
-// TODO: Implement support for conditional sounds.
 public abstract class AmbienceTrack : ModType
 {
-    public readonly record struct AmbienceSoundData(SoundStyle Style, Func<Player, bool> Condition)
-    {
-        public AmbienceSoundData(SoundStyle style) : this(style, (x) => true) { }
-    }
-    
     private SlotId loopSlot;
     private SlotId soundSlot;
 
@@ -29,7 +23,7 @@ public abstract class AmbienceTrack : ModType
         set => volume = MathHelper.Clamp(value, 0f, Main.ambientVolume);
     }
 
-    /// <summary>Defines 1/N chance for a sound to play every tick. </summary>
+    /// <summary>Defines 1/N chance for a random sound to be played every tick.</summary>
     protected virtual int SoundPlayRate { get; set; } = 100;
 
     protected sealed override void Register() {
@@ -40,7 +34,7 @@ public abstract class AmbienceTrack : ModType
 
     internal void Update() {
         UpdateVolume();
-        
+
         UpdateLoop();
         UpdateSounds();
     }
@@ -59,12 +53,12 @@ public abstract class AmbienceTrack : ModType
     private void UpdateLoop() {
         var active = IsActive(Main.LocalPlayer);
         var exists = SoundEngine.TryGetActiveSound(loopSlot, out var sound);
-        
+
         foreach (var data in Loops) {
             if (!data.Style.IsLooped) {
                 continue;
             }
-            
+
             if (active && (!exists || sound == null)) {
                 loopSlot = SoundEngine.PlaySound(data.Style);
                 return;
@@ -86,7 +80,7 @@ public abstract class AmbienceTrack : ModType
         if (!IsActive(Main.LocalPlayer) || SoundEngine.TryGetActiveSound(soundSlot, out _)) {
             return;
         }
-        
+
         soundSlot = SlotId.Invalid;
 
         foreach (var data in Sounds) {
@@ -100,4 +94,9 @@ public abstract class AmbienceTrack : ModType
     protected abstract void Initialize();
 
     protected abstract bool IsActive(Player player);
+
+    public readonly record struct AmbienceSoundData(SoundStyle Style, Func<Player, bool> Condition)
+    {
+        public AmbienceSoundData(SoundStyle style) : this(style, x => true) { }
+    }
 }

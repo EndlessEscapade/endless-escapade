@@ -46,13 +46,9 @@ public class SoundSystem : ModSystem
         ResetParameters();
     }
 
-    public static void SetParameters(in SoundModifiers sound) {
-        SoundParameters = sound;
-    }
+    public static void SetParameters(in SoundModifiers sound) { SoundParameters = sound; }
 
-    public static void ResetParameters() {
-        SoundParameters = new SoundModifiers();
-    }
+    public static void ResetParameters() { SoundParameters = new SoundModifiers(); }
 
     internal static void ApplyParameters(SoundEffectInstance instance, in SoundModifiers parameters) {
         if (!Enabled || instance?.IsDisposed == true) {

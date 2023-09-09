@@ -42,9 +42,7 @@ public class ShipyardSystem : ModSystem
         ShipFixed = false;
     }
 
-    public override void Load() {
-        Sailor.OnBoatRepair += GenerateDefaultBoat;
-    }
+    public override void Load() { Sailor.OnBoatRepair += GenerateDefaultBoat; }
 
     public override void PostWorldGen() {
         var foundOcean = false;
@@ -81,9 +79,7 @@ public class ShipyardSystem : ModSystem
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
 
-    public static bool GenerateAttachment<T>(T attachment) where T : IAttachment {
-        return attachment.Generate(ShipX, ShipY);
-    }
+    public static bool GenerateAttachment<T>(T attachment) where T : IAttachment { return attachment.Generate(ShipX, ShipY); }
 
     private static void GenerateShipyard(int x, int y) {
         const string path = "Assets/Structures/Shipyard";
