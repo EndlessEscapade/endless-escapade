@@ -10,7 +10,6 @@ namespace EndlessEscapade.Common.Players;
 public class WaterImmersionPlayer : ModPlayer
 {
     private float intensity;
-    private bool wetFadeOut;
 
     public bool WetHead {
         get {
@@ -23,7 +22,7 @@ public class WaterImmersionPlayer : ModPlayer
 
     public float Intensity {
         get => intensity;
-        set => intensity = MathHelper.Clamp(value, WetHead ? 0.9f : 0f, 1f);
+        set => intensity = MathHelper.Clamp(value, 0f, 0.9f);
     }
 
     public override void PreUpdate() {
@@ -33,22 +32,11 @@ public class WaterImmersionPlayer : ModPlayer
 
     private void UpdateIntensity() {
         if (WetHead) {
-            if (wetFadeOut) {
-                Intensity -= 0.0025f;
-                return;
-            }
-
             Intensity += 0.05f;
-
-            if (Intensity >= 1f) {
-                wetFadeOut = true;
-            }
+            return;
         }
-        else {
-            Intensity -= 0.05f;
 
-            wetFadeOut = false;
-        }
+        Intensity -= 0.05f;
     }
 
     private void UpdateAudio() {
