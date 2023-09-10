@@ -250,21 +250,6 @@ Mods: {
 			}
 		}
 
-		Titles: {
-			// Title0: WAIT WAIT WAIT WAIT WAIT WAIT WAIT
-			// Title1: Waltuh
-			// Title2: Nullification nullifier nullifi-nator
-			// Title3: Yettatia: Typo
-			// Title4: skull emoji'd
-			// Title5: Why Yuor Barin Can Raed Tihs
-			// Title6: Why did the Java developer need glasses? Because he couldn't C#
-			// Title7: The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength
-			// Title8: Do not the cat.
-			// Title9: What is that flashy buggy thing?
-			// Title10: Mod Dev Redemption
-			// Title11: Mark my words.
-		}
-
 		Buttons.Sailor.Sailing: 航行
 	}
 }
