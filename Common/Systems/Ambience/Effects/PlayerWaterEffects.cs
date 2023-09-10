@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Players;
+namespace EndlessEscapade.Common.Systems.Ambience.Effects;
 
-public class WaterImmersionPlayer : ModPlayer
+public class PlayerWaterEffects : ModPlayer
 {
     private float intensity;
 

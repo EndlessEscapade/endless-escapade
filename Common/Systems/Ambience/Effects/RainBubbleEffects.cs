@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Systems.Ambience;
+namespace EndlessEscapade.Common.Systems.Ambience.Effects;
 
 public class RainBubbleEffects : ILoadable
 {

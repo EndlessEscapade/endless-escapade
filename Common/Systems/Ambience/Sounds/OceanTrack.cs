@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.Audio;
 
-namespace EndlessEscapade.Common.Systems.Ambience.Tracks;
+namespace EndlessEscapade.Common.Systems.Ambience.Sounds;
 
 public class OceanTrack : AmbienceTrack
 {
