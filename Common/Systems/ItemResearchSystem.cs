@@ -2,9 +2,9 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Systems.Items;
+namespace EndlessEscapade.Common.Systems;
 
-public class ResearchSystem : ModSystem
+public class ItemResearchSystem : ModSystem
 {
     public override void PostSetupContent() {
         foreach (var modItem in ModContent.GetContent<ModItem>()) {
