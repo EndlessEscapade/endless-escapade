@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles.Reefs.TwilightZone;
 
-public class Gemsand : CompositeTileBase
+public class Gemsand : CompositeTile
 {
     public override int HorizontalSheetCount { get; } = 3;
 

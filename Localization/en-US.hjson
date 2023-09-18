@@ -224,7 +224,12 @@ Mods: {
 		Configs: {
 			AudioConfig: {
 				DisplayName: Audio Config
-
+				
+				Headers: {
+					Sounds: Sounds
+					Effects: Effects
+				}
+				
 				EnableLowPassFiltering: {
 					Label: Enable Low Pass Filtering
 					Tooltip:
@@ -234,18 +239,13 @@ Mods: {
 						'''
 				}
 
-				EnableAmbienceSounds: {
-					Label: Enable Ambience Sounds
+				EnableHighPassFiltering: {
+					Label: Enable High Pass Filtering
 					Tooltip:
 						'''
-						Toggles ambience sounds.
-						This is used for sound effects like seagulls, dolphins, waves, etc.
+						Toggles high pass filtering.
+						This is used for effects such as shimmer underwater, etc.
 						'''
-				}
-
-				Headers: {
-					Sounds: Sounds
-					Effects: Effects
 				}
 			}
 		}

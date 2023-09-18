@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.Audio;
 
-namespace EndlessEscapade.Common.Systems.Ambience.Sounds;
+namespace EndlessEscapade.Common.Systems.Ambience.Tracks;
 
 public class OceanTrack : AmbienceTrack
 {
@@ -11,7 +11,7 @@ public class OceanTrack : AmbienceTrack
         Volume = 0.7f
     };
 
-    private static readonly SoundStyle roarSounds = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Ocean/Roar", 1, SoundType.Ambient);
+    private static readonly SoundStyle roarSounds = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Ocean/Roar", 2, SoundType.Ambient);
 
     protected override void Initialize() {
         Loops = new List<AmbienceSoundData> { new(loop) };

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles.Reefs.DarkestTrenches;
 
-public class DarkGemsand : CompositeTileBase
+public class DarkGemsand : CompositeTile
 {
     public override int HorizontalSheetCount { get; } = 3;
 

@@ -11,5 +11,12 @@ public struct SoundModifiers
         set => lowPass = MathHelper.Clamp(value, 0f, 1f);
     }
 
+    private float highPass = 0f;
+
+    public float HighPass {
+        get => highPass;
+        set => highPass = MathHelper.Clamp(value, 0f, 1f);
+    }
+
     public SoundModifiers() { }
 }

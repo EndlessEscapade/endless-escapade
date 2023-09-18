@@ -53,7 +53,7 @@ public class ShipyardSystem : ModSystem
 
         while (!foundOcean) {
             var tile = Framing.GetTileSafely(x, y);
-
+            
             if (tile.LiquidAmount >= 255 && tile.LiquidType == LiquidID.Water) {
                 foundOcean = true;
                 break;
@@ -63,9 +63,7 @@ public class ShipyardSystem : ModSystem
         }
 
         while (!foundBeach) {
-            var tile = Framing.GetTileSafely(x, y);
-
-            if (WorldGen.SolidTile(tile) && tile.HasTile && tile.TileType == TileID.Sand) {
+            if (WorldGen.SolidTile(x, y) && WorldGen.TileType(x, y) == TileID.Sand) {
                 foundBeach = true;
                 break;
             }

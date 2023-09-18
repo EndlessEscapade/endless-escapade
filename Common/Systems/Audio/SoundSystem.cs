@@ -55,7 +55,8 @@ public class SoundSystem : ModSystem
             return;
         }
 
-        LowPassSystem.ApplyParameters(instance, in parameters);
+        HighPassSystem.ApplyParameters(instance, parameters);
+        LowPassSystem.ApplyParameters(instance, parameters);
     }
 
     private static void UpdateSounds() {
@@ -65,7 +66,7 @@ public class SoundSystem : ModSystem
             var sound = item.Value;
             var instance = sound.Sound;
 
-            if (IgnoredSounds.Contains(sound.Style) || instance?.IsDisposed == false) {
+            if (IgnoredSounds.Contains(sound.Style) || instance?.IsDisposed == true) {
                 continue;
             }
 

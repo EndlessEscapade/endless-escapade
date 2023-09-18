@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles.Reefs.Kelp;
 
-public class KelpMoss : CompositeTileBase
+public class KelpMoss : CompositeTile
 {
     public override int HorizontalSheetCount { get; } = 3;
 

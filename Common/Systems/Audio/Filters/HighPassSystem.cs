@@ -8,10 +8,10 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Systems.Audio.Filters;
 
 [Autoload(Side = ModSide.Client)]
-public class LowPassSystem : ModSystem
+public class HighPassSystem : ModSystem
 {
-    private static readonly Action<SoundEffectInstance, float> lowPassAction = typeof(SoundEffectInstance)
-        .GetMethod("INTERNAL_applyLowPassFilter", ReflectionUtils.PrivateInstanceFlags)
+    private static readonly Action<SoundEffectInstance, float> highPassAction = typeof(SoundEffectInstance)
+        .GetMethod("INTERNAL_applyHighPassFilter", ReflectionUtils.PrivateInstanceFlags)
         .CreateDelegate<Action<SoundEffectInstance, float>>();
 
     public static bool Enabled { get; private set; }
@@ -28,10 +28,10 @@ public class LowPassSystem : ModSystem
     }
 
     internal static void ApplyParameters(SoundEffectInstance instance, SoundModifiers parameters) {
-        if (!Enabled || parameters.LowPass <= 0f || instance?.IsDisposed == true || !ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering) {
+        if (!Enabled || parameters.HighPass <= 0f || instance?.IsDisposed == true || !ModContent.GetInstance<AudioConfig>().EnableHighPassFiltering) {
             return;
         }
 
-        lowPassAction.Invoke(instance, 1f - parameters.LowPass * 0.99f);
+        highPassAction.Invoke(instance, parameters.HighPass * 0.99f);
     }
 }

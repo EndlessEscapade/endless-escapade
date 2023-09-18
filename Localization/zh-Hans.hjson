@@ -247,6 +247,15 @@ Mods: {
 					// Sounds: Sounds
 					// Effects: Effects
 				}
+
+				EnableHighPassFiltering: {
+					// Label: Enable High Pass Filtering
+					/* Tooltip:
+						'''
+						Toggles high pass filtering.
+						This is used for effects such as shimmer underwater, etc.
+						''' */
+				}
 			}
 		}
 

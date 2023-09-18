@@ -9,20 +9,18 @@ namespace EndlessEscapade.Common.Systems.Ambience.Effects;
 
 public class PlayerWaterEffects : ModPlayer
 {
-    private float intensity;
-
-    public bool WetHead {
-        get {
-            var headPosition = Player.Center - new Vector2(0f, 16f);
-            var wetHead = Collision.WetCollision(headPosition, 10, 10) || Player.HasItemEquip(ItemID.FishBowl);
-
-            return wetHead;
-        }
+    private float lowPass;
+    private float highPass;
+    private float maxLowPass;
+    
+    public float LowPass {
+        get => lowPass;
+        set => lowPass = MathHelper.Clamp(value, 0f, maxLowPass);
     }
-
-    public float Intensity {
-        get => intensity;
-        set => intensity = MathHelper.Clamp(value, 0f, 0.9f);
+    
+    public float HighPass {
+        get => highPass;
+        set => highPass = MathHelper.Clamp(value, 0f, 0.5f);
     }
 
     public override void PreUpdate() {
@@ -31,19 +29,40 @@ public class PlayerWaterEffects : ModPlayer
     }
 
     private void UpdateIntensity() {
-        if (WetHead) {
-            Intensity += 0.05f;
+        var headPosition = Player.Center - new Vector2(0f, 16f);
+        var tile = Framing.GetTileSafely(headPosition.ToTileCoordinates());
+
+        if (Collision.WetCollision(headPosition, 10, 10)) {
+            switch (tile.LiquidType) {
+                case LiquidID.Water:
+                    LowPass += 0.1f;
+                    maxLowPass = 0.7f;
+                    break;
+                case LiquidID.Lava:
+                    LowPass += 0.1f;
+                    maxLowPass = 0.5f;
+                    break;
+                case LiquidID.Honey:
+                    LowPass += 0.1f;
+                    maxLowPass = 0.9f;
+                    break;
+                case LiquidID.Shimmer:
+                    HighPass += 0.1f;
+                    break;
+            }
+            
             return;
         }
-
-        Intensity -= 0.05f;
+        
+        LowPass -= 0.1f;
+        HighPass -= 0.1f;
     }
 
     private void UpdateAudio() {
-        if (Intensity <= 0f) {
+        if (LowPass <= 0f && HighPass <= 0f) {
             return;
         }
 
-        SoundSystem.SetParameters(new SoundModifiers { LowPass = Intensity });
+        SoundSystem.SetParameters(new SoundModifiers { LowPass = LowPass, HighPass = HighPass });
     }
 }

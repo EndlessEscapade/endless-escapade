@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles.Tropical;
 
-public class TropicalWood : CompositeTileBase
+public class TropicalWood : CompositeTile
 {
     public override int HorizontalSheetCount { get; } = 3;
 

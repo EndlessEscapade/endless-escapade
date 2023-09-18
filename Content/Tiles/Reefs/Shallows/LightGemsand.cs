@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles.Reefs.Shallows;
 
-public class LightGemsand : CompositeTileBase
+public class LightGemsand : CompositeTile
 {
     public override int HorizontalSheetCount { get; } = 3;
 

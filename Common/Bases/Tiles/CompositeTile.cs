@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Bases.Tiles;
 
-public abstract class CompositeTileBase : ModTile
+public abstract class CompositeTile : ModTile
 {
     private const int ChunkWidth = 72;
     private const int ChunkHeight = 90;
