@@ -22,6 +22,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Remove="Assets\PearlCannonProj.png" />
+        <None Remove="Assets\PearlProjectile.png" />
+        <None Remove="Content\Items\Pearl\BigPearlProjectile.png" />
         <None Remove="Content\Items\Reefs\Kelp\Kelpberries.png" />
     </ItemGroup>
 
