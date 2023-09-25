@@ -100,7 +100,7 @@ public class Sailor : ModNPC
         var hasMaterials = player.HasStack(ItemID.Silk, 20) && player.HasGroupStack(RecipeGroupID.Wood, 150);
         var hasMoney = player.CanAfford(Item.buyPrice(gold: 5));
 
-        if (!ShipyardSystem.ShipFixed) {
+        if (!ShipyardSystem.Repaired) {
             if (hasMaterials && hasMoney && LastShipDialogue == RepairPromptDialogue) {
                 var repaired = true;
 

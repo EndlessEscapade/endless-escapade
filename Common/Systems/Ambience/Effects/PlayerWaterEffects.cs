@@ -25,7 +25,7 @@ public class PlayerWaterEffects : ModPlayer
     private void UpdateIntensity() {
         var headPosition = Player.Center - new Vector2(0f, 16f);
 
-        if (!Collision.WetCollision(headPosition, 10, 10) || !Player.HasEquip(ItemID.FishBowl)) {
+        if (!Collision.WetCollision(headPosition, 10, 10) && !Player.HasEquip(ItemID.FishBowl)) {
             LowPass -= 0.1f;
             return;
         }
@@ -41,6 +41,9 @@ public class PlayerWaterEffects : ModPlayer
                 break;
             case LiquidID.Honey:
                 maxLowPass = 0.9f;
+                break;
+            case LiquidID.Shimmer:
+                maxLowPass = 0.3f;
                 break;
         }
 

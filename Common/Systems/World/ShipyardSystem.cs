@@ -13,27 +13,27 @@ namespace EndlessEscapade.Common.Systems.Shipyard;
 
 public class ShipyardSystem : ModSystem
 {
-    public static int ShipX { get; private set; }
-    public static int ShipY { get; private set; }
+    public static int X { get; private set; }
+    public static int Y { get; private set; }
 
-    public static bool ShipFixed { get; private set; }
+    public static bool Repaired { get; private set; }
 
     public override void SaveWorldData(TagCompound tag) {
-        tag[nameof(ShipX)] = ShipX;
-        tag[nameof(ShipY)] = ShipY;
-        tag[nameof(ShipFixed)] = ShipFixed;
+        tag[nameof(X)] = X;
+        tag[nameof(Y)] = Y;
+        tag[nameof(Repaired)] = Repaired;
     }
 
     public override void LoadWorldData(TagCompound tag) {
-        ShipX = tag.GetInt(nameof(ShipX));
-        ShipY = tag.GetInt(nameof(ShipY));
-        ShipFixed = tag.GetBool(nameof(ShipFixed));
+        X = tag.GetInt(nameof(X));
+        Y = tag.GetInt(nameof(Y));
+        Repaired = tag.GetBool(nameof(Repaired));
     }
 
     public override void ClearWorld() {
-        ShipX = 0;
-        ShipY = 0;
-        ShipFixed = false;
+        X = 0;
+        Y = 0;
+        Repaired = false;
     }
 
     public override void Load() { Sailor.OnBoatRepair += GenerateDefaultBoat; }
@@ -133,8 +133,8 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        ShipX = origin.X;
-        ShipY = origin.Y;
+        X = origin.X;
+        Y = origin.Y;
 
         NetMessage.SendData(MessageID.WorldData);
     }
@@ -147,33 +147,29 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        WorldUtils.Gen(
-            new Point(ShipX, ShipY),
-            new Shapes.Rectangle(dims.X, dims.Y),
-            Actions.Chain(
-                new Actions.ClearTile(),
-                new Actions.ClearWall()
-            )
-        );
+        WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), Actions.Chain(
+            new Actions.ClearTile(),
+            new Actions.ClearWall()
+        ));
 
-        ShipX += dims.X / 2;
-        ShipY += dims.Y / 2;
+        X += dims.X / 2;
+        Y += dims.Y / 2;
         
         if (!Generator.GetDimensions("Assets/Structures/Sailboat", mod, ref dims)) {
             return;
         }
 
-        ShipX -= dims.X / 2;
-        ShipY -= dims.Y - dims.Y / 3;
+        X -= dims.X / 2;
+        Y -= dims.Y - dims.Y / 3;
 
-        ShipFixed = true;
+        Repaired = true;
 
         NetMessage.SendData(MessageID.WorldData);
 
-        if (!Generator.GenerateStructure("Assets/Structures/Sailboat", new Point16(ShipX, ShipY), mod)) {
+        if (!Generator.GenerateStructure("Assets/Structures/Sailboat", new Point16(X, Y), mod)) {
             return;
         }
-
-        WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(dims.X, dims.Y), new Reframe());
+        
+        WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), new Reframe());
     }
 }
