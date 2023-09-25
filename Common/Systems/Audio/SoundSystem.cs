@@ -29,16 +29,14 @@ public class SoundSystem : ModSystem
     public static SoundModifiers SoundParameters { get; private set; }
 
     public override void Load() {
-        Enabled = false;
+        Enabled = SoundEngine.IsAudioSupported;
 
-        if (!SoundEngine.IsAudioSupported) {
-            Mod.Logger.Error("Audio effects were disabled: Sound engine does not support audio.");
+        if (!Enabled) {
+            Mod.Logger.Error("Audio effects were not enabled: Sound engine does not support audio.");
             return;
         }
 
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
-
-        Enabled = true;
     }
 
     public override void PostUpdateEverything() {
@@ -55,7 +53,6 @@ public class SoundSystem : ModSystem
             return;
         }
 
-        HighPassSystem.ApplyParameters(instance, parameters);
         LowPassSystem.ApplyParameters(instance, parameters);
     }
 

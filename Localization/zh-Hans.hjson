@@ -150,6 +150,11 @@ Mods: {
 				// DisplayName: Tropical Wood Fence
 				// Tooltip: ""
 			}
+
+			PearlCannon: {
+				// DisplayName: Pearl Cannon
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -225,6 +230,11 @@ Mods: {
 			AudioConfig: {
 				// DisplayName: Audio Config
 
+				Headers: {
+					// Sounds: Sounds
+					// Effects: Effects
+				}
+
 				EnableLowPassFiltering: {
 					// Label: Enable Low Pass Filtering
 					/* Tooltip:
@@ -232,20 +242,6 @@ Mods: {
 						Toggles low pass filtering.
 						This is used for effects such as muffling sounds, etc.
 						''' */
-				}
-
-				EnableAmbienceSounds: {
-					// Label: Enable Ambience Sounds
-					/* Tooltip:
-						'''
-						Toggles ambience sounds.
-						This is used for sound effects like seagulls, dolphins, waves, etc.
-						''' */
-				}
-
-				Headers: {
-					// Sounds: Sounds
-					// Effects: Effects
 				}
 
 				EnableHighPassFiltering: {
@@ -260,5 +256,11 @@ Mods: {
 		}
 
 		Buttons.Sailor.Sailing: 航行
+
+		Projectiles: {
+			// BigPearlProjectile.DisplayName: Big Pearl Projectile
+			// PearlCannonProjectile.DisplayName: Pearl Cannon Projectile
+			// PearlProjectile.DisplayName: Pearl Projectile
+		}
 	}
 }

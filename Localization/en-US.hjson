@@ -150,6 +150,11 @@ Mods: {
 				DisplayName: Tropical Wood Fence
 				Tooltip: ""
 			}
+
+			PearlCannon: {
+				DisplayName: Pearl Cannon
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -224,12 +229,12 @@ Mods: {
 		Configs: {
 			AudioConfig: {
 				DisplayName: Audio Config
-				
+
 				Headers: {
 					Sounds: Sounds
 					Effects: Effects
 				}
-				
+
 				EnableLowPassFiltering: {
 					Label: Enable Low Pass Filtering
 					Tooltip:
@@ -251,5 +256,11 @@ Mods: {
 		}
 
 		Buttons.Sailor.Sailing: Sailing
+
+		Projectiles: {
+			BigPearlProjectile.DisplayName: Big Pearl Projectile
+			PearlCannonProjectile.DisplayName: Pearl Cannon Projectile
+			PearlProjectile.DisplayName: Pearl Projectile
+		}
 	}
 }

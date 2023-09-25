@@ -8,10 +8,10 @@ namespace EndlessEscapade.Common.Systems.Ambience.Effects;
 
 public class RainBubbleEffects : ILoadable
 {
-    void ILoadable.Load(Mod mod){ On_Rain.Update += RainUpdateHook; }
+    void ILoadable.Load(Mod mod) { On_Rain.Update += RainUpdateHook; }
 
     void ILoadable.Unload() { }
-    
+
     private static void RainUpdateHook(On_Rain.orig_Update orig, Rain self) {
         orig(self);
 

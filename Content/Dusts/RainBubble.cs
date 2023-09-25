@@ -26,7 +26,7 @@ public class RainBubble : ModDust
             dust.active = false;
             return false;
         }
-    
+
         return false;
     }
 }

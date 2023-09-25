@@ -1,5 +1,4 @@
-﻿using EndlessEscapade.Common.Systems.Shipyard.Attachments;
-using EndlessEscapade.Common.Systems.World.Actions;
+﻿using EndlessEscapade.Common.Systems.World.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
 using Microsoft.Xna.Framework;
 using StructureHelper;
@@ -9,16 +8,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.WorldBuilding;
-using Cannon = EndlessEscapade.Content.Tiles.Shipyard.Cannon;
-using Wheel = EndlessEscapade.Content.Tiles.Shipyard.Wheel;
 
 namespace EndlessEscapade.Common.Systems.Shipyard;
 
 public class ShipyardSystem : ModSystem
 {
-    public const int ShipWidth = 46;
-    public const int ShipHeight = 37;
-
     public static int ShipX { get; private set; }
     public static int ShipY { get; private set; }
 
@@ -53,7 +47,7 @@ public class ShipyardSystem : ModSystem
 
         while (!foundOcean) {
             var tile = Framing.GetTileSafely(x, y);
-            
+
             if (tile.LiquidAmount >= 255 && tile.LiquidType == LiquidID.Water) {
                 foundOcean = true;
                 break;
@@ -76,8 +70,6 @@ public class ShipyardSystem : ModSystem
         GenerateShipyard(x, y);
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
-
-    public static bool GenerateAttachment<T>(T attachment) where T : IAttachment { return attachment.Generate(ShipX, ShipY); }
 
     private static void GenerateShipyard(int x, int y) {
         const string path = "Assets/Structures/Shipyard";
@@ -127,19 +119,17 @@ public class ShipyardSystem : ModSystem
     }
 
     private static void GenerateBrokenBoat(int x, int y) {
-        const string path = "Assets/Structures/Boats/Default/Broken";
-
         var mod = EndlessEscapade.Instance;
         var dims = Point16.Zero;
 
-        if (!Generator.GetDimensions(path, mod, ref dims)) {
+        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", mod, ref dims)) {
             return;
         }
 
         var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
         var origin = new Point16(x, y) - offset;
 
-        if (!Generator.GenerateStructure(path, origin, mod)) {
+        if (!Generator.GenerateStructure("Assets/Structures/BrokenSailboat", origin, mod)) {
             return;
         }
 
@@ -150,18 +140,16 @@ public class ShipyardSystem : ModSystem
     }
 
     private static void GenerateDefaultBoat() {
-        const string path = "Assets/Structures/Boats/Default/Broken";
-
         var mod = EndlessEscapade.Instance;
         var dims = Point16.Zero;
 
-        if (!Generator.GetDimensions(path, mod, ref dims)) {
+        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", mod, ref dims)) {
             return;
         }
 
         WorldUtils.Gen(
             new Point(ShipX, ShipY),
-            new Shapes.Rectangle(ShipWidth, ShipHeight),
+            new Shapes.Rectangle(dims.X, dims.Y),
             Actions.Chain(
                 new Actions.ClearTile(),
                 new Actions.ClearWall()
@@ -170,20 +158,22 @@ public class ShipyardSystem : ModSystem
 
         ShipX += dims.X / 2;
         ShipY += dims.Y / 2;
+        
+        if (!Generator.GetDimensions("Assets/Structures/Sailboat", mod, ref dims)) {
+            return;
+        }
 
-        ShipX -= ShipWidth / 2;
-        ShipY -= ShipHeight - ShipHeight / 3;
+        ShipX -= dims.X / 2;
+        ShipY -= dims.Y - dims.Y / 3;
 
         ShipFixed = true;
 
-        GenerateAttachment(new Hull("Assets/Structures/Boats/Default/Hull"));
-        GenerateAttachment(new SmallSail("Assets/Structures/Boats/Default/SmallSail"));
-        GenerateAttachment(new LargeSail("Assets/Structures/Boats/Default/LargeSail"));
-        GenerateAttachment(new Attachments.Cannon(ModContent.TileType<Cannon>()));
-        GenerateAttachment(new Attachments.Wheel(ModContent.TileType<Wheel>()));
-
         NetMessage.SendData(MessageID.WorldData);
 
-        WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(ShipWidth, ShipHeight), new Reframe());
+        if (!Generator.GenerateStructure("Assets/Structures/Sailboat", new Point16(ShipX, ShipY), mod)) {
+            return;
+        }
+
+        WorldUtils.Gen(new Point(ShipX, ShipY), new Shapes.Rectangle(dims.X, dims.Y), new Reframe());
     }
 }

@@ -17,14 +17,11 @@ public class LowPassSystem : ModSystem
     public static bool Enabled { get; private set; }
 
     public override void Load() {
-        Enabled = false;
+        Enabled = SoundEngine.IsAudioSupported;
 
-        if (!SoundEngine.IsAudioSupported) {
-            Mod.Logger.Error("Audio effects were disabled: Sound engine does not support audio.");
-            return;
+        if (!Enabled) {
+            Mod.Logger.Error("Audio effects were not enabled: Sound engine does not support audio.");
         }
-
-        Enabled = true;
     }
 
     internal static void ApplyParameters(SoundEffectInstance instance, SoundModifiers parameters) {

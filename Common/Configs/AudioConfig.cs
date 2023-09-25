@@ -10,7 +10,7 @@ public class AudioConfig : ModConfig
     [Header("Effects")]
     [DefaultValue(true)]
     public bool EnableLowPassFiltering { get; set; } = true;
-    
+
     [DefaultValue(true)]
     public bool EnableHighPassFiltering { get; set; } = true;
 }

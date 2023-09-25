@@ -97,7 +97,7 @@ public class Sailor : ModNPC
 
         var player = Main.LocalPlayer;
 
-        var hasMaterials = player.HasItemStack(ItemID.Silk, 20) && player.HasItemGroupStack(RecipeGroupID.Wood, 150);
+        var hasMaterials = player.HasStack(ItemID.Silk, 20) && player.HasGroupStack(RecipeGroupID.Wood, 150);
         var hasMoney = player.CanAfford(Item.buyPrice(gold: 5));
 
         if (!ShipyardSystem.ShipFixed) {
@@ -105,8 +105,8 @@ public class Sailor : ModNPC
                 var repaired = true;
 
                 repaired &= player.PayCurrency(Item.buyPrice(gold: 5));
-                repaired &= player.TryConsumeItemStack(ItemID.Silk, 20);
-                repaired &= player.TryConsumeItemGroupStack(RecipeGroupID.Wood, 150);
+                repaired &= player.TryConsumeStack(ItemID.Silk, 20);
+                repaired &= player.TryConsumeGroupStack(RecipeGroupID.Wood, 150);
 
                 if (repaired) {
                     OnBoatRepair.Invoke();
