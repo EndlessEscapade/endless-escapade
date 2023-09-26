@@ -1,5 +1,6 @@
 ﻿using EndlessEscapade.Common.Systems.World.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
+using EndlessEscapade.Content.Tiles.Shipyard;
 using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
@@ -170,6 +171,8 @@ public class ShipyardSystem : ModSystem
             return;
         }
         
+        // TODO: Implement attachments.
+
         WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), new Reframe());
     }
 }

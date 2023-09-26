@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace EndlessEscapade.Content.Tiles.Shipyard;
 
-public class Cannon : ModTile
+public class WoodCannon : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileFrameImportant[Type] = true;

@@ -25,10 +25,13 @@ public class LowPassSystem : ModSystem
     }
 
     internal static void ApplyParameters(SoundEffectInstance instance, SoundModifiers parameters) {
-        if (!Enabled || parameters.LowPass <= 0f || instance?.IsDisposed == true || !ModContent.GetInstance<AudioConfig>().EnableLowPassFiltering) {
+        var intensity = ModContent.GetInstance<AudioConfig>().LowPassFilteringIntensity;
+        var lowPass = parameters.LowPass * intensity;
+        
+        if (!Enabled || lowPass <= 0f || instance?.IsDisposed == true) {
             return;
         }
 
-        lowPassAction.Invoke(instance, 1f - parameters.LowPass * 0.99f);
+        lowPassAction.Invoke(instance, 1f - lowPass);
     }
 }

@@ -155,6 +155,16 @@ Mods: {
 				// DisplayName: Pearl Cannon
 				// Tooltip: ""
 			}
+
+			WoodCannon: {
+				// DisplayName: Wood Cannon
+				// Tooltip: ""
+			}
+
+			WoodWheel: {
+				// DisplayName: Wood Wheel
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -235,22 +245,9 @@ Mods: {
 					// Effects: Effects
 				}
 
-				EnableLowPassFiltering: {
-					// Label: Enable Low Pass Filtering
-					/* Tooltip:
-						'''
-						Toggles low pass filtering.
-						This is used for effects such as muffling sounds, etc.
-						''' */
-				}
-
-				EnableHighPassFiltering: {
-					// Label: Enable High Pass Filtering
-					/* Tooltip:
-						'''
-						Toggles high pass filtering.
-						This is used for effects such as shimmer underwater, etc.
-						''' */
+				LowPassFilteringIntensity: {
+					// Label: Low Pass Filtering Intensity
+					// Tooltip: ""
 				}
 			}
 		}
