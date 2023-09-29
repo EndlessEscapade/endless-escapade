@@ -2,6 +2,7 @@
 using EndlessEscapade.Content.NPCs.Shipyard;
 using EndlessEscapade.Content.Tiles.Shipyard;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
@@ -82,7 +83,7 @@ public class ShipyardSystem : ModSystem
     }
     
     public static bool PlaceFigurehead<T>() where T : ModTile {
-        return WorldGen.PlaceObject(X + 5, Y + 30, ModContent.TileType<T>());
+        return WorldGen.PlaceObject(X + 4, Y + 30, ModContent.TileType<T>());
     }
 
     private static void GenerateShipyard(int x, int y) {

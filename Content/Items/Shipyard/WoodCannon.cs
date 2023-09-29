@@ -2,7 +2,6 @@
 
 namespace EndlessEscapade.Content.Items.Shipyard;
 
-public class WoodCannon : ModItem
+public class WoodCannon : AttachmentItem
 {
-    public override void SetDefaults() { Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Shipyard.WoodCannon>()); }
 }

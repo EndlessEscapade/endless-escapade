@@ -12,11 +12,13 @@ public class WoodFigurehead : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileFrameImportant[Type] = true;
+        Main.tileSolid[Type] = true;
         Main.tileNoAttach[Type] = true;
         Main.tileBlockLight[Type] = true;
-
+        
         TileObjectData.newTile.CopyFrom(TileObjectData.Style5x4);
         TileObjectData.newTile.Origin = Point16.Zero;
+        TileObjectData.newTile.DrawYOffset = 0;
         TileObjectData.newTile.AnchorRight = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Height, 0);
         TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
         TileObjectData.newTile.AnchorBottom = AnchorData.Empty;

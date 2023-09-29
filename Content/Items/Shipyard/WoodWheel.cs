@@ -2,7 +2,7 @@
 
 namespace EndlessEscapade.Content.Items.Shipyard;
 
-public class WoodWheel : ModItem
+public class WoodWheel : AttachmentItem
 {
-    public override void SetDefaults() { Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Shipyard.WoodWheel>()); }
+    
 }
