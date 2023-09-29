@@ -71,6 +71,19 @@ public class ShipyardSystem : ModSystem
         GenerateShipyard(x, y);
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
+    
+    // TODO: Turn into a single attachment method via enumerator, or something similar.
+    public static bool PlaceWheel<T>() where T : ModTile {
+        return WorldGen.PlaceObject(X + 12, Y + 25, ModContent.TileType<T>());
+    }
+    
+    public static bool PlaceCannon<T>() where T : ModTile {
+        return WorldGen.PlaceObject(X + 31, Y + 26, ModContent.TileType<T>());
+    }
+    
+    public static bool PlaceFigurehead<T>() where T : ModTile {
+        return WorldGen.PlaceObject(X + 5, Y + 30, ModContent.TileType<T>());
+    }
 
     private static void GenerateShipyard(int x, int y) {
         const string path = "Assets/Structures/Shipyard";
@@ -127,7 +140,7 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
-        var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
+        var offset = new Point16(dims.X / 2, dims.Y / 2);
         var origin = new Point16(x, y) - offset;
 
         if (!Generator.GenerateStructure("Assets/Structures/BrokenSailboat", origin, mod)) {
@@ -147,12 +160,13 @@ public class ShipyardSystem : ModSystem
         if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", mod, ref dims)) {
             return;
         }
-
+        
         WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), Actions.Chain(
             new Actions.ClearTile(),
             new Actions.ClearWall()
         ));
-
+        
+        // Shifts the position back to the original origin.
         X += dims.X / 2;
         Y += dims.Y / 2;
         
@@ -160,8 +174,9 @@ public class ShipyardSystem : ModSystem
             return;
         }
 
+        // Shifts the position to the new origin, which is approximately 85% upwards from the original origin.
         X -= dims.X / 2;
-        Y -= dims.Y - dims.Y / 3;
+        Y -= dims.Y - dims.Y / 7;
 
         Repaired = true;
 
@@ -170,9 +185,11 @@ public class ShipyardSystem : ModSystem
         if (!Generator.GenerateStructure("Assets/Structures/Sailboat", new Point16(X, Y), mod)) {
             return;
         }
-        
-        // TODO: Implement attachments.
 
+        PlaceWheel<WoodWheel>();
+        PlaceCannon<WoodCannon>();
+        PlaceFigurehead<WoodFigurehead>();
+        
         WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), new Reframe());
     }
 }

@@ -126,16 +126,6 @@ Mods: {
 				Tooltip: ""
 			}
 
-			Cannon: {
-				// DisplayName: Cannon
-				// Tooltip: ""
-			}
-
-			Wheel: {
-				// DisplayName: Wheel
-				// Tooltip: ""
-			}
-
 			CryoCannon: {
 				// DisplayName: Cryo Cannon
 				// Tooltip: ""
@@ -193,6 +183,12 @@ Mods: {
 			}
 		}
 
+		Projectiles: {
+			// BigPearlProjectile.DisplayName: Big Pearl
+			// PearlCannonProjectile.DisplayName: Pearl Cannon
+			// PearlProjectile.DisplayName: Pearl
+		}
+
 		Bestiary.Sailor: 嗨! 水手会告诉你关于海洋与航行的一切.
 
 		Dialogue: {
@@ -231,33 +227,22 @@ Mods: {
 			}
 		}
 
-		Fishing: {
-			RecordCatchMessage: 新纪录: {0} {1}!
-			CommonCatchMessage: 体长: {0} {1}.
-		}
-
 		Configs: {
 			AudioConfig: {
 				// DisplayName: Audio Config
-
-				Headers: {
-					// Sounds: Sounds
-					// Effects: Effects
-				}
+				// Headers.Effects: Effects
 
 				LowPassFilteringIntensity: {
 					// Label: Low Pass Filtering Intensity
-					// Tooltip: ""
+					/* Tooltip:
+						'''
+						Set to 1 for full effect intensity, set to 0 for disabling.
+						This is used for effects such as muffling sounds, etc.
+						''' */
 				}
 			}
 		}
 
 		Buttons.Sailor.Sailing: 航行
-
-		Projectiles: {
-			// BigPearlProjectile.DisplayName: Big Pearl Projectile
-			// PearlCannonProjectile.DisplayName: Pearl Cannon Projectile
-			// PearlProjectile.DisplayName: Pearl Projectile
-		}
 	}
 }

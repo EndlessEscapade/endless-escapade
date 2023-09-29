@@ -126,16 +126,6 @@ Mods: {
 				Tooltip: ""
 			}
 
-			Cannon: {
-				DisplayName: Cannon
-				Tooltip: ""
-			}
-
-			Wheel: {
-				DisplayName: Wheel
-				Tooltip: ""
-			}
-
 			CryoCannon: {
 				DisplayName: Cryo Cannon
 				Tooltip: ""
@@ -193,6 +183,12 @@ Mods: {
 			}
 		}
 
+		Projectiles: {
+			BigPearlProjectile.DisplayName: Big Pearl
+			PearlCannonProjectile.DisplayName: Pearl Cannon
+			PearlProjectile.DisplayName: Pearl
+		}
+
 		Bestiary.Sailor: Ahoy! The Sailor will provide useful resources and information all about sailing the seas.
 
 		Dialogue: {
@@ -231,36 +227,22 @@ Mods: {
 			}
 		}
 
-		Fishing: {
-			RecordCatchMessage: New record: {0} {1}!
-			CommonCatchMessage: Length: {0} {1}.
-		}
-
 		Configs: {
 			AudioConfig: {
 				DisplayName: Audio Config
-
-				Headers: {
-					Effects: Effects
-				}
+				Headers.Effects: Effects
 
 				LowPassFilteringIntensity: {
 					Label: Low Pass Filtering Intensity
-					Tooltip: 
-                        '''
-                        Set to 1 for full effect intensity, set to 0 for disabling.
-                        This is used for effects such as muffling sounds, etc.
-                        '''
+					Tooltip:
+						'''
+						Set to 1 for full effect intensity, set to 0 for disabling.
+						This is used for effects such as muffling sounds, etc.
+						'''
 				}
 			}
 		}
 
 		Buttons.Sailor.Sailing: Sailing
-
-		Projectiles: {
-			BigPearlProjectile.DisplayName: Big Pearl Projectile
-			PearlCannonProjectile.DisplayName: Pearl Cannon Projectile
-			PearlProjectile.DisplayName: Pearl Projectile
-		}
 	}
 }

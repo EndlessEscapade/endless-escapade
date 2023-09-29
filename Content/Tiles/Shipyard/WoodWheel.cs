@@ -15,21 +15,20 @@ public class WoodWheel : ModTile
 
     public override void SetStaticDefaults() {
         Main.tileFrameImportant[Type] = true;
-        Main.tileSolidTop[Type] = true;
+        Main.tileNoAttach[Type] = true;
         Main.tileBlockLight[Type] = true;
 
         TileID.Sets.HasOutlines[Type] = true;
 
         TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
+        TileObjectData.newTile.Origin = Point16.Zero;
         TileObjectData.newTile.Height = 3;
 
         for (var i = 0; i < TileObjectData.newTile.Height; i++) {
             TileObjectData.newTile.CoordinateHeights[i] = 16;
         }
-
-        TileObjectData.newTile.Origin = Point16.Zero;
-        TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-        TileObjectData.newTile.Direction = TileObjectDirection.None;
+        
+        TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
         TileObjectData.addTile(Type);
 
         AddMapEntry(new Color(119, 71, 59));

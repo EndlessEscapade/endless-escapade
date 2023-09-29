@@ -12,13 +12,12 @@ public class WoodCannon : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileFrameImportant[Type] = true;
-        Main.tileSolidTop[Type] = true;
+        Main.tileNoAttach[Type] = true;        
         Main.tileBlockLight[Type] = true;
 
         TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
         TileObjectData.newTile.Origin = Point16.Zero;
-        TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-        TileObjectData.newTile.Direction = TileObjectDirection.None;
+        TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
         TileObjectData.addTile(Type);
 
         AddMapEntry(new Color(47, 55, 69));

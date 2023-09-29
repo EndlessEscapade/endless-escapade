@@ -4,99 +4,39 @@ using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Ambience;
 
 public abstract class AmbienceTrack : ModType
 {
+    // TODO: Note to self - Naka - Figure out a way for me to be satisfied with this code.
     private SlotId loopSlot;
     private SlotId soundSlot;
 
-    private float volume;
+    public SoundStyle Loop { get; protected set; }
 
-    public List<AmbienceSoundData> Loops { get; protected set; }
-    public List<AmbienceSoundData> Sounds { get; protected set; }
-
-    public float Volume {
-        get => volume;
-        set => volume = MathHelper.Clamp(value, 0f, Main.ambientVolume);
-    }
-
-    /// <summary>Defines 1/N chance for a random sound to be played every tick.</summary>
-    protected virtual int SoundPlayRate { get; set; } = 100;
+    public virtual int PlaybackRate { get; protected set; } = 100;
 
     protected sealed override void Register() {
         Initialize();
-
+        
         ModTypeLookup<AmbienceTrack>.Register(this);
     }
 
     internal void Update() {
-        UpdateVolume();
-
         UpdateLoop();
         UpdateSounds();
     }
 
-    private void UpdateVolume() {
-        var active = IsActive(Main.LocalPlayer);
-
-        if (active) {
-            Volume += 0.05f;
-        }
-        else {
-            Volume -= 0.05f;
-        }
-    }
-
     private void UpdateLoop() {
-        var active = IsActive(Main.LocalPlayer);
-        var exists = SoundEngine.TryGetActiveSound(loopSlot, out var sound);
 
-        foreach (var data in Loops) {
-            if (!data.Style.IsLooped) {
-                continue;
-            }
-
-            if (active && (!exists || sound == null)) {
-                loopSlot = SoundEngine.PlaySound(data.Style);
-                return;
-            }
-
-            if (exists && sound != null) {
-                if (!active && Volume <= 0f) {
-                    sound.Stop();
-                    loopSlot = SlotId.Invalid;
-                    return;
-                }
-
-                sound.Volume = Volume;
-            }
-        }
     }
 
     private void UpdateSounds() {
-        if (!IsActive(Main.LocalPlayer) || SoundEngine.TryGetActiveSound(soundSlot, out _)) {
-            return;
-        }
 
-        soundSlot = SlotId.Invalid;
-
-        foreach (var data in Sounds) {
-            if (!data.Style.IsLooped && data.Condition.Invoke(Main.LocalPlayer) && Main.rand.NextBool(SoundPlayRate)) {
-                soundSlot = SoundEngine.PlaySound(data.Style);
-                break;
-            }
-        }
     }
 
     protected abstract void Initialize();
-
-    protected abstract bool IsActive(Player player);
-
-    public readonly record struct AmbienceSoundData(SoundStyle Style, Func<Player, bool> Condition)
-    {
-        public AmbienceSoundData(SoundStyle style) : this(style, x => true) { }
-    }
 }
