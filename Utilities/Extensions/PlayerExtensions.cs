@@ -1,9 +1,18 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 
 namespace EndlessEscapade.Utilities.Extensions;
 
 public static class PlayerExtensions
 {
+    public static bool WetFeet(this Player player) {
+        return Collision.WetCollision(player.Center + new Vector2(0f, 16f), 10, 10);
+    }
+    
+    public static bool WetHead(this Player player) {
+        return Collision.WetCollision(player.Center - new Vector2(0f, 16f), 10, 10);
+    }
+    
     public static bool HasEquip(this Player player, int type) {
         for (var i = 0; i < 8 + player.extraAccessorySlots; i++) {
             if (player.armor[i].type == type) {
