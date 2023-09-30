@@ -1,5 +1,4 @@
 ﻿using EndlessEscapade.Common.Systems.Audio;
-using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -15,6 +14,9 @@ public sealed class PlayerWaterEffects : ModPlayer
     private bool oldWetHead;
     private bool oldWetFeet;
 
+    private bool wetHead;
+    private bool wetFeet;
+
     private float lowPass;
 
     public float LowPass {
@@ -23,16 +25,22 @@ public sealed class PlayerWaterEffects : ModPlayer
     }
     
     public override void PreUpdate() {
-        oldWetHead = Player.WetHead();
-        oldWetFeet = Player.WetFeet();
-
+        oldWetHead = wetHead;
+        oldWetFeet = wetFeet;
+        
+        var headPosition = Player.Center - new Vector2(0f, 16f);
+        var feetPosition = Player.Center + new Vector2(0f, 16f);
+        
+        wetHead = Collision.WetCollision(headPosition, 10, 10);
+        wetFeet = Collision.WetCollision(feetPosition, 10, 10);
+        
         UpdateIntensity();
         UpdateAudio();
         UpdateSplash();
     }
 
     private void UpdateIntensity() {
-        if (!Player.WetHead()) {
+        if (!wetHead) {
             LowPass -= 0.05f;
             return;
         }
@@ -53,11 +61,11 @@ public sealed class PlayerWaterEffects : ModPlayer
     }
     
     private void UpdateSplash() {
-        if (Player.WetFeet() && !oldWetFeet) {
+        if (wetFeet && !oldWetFeet) {
             SoundEngine.PlaySound(in splash);
         }
 
-        if (!Player.WetHead() && oldWetHead) {
+        if (!wetHead && oldWetHead) {
             SoundEngine.PlaySound(in splash);
         }
     }
