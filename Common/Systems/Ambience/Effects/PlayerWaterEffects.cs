@@ -1,53 +1,51 @@
 ﻿using EndlessEscapade.Common.Systems.Audio;
-using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Ambience.Effects;
 
-public class PlayerWaterEffects : ModPlayer
+public sealed class PlayerWaterEffects : ModPlayer
 {
-    private float maxLowPass;
+    private static readonly SoundStyle splash = new SoundStyle($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Water/Splash", SoundType.Ambient);
+
+    private bool oldWetHead;
+    private bool oldWetFeet;
+
+    private bool wetHead;
+    private bool wetFeet;
+
     private float lowPass;
 
     public float LowPass {
         get => lowPass;
-        set => lowPass = MathHelper.Clamp(value, 0f, maxLowPass);
+        set => lowPass = MathHelper.Clamp(value, 0f, 0.8f);
     }
-
+    
     public override void PreUpdate() {
+        oldWetHead = wetHead;
+        oldWetFeet = wetFeet;
+        
+        var headPosition = Player.Center - new Vector2(0f, 16f);
+        var feetPosition = Player.Center + new Vector2(0f, 16f);
+        
+        wetHead = Collision.WetCollision(headPosition, 10, 10);
+        wetFeet = Collision.WetCollision(feetPosition, 10, 10);
+        
         UpdateIntensity();
         UpdateAudio();
+        UpdateSplash();
     }
 
     private void UpdateIntensity() {
-        var headPosition = Player.Center - new Vector2(0f, 16f);
-
-        if (!Collision.WetCollision(headPosition, 10, 10) && !Player.HasEquip(ItemID.FishBowl)) {
-            LowPass -= 0.1f;
+        if (!wetHead) {
+            LowPass -= 0.05f;
             return;
         }
 
-        var tile = Framing.GetTileSafely(headPosition.ToTileCoordinates());
-
-        switch (tile.LiquidType) {
-            case LiquidID.Water:
-                maxLowPass = 0.7f;
-                break;
-            case LiquidID.Lava:
-                maxLowPass = 0.5f;
-                break;
-            case LiquidID.Honey:
-                maxLowPass = 0.9f;
-                break;
-            case LiquidID.Shimmer:
-                maxLowPass = 0.3f;
-                break;
-        }
-
-        LowPass += 0.1f;
+        LowPass += 0.05f;
     }
 
     private void UpdateAudio() {
@@ -55,6 +53,20 @@ public class PlayerWaterEffects : ModPlayer
             return;
         }
 
-        SoundSystem.SetParameters(new SoundModifiers { LowPass = LowPass });
+        SoundSystem.SetParameters(
+            new SoundModifiers {
+                LowPass = LowPass
+            }
+        );
+    }
+    
+    private void UpdateSplash() {
+        if (wetFeet && !oldWetFeet) {
+            SoundEngine.PlaySound(in splash);
+        }
+
+        if (!wetHead && oldWetHead) {
+            SoundEngine.PlaySound(in splash);
+        }
     }
 }

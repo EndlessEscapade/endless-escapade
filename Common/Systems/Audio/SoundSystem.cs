@@ -5,6 +5,7 @@ using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Utilities;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +13,7 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Systems.Audio;
 
 [Autoload(Side = ModSide.Client)]
-public class SoundSystem : ModSystem
+public sealed class SoundSystem : ModSystem
 {
     private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags)!;
 
@@ -32,7 +33,6 @@ public class SoundSystem : ModSystem
         Enabled = SoundEngine.IsAudioSupported;
 
         if (!Enabled) {
-            Mod.Logger.Error("Audio effects were not enabled: Sound engine does not support audio.");
             return;
         }
 
@@ -44,9 +44,13 @@ public class SoundSystem : ModSystem
         ResetParameters();
     }
 
-    public static void SetParameters(in SoundModifiers sound) { SoundParameters = sound; }
+    internal static void SetParameters(in SoundModifiers sound) {
+        SoundParameters = sound;
+    }
 
-    public static void ResetParameters() { SoundParameters = new SoundModifiers(); }
+    internal static void ResetParameters() {
+        SoundParameters = new SoundModifiers();
+    }
 
     internal static void ApplyParameters(SoundEffectInstance instance, in SoundModifiers parameters) {
         if (!Enabled || instance?.IsDisposed == true) {
@@ -74,7 +78,7 @@ public class SoundSystem : ModSystem
     private static SlotId SoundEnginePlayHook(On_SoundEngine.orig_PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback orig, ref SoundStyle style, Vector2? position, SoundUpdateCallback callback) {
         var slot = orig(ref style, position, callback);
 
-        if (IgnoredSounds.Contains(style) || !SoundEngine.TryGetActiveSound(slot, out var result) || result.Sound?.IsDisposed is not false) {
+        if (IgnoredSounds.Contains(style) || !SoundEngine.TryGetActiveSound(slot, out var result) || result.Sound?.IsDisposed == false) {
             return slot;
         }
 

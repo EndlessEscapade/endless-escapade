@@ -18,10 +18,10 @@ namespace EndlessEscapade.Content.NPCs.Shipyard;
 [AutoloadHead]
 public class Sailor : ModNPC
 {
-    public const int RepairPromptDialogue = 1;
+    private const int RepairPromptDialogue = 1;
 
-    public int CurrentShipDialogue { get; private set; }
-    public int LastShipDialogue { get; private set; }
+    private int currentShipDialogue;
+    private int oldShipDialogue;
 
     public static event Action OnBoatRepair;
 
@@ -33,7 +33,12 @@ public class Sailor : ModNPC
         NPCID.Sets.AttackTime[Type] = 90;
         NPCID.Sets.AttackAverageChance[Type] = 30;
         NPCID.Sets.HatOffsetY[Type] = 4;
-        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f });
+        NPCID.Sets.NPCBestiaryDrawOffset.Add(
+            Type,
+            new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
+                Velocity = 1f
+            }
+        );
 
         NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
         NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love);
@@ -81,7 +86,9 @@ public class Sailor : ModNPC
         return exists;
     }
 
-    public override void ModifyNPCLoot(NPCLoot npcLoot) { npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SailorHat>())); }
+    public override void ModifyNPCLoot(NPCLoot npcLoot) {
+        npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SailorHat>()));
+    }
 
     public override void SetChatButtons(ref string button, ref string button2) {
         button = Language.GetTextValue("LegacyInterface.28");
@@ -101,7 +108,7 @@ public class Sailor : ModNPC
         var hasMoney = player.CanAfford(Item.buyPrice(gold: 5));
 
         if (!ShipyardSystem.Repaired) {
-            if (hasMaterials && hasMoney && LastShipDialogue == RepairPromptDialogue) {
+            if (hasMaterials && hasMoney && oldShipDialogue == RepairPromptDialogue) {
                 var repaired = true;
 
                 repaired &= player.PayCurrency(Item.buyPrice(gold: 5));
@@ -117,14 +124,14 @@ public class Sailor : ModNPC
                 return;
             }
 
-            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipPromptDialogue{CurrentShipDialogue}");
+            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipPromptDialogue{currentShipDialogue}");
         }
         else {
-            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipCommonDialogue{CurrentShipDialogue}");
+            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipCommonDialogue{currentShipDialogue}");
         }
 
-        LastShipDialogue = CurrentShipDialogue;
-        CurrentShipDialogue = 1 - CurrentShipDialogue;
+        oldShipDialogue = currentShipDialogue;
+        currentShipDialogue = 1 - currentShipDialogue;
     }
 
     public override string GetChat() {
@@ -160,7 +167,11 @@ public class Sailor : ModNPC
         return chat.Get();
     }
 
-    public override List<string> SetNPCNameList() { return new List<string> { "Skipper" }; }
+    public override List<string> SetNPCNameList() {
+        return new List<string> {
+            "Skipper"
+        };
+    }
 
     public override void TownNPCAttackStrength(ref int damage, ref float knockback) {
         damage = 20;
@@ -182,7 +193,11 @@ public class Sailor : ModNPC
         randomOffset = 2f;
     }
 
-    public override bool CanTownNPCSpawn(int numTownNPCs) { return true; }
+    public override bool CanTownNPCSpawn(int numTownNPCs) {
+        return true;
+    }
 
-    public override bool CanGoToStatue(bool toKingStatue) { return true; }
+    public override bool CanGoToStatue(bool toKingStatue) {
+        return true;
+    }
 }

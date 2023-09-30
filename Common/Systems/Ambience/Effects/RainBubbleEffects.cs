@@ -6,15 +6,15 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Ambience.Effects;
 
-public class RainBubbleEffects : ILoadable
+public sealed class RainBubbleEffects : ModSystem
 {
-    void ILoadable.Load(Mod mod) { On_Rain.Update += RainUpdateHook; }
-
-    void ILoadable.Unload() { }
+    public override void OnModLoad() {
+        On_Rain.Update += RainUpdateHook;
+    }
 
     private static void RainUpdateHook(On_Rain.orig_Update orig, Rain self) {
         orig(self);
-
+        
         if (Collision.WetCollision(self.position, 2, 2) && Main.rand.NextFloat(100f) < Main.gfxQuality * 100f) {
             var dust = Dust.NewDustDirect(self.position, 2, 2, ModContent.DustType<RainBubble>());
             var tile = Framing.GetTileSafely((self.position / 16f).ToPoint());

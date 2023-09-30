@@ -1,7 +1,3 @@
-﻿using Terraria.ModLoader;
+﻿namespace EndlessEscapade.Content.Items.Shipyard;
 
-namespace EndlessEscapade.Content.Items.Shipyard;
-
-public class WoodCannon : AttachmentItem
-{
-}
+public class WoodCannon : AttachmentItem { }

@@ -29,7 +29,9 @@ public class KelpMoss : CompositeTile
         RegisterItemDrop(ModContent.ItemType<Items.Reefs.Kelp.KelpRock>());
     }
 
-    public override void NumDust(int i, int j, bool fail, ref int num) { num = fail ? 1 : 3; }
+    public override void NumDust(int i, int j, bool fail, ref int num) {
+        num = fail ? 1 : 3;
+    }
 
     public override void PostDraw(int i, int j, SpriteBatch spriteBatch) {
         var texture = ModContent.Request<Texture2D>(Texture + "_Glow").Value;

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems;
 
-public class ItemResearchSystem : ModSystem
+public sealed class ItemResearchSystem : ModSystem
 {
     public override void PostSetupContent() {
         foreach (var modItem in ModContent.GetContent<ModItem>()) {

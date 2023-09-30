@@ -4,5 +4,7 @@ namespace EndlessEscapade.Content.Items.Reefs.TwilightZone;
 
 public class Gemsandstone : ModItem
 {
-    public override void SetDefaults() { Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Reefs.TwilightZone.Gemsandstone>()); }
+    public override void SetDefaults() {
+        Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Reefs.TwilightZone.Gemsandstone>());
+    }
 }

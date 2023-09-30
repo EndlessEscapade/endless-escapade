@@ -11,7 +11,9 @@ public class TropicalWoodBow : ModItem
         Item.DefaultToBow(27, 7f);
     }
 
-    public override Vector2? HoldoutOffset() { return new Vector2(2f, 0f); }
+    public override Vector2? HoldoutOffset() {
+        return new Vector2(2f, 0f);
+    }
 
     public override void AddRecipes() {
         var recipe = CreateRecipe();

@@ -1,42 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using ReLogic.Utilities;
+﻿using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Ambience;
 
 public abstract class AmbienceTrack : ModType
 {
-    // TODO: Note to self - Naka - Figure out a way for me to be satisfied with this code.
-    private SlotId loopSlot;
-    private SlotId soundSlot;
+    private bool styleDefined;
+    private SoundStyle style;
+    
+    public SoundStyle Style {
+        get => style;
+        protected set {
+            style = value;
+            styleDefined = true;
+        }
+    }
 
-    public SoundStyle Loop { get; protected set; }
-
-    public virtual int PlaybackRate { get; protected set; } = 100;
+    public SlotId SoundSlot { get; protected set; }
 
     protected sealed override void Register() {
         Initialize();
+
+        if (!styleDefined) {
+            return;
+        }
         
         ModTypeLookup<AmbienceTrack>.Register(this);
     }
 
-    internal void Update() {
-        UpdateLoop();
-        UpdateSounds();
-    }
-
-    private void UpdateLoop() {
-
-    }
-
-    private void UpdateSounds() {
-
-    }
-
+    internal abstract void Update();
+    
     protected abstract void Initialize();
+    
+    protected abstract bool Active(Player player);
 }

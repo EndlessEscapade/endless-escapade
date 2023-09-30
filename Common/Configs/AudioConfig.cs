@@ -3,7 +3,7 @@ using Terraria.ModLoader.Config;
 
 namespace EndlessEscapade.Common.Configs;
 
-public class AudioConfig : ModConfig
+public sealed class AudioConfig : ModConfig
 {
     public override ConfigScope Mode => ConfigScope.ClientSide;
 

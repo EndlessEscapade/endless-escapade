@@ -155,6 +155,11 @@ Mods: {
 				// DisplayName: Wood Wheel
 				// Tooltip: ""
 			}
+
+			WoodFigurehead: {
+				// DisplayName: Wood Figurehead
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {

@@ -12,7 +12,7 @@ public class WoodCannon : ModTile
 {
     public override void SetStaticDefaults() {
         Main.tileFrameImportant[Type] = true;
-        Main.tileNoAttach[Type] = true;        
+        Main.tileNoAttach[Type] = true;
         Main.tileBlockLight[Type] = true;
 
         TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
@@ -28,5 +28,7 @@ public class WoodCannon : ModTile
         DustType = DustID.WoodFurniture;
     }
 
-    public override void NumDust(int i, int j, bool fail, ref int num) { num = fail ? 1 : 3; }
+    public override void NumDust(int i, int j, bool fail, ref int num) {
+        num = fail ? 1 : 3;
+    }
 }

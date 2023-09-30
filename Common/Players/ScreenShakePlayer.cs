@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Players;
 
-public class ScreenShakePlayer : ModPlayer
+public sealed class ScreenShakePlayer : ModPlayer
 {
     public float ScreenShake { get; set; }
 

@@ -146,17 +146,19 @@ public class PearlCannonProjectile : ModProjectile
         return false;
     }
 
-    public override bool? CanDamage() { return false; }
+    public override bool? CanDamage() {
+        return false;
+    }
 }
 
 public class PearlProjectile : ModProjectile
 {
-    private int bounce = 5;
-
     private static readonly int[] dustTypes = {
         DustID.UnusedWhiteBluePurple,
         DustID.ShadowbeamStaff
     };
+
+    private int bounce = 5;
 
     public override void SetDefaults() {
         Projectile.DamageType = DamageClass.Ranged;
@@ -219,7 +221,7 @@ public class BigPearlProjectile : ModProjectile
         DustID.UnusedWhiteBluePurple,
         DustID.ShadowbeamStaff
     };
-    
+
     private int bounce = 10;
 
     public override void SetDefaults() {

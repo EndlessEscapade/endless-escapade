@@ -2,7 +2,6 @@
 using EndlessEscapade.Content.NPCs.Shipyard;
 using EndlessEscapade.Content.Tiles.Shipyard;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
@@ -13,7 +12,7 @@ using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.Systems.Shipyard;
 
-public class ShipyardSystem : ModSystem
+public sealed class ShipyardSystem : ModSystem
 {
     public static int X { get; private set; }
     public static int Y { get; private set; }
@@ -38,7 +37,9 @@ public class ShipyardSystem : ModSystem
         Repaired = false;
     }
 
-    public override void Load() { Sailor.OnBoatRepair += GenerateDefaultBoat; }
+    public override void Load() {
+        Sailor.OnBoatRepair += GenerateDefaultBoat;
+    }
 
     public override void PostWorldGen() {
         var foundOcean = false;
@@ -72,16 +73,16 @@ public class ShipyardSystem : ModSystem
         GenerateShipyard(x, y);
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
-    
+
     // TODO: Turn into a single attachment method via enumerator, or something similar.
     public static bool PlaceWheel<T>() where T : ModTile {
         return WorldGen.PlaceObject(X + 12, Y + 25, ModContent.TileType<T>());
     }
-    
+
     public static bool PlaceCannon<T>() where T : ModTile {
         return WorldGen.PlaceObject(X + 31, Y + 26, ModContent.TileType<T>());
     }
-    
+
     public static bool PlaceFigurehead<T>() where T : ModTile {
         return WorldGen.PlaceObject(X + 4, Y + 30, ModContent.TileType<T>());
     }
@@ -161,16 +162,20 @@ public class ShipyardSystem : ModSystem
         if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", mod, ref dims)) {
             return;
         }
-        
-        WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), Actions.Chain(
-            new Actions.ClearTile(),
-            new Actions.ClearWall()
-        ));
-        
+
+        WorldUtils.Gen(
+            new Point(X, Y),
+            new Shapes.Rectangle(dims.X, dims.Y),
+            Actions.Chain(
+                new Actions.ClearTile(),
+                new Actions.ClearWall()
+            )
+        );
+
         // Shifts the position back to the original origin.
         X += dims.X / 2;
         Y += dims.Y / 2;
-        
+
         if (!Generator.GetDimensions("Assets/Structures/Sailboat", mod, ref dims)) {
             return;
         }
@@ -190,7 +195,7 @@ public class ShipyardSystem : ModSystem
         PlaceWheel<WoodWheel>();
         PlaceCannon<WoodCannon>();
         PlaceFigurehead<WoodFigurehead>();
-        
+
         WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), new Reframe());
     }
 }
