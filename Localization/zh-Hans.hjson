@@ -160,6 +160,26 @@ Mods: {
 				// DisplayName: Wood Figurehead
 				// Tooltip: ""
 			}
+
+			DolphinFin: {
+				// DisplayName: Dolphin Fin
+				// Tooltip: ""
+			}
+
+			FishGills: {
+				// DisplayName: Fish Gills
+				// Tooltip: ""
+			}
+
+			GreatShell: {
+				// DisplayName: Great Shell
+				// Tooltip: ""
+			}
+
+			RadiantPearl: {
+				// DisplayName: Radiant Pearl
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {

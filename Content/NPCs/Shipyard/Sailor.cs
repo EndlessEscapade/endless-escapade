@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using EndlessEscapade.Common.Systems.Shipyard;
+using EndlessEscapade.Common.Systems.Generation;
 using EndlessEscapade.Content.Items.Shipyard;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
@@ -35,9 +35,7 @@ public class Sailor : ModNPC
         NPCID.Sets.HatOffsetY[Type] = 4;
         NPCID.Sets.NPCBestiaryDrawOffset.Add(
             Type,
-            new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
-                Velocity = 1f
-            }
+            new NPCID.Sets.NPCBestiaryDrawModifiers()
         );
 
         NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);

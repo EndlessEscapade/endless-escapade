@@ -29,7 +29,7 @@ public sealed class SoundSystem : ModSystem
 
     public static SoundModifiers SoundParameters { get; private set; }
 
-    public override void Load() {
+    public override void OnModLoad() {
         Enabled = SoundEngine.IsAudioSupported;
 
         if (!Enabled) {
@@ -39,7 +39,7 @@ public sealed class SoundSystem : ModSystem
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
     }
 
-    public override void PostUpdateEverything() {
+    public override void PostUpdateWorld() {
         UpdateSounds();
         ResetParameters();
     }

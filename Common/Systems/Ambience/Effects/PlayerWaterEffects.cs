@@ -21,7 +21,7 @@ public sealed class PlayerWaterEffects : ModPlayer
 
     public float LowPass {
         get => lowPass;
-        set => lowPass = MathHelper.Clamp(value, 0f, 0.8f);
+        set => lowPass = MathHelper.Clamp(value, 0f, 0.9f);
     }
     
     public override void PreUpdate() {

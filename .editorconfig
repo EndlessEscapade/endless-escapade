@@ -1,4 +1,5 @@
-﻿[*]
+
+[*]
 charset = utf-8-bom
 end_of_line = crlf
 trim_trailing_whitespace = false
@@ -47,9 +48,9 @@ dotnet_naming_symbols.private_static_fields_symbols.applicable_kinds = field
 dotnet_naming_symbols.private_static_fields_symbols.required_modifiers = static
 dotnet_naming_symbols.private_static_readonly_symbols.applicable_accessibilities = private
 dotnet_naming_symbols.private_static_readonly_symbols.applicable_kinds = field
-dotnet_naming_symbols.private_static_readonly_symbols.required_modifiers = static, readonly
+dotnet_naming_symbols.private_static_readonly_symbols.required_modifiers = static,readonly
 dotnet_naming_symbols.unity_serialized_field_symbols.applicable_accessibilities = *
-dotnet_naming_symbols.unity_serialized_field_symbols.applicable_kinds =
+dotnet_naming_symbols.unity_serialized_field_symbols.applicable_kinds = 
 dotnet_naming_symbols.unity_serialized_field_symbols.resharper_applicable_kinds = unity_serialised_field
 dotnet_naming_symbols.unity_serialized_field_symbols.resharper_required_modifiers = instance
 dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary:none
@@ -108,12 +109,7 @@ resharper_place_accessorholder_attribute_on_same_line = false
 resharper_place_accessor_attribute_on_same_line = true
 resharper_place_record_field_attribute_on_same_line = true
 resharper_place_simple_accessor_on_single_line = false
-resharper_place_simple_anonymousmethod_on_single_line = false
 resharper_place_simple_embedded_statement_on_same_line = false
-resharper_place_simple_initializer_on_single_line = false
-resharper_place_simple_list_pattern_on_single_line = false
-resharper_place_simple_property_pattern_on_single_line = false
-resharper_prefer_separate_deconstructed_variables_declaration = true
 resharper_show_autodetect_configure_formatting_tip = false
 resharper_static_members_qualify_with = current_type
 resharper_use_continuous_indent_inside_initializer_braces = false
@@ -124,7 +120,6 @@ resharper_wrap_chained_binary_expressions = chop_if_long
 resharper_wrap_chained_binary_patterns = chop_if_long
 resharper_wrap_chained_method_calls = chop_if_long
 resharper_wrap_list_pattern = chop_if_long
-resharper_wrap_switch_expression = chop_if_long
 resharper_wrap_text = false
 resharper_xmldoc_attribute_indent = align_by_first_attribute
 resharper_xmldoc_blank_line_after_pi = false

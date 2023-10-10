@@ -8,7 +8,7 @@ namespace EndlessEscapade.Common.Systems.Ambience.Loops;
 public sealed class SubmergedLoop : AmbienceLoop
 {
     protected override void Initialize() {
-        Style = new SoundStyle($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Water/Submerged") {
+        Style = new SoundStyle($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Water/Submerged", SoundType.Ambient) {
             IsLooped = true
         };
     }   

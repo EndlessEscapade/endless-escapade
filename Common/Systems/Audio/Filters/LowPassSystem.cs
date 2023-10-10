@@ -16,7 +16,7 @@ public sealed class LowPassSystem : ModSystem
 
     public static bool Enabled { get; private set; }
 
-    public override void Load() {
+    public override void OnModLoad() {
         Enabled = SoundEngine.IsAudioSupported;
     }
 

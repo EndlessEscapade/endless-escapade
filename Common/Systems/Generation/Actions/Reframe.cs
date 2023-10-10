@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.Systems.World.Actions;
+namespace EndlessEscapade.Common.Systems.Generation.Actions;
 
 public sealed class Reframe : GenAction
 {

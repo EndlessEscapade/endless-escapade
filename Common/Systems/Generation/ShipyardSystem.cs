@@ -1,4 +1,4 @@
-﻿using EndlessEscapade.Common.Systems.World.Actions;
+﻿using EndlessEscapade.Common.Systems.Generation.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
 using EndlessEscapade.Content.Tiles.Shipyard;
 using Microsoft.Xna.Framework;
@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.Systems.Shipyard;
+namespace EndlessEscapade.Common.Systems.Generation;
 
 public sealed class ShipyardSystem : ModSystem
 {
@@ -166,9 +166,9 @@ public sealed class ShipyardSystem : ModSystem
         WorldUtils.Gen(
             new Point(X, Y),
             new Shapes.Rectangle(dims.X, dims.Y),
-            Actions.Chain(
-                new Actions.ClearTile(),
-                new Actions.ClearWall()
+            Terraria.WorldBuilding.Actions.Chain(
+                new Terraria.WorldBuilding.Actions.ClearTile(),
+                new Terraria.WorldBuilding.Actions.ClearWall()
             )
         );
 

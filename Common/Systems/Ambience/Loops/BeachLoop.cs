@@ -7,7 +7,7 @@ namespace EndlessEscapade.Common.Systems.Ambience.Loops;
 public sealed class BeachLoop : AmbienceLoop
 {
     protected override void Initialize() {
-        Style = new SoundStyle($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Beach/Waves") {
+        Style = new SoundStyle($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Beach/Waves", SoundType.Ambient) {
             IsLooped = true
         };
     }
