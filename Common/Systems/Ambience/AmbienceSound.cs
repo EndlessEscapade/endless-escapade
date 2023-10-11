@@ -1,7 +1,6 @@
 ﻿using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Ambience;
 

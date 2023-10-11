@@ -2,38 +2,37 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Ambience.Effects;
 
 public sealed class PlayerWaterEffects : ModPlayer
 {
-    private static readonly SoundStyle splash = new SoundStyle($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Water/Splash", SoundType.Ambient);
-
-    private bool oldWetHead;
-    private bool oldWetFeet;
-
-    private bool wetHead;
-    private bool wetFeet;
+    private static readonly SoundStyle splash = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Water/Splash", SoundType.Ambient);
 
     private float lowPass;
+    private bool oldWetFeet;
+
+    private bool oldWetHead;
+    private bool wetFeet;
+
+    private bool wetHead;
 
     public float LowPass {
         get => lowPass;
         set => lowPass = MathHelper.Clamp(value, 0f, 0.9f);
     }
-    
+
     public override void PreUpdate() {
         oldWetHead = wetHead;
         oldWetFeet = wetFeet;
-        
+
         var headPosition = Player.Center - new Vector2(0f, 16f);
         var feetPosition = Player.Center + new Vector2(0f, 16f);
-        
+
         wetHead = Collision.WetCollision(headPosition, 10, 10);
         wetFeet = Collision.WetCollision(feetPosition, 10, 10);
-        
+
         UpdateIntensity();
         UpdateAudio();
         UpdateSplash();
@@ -53,13 +52,9 @@ public sealed class PlayerWaterEffects : ModPlayer
             return;
         }
 
-        SoundSystem.SetParameters(
-            new SoundModifiers {
-                LowPass = LowPass
-            }
-        );
+        SoundSystem.SetParameters(new SoundModifiers { LowPass = LowPass });
     }
-    
+
     private void UpdateSplash() {
         if (wetFeet && !oldWetFeet) {
             SoundEngine.PlaySound(in splash);

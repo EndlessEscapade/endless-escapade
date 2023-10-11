@@ -5,7 +5,6 @@ using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Utilities;
-using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +38,7 @@ public sealed class SoundSystem : ModSystem
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
     }
 
-    public override void PostUpdateWorld() {
+    public override void PostUpdateEverything() {
         UpdateSounds();
         ResetParameters();
     }

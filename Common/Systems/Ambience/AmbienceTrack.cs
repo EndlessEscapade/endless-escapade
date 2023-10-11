@@ -7,9 +7,9 @@ namespace EndlessEscapade.Common.Systems.Ambience;
 
 public abstract class AmbienceTrack : ModType
 {
-    private bool styleDefined;
     private SoundStyle style;
-    
+    private bool styleDefined;
+
     public SoundStyle Style {
         get => style;
         protected set {
@@ -26,13 +26,13 @@ public abstract class AmbienceTrack : ModType
         if (!styleDefined) {
             return;
         }
-        
+
         ModTypeLookup<AmbienceTrack>.Register(this);
     }
 
     internal abstract void Update();
-    
+
     protected abstract void Initialize();
-    
+
     protected abstract bool Active(Player player);
 }

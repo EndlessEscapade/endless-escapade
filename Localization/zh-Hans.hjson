@@ -1,5 +1,7 @@
 Mods: {
 	EndlessEscapade: {
+		// Common.AttachmentInfo: Boat Attachment
+
 		Items: {
 			DarkGemsand: {
 				DisplayName: 暗黑宝石砂

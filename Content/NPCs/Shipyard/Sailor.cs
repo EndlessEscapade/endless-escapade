@@ -166,9 +166,7 @@ public class Sailor : ModNPC
     }
 
     public override List<string> SetNPCNameList() {
-        return new List<string> {
-            "Skipper"
-        };
+        return new List<string> { "Skipper" };
     }
 
     public override void TownNPCAttackStrength(ref int damage, ref float knockback) {

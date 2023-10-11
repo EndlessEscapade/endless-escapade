@@ -2,7 +2,6 @@
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Systems.Ambience;
 
@@ -27,7 +26,7 @@ public abstract class AmbienceLoop : AmbienceTrack
             Volume += 0.025f;
             return;
         }
-        
+
         Volume -= 0.025f;
     }
 

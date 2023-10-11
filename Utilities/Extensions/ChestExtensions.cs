@@ -7,17 +7,17 @@ namespace EndlessEscapade.Utilities.Extensions;
 public static class ChestExtensions
 {
     public static bool HasItem(this Chest chest, int type) {
-        for (int i = 0; i < Chest.maxItems; i++) {
+        for (var i = 0; i < Chest.maxItems; i++) {
             var item = chest.item[i];
-            
+
             if (!item.IsAir && item.type == type) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     public static bool TryAddItem(this Chest chest, int type, int stack, bool randomSlot) {
         var index = -1;
         var foundIndex = false;
@@ -35,7 +35,7 @@ public static class ChestExtensions
 
         chest.item[index].SetDefaults(type);
         chest.item[index].stack = stack;
-        
+
         return true;
     }
 
@@ -46,33 +46,33 @@ public static class ChestExtensions
 
         chest.item[nextSlot].SetDefaults(type);
         nextSlot++;
-        
+
         return true;
     }
 
     public static bool TryGetEmptyRandomSlot(this Chest chest, out int index) {
         var indices = new List<int>();
-        
-        for (int i = 0; i < Chest.maxItems; i++) {
+
+        for (var i = 0; i < Chest.maxItems; i++) {
             var item = chest.item[i];
 
             if (item != null && item.IsAir) {
                 indices.Add(i);
             }
         }
-        
+
         if (indices.Count > 0) {
             index = Main.rand.Next(indices);
             return true;
         }
-        
+
         index = -1;
-        
+
         return false;
     }
 
     public static bool TryGetFirstEmptySlot(this Chest chest, out int index) {
-        for (int i = 0; i < Chest.maxItems; i++) {
+        for (var i = 0; i < Chest.maxItems; i++) {
             var item = chest.item[i];
 
             if (item != null && item.IsAir) {
@@ -82,7 +82,7 @@ public static class ChestExtensions
         }
 
         index = -1;
-        
+
         return false;
     }
 }

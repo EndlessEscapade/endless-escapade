@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using EndlessEscapade.Content.Tiles.Shipyard;
+using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,17 +15,15 @@ public abstract class AttachmentItem : ModItem
         Item.rare = ItemRarityID.White;
     }
 
-    public override void ModifyTooltips(List<TooltipLine> tooltips) {
-        var nameIndex = tooltips.FindIndex(x => x.Name == "ItemName" && x.Mod == "Terraria");
-        var attachmentLine = new TooltipLine(Mod, "EndlessEscapade:AttachmentItem", "Boat Attachment") {
-            OverrideColor = Color.Goldenrod
-        };
+    public sealed override void ModifyTooltips(List<TooltipLine> tooltips) {
+        var index = tooltips.FindIndex(x => x.Name == "ItemName" && x.Mod == "Terraria");
+        var line = new TooltipLine(Mod, "EndlessEscapade:AttachmentItem", Mod.GetLocalizationValue("Common.AttachmentInfo")) { OverrideColor = Color.Goldenrod };
 
-        if (nameIndex == -1) {
-            tooltips.Add(attachmentLine);
+        if (index == -1) {
+            tooltips.Add(line);
             return;
         }
 
-        tooltips.Insert(nameIndex + 1, attachmentLine);
+        tooltips.Insert(index + 1, line);
     }
 }
