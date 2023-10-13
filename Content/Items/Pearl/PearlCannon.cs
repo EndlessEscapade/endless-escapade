@@ -1,4 +1,5 @@
 ﻿using EndlessEscapade.Common.Players;
+using EndlessEscapade.Common.Systems.Camera;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -12,32 +13,16 @@ public class PearlCannon : ModItem
 {
     private int shoot;
 
-    public override void SetStaticDefaults() { }
-
     public override void SetDefaults() {
-        Item.DamageType = DamageClass.Ranged;
-
-        Item.useStyle = ItemUseStyleID.Shoot;
-
+        Item.DefaultToRangedWeapon(ProjectileID.WoodenArrowFriendly, AmmoID.None, 75, 10f, true);
+    
         Item.noUseGraphic = true;
-        Item.noMelee = true;
-        Item.autoReuse = true;
-
-        Item.useTime = Item.useAnimation = 75;
-
-        Item.width = 47;
-        Item.height = 27;
-
-        Item.damage = 10;
-        Item.knockBack = 4;
-
-        Item.shoot = ProjectileID.WoodenArrowFriendly;
-        Item.shootSpeed = 10;
     }
 
     public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
         shoot++;
-        Main.LocalPlayer.GetModPlayer<ScreenShakePlayer>().ScreenShake = 2.8f;
+
+        Main.instance.CameraModifiers.Add(new ShakeCameraModifier(2.5f, 0.9f, "PearlCannon"));
 
         player.velocity += velocity * -0.25f;
 
@@ -64,7 +49,7 @@ public class PearlCannon : ModItem
                 knockback *= 4,
                 player.whoAmI
             );
-            Main.LocalPlayer.GetModPlayer<ScreenShakePlayer>().ScreenShake = 5f;
+            Main.instance.CameraModifiers.Add(new ShakeCameraModifier(5f, 0.9f, "PearlCannon"));
             player.velocity += velocity * -1.12f;
             shoot = 0;
         }

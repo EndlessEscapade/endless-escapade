@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using EndlessEscapade.Common.Systems.Generation;
+using EndlessEscapade.Content.Films;
 using EndlessEscapade.Content.Items.Shipyard;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
+using Terraria.Cinematics;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -92,13 +94,12 @@ public class Sailor : ModNPC
         button = Language.GetTextValue("LegacyInterface.28");
         button2 = Mod.GetLocalizationValue("Buttons.Sailor.Sailing");
     }
-
+    
     public override void OnChatButtonClicked(bool firstButton, ref string shopName) {
         if (firstButton) {
             shopName = "Shop";
             return;
         }
-
 
         var player = Main.LocalPlayer;
 
@@ -107,13 +108,13 @@ public class Sailor : ModNPC
 
         if (!ShipyardSystem.Repaired) {
             if (hasMaterials && hasMoney && oldShipDialogue == RepairPromptDialogue) {
-                var repaired = true;
+                var success = true;
 
-                repaired &= player.PayCurrency(Item.buyPrice(gold: 5));
-                repaired &= player.TryConsumeStack(ItemID.Silk, 20);
-                repaired &= player.TryConsumeGroupStack(RecipeGroupID.Wood, 150);
+                success &= player.PayCurrency(Item.buyPrice(gold: 5));
+                success &= player.TryConsumeStack(ItemID.Silk, 20);
+                success &= player.TryConsumeGroupStack(RecipeGroupID.Wood, 150);
 
-                if (repaired) {
+                if (success) {
                     OnBoatRepair.Invoke();
 
                     Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
@@ -128,6 +129,8 @@ public class Sailor : ModNPC
             Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipCommonDialogue{currentShipDialogue}");
         }
 
+        CinematicManager.Instance.PlayFilm(new ShipyardFilm());
+        
         oldShipDialogue = currentShipDialogue;
         currentShipDialogue = 1 - currentShipDialogue;
     }

@@ -261,11 +261,7 @@ Mods: {
 
 				LowPassFilteringIntensity: {
 					// Label: Low Pass Filtering Intensity
-					/* Tooltip:
-						'''
-						Set to 1 for full effect intensity, set to 0 for disabling.
-						This is used for effects such as muffling sounds, etc.
-						''' */
+					// Tooltip: Set to 1 for full effect intensity, set to 0 for disabling.
 				}
 			}
 		}

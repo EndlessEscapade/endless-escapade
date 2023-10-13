@@ -1,9 +1,7 @@
 Mods: {
 	EndlessEscapade: {
-		Common: {
-			AttachmentInfo: Boat Attachment
-		}
-		
+		Common.AttachmentInfo: Boat Attachment
+
 		Items: {
 			DarkGemsand: {
 				DisplayName: Dark Gemsand
@@ -213,22 +211,12 @@ Mods: {
 		}
 
 		Projectiles: {
-			BigPearlProjectile: {
-				DisplayName: Big Pearl
-			}
-			
-			PearlCannonProjectile: {
-				DisplayName: Pearl Cannon
-			}
-			
-			PearlProjectile: {
-				DisplayName: Pearl
-			}
+			BigPearlProjectile.DisplayName: Big Pearl
+			PearlCannonProjectile.DisplayName: Pearl Cannon
+			PearlProjectile.DisplayName: Pearl
 		}
 
-		Bestiary: {
-			Sailor: Ahoy! The Sailor will provide useful resources and information all about sailing the seas.
-		}
+		Bestiary.Sailor: Ahoy! The Sailor will provide useful resources and information all about sailing the seas.
 
 		Dialogue: {
 			Sailor: {
@@ -269,17 +257,11 @@ Mods: {
 		Configs: {
 			AudioConfig: {
 				DisplayName: Audio Config
-				
-				Headers: {
-					Effects: Effects
-				}
+				Headers.Effects: Effects
 
 				LowPassFilteringIntensity: {
 					Label: Low Pass Filtering Intensity
-					Tooltip:
-						'''
-						Set to 1 for full effect intensity, set to 0 for disabling.
-						'''
+					Tooltip: Set to 1 for full effect intensity, set to 0 for disabling.
 				}
 			}
 		}
