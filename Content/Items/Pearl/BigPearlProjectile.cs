@@ -1,4 +1,4 @@
-﻿using EndlessEscapade.Common.Players;
+﻿using EndlessEscapade.Common.Systems.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -44,7 +44,7 @@ public class BigPearlProjectile : ModProjectile
         if (bounce > 0) {
             bounce--;
             Projectile.velocity.Y = -oldVelocity.Y / 2;
-            Main.player[Projectile.owner].GetModPlayer<ScreenShakePlayer>().ScreenShake = 3f;
+            Main.instance.CameraModifiers.Add(new ShakeCameraModifier(3f, 0.9f, "Weapon"));
             return false;
         }
 
@@ -55,7 +55,7 @@ public class BigPearlProjectile : ModProjectile
         if (bounce > 0) {
             bounce--;
             Projectile.velocity.Y = -Projectile.oldVelocity.Y / 2;
-            Main.player[Projectile.owner].GetModPlayer<ScreenShakePlayer>().ScreenShake = 3f;
+            Main.instance.CameraModifiers.Add(new ShakeCameraModifier(3f, 0.9f, "Weapon"));
         }
         else {
             Projectile.Kill();
