@@ -5,7 +5,7 @@ namespace EndlessEscapade.Common.Systems.Generation.Loot;
 
 public interface IChestLoot
 {
-    public IReadOnlyList<ChestFrame> Frames { get; }
+    public IReadOnlyList<int> Frames { get; }
 
     public int Chance { get; }
 

@@ -7,7 +7,7 @@ namespace EndlessEscapade.Content.Items.Ocean;
 
 public class RadiantPearl : ModItem, IChestLoot
 {
-    public IReadOnlyList<ChestFrame> Frames { get; } = new[] { ChestFrame.Water };
+    public IReadOnlyList<int> Frames { get; } = new[] { (int)ChestFrame.Water };
 
     public int Chance { get; } = 5;
     
@@ -15,5 +15,7 @@ public class RadiantPearl : ModItem, IChestLoot
         Item.DefaultToAccessory();
     }
 
-    public override void UpdateAccessory(Player player, bool hideVisual) { }
+    public override void UpdateAccessory(Player player, bool hideVisual) {
+        player.findTreasure = true;
+    }
 }

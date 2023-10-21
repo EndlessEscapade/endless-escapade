@@ -28,6 +28,8 @@ public class Sailor : ModNPC
     public static event Action OnBoatRepair;
 
     public override void SetStaticDefaults() {
+        Main.npcFrameCount[Type] = 25;
+
         NPCID.Sets.ExtraFramesCount[Type] = 9;
         NPCID.Sets.AttackFrameCount[Type] = 4;
         NPCID.Sets.DangerDetectRange[Type] = 700;
@@ -48,8 +50,6 @@ public class Sailor : ModNPC
         NPC.Happiness.SetBiomeAffection<OceanBiome>(AffectionLevel.Love);
         NPC.Happiness.SetBiomeAffection<DesertBiome>(AffectionLevel.Like);
         NPC.Happiness.SetBiomeAffection<UndergroundBiome>(AffectionLevel.Hate);
-
-        Main.npcFrameCount[Type] = 25;
     }
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
@@ -129,8 +129,6 @@ public class Sailor : ModNPC
             Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipCommonDialogue{currentShipDialogue}");
         }
 
-        CinematicManager.Instance.PlayFilm(new ShipyardFilm());
-        
         oldShipDialogue = currentShipDialogue;
         currentShipDialogue = 1 - currentShipDialogue;
     }
@@ -167,11 +165,11 @@ public class Sailor : ModNPC
 
         return chat.Get();
     }
-
+    
     public override List<string> SetNPCNameList() {
         return new List<string> { "Skipper" };
     }
-
+    
     public override void TownNPCAttackStrength(ref int damage, ref float knockback) {
         damage = 20;
         knockback = 4f;
@@ -191,7 +189,7 @@ public class Sailor : ModNPC
         multiplier = 12f;
         randomOffset = 2f;
     }
-
+    
     public override bool CanTownNPCSpawn(int numTownNPCs) {
         return true;
     }

@@ -7,7 +7,7 @@ namespace EndlessEscapade.Content.Items.Ocean;
 
 public class FishGills : ModItem, IChestLoot
 {
-    public IReadOnlyList<ChestFrame> Frames { get; } = new[] { ChestFrame.Water };
+    public IReadOnlyList<int> Frames { get; } = new[] { (int)ChestFrame.Water };
 
     public int Chance { get; } = 5;
     

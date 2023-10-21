@@ -192,10 +192,6 @@ public sealed class ShipyardSystem : ModSystem
             return;
         }
 
-        PlaceWheel<WoodWheel>();
-        PlaceCannon<WoodCannon>();
-        PlaceFigurehead<WoodFigurehead>();
-
         WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), new Reframe());
     }
 }

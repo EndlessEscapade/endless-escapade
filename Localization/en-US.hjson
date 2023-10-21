@@ -182,6 +182,16 @@ Mods: {
 				DisplayName: Radiant Pearl
 				Tooltip: ""
 			}
+
+			LythenBar: {
+				DisplayName: Lythen Bar
+				Tooltip: ""
+			}
+
+			LythenOre: {
+				DisplayName: Lythen Ore
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -267,5 +277,6 @@ Mods: {
 		}
 
 		Buttons.Sailor.Sailing: Sailing
+		Tiles.LythenOre.MapEntry: Lythen Ore
 	}
 }
