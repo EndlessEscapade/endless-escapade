@@ -27,14 +27,14 @@ public sealed class PlayerWaterEffects : ModPlayer
         oldWetHead = wetHead;
         oldWetFeet = wetFeet;
 
-        var headPosition = Player.Center - new Vector2(0f, 10f);
-        var feetPosition = Player.Center + new Vector2(0f, 10f);
+        var headPosition = Player.Center - new Vector2(0f, 16f);
+        var feetPosition = Player.Center + new Vector2(0f, 16f);
 
         var headTile = Framing.GetTileSafely(headPosition);
         var feetTile = Framing.GetTileSafely(feetPosition);
         
-        wetHead = Collision.WetCollision(headPosition, 10, 10) && headTile.LiquidAmount >= byte.MaxValue;
-        wetFeet = Collision.WetCollision(feetPosition, 10, 10) && feetTile.LiquidAmount >= byte.MaxValue;
+        wetHead = Collision.WetCollision(headPosition, 8, 8) && headTile.LiquidAmount >= byte.MaxValue;
+        wetFeet = Collision.WetCollision(feetPosition, 8, 8) && feetTile.LiquidAmount >= byte.MaxValue;
 
         UpdateIntensity();
         UpdateAudio();
@@ -59,7 +59,7 @@ public sealed class PlayerWaterEffects : ModPlayer
     }
 
     private void UpdateSplash() {
-        if ((wetFeet && !oldWetFeet) || (!wetHead && oldWetHead)) {
+        if ((wetFeet && !oldWetFeet && !Player.wet) || (!wetHead && oldWetHead)) {
             SoundEngine.PlaySound(in splash);
         }
     }
