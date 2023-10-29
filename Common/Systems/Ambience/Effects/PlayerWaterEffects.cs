@@ -10,13 +10,13 @@ public sealed class PlayerWaterEffects : ModPlayer
 {
     private static readonly SoundStyle splash = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/Water/Splash", SoundType.Ambient);
 
-    private float lowPass;
-    private bool oldWetFeet;
-
-    private bool oldWetHead;
     private bool wetFeet;
-
     private bool wetHead;
+
+    private bool oldWetFeet;
+    private bool oldWetHead;
+    
+    private float lowPass;
 
     public float LowPass {
         get => lowPass;
@@ -59,6 +59,7 @@ public sealed class PlayerWaterEffects : ModPlayer
     }
 
     private void UpdateSplash() {
+        // TODO: Invert to guard clause because I am lazy.
         if ((wetFeet && !oldWetFeet && !Player.wet) || (!wetHead && oldWetHead)) {
             SoundEngine.PlaySound(in splash);
         }
