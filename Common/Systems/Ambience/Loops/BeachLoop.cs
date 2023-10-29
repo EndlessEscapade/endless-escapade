@@ -11,6 +11,6 @@ public sealed class BeachLoop : AmbienceLoop
     }
 
     protected override bool Active(Player player) {
-        return (player.ZoneBeach || player.InModBiome<ShipyardBiome>());
+        return player.ZoneBeach || player.InModBiome<ShipyardBiome>();
     }
 }
