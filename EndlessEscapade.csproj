@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\tModLoader.targets" />
+    <Import Project="..\tModLoader.targets"/>
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -22,14 +22,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Assets\PearlCannonProj.png" />
-        <None Remove="Assets\PearlProjectile.png" />
-        <None Remove="Content\Items\Pearl\BigPearlProjectile.png" />
-        <None Remove="Content\Items\Reefs\Kelp\Kelpberries.png" />
+        <None Remove="Assets\PearlCannonProj.png"/>
+        <None Remove="Assets\PearlProjectile.png"/>
+        <None Remove="Content\Items\Pearl\BigPearlProjectile.png"/>
+        <None Remove="Content\Items\Reefs\Kelp\Kelpberries.png"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*"/>
     </ItemGroup>
 
     <ItemGroup>

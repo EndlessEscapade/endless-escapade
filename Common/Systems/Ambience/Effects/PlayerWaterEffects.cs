@@ -15,7 +15,7 @@ public sealed class PlayerWaterEffects : ModPlayer
 
     private bool oldWetFeet;
     private bool oldWetHead;
-    
+
     private float lowPass;
 
     public float LowPass {
@@ -32,7 +32,7 @@ public sealed class PlayerWaterEffects : ModPlayer
 
         var headTile = Framing.GetTileSafely(headPosition);
         var feetTile = Framing.GetTileSafely(feetPosition);
-        
+
         wetHead = Collision.WetCollision(headPosition, 8, 8) && headTile.LiquidAmount >= byte.MaxValue;
         wetFeet = Collision.WetCollision(feetPosition, 8, 8) && feetTile.LiquidAmount >= byte.MaxValue;
 
@@ -55,7 +55,11 @@ public sealed class PlayerWaterEffects : ModPlayer
             return;
         }
 
-        SoundSystem.SetParameters(new SoundModifiers { LowPass = LowPass });
+        SoundSystem.SetParameters(
+            new SoundModifiers {
+                LowPass = LowPass
+            }
+        );
     }
 
     private void UpdateSplash() {

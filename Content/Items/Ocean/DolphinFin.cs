@@ -7,10 +7,12 @@ namespace EndlessEscapade.Content.Items.Ocean;
 
 public class DolphinFin : ModItem, IChestLoot
 {
-    public IReadOnlyList<int> Frames { get; } = new[] { (int)ChestFrame.Water };
+    public IReadOnlyList<int> Frames { get; } = new[] {
+        (int)ChestFrame.Water
+    };
 
     public int Chance { get; } = 5;
-    
+
     public override void SetDefaults() {
         Item.DefaultToAccessory();
     }

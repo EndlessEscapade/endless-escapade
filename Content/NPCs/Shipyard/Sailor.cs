@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using EndlessEscapade.Common.Systems.Generation;
-using EndlessEscapade.Content.Films;
 using EndlessEscapade.Content.Items.Shipyard;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
-using Terraria.Cinematics;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -24,8 +22,6 @@ public class Sailor : ModNPC
 
     private int currentShipDialogue;
     private int oldShipDialogue;
-
-    public static event Action OnBoatRepair;
 
     public override void SetStaticDefaults() {
         Main.npcFrameCount[Type] = 25;
@@ -55,8 +51,7 @@ public class Sailor : ModNPC
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
         bestiaryEntry.Info.AddRange(
             new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-                new FlavorTextBestiaryInfoElement(Mod.GetLocalizationValue("Bestiary.Sailor"))
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, new FlavorTextBestiaryInfoElement(Mod.GetLocalizationValue("Bestiary.Sailor"))
             }
         );
     }
@@ -94,7 +89,7 @@ public class Sailor : ModNPC
         button = Language.GetTextValue("LegacyInterface.28");
         button2 = Mod.GetLocalizationValue("Buttons.Sailor.Sailing");
     }
-    
+
     public override void OnChatButtonClicked(bool firstButton, ref string shopName) {
         if (firstButton) {
             shopName = "Shop";
@@ -165,11 +160,13 @@ public class Sailor : ModNPC
 
         return chat.Get();
     }
-    
+
     public override List<string> SetNPCNameList() {
-        return new List<string> { "Skipper" };
+        return new List<string> {
+            "Skipper"
+        };
     }
-    
+
     public override void TownNPCAttackStrength(ref int damage, ref float knockback) {
         damage = 20;
         knockback = 4f;
@@ -189,7 +186,7 @@ public class Sailor : ModNPC
         multiplier = 12f;
         randomOffset = 2f;
     }
-    
+
     public override bool CanTownNPCSpawn(int numTownNPCs) {
         return true;
     }
@@ -197,4 +194,6 @@ public class Sailor : ModNPC
     public override bool CanGoToStatue(bool toKingStatue) {
         return true;
     }
+
+    public static event Action OnBoatRepair;
 }

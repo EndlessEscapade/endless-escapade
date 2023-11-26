@@ -14,4 +14,3 @@ public class LythenOre : ModItem
         Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Lythen.LythenOre>());
     }
 }
-

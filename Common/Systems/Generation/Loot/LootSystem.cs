@@ -40,7 +40,7 @@ public sealed class LootSystem : ModSystem
                 var tile = Framing.GetTileSafely(chest.x, chest.y);
 
                 var validType = tile.TileType == data.TileType;
-                var validFrame = data.Frames.Any(x => tile.TileFrameX == (int)x * 36);
+                var validFrame = data.Frames.Any(x => tile.TileFrameX == x * 36);
 
                 if (!validType || !validFrame) {
                     continue;
@@ -71,7 +71,7 @@ public sealed class LootSystem : ModSystem
                 var tile = Framing.GetTileSafely(chest.x, chest.y);
 
                 var validType = tile.TileType == data.TileType;
-                var validFrame = data.Frames.Any(x => tile.TileFrameX == (int)x * 36);
+                var validFrame = data.Frames.Any(x => tile.TileFrameX == x * 36);
 
                 var shouldBeAdded = !chest.HasItem(type) && WorldGen.genRand.NextBool(data.Chance);
 

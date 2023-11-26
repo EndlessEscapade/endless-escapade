@@ -9,8 +9,7 @@ namespace EndlessEscapade.Content.Items.Pearl;
 public class PearlProjectile : ModProjectile
 {
     private static readonly int[] dustTypes = {
-        DustID.UnusedWhiteBluePurple,
-        DustID.ShadowbeamStaff
+        DustID.UnusedWhiteBluePurple, DustID.ShadowbeamStaff
     };
 
     private int bounce = 5;

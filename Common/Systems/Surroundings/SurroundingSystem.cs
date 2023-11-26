@@ -3,7 +3,4 @@
 namespace EndlessEscapade.Common.Systems.Surroundings;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class SurroundingSystem : ModSystem
-{
-    
-}
+public sealed class SurroundingSystem : ModSystem { }

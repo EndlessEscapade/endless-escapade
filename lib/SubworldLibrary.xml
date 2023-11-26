@@ -9,7 +9,7 @@
                 Called on all content with this interface before<see cref="M:SubworldLibrary.Subworld.OnEnter"/>, and
                 after<see cref="M:SubworldLibrary.Subworld.OnExit"/>.
                 <br/>This is where you copy data from the main world to a subworld, via<see
-                    cref="M:SubworldLibrary.SubworldSystem.CopyWorldData(System.String,System.Object)"/>.
+                cref="M:SubworldLibrary.SubworldSystem.CopyWorldData(System.String,System.Object)"/>.
                 <code>SubworldSystem.CopyWorldData(nameof(DownedSystem.downedBoss), DownedSystem.downedBoss);</code>
             </summary>
         </member>
@@ -18,7 +18,7 @@
                 Called on all content with this interface before a subworld generates, or after a subworld loads from
                 file.
                 <br/>This is where you read data copied from the main world to a subworld, via<see
-                    cref="M:SubworldLibrary.SubworldSystem.ReadCopiedWorldData``1(System.String)"/>.
+                cref="M:SubworldLibrary.SubworldSystem.ReadCopiedWorldData``1(System.String)"/>.
                 <code>DownedSystem.downedBoss = SubworldSystem.ReadCopiedWorldData&lt;bool&gt;(nameof(DownedSystem.downedBoss));</code>
             </summary>
         </member>
@@ -40,7 +40,7 @@
         <member name="P:SubworldLibrary.Subworld.ReturnDestination">
             <summary>
                 The index of the subworld the player will be sent to when choosing to return. See<see
-                    cref="M:SubworldLibrary.SubworldSystem.GetIndex``1"/>.
+                cref="M:SubworldLibrary.SubworldSystem.GetIndex``1"/>.
                 <br/>Set to -1 to send the player back to the main world.
                 <br/>Set to
                 <see cref="F:System.Int32.MinValue"/>
@@ -91,9 +91,9 @@
         <member name="M:SubworldLibrary.Subworld.CopyMainWorldData">
             <summary>
                 Called on all subworlds before<see cref="M:SubworldLibrary.Subworld.OnEnter"/>, and after<see
-                    cref="M:SubworldLibrary.Subworld.OnExit"/>.
+                cref="M:SubworldLibrary.Subworld.OnExit"/>.
                 <br/>This is where you copy data from the main world to the subworld, via<see
-                    cref="M:SubworldLibrary.SubworldSystem.CopyWorldData(System.String,System.Object)"/>.
+                cref="M:SubworldLibrary.SubworldSystem.CopyWorldData(System.String,System.Object)"/>.
                 <code>SubworldSystem.CopyWorldData(nameof(DownedSystem.downedBoss), DownedSystem.downedBoss);</code>
             </summary>
         </member>
@@ -101,7 +101,7 @@
             <summary>
                 Called before<see cref="M:SubworldLibrary.Subworld.OnExit"/>.
                 <br/>This is where you copy data from the subworld to another world, via<see
-                    cref="M:SubworldLibrary.SubworldSystem.CopyWorldData(System.String,System.Object)"/>.
+                cref="M:SubworldLibrary.SubworldSystem.CopyWorldData(System.String,System.Object)"/>.
                 <code>SubworldSystem.CopyWorldData(nameof(DownedSystem.downedBoss), DownedSystem.downedBoss);</code>
             </summary>
         </member>
@@ -109,7 +109,7 @@
             <summary>
                 Called on all subworlds before one generates, or after one loads from file.
                 <br/>This is where you read data copied from the main world to the subworld, via<see
-                    cref="M:SubworldLibrary.SubworldSystem.ReadCopiedWorldData``1(System.String)"/>.
+                cref="M:SubworldLibrary.SubworldSystem.ReadCopiedWorldData``1(System.String)"/>.
                 <code>DownedSystem.downedBoss = SubworldSystem.ReadCopiedWorldData&lt;bool&gt;(nameof(DownedSystem.downedBoss));</code>
             </summary>
         </member>
@@ -118,7 +118,7 @@
                 Called while leaving the subworld, either before a different world generates, or after a different world
                 loads from file.
                 <br/>This is where you read data copied from the subworld to another world, via<see
-                    cref="M:SubworldLibrary.SubworldSystem.ReadCopiedWorldData``1(System.String)"/>.
+                cref="M:SubworldLibrary.SubworldSystem.ReadCopiedWorldData``1(System.String)"/>.
                 <code>DownedSystem.downedBoss = SubworldSystem.ReadCopiedWorldData&lt;bool&gt;(nameof(DownedSystem.downedBoss));</code>
             </summary>
         </member>
@@ -169,7 +169,7 @@
             <summary>
                 Called before music is chosen, including in the loading menu.
                 <br/>Return true to disable vanilla behaviour, allowing for modification of variables such as<see
-                    cref="F:Terraria.Main.newMusic"/>.
+                cref="F:Terraria.Main.newMusic"/>.
                 <br/>Default: false
             </summary>
         </member>

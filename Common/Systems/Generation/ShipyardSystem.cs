@@ -1,6 +1,5 @@
 ﻿using EndlessEscapade.Common.Systems.Generation.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
-using EndlessEscapade.Content.Tiles.Shipyard;
 using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;

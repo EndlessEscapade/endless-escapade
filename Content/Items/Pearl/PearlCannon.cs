@@ -13,7 +13,7 @@ public class PearlCannon : ModItem
 
     public override void SetDefaults() {
         Item.DefaultToRangedWeapon(ProjectileID.WoodenArrowFriendly, AmmoID.None, 75, 10f, true);
-    
+
         Item.noUseGraphic = true;
     }
 

@@ -14,8 +14,6 @@ namespace EndlessEscapade.Common.Systems.Audio;
 [Autoload(Side = ModSide.Client)]
 public sealed class SoundSystem : ModSystem
 {
-    private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags)!;
-
     public static readonly ImmutableArray<SoundStyle> IgnoredSounds = ImmutableArray.Create(
         SoundID.MenuClose,
         SoundID.MenuOpen,
@@ -23,6 +21,8 @@ public sealed class SoundSystem : ModSystem
         SoundID.Chat,
         SoundID.Grab
     );
+
+    private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags)!;
 
     public static bool Enabled { get; private set; }
 
