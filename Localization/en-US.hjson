@@ -148,18 +148,18 @@ Mods: {
 				Tooltip: ""
 			}
 
-			WoodCannon: {
-				DisplayName: Wood Cannon
+			WoodenCannon: {
+				DisplayName: Wooden Cannon
 				Tooltip: ""
 			}
 
-			WoodWheel: {
-				DisplayName: Wood Wheel
+			WoodenWheel: {
+				DisplayName: Wooden Wheel
 				Tooltip: ""
 			}
 
-			WoodFigurehead: {
-				DisplayName: Wood Figurehead
+			WoodenFigurehead: {
+				DisplayName: Wooden Figurehead
 				Tooltip: ""
 			}
 

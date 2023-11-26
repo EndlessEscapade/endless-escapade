@@ -1,3 +1,3 @@
 ﻿namespace EndlessEscapade.Content.Items.Shipyard;
 
-public class WoodCannon : AttachmentItem { }
+public class WoodenWheel : AttachmentItem { }

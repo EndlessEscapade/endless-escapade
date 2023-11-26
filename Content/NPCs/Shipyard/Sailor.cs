@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using EndlessEscapade.Common.Systems.Generation;
+using EndlessEscapade.Common.Generation;
 using EndlessEscapade.Content.Items.Shipyard;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;

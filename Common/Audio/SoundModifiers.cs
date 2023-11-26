@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace EndlessEscapade.Common.Systems.Audio;
+namespace EndlessEscapade.Common.Audio;
 
 public struct SoundModifiers
 {

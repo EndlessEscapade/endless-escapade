@@ -5,7 +5,7 @@ namespace EndlessEscapade.Content.Biomes;
 
 public class ShipyardBiome : ModBiome
 {
-    public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Sounds/Music/ShipyardNight");
+    public override int Music => MusicLoader.GetMusicSlot(Mod, $"Assets/Sounds/Music/Shipyard{(Main.dayTime ? "Day" : "Night")}");
 
     public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
 

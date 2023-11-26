@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Reflection;
 using EndlessEscapade.Common.Configs;
-using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework.Audio;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Systems.Audio.Filters;
+namespace EndlessEscapade.Common.Audio.Filters;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class LowPassSystem : ModSystem

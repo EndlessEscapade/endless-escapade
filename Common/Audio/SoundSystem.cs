@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Reflection;
-using EndlessEscapade.Common.Systems.Audio.Filters;
-using EndlessEscapade.Utilities;
+using EndlessEscapade.Common.Audio.Filters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Utilities;
@@ -10,7 +9,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Systems.Audio;
+namespace EndlessEscapade.Common.Audio;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class SoundSystem : ModSystem

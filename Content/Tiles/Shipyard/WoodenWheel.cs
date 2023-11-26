@@ -9,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace EndlessEscapade.Content.Tiles.Shipyard;
 
-public class WoodWheel : ModTile
+public class WoodenWheel : ModTile
 {
     public override string HighlightTexture => Texture + "_Highlight";
 
@@ -45,7 +45,7 @@ public class WoodWheel : ModTile
         var player = Main.LocalPlayer;
         player.noThrow = 2;
         player.cursorItemIconEnabled = true;
-        player.cursorItemIconID = ModContent.ItemType<Items.Shipyard.WoodWheel>();
+        player.cursorItemIconID = ModContent.ItemType<Items.Shipyard.WoodenWheel>();
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

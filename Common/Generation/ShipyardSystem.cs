@@ -1,4 +1,4 @@
-﻿using EndlessEscapade.Common.Systems.Generation.Actions;
+﻿using EndlessEscapade.Common.Generation.Actions;
 using EndlessEscapade.Content.NPCs.Shipyard;
 using Microsoft.Xna.Framework;
 using StructureHelper;
@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.Systems.Generation;
+namespace EndlessEscapade.Common.Generation;
 
 public sealed class ShipyardSystem : ModSystem
 {
@@ -73,7 +73,6 @@ public sealed class ShipyardSystem : ModSystem
         GenerateBrokenBoat(x - sailboatDistance, y);
     }
 
-    // TODO: Turn into a single attachment method via enumerator, or something similar.
     public static bool PlaceWheel<T>() where T : ModTile {
         return WorldGen.PlaceObject(X + 12, Y + 25, ModContent.TileType<T>());
     }
