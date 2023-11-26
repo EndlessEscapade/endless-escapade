@@ -19,6 +19,8 @@ namespace EndlessEscapade.Content.NPCs.Shipyard;
 public class Sailor : ModNPC
 {
     private const int RepairPromptDialogue = 1;
+    
+    public static event Action OnBoatRepair;
 
     private int currentShipDialogue;
     private int oldShipDialogue;
@@ -194,6 +196,4 @@ public class Sailor : ModNPC
     public override bool CanGoToStatue(bool toKingStatue) {
         return true;
     }
-
-    public static event Action OnBoatRepair;
 }
