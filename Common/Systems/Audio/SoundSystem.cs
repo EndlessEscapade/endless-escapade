@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using System.Reflection;
 using EndlessEscapade.Common.Systems.Audio.Filters;
 using EndlessEscapade.Utilities;
@@ -22,13 +23,17 @@ public sealed class SoundSystem : ModSystem
         SoundID.Grab
     );
 
-    private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", ReflectionUtils.PrivateInstanceFlags)!;
+    private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", BindingFlags.Instance | BindingFlags.NonPublic);
 
     public static bool Enabled { get; private set; }
 
     public static SoundModifiers SoundParameters { get; private set; }
 
     public override void OnModLoad() {
+        if (trackedSoundsField == null) {
+            throw new MissingFieldException(nameof(SoundPlayer), "_trackedSounds");
+        }
+        
         Enabled = SoundEngine.IsAudioSupported;
 
         if (!Enabled) {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using EndlessEscapade.Common.Configs;
 using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework.Audio;
@@ -11,12 +12,16 @@ namespace EndlessEscapade.Common.Systems.Audio.Filters;
 public sealed class LowPassSystem : ModSystem
 {
     private static readonly Action<SoundEffectInstance, float> lowPassAction = typeof(SoundEffectInstance)
-        .GetMethod("INTERNAL_applyLowPassFilter", ReflectionUtils.PrivateInstanceFlags)
+        .GetMethod("INTERNAL_applyLowPassFilter", BindingFlags.Instance | BindingFlags.NonPublic)
         .CreateDelegate<Action<SoundEffectInstance, float>>();
 
     public static bool Enabled { get; private set; }
 
     public override void OnModLoad() {
+        if (lowPassAction == null) {
+            throw new MissingMethodException(nameof(SoundEffectInstance), "INTERNAL_applyLowPassFilter");
+        }
+        
         Enabled = SoundEngine.IsAudioSupported;
     }
 

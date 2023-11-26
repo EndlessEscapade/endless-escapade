@@ -83,10 +83,6 @@ public class Sailor : ModNPC
         return exists;
     }
 
-    public override void ModifyNPCLoot(NPCLoot npcLoot) {
-        npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SailorHat>()));
-    }
-
     public override void SetChatButtons(ref string button, ref string button2) {
         button = Language.GetTextValue("LegacyInterface.28");
         button2 = Mod.GetLocalizationValue("Buttons.Sailor.Sailing");
