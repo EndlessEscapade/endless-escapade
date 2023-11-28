@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using EndlessEscapade.Common.Generation;
+using EndlessEscapade.Common.WorldBuilding;
 using EndlessEscapade.Content.Items.Shipyard;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
@@ -53,7 +53,7 @@ public class Sailor : ModNPC
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
         bestiaryEntry.Info.AddRange(
             new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, new FlavorTextBestiaryInfoElement(Mod.GetLocalizationValue("Bestiary.Sailor"))
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, new FlavorTextBestiaryInfoElement(Mod.GetTextValue("Bestiary.Sailor"))
             }
         );
     }
@@ -85,7 +85,7 @@ public class Sailor : ModNPC
 
     public override void SetChatButtons(ref string button, ref string button2) {
         button = Language.GetTextValue("LegacyInterface.28");
-        button2 = Mod.GetLocalizationValue("Buttons.Sailor.Sailing");
+        button2 = Mod.GetTextValue("Buttons.Sailor.Sailing");
     }
 
     public override void OnChatButtonClicked(bool firstButton, ref string shopName) {
@@ -110,16 +110,16 @@ public class Sailor : ModNPC
                 if (success) {
                     OnBoatRepair.Invoke();
 
-                    Main.npcChatText = Mod.GetLocalizationValue("Dialogue.Sailor.ShipRepairDialogue");
+                    Main.npcChatText = Mod.GetTextValue("Dialogue.Sailor.ShipRepairDialogue");
                 }
 
                 return;
             }
 
-            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipPromptDialogue{currentShipDialogue}");
+            Main.npcChatText = Mod.GetTextValue($"Dialogue.Sailor.ShipPromptDialogue{currentShipDialogue}");
         }
         else {
-            Main.npcChatText = Mod.GetLocalizationValue($"Dialogue.Sailor.ShipCommonDialogue{currentShipDialogue}");
+            Main.npcChatText = Mod.GetTextValue($"Dialogue.Sailor.ShipCommonDialogue{currentShipDialogue}");
         }
 
         oldShipDialogue = currentShipDialogue;
@@ -130,30 +130,30 @@ public class Sailor : ModNPC
         var chat = new WeightedRandom<string>();
 
         if (!NPC.AnyNPCs(NPCID.Angler)) {
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.AnglerDialogue0"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.AnglerDialogue1"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.AnglerDialogue2"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.AnglerDialogue0"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.AnglerDialogue1"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.AnglerDialogue2"));
             return chat;
         }
 
         if (Main.dayTime) {
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue0"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue1"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.DayDialogue2"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.DayDialogue0"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.DayDialogue1"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.DayDialogue2"));
         }
         else {
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue0"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue1"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NightDialogue2"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.NightDialogue0"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.NightDialogue1"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.NightDialogue2"));
         }
 
         if (Main.raining) {
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.RainDialogue0"));
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.RainDialogue1"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.RainDialogue0"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.RainDialogue1"));
         }
 
         if (Main.moonType == (int)MoonPhase.Empty) {
-            chat.Add(Mod.GetLocalizationValue("Dialogue.Sailor.NewMoonDialogue"));
+            chat.Add(Mod.GetTextValue("Dialogue.Sailor.NewMoonDialogue"));
         }
 
         return chat.Get();

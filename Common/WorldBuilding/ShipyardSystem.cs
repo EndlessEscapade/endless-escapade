@@ -1,5 +1,4 @@
-﻿using EndlessEscapade.Common.Generation.Actions;
-using EndlessEscapade.Content.NPCs.Shipyard;
+﻿using EndlessEscapade.Content.NPCs.Shipyard;
 using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
@@ -9,10 +8,12 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.Generation;
+namespace EndlessEscapade.Common.WorldBuilding;
 
 public sealed class ShipyardSystem : ModSystem
 {
+    public const int SailboatDistance = 100;
+
     public static int X { get; private set; }
     public static int Y { get; private set; }
 
@@ -67,10 +68,8 @@ public sealed class ShipyardSystem : ModSystem
             x++;
         }
 
-        const int sailboatDistance = 100;
-
         GenerateShipyard(x, y);
-        GenerateBrokenBoat(x - sailboatDistance, y);
+        GenerateBrokenBoat(x - SailboatDistance, y);
     }
 
     public static bool PlaceWheel<T>() where T : ModTile {
@@ -164,9 +163,9 @@ public sealed class ShipyardSystem : ModSystem
         WorldUtils.Gen(
             new Point(X, Y),
             new Shapes.Rectangle(dims.X, dims.Y),
-            Terraria.WorldBuilding.Actions.Chain(
-                new Terraria.WorldBuilding.Actions.ClearTile(),
-                new Terraria.WorldBuilding.Actions.ClearWall()
+            Actions.Chain(
+                new Actions.ClearTile(),
+                new Actions.ClearWall()
             )
         );
 
@@ -178,7 +177,7 @@ public sealed class ShipyardSystem : ModSystem
             return;
         }
 
-        // Shifts the position to the new origin, which is approximately 85% upwards from the original origin.
+        // Shifts the position to the new origin, which is approximately 85% upwards from the original.
         X -= dims.X / 2;
         Y -= dims.Y - dims.Y / 7;
 

@@ -17,7 +17,7 @@ public abstract class AttachmentItem : ModItem
 
     public sealed override void ModifyTooltips(List<TooltipLine> tooltips) {
         var index = tooltips.FindIndex(x => x.Name == "ItemName" && x.Mod == "Terraria");
-        var line = new TooltipLine(Mod, $"{nameof(EndlessEscapade)}:AttachmentItem", Mod.GetLocalizationValue("Common.AttachmentInfo")) {
+        var line = new TooltipLine(Mod, $"{nameof(EndlessEscapade)}:AttachmentItem", Mod.GetTextValue("Common.AttachmentInfo")) {
             OverrideColor = Color.Goldenrod
         };
 
