@@ -20,15 +20,15 @@ public sealed class ShipyardSystem : ModSystem
     public static bool Repaired { get; private set; }
 
     public override void SaveWorldData(TagCompound tag) {
-        tag[nameof(X)] = X;
-        tag[nameof(Y)] = Y;
-        tag[nameof(Repaired)] = Repaired;
+        tag["X"] = X;
+        tag["Y"] = Y;
+        tag["Repaired"] = Repaired;
     }
 
     public override void LoadWorldData(TagCompound tag) {
-        X = tag.GetInt(nameof(X));
-        Y = tag.GetInt(nameof(Y));
-        Repaired = tag.GetBool(nameof(Repaired));
+        X = tag.GetInt("X");
+        Y = tag.GetInt("Y");
+        Repaired = tag.GetBool("Repaired");
     }
 
     public override void ClearWorld() {
