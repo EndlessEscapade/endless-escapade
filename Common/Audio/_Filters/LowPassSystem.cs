@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using EndlessEscapade.Common.Configs;
 using Microsoft.Xna.Framework.Audio;
 using Terraria.Audio;
 using Terraria.ModLoader;
@@ -20,13 +19,12 @@ public sealed class LowPassSystem : ModSystem
         if (lowPassAction == null) {
             throw new MissingMethodException(nameof(SoundEffectInstance), "INTERNAL_applyLowPassFilter");
         }
-        
+
         Enabled = SoundEngine.IsAudioSupported;
     }
 
     internal static void ApplyParameters(SoundEffectInstance instance, SoundModifiers parameters) {
-        var intensity = ModContent.GetInstance<AudioConfig>().LowPassFilteringIntensity;
-        var lowPass = parameters.LowPass * intensity;
+        var lowPass = parameters.LowPass;
 
         if (!Enabled || lowPass <= 0f || instance?.IsDisposed == true) {
             return;

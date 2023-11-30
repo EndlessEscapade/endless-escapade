@@ -14,13 +14,11 @@ namespace EndlessEscapade.Common.Audio;
 [Autoload(Side = ModSide.Client)]
 public sealed class SoundSystem : ModSystem
 {
-    public static readonly ImmutableArray<SoundStyle> IgnoredSounds = ImmutableArray.Create(
-        SoundID.MenuClose,
+    public static readonly ImmutableArray<SoundStyle> IgnoredSounds = ImmutableArray.Create(SoundID.MenuClose,
         SoundID.MenuOpen,
         SoundID.MenuTick,
         SoundID.Chat,
-        SoundID.Grab
-    );
+        SoundID.Grab);
 
     private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -32,7 +30,7 @@ public sealed class SoundSystem : ModSystem
         if (trackedSoundsField == null) {
             throw new MissingFieldException(nameof(SoundPlayer), "_trackedSounds");
         }
-        
+
         Enabled = SoundEngine.IsAudioSupported;
 
         if (!Enabled) {

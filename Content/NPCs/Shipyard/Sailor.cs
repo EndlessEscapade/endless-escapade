@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using EndlessEscapade.Common.WorldBuilding;
-using EndlessEscapade.Content.Items.Shipyard;
+﻿using System.Collections.Generic;
 using EndlessEscapade.Utilities.Extensions;
 using Terraria;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
@@ -18,13 +14,6 @@ namespace EndlessEscapade.Content.NPCs.Shipyard;
 [AutoloadHead]
 public class Sailor : ModNPC
 {
-    private const int RepairPromptDialogue = 1;
-    
-    public static event Action OnBoatRepair;
-
-    private int currentShipDialogue;
-    private int oldShipDialogue;
-
     public override void SetStaticDefaults() {
         Main.npcFrameCount[Type] = 25;
 
@@ -35,10 +24,8 @@ public class Sailor : ModNPC
         NPCID.Sets.AttackTime[Type] = 90;
         NPCID.Sets.AttackAverageChance[Type] = 30;
         NPCID.Sets.HatOffsetY[Type] = 4;
-        NPCID.Sets.NPCBestiaryDrawOffset.Add(
-            Type,
-            new NPCID.Sets.NPCBestiaryDrawModifiers()
-        );
+        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type,
+            new NPCID.Sets.NPCBestiaryDrawModifiers());
 
         NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
         NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love);
@@ -51,25 +38,29 @@ public class Sailor : ModNPC
     }
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
-        bestiaryEntry.Info.AddRange(
-            new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, new FlavorTextBestiaryInfoElement(Mod.GetTextValue("Bestiary.Sailor"))
-            }
-        );
+        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, new FlavorTextBestiaryInfoElement(Mod.GetTextValue("Bestiary.Sailor"))
+        });
     }
 
     public override void SetDefaults() {
         NPC.townNPC = true;
         NPC.friendly = true;
+
         NPC.width = 30;
         NPC.height = 50;
+
         NPC.damage = 10;
         NPC.defense = 15;
         NPC.lifeMax = 500;
+
         NPC.knockBackResist = 0.5f;
+
         AnimationType = NPCID.Guide;
+
         NPC.HitSound = SoundID.NPCHit1;
         NPC.DeathSound = SoundID.NPCDeath1;
+
         NPC.aiStyle = NPCAIStyleID.Passive;
     }
 
@@ -89,41 +80,11 @@ public class Sailor : ModNPC
     }
 
     public override void OnChatButtonClicked(bool firstButton, ref string shopName) {
-        if (firstButton) {
-            shopName = "Shop";
+        if (!firstButton) {
             return;
         }
 
-        var player = Main.LocalPlayer;
-
-        var hasMaterials = player.HasStack(ItemID.Silk, 20) && player.HasGroupStack(RecipeGroupID.Wood, 150);
-        var hasMoney = player.CanAfford(Item.buyPrice(gold: 5));
-
-        if (!ShipyardSystem.Repaired) {
-            if (hasMaterials && hasMoney && oldShipDialogue == RepairPromptDialogue) {
-                var success = true;
-
-                success &= player.PayCurrency(Item.buyPrice(gold: 5));
-                success &= player.TryConsumeStack(ItemID.Silk, 20);
-                success &= player.TryConsumeGroupStack(RecipeGroupID.Wood, 150);
-
-                if (success) {
-                    OnBoatRepair.Invoke();
-
-                    Main.npcChatText = Mod.GetTextValue("Dialogue.Sailor.ShipRepairDialogue");
-                }
-
-                return;
-            }
-
-            Main.npcChatText = Mod.GetTextValue($"Dialogue.Sailor.ShipPromptDialogue{currentShipDialogue}");
-        }
-        else {
-            Main.npcChatText = Mod.GetTextValue($"Dialogue.Sailor.ShipCommonDialogue{currentShipDialogue}");
-        }
-
-        oldShipDialogue = currentShipDialogue;
-        currentShipDialogue = 1 - currentShipDialogue;
+        shopName = "Shop";
     }
 
     public override string GetChat() {
@@ -133,7 +94,7 @@ public class Sailor : ModNPC
             chat.Add(Mod.GetTextValue("Dialogue.Sailor.AnglerDialogue0"));
             chat.Add(Mod.GetTextValue("Dialogue.Sailor.AnglerDialogue1"));
             chat.Add(Mod.GetTextValue("Dialogue.Sailor.AnglerDialogue2"));
-            return chat;
+            return chat.Get();
         }
 
         if (Main.dayTime) {

@@ -128,23 +128,8 @@ Mods: {
 				Tooltip: ""
 			}
 
-			CryoCannon: {
-				DisplayName: Cryo Cannon
-				Tooltip: ""
-			}
-
-			SailorHat: {
-				DisplayName: Sailor Hat
-				Tooltip: ""
-			}
-
 			TropicalWoodFence: {
 				DisplayName: Tropical Wood Fence
-				Tooltip: ""
-			}
-
-			PearlCannon: {
-				DisplayName: Pearl Cannon
 				Tooltip: ""
 			}
 
@@ -160,26 +145,6 @@ Mods: {
 
 			WoodenFigurehead: {
 				DisplayName: Wooden Figurehead
-				Tooltip: ""
-			}
-
-			DolphinFin: {
-				DisplayName: Dolphin Fin
-				Tooltip: ""
-			}
-
-			FishGills: {
-				DisplayName: Fish Gills
-				Tooltip: ""
-			}
-
-			GreatShell: {
-				DisplayName: Great Shell
-				Tooltip: ""
-			}
-
-			RadiantPearl: {
-				DisplayName: Radiant Pearl
 				Tooltip: ""
 			}
 
@@ -220,12 +185,6 @@ Mods: {
 			}
 		}
 
-		Projectiles: {
-			BigPearlProjectile.DisplayName: Big Pearl
-			PearlCannonProjectile.DisplayName: Pearl Cannon
-			PearlProjectile.DisplayName: Pearl
-		}
-
 		Bestiary.Sailor: Ahoy! The Sailor will provide useful resources and information all about sailing the seas.
 
 		Dialogue: {
@@ -261,18 +220,6 @@ Mods: {
 			ShipyardBiome: {
 				DisplayName: Shipyard Biome
 				TownNPCDialogueName: the Shipyard Biome
-			}
-		}
-
-		Configs: {
-			AudioConfig: {
-				DisplayName: Audio Config
-				Headers.Effects: Effects
-
-				LowPassFilteringIntensity: {
-					Label: Low Pass Filtering Intensity
-					Tooltip: Set to 1 for full effect intensity, set to 0 for disabling.
-				}
 			}
 		}
 

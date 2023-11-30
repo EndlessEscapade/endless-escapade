@@ -1,12 +1,9 @@
 ﻿using EndlessEscapade.Content.NPCs.Shipyard;
-using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.WorldBuilding;
 
@@ -14,34 +11,9 @@ public sealed class ShipyardSystem : ModSystem
 {
     public const int SailboatDistance = 100;
 
-    public static int X { get; private set; }
-    public static int Y { get; private set; }
-
-    public static bool Repaired { get; private set; }
-
-    public override void SaveWorldData(TagCompound tag) {
-        tag["X"] = X;
-        tag["Y"] = Y;
-        tag["Repaired"] = Repaired;
-    }
-
-    public override void LoadWorldData(TagCompound tag) {
-        X = tag.GetInt("X");
-        Y = tag.GetInt("Y");
-        Repaired = tag.GetBool("Repaired");
-    }
-
-    public override void ClearWorld() {
-        X = 0;
-        Y = 0;
-        Repaired = false;
-    }
-
-    public override void Load() {
-        Sailor.OnBoatRepair += GenerateDefaultBoat;
-    }
-
     public override void PostWorldGen() {
+        // TODO: Make utility methods for finding origin points.
+
         var foundOcean = false;
         var foundBeach = false;
 
@@ -72,32 +44,19 @@ public sealed class ShipyardSystem : ModSystem
         GenerateBrokenBoat(x - SailboatDistance, y);
     }
 
-    public static bool PlaceWheel<T>() where T : ModTile {
-        return WorldGen.PlaceObject(X + 12, Y + 25, ModContent.TileType<T>());
-    }
+    private void GenerateShipyard(int x, int y) {
+        const string ShipyardStructurePath = "Assets/Structures/Shipyard";
 
-    public static bool PlaceCannon<T>() where T : ModTile {
-        return WorldGen.PlaceObject(X + 31, Y + 26, ModContent.TileType<T>());
-    }
-
-    public static bool PlaceFigurehead<T>() where T : ModTile {
-        return WorldGen.PlaceObject(X + 4, Y + 30, ModContent.TileType<T>());
-    }
-
-    private static void GenerateShipyard(int x, int y) {
-        const string path = "Assets/Structures/Shipyard";
-
-        var mod = EndlessEscapade.Instance;
         var dims = Point16.Zero;
 
-        if (!Generator.GetDimensions(path, mod, ref dims)) {
+        if (!Generator.GetDimensions(ShipyardStructurePath, Mod, ref dims)) {
             return;
         }
 
         var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
         var origin = new Point16(x, y) - offset;
 
-        if (!Generator.GenerateStructure(path, origin, mod)) {
+        if (!Generator.GenerateStructure(ShipyardStructurePath, origin, Mod)) {
             return;
         }
 
@@ -122,7 +81,7 @@ public sealed class ShipyardSystem : ModSystem
         sailor.UpdateHomeTileState(false, (int)(sailorX / 16f), (int)(sailorY / 16f));
     }
 
-    private static void ExtendPillar(int x, int y) {
+    private void ExtendPillar(int x, int y) {
         while (WorldGen.InWorld(x, y) && !WorldGen.SolidTile(x, y)) {
             WorldGen.PlaceTile(x, y, TileID.LivingWood, true, true);
             WorldGen.SlopeTile(x, y);
@@ -131,32 +90,28 @@ public sealed class ShipyardSystem : ModSystem
         }
     }
 
-    private static void GenerateBrokenBoat(int x, int y) {
-        var mod = EndlessEscapade.Instance;
+    private void GenerateBrokenBoat(int x, int y) {
         var dims = Point16.Zero;
 
-        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", mod, ref dims)) {
+        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", Mod, ref dims)) {
             return;
         }
 
         var offset = new Point16(dims.X / 2, dims.Y / 2);
         var origin = new Point16(x, y) - offset;
 
-        if (!Generator.GenerateStructure("Assets/Structures/BrokenSailboat", origin, mod)) {
+        if (!Generator.GenerateStructure("Assets/Structures/BrokenSailboat", origin, Mod)) {
             return;
         }
-
-        X = origin.X;
-        Y = origin.Y;
 
         NetMessage.SendData(MessageID.WorldData);
     }
 
-    private static void GenerateDefaultBoat() {
-        var mod = EndlessEscapade.Instance;
+    /*
+    private void GenerateDefaultBoat() {
         var dims = Point16.Zero;
 
-        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", mod, ref dims)) {
+        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", Mod, ref dims)) {
             return;
         }
 
@@ -173,7 +128,7 @@ public sealed class ShipyardSystem : ModSystem
         X += dims.X / 2;
         Y += dims.Y / 2;
 
-        if (!Generator.GetDimensions("Assets/Structures/Sailboat", mod, ref dims)) {
+        if (!Generator.GetDimensions("Assets/Structures/Sailboat", Mod, ref dims)) {
             return;
         }
 
@@ -185,10 +140,11 @@ public sealed class ShipyardSystem : ModSystem
 
         NetMessage.SendData(MessageID.WorldData);
 
-        if (!Generator.GenerateStructure("Assets/Structures/Sailboat", new Point16(X, Y), mod)) {
+        if (!Generator.GenerateStructure("Assets/Structures/Sailboat", new Point16(X, Y), Mod)) {
             return;
         }
 
         WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), new Reframe());
     }
+    */
 }
