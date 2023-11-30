@@ -12,8 +12,6 @@ public sealed class ShipyardSystem : ModSystem
     public const int SailboatDistance = 100;
 
     public override void PostWorldGen() {
-        // TODO: Make utility methods for finding origin points.
-
         var foundOcean = false;
         var foundBeach = false;
 

@@ -1,0 +1,13 @@
+Ambience: {
+    Waves: {
+        Style: {
+            Path: "EndlessEscapade/Assets/Sounds/Ambience/Beach/WavesLoop"
+            IsLooped: true
+        }
+      
+        Flags: {
+            Biomes: [ "Beach", "Shipyard", "Ocean" ]
+            Mode: Any
+        }
+    }
+}
