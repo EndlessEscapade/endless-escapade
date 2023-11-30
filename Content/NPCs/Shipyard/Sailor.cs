@@ -23,12 +23,15 @@ public class Sailor : ModNPC
         NPCID.Sets.AttackTime[Type] = 90;
         NPCID.Sets.AttackAverageChance[Type] = 30;
         NPCID.Sets.HatOffsetY[Type] = 4;
-        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers());
+        NPCID.Sets.ShimmerTownTransform[Type] = false;
+        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers() {
+            Velocity = 1f
+        });
 
-        NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
         NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love);
         NPC.Happiness.SetNPCAffection(NPCID.DyeTrader, AffectionLevel.Like);
         NPC.Happiness.SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Dislike);
+        NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
 
         NPC.Happiness.SetBiomeAffection<OceanBiome>(AffectionLevel.Love);
         NPC.Happiness.SetBiomeAffection<DesertBiome>(AffectionLevel.Like);
@@ -52,15 +55,13 @@ public class Sailor : ModNPC
         NPC.damage = 10;
         NPC.defense = 15;
         NPC.lifeMax = 500;
-
-        NPC.knockBackResist = 0.5f;
-
-        AnimationType = NPCID.Guide;
+        NPC.knockBackResist = 0.8f;
 
         NPC.HitSound = SoundID.NPCHit1;
         NPC.DeathSound = SoundID.NPCDeath1;
-
         NPC.aiStyle = NPCAIStyleID.Passive;
+        
+        AnimationType = NPCID.Guide;
     }
 
     public override bool PreAI() {

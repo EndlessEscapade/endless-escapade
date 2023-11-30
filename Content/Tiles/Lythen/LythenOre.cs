@@ -23,6 +23,7 @@ public class LythenOre : ModTile
 
         MineResist = 1f;
         MinPick = 30;
+        HitSound = SoundID.Tink;
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

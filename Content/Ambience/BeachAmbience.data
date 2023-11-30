@@ -5,9 +5,6 @@ Ambience: {
             IsLooped: true
         }
       
-        Flags: {
-            Biomes: [ "Beach", "Shipyard", "Ocean" ]
-            Mode: Any
-        }
+        Flags: [ "Beach", "Shipyard", "Ocean" ]
     }
 }

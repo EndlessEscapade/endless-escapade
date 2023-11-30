@@ -5,11 +5,11 @@ namespace EndlessEscapade.Content.Tiles;
 
 public abstract class CompositeTile : ModTile
 {
-    private const int ChunkWidth = 72;
-    private const int ChunkHeight = 90;
+    public const int ChunkWidth = 72;
+    public const int ChunkHeight = 90;
 
-    private const int TileSize = 16;
-    private const int TilePadding = 2;
+    public const int TileSize = 16;
+    public const int TilePadding = 2;
 
     public abstract int HorizontalSheetCount { get; }
     public abstract int VerticalSheetCount { get; }
