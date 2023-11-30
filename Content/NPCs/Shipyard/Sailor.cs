@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using EndlessEscapade.Utilities.Extensions;
 using Terraria;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
@@ -24,8 +23,7 @@ public class Sailor : ModNPC
         NPCID.Sets.AttackTime[Type] = 90;
         NPCID.Sets.AttackAverageChance[Type] = 30;
         NPCID.Sets.HatOffsetY[Type] = 4;
-        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type,
-            new NPCID.Sets.NPCBestiaryDrawModifiers());
+        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers());
 
         NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
         NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love);
@@ -39,7 +37,8 @@ public class Sailor : ModNPC
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
         bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, new FlavorTextBestiaryInfoElement(Mod.GetTextValue("Bestiary.Sailor"))
+            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, 
+            new FlavorTextBestiaryInfoElement("Mods.EndlessEscapade.Bestiary.Sailor")
         });
     }
 
@@ -74,9 +73,42 @@ public class Sailor : ModNPC
         return exists;
     }
 
+    public override string GetChat() {
+        var chat = new WeightedRandom<string>();
+
+        if (!NPC.AnyNPCs(NPCID.Angler)) {
+            chat.Add(this.GetLocalizedValue("Chat.AnglerDialogue1"));
+            chat.Add(this.GetLocalizedValue("Chat.AnglerDialogue2"));
+            chat.Add(this.GetLocalizedValue("Chat.AnglerDialogue3"));
+
+            return chat.Get();
+        }
+
+        if (Main.dayTime) {
+            chat.Add(this.GetLocalizedValue("Chat.DayDialogue1"));
+            chat.Add(this.GetLocalizedValue("Chat.DayDialogue2"));
+            chat.Add(this.GetLocalizedValue("Chat.DayDialogue3"));
+        }
+        else {
+            if (Main.moonType == (int)MoonPhase.Empty) {
+                chat.Add(this.GetLocalizedValue("Chat.NewMoonDialogue"));
+            }
+            
+            chat.Add(this.GetLocalizedValue("Chat.NightDialogue1"));
+            chat.Add(this.GetLocalizedValue("Chat.NightDialogue2"));
+            chat.Add(this.GetLocalizedValue("Chat.NightDialogue3"));
+        }
+
+        if (Main.raining) {
+            chat.Add(this.GetLocalizedValue("Chat.RainDialogue1"));
+            chat.Add(this.GetLocalizedValue("Chat.RainDialogue2"));
+        }
+
+        return chat.Get();
+    }
+
     public override void SetChatButtons(ref string button, ref string button2) {
         button = Language.GetTextValue("LegacyInterface.28");
-        button2 = Mod.GetTextValue("Buttons.Sailor.Sailing");
     }
 
     public override void OnChatButtonClicked(bool firstButton, ref string shopName) {
@@ -85,39 +117,6 @@ public class Sailor : ModNPC
         }
 
         shopName = "Shop";
-    }
-
-    public override string GetChat() {
-        var chat = new WeightedRandom<string>();
-
-        if (!NPC.AnyNPCs(NPCID.Angler)) {
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.AnglerDialogue0"));
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.AnglerDialogue1"));
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.AnglerDialogue2"));
-            return chat.Get();
-        }
-
-        if (Main.dayTime) {
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.DayDialogue0"));
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.DayDialogue1"));
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.DayDialogue2"));
-        }
-        else {
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.NightDialogue0"));
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.NightDialogue1"));
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.NightDialogue2"));
-        }
-
-        if (Main.raining) {
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.RainDialogue0"));
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.RainDialogue1"));
-        }
-
-        if (Main.moonType == (int)MoonPhase.Empty) {
-            chat.Add(Mod.GetTextValue("Dialogue.Sailor.NewMoonDialogue"));
-        }
-
-        return chat.Get();
     }
 
     public override List<string> SetNPCNameList() {
