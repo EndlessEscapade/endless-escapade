@@ -9,8 +9,8 @@ public class TropicalWoodBoots : ModItem
     public override void SetDefaults() {
         Item.defense = 2;
 
-        Item.width = 16;
-        Item.height = 16;
+        Item.width = 18;
+        Item.height = 12;
     }
 
     public override void AddRecipes() {

@@ -14,7 +14,7 @@ public class TropicalWoodHelmet : ModItem
     public override void SetDefaults() {
         Item.defense = 2;
 
-        Item.width = 16;
+        Item.width = 20;
         Item.height = 16;
     }
 

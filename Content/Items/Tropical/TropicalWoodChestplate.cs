@@ -9,8 +9,8 @@ public class TropicalWoodChestplate : ModItem
     public override void SetDefaults() {
         Item.defense = 3;
 
-        Item.width = 16;
-        Item.height = 16;
+        Item.width = 24;
+        Item.height = 22;
     }
 
     public override void AddRecipes() {

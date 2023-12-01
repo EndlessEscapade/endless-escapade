@@ -14,8 +14,8 @@ public class TropicalWoodHammer : ModItem
         Item.useAnimation = 30;
         Item.useStyle = ItemUseStyleID.Swing;
 
-        Item.width = 32;
-        Item.height = 32;
+        Item.width = 40;
+        Item.height = 42;
 
         Item.hammer = 45;
 

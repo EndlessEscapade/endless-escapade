@@ -6,7 +6,7 @@ namespace EndlessEscapade.Content.Items.Lythen;
 public class StormKnightLeggings : ModItem
 {
     public override void SetDefaults() {
-        Item.width = 20;
-        Item.height = 20;
+        Item.width = 22;
+        Item.height = 14;
     }
 }

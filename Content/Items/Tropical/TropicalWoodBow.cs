@@ -7,8 +7,10 @@ namespace EndlessEscapade.Content.Items.Tropical;
 public class TropicalWoodBow : ModItem
 {
     public override void SetDefaults() {
-        Item.DamageType = DamageClass.Ranged;
         Item.DefaultToBow(27, 7f);
+
+        Item.width = 24;
+        Item.height = 32;
     }
 
     public override Vector2? HoldoutOffset() {

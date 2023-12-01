@@ -12,5 +12,8 @@ public class LythenOre : ModItem
 
     public override void SetDefaults() {
         Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Lythen.LythenOre>());
+
+        Item.width = 32;
+        Item.height = 28;
     }
 }

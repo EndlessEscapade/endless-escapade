@@ -14,8 +14,8 @@ public class TropicalWoodSword : ModItem
         Item.useAnimation = 16;
         Item.useStyle = ItemUseStyleID.Swing;
 
-        Item.width = 32;
-        Item.height = 32;
+        Item.width = 34;
+        Item.height = 34;
 
         Item.UseSound = SoundID.Item1;
     }

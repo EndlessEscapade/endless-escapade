@@ -7,7 +7,7 @@ namespace EndlessEscapade.Content.Items.Lythen;
 public class StormKnightBreastplate : ModItem
 {
     public override void SetDefaults() {
-        Item.width = 20;
+        Item.width = 34;
         Item.height = 20;
     }
 
