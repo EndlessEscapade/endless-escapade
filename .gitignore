@@ -20,7 +20,7 @@ mono_crash.*
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
-[Rr]eleases/
+[Rr]eleases/    
 x64/
 x86/
 [Ww][Ii][Nn]32/
@@ -397,6 +397,7 @@ FodyWeavers.xsd
 # Common IntelliJ Platform excludes
 
 # User specific
+.idea/
 **/.idea/**/workspace.xml
 **/.idea/**/tasks.xml
 **/.idea/shelf/*
@@ -411,7 +412,7 @@ FodyWeavers.xsd
 **/.idea/**/sqlDataSources.xml
 **/.idea/**/dynamic.xml
 
-# Rider
+# Rider 
 # Rider auto-generates .iml files, and contentModel.xml
 **/.idea/**/*.iml
 **/.idea/**/contentModel.xml
