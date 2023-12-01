@@ -152,3 +152,18 @@ LythenOre: {
 	DisplayName: Lythen Ore
 	Tooltip: ""
 }
+
+StormKnightBreastplate: {
+	DisplayName: Storm Knight Breastplate
+	Tooltip: ""
+}
+
+StormKnightCrest: {
+	DisplayName: Storm Knight Crest
+	Tooltip: ""
+}
+
+StormKnightLeggings: {
+	DisplayName: Storm Knight Leggings
+	Tooltip: ""
+}
