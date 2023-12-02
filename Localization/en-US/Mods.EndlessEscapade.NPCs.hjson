@@ -15,8 +15,6 @@ Sailor: {
 		LikeNPC: Me heart warms knowin' {NPCName} shares the spirit of adventure, a kindred soul who's seen the world and all its wonders. Could be a fine addition to me crew, that one.
 		DislikeNPC: I need to get away from {NPCName}, he reminds me of truly terrible times.
 		HateNPC: Blast it all, why must I be tethered to {NPCName}'s shadow? Can ye imagine the times they've looted and pillaged me crew? It be a curse upon these waters!
-		LikeNPC_Princess: I like {NPCName}.
-		Princess_LovesNPC: I like {NPCName}.
 	}
 
 	Chat: {
@@ -35,7 +33,7 @@ Sailor: {
 		ShipPromptDialogue1: Ahoy there, ye see that old ship wrecked off yonder? Once she was mine, sailed the seven seas, but those days be behind me now.
 		ShipPromptDialogue2:
 			'''
-			If you brought me the following materials along with payment:
+			If you brought me the following materials along with the payment of:
 			- [i/s150:9]
 			- [i/s20:225] 
 			- [i/s5:73]

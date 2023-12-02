@@ -1,0 +1,50 @@
+Sailor: {
+    DisplayName: 水手
+
+    TownNPCMood: {
+		// Content: The finest sensation be lookin' to yonder past, aye, rememberin' the souls ye've crossed paths with and the deeds ye've done – a treasure of gratitude held close to the heart.
+		// NoHome: Aye, though I've a wanderer's soul meself, there be times when a home's warm embrace would be a blessin'.
+		// FarFromHome: Far from me birthplace, this journey stretches like the horizon's edge – but by Davy Jones, it's a journey worth every step. A chance to rest these weary legs, that's all I ask.
+		// LoveSpace: Ahoy there, the boundless space above be the canvas for connections, aye, sharin' tales and merriment – if they're keen to hear me yarns, that be.
+		// DislikeCrowded: By the Kraken's tentacles, this crowd be suffocatin' – half of 'em wouldn't last a single day on a voyage to the {BiomeName}, mark me words.
+		// HateCrowded: Blow me down, I can't bear this chaos no more – reckon I'll be castin' off once more, seekin' the open sea's embrace.
+		// LoveBiome: Set yer sights on the beach ahead, me hearties, for beyond lies a realm of marvels awaitin' to be unveiled! Oh, the thrill and excitement awaitin' for them brave enough to step forth.
+		// LikeBiome: Aye, there's somethin' 'bout this {BiomeName} that stirs me heart – the sands be a remindin' of the vast ocean's embrace, aye, familiar and yet refreshin'.
+		// HateBiome: But the {BiomeName} – it's like a cage, a stark contrast to the endless ocean's expanse. These walls be closin' in, aye, like the sea's pressin' upon me from all sides.
+		// LoveNPC: As the tide ebbs and flows, there be a fondness for {NPCName} that's grown within – aye, I've taken a likin' to 'em.
+		// LikeNPC: Me heart warms knowin' {NPCName} shares the spirit of adventure, a kindred soul who's seen the world and all its wonders. Could be a fine addition to me crew, that one.
+		// DislikeNPC: I need to get away from {NPCName}, he reminds me of truly terrible times.
+		// HateNPC: Blast it all, why must I be tethered to {NPCName}'s shadow? Can ye imagine the times they've looted and pillaged me crew? It be a curse upon these waters!
+    }
+    
+    Chat: {
+        NewMoonDialogue: 新月是珊瑚礁里的水母开始活动的信号.
+        AnglerDialogue1: 你见过我的儿子吗? 他上次出海钓鱼后就再也没回来.
+        AnglerDialogue2: 我儿子熟知海洋, 所以我希望他没事...
+        AnglerDialogue3: 你见过我儿子吗? 他身着米黄色帽子和背心.
+        DayDialogue1: 我总喜欢在破晓时分漫步于海堤之上.
+        DayDialogue2: 大海今天很兴奋啊, 不是吗?
+        DayDialogue3: 今天鲨鱼们看上去挺激动的.
+        NightDialogue1: 夜晚的海波总是如此平静.
+        NightDialogue2: 水中月色可真美啊.
+        NightDialogue3: 我喜欢水母的荧光.
+        RainDialogue1: 但愿这场雨不是飓风的前兆!
+        RainDialogue2: 我在几年前的一个大风天弄丢了我的雨衣. 要是我还有一件就好了.
+        // ShipPromptDialogue1: Ahoy there, ye see that old ship wrecked off yonder? Once she was mine, sailed the seven seas, but those days be behind me now.
+        /*
+        ShipPromptDialogue2:
+            '''
+            If you brought me the following materials along with payment:
+            - [i/s150:9]
+            - [i/s20:225] 
+            - [i/s5:73]
+            I'd get 'er fixed right up for ya.
+            '''
+        */
+        // ShipCommonDialogue1: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
+        // ShipCommonDialogue2: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
+        // ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
+    }
+
+    Census.SpawnCondition: Conditions unknown
+}

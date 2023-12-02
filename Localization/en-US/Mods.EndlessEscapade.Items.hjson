@@ -98,6 +98,16 @@ TropicalWoodSword: {
 	Tooltip: ""
 }
 
+TropicalWoodWall: {
+	DisplayName: Tropical Wood Wall
+	Tooltip: ""
+}
+
+TropicalWoodFence: {
+	DisplayName: Tropical Wood Fence
+	Tooltip: ""
+}
+
 Gemsand: {
 	DisplayName: Gemsand
 	Tooltip: ""
@@ -115,31 +125,6 @@ GemsandstoneWall: {
 
 GemsandWall: {
 	DisplayName: Gemsand Wall
-	Tooltip: ""
-}
-
-TropicalWoodWall: {
-	DisplayName: Tropical Wood Wall
-	Tooltip: ""
-}
-
-TropicalWoodFence: {
-	DisplayName: Tropical Wood Fence
-	Tooltip: ""
-}
-
-WoodenCannon: {
-	DisplayName: Wooden Cannon
-	Tooltip: ""
-}
-
-WoodenWheel: {
-	DisplayName: Wooden Wheel
-	Tooltip: ""
-}
-
-WoodenFigurehead: {
-	DisplayName: Wooden Figurehead
 	Tooltip: ""
 }
 
@@ -165,5 +150,10 @@ StormKnightCrest: {
 
 StormKnightLeggings: {
 	DisplayName: Storm Knight Leggings
+	Tooltip: ""
+}
+
+EnchantedSand: {
+	DisplayName: Enchanted Sand
 	Tooltip: ""
 }

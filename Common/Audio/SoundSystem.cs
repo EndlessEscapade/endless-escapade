@@ -42,18 +42,16 @@ public sealed class SoundSystem : ModSystem
 
     public override void PostUpdateEverything() {
         UpdateSounds();
-        ResetParameters();
+        
+        SoundParameters = new SoundModifiers();
+
     }
 
-    internal static void SetParameters(in SoundModifiers sound) {
+    public static void SetParameters(in SoundModifiers sound) {
         SoundParameters = sound;
     }
 
-    internal static void ResetParameters() {
-        SoundParameters = new SoundModifiers();
-    }
-
-    internal static void ApplyParameters(SoundEffectInstance instance, in SoundModifiers parameters) {
+    public static void ApplyParameters(SoundEffectInstance instance, in SoundModifiers parameters) {
         if (!Enabled || instance?.IsDisposed == true) {
             return;
         }

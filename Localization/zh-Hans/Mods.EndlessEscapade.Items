@@ -1,0 +1,139 @@
+DarkGemsand: {
+    DisplayName: 暗黑宝石砂
+    Tooltip: ""
+}
+
+DarkGemsandstone: {
+    DisplayName: 暗黑宝石砂岩
+    Tooltip: ""
+}
+
+DarkGemsandstoneWall: {
+    DisplayName: 暗黑宝石砂岩墙
+    Tooltip: ""
+}
+
+DarkGemsandWall: {
+    DisplayName: 暗黑宝石砂墙
+    Tooltip: ""
+}
+
+KelpLeaf: {
+    DisplayName: 海带叶状体
+    Tooltip: ""
+}
+
+KelpMoss: {
+    DisplayName: 海带藻
+    Tooltip: ""
+}
+
+KelpRock: {
+    DisplayName: 海带岩
+    Tooltip: ""
+}
+
+LightGemsand: {
+    DisplayName: 光明宝石砂
+    Tooltip: ""
+}
+
+LightGemsandstone: {
+    DisplayName: 光明宝石砂岩
+    Tooltip: ""
+}
+
+LightGemsandstoneWall: {
+    DisplayName: 光明宝石砂岩墙
+    Tooltip: ""
+}
+
+LightGemsandWall: {
+    DisplayName: 光明宝石砂墙
+    Tooltip: ""
+}
+
+Coralsand: {
+    DisplayName: 珊瑚砂
+    Tooltip: ""
+}
+
+Coralsandstone: {
+    DisplayName: 珊瑚砂岩
+    Tooltip: ""
+}
+
+TropicalWood: {
+    DisplayName: 热带木
+    Tooltip: ""
+}
+
+TropicalWoodBoots: {
+    DisplayName: 热带木靴
+    Tooltip: ""
+}
+
+TropicalWoodBow: {
+    DisplayName: 热带木弓
+    Tooltip: ""
+}
+
+TropicalWoodChestplate: {
+    DisplayName: 热带木胸甲
+    Tooltip: ""
+}
+
+TropicalWoodHammer: {
+    DisplayName: 热带木锤
+    Tooltip: ""
+}
+
+TropicalWoodHelmet: {
+    DisplayName: 热带木头盔
+    Tooltip: ""
+}
+
+TropicalWoodSword: {
+    DisplayName: 热带木剑
+    Tooltip: ""
+}
+
+TropicalWoodWall: {
+    DisplayName: 热带木墙
+    Tooltip: ""
+}
+
+TropicalWoodFence: {
+    // DisplayName: Tropical Wood Fence
+    // Tooltip: ""
+}
+
+Gemsand: {
+    DisplayName: 宝石砂
+    Tooltip: ""
+}
+
+Gemsandstone: {
+    DisplayName: 宝石砂岩
+    Tooltip: ""
+}
+
+GemsandstoneWall: {
+    DisplayName: 宝石砂岩墙
+    Tooltip: ""
+}
+
+GemsandWall: {
+    DisplayName: 宝石砂墙
+    Tooltip: ""
+}
+
+LythenBar: {
+    // DisplayName: Lythen Bar
+    // Tooltip: ""
+}
+
+LythenOre: {
+    // DisplayName: Lythen Ore
+    // Tooltip: ""
+}
