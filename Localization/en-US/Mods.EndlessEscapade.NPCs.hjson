@@ -15,6 +15,8 @@ Sailor: {
 		LikeNPC: Me heart warms knowin' {NPCName} shares the spirit of adventure, a kindred soul who's seen the world and all its wonders. Could be a fine addition to me crew, that one.
 		DislikeNPC: I need to get away from {NPCName}, he reminds me of truly terrible times.
 		HateNPC: Blast it all, why must I be tethered to {NPCName}'s shadow? Can ye imagine the times they've looted and pillaged me crew? It be a curse upon these waters!
+		LikeNPC_Princess: I like {NPCName}.
+		Princess_LovesNPC: I like {NPCName}.
 	}
 
 	Chat: {

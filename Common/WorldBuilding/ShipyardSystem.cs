@@ -1,4 +1,6 @@
 ﻿using EndlessEscapade.Content.NPCs.Shipyard;
+using EndlessEscapade.Utilities;
+using Microsoft.Xna.Framework.Input;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
@@ -9,8 +11,6 @@ namespace EndlessEscapade.Common.WorldBuilding;
 
 public sealed class ShipyardSystem : ModSystem
 {
-    public const int SailboatDistance = 100;
-
     public override void PostWorldGen() {
         var foundOcean = false;
         var foundBeach = false;
@@ -39,110 +39,35 @@ public sealed class ShipyardSystem : ModSystem
         }
 
         GenerateShipyard(x, y);
-        GenerateBrokenBoat(x - SailboatDistance, y);
     }
 
     private void GenerateShipyard(int x, int y) {
-        const string ShipyardStructurePath = "Assets/Structures/Shipyard";
-
         var dims = Point16.Zero;
 
-        if (!Generator.GetDimensions(ShipyardStructurePath, Mod, ref dims)) {
+        if (!Generator.GetDimensions("Assets/Structures/Shipyard", Mod, ref dims)) {
             return;
         }
 
-        var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
+        var offset = new Point16(53, dims.Y - 10);
         var origin = new Point16(x, y) - offset;
 
-        if (!Generator.GenerateStructure(ShipyardStructurePath, origin, Mod)) {
+        if (!Generator.GenerateStructure("Assets/Structures/Shipyard", origin, Mod)) {
             return;
         }
 
-        ExtendPillar(origin.X + 4, origin.Y + 39);
-        ExtendPillar(origin.X + 5, origin.Y + 39);
-
-        ExtendPillar(origin.X + 20, origin.Y + 39);
-        ExtendPillar(origin.X + 21, origin.Y + 39);
-
-        ExtendPillar(origin.X + 36, origin.Y + 39);
-        ExtendPillar(origin.X + 37, origin.Y + 39);
-
-        const int roomOffsetX = 60;
-        const int roomOffsetY = 10;
-
-        var sailorX = (int)((origin.X + roomOffsetX) * 16f);
-        var sailorY = (int)((origin.Y + roomOffsetY) * 16f);
+        // Extends dock pillars.
+        for (var i = 0; i < 2; i++) {
+            WorldGenUtils.ExtendDownwards(origin.X + 4 + i, origin.Y + 39, TileID.LivingWood);
+            WorldGenUtils.ExtendDownwards(origin.X + 20 + i, origin.Y + 39, TileID.LivingWood);
+            WorldGenUtils.ExtendDownwards(origin.X + 36 + i, origin.Y + 39, TileID.LivingWood);
+        }
+        
+        var sailorX = (int)((origin.X + 60) * 16f);
+        var sailorY = (int)((origin.Y + 10) * 16f);
 
         var index = NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
         var sailor = Main.npc[index];
 
         sailor.UpdateHomeTileState(false, (int)(sailorX / 16f), (int)(sailorY / 16f));
     }
-
-    private void ExtendPillar(int x, int y) {
-        while (WorldGen.InWorld(x, y) && !WorldGen.SolidTile(x, y)) {
-            WorldGen.PlaceTile(x, y, TileID.LivingWood, true, true);
-            WorldGen.SlopeTile(x, y);
-
-            y++;
-        }
-    }
-
-    private void GenerateBrokenBoat(int x, int y) {
-        var dims = Point16.Zero;
-
-        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", Mod, ref dims)) {
-            return;
-        }
-
-        var offset = new Point16(dims.X / 2, dims.Y / 2);
-        var origin = new Point16(x, y) - offset;
-
-        if (!Generator.GenerateStructure("Assets/Structures/BrokenSailboat", origin, Mod)) {
-            return;
-        }
-
-        NetMessage.SendData(MessageID.WorldData);
-    }
-
-    /*
-    private void GenerateDefaultBoat() {
-        var dims = Point16.Zero;
-
-        if (!Generator.GetDimensions("Assets/Structures/BrokenSailboat", Mod, ref dims)) {
-            return;
-        }
-
-        WorldUtils.Gen(
-            new Point(X, Y),
-            new Shapes.Rectangle(dims.X, dims.Y),
-            Actions.Chain(
-                new Actions.ClearTile(),
-                new Actions.ClearWall()
-            )
-        );
-
-        // Shifts the position back to the original origin.
-        X += dims.X / 2;
-        Y += dims.Y / 2;
-
-        if (!Generator.GetDimensions("Assets/Structures/Sailboat", Mod, ref dims)) {
-            return;
-        }
-
-        // Shifts the position to the new origin, which is approximately 85% upwards from the original.
-        X -= dims.X / 2;
-        Y -= dims.Y - dims.Y / 7;
-
-        Repaired = true;
-
-        NetMessage.SendData(MessageID.WorldData);
-
-        if (!Generator.GenerateStructure("Assets/Structures/Sailboat", new Point16(X, Y), Mod)) {
-            return;
-        }
-
-        WorldUtils.Gen(new Point(X, Y), new Shapes.Rectangle(dims.X, dims.Y), new Reframe());
-    }
-    */
 }
