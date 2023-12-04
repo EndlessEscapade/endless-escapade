@@ -1,9 +1,4 @@
-﻿/*
- * Inspiration taken from
- * https://github.com/Mirsario/TerrariaOverhaul
- */
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace EndlessEscapade.Common.Audio;
 

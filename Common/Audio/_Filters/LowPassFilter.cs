@@ -1,9 +1,4 @@
-﻿/*
- * Inspiration taken from
- * https://github.com/Mirsario/TerrariaOverhaul
- */
-
-using System;
+﻿using System;
 using System.Reflection;
 using Microsoft.Xna.Framework.Audio;
 using Terraria.ModLoader;

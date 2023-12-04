@@ -1,8 +1,3 @@
-/*
- * Inspiration taken from
- * https://github.com/Mirsario/TerrariaOverhaul
- */
-
 using System.Collections.Generic;
 using Terraria.ModLoader;
 

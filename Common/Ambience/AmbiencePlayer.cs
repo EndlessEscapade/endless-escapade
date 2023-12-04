@@ -4,6 +4,7 @@
  */
 
 using EndlessEscapade.Common.Audio;
+using EndlessEscapade.Utilities;
 using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
@@ -18,8 +19,11 @@ public sealed class AmbiencePlayer : ModPlayer
     public static readonly SoundStyle WaterSplashSound = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/WaterSplash", SoundType.Ambient);
 
     public static readonly SoundStyle WaterSubmergedSound = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/WaterSubmergedLoop", SoundType.Ambient) {
-        IsLooped = true
+        IsLooped = true,
+        Volume = 0.75f
     };
+
+    private SlotId submergedSoundSlot;
     
     private float intensity;
 
@@ -30,7 +34,9 @@ public sealed class AmbiencePlayer : ModPlayer
     
     public override void PostUpdate() {
         UpdateFilter();
-        UpdateSplash();
+        UpdateSplashSound();
+        
+        AudioUtils.UpdateSoundLoop(ref submergedSoundSlot, in WaterSubmergedSound, Intensity);
     }
 
     private void UpdateFilter() {
@@ -46,7 +52,7 @@ public sealed class AmbiencePlayer : ModPlayer
         Intensity += 0.05f;
     }
 
-    private void UpdateSplash() {
+    private void UpdateSplashSound() {
         // The game sets Player.wetCount to 10 whenever the player exits/enters water. We check for 5 to make the splash play midway through.     
         if (Player.wetCount != 5) {
             return;

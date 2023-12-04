@@ -1,8 +1,3 @@
-/*
- * Inspiration taken from
- * https://github.com/Mirsario/TerrariaOverhaul
- */
-
 using Terraria;
 
 namespace EndlessEscapade.Common.Surroundings;
