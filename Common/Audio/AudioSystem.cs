@@ -14,7 +14,7 @@ namespace EndlessEscapade.Common.Audio;
 public sealed class AudioSystem : ModSystem
 {
     private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", BindingFlags.Instance | BindingFlags.NonPublic);
-    
+
     public static readonly ImmutableArray<SoundStyle> IgnoredSounds = ImmutableArray.Create(SoundID.MenuClose,
         SoundID.MenuOpen,
         SoundID.MenuTick,

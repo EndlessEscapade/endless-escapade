@@ -6,7 +6,7 @@ public class Gemsand : ModItem
 {
     public override void SetDefaults() {
         Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.TwilightZone.Gemsand>());
-        
+
         Item.width = 16;
         Item.height = 16;
     }

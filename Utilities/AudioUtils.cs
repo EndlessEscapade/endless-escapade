@@ -15,7 +15,7 @@ public static class AudioUtils
             if (!SoundEngine.TryGetActiveSound(slot, out sound)) {
                 return;
             }
-            
+
             sound.Volume = 0f;
         }
         else if (exists && sound != null) {

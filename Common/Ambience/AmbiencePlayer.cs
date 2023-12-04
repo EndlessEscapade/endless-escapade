@@ -24,18 +24,18 @@ public sealed class AmbiencePlayer : ModPlayer
     };
 
     private SlotId submergedSoundSlot;
-    
+
     private float intensity;
 
     public float Intensity {
         get => intensity;
         set => intensity = MathHelper.Clamp(value, 0f, 0.9f);
     }
-    
+
     public override void PostUpdate() {
         UpdateFilter();
         UpdateSplashSound();
-        
+
         AudioUtils.UpdateSoundLoop(ref submergedSoundSlot, in WaterSubmergedSound, Intensity);
     }
 
@@ -43,7 +43,7 @@ public sealed class AmbiencePlayer : ModPlayer
         AudioSystem.SetParameters(new AudioModifiers {
             LowPass = Intensity
         });
-        
+
         if (!Player.IsSubmerged()) {
             Intensity -= 0.05f;
             return;

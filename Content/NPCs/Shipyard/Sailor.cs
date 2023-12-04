@@ -24,9 +24,10 @@ public class Sailor : ModNPC
         NPCID.Sets.AttackAverageChance[Type] = 30;
         NPCID.Sets.HatOffsetY[Type] = 4;
         NPCID.Sets.ShimmerTownTransform[Type] = false;
-        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers() {
-            Velocity = 1f
-        });
+        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type,
+            new NPCID.Sets.NPCBestiaryDrawModifiers {
+                Velocity = 1f
+            });
 
         NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love);
         NPC.Happiness.SetNPCAffection(NPCID.DyeTrader, AffectionLevel.Like);
@@ -40,7 +41,7 @@ public class Sailor : ModNPC
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
         bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean, 
+            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
             new FlavorTextBestiaryInfoElement("Mods.EndlessEscapade.Bestiary.Sailor")
         });
     }
@@ -60,7 +61,7 @@ public class Sailor : ModNPC
         NPC.HitSound = SoundID.NPCHit1;
         NPC.DeathSound = SoundID.NPCDeath1;
         NPC.aiStyle = NPCAIStyleID.Passive;
-        
+
         AnimationType = NPCID.Guide;
     }
 
@@ -94,7 +95,7 @@ public class Sailor : ModNPC
             if (Main.moonType == (int)MoonPhase.Empty) {
                 chat.Add(this.GetLocalizedValue("Chat.NewMoonDialogue"));
             }
-            
+
             chat.Add(this.GetLocalizedValue("Chat.NightDialogue1"));
             chat.Add(this.GetLocalizedValue("Chat.NightDialogue2"));
             chat.Add(this.GetLocalizedValue("Chat.NightDialogue3"));

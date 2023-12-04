@@ -10,9 +10,9 @@ public class KelpMoss : ModItem
         Item.autoReuse = true;
         Item.consumable = true;
         Item.useTurn = true;
-        
+
         Item.maxStack = Item.CommonMaxStack;
-        
+
         Item.width = 20;
         Item.height = 18;
 
@@ -39,7 +39,7 @@ public class KelpMoss : ModItem
         if (!IsHoveringRock()) {
             return;
         }
-        
+
         player.cursorItemIconEnabled = true;
     }
 
