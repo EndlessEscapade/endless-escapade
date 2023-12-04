@@ -14,7 +14,7 @@ public sealed class LowPassFilter : IAudioFilter
 {
     private static Action<SoundEffectInstance, float> lowPassAction;
 
-    public void Load(Mod mod) {
+    void ILoadable.Load(Mod mod) {
         lowPassAction = typeof(SoundEffectInstance).GetMethod("INTERNAL_applyLowPassFilter", BindingFlags.Instance | BindingFlags.NonPublic).CreateDelegate<Action<SoundEffectInstance, float>>();
 
         if (lowPassAction == null) {
@@ -22,7 +22,7 @@ public sealed class LowPassFilter : IAudioFilter
         }
     }
 
-    public void Unload() { }
+    void ILoadable.Unload() { }
 
     public void Apply(SoundEffectInstance instance, in AudioModifiers parameters) {
         var lowPass = parameters.LowPass;

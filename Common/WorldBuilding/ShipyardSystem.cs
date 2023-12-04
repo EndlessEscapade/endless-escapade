@@ -1,11 +1,15 @@
-﻿using EndlessEscapade.Content.NPCs.Shipyard;
+﻿using System;
+using EndlessEscapade.Content.NPCs.Shipyard;
 using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework.Input;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.WorldBuilding;
 
@@ -15,30 +19,50 @@ public sealed class ShipyardSystem : ModSystem
         var foundOcean = false;
         var foundBeach = false;
 
-        var x = 0;
-        var y = (int)(Main.worldSurface * 0.35f);
+        var startX = 0;
+        var startY = (int)(Main.worldSurface * 0.35f);
 
         while (!foundOcean) {
-            var tile = Framing.GetTileSafely(x, y);
+            var tile = Framing.GetTileSafely(startX, startY);
 
             if (tile.LiquidAmount >= 255 && tile.LiquidType == LiquidID.Water) {
                 foundOcean = true;
                 break;
             }
 
-            y++;
+            startY++;
         }
 
         while (!foundBeach) {
-            if (WorldGen.SolidTile(x, y) && WorldGen.TileType(x, y) == TileID.Sand) {
+            if (WorldGen.SolidTile(startX, startY) && WorldGen.TileType(startX, startY) == TileID.Sand) {
                 foundBeach = true;
                 break;
             }
 
-            x++;
+            startX++;
+        }
+        
+        if (!foundOcean || !foundBeach) {
+            return;
         }
 
-        GenerateShipyard(x, y);
+        var biggestX = startX;
+        var biggestY = startY;
+        
+        for (int i = startX; i < startX + 50; i++) {
+            for (int j = 0; j < Main.maxTilesY; j++) {
+                var tile = Framing.GetTileSafely(i, j);
+
+                if (tile.HasTile && tile.TileType == TileID.Sand && tile.LiquidAmount <= 0) {
+                    if (j < biggestY) {
+                        biggestX = i;
+                        biggestY = j;
+                    }
+                }
+            }
+        }
+        
+        GenerateShipyard(biggestX, biggestY);
     }
 
     private void GenerateShipyard(int x, int y) {
@@ -48,9 +72,9 @@ public sealed class ShipyardSystem : ModSystem
             return;
         }
 
-        var offset = new Point16(53, dims.Y - 10);
+        var offset = dims;
         var origin = new Point16(x, y) - offset;
-
+ 
         if (!Generator.GenerateStructure("Content/Structures/Shipyard", origin, Mod)) {
             return;
         }
