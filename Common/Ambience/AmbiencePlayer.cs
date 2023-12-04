@@ -1,8 +1,3 @@
-/*
- * Inspiration taken from
- * https://github.com/Mirsario/TerrariaOverhaul
- */
-
 using EndlessEscapade.Common.Audio;
 using EndlessEscapade.Utilities;
 using EndlessEscapade.Utilities.Extensions;
