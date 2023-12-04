@@ -1,13 +1,12 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using EndlessEscapade.Content.NPCs.Shipyard;
 using EndlessEscapade.Utilities;
-using Microsoft.Xna.Framework.Input;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Generation;
 using Terraria.ID;
+using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
@@ -15,7 +14,19 @@ namespace EndlessEscapade.Common.WorldBuilding;
 
 public sealed class ShipyardSystem : ModSystem
 {
+    public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight) {
+        var index = tasks.FindIndex(pass => pass.Name == "Final Cleanup");
+
+        tasks.Insert(index + 1, new PassLegacy($"{nameof(EndlessEscapade)}:Shipyard", GenerateShipyard));
+    }
+
     public override void PostWorldGen() {
+        base.PostWorldGen();
+    }
+
+    private void GenerateShipyard(GenerationProgress progress, GameConfiguration configuration) {
+        progress.Message = "Constructing the Shipyard...";
+        
         var foundOcean = false;
         var foundBeach = false;
 
@@ -41,51 +52,53 @@ public sealed class ShipyardSystem : ModSystem
 
             startX++;
         }
-        
+
         if (!foundOcean || !foundBeach) {
             return;
         }
 
-        var biggestX = startX;
         var biggestY = startY;
-        
-        for (int i = startX; i < startX + 50; i++) {
-            for (int j = 0; j < Main.maxTilesY; j++) {
+
+        for (var i = startX; i < startX + 50; i++) {
+            for (var j = 0; j < Main.maxTilesY; j++) {
                 var tile = Framing.GetTileSafely(i, j);
 
                 if (tile.HasTile && tile.TileType == TileID.Sand && tile.LiquidAmount <= 0) {
                     if (j < biggestY) {
-                        biggestX = i;
                         biggestY = j;
                     }
                 }
             }
         }
-        
-        GenerateShipyard(biggestX, biggestY);
+
+        PlaceShipyard(startX, biggestY);
     }
 
-    private void GenerateShipyard(int x, int y) {
+    private void PlaceShipyard(int x, int y) {
         var dims = Point16.Zero;
 
         if (!Generator.GetDimensions("Content/Structures/Shipyard", Mod, ref dims)) {
             return;
         }
 
-        var offset = dims;
+        var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
         var origin = new Point16(x, y) - offset;
- 
+
         if (!Generator.GenerateStructure("Content/Structures/Shipyard", origin, Mod)) {
             return;
         }
 
-        // Extends dock pillars.
         for (var i = 0; i < 2; i++) {
+            // Extends dock pillars.
             WorldGenUtils.ExtendDownwards(origin.X + 4 + i, origin.Y + 39, TileID.LivingWood);
             WorldGenUtils.ExtendDownwards(origin.X + 20 + i, origin.Y + 39, TileID.LivingWood);
             WorldGenUtils.ExtendDownwards(origin.X + 36 + i, origin.Y + 39, TileID.LivingWood);
+
+            // Extends house pillars
+            WorldGenUtils.ExtendDownwards(origin.X + 56 + i, origin.Y + 27, TileID.LivingWood);
+            WorldGenUtils.ExtendDownwards(origin.X + 74 + i, origin.Y + 27, TileID.LivingWood);
         }
-        
+
         var sailorX = (int)((origin.X + 60) * 16f);
         var sailorY = (int)((origin.Y + 10) * 16f);
 
