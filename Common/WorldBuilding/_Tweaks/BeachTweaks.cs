@@ -13,7 +13,7 @@ public sealed class BeachTweaks : ILoadable
     }
 
     void ILoadable.Unload() { }
-    
+
     private static void AddGenPassesPatch(ILContext il) {
         var c = new ILCursor(il);
 

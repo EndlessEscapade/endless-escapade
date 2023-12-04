@@ -20,13 +20,9 @@ public sealed class ShipyardSystem : ModSystem
         tasks.Insert(index + 1, new PassLegacy($"{nameof(EndlessEscapade)}:Shipyard", GenerateShipyard));
     }
 
-    public override void PostWorldGen() {
-        base.PostWorldGen();
-    }
-
     private void GenerateShipyard(GenerationProgress progress, GameConfiguration configuration) {
         progress.Message = "Constructing the Shipyard...";
-        
+
         var foundOcean = false;
         var foundBeach = false;
 
