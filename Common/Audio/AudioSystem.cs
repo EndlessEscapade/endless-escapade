@@ -16,29 +16,21 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Audio;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class SoundSystem : ModSystem
+public sealed class AudioSystem : ModSystem
 {
+    private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", BindingFlags.Instance | BindingFlags.NonPublic);
+    
     public static readonly ImmutableArray<SoundStyle> IgnoredSounds = ImmutableArray.Create(SoundID.MenuClose,
         SoundID.MenuOpen,
         SoundID.MenuTick,
         SoundID.Chat,
         SoundID.Grab);
 
-    private static readonly FieldInfo trackedSoundsField = typeof(SoundPlayer).GetField("_trackedSounds", BindingFlags.Instance | BindingFlags.NonPublic);
-
-    public static bool Enabled { get; private set; }
-
-    public static SoundModifiers SoundParameters { get; private set; }
+    public static AudioModifiers Modifiers { get; private set; }
 
     public override void OnModLoad() {
         if (trackedSoundsField == null) {
             throw new MissingFieldException(nameof(SoundPlayer), "_trackedSounds");
-        }
-
-        Enabled = SoundEngine.IsAudioSupported;
-
-        if (!Enabled) {
-            return;
         }
 
         On_SoundEngine.PlaySound_refSoundStyle_Nullable1_SoundUpdateCallback += SoundEnginePlayHook;
@@ -46,27 +38,30 @@ public sealed class SoundSystem : ModSystem
 
     public override void PostUpdateEverything() {
         UpdateSounds();
-        
-        SoundParameters = new SoundModifiers();
 
+        Modifiers = new AudioModifiers();
     }
 
-    public static void SetParameters(in SoundModifiers sound) {
-        SoundParameters = sound;
+    public static void SetParameters(in AudioModifiers audio) {
+        Modifiers = audio;
     }
 
-    public static void ApplyParameters(SoundEffectInstance instance, in SoundModifiers parameters) {
-        if (!Enabled || instance?.IsDisposed == true) {
+    public static void ApplyParameters(SoundEffectInstance instance, in AudioModifiers parameters) {
+        if (instance?.IsDisposed == true) {
             return;
         }
 
-        LowPassSystem.ApplyParameters(instance, parameters);
+        var filters = ModContent.GetContent<IAudioFilter>();
+
+        foreach (var filter in filters) {
+            filter.Apply(instance, in parameters);
+        }
     }
 
     private static void UpdateSounds() {
-        var value = (SlotVector<ActiveSound>)trackedSoundsField.GetValue(SoundEngine.SoundPlayer)!;
+        var trackedSounds = (SlotVector<ActiveSound>)trackedSoundsField.GetValue(SoundEngine.SoundPlayer)!;
 
-        foreach (var item in value) {
+        foreach (var item in trackedSounds) {
             var sound = item.Value;
             var instance = sound.Sound;
 
@@ -74,7 +69,7 @@ public sealed class SoundSystem : ModSystem
                 continue;
             }
 
-            ApplyParameters(instance, SoundParameters);
+            ApplyParameters(instance, Modifiers);
         }
     }
 
@@ -85,7 +80,7 @@ public sealed class SoundSystem : ModSystem
             return slot;
         }
 
-        ApplyParameters(result.Sound, SoundParameters);
+        ApplyParameters(result.Sound, Modifiers);
 
         return slot;
     }

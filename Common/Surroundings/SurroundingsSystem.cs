@@ -13,7 +13,7 @@ namespace EndlessEscapade.Common.Surroundings;
 
 public sealed class SurroundingsSystem : ModSystem
 {
-    public delegate bool SurroundingsUpdater(in SurroundingsInfo context);
+    public delegate bool SurroundingsUpdater(in SurroundingsInfo info);
 
     private static readonly Dictionary<string, bool> flagsByName = new();
     private static readonly Dictionary<string, SurroundingsUpdater> updatersByName = new();
@@ -29,7 +29,7 @@ public sealed class SurroundingsSystem : ModSystem
 
                 var function = method.CreateDelegate<SurroundingsUpdater>();
 
-                updatersByName[attribute.Name] = function;
+                updatersByName[attribute.Name ?? method.Name] = function;
             }
         }
     }

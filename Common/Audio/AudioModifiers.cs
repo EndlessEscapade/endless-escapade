@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace EndlessEscapade.Common.Audio;
 
-public struct SoundModifiers
+public struct AudioModifiers
 {
     private float lowPass = 0f;
 
@@ -16,5 +16,5 @@ public struct SoundModifiers
         set => lowPass = MathHelper.Clamp(value, 0f, 1f);
     }
 
-    public SoundModifiers() { }
+    public AudioModifiers() { }
 }

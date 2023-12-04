@@ -34,7 +34,7 @@ public sealed class AmbiencePlayer : ModPlayer
     }
 
     private void UpdateFilter() {
-        SoundSystem.SetParameters(new SoundModifiers {
+        AudioSystem.SetParameters(new AudioModifiers {
             LowPass = Intensity
         });
         

@@ -44,14 +44,14 @@ public sealed class ShipyardSystem : ModSystem
     private void GenerateShipyard(int x, int y) {
         var dims = Point16.Zero;
 
-        if (!Generator.GetDimensions("Assets/Structures/Shipyard", Mod, ref dims)) {
+        if (!Generator.GetDimensions("Content/Structures/Shipyard", Mod, ref dims)) {
             return;
         }
 
         var offset = new Point16(53, dims.Y - 10);
         var origin = new Point16(x, y) - offset;
 
-        if (!Generator.GenerateStructure("Assets/Structures/Shipyard", origin, Mod)) {
+        if (!Generator.GenerateStructure("Content/Structures/Shipyard", origin, Mod)) {
             return;
         }
 

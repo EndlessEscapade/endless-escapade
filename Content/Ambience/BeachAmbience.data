@@ -1,10 +1,12 @@
 BeachWaves: {
     AmbienceTrack: {
-        Style: {
-            SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachWavesLoop"
-            IsLooped: true
+        Loop: {
+            Style: {
+                SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachWavesLoop"
+                IsLooped: true
+            }
+    
+            Flags: [ "Beach", "Shipyard", "Ocean" ]
         }
-
-        Flags: [ "Beach", "Shipyard", "Ocean" ]
     }  
 }
