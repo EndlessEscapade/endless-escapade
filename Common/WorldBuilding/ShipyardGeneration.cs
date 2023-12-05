@@ -12,7 +12,7 @@ using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.WorldBuilding;
 
-public sealed class ShipyardSystem : ModSystem
+public sealed class ShipyardGeneration : ModSystem
 {
     public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight) {
         var index = tasks.FindIndex(pass => pass.Name == "Final Cleanup");
