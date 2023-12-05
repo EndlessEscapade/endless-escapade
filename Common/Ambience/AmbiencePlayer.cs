@@ -35,8 +35,8 @@ public sealed class AmbiencePlayer : ModPlayer
     }
 
     private void UpdateFilter() {
-        AudioSystem.SetParameters(new AudioModifiers {
-            LowPass = Intensity
+        AudioSystem.AddModifier(60, "Submerged", (float intensity, ref AudioParameters parameters) => {
+            parameters.LowPass = Intensity * intensity;
         });
 
         if (!Player.IsSubmerged()) {

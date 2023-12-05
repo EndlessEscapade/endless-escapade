@@ -5,5 +5,5 @@ namespace EndlessEscapade.Common.Audio;
 
 public interface IAudioFilter : ILoadable
 {
-    void Apply(SoundEffectInstance instance, in AudioModifiers modifiers);
+    void Apply(SoundEffectInstance instance, in AudioParameters modifier);
 }

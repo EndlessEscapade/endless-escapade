@@ -1,3 +1,8 @@
+/*
+ * Implementation taken and inspired by
+ * https://github.com/Mirsario/TerrariaOverhaul/tree/dev/Common/Ambience
+ */
+
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
@@ -8,10 +13,10 @@ namespace EndlessEscapade.Common.Surroundings;
 
 public sealed class SurroundingsSystem : ModSystem
 {
-    public delegate bool SurroundingsUpdater(in SurroundingsInfo info);
+    public delegate bool UpdaterDelegate(in SurroundingsInfo info);
 
     private static readonly Dictionary<string, bool> flagsByName = new();
-    private static readonly Dictionary<string, SurroundingsUpdater> updatersByName = new();
+    private static readonly Dictionary<string, UpdaterDelegate> updatersByName = new();
 
     public override void Load() {
         foreach (var type in AssemblyManager.GetLoadableTypes(Mod.Code)) {
@@ -22,7 +27,7 @@ public sealed class SurroundingsSystem : ModSystem
                     continue;
                 }
 
-                var function = method.CreateDelegate<SurroundingsUpdater>();
+                var function = method.CreateDelegate<UpdaterDelegate>();
 
                 updatersByName[attribute.Name ?? method.Name] = function;
             }

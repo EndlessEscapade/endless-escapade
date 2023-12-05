@@ -1,3 +1,8 @@
+/*
+ * Implementation taken and inspired by
+ * https://github.com/Mirsario/TerrariaOverhaul/tree/dev/Common/Ambience
+ */
+
 using System;
 
 namespace EndlessEscapade.Common.Surroundings;
