@@ -6,7 +6,7 @@ public class Coralsand : ModItem
 {
     public override void SetDefaults() {
         Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Shoals.Coralsand>());
-        
+
         Item.width = 16;
         Item.height = 16;
     }

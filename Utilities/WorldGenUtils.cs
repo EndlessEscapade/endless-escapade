@@ -1,5 +1,4 @@
 using Terraria;
-using Terraria.ID;
 
 namespace EndlessEscapade.Utilities;
 
