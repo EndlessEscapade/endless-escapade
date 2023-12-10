@@ -157,3 +157,8 @@ EnchantedSand: {
 	DisplayName: Enchanted Sand
 	Tooltip: ""
 }
+
+StormGauntlet: {
+	DisplayName: Storm Gauntlet
+	Tooltip: ""
+}

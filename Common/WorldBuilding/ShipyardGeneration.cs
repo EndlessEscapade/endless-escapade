@@ -19,7 +19,8 @@ public sealed class ShipyardGeneration : ModSystem
 
         tasks.Insert(index + 1, new PassLegacy($"{nameof(EndlessEscapade)}:Shipyard", GenerateShipyard));
     }
-
+    
+    // TODO: Turn into MicroBiome.
     private void GenerateShipyard(GenerationProgress progress, GameConfiguration configuration) {
         progress.Message = "Constructing the Shipyard...";
 
