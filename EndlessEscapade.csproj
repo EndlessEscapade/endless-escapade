@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\tModLoader.targets"/>
@@ -7,8 +7,10 @@
         <TargetFramework>net6.0</TargetFramework>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <PackageId>EndlessEscapade</PackageId>
-        <LangVersion>latest</LangVersion>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <!-- Specifically 10 (or some features of 11) are supported by the roslyn (C# compiler) version that terraria has. -->
+        <LangVersion>10</LangVersion>
+        <!-- If pointer operations are required they can be done from a library instead. -->
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <PropertyGroup>
