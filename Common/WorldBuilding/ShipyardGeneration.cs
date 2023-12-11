@@ -17,7 +17,6 @@ public sealed class ShipyardGeneration : ModSystem
         tasks.Insert(index + 1, new PassLegacy($"{nameof(EndlessEscapade)}:Shipyard", GenerateShipyard));
     }
 
-    // TODO: Turn into MicroBiome.
     private void GenerateShipyard(GenerationProgress progress, GameConfiguration configuration) {
         progress.Message = "Constructing the Shipyard...";
 
@@ -26,7 +25,7 @@ public sealed class ShipyardGeneration : ModSystem
 
         var startX = 0;
         var startY = (int)(Main.worldSurface * 0.35f);
-
+        
         while (!foundOcean) {
             var tile = Framing.GetTileSafely(startX, startY);
 
@@ -37,7 +36,7 @@ public sealed class ShipyardGeneration : ModSystem
 
             startY++;
         }
-
+        
         while (!foundBeach) {
             if (WorldGen.SolidTile(startX, startY) && WorldGen.TileType(startX, startY) == TileID.Sand) {
                 foundBeach = true;
@@ -57,10 +56,9 @@ public sealed class ShipyardGeneration : ModSystem
             for (var j = 0; j < Main.maxTilesY; j++) {
                 var tile = Framing.GetTileSafely(i, j);
 
-                if (tile.HasTile && tile.TileType == TileID.Sand && tile.LiquidAmount <= 0) {
-                    if (j < biggestY) {
-                        biggestY = j;
-                    }
+                if (tile.HasTile && tile.TileType == TileID.Sand && tile.LiquidAmount <= 0 && j < biggestY) {
+                    biggestY = j;
+                    break;
                 }
             }
         }

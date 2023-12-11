@@ -11,7 +11,9 @@ public static class WorldGenUtils
         var y = 0;
         
         while (y < Main.worldSurface) {
-            if (WorldGen.SolidTile(x, y)) {
+            var tile = Framing.GetTileSafely(x, y);
+            
+            if (tile.HasTile && Main.tileSolid[tile.TileType]) {
                 foundSurface = true;
                 break;
             }

@@ -49,7 +49,8 @@ public sealed class Iceboat : MicroBiome
                 new Actions.ClearTile().Output(shaftShapeData),
                 new Modifiers.Expand(1),
                 new Modifiers.OnlyTiles(TileID.SnowBlock),
-                new Actions.SetTileKeepWall(TileID.IceBlock).Output(shaftShapeData)));
+                new Actions.SetTile(TileID.IceBlock).Output(shaftShapeData),
+                new Actions.PlaceWall(WallID.IceUnsafe)));
         WorldUtils.Gen(new Point(iceboatOrigin.X + iceboatDims.X / 2, ruinsOrigin.Y + ruinsDims.Y), new ModShapes.All(shaftShapeData), new Actions.SetFrames(true));
 
         structures.AddProtectedStructure(new Rectangle(ruinsOrigin.X, ruinsOrigin.Y, ruinsDims.X, ruinsDims.Y));
@@ -63,11 +64,11 @@ public sealed class Iceboat : MicroBiome
             return false;
         }
 
-        var halfArea = dims.X * dims.Y / 2;
+        var areaPercentage = dims.X * dims.Y / 2f;
         var tileLookup = new Dictionary<ushort, int>();
 
         WorldUtils.Gen(origin, new Shapes.Rectangle(dims.X, dims.Y), new Actions.TileScanner(TileID.SnowBlock, TileID.IceBlock).Output(tileLookup));
 
-        return tileLookup[TileID.SnowBlock] + tileLookup[TileID.IceBlock] >= halfArea;
+        return tileLookup[TileID.SnowBlock] + tileLookup[TileID.IceBlock] >= areaPercentage;
     }
 }
