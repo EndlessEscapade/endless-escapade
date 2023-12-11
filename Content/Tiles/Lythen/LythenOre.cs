@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,6 +8,8 @@ namespace EndlessEscapade.Content.Tiles.Lythen;
 
 public class LythenOre : ModTile
 {
+    public static readonly SoundStyle LythenHitSound = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Custom/LythenHit", 3);
+    
     public override void SetStaticDefaults() {
         Main.tileSolid[Type] = true;
         Main.tileShine2[Type] = true;
@@ -23,7 +26,7 @@ public class LythenOre : ModTile
 
         MineResist = 1f;
         MinPick = 30;
-        HitSound = SoundID.Tink;
+        HitSound = LythenHitSound;
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

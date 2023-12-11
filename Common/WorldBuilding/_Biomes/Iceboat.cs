@@ -36,21 +36,13 @@ public sealed class Iceboat : MicroBiome
             return false;
         }
 
-        if (!Generator.GenerateStructure("Content/Structures/IceboatRuins", new Point16(ruinsOrigin), mod) ||
-            !Generator.GenerateStructure("Content/Structures/Iceboat", new Point16(iceboatOrigin), mod)) {
+        if (!Generator.GenerateStructure("Content/Structures/IceboatRuins", new Point16(ruinsOrigin), mod) || !Generator.GenerateStructure("Content/Structures/Iceboat", new Point16(iceboatOrigin), mod)) {
             return false;
         }
 
         var shaftShapeData = new ShapeData();
 
-        WorldUtils.Gen(new Point(iceboatOrigin.X + iceboatDims.X / 2, ruinsOrigin.Y + ruinsDims.Y),
-            new Shapes.Rectangle(1, iceboatOrigin.Y - ruinsOrigin.Y - ruinsDims.Y),
-            Actions.Chain(new Modifiers.Blotches(2, 0.2),
-                new Actions.ClearTile().Output(shaftShapeData),
-                new Modifiers.Expand(1),
-                new Modifiers.OnlyTiles(TileID.SnowBlock),
-                new Actions.SetTile(TileID.IceBlock).Output(shaftShapeData),
-                new Actions.PlaceWall(WallID.IceUnsafe)));
+        WorldUtils.Gen(new Point(iceboatOrigin.X + iceboatDims.X / 2, ruinsOrigin.Y + ruinsDims.Y), new Shapes.Rectangle(1, iceboatOrigin.Y - ruinsOrigin.Y - ruinsDims.Y), Actions.Chain(new Modifiers.Blotches(2, 0.2), new Actions.ClearTile().Output(shaftShapeData), new Modifiers.Expand(1), new Modifiers.OnlyTiles(TileID.SnowBlock), new Actions.SetTile(TileID.IceBlock).Output(shaftShapeData), new Actions.PlaceWall(WallID.IceUnsafe)));
         WorldUtils.Gen(new Point(iceboatOrigin.X + iceboatDims.X / 2, ruinsOrigin.Y + ruinsDims.Y), new ModShapes.All(shaftShapeData), new Actions.SetFrames(true));
 
         structures.AddProtectedStructure(new Rectangle(ruinsOrigin.X, ruinsOrigin.Y, ruinsDims.X, ruinsDims.Y));

@@ -28,9 +28,9 @@ public class RainBubble : ModDust
         dust.rotation += dust.velocity.ToRotation() * 0.1f;
 
         var hitTile = !WorldGen.TileEmpty((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f));
-        var visible = dust.scale <= 0f || dust.alpha >= 255;    
+        var invisible = dust.scale <= 0f || dust.alpha >= 255;    
     
-        if (hitTile || visible) {
+        if (hitTile || invisible) {
             dust.active = false;
         }
 

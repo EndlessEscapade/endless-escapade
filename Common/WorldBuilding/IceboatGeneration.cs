@@ -66,9 +66,10 @@ public sealed class IceboatGeneration : ModSystem
 
         while (!biomeGenerated) {
             var x = WorldGen.genRand.Next(tundraStart + 100, tundraEnd - 100);
-            var y = WorldGenUtils.FindSurfaceLevel(x);
 
-            if (biome.Place(new Point(x, y), GenVars.structures)) {
+            WorldUtils.Find(new Point(x, 0), Searches.Chain(new Searches.Down(Main.maxTilesY), new Conditions.IsSolid(), new Conditions.IsTile(TileID.IceBlock, TileID.SnowBlock)), out var origin);
+
+            if (biome.Place(origin, GenVars.structures)) {
                 biomeGenerated = true;
                 break;
             }
