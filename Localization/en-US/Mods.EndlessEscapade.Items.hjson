@@ -162,3 +162,8 @@ StormGauntlet: {
 	DisplayName: Storm Gauntlet
 	Tooltip: ""
 }
+
+Airhorn: {
+	DisplayName: Airhorn
+	Tooltip: ""
+}

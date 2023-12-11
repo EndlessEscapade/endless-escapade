@@ -8,13 +8,14 @@ namespace EndlessEscapade.Content.Tiles.Lythen;
 
 public class LythenOre : ModTile
 {
-    public static readonly SoundStyle LythenHitSound = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Custom/LythenHit", 3);
+    public static readonly SoundStyle LythenHitSound = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Custom/LythenHit", 3) {
+        PitchVariance = 0.25f
+    };
     
     public override void SetStaticDefaults() {
         Main.tileSolid[Type] = true;
         Main.tileShine2[Type] = true;
         Main.tileSpelunker[Type] = true;
-        Main.tileMergeDirt[Type] = true;
         Main.tileBlockLight[Type] = true;
 
         Main.tileShine[Type] = 975;
