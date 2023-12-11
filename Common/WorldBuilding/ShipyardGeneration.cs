@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using EndlessEscapade.Content.NPCs.Shipyard;
-using EndlessEscapade.Utilities;
-using StructureHelper;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.IO;
@@ -19,7 +16,7 @@ public sealed class ShipyardGeneration : ModSystem
 
         tasks.Insert(index + 1, new PassLegacy($"{nameof(EndlessEscapade)}:Shipyard", GenerateShipyard));
     }
-    
+
     // TODO: Turn into MicroBiome.
     private void GenerateShipyard(GenerationProgress progress, GameConfiguration configuration) {
         progress.Message = "Constructing the Shipyard...";
@@ -68,40 +65,8 @@ public sealed class ShipyardGeneration : ModSystem
             }
         }
 
-        PlaceShipyard(startX, biggestY);
-    }
+        var biome = GenVars.configuration.CreateBiome<Shipyard>();
 
-    private void PlaceShipyard(int x, int y) {
-        var dims = Point16.Zero;
-
-        if (!Generator.GetDimensions("Content/Structures/Shipyard", Mod, ref dims)) {
-            return;
-        }
-
-        var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
-        var origin = new Point16(x, y) - offset;
-
-        if (!Generator.GenerateStructure("Content/Structures/Shipyard", origin, Mod)) {
-            return;
-        }
-
-        for (var i = 0; i < 2; i++) {
-            // Extends dock pillars.
-            WorldGenUtils.ExtendDownwards(origin.X + 4 + i, origin.Y + 39, TileID.LivingWood);
-            WorldGenUtils.ExtendDownwards(origin.X + 20 + i, origin.Y + 39, TileID.LivingWood);
-            WorldGenUtils.ExtendDownwards(origin.X + 36 + i, origin.Y + 39, TileID.LivingWood);
-
-            // Extends house pillars
-            WorldGenUtils.ExtendDownwards(origin.X + 56 + i, origin.Y + 27, TileID.LivingWood);
-            WorldGenUtils.ExtendDownwards(origin.X + 74 + i, origin.Y + 27, TileID.LivingWood);
-        }
-
-        var sailorX = (int)((origin.X + 60) * 16f);
-        var sailorY = (int)((origin.Y + 10) * 16f);
-
-        var index = NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
-        var sailor = Main.npc[index];
-
-        sailor.UpdateHomeTileState(false, (int)(sailorX / 16f), (int)(sailorY / 16f));
+        biome.Place(new Point(startX, biggestY), GenVars.structures);
     }
 }
