@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Ambience;
 
-public sealed class RainAmbienceEffects : ILoadable
+[Autoload(Side = ModSide.Client)]
+public sealed class RainBubbleEffects : ILoadable
 {
     void ILoadable.Load(Mod mod) {
         On_Rain.Update += RainUpdateHook;

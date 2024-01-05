@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\tModLoader.targets"/>
 
@@ -41,5 +40,9 @@
         <Reference Include="SubworldLibrary">
             <HintPath>lib\SubworldLibrary.dll</HintPath>
         </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Assets\Textures\" />
     </ItemGroup>
 </Project>

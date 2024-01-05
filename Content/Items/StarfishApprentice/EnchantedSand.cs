@@ -2,7 +2,7 @@ using EndlessEscapade.Content.Items.Shoals;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Content.Items.Apprentice;
+namespace EndlessEscapade.Content.Items.StarfishApprentice;
 
 public class EnchantedSand : ModItem
 {
