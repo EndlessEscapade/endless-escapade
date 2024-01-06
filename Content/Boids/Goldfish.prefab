@@ -1,9 +1,0 @@
-Goldfish: {
-    Boid: {
-        TexturePath: "Assets/Texture/Boids/Goldfish"
-        
-        MaxVelocity: 2
-        MaxVision: 100
-        MaxForce: 0.01
-    }
-}
