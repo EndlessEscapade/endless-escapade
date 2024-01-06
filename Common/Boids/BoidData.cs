@@ -9,7 +9,7 @@ public readonly struct BoidData
 
     [JsonRequired]
     public readonly float MaxVision;
-    
+
     [JsonRequired]
     public readonly float MaxForce;
 

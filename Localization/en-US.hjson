@@ -179,6 +179,11 @@ Mods: {
 				DisplayName: Spinner Fish
 				Tooltip: ""
 			}
+
+			StarCatcher: {
+				DisplayName: Star Catcher
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -237,6 +242,7 @@ Mods: {
 		Projectiles: {
 			SpinnerFish.DisplayName: Spinner Fish
 			SpinnerFishStar.DisplayName: Spinner Fish Star
+			StarCatcherBobber.DisplayName: Star Catcher Bobber
 		}
 
 		Tiles.LythenOre.MapEntry: Lythen Ore

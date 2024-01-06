@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using EndlessEscapade.Common.Systems.Boids;
 using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Boids;
 
@@ -19,14 +16,23 @@ public sealed class Boid
     public Vector2 Velocity;
     public Vector2 Acceleration;
 
+    public Boid(float maxVelocity, float maxForce, float maxVision) {
+        MaxVelocity = maxVelocity;
+        MaxForce = maxForce;
+        MaxVision = maxVision;
+    }
+
     internal void Update() {
+        ApplySeparation();
+        ApplyAllignment();
+        ApplyCohesion();
+
         Velocity += Acceleration;
+        Velocity = Velocity.Limit(MaxVelocity);
+
         Position += Velocity;
 
-        ApplyAllignment();
-        ApplySeparation();
-        ApplyCohesion();
-        ApplyCollision();
+        Acceleration = Vector2.Zero;
     }
 
     private void ApplyAllignment() {
@@ -93,33 +99,33 @@ public sealed class Boid
     }
 
     private void ApplyAvoidance() {
-        var force = Vector2.Zero;
-        var dist = Vector2.DistanceSquared(Position, Main.LocalPlayer.Center);
+        var player = Main.LocalPlayer;
 
-        if (dist < MaxVision * MaxVision && dist > 0) {
-            var diff = Position - Main.LocalPlayer.Center;
-            var norm = diff.SafeNormalize(Vector2.Zero);
-            force += norm;
+        var force = Vector2.Zero;
+        var distance = Vector2.DistanceSquared(Position, player.Center);
+
+        if (distance < MaxVision * MaxVision && distance > 0f) {
+            var difference = Position - player.Center;
+
+            force += difference.SafeNormalize(Vector2.Zero);
         }
 
         if (force != Vector2.Zero) {
-            force = Vector2.Normalize(force) * MaxVelocity;
+            force = force.SafeNormalize(Vector2.Zero) * MaxVelocity;
             Acceleration += (force - Velocity).Limit(MaxForce);
         }
-    }   
-
-    private void ApplyCollision() {
-        
     }
 
     private IEnumerable<Boid> GetCloseBoids() {
         foreach (var boid in BoidSystem.Boids) {
             var distance = Vector2.DistanceSquared(Position, boid.Position);
-            var inRange = distance < MaxVision * MaxVision && distance > 0f;
+            var inRange = distance < 100f * 100f && distance > 0f;
 
-            if (inRange) {
-                yield return boid;
+            if (!inRange) {
+                continue;
             }
+
+            yield return boid;
         }
     }
 }

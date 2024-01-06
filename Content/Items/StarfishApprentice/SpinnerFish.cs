@@ -33,6 +33,7 @@ public class SpinnerFish : ModItem
         Item.useStyle = ItemUseStyleID.Swing;
 
         Item.rare = ItemRarityID.Blue;
+        Item.UseSound = SoundID.Item1;
     }
     
     public override void AddRecipes() {
