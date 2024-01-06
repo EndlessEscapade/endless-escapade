@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Dusts;
 
-public class RainBubble : ModDust
+public class Bubble : ModDust
 {
     public override void OnSpawn(Dust dust) {
         dust.frame = new Rectangle(0, Main.rand.Next(3) * 10, 10, 10);

@@ -3,7 +3,7 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.WorldBuilding;
+namespace EndlessEscapade.Common.WorldBuilding.Tweaks;
 
 // Prevents shallow beach endings from generating in favor of Shipyard generation.
 public sealed class BeachTweaks : ILoadable

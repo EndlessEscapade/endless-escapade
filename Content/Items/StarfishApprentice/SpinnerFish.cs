@@ -19,22 +19,22 @@ public class SpinnerFish : ModItem
         
         Item.DamageType = DamageClass.Ranged;
 
-        Item.damage = 32;
+        Item.damage = 9;
         Item.knockBack = 1f;
 
         Item.width = 26;
         Item.height = 26;
 
         Item.shoot = ModContent.ProjectileType<Projectiles.StarfishApprentice.SpinnerFish>();
-        Item.shootSpeed = 1f;
+        Item.shootSpeed = 10f;
 
-        Item.useTime = 30;
-        Item.useAnimation = 30;
+        Item.useTime = 20;
+        Item.useAnimation = 20;
         Item.useStyle = ItemUseStyleID.Swing;
 
         Item.rare = ItemRarityID.Blue;
     }
-
+    
     public override void AddRecipes() {
         var recipe = CreateRecipe(50);
         recipe.AddIngredient<EnchantedSand>(1);

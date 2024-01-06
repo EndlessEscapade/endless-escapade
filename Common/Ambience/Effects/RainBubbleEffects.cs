@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Ambience;
+namespace EndlessEscapade.Common.Ambience.Effects;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class RainBubbleEffects : ILoadable
@@ -25,7 +25,7 @@ public sealed class RainBubbleEffects : ILoadable
             return;
         }
 
-        var dust = Dust.NewDustDirect(self.position, 2, 2, ModContent.DustType<RainBubble>());
+        var dust = Dust.NewDustDirect(self.position, 2, 2, ModContent.DustType<Bubble>());
         var tile = Framing.GetTileSafely((self.position / 16f).ToPoint());
 
         switch (tile.LiquidType) {

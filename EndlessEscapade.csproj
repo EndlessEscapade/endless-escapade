@@ -6,9 +6,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <PackageId>EndlessEscapade</PackageId>
-        <!-- Specifically 10 (or some features of 11) are supported by the roslyn (C# compiler) version that terraria has. -->
         <LangVersion>10</LangVersion>
-        <!-- If pointer operations are required they can be done from a library instead. -->
         <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     </PropertyGroup>
 
@@ -16,18 +14,11 @@
         <DotNetPath Condition=" '$(OS)' == 'Windows_NT' ">dotnet.exe</DotNetPath>
         <DotNetPath Condition=" '$(OS)' == 'Unix' ">dotnet</DotNetPath>
         <DotNetPath Condition=" '$(DotNetPath)' == '' ">dotnet</DotNetPath>
-        <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-
-        <!-- for github workflows -->
-        <ExtraBuildModFlags Condition="'$(TML_PATH_OVERRIDE)' != ''">$(ExtraBuildModFlags)-savedirectory "$([System.IO.Path]::GetFullPath('.'))/$(TML_PATH_OVERRIDE)"</ExtraBuildModFlags>
     </PropertyGroup>
-
-    <ItemGroup>
-        <None Remove="Assets\PearlCannonProj.png"/>
-        <None Remove="Assets\PearlProjectile.png"/>
-        <None Remove="Content\Items\Pearl\BigPearlProjectile.png"/>
-        <None Remove="Content\Items\Reefs\Kelp\Kelpberries.png"/>
-    </ItemGroup>
+    
+    <PropertyGroup>
+        <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*"/>
@@ -43,6 +34,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Assets\Textures\" />
+      <Folder Include="Assets\Textures\Boids\" />
     </ItemGroup>
 </Project>
