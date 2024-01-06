@@ -13,8 +13,8 @@ namespace EndlessEscapade.Content.Projectiles.StarfishApprentice;
 
 public class SpinnerFish : ModProjectile
 {
-    private ref float TargetIndex => ref Projectile.ai[0];
-    private ref float ExplosionTimer => ref Projectile.ai[1];
+    private ref float Target => ref Projectile.ai[0];
+    private ref float Timer => ref Projectile.ai[1];
     
     private Vector2 offset;
 
@@ -58,7 +58,7 @@ public class SpinnerFish : ModProjectile
         
         offset = target.Center - Projectile.Center + Projectile.velocity;
 
-        TargetIndex = target.whoAmI;
+        Target = target.whoAmI;
         StickingToNPC = true;
 
         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, Projectile.whoAmI);
@@ -93,12 +93,8 @@ public class SpinnerFish : ModProjectile
         }
         
         Projectile.rotation += Projectile.velocity.X * 0.1f;
-
-        Projectile.ai[0]++;
-
-        if (Projectile.ai[0] > 10f) {
-            Projectile.velocity.Y += 0.2f;
-        }
+        
+        UpdateGravity();
     }
 
     private void UpdateTargetStick() {
@@ -106,7 +102,7 @@ public class SpinnerFish : ModProjectile
             return;
         }
         
-        var target = Main.npc[(int)TargetIndex];
+        var target = Main.npc[(int)Target];
 
         if (!target.active) {
             Projectile.Kill();
@@ -125,5 +121,15 @@ public class SpinnerFish : ModProjectile
         }
         
         Projectile.velocity *= 0.5f;
+    }
+
+    private void UpdateGravity() {
+        Timer++;
+
+        if (Timer < 10f) {
+            return;
+        }
+        
+        Projectile.velocity.Y += 0.2f;
     }
 }
