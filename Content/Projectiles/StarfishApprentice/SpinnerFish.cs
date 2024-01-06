@@ -1,8 +1,11 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,11 +14,14 @@ namespace EndlessEscapade.Content.Projectiles.StarfishApprentice;
 public class SpinnerFish : ModProjectile
 {
     private ref float TargetIndex => ref Projectile.ai[0];
-
-    private bool stickingToNPC;
-    private bool stickingToTile;
-
+    private ref float ExplosionTimer => ref Projectile.ai[1];
+    
     private Vector2 offset;
+
+    public bool StickingToNPC { get; private set; }
+    public bool StickingToTile { get; private set; }
+
+    public bool StickingToAnything => StickingToNPC || StickingToTile;
 
     public override void SetDefaults() {
         Projectile.usesLocalNPCImmunity = true;
@@ -32,62 +38,92 @@ public class SpinnerFish : ModProjectile
         Projectile.localNPCHitCooldown = 30;
     }
 
+    public override void SendExtraAI(BinaryWriter writer) {
+        writer.Write(StickingToNPC);
+        writer.Write(StickingToTile);
+    }
+
+    public override void ReceiveExtraAI(BinaryReader reader) {
+        StickingToNPC = reader.ReadBoolean();
+        StickingToTile = reader.ReadBoolean();
+    }
+
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
-        if (!stickingToNPC && !stickingToTile) {
-            TargetIndex = target.whoAmI;
-
-            offset = target.Center - Projectile.Center + Projectile.velocity;
-
-            stickingToNPC = true;
-
-            Projectile.netUpdate = true;
-        }
-        
         Projectile.scale = 1.25f;
         Projectile.rotation += MathHelper.ToRadians(Main.rand.NextFloat(5f, 15f));
+        
+        if (StickingToAnything) {
+            return;
+        }
+        
+        offset = target.Center - Projectile.Center + Projectile.velocity;
+
+        TargetIndex = target.whoAmI;
+        StickingToNPC = true;
+
+        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, Projectile.whoAmI);
     }
 
     public override bool OnTileCollide(Vector2 oldVelocity) {
-        if (!stickingToTile && !stickingToNPC) {
-            stickingToTile = true;
-            
-            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+        if (!StickingToAnything) {
+            return false;
         }
+        
+        Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+
+        StickingToTile = true;
+            
+        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, Projectile.whoAmI);
 
         return false;
     }
 
     public override void AI() {
-        var target = Main.npc[(int)TargetIndex];
-        
+        Projectile.scale = MathHelper.Lerp(Projectile.scale, 1f, 0.2f);
+
         if (Projectile.timeLeft < 255 / 25) {
             Projectile.alpha += 25;
         }
         
-        if (stickingToNPC) {
-            if (target.active && !target.dontTakeDamage) {
-                Projectile.tileCollide = false;
+        UpdateTargetStick();
+        UpdateTileStick();
 
-                Projectile.Center = target.Center - offset;
-                Projectile.gfxOffY = target.gfxOffY;
-            }
-            else {
-                Projectile.Kill();
-            }
+        if (StickingToAnything) {
+            return;
         }
-        else if (!stickingToTile) {
-            Projectile.rotation += Projectile.velocity.X * 0.1f;
+        
+        Projectile.rotation += Projectile.velocity.X * 0.1f;
 
-            Projectile.ai[0]++;
+        Projectile.ai[0]++;
 
-            if (Projectile.ai[0] > 10f) {
-                Projectile.velocity.Y += 0.2f;
-            }
+        if (Projectile.ai[0] > 10f) {
+            Projectile.velocity.Y += 0.2f;
         }
-        else {
-            Projectile.velocity *= 0.5f;
+    }
+
+    private void UpdateTargetStick() {
+        if (!StickingToNPC) {
+            return;
+        }
+        
+        var target = Main.npc[(int)TargetIndex];
+
+        if (!target.active) {
+            Projectile.Kill();
+            return;
         }
 
-        Projectile.scale = MathHelper.Lerp(Projectile.scale, 1f, 0.2f);
+        Projectile.tileCollide = false;
+
+        Projectile.Center = target.Center - offset;
+        Projectile.gfxOffY = target.gfxOffY;
+    }
+
+    private void UpdateTileStick() {
+        if (!StickingToTile) {
+            return;
+        }
+        
+        Projectile.velocity *= 0.5f;
     }
 }
