@@ -6,15 +6,15 @@ namespace EndlessEscapade.Common.EC;
 
 public sealed class EntitySystem : ModSystem
 {
+    public static int NextEntityId { get; private set; }
+
     public static readonly List<int> AllEntityIds = new();
     public static readonly List<int> ActiveEntityIds = new();
     public static readonly List<int> InactiveEntityIds = new();
 
     public static readonly ConcurrentBag<int> FreeEntityIds = new();
 
-    public static int NextEntityId { get; private set; }
-
-    public static Entity Create() {
+    public static Entity Create(bool activate) {
         int id;
 
         if (!FreeEntityIds.TryTake(out id)) {
@@ -23,12 +23,16 @@ public sealed class EntitySystem : ModSystem
 
         AllEntityIds.Add(id);
 
-        var entity = new Entity(id);
+        if (activate) {
+            ActiveEntityIds.Add(id);
+        }
 
-        return entity;
+        return new Entity(id);
     }
 
     public static void Remove(int entityId) {
+        // TODO: Find a way to also remove components from the entity.
+        
         AllEntityIds.Remove(entityId);
         ActiveEntityIds.Remove(entityId);
         InactiveEntityIds.Remove(entityId);
