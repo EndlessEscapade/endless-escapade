@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Terraria.ModLoader;
 
@@ -18,12 +17,12 @@ public sealed class ComponentSystem : ModSystem
     }
 
     public static int ComponentTypeCount { get; private set; }
-    
+
     public static bool Has<T>(int entityId) where T : Component {
         if (entityId < 0 || entityId >= ComponentData<T>.Components.Count) {
             return false;
         }
-        
+
         return ComponentData<T>.Components[entityId] != null;
     }
 
@@ -31,21 +30,21 @@ public sealed class ComponentSystem : ModSystem
         if (entityId < 0 || entityId >= ComponentData<T>.Components.Count) {
             return null;
         }
-        
+
         return ComponentData<T>.Components[entityId];
     }
 
     public static T Set<T>(int entityId, T component) where T : Component {
         ComponentData<T>.Components[entityId] = component;
-        
+
         return ComponentData<T>.Components[entityId];
     }
-    
+
     public static void Remove<T>(int entityId) where T : Component {
         if (entityId < 0 || entityId >= ComponentData<T>.Components.Count) {
             return;
         }
-        
+
         ComponentData<T>.Components[entityId] = null;
     }
 }
