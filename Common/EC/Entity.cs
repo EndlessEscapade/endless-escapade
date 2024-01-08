@@ -1,6 +1,6 @@
 namespace EndlessEscapade.Common.EC;
 
-public struct Entity
+public readonly struct Entity
 {
     public readonly int Id;
 
