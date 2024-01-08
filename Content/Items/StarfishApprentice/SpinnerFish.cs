@@ -35,7 +35,7 @@ public class SpinnerFish : ModItem
         Item.rare = ItemRarityID.Blue;
         Item.UseSound = SoundID.Item1;
     }
-    
+
     public override void AddRecipes() {
         var recipe = CreateRecipe(50);
         recipe.AddIngredient<EnchantedSand>(1);
