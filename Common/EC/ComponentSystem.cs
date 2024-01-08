@@ -11,8 +11,6 @@ public sealed class ComponentSystem : ModSystem
         public static T?[] Components = Array.Empty<T>();
     }
 
-    public static int ComponentTypeCount { get; private set; }
-
     public static bool Has<T>(int entityId) where T : Component {
         if (entityId < 0 || entityId >= ComponentData<T>.Components.Length) {
             return false;
