@@ -6,6 +6,11 @@ public sealed class Entity
 {
     public readonly int Id;
 
+    public bool Active {
+        get => EntitySystem.GetActive(Id);
+        set => EntitySystem.SetActive(Id, value);
+    }
+
     public Entity(int id) {
         Id = id;
     }
