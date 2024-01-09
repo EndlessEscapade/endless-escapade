@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -10,5 +11,9 @@ public class RadiantPearl : ModItem
         
         Item.width = 36;
         Item.height = 36;
+    }
+
+    public override void UpdateAccessory(Player player, bool hideVisual) {
+        Main.instance.SpelunkerProjectileHelper.AddSpotToCheck(player.Center);
     }
 }
