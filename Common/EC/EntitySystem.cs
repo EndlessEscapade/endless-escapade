@@ -1,39 +1,61 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Numerics;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.EC;
 
 public sealed class EntitySystem : ModSystem
 {
-    public static int NextEntityId { get; private set; }
+    private struct EntityData
+    {
+        public EntityData() { }
+    }
 
-    public static readonly List<int> AllEntityIds = new();
-    public static readonly List<int> ActiveEntityIds = new();
-    public static readonly List<int> InactiveEntityIds = new();
+    private static EntityData[] Data = Array.Empty<EntityData>();
 
-    public static readonly ConcurrentBag<int> FreeEntityIds = new();
+    private static readonly List<int> ActiveEntityIds = new();
+    private static readonly List<int> InactiveEntityIds = new();
+
+    private static readonly ConcurrentBag<int> FreeEntityIds = new();
+    
+    private static int NextEntityId;
+
 
     public static Entity Create(bool activate) {
-        int id;
+        int entityId;
 
-        if (!FreeEntityIds.TryTake(out id)) {
-            id = NextEntityId++;
+        if (!FreeEntityIds.TryTake(out entityId)) {
+            entityId = NextEntityId++;
         }
 
-        AllEntityIds.Add(id);
+        if (entityId >= Data.Length) {
+            var newSize = Math.Max(1, Data.Length);
+
+            while (newSize <= entityId) {
+                newSize *= 2;
+            }
+            
+            Array.Resize(ref Data, newSize);
+        }
+        
+        Data[entityId] = new EntityData();
 
         if (activate) {
-            ActiveEntityIds.Add(id);
+            ActiveEntityIds.Add(entityId);
         }
-
-        return new Entity(id);
+        
+        return new Entity(entityId);
     }
 
     public static void Remove(int entityId) {
-        // TODO: Find a way to also remove components from the entity.
+        if (entityId < 0 || entityId >= Data.Length) {
+            return;
+        }
         
-        AllEntityIds.Remove(entityId);
+        // TODO: Find a way to remove components from the entity.
+
         ActiveEntityIds.Remove(entityId);
         InactiveEntityIds.Remove(entityId);
 
@@ -41,10 +63,18 @@ public sealed class EntitySystem : ModSystem
     }
 
     public static bool GetActive(int entityId) {
+        if (entityId < 0 || entityId >= Data.Length) {
+            return false;
+        }
+        
         return ActiveEntityIds.Contains(entityId);
     }
 
     public static void SetActive(int entityId, bool active) {
+        if (entityId < 0 || entityId >= Data.Length) {
+            return;
+        }
+        
         if (active) {
             ActiveEntityIds.Add(entityId);
             InactiveEntityIds.Remove(entityId);

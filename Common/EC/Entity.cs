@@ -1,5 +1,8 @@
+using Newtonsoft.Json;
+
 namespace EndlessEscapade.Common.EC;
 
+[JsonConverter(typeof(Entity))]
 public readonly struct Entity
 {
     public readonly int Id;

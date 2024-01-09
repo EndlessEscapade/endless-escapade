@@ -4,12 +4,18 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.EC;
 
+// TODO: Hook callbacks.
 public sealed class ComponentSystem : ModSystem
 {
     private static class ComponentData<T> where T : Component
     {
+        public static readonly int Id = ComponentTypeCount++;
+        public static readonly int Mask = 1 << Id;
+        
         public static T?[] Components = Array.Empty<T>();
     }
+
+    public static int ComponentTypeCount { get; private set; }
 
     public static bool Has<T>(int entityId) where T : Component {
         if (entityId < 0 || entityId >= ComponentData<T>.Components.Length) {
@@ -23,7 +29,7 @@ public sealed class ComponentSystem : ModSystem
         if (entityId < 0 || entityId >= ComponentData<T>.Components.Length) {
             return null;
         }
-
+        
         return ComponentData<T>.Components[entityId];
     }
 
