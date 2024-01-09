@@ -256,6 +256,22 @@ Mods: {
 		}
 
 		// Tiles.LythenOre.MapEntry: Lythen Ore
+
+		GameTitle: {
+			// 68: Endless Escapade: What is that flashy buggy thing?
+			// 69: Endless Escapade: Mod Dev Redemption
+			// 70: Endless Escapade: Do not the cat
+			// 71: Endless Escapade: Whomst'd've
+			// 72: Endless Escapade: tneneT :airarreT
+			// 73: Endless Escapade: Nullification nullifier nullifi-nator
+			// 74: Endless Escapade: Baller
+			// 75: Endless Escapade: Endless Escapade: Endless: Endless: Endless: ...
+			// 76: Endless Escapade: Why Yuor Barin Can Raed Tihs
+			// 77: Endless Escapade: Also try Spirit!
+			// 78: Endless Escapade: Also try Calamity!
+			// 79: Endless Escapade: Also try Thorium!
+			// 80: Endless Escapade: Also try Shadows of Abaddon!
+		}
 	}
 }
 
