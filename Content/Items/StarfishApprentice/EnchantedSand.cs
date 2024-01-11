@@ -1,5 +1,6 @@
 using EndlessEscapade.Content.Items.Shoals;
 using Terraria;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,7 +14,7 @@ public class EnchantedSand : ModItem
         Item.width = 24;
         Item.height = 18;
 
-        Item.rare = ItemRarityID.Blue;
+        Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice(copper: 50));
     }
 
     public override void AddRecipes() {

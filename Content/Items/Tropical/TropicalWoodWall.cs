@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Items.Tropical;
 
@@ -9,5 +10,12 @@ public class TropicalWoodWall : ModItem
 
         Item.width = 24;
         Item.height = 24;
+    }
+    
+    public override void AddRecipes() {
+        CreateRecipe(4)
+            .AddIngredient<TropicalWood>()
+            .AddTile(TileID.WorkBenches)
+            .Register();
     }
 }

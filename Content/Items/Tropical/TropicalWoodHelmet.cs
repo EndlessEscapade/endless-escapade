@@ -18,19 +18,19 @@ public class TropicalWoodHelmet : ModItem
         Item.height = 16;
     }
 
-    public override bool IsArmorSet(Item head, Item body, Item legs) {
-        return body.type == ModContent.ItemType<TropicalWoodChestplate>() && legs.type == ModContent.ItemType<TropicalWoodBoots>();
+    public override void AddRecipes() {
+        CreateRecipe()
+            .AddIngredient<TropicalWood>(20)
+            .AddTile(TileID.WorkBenches)
+            .Register();
     }
-
+    
     public override void UpdateArmorSet(Player player) {
         player.setBonus = "+1 defense";
         player.statDefense++;
     }
-
-    public override void AddRecipes() {
-        var recipe = CreateRecipe();
-        recipe.AddIngredient<TropicalWood>(20);
-        recipe.AddTile(TileID.WorkBenches);
-        recipe.Register();
+    
+    public override bool IsArmorSet(Item head, Item body, Item legs) {
+        return body.type == ModContent.ItemType<TropicalWoodChestplate>() && legs.type == ModContent.ItemType<TropicalWoodBoots>();
     }
 }

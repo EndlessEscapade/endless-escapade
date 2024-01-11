@@ -12,11 +12,11 @@ public class TropicalWoodChestplate : ModItem
         Item.width = 24;
         Item.height = 22;
     }
-
+    
     public override void AddRecipes() {
-        var recipe = CreateRecipe();
-        recipe.AddIngredient<TropicalWood>(30);
-        recipe.AddTile(TileID.WorkBenches);
-        recipe.Register();
+        CreateRecipe()
+            .AddIngredient<TropicalWood>(30)
+            .AddTile(TileID.WorkBenches)
+            .Register();
     }
 }

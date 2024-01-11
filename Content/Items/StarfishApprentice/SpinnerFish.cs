@@ -1,5 +1,7 @@
 using Terraria;
+using Terraria.Enums;
 using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Items.StarfishApprentice;
@@ -15,9 +17,7 @@ public class SpinnerFish : ModItem
         Item.maxStack = Item.CommonMaxStack;
 
         Item.DamageType = DamageClass.Ranged;
-
-        Item.damage = 9;
-        Item.knockBack = 1f;
+        Item.SetWeaponValues(9, 1f);
 
         Item.width = 26;
         Item.height = 26;
@@ -29,8 +29,8 @@ public class SpinnerFish : ModItem
         Item.useAnimation = 20;
         Item.useStyle = ItemUseStyleID.Swing;
 
-        Item.rare = ItemRarityID.Blue;
         Item.UseSound = SoundID.Item1;
+        Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice());
     }
 
     public override void AddRecipes() {

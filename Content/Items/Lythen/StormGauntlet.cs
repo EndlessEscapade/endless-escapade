@@ -8,8 +8,6 @@ public class StormGauntlet : ModItem
 {
     public override void SetDefaults() {
         Item.DamageType = DamageClass.Melee;
-        Item.damage = 20;
-        Item.knockBack = 6.5f;
 
         Item.channel = true;
         Item.noMelee = true;

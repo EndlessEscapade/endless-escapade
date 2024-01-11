@@ -21,9 +21,9 @@ public class TropicalWoodSword : ModItem
     }
 
     public override void AddRecipes() {
-        var recipe = CreateRecipe();
-        recipe.AddIngredient<TropicalWood>(8);
-        recipe.AddTile(TileID.WorkBenches);
-        recipe.Register();
+        CreateRecipe()
+            .AddIngredient<TropicalWood>(8)
+            .AddTile(TileID.WorkBenches)
+            .Register();
     }
 }
