@@ -8,7 +8,8 @@ namespace EndlessEscapade.Common.Audio;
 
 public sealed class LowPassFilter : IAudioFilter
 {
-    private static readonly Action<SoundEffectInstance, float>? applyLowPassFilterAction = typeof(SoundEffectInstance).GetMethod("INTERNAL_applyLowPassFilter", BindingFlags.Instance | BindingFlags.NonPublic)
+    private static readonly Action<SoundEffectInstance, float>? ApplyLowPassFilterAction = typeof(SoundEffectInstance)
+        .GetMethod("INTERNAL_applyLowPassFilter", BindingFlags.Instance | BindingFlags.NonPublic)
         .CreateDelegate<Action<SoundEffectInstance, float>>();
 
     void ILoadable.Load(Mod mod) {
@@ -17,11 +18,11 @@ public sealed class LowPassFilter : IAudioFilter
             return;
         }
 
-        if (applyLowPassFilterAction != null) {
+        if (ApplyLowPassFilterAction != null) {
             return;
         }
 
-        mod.Logger.Warn($"{nameof(LowPassFilter)} was disabled: Could not find internal FNA methods.");
+        mod.Logger.Warn($"{nameof(LowPassFilter)} was disabled: Failed to find internal FNA methods.");
     }
 
     void ILoadable.Unload() { }
@@ -33,6 +34,6 @@ public sealed class LowPassFilter : IAudioFilter
             return;
         }
 
-        applyLowPassFilterAction.Invoke(instance, 1f - lowPass);
+        ApplyLowPassFilterAction.Invoke(instance, 1f - lowPass);
     }
 }

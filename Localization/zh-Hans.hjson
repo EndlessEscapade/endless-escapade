@@ -234,11 +234,12 @@ Mods: {
           // ShipPromptDialogue0: Ahoy there, ye see that old ship wrecked off yonder? Once she was mine, sailed the seven seas, but those days be behind me now.
           /* ShipPromptDialogue1:
               '''
-                                      If you brought me the following materials along with the payment of:
-                                      - [i/s150:9]
-                                      - [i/s20:225] 
-                                      - [i/s5:73]
-                                      I'd get 'er fixed right up for ya.
+                                                              If you brought me the following materials along with the payment of:
+                                                              - [i/s150:9]
+                                                              - [i/s20:225] 
+                                                              - [i/s5:73]
+                                                              I'd get 'er fixed right up for ya.
+                                                              
                                       
               ''' */
           // ShipCommonDialogue0: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
@@ -288,9 +289,10 @@ ItemTooltip: {
   // Extractinator: Placing silt/slush/fossil/shell piles piles into the extractinator turns them into something more useful
   /* ChlorophyteExtractinator:
       '''
-              Placing silt/slush/fossil/shell piles piles into the extractinator turns them into something more useful
-              Place contaminated blocks into the extractinator to purify them
-              Other items placed inside may have interesting effects
+                      Placing silt/slush/fossil/shell piles piles into the extractinator turns them into something more useful
+                      Place contaminated blocks into the extractinator to purify them
+                      Other items placed inside may have interesting effects
+
 
       ''' */
 }

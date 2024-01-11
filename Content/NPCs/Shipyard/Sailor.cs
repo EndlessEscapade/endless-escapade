@@ -32,12 +32,14 @@ public class Sailor : ModNPC
             }
         );
 
-        NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love)
+        NPC
+            .Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love)
             .SetNPCAffection(NPCID.DyeTrader, AffectionLevel.Like)
             .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Dislike)
             .SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
 
-        NPC.Happiness.SetBiomeAffection<OceanBiome>(AffectionLevel.Love)
+        NPC
+            .Happiness.SetBiomeAffection<OceanBiome>(AffectionLevel.Love)
             .SetBiomeAffection<DesertBiome>(AffectionLevel.Like)
             .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Hate);
     }

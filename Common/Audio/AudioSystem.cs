@@ -17,8 +17,8 @@ public sealed class AudioSystem : ModSystem
 
     private static readonly List<ActiveSound> sounds = new();
     private static readonly List<AudioModifier> modifiers = new();
-    
-    private static AudioParameters parameters = new();
+
+    private static AudioParameters parameters;
 
     public override void Load() {
         if (!SoundEngine.IsAudioSupported) {

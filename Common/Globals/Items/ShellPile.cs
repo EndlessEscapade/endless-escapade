@@ -21,6 +21,7 @@ public sealed class ShellPile : GlobalItem
             return;
         }
 
+        // TODO: Change to the shell pile gear when they're implemented.
         var accessories = new int[] {
             ItemID.Meowmere,
             ItemID.MechanicalWorm,
