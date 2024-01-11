@@ -3,7 +3,7 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.WorldBuilding.Tweaks;
+namespace EndlessEscapade.Common.Tweaks;
 
 public sealed class BeachTweaks : ILoadable
 {
