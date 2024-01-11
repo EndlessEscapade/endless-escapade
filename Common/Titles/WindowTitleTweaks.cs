@@ -29,7 +29,7 @@ public sealed class WindowTitleTweaks : ModSystem
         try {
             var c = new ILCursor(il);
 
-            if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcI4(1))) {
+            if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcI4(1), i => i.MatchStsfld<Main>(nameof(Main.changeTheTitle)))) {
                 EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitleTweaks)} disabled: Failed to match IL.");
                 return;
             }
