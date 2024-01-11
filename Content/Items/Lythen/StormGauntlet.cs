@@ -21,10 +21,10 @@ public class StormGauntlet : ModItem
     }
 
     public override void AddRecipes() {
-        var recipe = CreateRecipe();
-        recipe.AddIngredient<LythenBar>(12);
-        recipe.AddTile(TileID.Anvils);
-        recipe.Register();
+        CreateRecipe()
+            .AddIngredient<LythenBar>(5)
+            .AddTile(TileID.Anvils)
+            .Register();
     }
 
     public override bool CanUseItem(Player player) {
