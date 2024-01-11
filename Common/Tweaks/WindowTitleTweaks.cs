@@ -35,7 +35,7 @@ public sealed class WindowTitleTweaks : ModSystem
 
             c.EmitDelegate(SetTitle);
         }
-        catch (Exception exception) {
+        catch (Exception) {
             MonoModHooks.DumpIL(EndlessEscapade.Instance, il);
         }
     }

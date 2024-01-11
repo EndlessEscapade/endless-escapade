@@ -1,4 +1,5 @@
 using System;
+using EndlessEscapade.Utilities;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -10,7 +11,7 @@ namespace EndlessEscapade.Common.Tweaks;
 public sealed class BeachTweaks : ILoadable
 {
     void ILoadable.Load(Mod mod) {
-        IL_WorldGen.AddGenPasses += AddGenPassesPatch;
+        MonoModHooks.Modify(WorldGenUtils.GetVanillaWorldgenPassDelegate("Beaches").Method, AddGenPassesPatch);
     }
 
     void ILoadable.Unload() { }
@@ -20,7 +21,7 @@ public sealed class BeachTweaks : ILoadable
         try {
             var c = new ILCursor(il);
 
-            if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(1), i => i.MatchStloc(1))) {
+            if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(1), i => i.MatchStloc(1)))    {
                 EndlessEscapade.Instance.Logger.Warn($"{nameof(BeachTweaks)} disabled: Failed to match IL.");
                 return;
             }
@@ -35,7 +36,7 @@ public sealed class BeachTweaks : ILoadable
 
             c.MarkLabel(label);
         }
-        catch (Exception exception) {
+        catch (Exception) {
             MonoModHooks.DumpIL(EndlessEscapade.Instance, il);
         }
     }
