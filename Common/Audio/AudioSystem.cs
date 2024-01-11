@@ -26,7 +26,7 @@ public sealed class AudioSystem : ModSystem
             return;
         }
 
-        On_SoundPlayer.Play_Inner += SoundPlayerPlayInnerHook;
+        On_SoundPlayer.Play_Inner += PlayInnerHook;
     }
 
     public static void AddModifier(string context, int duration, AudioModifier.ModifierCallback callback) {
@@ -95,7 +95,7 @@ public sealed class AudioSystem : ModSystem
         }
     }
 
-    private static SlotId SoundPlayerPlayInnerHook(On_SoundPlayer.orig_Play_Inner orig, SoundPlayer self, ref SoundStyle style, Vector2? position, SoundUpdateCallback updateCallback) {
+    private static SlotId PlayInnerHook(On_SoundPlayer.orig_Play_Inner orig, SoundPlayer self, ref SoundStyle style, Vector2? position, SoundUpdateCallback updateCallback) {
         var slot = orig(self, ref style, position, updateCallback);
 
         if (SoundEngine.TryGetActiveSound(slot, out var sound) && sound.Sound?.IsDisposed == false && !ignoredSoundStyles.Contains(sound.Style)) {
