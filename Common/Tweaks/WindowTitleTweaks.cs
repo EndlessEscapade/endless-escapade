@@ -24,7 +24,7 @@ public sealed class WindowTitleTweaks : ModSystem
         Main.instance.Window.Title = Language.GetTextValue("Mods.EndlessEscapade.GameTitle." + Main.rand.Next(GameTitleCount));
     }
     
-    private void DrawMenuPatch(ILContext il) {
+    private static void DrawMenuPatch(ILContext il) {
         try {
             var c = new ILCursor(il);
 
@@ -36,7 +36,7 @@ public sealed class WindowTitleTweaks : ModSystem
             c.EmitDelegate(SetTitle);
         }
         catch (Exception exception) {
-            MonoModHooks.DumpIL(Mod, il);
+            MonoModHooks.DumpIL(EndlessEscapade.Instance, il);
         }
     }
 }
