@@ -24,26 +24,31 @@ public class Sailor : ModNPC
         NPCID.Sets.AttackAverageChance[Type] = 30;
         NPCID.Sets.HatOffsetY[Type] = 4;
         NPCID.Sets.ShimmerTownTransform[Type] = false;
-        NPCID.Sets.NPCBestiaryDrawOffset.Add(Type,
+
+        NPCID.Sets.NPCBestiaryDrawOffset.Add(
+            Type,
             new NPCID.Sets.NPCBestiaryDrawModifiers {
                 Velocity = 1f
-            });
+            }
+        );
 
-        NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love);
-        NPC.Happiness.SetNPCAffection(NPCID.DyeTrader, AffectionLevel.Like);
-        NPC.Happiness.SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Dislike);
-        NPC.Happiness.SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
+        NPC.Happiness.SetNPCAffection(NPCID.Angler, AffectionLevel.Love)
+            .SetNPCAffection(NPCID.DyeTrader, AffectionLevel.Like)
+            .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Dislike)
+            .SetNPCAffection(NPCID.Pirate, AffectionLevel.Hate);
 
-        NPC.Happiness.SetBiomeAffection<OceanBiome>(AffectionLevel.Love);
-        NPC.Happiness.SetBiomeAffection<DesertBiome>(AffectionLevel.Like);
-        NPC.Happiness.SetBiomeAffection<UndergroundBiome>(AffectionLevel.Hate);
+        NPC.Happiness.SetBiomeAffection<OceanBiome>(AffectionLevel.Love)
+            .SetBiomeAffection<DesertBiome>(AffectionLevel.Like)
+            .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Hate);
     }
 
     public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
-        bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
-            new FlavorTextBestiaryInfoElement("Mods.EndlessEscapade.Bestiary.Sailor")
-        });
+        bestiaryEntry.Info.AddRange(
+            new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+                new FlavorTextBestiaryInfoElement("Mods.EndlessEscapade.Bestiary.Sailor")
+            }
+        );
     }
 
     public override void SetDefaults() {
@@ -78,32 +83,33 @@ public class Sailor : ModNPC
     public override string GetChat() {
         var chat = new WeightedRandom<string>();
 
+        // TODO: Maybe AddRange and GetLocalizedValueRange extensions for convenience.
         if (!NPC.AnyNPCs(NPCID.Angler)) {
+            chat.Add(this.GetLocalizedValue("Chat.AnglerDialogue0"));
             chat.Add(this.GetLocalizedValue("Chat.AnglerDialogue1"));
             chat.Add(this.GetLocalizedValue("Chat.AnglerDialogue2"));
-            chat.Add(this.GetLocalizedValue("Chat.AnglerDialogue3"));
 
             return chat.Get();
         }
 
         if (Main.dayTime) {
+            chat.Add(this.GetLocalizedValue("Chat.DayDialogue0"));
             chat.Add(this.GetLocalizedValue("Chat.DayDialogue1"));
             chat.Add(this.GetLocalizedValue("Chat.DayDialogue2"));
-            chat.Add(this.GetLocalizedValue("Chat.DayDialogue3"));
         }
         else {
             if (Main.moonType == (int)MoonPhase.Empty) {
                 chat.Add(this.GetLocalizedValue("Chat.NewMoonDialogue"));
             }
 
+            chat.Add(this.GetLocalizedValue("Chat.NightDialogue0"));
             chat.Add(this.GetLocalizedValue("Chat.NightDialogue1"));
             chat.Add(this.GetLocalizedValue("Chat.NightDialogue2"));
-            chat.Add(this.GetLocalizedValue("Chat.NightDialogue3"));
         }
 
         if (Main.raining) {
+            chat.Add(this.GetLocalizedValue("Chat.RainDialogue0"));
             chat.Add(this.GetLocalizedValue("Chat.RainDialogue1"));
-            chat.Add(this.GetLocalizedValue("Chat.RainDialogue2"));
         }
 
         return chat.Get();

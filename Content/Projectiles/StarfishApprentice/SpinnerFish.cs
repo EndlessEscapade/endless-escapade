@@ -1,11 +1,7 @@
-using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,10 +9,9 @@ namespace EndlessEscapade.Content.Projectiles.StarfishApprentice;
 
 public class SpinnerFish : ModProjectile
 {
+    private Vector2 offset;
     private ref float Target => ref Projectile.ai[0];
     private ref float Timer => ref Projectile.ai[1];
-    
-    private Vector2 offset;
 
     public bool StickingToNPC { get; private set; }
     public bool StickingToTile { get; private set; }
@@ -51,11 +46,11 @@ public class SpinnerFish : ModProjectile
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
         Projectile.scale = 1.25f;
         Projectile.rotation += MathHelper.ToRadians(Main.rand.NextFloat(5f, 15f));
-        
+
         if (StickingToAnything) {
             return;
         }
-        
+
         offset = target.Center - Projectile.Center + Projectile.velocity;
 
         Target = target.whoAmI;
@@ -68,13 +63,13 @@ public class SpinnerFish : ModProjectile
         if (StickingToAnything) {
             return false;
         }
-        
+
         Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
 
         StickingToTile = true;
-            
+
         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, Projectile.whoAmI);
-        
+
         return false;
     }
 
@@ -84,38 +79,40 @@ public class SpinnerFish : ModProjectile
         if (Projectile.timeLeft < 255 / 25) {
             Projectile.alpha += 25;
         }
-        
+
         UpdateTargetStick();
         UpdateTileStick();
 
         if (StickingToAnything) {
             return;
         }
-        
+
         Projectile.rotation += Projectile.velocity.X * 0.1f;
-        
+
         UpdateGravity();
     }
 
+    // TODO: Implement proper visuals.
     public override bool PreDraw(ref Color lightColor) {
-        var texture = ModContent.Request<Texture2D>(Texture + "_Outline").Value;
-        
+        var texture = ModContent.Request<Texture2D>(Texture + "_Outline")
+            .Value;
+
         var effects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-        
+
         var offsetX = 0;
         var offsetY = 0;
         var originX = (texture.Width - Projectile.width) / 2f + Projectile.width / 2f;
-        
+
         ProjectileLoader.DrawOffset(Projectile, ref offsetX, ref offsetY, ref originX);
-        
+
         var x = Projectile.position.X - Main.screenPosition.X + originX + offsetX;
         var y = Projectile.position.Y - Main.screenPosition.Y + Projectile.height / 2f + Projectile.gfxOffY;
-        
+
         var frame = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
         var origin = new Vector2(originX, Projectile.height / 2f + offsetY);
-        
+
         Main.EntitySpriteDraw(texture, new Vector2(x, y), frame, Color.White, Projectile.rotation, origin, Projectile.scale, effects);
-        
+
         return true;
     }
 
@@ -123,7 +120,7 @@ public class SpinnerFish : ModProjectile
         if (!StickingToNPC) {
             return;
         }
-        
+
         var target = Main.npc[(int)Target];
 
         if (!target.active) {
@@ -141,7 +138,7 @@ public class SpinnerFish : ModProjectile
         if (!StickingToTile) {
             return;
         }
-        
+
         Projectile.velocity *= 0.5f;
     }
 
@@ -151,7 +148,7 @@ public class SpinnerFish : ModProjectile
         if (Timer < 10f) {
             return;
         }
-        
+
         Projectile.velocity.Y += 0.2f;
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using EndlessEscapade.Common.WorldBuilding.Biomes;
-using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Generation;

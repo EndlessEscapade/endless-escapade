@@ -1,7 +1,4 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,7 +13,7 @@ public class SpinnerFish : ModItem
         Item.noUseGraphic = true;
 
         Item.maxStack = Item.CommonMaxStack;
-        
+
         Item.DamageType = DamageClass.Ranged;
 
         Item.damage = 9;
@@ -37,9 +34,9 @@ public class SpinnerFish : ModItem
     }
 
     public override void AddRecipes() {
-        var recipe = CreateRecipe(50);
-        recipe.AddIngredient<EnchantedSand>(1);
-        recipe.AddTile(TileID.WorkBenches);
-        recipe.Register();
+        CreateRecipe(50)
+            .AddIngredient<EnchantedSand>()
+            .AddTile(TileID.WorkBenches)
+            .Register();
     }
 }

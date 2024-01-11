@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Ambience;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class AmbiencePlayer : ModPlayer
+public sealed class WaterSplashPlayer : ModPlayer
 {
     public static readonly SoundStyle WaterSplashSound = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Ambience/WaterSplash");
 

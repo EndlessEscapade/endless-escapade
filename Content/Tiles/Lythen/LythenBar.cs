@@ -11,9 +11,9 @@ public class LythenBar : ModTile
 {
     public static readonly SoundStyle LythenHitSound = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Custom/LythenHit", 3) {
         Pitch = 0.25f,
-        PitchVariance = 0.25f,
+        PitchVariance = 0.25f
     };
-    
+
     public override void SetStaticDefaults() {
         Main.tileSolid[Type] = true;
         Main.tileSolidTop[Type] = true;
@@ -27,7 +27,7 @@ public class LythenBar : ModTile
         TileObjectData.addTile(Type);
 
         AddMapEntry(new Color(200, 200, 200), Language.GetText("MapObject.MetalBar"));
-        
+
         HitSound = LythenHitSound;
     }
 

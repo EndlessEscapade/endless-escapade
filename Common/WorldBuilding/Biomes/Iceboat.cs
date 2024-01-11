@@ -32,11 +32,7 @@ public sealed class Iceboat : MicroBiome
         var leftAdjacentTile = Framing.GetTileSafely(ruinsOrigin.X - 1, ruinsOrigin.Y - 1);
         var rightAdjacentTile = Framing.GetTileSafely(ruinsOrigin.X + ruinsDims.X, ruinsOrigin.Y - 1);
 
-        if (leftAdjacentTile.HasTile || rightAdjacentTile.HasTile) {
-            return false;
-        }
-
-        if (!Generator.GenerateStructure("Content/Structures/IceboatRuins", new Point16(ruinsOrigin), mod) || !Generator.GenerateStructure("Content/Structures/Iceboat", new Point16(iceboatOrigin), mod)) {
+        if (leftAdjacentTile.HasTile || rightAdjacentTile.HasTile || !Generator.GenerateStructure("Content/Structures/IceboatRuins", new Point16(ruinsOrigin), mod) || !Generator.GenerateStructure("Content/Structures/Iceboat", new Point16(iceboatOrigin), mod)) {
             return false;
         }
 

@@ -26,7 +26,7 @@ public sealed class ShipyardGeneration : ModSystem
 
         var startX = 0;
         var startY = (int)(Main.worldSurface * 0.35f);
-        
+
         while (!foundOcean) {
             var tile = Framing.GetTileSafely(startX, startY);
 
@@ -37,7 +37,7 @@ public sealed class ShipyardGeneration : ModSystem
 
             startY++;
         }
-        
+
         while (!foundBeach) {
             if (WorldGen.SolidTile(startX, startY) && WorldGen.TileType(startX, startY) == TileID.Sand) {
                 foundBeach = true;

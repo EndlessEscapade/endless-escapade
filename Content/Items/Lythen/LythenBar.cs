@@ -19,9 +19,9 @@ public class LythenBar : ModItem
     }
 
     public override void AddRecipes() {
-        var recipe = CreateRecipe();
-        recipe.AddIngredient<LythenOre>(3);
-        recipe.AddTile(TileID.Furnaces);
-        recipe.Register();
+        CreateRecipe()
+            .AddIngredient<LythenOre>(3)
+            .AddTile(TileID.Furnaces)
+            .Register();
     }
 }

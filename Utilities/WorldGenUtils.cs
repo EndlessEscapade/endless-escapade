@@ -1,6 +1,4 @@
-using System.Linq;
 using Terraria;
-using Terraria.ID;
 
 namespace EndlessEscapade.Utilities;
 

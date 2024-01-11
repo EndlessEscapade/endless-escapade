@@ -1,3 +1,4 @@
+using EndlessEscapade.Content.Projectiles.StarfishApprentice;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,20 +11,27 @@ public class StarCatcher : ModItem
         Item.useTime = 8;
         Item.useAnimation = 8;
         Item.useStyle = ItemUseStyleID.Swing;
-        
+
         Item.fishingPole = 15;
 
         Item.width = 52;
         Item.height = 44;
 
-        Item.shoot = ModContent.ProjectileType<Projectiles.StarfishApprentice.StarCatcherBobber>();
+        Item.shoot = ModContent.ProjectileType<StarCatcherBobber>();
         Item.shootSpeed = 10f;
-        
+
         Item.rare = ItemRarityID.Blue;
         Item.UseSound = SoundID.Item1;
     }
-    
+
     public override void HoldItem(Player player) {
         player.accFishingLine = true;
+    }
+
+    public override void AddRecipes() {
+        CreateRecipe()
+            .AddIngredient<EnchantedSand>(4)
+            .AddTile(TileID.WorkBenches)
+            .Register();
     }
 }

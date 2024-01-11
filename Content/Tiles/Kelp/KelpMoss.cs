@@ -35,7 +35,8 @@ public class KelpMoss : CompositeTile
     }
 
     public override void PostDraw(int i, int j, SpriteBatch spriteBatch) {
-        var texture = ModContent.Request<Texture2D>(Texture + "_Glow").Value;
+        var texture = ModContent.Request<Texture2D>(Texture + "_Glow")
+            .Value;
 
         var zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
         var position = new Vector2(i, j) * 16f - Main.screenPosition + zero;
@@ -44,14 +45,6 @@ public class KelpMoss : CompositeTile
 
         var frame = new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16);
 
-        spriteBatch.Draw(texture,
-            position,
-            frame,
-            Color.White,
-            0f,
-            default,
-            1f,
-            SpriteEffects.None,
-            0f);
+        spriteBatch.Draw(texture, position, frame, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
     }
 }

@@ -7,7 +7,7 @@ public class RadiantPearl : ModItem
 {
     public override void SetDefaults() {
         Item.accessory = true;
-        
+
         Item.width = 36;
         Item.height = 36;
     }
