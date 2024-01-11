@@ -1,3 +1,5 @@
+using EndlessEscapade.Utilities.Extensions;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +24,7 @@ public sealed class ShellPile : GlobalItem
         }
 
         // TODO: Change to the shell pile gear when they're implemented.
-        var accessories = new int[] {
+        Span<int> accessories = stackalloc int[] {
             ItemID.Meowmere,
             ItemID.MechanicalWorm,
             ItemID.MechanicalEye
