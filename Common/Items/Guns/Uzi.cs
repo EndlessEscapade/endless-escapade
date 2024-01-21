@@ -4,12 +4,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Items;
+namespace EndlessEscapade.Common.Items.Guns;
 
-public sealed class Musket : GlobalItem
+public sealed class Uzi : GlobalItem
 {
     public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
-        return entity.type == ItemID.Musket;
+        return entity.type == ItemID.Uzi;
     }
 
     public override void SetDefaults(Item entity) {

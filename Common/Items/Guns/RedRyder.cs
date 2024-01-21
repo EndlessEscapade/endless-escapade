@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Items;
+namespace EndlessEscapade.Common.Items.Guns;
 
 public sealed class RedRyder : GlobalItem
 {

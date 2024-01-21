@@ -4,12 +4,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Items;
+namespace EndlessEscapade.Common.Items.Guns;
 
-public sealed class ChainGun : GlobalItem
+public sealed class VenusMagnum : GlobalItem
 {
     public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
-        return entity.type == ItemID.ChainGun;
+        return entity.type == ItemID.VenusMagnum;
     }
 
     public override void SetDefaults(Item entity) {

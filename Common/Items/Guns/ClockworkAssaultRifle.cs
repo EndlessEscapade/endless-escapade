@@ -4,12 +4,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Items;
+namespace EndlessEscapade.Common.Items.Guns;
 
-public sealed class VortexBeater : GlobalItem
+public sealed class ClockworkAssaultRifle : GlobalItem
 {
     public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
-        return entity.type == ItemID.VortexBeater;
+        return entity.type == ItemID.ClockworkAssaultRifle;
     }
 
     public override void SetDefaults(Item entity) {
@@ -18,7 +18,6 @@ public sealed class VortexBeater : GlobalItem
         }
 
         component.Enabled = true;
-        component.CasingAmount = 2;
-        component.CasingType = ModContent.GoreType<ShellCasing>();
+        component.CasingType = ModContent.GoreType<BulletCasing>();
     }
 }

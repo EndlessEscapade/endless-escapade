@@ -4,12 +4,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Items;
+namespace EndlessEscapade.Common.Items.Guns;
 
-public sealed class SniperRifle : GlobalItem
+public sealed class PhoenixBlaster : GlobalItem
 {
     public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
-        return entity.type == ItemID.SniperRifle;
+        return entity.type == ItemID.PhoenixBlaster;
     }
 
     public override void SetDefaults(Item entity) {

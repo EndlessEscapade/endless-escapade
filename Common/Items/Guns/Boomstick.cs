@@ -4,12 +4,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Items;
+namespace EndlessEscapade.Common.Items.Guns;
 
-public sealed class Uzi : GlobalItem
+public sealed class Boomstick : GlobalItem
 {
     public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
-        return entity.type == ItemID.Uzi;
+        return entity.type == ItemID.Boomstick;
     }
 
     public override void SetDefaults(Item entity) {
@@ -18,6 +18,7 @@ public sealed class Uzi : GlobalItem
         }
 
         component.Enabled = true;
-        component.CasingType = ModContent.GoreType<BulletCasing>();
+        component.CasingAmount = 2;
+        component.CasingType = ModContent.GoreType<ShellCasing>();
     }
 }

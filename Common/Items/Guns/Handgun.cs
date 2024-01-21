@@ -4,12 +4,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Items;
+namespace EndlessEscapade.Common.Items.Guns;
 
-public sealed class Shotgun : GlobalItem
+public sealed class Handgun : GlobalItem
 {
     public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
-        return entity.type == ItemID.Shotgun;
+        return entity.type == ItemID.Handgun;
     }
 
     public override void SetDefaults(Item entity) {
@@ -18,7 +18,6 @@ public sealed class Shotgun : GlobalItem
         }
 
         component.Enabled = true;
-        component.CasingAmount = 2;
-        component.CasingType = ModContent.GoreType<ShellCasing>();
+        component.CasingType = ModContent.GoreType<BulletCasing>();
     }
 }
