@@ -9,6 +9,7 @@ using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Utilities;
 
+// TODO: This class should not exist. World generation utilities should be built from GenAction and GenShape.
 public static class WorldGenUtils
 {
     public static void ExtendDownwards(int x, int y, int type) {
@@ -18,10 +19,5 @@ public static class WorldGenUtils
 
             y++;
         }
-    }
-
-    internal static WorldGenLegacyMethod GetVanillaWorldgenPassDelegate(string passName) {
-        var vanillaPasses = (Dictionary<string, GenPass>)typeof(WorldGen).GetField("_vanillaGenPasses", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-        return (WorldGenLegacyMethod)typeof(PassLegacy).GetField("_method", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).GetValue(vanillaPasses[passName]);
     }
 }

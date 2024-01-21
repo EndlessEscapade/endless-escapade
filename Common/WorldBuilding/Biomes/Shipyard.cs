@@ -1,4 +1,4 @@
-using EndlessEscapade.Content.NPCs.Shipyard;
+using EndlessEscapade.Content.NPCs.Town;
 using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
 using StructureHelper;

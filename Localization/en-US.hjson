@@ -204,6 +204,76 @@ Mods: {
 				DisplayName: Starfish Pump
 				Tooltip: ""
 			}
+
+			DolphinFin: {
+				DisplayName: Dolphin Fin
+				Tooltip: ""
+			}
+
+			FishGills: {
+				DisplayName: Fish Gills
+				Tooltip: ""
+			}
+
+			ScarletHachimaki: {
+				DisplayName: Scarlet Hachimaki
+				Tooltip: ""
+			}
+
+			ScarletKabuto: {
+				DisplayName: Scarlet Kabuto
+				Tooltip: ""
+			}
+
+			ScarletKasa: {
+				DisplayName: Scarlet Kasa
+				Tooltip: ""
+			}
+
+			ScarletMengu: {
+				DisplayName: Scarlet Mengu
+				Tooltip: ""
+			}
+
+			Brimstone: {
+				DisplayName: Brimstone
+				Tooltip: ""
+			}
+
+			RustyPipe: {
+				DisplayName: Rusty Pipe
+				Tooltip: ""
+			}
+
+			RustyPlating: {
+				DisplayName: Rusty Plating
+				Tooltip: ""
+			}
+
+			ScorchedGemsand: {
+				DisplayName: Scorched Gemsand
+				Tooltip: ""
+			}
+
+			AquamarineBoots: {
+				DisplayName: Aquamarine Boots
+				Tooltip: ""
+			}
+
+			AquamarineChestplate: {
+				DisplayName: Aquamarine Chestplate
+				Tooltip: ""
+			}
+
+			AquamarineHelmet: {
+				DisplayName: Aquamarine Helmet
+				Tooltip: ""
+			}
+
+			Aquamarine: {
+				DisplayName: Aquamarine
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -230,17 +300,17 @@ Mods: {
 
 				Chat: {
 					NewMoonDialogue: Ahoy there, when the new moon rises, keep a weathered eye on the Coral Reefs – them jellyfish'll be driftin' 'bout like ghostly lanterns.
-					AnglerDialogue1: Aye, me heart aches for me son, off fishin' he went, but the sea's a fickle mistress, and he's yet to make his return.
-					AnglerDialogue2: Me lad, he knows the ocean's whispers, so I'm prayin' he's still ridin' those waves.
-					AnglerDialogue3: Beggin' yer pardon, have ye spied me son? Beige cap, sturdy vest – that be his mark.
-					DayDialogue1: As the dawn breaks and the sky's painted with hues of gold, I find me solace on the pier, breathin' in the salt-kissed mornin' air.
-					DayDialogue2: The ocean, she's singin' her siren song today, beckonin' us with her endless tales of adventure.
-					DayDialogue3: Did ye see 'em? The sharks, they're dancin' in the waves, a dance of anticipation, or mayhaps they've a tale to share.
-					NightDialogue1: When the night's curtain falls upon the sea, tranquility blankets the waves, and the stars reflect like diamonds in liquid darkness.
-					NightDialogue2: Ah, the moon – she's a lantern in the sky, castin' her glow upon the water's surface, creatin' a path to the horizon.
-					NightDialogue3: Them jellies, their gentle glow pierces the night, enchantin' all who cast their gaze upon the mystical dance.
-					RainDialogue1: Rain's fallin', and I can't help but hope it's not heraldin' a tempest's fury – the sea's got a wild heart, ye know.
-					RainDialogue2: Lost me rain slicker in a gusty squall a few years back, wishin' for another to shield me from the spray.
+					AnglerDialogue0: Aye, me heart aches for me son, off fishin' he went, but the sea's a fickle mistress, and he's yet to make his return.
+					AnglerDialogue1: Me lad, he knows the ocean's whispers, so I'm prayin' he's still ridin' those waves.
+					AnglerDialogue2: Beggin' yer pardon, have ye spied me son? Beige cap, sturdy vest – that be his mark.
+					DayDialogue0: As the dawn breaks and the sky's painted with hues of gold, I find me solace on the pier, breathin' in the salt-kissed mornin' air.
+					DayDialogue1: The ocean, she's singin' her siren song today, beckonin' us with her endless tales of adventure.
+					DayDialogue2: Did ye see 'em? The sharks, they're dancin' in the waves, a dance of anticipation, or mayhaps they've a tale to share.
+					NightDialogue0: When the night's curtain falls upon the sea, tranquility blankets the waves, and the stars reflect like diamonds in liquid darkness.
+					NightDialogue1: Ah, the moon – she's a lantern in the sky, castin' her glow upon the water's surface, creatin' a path to the horizon.
+					NightDialogue2: Them jellies, their gentle glow pierces the night, enchantin' all who cast their gaze upon the mystical dance.
+					RainDialogue0: Rain's fallin', and I can't help but hope it's not heraldin' a tempest's fury – the sea's got a wild heart, ye know.
+					RainDialogue1: Lost me rain slicker in a gusty squall a few years back, wishin' for another to shield me from the spray.
 					ShipPromptDialogue1: Ahoy there, ye see that old ship wrecked off yonder? Once she was mine, sailed the seven seas, but those days be behind me now.
 					ShipPromptDialogue2:
 						'''
@@ -250,22 +320,29 @@ Mods: {
 						- [i/s5:73]
 						I'd get 'er fixed right up for ya.
 						'''
-					ShipCommonDialogue1: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
-					ShipCommonDialogue2: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
+					ShipCommonDialogue0: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
+					ShipCommonDialogue1: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
 					ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
 				}
 
 				Census.SpawnCondition: Conditions unknown
 			}
+
+			HermitCrab.DisplayName: Hermit Crab
 		}
 
 		Projectiles: {
 			SpinnerFish.DisplayName: Spinner Fish
 			SpinnerFishStar.DisplayName: Spinner Fish Star
 			StarCatcherBobber.DisplayName: Star Catcher Bobber
+			Oni.DisplayName: Oni
+			OniFrontHand.DisplayName: Oni Front Hand
 		}
 
-		Tiles.LythenOre.MapEntry: Lythen Ore
+		Tiles: {
+			LythenOre.MapEntry: Lythen Ore
+			Aquamarine.MapEntry: Aquamarine
+		}
 
 		GameTitle: {
 			0: Endless Escapade: What is that flashy buggy thing?
