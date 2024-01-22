@@ -274,6 +274,21 @@ Mods: {
 				DisplayName: Aquamarine
 				Tooltip: ""
 			}
+
+			Glowshroom: {
+				DisplayName: Glowshroom
+				Tooltip: ""
+			}
+
+			Kelpberries: {
+				DisplayName: Kelpberries
+				Tooltip: ""
+			}
+
+			CrabPincers: {
+				DisplayName: Crab Pincers
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -337,6 +352,7 @@ Mods: {
 			StarCatcherBobber.DisplayName: Star Catcher Bobber
 			Oni.DisplayName: Oni
 			OniFrontHand.DisplayName: Oni Front Hand
+			CrabPincers.DisplayName: Crab Pincers
 		}
 
 		Tiles: {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using EndlessEscapade.Utilities;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -9,7 +8,7 @@ using Terraria.GameContent.Generation;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.Patches;
+namespace EndlessEscapade.Common.WorldBuilding;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class BeachPatches : ILoadable
@@ -30,10 +29,17 @@ public sealed class BeachPatches : ILoadable
         try {
             var c = new ILCursor(il);
 
-            if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(1), i => i.MatchStloc(1))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(BeachPatches)} disabled: Failed to match IL.");
+            if (!c.TryGotoNext(i => i.MatchLdcI4(1))) {
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(BeachPatches)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
                 return;
             }
+
+            if (!c.TryGotoNext(i => i.MatchStloc(1))) {
+                 EndlessEscapade.Instance.Logger.Warn($"{nameof(BeachPatches)} disabled: Failed to match IL instruction: {nameof(OpCodes.Stloc_1)}");
+                return;
+            }
+
+            c.Index--;
 
             var label = c.DefineLabel();
 

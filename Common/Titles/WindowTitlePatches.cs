@@ -1,10 +1,11 @@
 using System;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Patches;
+namespace EndlessEscapade.Common.Titles;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class WindowTitlePatches : ModSystem
@@ -32,15 +33,27 @@ public sealed class WindowTitlePatches : ModSystem
         try {
             var c = new ILCursor(il);
 
-            if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcI4(1), i => i.MatchStsfld<Main>(nameof(Main.changeTheTitle)))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitlePatches)} disabled: Failed to match IL.");
+            if (!c.TryGotoNext(i => i.MatchLdcI4(1))) {
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitlePatches)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
                 return;
             }
 
+            if (!c.TryGotoNext(i => i.MatchStsfld<Main>(nameof(Main.changeTheTitle)))) {
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitlePatches)} disabled: Failed to match IL instruction: {nameof(OpCodes.Stsfld)}");
+                return;
+            }
+
+            c.Index++;
+
             c.EmitDelegate(SetTitle);
             
-            if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcI4(1), i => i.MatchStsfld<Main>(nameof(Main.changeTheTitle)))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitlePatches)} disabled: Failed to match IL.");
+            if (!c.TryGotoNext(i => i.MatchLdcI4(1))) {
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitlePatches)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
+                return;
+            }
+
+            if (!c.TryGotoNext(i => i.MatchStsfld<Main>(nameof(Main.changeTheTitle)))) {
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitlePatches)} disabled: Failed to match IL instruction: {nameof(OpCodes.Stsfld)}");
                 return;
             }
 

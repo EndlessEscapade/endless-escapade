@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Patches;
+namespace EndlessEscapade.Common.Audio;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class MusicPatches : ILoadable
@@ -25,10 +25,12 @@ public sealed class MusicPatches : ILoadable
         try {
             var c = new ILCursor(il);
 
-            if (!c.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt(typeof(OGGAudioTrack).GetMethod("ApplyTemporaryBufferTo", BindingFlags.NonPublic | BindingFlags.Static)))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(MusicPatches)} disabled: Failed to match IL.");
+            if (!c.TryGotoNext(i => i.MatchCallOrCallvirt(typeof(OGGAudioTrack).GetMethod("ApplyTemporaryBufferTo", BindingFlags.NonPublic | BindingFlags.Static)))) {
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(MusicPatches)} disabled: Failed to match IL instruction: {nameof(OpCodes.Callvirt)}");
                 return;
             }
+
+            c.Index--;
             
             c.Emit(OpCodes.Ldarg, 0);
             c.Emit(OpCodes.Ldfld, typeof(OGGAudioTrack).GetField("_vorbisReader", BindingFlags.NonPublic | BindingFlags.Instance));

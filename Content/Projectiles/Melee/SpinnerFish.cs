@@ -27,7 +27,6 @@ public class SpinnerFish : ModProjectile
         Projectile.height = 16;
 
         Projectile.aiStyle = -1;
-        AIType = -1;
 
         Projectile.timeLeft = 180;
         Projectile.penetrate = -1;
