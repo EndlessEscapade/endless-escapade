@@ -25,7 +25,6 @@ public class ScorchedGemsand : CompositeTile
         AddMapEntry(new Color(106, 96, 95));
 
         MineResist = 1f;
-
         HitSound = SoundID.Dig;
         DustType = DustID.Ash;
     }

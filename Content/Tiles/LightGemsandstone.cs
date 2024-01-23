@@ -21,8 +21,6 @@ public class LightGemsandstone : ModTile
 
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
-
-        RegisterItemDrop(ModContent.ItemType<Items.Placeables.LightGemsandstone>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

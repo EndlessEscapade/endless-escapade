@@ -10,6 +10,10 @@ namespace EndlessEscapade.Content.Tiles;
 
 public class Aquamarine : ModTile
 {
+    public static readonly SoundStyle AquamarineHitSound = new($"{nameof(EndlessEscapade)}/Assets/Sounds/Custom/AquamarineHit", 3) {
+        PitchVariance = 0.25f
+    };
+    
     public override void SetStaticDefaults() {
         Main.tileSpelunker[Type] = true;
         Main.tileShine2[Type] = true; 
@@ -25,11 +29,10 @@ public class Aquamarine : ModTile
 
         AddMapEntry(new Color(152, 171, 198), CreateMapEntryName());
 
-        DustType = DustID.Platinum;
-        HitSound = SoundID.Tink;
-        
-        MineResist = 1f;
+        MineResist = 2f;
         MinPick = 100;
+        DustType = DustID.Platinum;
+        HitSound = AquamarineHitSound;
     }
     
     public override void NumDust(int i, int j, bool fail, ref int num) {

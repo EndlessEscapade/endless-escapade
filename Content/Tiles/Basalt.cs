@@ -18,7 +18,6 @@ public class Basalt : ModTile
         AddMapEntry(new Color(37, 45, 45));
 
         MineResist = 1f;
-        
         HitSound = SoundID.Tink;
         DustType = DustID.Ash;
     }

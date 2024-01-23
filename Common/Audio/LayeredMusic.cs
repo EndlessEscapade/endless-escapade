@@ -10,12 +10,13 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Audio;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class MusicPatches : ILoadable
+public sealed class LayeredMusic : ILoadable
 {
     private static int previousMusic;
     private static long previousSamplePosition;
     
     void ILoadable.Load(Mod mod) {
+        // This patch makes music tracks play subsequently, providing smooth transition between different songs.
         IL_OGGAudioTrack.PrepareBufferToSubmit += PrepareBufferToSubmitPatch;
     }
 
@@ -26,7 +27,7 @@ public sealed class MusicPatches : ILoadable
             var c = new ILCursor(il);
 
             if (!c.TryGotoNext(i => i.MatchCallOrCallvirt(typeof(OGGAudioTrack).GetMethod("ApplyTemporaryBufferTo", BindingFlags.NonPublic | BindingFlags.Static)))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(MusicPatches)} disabled: Failed to match IL instruction: {nameof(OpCodes.Callvirt)}");
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(LayeredMusic)} disabled: Failed to match IL instruction: {nameof(OpCodes.Callvirt)}");
                 return;
             }
 

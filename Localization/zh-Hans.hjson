@@ -289,6 +289,11 @@ Mods: {
 				// DisplayName: Crab Pincers
 				// Tooltip: ""
 			}
+
+			IronBoots: {
+				// DisplayName: Iron Boots
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {

@@ -1,3 +1,4 @@
+using EndlessEscapade.Common.NPCs.Components;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,6 +22,8 @@ public class HermitCrab : ModNPC
         NPC.height = 20;
 
         NPC.aiStyle = NPCAIStyleID.Passive;
+
+        NPC.TryEnableComponent<NPCDeathEffects>((c => c.GoreAmount = 3));
     }
 
     public override void FindFrame(int frameHeight) {
@@ -45,14 +48,6 @@ public class HermitCrab : ModNPC
         
         for (var i = 0; i < amount; i++) {
             Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood);
-        }
-
-        if (NPC.life > 0 || Main.netMode == NetmodeID.Server) {
-            return;
-        }
-
-        for (var i = 0; i < 3; i++) {
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>(nameof(HermitCrab) + i).Type);
         }
     }
 }

@@ -27,8 +27,6 @@ public class KelpRock : CompositeTile
 
         HitSound = SoundID.Tink;
         DustType = DustID.JunglePlants;
-
-        RegisterItemDrop(ModContent.ItemType<Items.Placeables.KelpRock>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

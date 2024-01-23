@@ -19,8 +19,6 @@ public class Coralsand : ModTile
 
         HitSound = SoundID.Dig;
         DustType = DustID.Sand;
-
-        RegisterItemDrop(ModContent.ItemType<Items.Placeables.Coralsand>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

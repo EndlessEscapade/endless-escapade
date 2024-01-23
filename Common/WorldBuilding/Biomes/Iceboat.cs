@@ -35,6 +35,15 @@ public sealed class Iceboat : MicroBiome
         if (leftAdjacentTile.HasTile || rightAdjacentTile.HasTile || !Generator.GenerateStructure("Content/Structures/IceboatRuins", new Point16(ruinsOrigin), mod) || !Generator.GenerateStructure("Content/Structures/Iceboat", new Point16(iceboatOrigin), mod)) {
             return false;
         }
+        
+        // Fills up a blotch to make the structure naturally blend within the pre-existing terrain.
+        for (var j = ruinsOrigin.Y + 5; j < ruinsOrigin.Y + ruinsDims.Y; j++) {
+            var strength = WorldGen.genRand.Next(8, 13);
+            var steps = WorldGen.genRand.Next(2, 5);
+                    
+            WorldGen.TileRunner(ruinsOrigin.X + 5, j, strength, steps, TileID.SnowBlock, true, overRide: false);
+            WorldGen.TileRunner(ruinsOrigin.X + ruinsDims.X - 5, j, strength, steps, TileID.SnowBlock, true, overRide: false);
+        }
 
         var shaftShapeData = new ShapeData();
 

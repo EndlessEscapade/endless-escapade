@@ -11,7 +11,7 @@ using Terraria.WorldBuilding;
 namespace EndlessEscapade.Common.WorldBuilding;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class FloridaRebalance : ILoadable
+public sealed class Florida : ILoadable
 {
     void ILoadable.Load(Mod mod) {
         var passesFieldInfo = typeof(WorldGen).GetField("_vanillaGenPasses", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
@@ -20,6 +20,7 @@ public sealed class FloridaRebalance : ILoadable
         var methodInfo = typeof(PassLegacy).GetField("_method", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         var method = (WorldGenLegacyMethod)methodInfo.GetValue(passes["Beaches"]);
 
+        // This patch removes shallow and steep beaches on the left side of the world.
         MonoModHooks.Modify(method.Method, AddGenPassesPatch);
     }
 
@@ -30,12 +31,12 @@ public sealed class FloridaRebalance : ILoadable
             var c = new ILCursor(il);
 
             if (!c.TryGotoNext(i => i.MatchLdcI4(1))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(FloridaRebalance)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(Florida)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
                 return;
             }
 
             if (!c.TryGotoNext(i => i.MatchStloc(1))) {
-                 EndlessEscapade.Instance.Logger.Warn($"{nameof(FloridaRebalance)} disabled: Failed to match IL instruction: {nameof(OpCodes.Stloc_1)}");
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(Florida)} disabled: Failed to match IL instruction: {nameof(OpCodes.Stloc_1)}");
                 return;
             }
 

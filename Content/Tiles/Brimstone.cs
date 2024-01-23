@@ -25,7 +25,6 @@ public class Brimstone : CompositeTile
         AddMapEntry(new Color(56, 56, 65));
 
         MineResist = 1f;
-
         HitSound = SoundID.Tink;
         DustType = DustID.RedMoss;
     }
