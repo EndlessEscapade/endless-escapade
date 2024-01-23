@@ -8,23 +8,17 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Titles;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class WindowTitlePatches : ModSystem
+public sealed class WindowTitlePatches : ILoadable
 {
-    public override void Load() {
+    private const int GameTitleCount = 25;
+
+    void ILoadable.Load(Mod mod) {
         IL_Main.DrawMenu += DrawMenuPatch;
     }
-
-    public override void Unload() {
-        Main.changeTheTitle = true;
-    }
-
-    public override void PostSetupContent() {
-        SetTitle();
-    }
+    
+    void ILoadable.Unload() { }
 
     private static void SetTitle() {
-        const int GameTitleCount = 25;
-
         Main.changeTheTitle = false;
         Main.instance.Window.Title = Language.GetTextValue("Mods.EndlessEscapade.GameTitle." + Main.rand.Next(GameTitleCount));
     }
