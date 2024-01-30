@@ -5,19 +5,22 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Titles;
+namespace EndlessEscapade.Common;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class CustomWindowTitles : ILoadable
+public sealed class CustomWindowTitles : ModSystem
 {
     private const int GameTitleCount = 25;
 
-    void ILoadable.Load(Mod mod) {
+    public override void Load() {
         // This patch completely replaces Terraria's window titles by custom titles, changing them upon language selection.
         IL_Main.DrawMenu += DrawMenuPatch;
     }
 
-    void ILoadable.Unload() { }
+    public override void PostSetupContent() {
+        Main.changeTheTitle = false;
+        Main.instance.Window.Title = Language.GetTextValue("Mods.EndlessEscapade.GameTitle." + Main.rand.Next(GameTitleCount));
+    }
 
     private static void DrawMenuPatch(ILContext il) {
         try {

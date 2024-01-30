@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Audio.Ambience;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class WaterMufflePlayer : ModPlayer
+public sealed class WaterMufflingEffects : ModPlayer
 {
     private float intensity;
 
@@ -27,7 +27,7 @@ public sealed class WaterMufflePlayer : ModPlayer
         }
 
         AudioSystem.AddModifier(
-            $"{nameof(EndlessEscapade)}:{nameof(WaterMufflePlayer)}",
+            $"{nameof(EndlessEscapade)}:{nameof(WaterMufflingEffects)}",
             60,
             (ref AudioParameters parameters, float progress) => { parameters.LowPass = Intensity * progress; }
         );
