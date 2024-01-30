@@ -10,7 +10,7 @@ namespace EndlessEscapade.Content.Tiles;
 public class ScorchedGemsand : CompositeTile
 {
     public override int HorizontalSheetCount { get; } = 4;
-    
+
     public override int VerticalSheetCount { get; } = 2;
 
     public override void SetStaticDefaults() {

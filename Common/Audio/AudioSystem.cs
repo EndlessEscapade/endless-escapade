@@ -13,10 +13,16 @@ namespace EndlessEscapade.Common.Audio;
 [Autoload(Side = ModSide.Client)]
 public sealed class AudioSystem : ModSystem
 {
-    private static readonly ImmutableArray<SoundStyle> ignoredSoundStyles = ImmutableArray.Create(SoundID.MenuClose, SoundID.MenuOpen, SoundID.MenuTick, SoundID.Chat, SoundID.Grab);
+    private static readonly SoundStyle[] IgnoredSoundStyles = {
+        SoundID.MenuClose,
+        SoundID.MenuOpen, 
+        SoundID.MenuTick, 
+        SoundID.Chat, 
+        SoundID.Grab
+    };
 
-    private static readonly List<ActiveSound> sounds = new();
-    private static readonly List<AudioModifier> modifiers = new();
+    private static readonly List<ActiveSound> Sounds = new();
+    private static readonly List<AudioModifier> Modifiers = new();
 
     private static AudioParameters parameters;
 
@@ -30,20 +36,20 @@ public sealed class AudioSystem : ModSystem
     }
 
     public static void AddModifier(string context, int duration, AudioModifier.ModifierCallback callback) {
-        var index = modifiers.FindIndex(modifier => modifier.Context == context);
+        var index = Modifiers.FindIndex(modifier => modifier.Context == context);
 
         if (index == -1) {
-            modifiers.Add(new AudioModifier(context, duration, callback));
+            Modifiers.Add(new AudioModifier(context, duration, callback));
             return;
         }
 
-        var modifier = modifiers[index];
+        var modifier = Modifiers[index];
 
         modifier.TimeLeft = Math.Max(modifier.TimeLeft, duration);
         modifier.TimeMax = Math.Max(modifier.TimeMax, duration);
         modifier.Callback = callback;
 
-        modifiers[index] = modifier;
+        Modifiers[index] = modifier;
     }
 
     public override void PostUpdateEverything() {
@@ -66,28 +72,28 @@ public sealed class AudioSystem : ModSystem
     private static void UpdateModifiers() {
         var newParameters = new AudioParameters();
 
-        for (var i = 0; i < modifiers.Count; i++) {
-            var modifier = modifiers[i];
+        for (var i = 0; i < Modifiers.Count; i++) {
+            var modifier = Modifiers[i];
 
             if (modifier.TimeLeft-- <= 0) {
-                modifiers.RemoveAt(i--);
+                Modifiers.RemoveAt(i--);
                 continue;
             }
 
             modifier.Callback(ref newParameters, modifier.TimeLeft / (float)modifier.TimeMax);
 
-            modifiers[i] = modifier;
+            Modifiers[i] = modifier;
         }
 
         parameters = newParameters;
     }
 
     private static void UpdateSounds() {
-        for (var i = 0; i < sounds.Count; i++) {
-            var sound = sounds[i];
+        for (var i = 0; i < Sounds.Count; i++) {
+            var sound = Sounds[i];
 
             if (!sound.IsPlaying) {
-                sounds.RemoveAt(i--);
+                Sounds.RemoveAt(i--);
                 continue;
             }
 
@@ -95,11 +101,25 @@ public sealed class AudioSystem : ModSystem
         }
     }
 
-    private static SlotId PlayInnerHook(On_SoundPlayer.orig_Play_Inner orig, SoundPlayer self, ref SoundStyle style, Vector2? position, SoundUpdateCallback updateCallback) {
+    private static SlotId PlayInnerHook(
+        On_SoundPlayer.orig_Play_Inner orig,
+        SoundPlayer self,
+        ref SoundStyle style,
+        Vector2? position,
+        SoundUpdateCallback updateCallback) {
         var slot = orig(self, ref style, position, updateCallback);
+        
+        var hasIgnoredStyle = false;
 
-        if (SoundEngine.TryGetActiveSound(slot, out var sound) && sound.Sound?.IsDisposed == false && !ignoredSoundStyles.Contains(sound.Style)) {
-            sounds.Add(sound);
+        foreach (var ignoredStyle in IgnoredSoundStyles) {
+            if (style == ignoredStyle) {
+                hasIgnoredStyle = true;
+                break;
+            }
+        }
+
+        if (SoundEngine.TryGetActiveSound(slot, out var sound) && sound.Sound?.IsDisposed == false && !hasIgnoredStyle) {
+            Sounds.Add(sound);
         }
 
         return slot;

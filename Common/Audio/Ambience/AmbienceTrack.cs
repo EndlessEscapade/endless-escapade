@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Ambience;
+namespace EndlessEscapade.Common.Audio.Ambience;
 
 public abstract class AmbienceTrack : ModType
 {

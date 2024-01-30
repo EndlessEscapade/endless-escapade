@@ -13,12 +13,9 @@ public sealed class TacticalShotgun : GlobalItem
     }
 
     public override void SetDefaults(Item entity) {
-        if (!entity.TryGetGlobalItem(out ItemBulletCasings component)) {
-            return;
-        }
-
-        component.Enabled = true;
-        component.CasingAmount = 6;
-        component.CasingType = ModContent.GoreType<ShellCasing>();
+        entity.TryEnableComponent<ItemBulletCasings>(c => {
+            c.CasingType = ModContent.GoreType<ShellCasing>();
+            c.CasingAmount = 6;
+        });
     }
 }

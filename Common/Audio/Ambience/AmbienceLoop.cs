@@ -3,7 +3,7 @@ using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 
-namespace EndlessEscapade.Common.Ambience;
+namespace EndlessEscapade.Common.Audio.Ambience;
 
 public abstract class AmbienceLoop : AmbienceTrack
 {

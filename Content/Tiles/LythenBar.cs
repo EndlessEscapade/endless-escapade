@@ -27,7 +27,7 @@ public class LythenBar : ModTile
         TileObjectData.addTile(Type);
 
         AddMapEntry(new Color(200, 200, 200), Language.GetText("MapObject.MetalBar"));
-        
+
         MineResist = 1f;
         MinPick = 30;
         HitSound = LythenHitSound;

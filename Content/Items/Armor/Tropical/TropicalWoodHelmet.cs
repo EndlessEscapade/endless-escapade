@@ -9,9 +9,9 @@ namespace EndlessEscapade.Content.Items.Armor.Tropical;
 public class TropicalWoodHelmet : ModItem
 {
     public override void SetStaticDefaults() {
-        ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;        
+        ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
     }
-    
+
     public override void SetDefaults() {
         Item.defense = 2;
 
@@ -25,12 +25,12 @@ public class TropicalWoodHelmet : ModItem
             .AddTile(TileID.WorkBenches)
             .Register();
     }
-    
+
     public override void UpdateArmorSet(Player player) {
         player.setBonus = "+1 defense";
         player.statDefense++;
     }
-    
+
     public override bool IsArmorSet(Item head, Item body, Item legs) {
         return body.type == ModContent.ItemType<TropicalWoodChestplate>() && legs.type == ModContent.ItemType<TropicalWoodBoots>();
     }

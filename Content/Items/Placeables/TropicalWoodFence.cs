@@ -11,7 +11,7 @@ public class TropicalWoodFence : ModItem
         Item.width = 32;
         Item.height = 32;
     }
-    
+
     public override void AddRecipes() {
         CreateRecipe(4)
             .AddIngredient<TropicalWood>()

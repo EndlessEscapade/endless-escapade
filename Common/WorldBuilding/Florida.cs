@@ -25,7 +25,7 @@ public sealed class Florida : ILoadable
     }
 
     void ILoadable.Unload() { }
-    
+
     private static void AddGenPassesPatch(ILContext il) {
         try {
             var c = new ILCursor(il);

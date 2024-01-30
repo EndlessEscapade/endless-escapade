@@ -16,7 +16,7 @@ public sealed class CustomWindowTitles : ILoadable
         // This patch completely replaces Terraria's window titles by custom titles, changing them upon language selection.
         IL_Main.DrawMenu += DrawMenuPatch;
     }
-    
+
     void ILoadable.Unload() { }
 
     private static void DrawMenuPatch(ILContext il) {
@@ -39,7 +39,7 @@ public sealed class CustomWindowTitles : ILoadable
                 Main.changeTheTitle = false;
                 Main.instance.Window.Title = Language.GetTextValue("Mods.EndlessEscapade.GameTitle." + Main.rand.Next(GameTitleCount));
             });
-            
+
             if (!c.TryGotoNext(i => i.MatchLdcI4(1))) {
                 EndlessEscapade.Instance.Logger.Warn($"{nameof(CustomWindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
                 return;

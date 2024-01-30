@@ -2,7 +2,7 @@ using EndlessEscapade.Content.Biomes;
 using Terraria;
 using Terraria.Audio;
 
-namespace EndlessEscapade.Common.Ambience.Sounds;
+namespace EndlessEscapade.Common.Audio.Ambience.Sounds;
 
 public sealed class DolphinSounds : AmbienceSound
 {

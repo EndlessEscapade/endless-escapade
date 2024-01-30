@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.Audio;
 
-namespace EndlessEscapade.Common.Ambience.Sounds;
+namespace EndlessEscapade.Common.Audio.Ambience.Sounds;
 
 public sealed class SeagullSounds : AmbienceSound
 {

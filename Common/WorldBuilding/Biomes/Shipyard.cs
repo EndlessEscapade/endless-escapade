@@ -23,16 +23,17 @@ public sealed class Shipyard : MicroBiome
 
         var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
         var adjustedOrigin = new Point16(origin.X, origin.Y) - offset;
-        
-        if (!structures.CanPlace(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y)) || !Generator.GenerateStructure("Content/Structures/Shipyard", adjustedOrigin, mod)) {
+
+        if (!structures.CanPlace(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y)) ||
+            !Generator.GenerateStructure("Content/Structures/Shipyard", adjustedOrigin, mod)) {
             return false;
         }
-        
+
         // Fills up a blotch to make the structure naturally blend within the pre-existing terrain.
         for (var j = adjustedOrigin.Y + 30; j < adjustedOrigin.Y + dims.Y; j++) {
             var strength = WorldGen.genRand.Next(10, 17);
             var steps = WorldGen.genRand.Next(1, 4);
-                    
+
             WorldGen.TileRunner(adjustedOrigin.X + dims.X, j, strength, steps, TileID.Sand, true);
         }
 

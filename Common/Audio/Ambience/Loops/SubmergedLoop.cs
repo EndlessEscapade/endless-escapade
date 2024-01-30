@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.Audio;
 
-namespace EndlessEscapade.Common.Ambience.Loops;
+namespace EndlessEscapade.Common.Audio.Ambience.Loops;
 
 public sealed class SubmergedLoop : AmbienceLoop
 {

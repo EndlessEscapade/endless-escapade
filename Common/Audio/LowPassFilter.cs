@@ -8,7 +8,7 @@ namespace EndlessEscapade.Common.Audio;
 
 public sealed class LowPassFilter : IAudioFilter
 {
-    private static readonly Action<SoundEffectInstance, float>? ApplyLowPassFilterAction = typeof(SoundEffectInstance)
+    private static readonly Action<SoundEffectInstance, float> ApplyLowPassFilterAction = typeof(SoundEffectInstance)
         .GetMethod("INTERNAL_applyLowPassFilter", BindingFlags.Instance | BindingFlags.NonPublic)
         .CreateDelegate<Action<SoundEffectInstance, float>>();
 

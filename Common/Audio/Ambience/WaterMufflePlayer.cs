@@ -1,9 +1,8 @@
-using EndlessEscapade.Common.Audio;
 using EndlessEscapade.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Ambience;
+namespace EndlessEscapade.Common.Audio.Ambience;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class WaterMufflePlayer : ModPlayer

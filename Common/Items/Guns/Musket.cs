@@ -13,11 +13,8 @@ public sealed class Musket : GlobalItem
     }
 
     public override void SetDefaults(Item entity) {
-        if (!entity.TryGetGlobalItem(out ItemBulletCasings component)) {
-            return;
-        }
-
-        component.Enabled = true;
-        component.CasingType = ModContent.GoreType<BulletCasing>();
+        entity.TryEnableComponent<ItemBulletCasings>(c => {
+            c.CasingType = ModContent.GoreType<BulletCasing>();
+        });
     }
 }

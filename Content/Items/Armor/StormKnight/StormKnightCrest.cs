@@ -12,7 +12,7 @@ public class StormKnightCrest : ModItem
         Item.width = 26;
         Item.height = 28;
     }
-    
+
     public override void AddRecipes() {
         CreateRecipe()
             .AddIngredient<LythenBar>(3)

@@ -12,7 +12,7 @@ public class StormKnightBreastplate : ModItem
         Item.width = 34;
         Item.height = 20;
     }
-    
+
     public override void AddRecipes() {
         CreateRecipe()
             .AddIngredient<LythenBar>(5)

@@ -21,9 +21,9 @@ public class ShellCasing : ModGore
         if (gore.alpha >= 255) {
             gore.active = false;
         }
-        
+
         gore.alpha += 5;
-        
+
         return true;
     }
 }

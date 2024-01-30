@@ -13,7 +13,7 @@ public class TropicalWoodChestplate : ModItem
         Item.width = 24;
         Item.height = 22;
     }
-    
+
     public override void AddRecipes() {
         CreateRecipe()
             .AddIngredient<TropicalWood>(30)

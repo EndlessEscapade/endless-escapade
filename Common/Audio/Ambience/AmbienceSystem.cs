@@ -3,7 +3,7 @@ using Hjson;
 using Newtonsoft.Json.Linq;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Ambience;
+namespace EndlessEscapade.Common.Audio.Ambience;
 
 // TODO: I hate this. Switch to a data oriented approach later.
 [Autoload(Side = ModSide.Client)]
@@ -25,12 +25,10 @@ public sealed class AmbienceSystem : ModSystem
                 if (token is not JProperty property) {
                     continue;
                 }
-
-                Mod.Logger.Debug(property);
             }
         }
     }
-
+    
     public override void PostUpdateEverything() {
         foreach (var track in ModContent.GetContent<AmbienceTrack>()) {
             track.Update();

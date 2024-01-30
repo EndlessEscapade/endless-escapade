@@ -14,7 +14,7 @@ public class FallenStarfishStaff : ModItem
         Item.SetWeaponValues(10, 2f);
         Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice());
     }
-    
+
     public override void AddRecipes() {
         CreateRecipe()
             .AddIngredient<EnchantedSand>(4)
