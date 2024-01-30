@@ -30,9 +30,7 @@ public sealed class WaterMufflePlayer : ModPlayer
         AudioSystem.AddModifier(
             $"{nameof(EndlessEscapade)}:{nameof(WaterMufflePlayer)}",
             60,
-            (ref AudioParameters parameters, float progress) => {
-                parameters.LowPass = Intensity * progress;
-            }
+            (ref AudioParameters parameters, float progress) => { parameters.LowPass = Intensity * progress; }
         );
     }
 }

@@ -25,7 +25,7 @@ public sealed class AmbienceSystem : ModSystem
                 if (token is not JProperty property) {
                     continue;
                 }
-                
+
                 Mod.Logger.Debug(property);
             }
         }

@@ -1,5 +1,4 @@
 ﻿using EndlessEscapade.Utilities.Extensions;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 
