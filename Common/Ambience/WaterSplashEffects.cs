@@ -1,7 +1,7 @@
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Audio.Ambience;
+namespace EndlessEscapade.Common.Ambience;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class WaterSplashEffects : ModPlayer
