@@ -9,13 +9,13 @@ namespace EndlessEscapade.Common.Ambience;
 public struct AmbienceSound : IAmbienceTrack
 {
     private float volume = 0f;
-    
-    public SlotId SlotId { get; set; } = SlotId.Invalid;
 
     public float Volume {
         get => volume;
         set => volume = MathHelper.Clamp(value, 0f, 1f);
     }
+    
+    public SlotId SlotId { get; set; } = SlotId.Invalid;
 
     [JsonRequired]
     public SoundStyle Style { get; set; } = default;
