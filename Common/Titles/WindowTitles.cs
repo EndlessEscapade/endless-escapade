@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common;
+namespace EndlessEscapade.Common.Titles;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class WindowTitles : ModSystem

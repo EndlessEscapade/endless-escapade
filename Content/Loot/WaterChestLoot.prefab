@@ -1,0 +1,17 @@
+DolphinFinLoot: {
+    ChestLoot: {
+        ItemType: EndlessEscapade/DolphinFin
+        TileType: Terraria/Containers
+        Chance: 5
+        Frames: [ 17 ]
+    }
+}
+
+FishGillsLoot: {
+    ChestLoot: {
+        ItemType: EndlessEscapade/FishGills
+        TileType: Terraria/Containers
+        Chance: 5
+        Frames: [ 17 ]
+    }
+}

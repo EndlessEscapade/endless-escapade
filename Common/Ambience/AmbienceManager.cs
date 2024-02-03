@@ -11,12 +11,12 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Ambience;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class AmbienceSystem : ModSystem
+public sealed class AmbienceManager : ModSystem
 {
     private static readonly List<AmbienceSound> Sounds = new();
     private static readonly List<AmbienceLoop> Loops = new();
     
-    public override void Load() {
+    public override void PostSetupContent() {
         foreach (var fullFilePath in Mod.GetFileNames()) {
             if (!fullFilePath.EndsWith(".prefab")) {
                 continue;
@@ -55,11 +55,11 @@ public sealed class AmbienceSystem : ModSystem
         for (var i = 0; i < Sounds.Count; i++) {
             var sound = Sounds[i];
             
-            if (!SoundEngine.TryGetActiveSound(sound.SlotId, out _) && Main.rand.NextBool(sound.PlaybackChanceDenominator)) {
+            if (!SoundEngine.TryGetActiveSound(sound.SlotId, out var activeSound) && Main.rand.NextBool(sound.PlaybackChanceDenominator)) {
                 sound.SlotId = SoundEngine.PlaySound(sound.Style);
             }
             else {
-                sound.SlotId = SlotId.Invalid;
+                activeSound.Volume = sound.Volume;
             }
 
             Sounds[i] = sound;
