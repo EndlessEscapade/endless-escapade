@@ -1,0 +1,44 @@
+BeachWaveSounds: {
+    AmbienceLoop: {
+        Style: {
+            SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachWavesLoop"
+            Type: Ambient
+            IsLooped: true
+            MaxInstances: 1
+        }
+
+        Flags: ["Shipyard", "Beach", "Ocean"]
+    }
+}
+
+BeachSeagullSounds: {
+    AmbienceSound: {
+        Style: {
+            SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachSeagulls1"
+            Type: Ambient
+            Volume: 1
+            MaxInstances: 1
+            PitchVariance: 0.25
+        }
+
+        PlaybackChanceDenominator: 200
+
+        Flags: ["Shipyard", "Beach", "Ocean"]
+    }
+}
+
+BeachDolphinSounds: {
+    AmbienceSound: {
+        Style: {
+            SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachDolphins"
+            Type: Ambient
+            Volume: 1
+            MaxInstances: 1
+            PitchVariance: 0.25
+        }
+
+        PlaybackChanceDenominator: 200
+
+        Flags: ["Shipyard", "Beach", "Ocean"]
+    }
+}

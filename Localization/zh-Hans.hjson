@@ -1,5 +1,14 @@
 Mods: {
 	EndlessEscapade: {
+		Bestiary.Sailor: 嗨! 水手会告诉你关于海洋与航行的一切.
+
+		Biomes: {
+			Shipyard: {
+				// DisplayName: Shipyard
+				// TownNPCDialogueName: the Shipyard
+			}
+		}
+
 		Items: {
 			DarkGemsand: {
 				DisplayName: 暗黑宝石砂
@@ -101,6 +110,16 @@ Mods: {
 				Tooltip: ""
 			}
 
+			TropicalWoodWall: {
+				DisplayName: 热带木墙
+				Tooltip: ""
+			}
+
+			TropicalWoodFence: {
+				// DisplayName: Tropical Wood Fence
+				// Tooltip: ""
+			}
+
 			Gemsand: {
 				DisplayName: 宝石砂
 				Tooltip: ""
@@ -121,33 +140,158 @@ Mods: {
 				Tooltip: ""
 			}
 
-			TropicalWoodWall: {
-				DisplayName: 热带木墙
-				Tooltip: ""
-			}
-
-			Cannon: {
-				// DisplayName: Cannon
+			LythenBar: {
+				// DisplayName: Lythen Bar
 				// Tooltip: ""
 			}
 
-			Wheel: {
-				// DisplayName: Wheel
+			LythenOre: {
+				// DisplayName: Lythen Ore
 				// Tooltip: ""
 			}
 
-			CryoCannon: {
-				// DisplayName: Cryo Cannon
+			StormKnightBreastplate: {
+				// DisplayName: Storm Knight Breastplate
 				// Tooltip: ""
 			}
 
-			SailorHat: {
-				// DisplayName: Sailor Hat
+			StormKnightCrest: {
+				// DisplayName: Storm Knight Crest
 				// Tooltip: ""
 			}
 
-			TropicalWoodFence: {
-				// DisplayName: Tropical Wood Fence
+			StormKnightLeggings: {
+				// DisplayName: Storm Knight Leggings
+				// Tooltip: ""
+			}
+
+			EnchantedSand: {
+				// DisplayName: Enchanted Sand
+				// Tooltip: ""
+			}
+
+			StormGauntlet: {
+				// DisplayName: Storm Gauntlet
+				// Tooltip: ""
+			}
+
+			SpinnerFish: {
+				// DisplayName: Spinner Fish
+				// Tooltip: ""
+			}
+
+			StarCatcher: {
+				// DisplayName: Star Catcher
+				// Tooltip: ""
+			}
+
+			GreatShell: {
+				// DisplayName: Great Shell
+				// Tooltip: ""
+			}
+
+			RadiantPearl: {
+				// DisplayName: Radiant Pearl
+				// Tooltip: ""
+			}
+
+			FallenStarfishStaff: {
+				// DisplayName: Fallen Starfish Staff
+				// Tooltip: ""
+			}
+
+			StarfishPump: {
+				// DisplayName: Starfish Pump
+				// Tooltip: ""
+			}
+
+			DolphinFin: {
+				// DisplayName: Dolphin Fin
+				// Tooltip: ""
+			}
+
+			FishGills: {
+				// DisplayName: Fish Gills
+				// Tooltip: ""
+			}
+
+			ScarletHachimaki: {
+				// DisplayName: Scarlet Hachimaki
+				// Tooltip: ""
+			}
+
+			ScarletKabuto: {
+				// DisplayName: Scarlet Kabuto
+				// Tooltip: ""
+			}
+
+			ScarletKasa: {
+				// DisplayName: Scarlet Kasa
+				// Tooltip: ""
+			}
+
+			ScarletMengu: {
+				// DisplayName: Scarlet Mengu
+				// Tooltip: ""
+			}
+
+			Brimstone: {
+				// DisplayName: Brimstone
+				// Tooltip: ""
+			}
+
+			RustyPipe: {
+				// DisplayName: Rusty Pipe
+				// Tooltip: ""
+			}
+
+			RustyPlating: {
+				// DisplayName: Rusty Plating
+				// Tooltip: ""
+			}
+
+			ScorchedGemsand: {
+				// DisplayName: Scorched Gemsand
+				// Tooltip: ""
+			}
+
+			AquamarineBoots: {
+				// DisplayName: Aquamarine Boots
+				// Tooltip: ""
+			}
+
+			AquamarineChestplate: {
+				// DisplayName: Aquamarine Chestplate
+				// Tooltip: ""
+			}
+
+			AquamarineHelmet: {
+				// DisplayName: Aquamarine Helmet
+				// Tooltip: ""
+			}
+
+			Aquamarine: {
+				// DisplayName: Aquamarine
+				// Tooltip: ""
+			}
+
+			Glowshroom: {
+				// DisplayName: Glowshroom
+				// Tooltip: ""
+			}
+
+			Kelpberries: {
+				// DisplayName: Kelpberries
+				// Tooltip: ""
+			}
+
+			CrabPincers: {
+				// DisplayName: Crab Pincers
+				// Tooltip: ""
+			}
+
+			IronBoots: {
+				// DisplayName: Iron Boots
 				// Tooltip: ""
 			}
 		}
@@ -157,100 +301,106 @@ Mods: {
 				DisplayName: 水手
 
 				TownNPCMood: {
-					Content: The best feeling is being able to look in the past and feel grateful for everyone you've met and everything you've done.
-					NoHome: I know i'm quite the explorer myself, but sometimes it'd be nice to have somewhere to stay.
-					FarFromHome: This might be one long trip, but one worth taking. I just want to rest my legs.
-					LoveSpace: The perfect scenario for bonding, if they're up for hearing my stories of course.
-					DislikeCrowded: I bet half of these people wouldn't survive a day on a voyage to the {BiomeName}.
-					HateCrowded: I can't handle this, I think I'm going to leave again.
-					LoveBiome: Past this beach you'll find a world of wonders waiting to be explored and discovered! Oh the excitement, the thrill!
-					LikeBiome: Actually, I kind of like the {BiomeName}, the sands reminds me of the Ocean...
-					HateBiome: Quite the contrast to the feeling of being in the middle of the ocean, I can feel the walls waiting to fall on me.
-					LoveNPC: I'm finally able to have some quality time with {NPCName} after all these months.
-					LikeNPC: I'm glad I got to meet {NPCName}. He has also gone on his fair share of adventures. Maybe he could join my crew.
-					DislikeNPC: I need to get away from {NPCName}, he reminds me of truly terrible times.
-					HateNPC: Why do i have to live near {NPCName}? Do you know how many times they've plundered my crew?!
-					LikeNPC_Princess: I like {NPCName}.
-					Princess_LovesNPC: I like {NPCName}.
+					// Content: The finest sensation be lookin' to yonder past, aye, rememberin' the souls ye've crossed paths with and the deeds ye've done – a treasure of gratitude held close to the heart.
+					// NoHome: Aye, though I've a wanderer's soul meself, there be times when a home's warm embrace would be a blessin'.
+					// FarFromHome: Far from me birthplace, this journey stretches like the horizon's edge – but by Davy Jones, it's a journey worth every step. A chance to rest these weary legs, that's all I ask.
+					// LoveSpace: Ahoy there, the boundless space above be the canvas for connections, aye, sharin' tales and merriment – if they're keen to hear me yarns, that be.
+					// DislikeCrowded: By the Kraken's tentacles, this crowd be suffocatin' – half of 'em wouldn't last a single day on a voyage to the {BiomeName}, mark me words.
+					// HateCrowded: Blow me down, I can't bear this chaos no more – reckon I'll be castin' off once more, seekin' the open sea's embrace.
+					// LoveBiome: Set yer sights on the beach ahead, me hearties, for beyond lies a realm of marvels awaitin' to be unveiled! Oh, the thrill and excitement awaitin' for them brave enough to step forth.
+					// LikeBiome: Aye, there's somethin' 'bout this {BiomeName} that stirs me heart – the sands be a remindin' of the vast ocean's embrace, aye, familiar and yet refreshin'.
+					// HateBiome: But the {BiomeName} – it's like a cage, a stark contrast to the endless ocean's expanse. These walls be closin' in, aye, like the sea's pressin' upon me from all sides.
+					// LoveNPC: As the tide ebbs and flows, there be a fondness for {NPCName} that's grown within – aye, I've taken a likin' to 'em.
+					// LikeNPC: Me heart warms knowin' {NPCName} shares the spirit of adventure, a kindred soul who's seen the world and all its wonders. Could be a fine addition to me crew, that one.
+					// DislikeNPC: I need to get away from {NPCName}, he reminds me of truly terrible times.
+					// HateNPC: Blast it all, why must I be tethered to {NPCName}'s shadow? Can ye imagine the times they've looted and pillaged me crew? It be a curse upon these waters!
+					// LikeNPC_Princess: I like {NPCName}.
+					// Princess_LovesNPC: I like {NPCName}.
+				}
+
+				Chat: {
+					NewMoonDialogue: 新月是珊瑚礁里的水母开始活动的信号.
+					// AnglerDialogue0: Aye, me heart aches for me son, off fishin' he went, but the sea's a fickle mistress, and he's yet to make his return.
+					AnglerDialogue1: 你见过我的儿子吗? 他上次出海钓鱼后就再也没回来.
+					AnglerDialogue2: 我儿子熟知海洋, 所以我希望他没事...
+					// DayDialogue0: As the dawn breaks and the sky's painted with hues of gold, I find me solace on the pier, breathin' in the salt-kissed mornin' air.
+					DayDialogue1: 我总喜欢在破晓时分漫步于海堤之上.
+					DayDialogue2: 大海今天很兴奋啊, 不是吗?
+					// NightDialogue0: When the night's curtain falls upon the sea, tranquility blankets the waves, and the stars reflect like diamonds in liquid darkness.
+					NightDialogue1: 夜晚的海波总是如此平静.
+					NightDialogue2: 水中月色可真美啊.
+					// RainDialogue0: Rain's fallin', and I can't help but hope it's not heraldin' a tempest's fury – the sea's got a wild heart, ye know.
+					RainDialogue1: 但愿这场雨不是飓风的前兆!
+					// ShipPromptDialogue1: Ahoy there, ye see that old ship wrecked off yonder? Once she was mine, sailed the seven seas, but those days be behind me now.
+					/* ShipPromptDialogue2:
+						'''
+						If you brought me the following materials along with the payment of:
+						- [i/s150:9]
+						- [i/s20:225] 
+						- [i/s5:73]
+						I'd get 'er fixed right up for ya.
+						''' */
+					// ShipCommonDialogue0: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
+					// ShipCommonDialogue1: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
+					// ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
 				}
 
 				Census.SpawnCondition: Conditions unknown
 			}
+
+			// HermitCrab.DisplayName: Hermit Crab
 		}
 
-		Bestiary.Sailor: 嗨! 水手会告诉你关于海洋与航行的一切.
-
-		Dialogue: {
-			Sailor: {
-				NewMoonDialogue: 新月是珊瑚礁里的水母开始活动的信号.
-				AnglerDialogue0: 你见过我的儿子吗? 他上次出海钓鱼后就再也没回来.
-				AnglerDialogue1: 我儿子熟知海洋, 所以我希望他没事...
-				AnglerDialogue2: 你见过我儿子吗? 他身着米黄色帽子和背心.
-				DayDialogue0: 我总喜欢在破晓时分漫步于海堤之上.
-				DayDialogue1: 大海今天很兴奋啊, 不是吗?
-				DayDialogue2: 今天鲨鱼们看上去挺激动的.
-				NightDialogue0: 夜晚的海波总是如此平静.
-				NightDialogue1: 水中月色可真美啊.
-				NightDialogue2: 我喜欢水母的荧光.
-				RainDialogue0: 但愿这场雨不是飓风的前兆!
-				RainDialogue1: 我在几年前的一个大风天弄丢了我的雨衣. 要是我还有一件就好了.
-				ShipPromptDialogue0: The old ship sitting broken off the pier used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas.
-				ShipPromptDialogue1:
-					'''
-					If you brought me the following materials along with payment:
-					- [i/s150:9]
-					- [i/s20:225] 
-					- [i/s5:73]
-					I'd get 'er fixed right up for ya.
-					'''
-				ShipCommonDialogue0: Before you go sailing, don't forget to make a [i:{0}] to steer your boat
-				ShipCommonDialogue1: And, don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing
-				// ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
-			}
+		Projectiles: {
+			// SpinnerFish.DisplayName: Spinner Fish
+			// SpinnerFishStar.DisplayName: Spinner Fish Star
+			// StarCatcherBobber.DisplayName: Star Catcher Bobber
+			// Oni.DisplayName: Oni
+			// OniFrontHand.DisplayName: Oni Front Hand
+			// CrabPincers.DisplayName: Crab Pincers
 		}
 
-		Biomes: {
-			ShipyardBiome: {
-				// DisplayName: Shipyard Biome
-				// TownNPCDialogueName: the Shipyard Biome
-			}
+		Tiles: {
+			// LythenOre.MapEntry: Lythen Ore
+			// Aquamarine.MapEntry: Aquamarine
 		}
 
-		Fishing: {
-			RecordCatchMessage: 新纪录: {0} {1}!
-			CommonCatchMessage: 体长: {0} {1}.
+		GameTitle: {
+			// 0: Endless Escapade: What is that flashy buggy thing?
+			// 1: Endless Escapade: Mod Dev Redemption
+			// 2: Endless Escapade: Do not the cat
+			// 3: Endless Escapade: Whomst'd've
+			// 4: Endless Escapade: tneneT :airarreT
+			// 5: Endless Escapade: Nullification nullifier nullifi-nator
+			// 6: Endless Escapade: Baller
+			// 7: Endless Escapade: Endless Escapade: Endless: Endless: Endless: ...
+			// 8: Endless Escapade: Why yuor barin can raed tihs
+			// 9: Endless Escapade: Also try Spirit!
+			// 10: Endless Escapade: Also try Calamity!
+			// 11: Endless Escapade: Also try Thorium!
+			// 12: Endless Escapade: Also try Shadows of Abaddon!
+			// 13: Endless Escapade: Unsafe.NullRef<T>()
+			// 14: Endless Escapade: Just a slight bit of dust spam on this weapon I'm afraid
+			// 15: Endless Escapade: Mark my words
+			// 16: Endless Escapade: Do you have examples of Trivaxy sprites?
+			// 17: Endless Escapade: Hydros Bath Water
+			// 18: Endless Escapade: Democracy but not really
+			// 19: Endless Escapade: Ilegales en mi patio
+			// 20: Endless Escapade: I dont know what color they are because I dont how to count
+			// 21: Endless Escapade: Whats a Genkai Mode?
+			// 22: Endless Escapade: 22
+			// 23: Endless Escapade: Hold on the uhh...
+			// 24: Endless Escapade: Mods.EndlessEscapade.GameTitle.RANDOM
 		}
-
-		Configs: {
-			AudioConfig: {
-				// DisplayName: Audio Config
-
-				EnableLowPassFiltering: {
-					// Label: Enable Low Pass Filtering
-					/* Tooltip:
-						'''
-						Toggles low pass filtering.
-						This is used for effects such as muffling sounds, etc...
-						''' */
-				}
-			}
-		}
-
-		Titles: {
-			// Title0: WAIT WAIT WAIT WAIT WAIT WAIT WAIT
-			// Title1: Waltuh
-			// Title2: Nullification nullifier nullifi-nator
-			// Title3: Yettatia: Typo
-			// Title4: skull emoji'd
-			// Title5: Why Yuor Barin Can Raed Tihs
-			// Title6: Why did the Java developer need glasses? Because he couldn't C#
-			// Title7: The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength
-			// Title8: Do not the cat.
-			// Title9: What is that flashy buggy thing?
-			// Title10: Mod Dev Redemption
-			// Title11: Mark my words.
-		}
-
-		Buttons.Sailor.Sailing: 航行
 	}
+}
+
+ItemTooltip: {
+	// Extractinator: Placing silt/slush/fossil/shell piles piles into the extractinator turns them into something more useful
+	/* ChlorophyteExtractinator:
+		'''
+		Placing silt/slush/fossil/shell piles piles into the extractinator turns them into something more useful
+		Place contaminated blocks into the extractinator to purify them
+		Other items placed inside may have interesting effects
+		''' */
 }

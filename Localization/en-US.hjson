@@ -1,5 +1,14 @@
 Mods: {
 	EndlessEscapade: {
+		Bestiary.Sailor: Ahoy! The Sailor will provide useful resources and information all about sailing the seas.
+
+		Biomes: {
+			Shipyard: {
+				DisplayName: Shipyard
+				TownNPCDialogueName: the Shipyard
+			}
+		}
+
 		Items: {
 			DarkGemsand: {
 				DisplayName: Dark Gemsand
@@ -101,6 +110,16 @@ Mods: {
 				Tooltip: ""
 			}
 
+			TropicalWoodWall: {
+				DisplayName: Tropical Wood Wall
+				Tooltip: ""
+			}
+
+			TropicalWoodFence: {
+				DisplayName: Tropical Wood Fence
+				Tooltip: ""
+			}
+
 			Gemsand: {
 				DisplayName: Gemsand
 				Tooltip: ""
@@ -121,33 +140,158 @@ Mods: {
 				Tooltip: ""
 			}
 
-			TropicalWoodWall: {
-				DisplayName: Tropical Wood Wall
+			LythenBar: {
+				DisplayName: Lythen Bar
 				Tooltip: ""
 			}
 
-			Cannon: {
-				DisplayName: Cannon
+			LythenOre: {
+				DisplayName: Lythen Ore
 				Tooltip: ""
 			}
 
-			Wheel: {
-				DisplayName: Wheel
+			StormKnightBreastplate: {
+				DisplayName: Storm Knight Breastplate
 				Tooltip: ""
 			}
 
-			CryoCannon: {
-				DisplayName: Cryo Cannon
+			StormKnightCrest: {
+				DisplayName: Storm Knight Crest
 				Tooltip: ""
 			}
 
-			SailorHat: {
-				DisplayName: Sailor Hat
+			StormKnightLeggings: {
+				DisplayName: Storm Knight Leggings
 				Tooltip: ""
 			}
 
-			TropicalWoodFence: {
-				DisplayName: Tropical Wood Fence
+			EnchantedSand: {
+				DisplayName: Enchanted Sand
+				Tooltip: ""
+			}
+
+			StormGauntlet: {
+				DisplayName: Storm Gauntlet
+				Tooltip: ""
+			}
+
+			SpinnerFish: {
+				DisplayName: Spinner Fish
+				Tooltip: ""
+			}
+
+			StarCatcher: {
+				DisplayName: Star Catcher
+				Tooltip: ""
+			}
+
+			GreatShell: {
+				DisplayName: Great Shell
+				Tooltip: ""
+			}
+
+			RadiantPearl: {
+				DisplayName: Radiant Pearl
+				Tooltip: ""
+			}
+
+			FallenStarfishStaff: {
+				DisplayName: Fallen Starfish Staff
+				Tooltip: ""
+			}
+
+			StarfishPump: {
+				DisplayName: Starfish Pump
+				Tooltip: ""
+			}
+
+			DolphinFin: {
+				DisplayName: Dolphin Fin
+				Tooltip: ""
+			}
+
+			FishGills: {
+				DisplayName: Fish Gills
+				Tooltip: ""
+			}
+
+			ScarletHachimaki: {
+				DisplayName: Scarlet Hachimaki
+				Tooltip: ""
+			}
+
+			ScarletKabuto: {
+				DisplayName: Scarlet Kabuto
+				Tooltip: ""
+			}
+
+			ScarletKasa: {
+				DisplayName: Scarlet Kasa
+				Tooltip: ""
+			}
+
+			ScarletMengu: {
+				DisplayName: Scarlet Mengu
+				Tooltip: ""
+			}
+
+			Brimstone: {
+				DisplayName: Brimstone
+				Tooltip: ""
+			}
+
+			RustyPipe: {
+				DisplayName: Rusty Pipe
+				Tooltip: ""
+			}
+
+			RustyPlating: {
+				DisplayName: Rusty Plating
+				Tooltip: ""
+			}
+
+			ScorchedGemsand: {
+				DisplayName: Scorched Gemsand
+				Tooltip: ""
+			}
+
+			AquamarineBoots: {
+				DisplayName: Aquamarine Boots
+				Tooltip: ""
+			}
+
+			AquamarineChestplate: {
+				DisplayName: Aquamarine Chestplate
+				Tooltip: ""
+			}
+
+			AquamarineHelmet: {
+				DisplayName: Aquamarine Helmet
+				Tooltip: ""
+			}
+
+			Aquamarine: {
+				DisplayName: Aquamarine
+				Tooltip: ""
+			}
+
+			Glowshroom: {
+				DisplayName: Glowshroom
+				Tooltip: ""
+			}
+
+			Kelpberries: {
+				DisplayName: Kelpberries
+				Tooltip: ""
+			}
+
+			CrabPincers: {
+				DisplayName: Crab Pincers
+				Tooltip: ""
+			}
+
+			IronBoots: {
+				DisplayName: Iron Boots
 				Tooltip: ""
 			}
 		}
@@ -174,83 +318,89 @@ Mods: {
 					Princess_LovesNPC: I like {NPCName}.
 				}
 
+				Chat: {
+					NewMoonDialogue: Ahoy there, when the new moon rises, keep a weathered eye on the Coral Reefs – them jellyfish'll be driftin' 'bout like ghostly lanterns.
+					AnglerDialogue0: Aye, me heart aches for me son, off fishin' he went, but the sea's a fickle mistress, and he's yet to make his return.
+					AnglerDialogue1: Me lad, he knows the ocean's whispers, so I'm prayin' he's still ridin' those waves.
+					AnglerDialogue2: Beggin' yer pardon, have ye spied me son? Beige cap, sturdy vest – that be his mark.
+					DayDialogue0: As the dawn breaks and the sky's painted with hues of gold, I find me solace on the pier, breathin' in the salt-kissed mornin' air.
+					DayDialogue1: The ocean, she's singin' her siren song today, beckonin' us with her endless tales of adventure.
+					DayDialogue2: Did ye see 'em? The sharks, they're dancin' in the waves, a dance of anticipation, or mayhaps they've a tale to share.
+					NightDialogue0: When the night's curtain falls upon the sea, tranquility blankets the waves, and the stars reflect like diamonds in liquid darkness.
+					NightDialogue1: Ah, the moon – she's a lantern in the sky, castin' her glow upon the water's surface, creatin' a path to the horizon.
+					NightDialogue2: Them jellies, their gentle glow pierces the night, enchantin' all who cast their gaze upon the mystical dance.
+					RainDialogue0: Rain's fallin', and I can't help but hope it's not heraldin' a tempest's fury – the sea's got a wild heart, ye know.
+					RainDialogue1: Lost me rain slicker in a gusty squall a few years back, wishin' for another to shield me from the spray.
+					ShipPromptDialogue1: Ahoy there, ye see that old ship wrecked off yonder? Once she was mine, sailed the seven seas, but those days be behind me now.
+					ShipPromptDialogue2:
+						'''
+						If you brought me the following materials along with the payment of:
+						- [i/s150:9]
+						- [i/s20:225] 
+						- [i/s5:73]
+						I'd get 'er fixed right up for ya.
+						'''
+					ShipCommonDialogue0: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
+					ShipCommonDialogue1: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
+					ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
+				}
+
 				Census.SpawnCondition: Conditions unknown
 			}
+
+			HermitCrab.DisplayName: Hermit Crab
 		}
 
-		Bestiary.Sailor: Ahoy! The Sailor will provide useful resources and information all about sailing the seas.
-
-		Dialogue: {
-			Sailor: {
-				NewMoonDialogue: Ahoy there, when the new moon rises, keep a weathered eye on the Coral Reefs – them jellyfish'll be driftin' 'bout like ghostly lanterns.
-				AnglerDialogue0: Aye, me heart aches for me son, off fishin' he went, but the sea's a fickle mistress, and he's yet to make his return.
-				AnglerDialogue1: Me lad, he knows the ocean's whispers, so I'm prayin' he's still ridin' those waves.
-				AnglerDialogue2: Beggin' yer pardon, have ye spied me son? Beige cap, sturdy vest – that be his mark.
-				DayDialogue0: As the dawn breaks and the sky's painted with hues of gold, I find me solace on the pier, breathin' in the salt-kissed mornin' air.
-				DayDialogue1: The ocean, she's singin' her siren song today, beckonin' us with her endless tales of adventure.
-				DayDialogue2: Did ye see 'em? The sharks, they're dancin' in the waves, a dance of anticipation, or mayhaps they've a tale to share.
-				NightDialogue0: When the night's curtain falls upon the sea, tranquility blankets the waves, and the stars reflect like diamonds in liquid darkness.
-				NightDialogue1: Ah, the moon – she's a lantern in the sky, castin' her glow upon the water's surface, creatin' a path to the horizon.
-				NightDialogue2: Them jellies, their gentle glow pierces the night, enchantin' all who cast their gaze upon the mystical dance.
-				RainDialogue0: Rain's fallin', and I can't help but hope it's not heraldin' a tempest's fury – the sea's got a wild heart, ye know.
-				RainDialogue1: Lost me rain slicker in a gusty squall a few years back, wishin' for another to shield me from the spray.
-				ShipPromptDialogue0: Ahoy there, ye see that old ship wrecked off yonder? Once she was mine, sailed the seven seas, but those days be behind me now.
-				ShipPromptDialogue1:
-					'''
-					If you brought me the following materials along with payment:
-					- [i/s150:9]
-					- [i/s20:225] 
-					- [i/s5:73]
-					I'd get 'er fixed right up for ya.
-					'''
-				ShipCommonDialogue0: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
-				ShipCommonDialogue1: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
-				ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
-			}
+		Projectiles: {
+			SpinnerFish.DisplayName: Spinner Fish
+			SpinnerFishStar.DisplayName: Spinner Fish Star
+			StarCatcherBobber.DisplayName: Star Catcher Bobber
+			Oni.DisplayName: Oni
+			OniFrontHand.DisplayName: Oni Front Hand
+			CrabPincers.DisplayName: Crab Pincers
 		}
 
-		Biomes: {
-			ShipyardBiome: {
-				DisplayName: Shipyard Biome
-				TownNPCDialogueName: the Shipyard Biome
-			}
+		Tiles: {
+			LythenOre.MapEntry: Lythen Ore
+			Aquamarine.MapEntry: Aquamarine
 		}
 
-		Fishing: {
-			RecordCatchMessage: New record: {0} {1}!
-			CommonCatchMessage: Length: {0} {1}.
+		GameTitle: {
+			0: Endless Escapade: What is that flashy buggy thing?
+			1: Endless Escapade: Mod Dev Redemption
+			2: Endless Escapade: Do not the cat
+			3: Endless Escapade: Whomst'd've
+			4: Endless Escapade: tneneT :airarreT
+			5: Endless Escapade: Nullification nullifier nullifi-nator
+			6: Endless Escapade: Baller
+			7: Endless Escapade: Endless Escapade: Endless: Endless: Endless: ...
+			8: Endless Escapade: Why yuor barin can raed tihs
+			9: Endless Escapade: Also try Spirit!
+			10: Endless Escapade: Also try Calamity!
+			11: Endless Escapade: Also try Thorium!
+			12: Endless Escapade: Also try Shadows of Abaddon!
+			13: Endless Escapade: Unsafe.NullRef<T>()
+			14: Endless Escapade: Just a slight bit of dust spam on this weapon I'm afraid
+			15: Endless Escapade: Mark my words
+			16: Endless Escapade: Do you have examples of Trivaxy sprites?
+			17: Endless Escapade: Hydros Bath Water
+			18: Endless Escapade: Democracy but not really
+			19: Endless Escapade: Ilegales en mi patio
+			20: Endless Escapade: I dont know what color they are because I dont how to count
+			21: Endless Escapade: Whats a Genkai Mode?
+			22: Endless Escapade: 22
+			23: Endless Escapade: Hold on the uhh...
+			24: Endless Escapade: Mods.EndlessEscapade.GameTitle.RANDOM
 		}
-
-		Configs: {
-			AudioConfig: {
-				DisplayName: Audio Config
-
-				EnableLowPassFiltering: {
-					Label: Enable Low Pass Filtering
-					Tooltip:
-						'''
-						Toggles low pass filtering.
-						This is used for effects such as muffling sounds, etc...
-						'''
-				}
-			}
-		}
-
-		Titles: {
-			Title0: WAIT WAIT WAIT WAIT WAIT WAIT WAIT
-			Title1: Waltuh
-			Title2: Nullification nullifier nullifi-nator
-			Title3: Yettatia: Typo
-			Title4: skull emoji'd
-			Title5: Why Yuor Barin Can Raed Tihs
-			Title6: Why did the Java developer need glasses? Because he couldn't C#
-			Title7: The Legend of Going To Bed At A Reasonable Hour: A Major Test Of Strength
-			Title8: Do not the cat.
-			Title9: What is that flashy buggy thing?
-			Title10: Mod Dev Redemption
-			Title11: Mark my words.
-		}
-
-		Buttons.Sailor.Sailing: Sailing
 	}
+}
+
+ItemTooltip: {
+	Extractinator: Placing silt/slush/fossil/shell piles piles into the extractinator turns them into something more useful
+	ChlorophyteExtractinator:
+		'''
+		Placing silt/slush/fossil/shell piles piles into the extractinator turns them into something more useful
+		Place contaminated blocks into the extractinator to purify them
+		Other items placed inside may have interesting effects
+		'''
 }

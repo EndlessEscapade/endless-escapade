@@ -1,4 +1,4 @@
-﻿name: Build Mod
+name: Build Mod
 
 on:
   push:
@@ -34,17 +34,11 @@ jobs:
       - name: Build mod solution
         run: dotnet build EndlessEscapade.sln --configuration Release
         
-      - name: Deploy .tmod artifact
+      - name: Deploy .tmod file artifact
         uses: actions/upload-artifact@v3
         with:
           name: EndlessEscapade.tmod
           path: ./bin/Saves/tModLoader/Mods/EndlessEscapade.tmod
-
-      - name: Deploy .dll artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: EndlessEscapade.dll
-          path: ./bin/Release/net6.0/EndlessEscapade.dll
 
       - name: Deploy action across Discord
         uses: sarisia/actions-status-discord@v1  
@@ -53,3 +47,4 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK_DEPLOY }}
           description: |
             Click [here](https://github.com/EndlessEscapade/EndlessEscapade/actions/runs/${{ github.run_id }}) to view.
+            
