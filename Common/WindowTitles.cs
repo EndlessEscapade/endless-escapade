@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class CustomWindowTitles : ModSystem
+public sealed class WindowTitles : ModSystem
 {
     private const int GameTitleCount = 25;
 
@@ -27,12 +27,12 @@ public sealed class CustomWindowTitles : ModSystem
             var c = new ILCursor(il);
 
             if (!c.TryGotoNext(i => i.MatchLdcI4(1))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(CustomWindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
                 return;
             }
 
             if (!c.TryGotoNext(i => i.MatchStsfld<Main>(nameof(Main.changeTheTitle)))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(CustomWindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Stsfld)}");
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Stsfld)}");
                 return;
             }
 
@@ -44,12 +44,12 @@ public sealed class CustomWindowTitles : ModSystem
             });
 
             if (!c.TryGotoNext(i => i.MatchLdcI4(1))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(CustomWindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
                 return;
             }
 
             if (!c.TryGotoNext(i => i.MatchStsfld<Main>(nameof(Main.changeTheTitle)))) {
-                EndlessEscapade.Instance.Logger.Warn($"{nameof(CustomWindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Stsfld)}");
+                EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Stsfld)}");
                 return;
             }
 
