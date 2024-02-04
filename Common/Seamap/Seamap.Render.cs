@@ -29,8 +29,6 @@ public partial class Seamap
     public static void Render() {
         var spriteBatch = Main.spriteBatch;
 
-        #region Controlling brightness + weather
-
         CalculateBrightness();
 
         if (Main.time % 600 == 0) {
@@ -38,8 +36,6 @@ public partial class Seamap
                 isStorming = !isStorming;
             }
         }
-
-        #endregion
 
         if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 0 ||
             (Main.LocalPlayer == null && !Main.gameInactive)) {

@@ -8,23 +8,16 @@ namespace EndlessEscapade.Common.Loot;
 
 public sealed class ChestLootManager : ModSystem
 {
+    private static readonly Dictionary<int, bool> ItemFlagsByType = new();
+    
     private static List<ChestLoot> chestLoot = new();
-    private static Dictionary<int, bool> itemFlagsByType = new();
 
     public override void PostSetupContent() {
         chestLoot = new List<ChestLoot>(PrefabManager.EnumeratePrefabs<ChestLoot>("ChestLoot"));
 
         foreach (var loot in chestLoot) {
-            itemFlagsByType[loot.ItemType] = false;
+            ItemFlagsByType[loot.ItemType] = false;
         }
-    }
-
-    public override void Unload() {
-        chestLoot?.Clear();
-        chestLoot = null;
-
-        itemFlagsByType?.Clear();
-        itemFlagsByType = null;
     }
 
     public override void PostWorldGen() {
@@ -58,12 +51,12 @@ public sealed class ChestLootManager : ModSystem
                 filteredChests.Add(chest);
             }
 
-            while (!itemFlagsByType[loot.ItemType]) {
+            while (!ItemFlagsByType[loot.ItemType]) {
                 var chest = WorldGen.genRand.Next(filteredChests);
                 var stack = WorldGen.genRand.Next(loot.MinStack, loot.MaxStack);
 
                 if (chest.HasItem(loot.ItemType) || chest.TryAddItem(loot.ItemType, stack, loot.RandomSlot)) {
-                    itemFlagsByType[loot.ItemType] = true;
+                    ItemFlagsByType[loot.ItemType] = true;
                     break;
                 }
             }
@@ -99,7 +92,7 @@ public sealed class ChestLootManager : ModSystem
                 var stack = WorldGen.genRand.Next(loot.MinStack, loot.MaxStack);
 
                 if (chest.TryAddItem(loot.ItemType, stack, loot.RandomSlot)) {
-                    itemFlagsByType[loot.ItemType] = true;
+                    ItemFlagsByType[loot.ItemType] = true;
                     break;
                 }
             }

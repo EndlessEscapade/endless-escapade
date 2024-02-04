@@ -6,13 +6,12 @@ using Terraria.ModLoader.Core;
 
 namespace EndlessEscapade.Common.Surroundings;
 
-// TODO: Support for checking whether a(specified) flag(s) is active or not.
 public sealed class SurroundingsManager : ModSystem
 {
     public delegate bool SurroundingsCallback(in SurroundingsInfo info);
 
-    private static Dictionary<string, bool> flagsByName = new();
-    private static Dictionary<string, SurroundingsCallback> callbacksByName = new();
+    private static readonly Dictionary<string, bool> FlagsByName = new();
+    private static readonly Dictionary<string, SurroundingsCallback> CallbacksByName = new();
 
     public override void Load() {
         foreach (var type in AssemblyManager.GetLoadableTypes(Mod.Code)) {
@@ -25,17 +24,9 @@ public sealed class SurroundingsManager : ModSystem
 
                 var callback = method.CreateDelegate<SurroundingsCallback>();
 
-                callbacksByName[attribute.Name] = callback;
+                CallbacksByName[attribute.Name] = callback;
             }
         }
-    }
-
-    public override void Unload() {
-        flagsByName?.Clear();
-        flagsByName = null;
-
-        callbacksByName?.Clear();
-        callbacksByName = null;
     }
 
     public override void PreUpdateWorld() {
@@ -44,12 +35,12 @@ public sealed class SurroundingsManager : ModSystem
             Metrics = Main.SceneMetrics
         };
 
-        foreach (var (name, function) in callbacksByName) {
-            flagsByName[name] = function.Invoke(in info);
+        foreach (var (name, function) in CallbacksByName) {
+            FlagsByName[name] = function.Invoke(in info);
         }
     }
 
     public static bool TryGetSurrounding(string name, out bool surrounding) {
-        return flagsByName.TryGetValue(name, out surrounding);
+        return FlagsByName.TryGetValue(name, out surrounding);
     }
 }

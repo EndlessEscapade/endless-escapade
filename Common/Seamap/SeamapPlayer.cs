@@ -95,8 +95,6 @@ public class SeamapPlayer : ModPlayer
 
         Player.fallStart = (int)(Player.position.Y / 16f);
 
-        #region Opening cutscene for seamap
-
         if (exitingSeamap) {
             quickOpeningFloat++;
 
@@ -108,8 +106,6 @@ public class SeamapPlayer : ModPlayer
             quickOpeningFloat--;
         }
 
-        #endregion
-
         seamapUpdateCount++;
 
         if (seamapUpdateCount == 1) {
@@ -117,8 +113,6 @@ public class SeamapPlayer : ModPlayer
         }
 
         Seamap.UpdateSeamap();
-
-        #region Island Interact methods
 
         foreach (var obj in SeamapObjects.SeamapEntities) {
             if (obj is Island) {
@@ -135,8 +129,6 @@ public class SeamapPlayer : ModPlayer
                 }
             }
         }
-
-        #endregion
     }
 
     public override void SaveData(TagCompound tag) {

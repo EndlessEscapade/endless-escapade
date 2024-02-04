@@ -16,7 +16,7 @@ public class ComponentManager
     /// <summary> The object this component manager belongs to </summary>
     public SeamapObject Parent { get; }
 
-    public Dictionary<Type, object> Components { get; } = new();
+    public Dictionary<Type, Component> Components { get; } = new();
 
     /// <summary>
     ///     Sets a component

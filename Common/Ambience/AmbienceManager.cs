@@ -11,22 +11,12 @@ namespace EndlessEscapade.Common.Ambience;
 [Autoload(Side = ModSide.Client)]
 public sealed class AmbienceManager : ModSystem
 {
-    private static List<IAmbienceTrack> tracks = new();
-
     private static List<AmbienceSound> sounds = new();
     private static List<AmbienceLoop> loops = new();
 
     public override void PostSetupContent() {
         sounds = new List<AmbienceSound>(PrefabManager.EnumeratePrefabs<AmbienceSound>("AmbienceSound"));
         loops = new List<AmbienceLoop>(PrefabManager.EnumeratePrefabs<AmbienceLoop>("AmbienceLoop"));
-    }
-
-    public override void Unload() {
-        sounds?.Clear();
-        sounds = null;
-
-        loops?.Clear();
-        loops = null;
     }
 
     public override void PostUpdateWorld() {

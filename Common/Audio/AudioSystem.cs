@@ -20,8 +20,8 @@ public sealed class AudioSystem : ModSystem
         SoundID.Grab
     };
 
-    private static List<ActiveSound> sounds = new();
-    private static List<AudioModifier> modifiers = new();
+    private static readonly List<ActiveSound> Sounds = new();
+    private static readonly List<AudioModifier> Modifiers = new();
 
     private static AudioParameters parameters;
 
@@ -34,29 +34,21 @@ public sealed class AudioSystem : ModSystem
         On_SoundPlayer.Play_Inner += PlayInnerHook;
     }
 
-    public override void Unload() {
-        sounds?.Clear();
-        sounds = null;
-
-        modifiers?.Clear();
-        modifiers = null;
-    }
-
     public static void AddModifier(string context, int duration, AudioModifier.ModifierCallback callback) {
-        var index = modifiers.FindIndex(modifier => modifier.Context == context);
+        var index = Modifiers.FindIndex(modifier => modifier.Context == context);
 
         if (index == -1) {
-            modifiers.Add(new AudioModifier(context, duration, callback));
+            Modifiers.Add(new AudioModifier(context, duration, callback));
             return;
         }
 
-        var modifier = modifiers[index];
+        var modifier = Modifiers[index];
 
         modifier.TimeLeft = Math.Max(modifier.TimeLeft, duration);
         modifier.TimeMax = Math.Max(modifier.TimeMax, duration);
         modifier.Callback = callback;
 
-        modifiers[index] = modifier;
+        Modifiers[index] = modifier;
     }
 
     public override void PostUpdateEverything() {
@@ -79,28 +71,28 @@ public sealed class AudioSystem : ModSystem
     private static void UpdateModifiers() {
         var newParameters = new AudioParameters();
 
-        for (var i = 0; i < modifiers.Count; i++) {
-            var modifier = modifiers[i];
+        for (var i = 0; i < Modifiers.Count; i++) {
+            var modifier = Modifiers[i];
 
             if (modifier.TimeLeft-- <= 0) {
-                modifiers.RemoveAt(i--);
+                Modifiers.RemoveAt(i--);
                 continue;
             }
 
             modifier.Callback(ref newParameters, modifier.TimeLeft / (float)modifier.TimeMax);
 
-            modifiers[i] = modifier;
+            Modifiers[i] = modifier;
         }
 
         parameters = newParameters;
     }
 
     private static void UpdateSounds() {
-        for (var i = 0; i < sounds.Count; i++) {
-            var sound = sounds[i];
+        for (var i = 0; i < Sounds.Count; i++) {
+            var sound = Sounds[i];
 
             if (!sound.IsPlaying) {
-                sounds.RemoveAt(i--);
+                Sounds.RemoveAt(i--);
                 continue;
             }
 
@@ -126,7 +118,7 @@ public sealed class AudioSystem : ModSystem
         }
 
         if (SoundEngine.TryGetActiveSound(slot, out var sound) && sound.Sound?.IsDisposed == false && !hasIgnoredStyle) {
-            sounds.Add(sound);
+            Sounds.Add(sound);
         }
 
         return slot;

@@ -31,8 +31,6 @@
     <Reference Include="SubworldLibrary">
       <HintPath>lib\SubworldLibrary.dll</HintPath>
     </Reference>
-
-    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(MSBuildThisFileDirectory)' != ''"> 
@@ -42,5 +40,4 @@
   <Target Name="CompileEffects" BeforeTargets="Build" Inputs="@(EffectFiles)" Outputs="@(EffectFiles-&gt;&quot;%(RecursiveDir)%(FileName).fxc&quot;)">
     <Exec Command="@(EffectFiles->'fxc.exe &quot;$(MSBuildThisFileDirectory)%(RecursiveDir)%(FileName)%(Extension)&quot; /T fx_2_0 /nologo /Fo &quot;$(MSBuildThisFileDirectory)%(RecursiveDir)%(FileName).fxc&quot; &#xA;&#xD;')" WorkingDirectory="Assets/Effects/Compiler/" IgnoreExitCode="true" />
   </Target>
-
 </Project>
