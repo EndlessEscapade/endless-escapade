@@ -78,10 +78,10 @@ public sealed class AmbienceManager : ModSystem
             }
 
             if (active) {
-                loop.Volume += 0.01f;
+                loop.Volume += 0.05f;
             }
             else {
-                loop.Volume -= 0.01f;
+                loop.Volume -= 0.05f;
             }
 
             var playing = SoundEngine.TryGetActiveSound(loop.SlotId, out var activeSound);

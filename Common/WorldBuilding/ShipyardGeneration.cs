@@ -65,7 +65,9 @@ public sealed class ShipyardGeneration : ModSystem
         }
 
         var shipyard = GenVars.configuration.CreateBiome<Shipyard>();
+        var sailboat = GenVars.configuration.CreateBiome<BrokenSailboat>();
 
         shipyard.Place(new Point(startX, biggestY), GenVars.structures);
+        sailboat.Place(new Point(startX - 80, biggestY), GenVars.structures);
     }
 }
