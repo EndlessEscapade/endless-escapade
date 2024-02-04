@@ -9,12 +9,13 @@ namespace EndlessEscapade.Common.Ambience;
 public struct AmbienceLoop : IAmbienceTrack
 {
     private float volume = 0f;
-
+    
+    [JsonIgnore]
     public float Volume {
         get => volume;
         set => volume = MathHelper.Clamp(value, 0f, 1f);
     }
-    
+    [JsonIgnore]
     public SlotId SlotId { get; set; } = SlotId.Invalid;
 
     [JsonRequired]
