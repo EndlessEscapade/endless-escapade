@@ -14,7 +14,11 @@ public class SeamapPlayer : ModPlayer
     public static bool isSaving;
     public bool arrowFlag = false;
     public int coralReefTrans;
+
+    //Variables to pull from main world
+    public double time;
     public bool dayTime;
+    public bool isRaining;
 
     public bool exitingSeamap;
 
@@ -32,8 +36,6 @@ public class SeamapPlayer : ModPlayer
     public float quickOpeningFloat = 60;
     public int seamapUpdateCount;
     public float subTextAlpha;
-
-    public double time;
 
     public int timerForCutscene;
     public float titleText;
@@ -54,6 +56,8 @@ public class SeamapPlayer : ModPlayer
     public override void OnEnterWorld() {
         Main.time = time;
         Main.dayTime = dayTime;
+
+        Main.raining = isRaining;
     }
 
     public override void PreUpdate() {

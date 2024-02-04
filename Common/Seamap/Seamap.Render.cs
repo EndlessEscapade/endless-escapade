@@ -133,27 +133,6 @@ public partial class Seamap
 
         #endregion
 
-        #region Rendering cannonball target
-
-        var targetTex = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/UI/Target").Value;
-
-        //spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) * -128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
-        spriteBatch.Draw(targetTex,
-            SeamapObjects.localship.Center +
-            Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) *
-            -MathHelper.Clamp(Vector2.Distance(Main.MouseWorld, SeamapObjects.localship.Center), 0, 128 * Main.GameZoomTarget) /
-            Main.GameZoomTarget -
-            Main.screenPosition,
-            null,
-            Color.White,
-            Main.GameUpdateCount / 120f,
-            new Vector2(targetTex.Width / 2, targetTex.Height / 2),
-            1,
-            SpriteEffects.None,
-            0);
-
-        #endregion
-
         spriteBatch.End();
         spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.UIScaleMatrix);
 
@@ -171,25 +150,6 @@ public partial class Seamap
 
             spriteBatch.Draw(oceanLogo, new Vector2(Main.screenWidth / 2, yOffset), null, Color.White, 0, new Vector2(186, 92), 1, SpriteEffects.None, 0);
         }
-
-        #endregion
-
-        #region Rendering ship healthbar
-
-        var healthBar = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/UI/HealthbarBg").Value;
-        var healthBarFill = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/UI/HealthbarFill").Value;
-
-        spriteBatch.Draw(healthBar, new Vector2(Main.screenWidth - 200, 40), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-
-        spriteBatch.Draw(healthBarFill,
-            new Vector2(Main.screenWidth - 200, 40),
-            new Rectangle(0, 0, (int)(SeamapObjects.localship.shipHelth / SeamapObjects.localship.ShipHelthMax * 116), 40),
-            Color.White,
-            0,
-            Vector2.Zero,
-            1,
-            SpriteEffects.None,
-            0);
 
         #endregion
     }
@@ -311,11 +271,11 @@ public partial class Seamap
         var pos = Vector2.Zero;
         var toScreen = pos - Main.screenPosition;
 
-        if (Main.IsItStorming && weatherDensity < 1f) {
+        if (Main.raining && weatherDensity < 1f) {
             weatherDensity += 0.001f;
         }
 
-        if (!Main.IsItStorming && weatherDensity > 0f) {
+        if (!Main.raining && weatherDensity > 0f) {
             weatherDensity -= 0.001f;
         }
 
@@ -417,10 +377,10 @@ public partial class Seamap
 
     private static void CalculateBrightness() {
         if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount == 1) {
-            brightness = Main.dayTime ? Main.IsItStorming ? 0.5f : 1f : Main.IsItStorming ? 0.5f : 0.2f;
+            brightness = Main.dayTime ? Main.raining ? 0.5f : 1f : Main.raining ? 0.5f : 0.2f;
         }
 
-        if (!Main.IsItStorming) {
+        if (!Main.raining) {
             if (Main.dayTime) {
                 if (brightness < 1f) {
                     brightness += 0.0025f;
