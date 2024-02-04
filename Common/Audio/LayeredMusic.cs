@@ -16,7 +16,7 @@ public sealed class LayeredMusic : ILoadable
     private static long previousSamplePosition;
 
     void ILoadable.Load(Mod mod) {
-        // This patch makes music tracks play subsequently, providing smooth transition between different songs.
+        // Makes music tracks play subsequently, providing smooth transition between different songs.
         IL_OGGAudioTrack.PrepareBufferToSubmit += PrepareBufferToSubmitPatch;
     }
 

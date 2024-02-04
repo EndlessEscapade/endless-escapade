@@ -10,14 +10,18 @@ namespace EndlessEscapade.Common.Titles;
 [Autoload(Side = ModSide.Client)]
 public sealed class WindowTitles : ModSystem
 {
-    private const int GameTitleCount = 25;
-
     public override void Load() {
-        // This patch completely replaces Terraria's window titles by custom titles, changing them upon language selection.
+        // Completely replaces Terraria's window titles by custom titles, changing them upon language selection.
         IL_Main.DrawMenu += DrawMenuPatch;
     }
 
     public override void PostSetupContent() {
+        ChangeTitle();
+    }
+
+    private static void ChangeTitle() {
+        const int GameTitleCount = 25;
+        
         Main.changeTheTitle = false;
         Main.instance.Window.Title = Language.GetTextValue("Mods.EndlessEscapade.GameTitle." + Main.rand.Next(GameTitleCount));
     }
@@ -38,10 +42,7 @@ public sealed class WindowTitles : ModSystem
 
             c.Index++;
 
-            c.EmitDelegate(() => {
-                Main.changeTheTitle = false;
-                Main.instance.Window.Title = Language.GetTextValue("Mods.EndlessEscapade.GameTitle." + Main.rand.Next(GameTitleCount));
-            });
+            c.EmitDelegate(ChangeTitle);
 
             if (!c.TryGotoNext(i => i.MatchLdcI4(1))) {
                 EndlessEscapade.Instance.Logger.Warn($"{nameof(WindowTitles)} disabled: Failed to match IL instruction: {nameof(OpCodes.Ldc_I4_1)}");
@@ -53,10 +54,7 @@ public sealed class WindowTitles : ModSystem
                 return;
             }
 
-            c.EmitDelegate(() => {
-                Main.changeTheTitle = false;
-                Main.instance.Window.Title = Language.GetTextValue("Mods.EndlessEscapade.GameTitle." + Main.rand.Next(GameTitleCount));
-            });
+            c.EmitDelegate(ChangeTitle);
         }
         catch (Exception) {
             MonoModHooks.DumpIL(EndlessEscapade.Instance, il);

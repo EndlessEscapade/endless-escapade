@@ -20,7 +20,7 @@ public sealed class FloridaStyleGeneration : ILoadable
         var methodInfo = typeof(PassLegacy).GetField("_method", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         var method = (WorldGenLegacyMethod)methodInfo.GetValue(passes["Beaches"]);
 
-        // This patch removes shallow and steep beaches on the left side of the world.
+        // Removes shallow and steep beaches on the left side of the world, prioritizing Shipyard generation.
         MonoModHooks.Modify(method.Method, AddGenPassesPatch);
     }
 

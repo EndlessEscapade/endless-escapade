@@ -7,7 +7,7 @@ namespace EndlessEscapade.Common.Tiles;
 [Autoload(Side = ModSide.Client)]
 public sealed class LilypadCollisionEffects : ModPlayer
 {
-    // Collision for lilypads simulates water walking effects, because they're tiles on water level and regular collision is awkward.
+    // Collision for lilypads simulates water walking effects, because they're tiles on water level and regular grid collision is innaccurate.
     public override void PreUpdateMovement() {
         var colliding = false;
 
