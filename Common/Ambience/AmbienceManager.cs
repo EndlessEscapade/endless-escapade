@@ -12,7 +12,7 @@ namespace EndlessEscapade.Common.Ambience;
 public sealed class AmbienceManager : ModSystem
 {
     private static List<IAmbienceTrack> tracks = new();
-    
+
     private static List<AmbienceSound> sounds = new();
     private static List<AmbienceLoop> loops = new();
 
@@ -53,7 +53,7 @@ public sealed class AmbienceManager : ModSystem
             else {
                 sound.Volume -= 0.01f;
             }
-            
+
             var playing = SoundEngine.TryGetActiveSound(sound.SlotId, out var activeSound);
 
             if (active && (!playing || activeSound == null) && Main.rand.NextBool(sound.PlaybackChanceDenominator)) {
@@ -109,7 +109,7 @@ public sealed class AmbienceManager : ModSystem
                     activeSound.Volume = loop.Volume;
                 }
             }
-            
+
             loops[i] = loop;
         }
     }

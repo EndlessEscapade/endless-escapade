@@ -33,7 +33,7 @@ public sealed class SurroundingsManager : ModSystem
     public override void Unload() {
         flagsByName?.Clear();
         flagsByName = null;
-        
+
         callbacksByName?.Clear();
         callbacksByName = null;
     }

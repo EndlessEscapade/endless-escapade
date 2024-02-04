@@ -21,7 +21,7 @@ public sealed class WindowTitles : ModSystem
 
     private static void ChangeTitle() {
         const int GameTitleCount = 25;
-        
+
         Main.changeTheTitle = false;
         Main.instance.Window.Title = Language.GetTextValue("Mods.EndlessEscapade.GameTitle." + Main.rand.Next(GameTitleCount));
     }

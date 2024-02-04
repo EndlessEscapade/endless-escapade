@@ -1,165 +1,159 @@
+using EndlessEscapade.Content.Seamap.Islands;
+using EndlessEscapade.Subworlds;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
+using SubworldLibrary;
 using Terraria;
-using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
-using ReLogic.Graphics;
-using System.Diagnostics;
-using Terraria.Audio;
 using Terraria.ModLoader.IO;
-using Microsoft.Xna.Framework.Input;
-using Steamworks;
-using System.Runtime.CompilerServices;
-using EndlessEscapade.Subworlds;
-using EndlessEscapade.Content.Seamap.Islands;
 
-namespace EndlessEscapade.Common.Seamap
+namespace EndlessEscapade.Common.Seamap;
+
+public class SeamapPlayer : ModPlayer
 {
-    public class SeamapPlayer : ModPlayer
-    {
-        public bool importantCutscene;
+    public static bool isSaving;
+    public bool arrowFlag = false;
+    public int coralReefTrans;
+    public bool dayTime;
 
-        public int timerForCutscene;
-        public bool arrowFlag = false;
-        public static bool isSaving;
-        public float titleText;
-        public float titleText2;
-        public float subTextAlpha;
-        public bool noU;
-        public int coralReefTrans;
-        public int seamapUpdateCount;
+    public bool exitingSeamap;
 
-        public bool IncreaseStarFall;
+    public string exitingSeamapKey;
 
-        public string prevKey = "Main";
+    public bool hasLoadedIntoWorld;
+    public bool importantCutscene;
 
-        public bool hasLoadedIntoWorld;
+    public bool IncreaseStarFall;
 
-        public Vector2 myLastBoatPos;
+    public bool lastKeySeamap;
 
-        public bool lastKeySeamap;
+    public Vector2 myLastBoatPos;
+    public bool noU;
 
-        public float quickOpeningFloat = 60;
+    public string prevKey = "Main";
 
-        public string exitingSeamapKey;
+    public float quickOpeningFloat = 60;
+    public int seamapUpdateCount;
+    public float subTextAlpha;
 
-        public double time;
-        public bool dayTime;
+    public double time;
 
-        public bool exitingSeamap = false;
+    public int timerForCutscene;
+    public float titleText;
+    public float titleText2;
 
-        public void ReturnHome() {
-            SubworldLibrary.SubworldSystem.Exit();
+    public void ReturnHome() {
+        SubworldSystem.Exit();
 
-            hasLoadedIntoWorld = false;
+        hasLoadedIntoWorld = false;
 
-            lastKeySeamap = true;
+        lastKeySeamap = true;
 
-            prevKey = KeyID.Sea;
+        prevKey = KeyID.Sea;
 
-            if (Main.netMode == NetmodeID.Server) {
-                Netplay.Connection.State = 1;
-            }
+        if (Main.netMode == NetmodeID.Server) {
+            Netplay.Connection.State = 1;
+        }
+    }
+
+    public override void OnEnterWorld() {
+        if (prevKey == KeyID.Sea && !hasLoadedIntoWorld) {
+            hasLoadedIntoWorld = true;
+            //if (lastKeySeamap) Main.LocalPlayer.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
+
+            lastKeySeamap = false;
+
+            Main.screenPosition = Main.LocalPlayer.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
         }
 
-        public override void OnEnterWorld() {
-            if (prevKey == KeyID.Sea && !hasLoadedIntoWorld) {
-                hasLoadedIntoWorld = true;
-                //if (lastKeySeamap) Main.LocalPlayer.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
+        Main.time = time;
+        Main.dayTime = dayTime;
+    }
 
-                lastKeySeamap = false;
+    public void EnterSeamap() {
+        time = Main.time;
+        dayTime = Main.dayTime;
 
-                Main.screenPosition = Main.LocalPlayer.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
-            }
+        seamapUpdateCount = 0;
 
-            Main.time = time;
-            Main.dayTime = dayTime;
+        SubworldSystem.Enter<Sea>();
+
+        quickOpeningFloat = 60;
+
+        exitingSeamap = false;
+    }
+
+    public override void PreUpdate() {
+        if (!SubworldSystem.IsActive<Sea>()) {
+            return;
         }
 
-        public void EnterSeamap() {
-            time = Main.time;
-            dayTime = Main.dayTime;
+        Player.position = Player.oldPosition;
 
-            seamapUpdateCount = 0;
+        Player.position.X = Main.maxTilesX * 16 * (2f / 3f) + 300;
+        Player.position.Y = Main.maxTilesY * 16 * (2f / 3f) + 300;
 
-            SubworldLibrary.SubworldSystem.Enter<Sea>();
+        Player.fallStart = (int)(Player.position.Y / 16f);
 
-            quickOpeningFloat = 60;
+        #region Opening cutscene for seamap
 
-            exitingSeamap = false;
+        if (exitingSeamap) {
+            quickOpeningFloat++;
+
+            if (quickOpeningFloat > 60) {
+                OnExitSeamap();
+            }
+        }
+        else if (quickOpeningFloat > 0) {
+            quickOpeningFloat--;
         }
 
-        public override void PreUpdate() {
-            if (!SubworldLibrary.SubworldSystem.IsActive<Sea>()) return;
+        #endregion
 
-            Player.position = Player.oldPosition;
+        seamapUpdateCount++;
 
-            Player.position.X = (Main.maxTilesX * 16 * (2f / 3f)) + 300;
-            Player.position.Y = (Main.maxTilesY * 16 * (2f / 3f)) + 300;
+        if (seamapUpdateCount == 1) {
+            Seamap.InitializeSeamap();
+        }
 
-            Player.fallStart = (int)(Player.position.Y / 16f);
+        Seamap.UpdateSeamap();
 
-            #region Opening cutscene for seamap
+        #region Island Interact methods
 
-            if (exitingSeamap) {
-                quickOpeningFloat++;
+        foreach (var obj in SeamapObjects.SeamapEntities) {
+            if (obj is Island) {
+                var island = obj as Island;
 
-                if (quickOpeningFloat > 60) OnExitSeamap();
-            }
-            else if (quickOpeningFloat > 0) {
-                quickOpeningFloat--;
-            }
+                prevKey = KeyID.Sea;
 
-            #endregion
+                Player.ClearBuff(BuffID.Cursed);
+                Player.ClearBuff(BuffID.Invisibility);
 
-            seamapUpdateCount++;
-
-            if (seamapUpdateCount == 1)
-                Seamap.InitializeSeamap();
-
-            Seamap.UpdateSeamap();
-
-            #region Island Interact methods
-            foreach (SeamapObject obj in SeamapObjects.SeamapEntities) {
-                if (obj is Island) {
-                    Island island = obj as Island;
-
-                    prevKey = KeyID.Sea;
-
-                    Player.ClearBuff(BuffID.Cursed);
-                    Player.ClearBuff(BuffID.Invisibility);
-
-                    if (Vector2.DistanceSquared(SeamapObjects.localship.Hitbox.Center.ToVector2(), obj.Center) < (obj.width * 2f) * (obj.width * 2f) &&
-                        Main.LocalPlayer.controlJump) {
-                        island.Interact();
-                    }
+                if (Vector2.DistanceSquared(SeamapObjects.localship.Hitbox.Center.ToVector2(), obj.Center) < obj.width * 2f * (obj.width * 2f) &&
+                    Main.LocalPlayer.controlJump) {
+                    island.Interact();
                 }
             }
-            #endregion
         }
 
-        public override void SaveData(TagCompound tag) {
-            tag["lastPos"] = myLastBoatPos;
-        }
+        #endregion
+    }
 
-        public override void LoadData(TagCompound tag) {
-            tag.TryGet("lastPos", out myLastBoatPos);
-        }
+    public override void SaveData(TagCompound tag) {
+        tag["lastPos"] = myLastBoatPos;
+    }
 
-        public void OnExitSeamap() {
-            quickOpeningFloat = 0;
+    public override void LoadData(TagCompound tag) {
+        tag.TryGet("lastPos", out myLastBoatPos);
+    }
 
-            switch (exitingSeamapKey) {
-                case "Main":
-                    ReturnHome();
-                    break;
-                default:
-                    break;
-            }
+    public void OnExitSeamap() {
+        quickOpeningFloat = 0;
+
+        switch (exitingSeamapKey) {
+            case "Main":
+                ReturnHome();
+                break;
         }
     }
 }

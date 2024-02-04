@@ -41,7 +41,8 @@ public sealed class LilypadGeneration : ModSystem
                 var tile = Framing.GetTileSafely(i, j);
                 var tileAbove = Framing.GetTileSafely(i, j - 1);
 
-                if (!tile.HasTile && tile.LiquidType == LiquidID.Water &&
+                if (!tile.HasTile &&
+                    tile.LiquidType == LiquidID.Water &&
                     tile.LiquidAmount > 0 &&
                     !tileAbove.HasTile &&
                     tileAbove.LiquidAmount <= 0 &&

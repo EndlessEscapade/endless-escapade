@@ -1,9 +1,3 @@
-#nullable enable
+namespace EndlessEscapade.Common.Seamap;
 
-namespace EndlessEscapade.Common.Seamap
-{
-    public abstract class Component
-    {
-
-    }
-}
+public abstract class Component { }

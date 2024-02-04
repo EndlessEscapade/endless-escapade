@@ -13,8 +13,6 @@ public sealed class Minishark : GlobalItem
     }
 
     public override void SetDefaults(Item entity) {
-        entity.TryEnableComponent<ItemBulletCasings>(c => {
-            c.CasingType = ModContent.GoreType<BulletCasing>();
-        });
+        entity.TryEnableComponent<ItemBulletCasings>(c => { c.CasingType = ModContent.GoreType<BulletCasing>(); });
     }
 }

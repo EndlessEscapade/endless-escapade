@@ -1,5 +1,4 @@
-using EndlessEscapade.Content.Items.Materials;
-using EndlessEscapade.Content.Projectiles.Typeless;
+using SubworldLibrary;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
@@ -23,9 +22,8 @@ public class MagicConch : ModItem
         Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice());
     }
 
-    public override bool? UseItem(Player player)
-    {
-        SubworldLibrary.SubworldSystem.Enter("EndlessEscapade/Sea");
+    public override bool? UseItem(Player player) {
+        SubworldSystem.Enter("EndlessEscapade/Sea");
 
         return base.UseItem(player);
     }

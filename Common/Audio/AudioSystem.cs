@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Utilities;
@@ -15,9 +14,9 @@ public sealed class AudioSystem : ModSystem
 {
     private static readonly SoundStyle[] IgnoredSoundStyles = {
         SoundID.MenuClose,
-        SoundID.MenuOpen, 
-        SoundID.MenuTick, 
-        SoundID.Chat, 
+        SoundID.MenuOpen,
+        SoundID.MenuTick,
+        SoundID.Chat,
         SoundID.Grab
     };
 
@@ -38,7 +37,7 @@ public sealed class AudioSystem : ModSystem
     public override void Unload() {
         sounds?.Clear();
         sounds = null;
-        
+
         modifiers?.Clear();
         modifiers = null;
     }
@@ -116,7 +115,7 @@ public sealed class AudioSystem : ModSystem
         Vector2? position,
         SoundUpdateCallback updateCallback) {
         var slot = orig(self, ref style, position, updateCallback);
-        
+
         var hasIgnoredStyle = false;
 
         foreach (var ignoredStyle in IgnoredSoundStyles) {

@@ -15,7 +15,7 @@ public sealed class Boomstick : GlobalItem
     public override void SetDefaults(Item entity) {
         entity.TryEnableComponent<ItemBulletCasings>(c => {
             c.CasingAmount = 2;
-            c.CasingType= ModContent.GoreType<ShellCasing>();
+            c.CasingType = ModContent.GoreType<ShellCasing>();
         });
     }
 }

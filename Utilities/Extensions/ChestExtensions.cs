@@ -31,7 +31,7 @@ public static class ChestExtensions
 
     public static bool TryGetEmptySlot(this Chest chest, out int index, bool randomSlot) {
         var indices = new List<int>();
-        
+
         for (var i = 0; i < Chest.maxItems; i++) {
             var item = chest.item[i];
 
@@ -42,12 +42,12 @@ public static class ChestExtensions
 
         if (indices.Count <= 0) {
             index = -1;
-            
+
             return false;
         }
 
         index = randomSlot ? Main.rand.Next(indices) : indices[0];
-        
+
         return true;
     }
 }

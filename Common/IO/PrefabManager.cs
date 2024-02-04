@@ -9,7 +9,7 @@ namespace EndlessEscapade.Common.IO;
 public sealed class PrefabManager : ModSystem
 {
     private static List<JToken> tokens = new();
-    
+
     public override void Load() {
         LoadPrefabsFromMod(Mod);
     }
@@ -30,7 +30,7 @@ public sealed class PrefabManager : ModSystem
 
             var hjson = reader.ReadToEnd();
             var json = HjsonValue.Parse(hjson).ToString(Stringify.Plain);
-            
+
             foreach (var token in JToken.Parse(json)) {
                 if (token is not JProperty property) {
                     continue;

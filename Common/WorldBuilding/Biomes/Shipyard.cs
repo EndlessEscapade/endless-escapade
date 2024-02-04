@@ -8,15 +8,14 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.WorldBuilding;
+namespace EndlessEscapade.Common.WorldBuilding.Biomes;
 
-// TODO: Separate Shipyard and Sailboat (s) generation.
 public sealed class Shipyard : MicroBiome
 {
     public const int SailboatDistance = 100;
-    
+
     public override bool Place(Point origin, StructureMap structures) {
-        return GenerateShipyard(origin, structures) && GenerateBrokenBoat(origin - new Point(SailboatDistance, 0), structures);
+        return GenerateShipyard(origin, structures);
     }
 
     private static bool GenerateShipyard(Point origin, StructureMap structures) {
@@ -30,7 +29,8 @@ public sealed class Shipyard : MicroBiome
         var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
         var adjustedOrigin = new Point16(origin.X, origin.Y) - offset;
 
-        if (!structures.CanPlace(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y)) || !Generator.GenerateStructure("Content/Structures/Shipyard", adjustedOrigin, mod)) {
+        if (!structures.CanPlace(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y)) ||
+            !Generator.GenerateStructure("Content/Structures/Shipyard", adjustedOrigin, mod)) {
             return false;
         }
 
@@ -61,26 +61,6 @@ public sealed class Shipyard : MicroBiome
 
         sailor.UpdateHomeTileState(false, (int)(sailorX / 16f), (int)(sailorY / 16f));
 
-        structures.AddProtectedStructure(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y));
-
-        return true;
-    }
-    
-    private static bool GenerateBrokenBoat(Point origin, StructureMap structures) {
-        var mod = EndlessEscapade.Instance;
-        var dims = Point16.Zero;
-
-        if (!Generator.GetDimensions("Content/Structures/BrokenSailboat", mod, ref dims)) {
-            return false;
-        }
-
-        var offset = new Point16(dims.X / 2, dims.Y / 2);
-        var adjustedOrigin = new Point16(origin.X, origin.Y) - offset;
-
-        if (!Generator.GenerateStructure("Content/Structures/BrokenSailboat", adjustedOrigin, mod)) {
-            return false;
-        }
-        
         structures.AddProtectedStructure(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y));
 
         return true;

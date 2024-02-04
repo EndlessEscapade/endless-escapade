@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EndlessEscapade.Common.WorldBuilding.Biomes;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Generation;
@@ -63,8 +64,8 @@ public sealed class ShipyardGeneration : ModSystem
             }
         }
 
-        var biome = GenVars.configuration.CreateBiome<Shipyard>();
+        var shipyard = GenVars.configuration.CreateBiome<Shipyard>();
 
-        biome.Place(new Point(startX, biggestY), GenVars.structures);
+        shipyard.Place(new Point(startX, biggestY), GenVars.structures);
     }
 }

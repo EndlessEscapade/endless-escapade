@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\tModLoader.targets" />
+    <Import Project="..\tModLoader.targets"/>
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -21,17 +21,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Assets\Effects\SeafoamShader.fx" />
-      <None Remove="Assets\Effects\SeamapBorderVignette.fx" />
-      <None Remove="Assets\Effects\SeamapCloudShader.fx" />
-      <None Remove="Assets\Effects\WaterShader.fx" />
-      <None Remove="Assets\Effects\WaterShaderBase.fx" />
-      <None Remove="Content\Items\Tools\MagicConch.png" />
-      <None Remove="Content\Seamap\SeamapPlayerShip.png" />
+        <None Remove="Assets\Effects\SeafoamShader.fx"/>
+        <None Remove="Assets\Effects\SeamapBorderVignette.fx"/>
+        <None Remove="Assets\Effects\SeamapCloudShader.fx"/>
+        <None Remove="Assets\Effects\WaterShader.fx"/>
+        <None Remove="Assets\Effects\WaterShaderBase.fx"/>
+        <None Remove="Content\Items\Tools\MagicConch.png"/>
+        <None Remove="Content\Seamap\SeamapPlayerShip.png"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*"/>
     </ItemGroup>
 
     <ItemGroup>

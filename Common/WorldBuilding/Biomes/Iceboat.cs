@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.WorldBuilding;
+namespace EndlessEscapade.Common.WorldBuilding.Biomes;
 
 public sealed class Iceboat : MicroBiome
 {
@@ -59,6 +59,7 @@ public sealed class Iceboat : MicroBiome
                 new Modifiers.OnlyTiles(TileID.SnowBlock),
                 new Actions.SetTile(TileID.IceBlock).Output(shaftShapeData),
                 new Actions.PlaceWall(WallID.IceUnsafe)));
+
         WorldUtils.Gen(new Point(iceboatOrigin.X + iceboatDims.X / 2, ruinsOrigin.Y + ruinsDims.Y),
             new ModShapes.All(shaftShapeData),
             new Actions.SetFrames(true));
