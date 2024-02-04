@@ -1,3 +1,5 @@
+#pragma warning( disable : 4717 ) 
+
 sampler uImage0 : register(s0);
 
 texture noiseTex;

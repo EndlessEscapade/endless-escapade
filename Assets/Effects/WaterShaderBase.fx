@@ -1,3 +1,5 @@
+#pragma warning( disable : 4717 ) 
+
 sampler uImage0 : register(s0);
 
 texture densityNoisemap; //controls the density of clouds across the whole seamap

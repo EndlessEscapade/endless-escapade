@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\tModLoader.targets"/>
+  <Import Project="..\tModLoader.targets" />
 
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <PackageId>EndlessEscapade</PackageId>
-        <LangVersion>10</LangVersion>
-        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PackageId>EndlessEscapade</PackageId>
+    <LangVersion>10</LangVersion>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <DotNetPath Condition=" '$(OS)' == 'Windows_NT' ">dotnet.exe</DotNetPath>
-        <DotNetPath Condition=" '$(OS)' == 'Unix' ">dotnet</DotNetPath>
-        <DotNetPath Condition=" '$(DotNetPath)' == '' ">dotnet</DotNetPath>
-    </PropertyGroup>
+  <PropertyGroup>
+    <DotNetPath Condition=" '$(OS)' == 'Windows_NT' ">dotnet.exe</DotNetPath>
+    <DotNetPath Condition=" '$(OS)' == 'Unix' ">dotnet</DotNetPath>
+    <DotNetPath Condition=" '$(DotNetPath)' == '' ">dotnet</DotNetPath>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-    </PropertyGroup>
+  <PropertyGroup>
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <None Remove="Assets\Effects\SeafoamShader.fx"/>
-        <None Remove="Assets\Effects\SeamapBorderVignette.fx"/>
-        <None Remove="Assets\Effects\SeamapCloudShader.fx"/>
-        <None Remove="Assets\Effects\WaterShader.fx"/>
-        <None Remove="Assets\Effects\WaterShaderBase.fx"/>
-        <None Remove="Content\Items\Tools\MagicConch.png"/>
-        <None Remove="Content\Seamap\SeamapPlayerShip.png"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*"/>
-    </ItemGroup>
+  <ItemGroup>
+    <Reference Include="StructureHelper">
+      <HintPath>lib\StructureHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="SubworldLibrary">
+      <HintPath>lib\SubworldLibrary.dll</HintPath>
+    </Reference>
 
-    <ItemGroup>
-        <Reference Include="StructureHelper">
-            <HintPath>lib\StructureHelper.dll</HintPath>
-        </Reference>
-        <Reference Include="SubworldLibrary">
-            <HintPath>lib\SubworldLibrary.dll</HintPath>
-        </Reference>
-    </ItemGroup>
+    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(MSBuildThisFileDirectory)' != ''"> 
+    <EffectFiles Include="$(MSBuildThisFileDirectory)/**/*.fx" />
+  </ItemGroup>
+
+  <Target Name="CompileEffects" BeforeTargets="Build" Inputs="@(EffectFiles)" Outputs="@(EffectFiles-&gt;&quot;%(RecursiveDir)%(FileName).fxc&quot;)">
+    <Exec Command="@(EffectFiles->'fxc.exe &quot;$(MSBuildThisFileDirectory)%(RecursiveDir)%(FileName)%(Extension)&quot; /T fx_2_0 /nologo /Fo &quot;$(MSBuildThisFileDirectory)%(RecursiveDir)%(FileName).fxc&quot; &#xA;&#xD;')" WorkingDirectory="Assets/Effects/Compiler/" IgnoreExitCode="true" />
+  </Target>
+
 </Project>

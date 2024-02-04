@@ -1,3 +1,5 @@
+#pragma warning( disable : 4717 ) 
+
 //Thanks to triplefate for the cloud vignette effect
 sampler uImage0 : register(s0);
 
