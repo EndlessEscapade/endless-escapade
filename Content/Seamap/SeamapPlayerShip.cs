@@ -44,12 +44,12 @@ namespace EndlessEscapade.Content.Seamap
 
             rot = MathHelper.TwoPi * 2f / 4f;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
+            texture = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
 
-            PrimitiveSystem.primitives.CreateTrail(foamTrail = new FoamTrail(this, Color.Orange, 0.25f, 260));
+            //PrimitiveSystem.primitives.CreateTrail(foamTrail = new FoamTrail(this, Color.Orange, 0.25f, 260));
         }
 
-        FoamTrail foamTrail;
+        //FoamTrail foamTrail;
 
         public float boatSpeed = 0.01f;
 
@@ -102,9 +102,9 @@ namespace EndlessEscapade.Content.Seamap
 
             movementVel = Vector2.UnitX.RotatedBy(rot) * forwardSpeed;
 
-            position += movementVel - (Seamap.windVector * 0.2f);
+            position += movementVel - (Common.Seamap.Seamap.windVector * 0.2f);
 
-            if (foamTrail != null && !foamTrail.disposing) {
+            /*if (foamTrail != null && !foamTrail.disposing) {
                 boatTrailVector.X += VectorAbs(movementVel - (Seamap.windVector * 0.2f)).Length() / 2f;
                 boatTrailVector.X += VectorAbs(velocity).Length() / 2f;
             }
@@ -121,7 +121,7 @@ namespace EndlessEscapade.Content.Seamap
 
             if (forwardSpeed > prevForwardSpeed && foamTrail == null) {
                 PrimitiveSystem.primitives.CreateTrail(foamTrail = new FoamTrail(this, Color.Orange, 0.25f, 260));
-            }
+            }*/
 
             base.Update();
 
@@ -130,15 +130,15 @@ namespace EndlessEscapade.Content.Seamap
 
             #region Position constraints
             if (position.X < 0) position.X = 0;
-            if (position.X > Core.Seamap.seamapWidth - width) position.X = Core.Seamap.seamapWidth - width;
+            if (position.X > Common.Seamap.Seamap.seamapWidth - width) position.X = Common.Seamap.Seamap.seamapWidth - width;
 
             if (position.Y < 0) position.Y = 0;
-            if (position.Y > Core.Seamap.seamapHeight - height - 200) position.Y = Core.Seamap.seamapHeight - height - 200;
+            if (position.Y > Common.Seamap.Seamap.seamapHeight - height - 200) position.Y = Common.Seamap.Seamap.seamapHeight - height - 200;
             #endregion
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch) {
-            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip").Value;
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/SeamapPlayerShip").Value;
 
             int frame = 0;
             float spriteRot = 0f;
@@ -225,11 +225,11 @@ namespace EndlessEscapade.Content.Seamap
         }
 
         public void LeftClickAbility() {
-            myPlayer.GetModPlayer<ShipyardPlayer>().LeftClickAbility(this);
+            //myPlayer.GetModPlayer<ShipyardPlayer>().LeftClickAbility(this);
         }
 
         public void RightClickAbility() {
-            myPlayer.GetModPlayer<ShipyardPlayer>().RightClickAbility(this);
+            //myPlayer.GetModPlayer<ShipyardPlayer>().RightClickAbility(this);
         }
 
         public void Die() {
@@ -463,8 +463,8 @@ namespace EndlessEscapade.Content.Seamap
                 {
                     if (IntersectsRectangle(obj.Hitbox, distSquared)) //Check for collision here
                     {
-                        if (obj is Cannonball)
-                            if ((int)(obj as Cannonball).team == myPlayer.team) continue;
+                        //if (obj is Cannonball)
+                        //    if ((int)(obj as Cannonball).team == myPlayer.team) continue;
 
                         //Collision response
 
@@ -488,7 +488,7 @@ namespace EndlessEscapade.Content.Seamap
             return new Vector2(Math.Abs(toAbs.X), Math.Abs(toAbs.Y));
         }
     }
-
+    /*
     class FoamTrail : Primitive
     {
         public FoamTrail(Entity projectile, Color _color, float width = 40, int cap = 10) : base(projectile) {
@@ -824,4 +824,6 @@ namespace EndlessEscapade.Content.Seamap
             Main.spriteBatch.End(); Main.spriteBatch.Begin();
         }
     }
+
+    */
 }

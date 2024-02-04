@@ -294,6 +294,11 @@ Mods: {
 				// DisplayName: Iron Boots
 				// Tooltip: ""
 			}
+
+			MagicConch: {
+				// DisplayName: Magic Conch
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {

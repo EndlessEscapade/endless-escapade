@@ -69,11 +69,11 @@ namespace EndlessEscapade.Common.Seamap
         public override void OnEnterWorld() {
             if (prevKey == KeyID.Sea && !hasLoadedIntoWorld) {
                 hasLoadedIntoWorld = true;
-                if (lastKeySeamap) player.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
+                //if (lastKeySeamap) Main.LocalPlayer.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
 
                 lastKeySeamap = false;
 
-                Main.screenPosition = player.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
+                Main.screenPosition = Main.LocalPlayer.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
             }
 
             Main.time = time;

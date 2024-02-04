@@ -26,6 +26,8 @@
       <None Remove="Assets\Effects\SeamapCloudShader.fx" />
       <None Remove="Assets\Effects\WaterShader.fx" />
       <None Remove="Assets\Effects\WaterShaderBase.fx" />
+      <None Remove="Content\Items\Tools\MagicConch.png" />
+      <None Remove="Content\Seamap\SeamapPlayerShip.png" />
     </ItemGroup>
 
     <ItemGroup>
