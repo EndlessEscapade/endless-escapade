@@ -1,8 +1,9 @@
+using EndlessEscapade.Common.NPCs.Components;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.NPCs.Components;
+namespace EndlessEscapade.Common.NPCs;
 
 public sealed class NPCDeathEffects : NPCComponent
 {

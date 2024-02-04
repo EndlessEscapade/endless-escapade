@@ -1,3 +1,4 @@
+using EndlessEscapade.Common.NPCs;
 using EndlessEscapade.Common.NPCs.Components;
 using Terraria;
 using Terraria.ID;
