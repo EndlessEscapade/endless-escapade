@@ -84,7 +84,7 @@ public sealed class ChestLootManager : ModSystem
                 var validTileFrame = false;
 
                 foreach (var frame in loot.Frames) {
-                    if (frame == tile.TileFrameX * 36) {
+                    if (tile.TileFrameX == frame * 36) {
                         validTileFrame = true;
                         break;
                     }
