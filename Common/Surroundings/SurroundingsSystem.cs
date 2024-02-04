@@ -10,8 +10,8 @@ public sealed class SurroundingsSystem : ModSystem
 {
     public delegate bool SurroundingsCallback(in SurroundingsInfo info);
 
-    private static readonly Dictionary<string, bool> FlagsByName = new();
-    private static readonly Dictionary<string, SurroundingsCallback> CallbacksByName = new();
+    private static Dictionary<string, bool> flagsByName = new();
+    private static Dictionary<string, SurroundingsCallback> callbacksByName = new();
 
     public override void Load() {
         foreach (var type in AssemblyManager.GetLoadableTypes(Mod.Code)) {
@@ -24,9 +24,17 @@ public sealed class SurroundingsSystem : ModSystem
 
                 var callback = method.CreateDelegate<SurroundingsCallback>();
 
-                CallbacksByName[attribute.Name] = callback;
+                callbacksByName[attribute.Name] = callback;
             }
         }
+    }
+
+    public override void Unload() {
+        flagsByName?.Clear();
+        flagsByName = null;
+        
+        callbacksByName?.Clear();
+        callbacksByName = null;
     }
 
     public override void PreUpdateWorld() {
@@ -35,8 +43,8 @@ public sealed class SurroundingsSystem : ModSystem
             Metrics = Main.SceneMetrics
         };
 
-        foreach (var (name, function) in CallbacksByName) {
-            FlagsByName[name] = function.Invoke(in info);
+        foreach (var (name, function) in callbacksByName) {
+            flagsByName[name] = function.Invoke(in info);
         }
     }
 }

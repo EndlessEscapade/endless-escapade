@@ -14,20 +14,28 @@ namespace EndlessEscapade.Common.Loot;
 
 public sealed class ChestLootManager : ModSystem
 {
-    private static List<ChestLoot> ChestLoot = new();
-    private static Dictionary<int, bool> ItemFlagsByType = new();
+    private static List<ChestLoot> chestLoot = new();
+    private static Dictionary<int, bool> itemFlagsByType = new();
     
     public override void PostSetupContent() {
-        ChestLoot = PrefabManager.EnumeratePrefabs<ChestLoot>("ChestLoot").ToList();
+        chestLoot = PrefabManager.EnumeratePrefabs<ChestLoot>("ChestLoot").ToList();
 
-        foreach (var loot in ChestLoot) {
-            ItemFlagsByType[loot.ItemType] = false;
+        foreach (var loot in chestLoot) {
+            itemFlagsByType[loot.ItemType] = false;
         }
+    }
+
+    public override void Unload() {
+        chestLoot?.Clear();
+        chestLoot = null;
+        
+        itemFlagsByType?.Clear();
+        itemFlagsByType = null;
     }
 
     public override void PostWorldGen() {
         // Initial generation, ensures each item generates at least once.
-        foreach (var loot in ChestLoot) {
+        foreach (var loot in chestLoot) {
             var filteredChests = new List<Chest>();
 
             for (var i = 0; i < Main.maxChests; i++) {
@@ -49,19 +57,19 @@ public sealed class ChestLootManager : ModSystem
                 filteredChests.Add(chest);
             }
 
-            while (!ItemFlagsByType[loot.ItemType]) {
+            while (!itemFlagsByType[loot.ItemType]) {
                 var chest = WorldGen.genRand.Next(filteredChests);
                 var stack = WorldGen.genRand.Next(loot.MinStack, loot.MaxStack);
 
                 if (chest.HasItem(loot.ItemType) || chest.TryAddItem(loot.ItemType, stack, loot.RandomSlot)) {
-                    ItemFlagsByType[loot.ItemType] = true;
+                    itemFlagsByType[loot.ItemType] = true;
                     break;
                 }
             }
         }
 
         // Extra generation, generates extra items based on their loot spawn rate.
-        foreach (var loot in ChestLoot) {
+        foreach (var loot in chestLoot) {
             for (var i = 0; i < Main.maxChests; i++) {
                 var chest = Main.chest[i];
 
@@ -83,7 +91,7 @@ public sealed class ChestLootManager : ModSystem
                 var stack = WorldGen.genRand.Next(loot.MinStack, loot.MaxStack);
 
                 if (chest.TryAddItem(loot.ItemType, stack, loot.RandomSlot)) {
-                    ItemFlagsByType[loot.ItemType] = true;
+                    itemFlagsByType[loot.ItemType] = true;
                     break;
                 }
             }

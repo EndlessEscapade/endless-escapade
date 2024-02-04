@@ -15,12 +15,20 @@ namespace EndlessEscapade.Common.Ambience;
 [Autoload(Side = ModSide.Client)]
 public sealed class AmbienceManager : ModSystem
 {
-    private static List<AmbienceSound> Sounds = new();
-    private static List<AmbienceLoop> Loops = new();
+    private static List<AmbienceSound> sounds = new();
+    private static List<AmbienceLoop> loops = new();
     
     public override void PostSetupContent() {
-        Sounds = PrefabManager.EnumeratePrefabs<AmbienceSound>("AmbienceSound").ToList();
-        Loops = PrefabManager.EnumeratePrefabs<AmbienceLoop>("AmbienceLoop").ToList();
+        sounds = PrefabManager.EnumeratePrefabs<AmbienceSound>("AmbienceSound").ToList();
+        loops = PrefabManager.EnumeratePrefabs<AmbienceLoop>("AmbienceLoop").ToList();
+    }
+
+    public override void Unload() {
+        sounds?.Clear();
+        sounds = null;
+        
+        loops?.Clear();
+        loops = null;
     }
 
     public override void PostUpdateWorld() {
@@ -29,8 +37,8 @@ public sealed class AmbienceManager : ModSystem
 
     // TODO: Update loops and sounds based on active flags.
     private static void UpdateSounds() {
-        for (var i = 0; i < Sounds.Count; i++) {
-            var sound = Sounds[i];
+        for (var i = 0; i < sounds.Count; i++) {
+            var sound = sounds[i];
             
             if (!SoundEngine.TryGetActiveSound(sound.SlotId, out var activeSound) && Main.rand.NextBool(sound.PlaybackChanceDenominator)) {
                 sound.SlotId = SoundEngine.PlaySound(sound.Style);
@@ -39,7 +47,7 @@ public sealed class AmbienceManager : ModSystem
                 activeSound.Volume = sound.Volume;
             }
 
-            Sounds[i] = sound;
+            sounds[i] = sound;
         }
     }
 }

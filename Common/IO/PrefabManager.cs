@@ -8,10 +8,15 @@ namespace EndlessEscapade.Common.IO;
 
 public sealed class PrefabManager : ModSystem
 {
-    private static readonly List<JToken> Tokens = new();
+    private static List<JToken> tokens = new();
     
     public override void Load() {
         LoadPrefabsFromMod(Mod);
+    }
+
+    public override void Unload() {
+        tokens?.Clear();
+        tokens = null;
     }
 
     public static void LoadPrefabsFromMod(Mod mod) {
@@ -31,13 +36,13 @@ public sealed class PrefabManager : ModSystem
                     continue;
                 }
 
-                Tokens.Add(property.Value);
+                tokens.Add(property.Value);
             }
         }
     }
 
     public static IEnumerable<T> EnumeratePrefabs<T>(string propertyName) {
-        foreach (var token in Tokens) {
+        foreach (var token in tokens) {
             if (token[propertyName] is JObject jsonObject) {
                 yield return jsonObject.ToObject<T>();
             }
