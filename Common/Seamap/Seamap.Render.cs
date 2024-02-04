@@ -45,7 +45,7 @@ public partial class Seamap
 
             spriteBatch.Draw(blackout, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black);
 
-            return;
+            spriteBatch.End();
         }
 
         spriteBatch.Begin();
@@ -142,7 +142,7 @@ public partial class Seamap
 
         #region Rendering cannonball target
 
-        var targetTex = ModContent.Request<Texture2D>("EndlessEscapade/Seamap/Content/UI/Target").Value;
+        var targetTex = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/UI/Target").Value;
 
         //spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.UnitX.RotatedBy(SeamapObjects.localship.CannonRestrictRange()) * -128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
         spriteBatch.Draw(targetTex,
@@ -171,7 +171,7 @@ public partial class Seamap
         if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount > 10 && Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 190) {
             var updateCount = Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount;
 
-            var oceanLogo = ModContent.Request<Texture2D>("EndlessEscapade/Seamap/Content/UI/OceanScreen").Value;
+            var oceanLogo = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/UI/OceanScreen").Value;
 
             var yOffset = updateCount <= 70 ? (float)Math.Sin((updateCount - 10) * 1.57f / 60f) * 240f - 120 :
                 updateCount <= 130 ? 120 : (float)Math.Sin((updateCount - 70) * 1.57f / 60f) * 240f - 120;
@@ -183,8 +183,8 @@ public partial class Seamap
 
         #region Rendering ship healthbar
 
-        var healthBar = ModContent.Request<Texture2D>("EndlessEscapade/Seamap/Content/UI/HealthbarBg").Value;
-        var healthBarFill = ModContent.Request<Texture2D>("EndlessEscapade/Seamap/Content/UI/HealthbarFill").Value;
+        var healthBar = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/UI/HealthbarBg").Value;
+        var healthBarFill = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/UI/HealthbarFill").Value;
 
         spriteBatch.Draw(healthBar, new Vector2(Main.screenWidth - 200, 40), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
@@ -268,7 +268,7 @@ public partial class Seamap
             0f);
 
         spriteBatch.End();
-        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+        //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
         /*foreach (var entity in SeamapObjects.ActiveEntities) {
             if (entity is not Island)
@@ -277,7 +277,7 @@ public partial class Seamap
             Helpers.DrawAdditive(ModContent.Request<Texture2D>("EndlessEscapade/Textures/RadialGradientSquish").Value, entity.Center - Main.screenPosition, Color.Lerp(new Color(96, 178, 220).LightSeamap(), new Color(53, 65, 77).LightSeamap(), weatherDensity) * 0.4f, entity.texture.Width * 2f / 150f);
         }*/
 
-        spriteBatch.End();
+        //spriteBatch.End();
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
         var WaterShader = EndlessEscapade.Instance.Assets.Request<Effect>("Assets/Effects/WaterShader", AssetRequestMode.ImmediateLoad).Value;
@@ -311,7 +311,7 @@ public partial class Seamap
     private static void RenderClouds(SpriteBatch spriteBatch) {
         spriteBatch.End();
 
-        var waterTexture = ModContent.Request<Texture2D>("EndlessEscapade/Particles/Pure").Value;
+        var waterTexture = ModContent.Request<Texture2D>("EndlessEscapade/Textures/Pure").Value;
 
         var SeaColour = new Color(28 / 255f, 118 / 255f, 186 / 255f);
 
