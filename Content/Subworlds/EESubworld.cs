@@ -16,13 +16,6 @@ public abstract class EESubworld : Subworld
     public override int Width => 0;
 
     public override List<GenPass> Tasks => new();
-    public virtual string subworldKey => KeyID.Island;
-
-    public override void OnExit() {
-        Main.LocalPlayer.GetModPlayer<SeamapPlayer>().prevKey = subworldKey;
-
-        base.OnExit();
-    }
 
     public override void DrawMenu(GameTime gameTime) {
         //DrawLoadingScreen();
@@ -46,10 +39,4 @@ public class SubworldGenerationPass : GenPass
     protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration) {
         method(progress);
     }
-}
-
-public class KeyID
-{
-    public const string Sea = "Sea";
-    public const string Island = "Island";
 }

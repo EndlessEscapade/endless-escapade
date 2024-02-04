@@ -22,8 +22,6 @@ public class Sea : EESubworld
         })
     };
 
-    public override string subworldKey => KeyID.Sea;
-
     public void ReturnHome(Player player) {
         SubworldSystem.Exit();
     }

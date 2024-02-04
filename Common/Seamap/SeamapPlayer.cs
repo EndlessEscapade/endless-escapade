@@ -28,9 +28,6 @@ public class SeamapPlayer : ModPlayer
     public bool lastKeySeamap;
 
     public Vector2 myLastBoatPos;
-    public bool noU;
-
-    public string prevKey = "Main";
 
     public float quickOpeningFloat = 60;
     public int seamapUpdateCount;
@@ -49,38 +46,14 @@ public class SeamapPlayer : ModPlayer
 
         lastKeySeamap = true;
 
-        prevKey = KeyID.Sea;
-
         if (Main.netMode == NetmodeID.Server) {
             Netplay.Connection.State = 1;
         }
     }
 
     public override void OnEnterWorld() {
-        if (prevKey == KeyID.Sea && !hasLoadedIntoWorld) {
-            hasLoadedIntoWorld = true;
-            //if (lastKeySeamap) Main.LocalPlayer.position = (new Vector2((int)shipCoords.X - 2 + 7 + 12, (int)shipCoords.Y - 18 - 2 + 25) * 16);
-
-            lastKeySeamap = false;
-
-            Main.screenPosition = Main.LocalPlayer.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
-        }
-
         Main.time = time;
         Main.dayTime = dayTime;
-    }
-
-    public void EnterSeamap() {
-        time = Main.time;
-        dayTime = Main.dayTime;
-
-        seamapUpdateCount = 0;
-
-        SubworldSystem.Enter<Sea>();
-
-        quickOpeningFloat = 60;
-
-        exitingSeamap = false;
     }
 
     public override void PreUpdate() {
@@ -95,17 +68,6 @@ public class SeamapPlayer : ModPlayer
 
         Player.fallStart = (int)(Player.position.Y / 16f);
 
-        if (exitingSeamap) {
-            quickOpeningFloat++;
-
-            if (quickOpeningFloat > 60) {
-                OnExitSeamap();
-            }
-        }
-        else if (quickOpeningFloat > 0) {
-            quickOpeningFloat--;
-        }
-
         seamapUpdateCount++;
 
         if (seamapUpdateCount == 1) {
@@ -117,8 +79,6 @@ public class SeamapPlayer : ModPlayer
         foreach (var obj in SeamapObjects.SeamapEntities) {
             if (obj is Island) {
                 var island = obj as Island;
-
-                prevKey = KeyID.Sea;
 
                 Player.ClearBuff(BuffID.Cursed);
                 Player.ClearBuff(BuffID.Invisibility);
@@ -137,15 +97,5 @@ public class SeamapPlayer : ModPlayer
 
     public override void LoadData(TagCompound tag) {
         tag.TryGet("lastPos", out myLastBoatPos);
-    }
-
-    public void OnExitSeamap() {
-        quickOpeningFloat = 0;
-
-        switch (exitingSeamapKey) {
-            case "Main":
-                ReturnHome();
-                break;
-        }
     }
 }

@@ -17,7 +17,6 @@ public partial class Seamap
     public static int seamapHeight = 5000;
 
     public static float brightness;
-    public static bool isStorming;
 
     public static float weatherDensity;
 
@@ -30,12 +29,6 @@ public partial class Seamap
         var spriteBatch = Main.spriteBatch;
 
         CalculateBrightness();
-
-        if (Main.time % 600 == 0) {
-            if (Main.rand.NextBool(8)) {
-                isStorming = !isStorming;
-            }
-        }
 
         if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 0 ||
             (Main.LocalPlayer == null && !Main.gameInactive)) {
@@ -318,11 +311,11 @@ public partial class Seamap
         var pos = Vector2.Zero;
         var toScreen = pos - Main.screenPosition;
 
-        if (isStorming && weatherDensity < 1f) {
+        if (Main.IsItStorming && weatherDensity < 1f) {
             weatherDensity += 0.001f;
         }
 
-        if (!isStorming && weatherDensity > 0f) {
+        if (!Main.IsItStorming && weatherDensity > 0f) {
             weatherDensity -= 0.001f;
         }
 
@@ -424,10 +417,10 @@ public partial class Seamap
 
     private static void CalculateBrightness() {
         if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount == 1) {
-            brightness = Main.dayTime ? isStorming ? 0.5f : 1f : isStorming ? 0.5f : 0.2f;
+            brightness = Main.dayTime ? Main.IsItStorming ? 0.5f : 1f : Main.IsItStorming ? 0.5f : 0.2f;
         }
 
-        if (!isStorming) {
+        if (!Main.IsItStorming) {
             if (Main.dayTime) {
                 if (brightness < 1f) {
                     brightness += 0.0025f;
