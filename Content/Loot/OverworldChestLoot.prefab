@@ -1,0 +1,8 @@
+IronBootsLoot: {
+    ChestLoot: {
+        ItemPath: "EndlessEscapade/IronBoots"
+        TilePath: "Terraria/Containers"
+        Chance: 3
+        Frames: [0, 1, 13]
+    }
+}
