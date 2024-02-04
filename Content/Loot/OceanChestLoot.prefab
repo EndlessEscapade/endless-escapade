@@ -1,0 +1,17 @@
+DolphinFinLoot: {
+    ChestLoot: {
+        ItemPath: "EndlessEscapade/DolphinFin"
+        TilePath: "Terraria/Containers"
+        Chance: 3
+        Frames: [17]
+    }
+}
+
+FishGillsLoot: {
+    ChestLoot: {
+        ItemPath: "EndlessEscapade/FishGills"
+        TilePath: "Terraria/Containers"
+        Chance: 3
+        Frames: [17]
+    }
+}

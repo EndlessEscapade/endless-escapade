@@ -11,7 +11,7 @@ public class StormKnightLeggings : ModItem
         Item.width = 22;
         Item.height = 14;
     }
-    
+
     public override void AddRecipes() {
         CreateRecipe()
             .AddIngredient<LythenBar>(4)

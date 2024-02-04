@@ -12,5 +12,7 @@ public class FishGills : ModItem
         Item.height = 28;
     }
 
-    public override void UpdateAccessory(Player player, bool hideVisual) { }
+    public override void UpdateAccessory(Player player, bool hideVisual) {
+        // TODO: IL patch to increase breath CD max.
+    }
 }

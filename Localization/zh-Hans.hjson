@@ -284,6 +284,16 @@ Mods: {
 				// DisplayName: Kelpberries
 				// Tooltip: ""
 			}
+
+			CrabPincers: {
+				// DisplayName: Crab Pincers
+				// Tooltip: ""
+			}
+
+			IronBoots: {
+				// DisplayName: Iron Boots
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -347,6 +357,7 @@ Mods: {
 			// StarCatcherBobber.DisplayName: Star Catcher Bobber
 			// Oni.DisplayName: Oni
 			// OniFrontHand.DisplayName: Oni Front Hand
+			// CrabPincers.DisplayName: Crab Pincers
 		}
 
 		Tiles: {

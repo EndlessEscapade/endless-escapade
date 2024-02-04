@@ -15,14 +15,14 @@ public sealed class ItemBulletCasings : ItemComponent
         if (!Enabled || CasingType < 0 || CasingAmount <= 0) {
             return base.UseItem(item, player);
         }
-        
+
         var texture = TextureAssets.Gore[CasingType].Value;
         var position = player.Center + new Vector2(12f * player.direction, -6f);
 
         if (player.direction == -1) {
             position -= texture.Size() / 2f + new Vector2(12f, 0f);
         }
-        
+
         for (var i = 0; i < CasingAmount; i++) {
             var velocity = new Vector2(Main.rand.NextFloat(0.75f, 1f) * -player.direction, -Main.rand.NextFloat(1f, 1.5f)) + player.velocity * 0.5f;
 

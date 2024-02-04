@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EndlessEscapade.Common.NPCs.Components;
 using Terraria;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
@@ -68,34 +69,24 @@ public class Sailor : ModNPC
         NPC.aiStyle = NPCAIStyleID.Passive;
 
         AnimationType = NPCID.Guide;
+
+        NPC.TryEnableComponent<NPCDeathEffects>(c => c.GoreAmount = 4);
     }
 
     public override void AI() {
         if (NPC.CountNPCS(Type) <= 1) {
             return;
         }
-        
+
         NPC.active = false;
     }
 
     public override void HitEffect(NPC.HitInfo hit) {
         var amount = NPC.life > 0 ? 5 : 20;
-        
+
         for (var i = 0; i < amount; i++) {
             Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood);
         }
-
-        var hatGore = NPC.GetPartyHatGore();
-
-        if (NPC.life > 0 || Main.netMode == NetmodeID.Server || hatGore <= 0) {
-            return;
-        }
-        
-        for (var i = 0; i < 4; i++) {
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>(nameof(Sailor) + i).Type);
-        }
-
-        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, hatGore);
     }
 
     public override string GetChat() {
@@ -136,7 +127,7 @@ public class Sailor : ModNPC
     public override void SetChatButtons(ref string button, ref string button2) {
         button = Language.GetTextValue("LegacyInterface.28");
     }
-    
+
     public override List<string> SetNPCNameList() {
         return new List<string> {
             "Skipper"

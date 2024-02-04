@@ -21,7 +21,7 @@ public class StarCatcher : ModItem
 
         Item.shoot = ModContent.ProjectileType<StarCatcherBobber>();
         Item.shootSpeed = 10f;
-        
+
         Item.UseSound = SoundID.Item1;
         Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice());
     }

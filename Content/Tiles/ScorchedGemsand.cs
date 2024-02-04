@@ -10,7 +10,7 @@ namespace EndlessEscapade.Content.Tiles;
 public class ScorchedGemsand : CompositeTile
 {
     public override int HorizontalSheetCount { get; } = 4;
-    
+
     public override int VerticalSheetCount { get; } = 2;
 
     public override void SetStaticDefaults() {
@@ -25,7 +25,6 @@ public class ScorchedGemsand : CompositeTile
         AddMapEntry(new Color(106, 96, 95));
 
         MineResist = 1f;
-
         HitSound = SoundID.Dig;
         DustType = DustID.Ash;
     }

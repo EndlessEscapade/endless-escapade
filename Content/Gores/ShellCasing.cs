@@ -20,11 +20,10 @@ public class ShellCasing : ModGore
     public override bool Update(Gore gore) {
         if (gore.alpha >= 255) {
             gore.active = false;
-            return true;
         }
-        
+
         gore.alpha += 5;
-        
+
         return true;
     }
 }

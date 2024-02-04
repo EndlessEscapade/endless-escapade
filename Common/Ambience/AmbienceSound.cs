@@ -1,22 +1,32 @@
-﻿using ReLogic.Utilities;
-using Terraria;
+using System;
+using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
+using ReLogic.Utilities;
 using Terraria.Audio;
 
 namespace EndlessEscapade.Common.Ambience;
 
-public abstract class AmbienceSound : AmbienceTrack
+public struct AmbienceSound : IAmbienceTrack
 {
-    public virtual int PlaybackRate { get; protected set; } = 100;
+    private float volume = 0f;
 
-    internal sealed override void Update() {
-        if (!Active(Main.LocalPlayer) || SoundEngine.TryGetActiveSound(SoundSlot, out _)) {
-            return;
-        }
-
-        SoundSlot = SlotId.Invalid;
-
-        if (Main.rand.NextBool(PlaybackRate)) {
-            SoundSlot = SoundEngine.PlaySound(Style);
-        }
+    [JsonIgnore]
+    public float Volume {
+        get => volume;
+        set => volume = MathHelper.Clamp(value, 0f, 1f);
     }
+
+    [JsonIgnore]
+    public SlotId SlotId { get; set; } = SlotId.Invalid;
+
+    [JsonRequired]
+    public SoundStyle Style { get; set; } = default;
+
+    [JsonRequired]
+    public string[] Flags { get; set; } = Array.Empty<string>();
+
+    [JsonRequired]
+    public int PlaybackChanceDenominator { get; set; } = 0;
+
+    public AmbienceSound() { }
 }

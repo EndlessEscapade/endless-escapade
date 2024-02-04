@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles;
 
@@ -23,8 +22,6 @@ public class TropicalWood : CompositeTile
 
         HitSound = SoundID.Dig;
         DustType = DustID.WoodFurniture;
-
-        RegisterItemDrop(ModContent.ItemType<Items.Placeables.TropicalWood>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

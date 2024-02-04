@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Content.Tiles;
 
@@ -25,8 +24,6 @@ public class Gemsand : CompositeTile
 
         HitSound = SoundID.Dig;
         DustType = DustID.BlueMoss;
-
-        RegisterItemDrop(ModContent.ItemType<Items.Placeables.Gemsand>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

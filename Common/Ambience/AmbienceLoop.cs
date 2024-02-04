@@ -1,55 +1,29 @@
-﻿using Microsoft.Xna.Framework;
+using System;
+using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using ReLogic.Utilities;
-using Terraria;
 using Terraria.Audio;
 
 namespace EndlessEscapade.Common.Ambience;
 
-public abstract class AmbienceLoop : AmbienceTrack
+public struct AmbienceLoop : IAmbienceTrack
 {
-    private float volume;
+    private float volume = 0f;
 
+    [JsonIgnore]
     public float Volume {
         get => volume;
-        private set => volume = MathHelper.Clamp(value, 0f, Main.ambientVolume);
+        set => volume = MathHelper.Clamp(value, 0f, 1f);
     }
 
-    internal sealed override void Update() {
-        UpdateVolume();
-        UpdateLoop();
-    }
+    [JsonIgnore]
+    public SlotId SlotId { get; set; } = SlotId.Invalid;
 
-    private void UpdateVolume() {
-        var active = Active(Main.LocalPlayer);
+    [JsonRequired]
+    public SoundStyle Style { get; set; } = default;
 
-        if (active) {
-            Volume += 0.025f;
-            return;
-        }
+    [JsonRequired]
+    public string[] Flags { get; set; } = Array.Empty<string>();
 
-        Volume -= 0.025f;
-    }
-
-    private void UpdateLoop() {
-        var active = Active(Main.LocalPlayer);
-        var exists = SoundEngine.TryGetActiveSound(SoundSlot, out var sound);
-
-        if (active && (!exists || sound == null)) {
-            SoundSlot = SoundEngine.PlaySound(Style);
-
-            if (SoundEngine.TryGetActiveSound(SoundSlot, out sound)) {
-                sound.Volume = 0f;
-            }
-        }
-
-        if (exists && sound != null) {
-            if (!active && Volume <= 0f) {
-                sound.Stop();
-                SoundSlot = SlotId.Invalid;
-                return;
-            }
-
-            sound.Volume = Volume;
-        }
-    }
+    public AmbienceLoop() { }
 }

@@ -7,7 +7,7 @@ public class DolphinFin : ModItem
 {
     public override void SetDefaults() {
         Item.accessory = true;
-        
+
         Item.width = 22;
         Item.height = 26;
     }

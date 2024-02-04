@@ -12,13 +12,12 @@ public class Basalt : ModTile
         Main.tileSolid[Type] = true;
         Main.tileLighted[Type] = true;
         Main.tileBlockLight[Type] = true;
-        
+
         TileID.Sets.Conversion.Stone[Type] = true;
 
         AddMapEntry(new Color(37, 45, 45));
 
         MineResist = 1f;
-        
         HitSound = SoundID.Tink;
         DustType = DustID.Ash;
     }

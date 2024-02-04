@@ -14,7 +14,7 @@ public class LythenOre : ModTile
 
     public override void SetStaticDefaults() {
         Main.tileSpelunker[Type] = true;
-        Main.tileShine2[Type] = true; 
+        Main.tileShine2[Type] = true;
         Main.tileMergeDirt[Type] = false;
         Main.tileSolid[Type] = true;
         Main.tileLighted[Type] = true;
@@ -35,7 +35,7 @@ public class LythenOre : ModTile
     public override void NumDust(int i, int j, bool fail, ref int num) {
         num = fail ? 1 : 3;
     }
-    
+
     public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b) {
         g = 0.1f;
         b = 0.4f;

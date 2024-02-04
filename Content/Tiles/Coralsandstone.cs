@@ -21,8 +21,6 @@ public class Coralsandstone : ModTile
 
         HitSound = SoundID.Dig;
         DustType = DustID.GreenMoss;
-
-        RegisterItemDrop(ModContent.ItemType<Items.Placeables.Coralsandstone>());
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {

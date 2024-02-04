@@ -9,6 +9,7 @@ namespace EndlessEscapade.Content.Projectiles.Melee;
 
 public class SpinnerFish : ModProjectile
 {
+    private Vector2 offset;
     private ref float Target => ref Projectile.ai[0];
     private ref float Timer => ref Projectile.ai[1];
 
@@ -16,8 +17,6 @@ public class SpinnerFish : ModProjectile
     public bool StickingToTile { get; private set; }
 
     public bool StickingToAnything => StickingToNPC || StickingToTile;
-    
-    private Vector2 offset;
 
     public override void SetDefaults() {
         Projectile.usesLocalNPCImmunity = true;
@@ -27,7 +26,6 @@ public class SpinnerFish : ModProjectile
         Projectile.height = 16;
 
         Projectile.aiStyle = -1;
-        AIType = -1;
 
         Projectile.timeLeft = 180;
         Projectile.penetrate = -1;
@@ -89,7 +87,7 @@ public class SpinnerFish : ModProjectile
         }
 
         UpdateGravity();
-        
+
         Projectile.rotation += Projectile.velocity.X * 0.1f;
     }
 

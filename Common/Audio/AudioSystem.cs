@@ -13,10 +13,16 @@ namespace EndlessEscapade.Common.Audio;
 [Autoload(Side = ModSide.Client)]
 public sealed class AudioSystem : ModSystem
 {
-    private static readonly ImmutableArray<SoundStyle> ignoredSoundStyles = ImmutableArray.Create(SoundID.MenuClose, SoundID.MenuOpen, SoundID.MenuTick, SoundID.Chat, SoundID.Grab);
+    private static readonly SoundStyle[] IgnoredSoundStyles = {
+        SoundID.MenuClose,
+        SoundID.MenuOpen, 
+        SoundID.MenuTick, 
+        SoundID.Chat, 
+        SoundID.Grab
+    };
 
-    private static readonly List<ActiveSound> sounds = new();
-    private static readonly List<AudioModifier> modifiers = new();
+    private static List<ActiveSound> sounds = new();
+    private static List<AudioModifier> modifiers = new();
 
     private static AudioParameters parameters;
 
@@ -27,6 +33,14 @@ public sealed class AudioSystem : ModSystem
         }
 
         On_SoundPlayer.Play_Inner += PlayInnerHook;
+    }
+
+    public override void Unload() {
+        sounds?.Clear();
+        sounds = null;
+        
+        modifiers?.Clear();
+        modifiers = null;
     }
 
     public static void AddModifier(string context, int duration, AudioModifier.ModifierCallback callback) {
@@ -95,10 +109,24 @@ public sealed class AudioSystem : ModSystem
         }
     }
 
-    private static SlotId PlayInnerHook(On_SoundPlayer.orig_Play_Inner orig, SoundPlayer self, ref SoundStyle style, Vector2? position, SoundUpdateCallback updateCallback) {
+    private static SlotId PlayInnerHook(
+        On_SoundPlayer.orig_Play_Inner orig,
+        SoundPlayer self,
+        ref SoundStyle style,
+        Vector2? position,
+        SoundUpdateCallback updateCallback) {
         var slot = orig(self, ref style, position, updateCallback);
+        
+        var hasIgnoredStyle = false;
 
-        if (SoundEngine.TryGetActiveSound(slot, out var sound) && sound.Sound?.IsDisposed == false && !ignoredSoundStyles.Contains(sound.Style)) {
+        foreach (var ignoredStyle in IgnoredSoundStyles) {
+            if (style == ignoredStyle) {
+                hasIgnoredStyle = true;
+                break;
+            }
+        }
+
+        if (SoundEngine.TryGetActiveSound(slot, out var sound) && sound.Sound?.IsDisposed == false && !hasIgnoredStyle) {
             sounds.Add(sound);
         }
 
