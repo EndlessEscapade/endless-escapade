@@ -251,7 +251,7 @@ public class SeamapPlayerShip : SeamapObject
     }
 
     public void Die() {
-        //SoundEngine.PlaySound(SoundLoad.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipDeath"));
+        //SoundEngine.PlaySound(SoundLoad.GetLegacySoundSlot("EndlessEscapade/Assets/Sounds/ShipDeath"));
 
         myPlayer.GetModPlayer<SeamapPlayer>().ReturnHome();
 
@@ -515,7 +515,7 @@ public class SeamapPlayerShip : SeamapObject
                     //shipHelth--;
                     invFrames = 20;
 
-                    //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/ShipHurt"));
+                    //SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EndlessEscapade/Assets/Sounds/ShipHurt"));
 
                     velocity += Vector2.Normalize(obj.Center - Center) * boatSpeed * -120;
                     forwardSpeed = 0;
@@ -640,21 +640,21 @@ class FoamTrail : Primitive
 
         Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
 
-        Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, EEMod.SeafoamShader);
+        Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, EndlessEscapade.SeafoamShader);
 
-        EEMod.SeafoamShader.Parameters["foamTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/FoamTrail3").Value);
-        EEMod.SeafoamShader.Parameters["rippleTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/FoamTrail3").Value);
+        EndlessEscapade.SeafoamShader.Parameters["foamTexture"].SetValue(ModContent.GetInstance<EndlessEscapade>().Assets.Request<Texture2D>("Textures/Noise/FoamTrail3").Value);
+        EndlessEscapade.SeafoamShader.Parameters["rippleTexture"].SetValue(ModContent.GetInstance<EndlessEscapade>().Assets.Request<Texture2D>("Textures/Noise/FoamTrail3").Value);
 
-        EEMod.SeafoamShader.Parameters["offset"].SetValue(new Vector2((BindableEntity as SeamapPlayerShip).boatTrailVector.X + (BindableEntity as SeamapPlayerShip).boatTrailVector.Y, 0) / 400f);
+        EndlessEscapade.SeafoamShader.Parameters["offset"].SetValue(new Vector2((BindableEntity as SeamapPlayerShip).boatTrailVector.X + (BindableEntity as SeamapPlayerShip).boatTrailVector.Y, 0) / 400f);
 
-        EEMod.SeafoamShader.Parameters["noColor"].SetValue(new Color(58, 110, 172).LightSeamap().ToVector4() * 0f * disposingFloat);
-        EEMod.SeafoamShader.Parameters["color1"].SetValue(new Color(98, 153, 217).LightSeamap().ToVector4() * 0.15f * disposingFloat);
-        EEMod.SeafoamShader.Parameters["color2"].SetValue(new Color(72, 159, 199).LightSeamap().ToVector4() * 0.29f * disposingFloat);
-        EEMod.SeafoamShader.Parameters["color3"].SetValue(new Color(65, 198, 224).LightSeamap().ToVector4() * 0.35f * disposingFloat);
-        EEMod.SeafoamShader.Parameters["color4"].SetValue(new Color(108, 211, 235).LightSeamap().ToVector4() * 0.55f * disposingFloat);
-        EEMod.SeafoamShader.Parameters["color5"].SetValue(new Color(250, 255, 224).LightSeamap().ToVector4() * 0.85f * disposingFloat);
+        EndlessEscapade.SeafoamShader.Parameters["noColor"].SetValue(new Color(58, 110, 172).LightSeamap().ToVector4() * 0f * disposingFloat);
+        EndlessEscapade.SeafoamShader.Parameters["color1"].SetValue(new Color(98, 153, 217).LightSeamap().ToVector4() * 0.15f * disposingFloat);
+        EndlessEscapade.SeafoamShader.Parameters["color2"].SetValue(new Color(72, 159, 199).LightSeamap().ToVector4() * 0.29f * disposingFloat);
+        EndlessEscapade.SeafoamShader.Parameters["color3"].SetValue(new Color(65, 198, 224).LightSeamap().ToVector4() * 0.35f * disposingFloat);
+        EndlessEscapade.SeafoamShader.Parameters["color4"].SetValue(new Color(108, 211, 235).LightSeamap().ToVector4() * 0.55f * disposingFloat);
+        EndlessEscapade.SeafoamShader.Parameters["color5"].SetValue(new Color(250, 255, 224).LightSeamap().ToVector4() * 0.85f * disposingFloat);
 
-        EEMod.SeafoamShader.Parameters["WorldViewProjection"].SetValue(view * projection);
+        EndlessEscapade.SeafoamShader.Parameters["WorldViewProjection"].SetValue(view * projection);
 
         if (vertices.Length == 0) return;
 
@@ -663,7 +663,7 @@ class FoamTrail : Primitive
 
         Main.graphics.GraphicsDevice.SetVertexBuffer(buffer);
 
-        foreach (EffectPass pass in EEMod.SeafoamShader.CurrentTechnique.Passes) {
+        foreach (EffectPass pass in EndlessEscapade.SeafoamShader.CurrentTechnique.Passes) {
             pass.Apply();
         }
 
@@ -816,9 +816,9 @@ class WakeTrail : Primitive
 
         Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
 
-        Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, EEMod.BasicEffect);
+        Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, EndlessEscapade.BasicEffect);
 
-        EEMod.BasicEffect.Projection = view * projection;
+        EndlessEscapade.BasicEffect.Projection = view * projection;
 
         if (vertices.Length == 0) return;
 
@@ -827,7 +827,7 @@ class WakeTrail : Primitive
 
         Main.graphics.GraphicsDevice.SetVertexBuffer(buffer);
 
-        foreach (EffectPass pass in EEMod.BasicEffect.CurrentTechnique.Passes) {
+        foreach (EffectPass pass in EndlessEscapade.BasicEffect.CurrentTechnique.Passes) {
             pass.Apply();
         }
 
