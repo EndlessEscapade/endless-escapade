@@ -29,7 +29,7 @@ public class Island : SeamapObject
 
     public virtual int interactDistance => (int)(width * 1.5f);
 
-    public virtual Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Empty", AssetRequestMode.ImmediateLoad).Value;
+    public virtual Texture2D islandTex => ModContent.Request<Texture2D>("EndlessEscapade/Empty", AssetRequestMode.ImmediateLoad).Value;
 
     public Vector2 posToScreen => position - Main.screenPosition;
     public bool isCollidingWithPlayer => SeamapObjects.localship.rect.Intersects(rect);
