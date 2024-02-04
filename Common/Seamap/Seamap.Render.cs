@@ -180,22 +180,10 @@ public partial class Seamap
         spriteBatch.End();
         spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-
         var waterTexture = ModContent.Request<Texture2D>("EndlessEscapade/Textures/Pure").Value;
 
         var pos = Vector2.Zero;
         var toScreen = pos - Main.screenPosition;
-
-
-        //Tropical water palette
-        //WaterShaderBase.Parameters["icyWaterColor"].SetValue(new Color(6, 90, 133).LightSeamap().ToVector4());
-        //WaterShaderBase.Parameters["neutralWaterColor"].SetValue(new Color(0, 141, 161).LightSeamap().ToVector4());
-        //WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(new Color(19, 216, 205).LightSeamap().ToVector4());
-
-        //Storming palette
-        //WaterShaderBase.Parameters["icyWaterColor"].SetValue(new Color(34, 30, 45).LightSeamap().ToVector4());
-        //WaterShaderBase.Parameters["neutralWaterColor"].SetValue(new Color(44, 44, 68).LightSeamap().ToVector4());
-        //WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(new Color(53, 65, 77).LightSeamap().ToVector4());
 
         //Neutral water palette
         var WaterShaderBase = EndlessEscapade.Instance.Assets.Request<Effect>("Assets/Effects/WaterShaderBase", AssetRequestMode.ImmediateLoad).Value;
@@ -337,16 +325,6 @@ public partial class Seamap
             .SetValue(Vector4.Lerp((new Color(138, 169, 201).LightSeamap() * 0.7f).ToVector4(),
                 (new Color(49, 76, 119).LightSeamap() * 0.9f).ToVector4(),
                 weatherDensity));
-
-        //SeamapCloudShader.Parameters["cloudsColor4"].SetValue((new Color(242, 243, 249) * 1f).ToVector4());
-        //SeamapCloudShader.Parameters["cloudsColor3"].SetValue((new Color(218, 221, 237) * 0.9f).ToVector4());
-        //SeamapCloudShader.Parameters["cloudsColor2"].SetValue((new Color(153, 195, 245) * 0.75f).ToVector4());
-        //SeamapCloudShader.Parameters["cloudsColor1"].SetValue((new Color(138, 169, 201) * 0.7f).ToVector4());
-
-        //SeamapCloudShader.Parameters["cloudsColor4"].SetValue((new Color(153, 195, 245) * 0.85f).ToVector4());
-        //SeamapCloudShader.Parameters["cloudsColor3"].SetValue((new Color(153, 195, 245) * 0.8f).ToVector4());
-        //SeamapCloudShader.Parameters["cloudsColor2"].SetValue((new Color(153, 195, 245) * 0.75f).ToVector4());
-        //SeamapCloudShader.Parameters["cloudsColor1"].SetValue((new Color(138, 169, 201) * 0.7f).ToVector4());
 
         for (var i = 0; i < seamapWidth / 1000; i++) {
             for (var j = -0.6f; j < seamapHeight / 1000; j += 0.6f) {

@@ -12,16 +12,29 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Seamap
 {
-    internal class SeamapScreenAdjustments : ILoadable
+    internal class SeamapRenderAdjustments : ILoadable
     {
         void ILoadable.Load(Mod mod)
         {
+            On_Main.DrawProjectiles += static (orig, self) => {
+                if (!Main.dedServ)
+                {
+                    if (!SubworldSystem.IsActive<Sea>())
+                    {
+                    }
+                    else
+                    {
+                        Seamap.Render();
+                    }
+                }
+            };
+
             On_Main.DoDraw_UpdateCameraPosition += SeamapScreenAdjust;
         }
 
         void ILoadable.Unload()
         {
-            On_Main.DoDraw_UpdateCameraPosition -= SeamapScreenAdjust;
+            
         }
 
         public void SeamapScreenAdjust(On_Main.orig_DoDraw_UpdateCameraPosition orig)
@@ -35,6 +48,7 @@ namespace EndlessEscapade.Common.Seamap
                 ClampScreenPositionToWorld(Seamap.seamapWidth, Seamap.seamapHeight - 200);
             }
         }
+
         private static void ClampScreenPositionToWorld(int maxRight, int maxBottom)
         {
             Vector2 vector = new Vector2(0, 0) - Main.GameViewMatrix.Translation;
