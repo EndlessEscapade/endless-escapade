@@ -7,7 +7,7 @@ using Terraria.ModLoader.Core;
 namespace EndlessEscapade.Common.Surroundings;
 
 // TODO: Support for checking whether a(specified) flag(s) is active or not.
-public sealed class SurroundingsSystem : ModSystem
+public sealed class SurroundingsManager : ModSystem
 {
     public delegate bool SurroundingsCallback(in SurroundingsInfo info);
 
@@ -47,5 +47,9 @@ public sealed class SurroundingsSystem : ModSystem
         foreach (var (name, function) in callbacksByName) {
             flagsByName[name] = function.Invoke(in info);
         }
+    }
+
+    public static bool TryGetSurrounding(string name, out bool surrounding) {
+        return flagsByName.TryGetValue(name, out surrounding);
     }
 }

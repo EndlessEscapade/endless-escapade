@@ -15,7 +15,7 @@ public struct AmbienceSound : IAmbienceTrack
         get => volume;
         set => volume = MathHelper.Clamp(value, 0f, 1f);
     }
-    
+
     [JsonIgnore]
     public SlotId SlotId { get; set; } = SlotId.Invalid;
 

@@ -3,6 +3,7 @@ IronBootsLoot: {
         ItemPath: "EndlessEscapade/IronBoots"
         TilePath: "Terraria/Containers"
         Chance: 3
+        RandomSlot: true
         Frames: [0, 1, 13]
     }
 }

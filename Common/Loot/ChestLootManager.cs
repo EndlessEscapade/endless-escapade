@@ -1,13 +1,7 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using EndlessEscapade.Common.Ambience;
 using EndlessEscapade.Common.IO;
 using EndlessEscapade.Utilities.Extensions;
-using Hjson;
-using Newtonsoft.Json.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Loot;
@@ -16,9 +10,9 @@ public sealed class ChestLootManager : ModSystem
 {
     private static List<ChestLoot> chestLoot = new();
     private static Dictionary<int, bool> itemFlagsByType = new();
-    
+
     public override void PostSetupContent() {
-        chestLoot = PrefabManager.EnumeratePrefabs<ChestLoot>("ChestLoot").ToList();
+        chestLoot = new List<ChestLoot>(PrefabManager.EnumeratePrefabs<ChestLoot>("ChestLoot"));
 
         foreach (var loot in chestLoot) {
             itemFlagsByType[loot.ItemType] = false;
@@ -28,7 +22,7 @@ public sealed class ChestLootManager : ModSystem
     public override void Unload() {
         chestLoot?.Clear();
         chestLoot = null;
-        
+
         itemFlagsByType?.Clear();
         itemFlagsByType = null;
     }
@@ -47,10 +41,17 @@ public sealed class ChestLootManager : ModSystem
 
                 var tile = Framing.GetTileSafely(chest.x, chest.y);
 
-                var validType = tile.TileType == loot.TileType;
-                var validFrame = loot.Frames.Any(x => tile.TileFrameX == (int)x * 36);
+                var validTile = tile.TileType == loot.TileType;
+                var validTileFrame = false;
 
-                if (!validType || !validFrame) {
+                foreach (var frame in loot.Frames) {
+                    if (frame == tile.TileFrameX * 36) {
+                        validTileFrame = true;
+                        break;
+                    }
+                }
+
+                if (!validTile || !validTileFrame) {
                     continue;
                 }
 
@@ -79,12 +80,19 @@ public sealed class ChestLootManager : ModSystem
 
                 var tile = Framing.GetTileSafely(chest.x, chest.y);
 
-                var validType = tile.TileType == loot.TileType;
-                var validFrame = loot.Frames.Any(x => tile.TileFrameX == (int)x * 36);
+                var validTile = tile.TileType == loot.TileType;
+                var validTileFrame = false;
+
+                foreach (var frame in loot.Frames) {
+                    if (frame == tile.TileFrameX * 36) {
+                        validTileFrame = true;
+                        break;
+                    }
+                }
 
                 var shouldBeAdded = !chest.HasItem(loot.ItemType) && WorldGen.genRand.NextBool(loot.Chance);
 
-                if (!validType || !validFrame || !shouldBeAdded) {
+                if (!validTile || !validTileFrame || !shouldBeAdded) {
                     continue;
                 }
 

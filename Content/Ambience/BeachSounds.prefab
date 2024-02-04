@@ -3,11 +3,11 @@ BeachWaveSounds: {
         Style: {
             SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachWavesLoop"
             Type: Ambient
+            Volume: 0.8
             IsLooped: true
-            MaxInstances: 1
         }
 
-        Flags: ["Shipyard", "Beach", "Ocean"]
+        Flags: ["Shipyard", "Beach"]
     }
 }
 
@@ -17,13 +17,12 @@ BeachSeagullSounds: {
             SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachSeagulls1"
             Type: Ambient
             Volume: 1
-            MaxInstances: 1
             PitchVariance: 0.25
         }
 
         PlaybackChanceDenominator: 200
 
-        Flags: ["Shipyard", "Beach", "Ocean"]
+        Flags: ["Shipyard", "Beach"]
     }
 }
 
@@ -33,12 +32,11 @@ BeachDolphinSounds: {
             SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachDolphins"
             Type: Ambient
             Volume: 1
-            MaxInstances: 1
             PitchVariance: 0.25
         }
 
         PlaybackChanceDenominator: 200
 
-        Flags: ["Shipyard", "Beach", "Ocean"]
+        Flags: ["Shipyard", "Beach"]
     }
 }

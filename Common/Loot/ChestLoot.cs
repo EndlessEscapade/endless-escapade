@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +21,7 @@ public struct ChestLoot
             return ModContent.Find<ModItem>(ItemPath).Type;
         }
     }
-    
+
     [JsonIgnore]
     public int TileType {
         get {
@@ -30,17 +29,17 @@ public struct ChestLoot
 
             var prefix = split[0];
             var postfix = split[1];
-            
-            if (prefix == "Terraria") { 
+
+            if (prefix == "Terraria") {
                 return TileID.Search.GetId(postfix);
             }
 
             return ModContent.Find<ModTile>(TilePath).Type;
         }
     }
-    
+
     public bool RandomSlot { get; set; }
-    
+
     public int MinStack { get; set; }
     public int MaxStack { get; set; }
 
@@ -49,10 +48,10 @@ public struct ChestLoot
 
     [JsonRequired]
     public string TilePath { get; set; }
-    
+
     [JsonRequired]
     public int Chance { get; set; }
-    
+
     [JsonRequired]
     public int[] Frames { get; set; }
 }
