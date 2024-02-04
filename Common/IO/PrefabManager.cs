@@ -31,7 +31,7 @@ public sealed class PrefabManager : ModSystem
                     continue;
                 }
 
-                Tokens.Add(token);
+                Tokens.Add(property.Value);
             }
         }
     }
