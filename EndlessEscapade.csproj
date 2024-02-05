@@ -21,7 +21,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*"/>
+    <None Remove="Content\Seamap\SeamapPlayerShip.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
 
   <ItemGroup>

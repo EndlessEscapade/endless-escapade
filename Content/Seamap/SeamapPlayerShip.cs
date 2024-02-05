@@ -153,82 +153,58 @@ public class SeamapPlayerShip : SeamapObject
         var playerShipTexture = ModContent.Request<Texture2D>("EndlessEscapade/Content/Seamap/SeamapPlayerShip").Value;
 
         var frame = 0;
-        var spriteRot = 0f;
-        var flipped = false;
+        
+        var rotForSprite = TwoPiRestrict(-rot);
 
-        rot = TwoPiRestrict(rot);
-
-        var rotForSprite = TwoPiRestrict(rot + MathHelper.PiOver2);
-        var rotAbsed = Math.Abs(rotForSprite - MathHelper.Pi);
-
-        var origY = 86;
-
-        if (rotForSprite > MathHelper.Pi && rotAbsed > MathHelper.Pi / 9f && rotAbsed < 8f * MathHelper.Pi / 9f) {
-            flipped = true;
-        }
-
-        if (rotAbsed < MathHelper.Pi / 9f) {
-            frame = 8;
-            spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 4.5f) - MathHelper.Pi / 9f;
-
-            origY = 70;
-        }
-        else if (rotAbsed < 2 * MathHelper.Pi / 9f) {
-            frame = 7;
-            spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - MathHelper.Pi / 18f;
-
-            origY = 76;
-        }
-        else if (rotAbsed < 3 * MathHelper.Pi / 9f) {
-            frame = 6;
-            spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - MathHelper.Pi / 18f;
-
-            origY = 80;
-        }
-        else if (rotAbsed < 4 * MathHelper.Pi / 9f) {
-            frame = 5;
-            spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - MathHelper.Pi / 18f;
-
-            origY = 82;
-        }
-        else if (rotAbsed < 5 * MathHelper.Pi / 9f) {
-            frame = 4;
-            spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - MathHelper.Pi / 18f;
-
-            origY = 86;
-        }
-        else if (rotAbsed < 6 * MathHelper.Pi / 9f) {
-            frame = 3;
-            spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - MathHelper.Pi / 18f;
-        }
-        else if (rotAbsed < 7 * MathHelper.Pi / 9f) {
-            frame = 2;
-            spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - MathHelper.Pi / 18f;
-        }
-        else if (rotAbsed < 8 * MathHelper.Pi / 9f) {
-            frame = 1;
-            spriteRot = DynamicClamp(rotForSprite, MathHelper.Pi / 9f) - MathHelper.Pi / 18f;
-        }
-        else {
+        if (rotForSprite <           MathHelper.Pi / 16f)
             frame = 0;
-            spriteRot = (DynamicClamp(rotAbsed, MathHelper.Pi / 4.5f) - MathHelper.Pi / 9f) * (rotForSprite > MathHelper.Pi ? 1f : -1f);
-        }
+        else if (rotForSprite < 3  * MathHelper.Pi / 16f)
+            frame = 15;
+        else if (rotForSprite < 5  * MathHelper.Pi / 16f)
+            frame = 14;
+        else if (rotForSprite < 7  * MathHelper.Pi / 16f)
+            frame = 13;
+        else if (rotForSprite < 9  * MathHelper.Pi / 16f)
+            frame = 12;
+        else if (rotForSprite < 11 * MathHelper.Pi / 16f)
+            frame = 11;
+        else if (rotForSprite < 13 * MathHelper.Pi / 16f)
+            frame = 10;
+        else if (rotForSprite < 15 * MathHelper.Pi / 16f)
+            frame = 9;
+        else if (rotForSprite < 17 * MathHelper.Pi / 16f)
+            frame = 8;
+        else if (rotForSprite < 19 * MathHelper.Pi / 16f)
+            frame = 7;
+        else if (rotForSprite < 21 * MathHelper.Pi / 16f)
+            frame = 6;
+        else if (rotForSprite < 23 * MathHelper.Pi / 16f)
+            frame = 5;
+        else if (rotForSprite < 25 * MathHelper.Pi / 16f)
+            frame = 4;
+        else if (rotForSprite < 27 * MathHelper.Pi / 16f)
+            frame = 3;
+        else if (rotForSprite < 29 * MathHelper.Pi / 16f)
+            frame = 2;
+        else if (rotForSprite < 31 * MathHelper.Pi / 16f)
+            frame = 1;
+        else
+            frame = 0;
 
+        //float spriteRot = DynamicClamp(rotForSprite + MathHelper.Pi / 16f, MathHelper.Pi / 8f) - MathHelper.Pi / 16f;
 
-        var yVal = 160 * frame;
+        float spriteRot = 0f;
 
-        spriteRot += (float)Math.Sin(Main.GameUpdateCount / 6f) * (invFrames / 120f);
-
-        //spriteRot += (float)Math.Sin(Main.GameUpdateCount / 60f) / 12f;
+        var yVal = 118 * frame;
 
         spriteBatch.Draw(playerShipTexture,
             Center - Main.screenPosition,
-            new Rectangle(0, yVal, 192, 160),
+            new Rectangle(0, yVal, 126, 118),
             Color.White.LightSeamap(),
-            spriteRot,
-            new Vector2(96, origY),
+            -spriteRot,
+            new Vector2(126 / 2, 118 / 2),
             1,
-            flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+            SpriteEffects.None,
             0);
 
         return false;
