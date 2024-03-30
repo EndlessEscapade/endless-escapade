@@ -32,7 +32,7 @@ public partial class Seamap
 
         if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().seamapUpdateCount <= 0 ||
             (Main.LocalPlayer == null && !Main.gameInactive)) {
-            var blackout = ModContent.Request<Texture2D>("EndlessEscapade/Textures/Pure").Value;
+            var blackout = ModContent.Request<Texture2D>("EndlessEscapade/Assets/Textures/Pure").Value;
 
             spriteBatch.Begin();
 
@@ -180,7 +180,7 @@ public partial class Seamap
         spriteBatch.End();
         spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-        var waterTexture = ModContent.Request<Texture2D>("EndlessEscapade/Textures/Pure").Value;
+        var waterTexture = ModContent.Request<Texture2D>("EndlessEscapade/Assets/Textures/Pure").Value;
 
         var pos = Vector2.Zero;
         var toScreen = pos - Main.screenPosition;
@@ -195,7 +195,7 @@ public partial class Seamap
         WaterShaderBase.Parameters["tropicalWaterColor"]
             .SetValue(Vector4.Lerp(new Color(96, 178, 220).LightSeamap().ToVector4(), new Color(53, 65, 77).LightSeamap().ToVector4(), weatherDensity));
 
-        WaterShaderBase.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EndlessEscapade/Textures/Noise/SeamapNoise").Value);
+        WaterShaderBase.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EndlessEscapade/Assets/Textures/Noise/SeamapNoise").Value);
 
         WaterShaderBase.CurrentTechnique.Passes[0].Apply();
 
@@ -215,7 +215,7 @@ public partial class Seamap
             if (entity is not Island)
                 continue;
 
-            Helpers.DrawAdditive(ModContent.Request<Texture2D>("EndlessEscapade/Textures/RadialGradientSquish").Value, entity.Center - Main.screenPosition, Color.Lerp(new Color(96, 178, 220).LightSeamap(), new Color(53, 65, 77).LightSeamap(), weatherDensity) * 0.4f, entity.texture.Width * 2f / 150f);
+            Helpers.DrawAdditive(ModContent.Request<Texture2D>("EndlessEscapade/Assets/Textures/RadialGradientSquish").Value, entity.Center - Main.screenPosition, Color.Lerp(new Color(96, 178, 220).LightSeamap(), new Color(53, 65, 77).LightSeamap(), weatherDensity) * 0.4f, entity.texture.Width * 2f / 150f);
         }*/
 
         //spriteBatch.End();
@@ -223,7 +223,7 @@ public partial class Seamap
 
         var WaterShader = EndlessEscapade.Instance.Assets.Request<Effect>("Assets/Effects/WaterShader", AssetRequestMode.ImmediateLoad).Value;
 
-        WaterShader.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EndlessEscapade/Textures/Noise/DotNoise2SquishIndex").Value);
+        WaterShader.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EndlessEscapade/Assets/Textures/Noise/DotNoise2SquishIndex").Value);
 
         WaterShader.Parameters["baseWaterColor"].SetValue(new Color(0, 0, 0).LightSeamap().ToVector4());
         WaterShader.Parameters["highlightColor"].SetValue(new Color(5, 5, 5).LightSeamap().ToVector4()); //8,8,8 for storms
@@ -252,7 +252,7 @@ public partial class Seamap
     private static void RenderClouds(SpriteBatch spriteBatch) {
         spriteBatch.End();
 
-        var waterTexture = ModContent.Request<Texture2D>("EndlessEscapade/Textures/Pure").Value;
+        var waterTexture = ModContent.Request<Texture2D>("EndlessEscapade/Assets/Textures/Pure").Value;
 
         var SeaColour = new Color(28 / 255f, 118 / 255f, 186 / 255f);
 
@@ -271,8 +271,8 @@ public partial class Seamap
 
         var SeamapCloudShader = EndlessEscapade.Instance.Assets.Request<Effect>("Assets/Effects/SeamapCloudShader", AssetRequestMode.ImmediateLoad).Value;
 
-        SeamapCloudShader.Parameters["cloudNoisemap"].SetValue(ModContent.Request<Texture2D>("EndlessEscapade/Textures/Noise/CloudNoise").Value);
-        SeamapCloudShader.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EndlessEscapade/Textures/Noise/SeamapNoise").Value);
+        SeamapCloudShader.Parameters["cloudNoisemap"].SetValue(ModContent.Request<Texture2D>("EndlessEscapade/Assets/Textures/Noise/CloudNoise").Value);
+        SeamapCloudShader.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EndlessEscapade/Assets/Textures/Noise/SeamapNoise").Value);
 
         SeamapCloudShader.Parameters["cloudsColor4"].SetValue((Color.Black * (0.1f + weatherDensity * 0.1f)).ToVector4());
         SeamapCloudShader.Parameters["cloudsColor3"].SetValue((Color.Black * (0.1f + weatherDensity * 0.1f)).ToVector4());
