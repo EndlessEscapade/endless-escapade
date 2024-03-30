@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.WorldBuilding.Biomes;
+namespace EndlessEscapade.Common.World.Biomes;
 
 public sealed class Iceboat : MicroBiome
 {

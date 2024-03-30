@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using EndlessEscapade.Common.WorldBuilding.Biomes;
+using EndlessEscapade.Common.World.Biomes;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Generation;
@@ -8,7 +8,7 @@ using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.WorldBuilding;
+namespace EndlessEscapade.Common.World;
 
 public sealed class ShipyardGeneration : ModSystem
 {

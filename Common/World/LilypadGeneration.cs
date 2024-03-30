@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.WorldBuilding;
+namespace EndlessEscapade.Common.World;
 
 public sealed class LilypadGeneration : ModSystem
 {

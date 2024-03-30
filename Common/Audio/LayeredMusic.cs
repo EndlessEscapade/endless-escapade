@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Audio;
 
+// Makes music tracks play subsequently, providing smooth transition between different songs.
 [Autoload(Side = ModSide.Client)]
 public sealed class LayeredMusic : ILoadable
 {
@@ -16,7 +17,6 @@ public sealed class LayeredMusic : ILoadable
     private static long previousSamplePosition;
 
     void ILoadable.Load(Mod mod) {
-        // Makes music tracks play subsequently, providing smooth transition between different songs.
         IL_OGGAudioTrack.PrepareBufferToSubmit += PrepareBufferToSubmitPatch;
     }
 

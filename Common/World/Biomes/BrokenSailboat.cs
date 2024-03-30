@@ -3,7 +3,7 @@ using StructureHelper;
 using Terraria.DataStructures;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.WorldBuilding.Biomes;
+namespace EndlessEscapade.Common.World.Biomes;
 
 public sealed class BrokenSailboat : MicroBiome
 {

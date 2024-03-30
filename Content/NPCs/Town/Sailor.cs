@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using EndlessEscapade.Common.Dialogues;
 using EndlessEscapade.Common.NPCs;
 using EndlessEscapade.Common.NPCs.Components;
 using Terraria;

@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.WorldBuilding.Biomes;
+namespace EndlessEscapade.Common.World.Biomes;
 
 public sealed class Shipyard : MicroBiome
 {

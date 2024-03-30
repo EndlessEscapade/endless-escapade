@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.WorldBuilding.Biomes;
+namespace EndlessEscapade.Common.World.Biomes;
 
 public sealed class Sailboat : MicroBiome
 {
