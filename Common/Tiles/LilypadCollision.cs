@@ -4,10 +4,10 @@ using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Tiles;
 
+// Collision for lilypads simulates water walking effects, because they're tiles on water level and regular grid collision is innaccurate.
 [Autoload(Side = ModSide.Client)]
-public sealed class LilypadCollisionEffects : ModPlayer
+public sealed class LilypadCollision : ModPlayer
 {
-    // Collision for lilypads simulates water walking effects, because they're tiles on water level and regular grid collision is innaccurate.
     public override void PreUpdateMovement() {
         var colliding = false;
 

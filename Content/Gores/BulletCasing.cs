@@ -13,7 +13,6 @@ public class BulletCasing : ModGore
     }
 
     public override void OnSpawn(Gore gore, IEntitySource source) {
-        gore.scale = 0.5f;
         gore.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
     }
 

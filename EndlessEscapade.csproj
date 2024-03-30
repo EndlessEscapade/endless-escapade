@@ -1,32 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+  
   <Import Project="..\tModLoader.targets" />
 
   <PropertyGroup>
+    <RootNamespace>EndlessEscapade</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <PackageId>EndlessEscapade</PackageId>
-    <LangVersion>10</LangVersion>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <DotNetPath Condition=" '$(OS)' == 'Windows_NT' ">dotnet.exe</DotNetPath>
-    <DotNetPath Condition=" '$(OS)' == 'Unix' ">dotnet</DotNetPath>
-    <DotNetPath Condition=" '$(DotNetPath)' == '' ">dotnet</DotNetPath>
-  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+  </ItemGroup>
 
   <PropertyGroup>
     <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Content\Seamap\SeamapPlayerShip.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="StructureHelper">
@@ -36,12 +25,5 @@
       <HintPath>lib\SubworldLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <ItemGroup Condition="'$(MSBuildThisFileDirectory)' != ''"> 
-    <EffectFiles Include="$(MSBuildThisFileDirectory)/**/*.fx" />
-  </ItemGroup>
-
-  <Target Name="CompileEffects" BeforeTargets="Build" Inputs="@(EffectFiles)" Outputs="@(EffectFiles-&gt;&quot;%(RecursiveDir)%(FileName).fxc&quot;)">
-    <Exec Command="@(EffectFiles->'fxc.exe &quot;$(MSBuildThisFileDirectory)%(RecursiveDir)%(FileName)%(Extension)&quot; /T fx_2_0 /nologo /Fo &quot;$(MSBuildThisFileDirectory)%(RecursiveDir)%(FileName).fxc&quot; &#xA;&#xD;')" WorkingDirectory="Assets/Effects/Compiler/" IgnoreExitCode="true" />
-  </Target>
+  
 </Project>
