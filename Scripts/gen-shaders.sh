@@ -18,7 +18,7 @@ for shader in "$effects"/*.fx; do
     input="$shader"
     output="${input%.*}.fxc"
 
-    "$compiler" /T fx_2_0 "$input_file" /Fo "$output_file"
+    "$compiler" /nologo /T fx_2_0 "$input_file" /Fo "$output_file"
     
     echo "Shader output successfully: $input -> $output"
 done
