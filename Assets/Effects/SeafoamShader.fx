@@ -84,6 +84,6 @@ technique SeafoamShader
 {
     pass P0
     {
-        PixelShader = compile ps_2_0 SeafoamFloat();
+        PixelShader = compile ps_3_0 SeafoamFloat();
     }
 };

@@ -25,15 +25,15 @@ technique DefaultTechnique
 {
     pass DefaultPass
     {
-        VertexShader = compile vs_2_0 mainvs();
-        PixelShader = compile ps_2_0 mainps();
+        VertexShader = compile vs_3_0 mainvs();
+        PixelShader = compile ps_3_0 mainps();
     }
     pass VertexShaderOnly
     {
-        VertexShader = compile vs_2_0 mainvs();
+        VertexShader = compile vs_3_0 mainvs();
     }
     pass PixelShaderOnly
     {
-        PixelShader = compile ps_2_0 mainps();
+        PixelShader = compile ps_3_0 mainps();
     }
 }

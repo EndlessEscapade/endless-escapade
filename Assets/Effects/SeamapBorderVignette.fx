@@ -15,6 +15,6 @@ technique SeamapBorderVignette
 {
     pass P0
     {
-        PixelShader = compile ps_2_0 VignetteFloat();
+        PixelShader = compile ps_3_0 VignetteFloat();
     }
 };

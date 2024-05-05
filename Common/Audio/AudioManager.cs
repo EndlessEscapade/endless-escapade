@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 namespace EndlessEscapade.Common.Audio;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class AudioSystem : ModSystem
+public sealed class AudioManager : ModSystem
 {
     private static readonly SoundStyle[] IgnoredSoundStyles = {
         SoundID.MenuClose,
@@ -27,7 +27,7 @@ public sealed class AudioSystem : ModSystem
 
     public override void Load() {
         if (!SoundEngine.IsAudioSupported) {
-            Mod.Logger.Warn($"{nameof(AudioSystem)} was disabled: {nameof(SoundEngine)}.{nameof(SoundEngine.IsAudioSupported)} was false.");
+            Mod.Logger.Warn($"{nameof(AudioManager)} was disabled: {nameof(SoundEngine)}.{nameof(SoundEngine.IsAudioSupported)} was false.");
             return;
         }
 

@@ -81,6 +81,6 @@ technique SeamapCloudShader
 {
     pass P0
     {
-        PixelShader = compile ps_2_0 CloudShaderFloat();
+        PixelShader = compile ps_3_0 CloudShaderFloat();
     }
 };

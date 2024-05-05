@@ -27,7 +27,7 @@ public sealed class WaterMufflingEffects : ModPlayer
             return;
         }
 
-        AudioSystem.AddModifier(
+        AudioManager.AddModifier(
             $"{nameof(EndlessEscapade)}:{nameof(WaterMufflingEffects)}",
             60,
             (ref AudioParameters parameters, float progress) => { parameters.LowPass = Intensity * progress; }

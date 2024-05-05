@@ -14,7 +14,7 @@ public sealed class LowPassFilter : IAudioFilter
 
     void ILoadable.Load(Mod mod) {
         if (!SoundEngine.IsAudioSupported) {
-            mod.Logger.Warn($"{nameof(AudioSystem)} was disabled: {nameof(SoundEngine)}.{nameof(SoundEngine.IsAudioSupported)} was false.");
+            mod.Logger.Warn($"{nameof(AudioManager)} was disabled: {nameof(SoundEngine)}.{nameof(SoundEngine.IsAudioSupported)} was false.");
             return;
         }
 
