@@ -1,0 +1,13 @@
+<Project>
+
+	<ItemGroup>
+		<PackageReference Include="Krafs.Publicizer" Version="2.2.1"/>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Publicize Include="FNA"></Publicize>
+		<Publicize Include="ReLogic"></Publicize>
+		<Publicize Include="Terraria"></Publicize>
+	</ItemGroup>
+
+</Project>
