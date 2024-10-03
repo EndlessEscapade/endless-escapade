@@ -11,9 +11,6 @@
     <Reference Include="StructureHelper">
       <HintPath>lib\StructureHelper.dll</HintPath>
     </Reference>
-    <Reference Include="SubworldLibrary">
-      <HintPath>lib\SubworldLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
