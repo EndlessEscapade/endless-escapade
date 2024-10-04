@@ -5,6 +5,7 @@
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
