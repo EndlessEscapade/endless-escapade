@@ -7,7 +7,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Audio;
+namespace EndlessEscapade.Core.Audio;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class AudioManager : ModSystem

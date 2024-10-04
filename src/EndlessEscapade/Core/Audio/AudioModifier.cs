@@ -1,4 +1,4 @@
-namespace EndlessEscapade.Common.Audio;
+namespace EndlessEscapade.Core.Audio;
 
 public struct AudioModifier
 {

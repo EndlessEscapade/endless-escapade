@@ -1,10 +1,6 @@
-using System;
-using System.Reflection;
 using Microsoft.Xna.Framework.Audio;
-using Terraria.Audio;
-using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Audio;
+namespace EndlessEscapade.Core.Audio;
 
 public sealed class LowPassFilter : IAudioFilter
 {

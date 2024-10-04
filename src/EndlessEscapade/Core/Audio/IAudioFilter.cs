@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework.Audio;
 using Terraria.ModLoader;
 
-namespace EndlessEscapade.Common.Audio;
+namespace EndlessEscapade.Core.Audio;
 
 [Autoload(Side = ModSide.Client)]
 public interface IAudioFilter : ILoadable
