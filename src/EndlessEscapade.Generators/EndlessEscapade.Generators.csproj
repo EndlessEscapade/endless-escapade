@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+			  <LangVersion>11</LangVersion>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     </PropertyGroup>
 
@@ -28,8 +29,8 @@
 
     <Target Name="GetDependencyTargetPaths">
         <ItemGroup>
-            <TargetPathWithTargetPlatformMoniker Include="$(PkgNewtonsoft_Json)\lib\netstandard2.0\Newtonsoft.Json.dll" IncludeRuntimeDependency="false"/>
-            <TargetPathWithTargetPlatformMoniker Include="$(PkgHjson)\lib\netstandard1.3\Hjson.dll" IncludeRuntimeDependency="false"/>
+            <TargetPathWithTargetPlatformMoniker Include="$(PkgNewtonsoft_Json)\lib\netstandard2.0\Newtonsoft.Json.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PkgHjson)\lib\netstandard1.3\Hjson.dll" IncludeRuntimeDependency="false" />
         </ItemGroup>
     </Target>
 
