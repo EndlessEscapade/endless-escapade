@@ -1,4 +1,4 @@
-using EndlessEscapade.Content.NPCs.Town;
+using EndlessEscapade.Content.NPCs.Shipyard;
 using EndlessEscapade.Utilities;
 using Microsoft.Xna.Framework;
 using StructureHelper;
@@ -56,7 +56,7 @@ public sealed class Shipyard : MicroBiome
         var sailorX = (int)((adjustedOrigin.X + 60) * 16f);
         var sailorY = (int)((adjustedOrigin.Y + 10) * 16f);
 
-        var index = NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<Sailor>());
+        var index = NPC.NewNPC(new EntitySource_WorldGen(), sailorX, sailorY, ModContent.NPCType<SailorNPC>());
         var sailor = Main.npc[index];
 
         sailor.UpdateHomeTileState(false, (int)(sailorX / 16f), (int)(sailorY / 16f));

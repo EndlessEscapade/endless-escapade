@@ -8,15 +8,17 @@ namespace EndlessEscapade.Common.Ambience;
 [Autoload(Side = ModSide.Client)]
 public sealed class WaterMufflingEffects : ModPlayer
 {
-    private float intensity;
-
     public float Intensity {
         get => intensity;
         set => intensity = MathHelper.Clamp(value, 0f, 0.9f);
     }
 
+    private float intensity;
+
     public override void PostUpdate() {
-        if (Player.IsDrowning()) {
+        base.PostUpdate();
+
+        if (Player.IsUnderwater()) {
             Intensity += 0.05f;
         }
         else {

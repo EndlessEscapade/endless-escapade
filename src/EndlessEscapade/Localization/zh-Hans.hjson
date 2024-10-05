@@ -7,6 +7,11 @@ Mods: {
 				// DisplayName: Shipyard
 				// TownNPCDialogueName: the Shipyard
 			}
+
+			ShipyardBiome: {
+				// DisplayName: Shipyard Biome
+				// TownNPCDialogueName: the Shipyard Biome
+			}
 		}
 
 		Items: {
@@ -299,6 +304,121 @@ Mods: {
 				// DisplayName: Magic Conch
 				// Tooltip: ""
 			}
+
+			CrabPincersItem: {
+				// DisplayName: Crab Pincers Item
+				// Tooltip: ""
+			}
+
+			DolphinFinItem: {
+				// DisplayName: Dolphin Fin Item
+				// Tooltip: ""
+			}
+
+			FishGillsItem: {
+				// DisplayName: Fish Gills Item
+				// Tooltip: ""
+			}
+
+			GreatShellItem: {
+				// DisplayName: Great Shell Item
+				// Tooltip: ""
+			}
+
+			IronBootsItem: {
+				// DisplayName: Iron Boots Item
+				// Tooltip: ""
+			}
+
+			RadiantPearlItem: {
+				// DisplayName: Radiant Pearl Item
+				// Tooltip: ""
+			}
+
+			LythenBarItem: {
+				// DisplayName: Lythen Bar Item
+				// Tooltip: ""
+			}
+
+			LythenOreItem: {
+				// DisplayName: Lythen Ore Item
+				// Tooltip: ""
+			}
+
+			StormKnightBreastplateItem: {
+				// DisplayName: Storm Knight Breastplate Item
+				// Tooltip: ""
+			}
+
+			StormKnightCrestItem: {
+				// DisplayName: Storm Knight Crest Item
+				// Tooltip: ""
+			}
+
+			StormKnightLeggingsItem: {
+				// DisplayName: Storm Knight Leggings Item
+				// Tooltip: ""
+			}
+
+			FallenStarfishStaffItem: {
+				// DisplayName: Fallen Starfish Staff Item
+				// Tooltip: ""
+			}
+
+			SpinnerFishItem: {
+				// DisplayName: Spinner Fish Item
+				// Tooltip: ""
+			}
+
+			StarCatcherItem: {
+				// DisplayName: Star Catcher Item
+				// Tooltip: ""
+			}
+
+			TropicalWoodBootsItem: {
+				// DisplayName: Tropical Wood Boots Item
+				// Tooltip: ""
+			}
+
+			TropicalWoodBowItem: {
+				// DisplayName: Tropical Wood Bow Item
+				// Tooltip: ""
+			}
+
+			TropicalWoodChestplateItem: {
+				// DisplayName: Tropical Wood Chestplate Item
+				// Tooltip: ""
+			}
+
+			TropicalWoodFenceItem: {
+				// DisplayName: Tropical Wood Fence Item
+				// Tooltip: ""
+			}
+
+			TropicalWoodHammerItem: {
+				// DisplayName: Tropical Wood Hammer Item
+				// Tooltip: ""
+			}
+
+			TropicalWoodHelmetItem: {
+				// DisplayName: Tropical Wood Helmet Item
+				// Tooltip: ""
+			}
+
+			TropicalWoodItem: {
+				// DisplayName: Tropical Wood Item
+				// Tooltip: ""
+			}
+
+			TropicalWoodSwordItem: {
+				// DisplayName: Tropical Wood Sword Item
+				// Tooltip: ""
+			}
+
+			TropicalWoodWallItem: {
+				// DisplayName: Tropical Wood Wall Item
+				// Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -354,6 +474,29 @@ Mods: {
 			}
 
 			// HermitCrab.DisplayName: Hermit Crab
+			// HermitCrabNPC.DisplayName: Hermit Crab N P C
+
+			SailorNPC: {
+				// DisplayName: Sailor N P C
+
+				TownNPCMood: {
+					// Content: I am content.
+					// NoHome: I hate not having a home.
+					// FarFromHome: I am too far from home.
+					// LoveSpace: I love having so much space.
+					// DislikeCrowded: I dislike how crowded I am.
+					// HateCrowded: I hate how crowded I am.
+					// LoveBiome: I love {BiomeName}.
+					// LikeBiome: I like {BiomeName}.
+					// HateBiome: I hate {BiomeName}.
+					// LoveNPC: I love {NPCName}.
+					// LikeNPC: I like {NPCName}.
+					// DislikeNPC: I dislike {NPCName}.
+					// HateNPC: I hate {NPCName}.
+					// LikeNPC_Princess: I like {NPCName}.
+					// Princess_LovesNPC: I like {NPCName}.
+				}
+			}
 		}
 
 		Projectiles: {
@@ -363,6 +506,9 @@ Mods: {
 			// Oni.DisplayName: Oni
 			// OniFrontHand.DisplayName: Oni Front Hand
 			// CrabPincers.DisplayName: Crab Pincers
+			// CrabPincersProjectile.DisplayName: Crab Pincers Projectile
+			// SpinnerFishProjectile.DisplayName: Spinner Fish Projectile
+			// StarCatcherBobberProjectile.DisplayName: Star Catcher Bobber Projectile
 		}
 
 		Tiles: {

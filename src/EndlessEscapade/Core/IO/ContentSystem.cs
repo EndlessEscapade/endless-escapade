@@ -10,16 +10,38 @@ public sealed class ContentSystem : ModSystem
 {
     private static class ContentData<T>
     {
-        private static T Read<T>(Mod mod, string path) {
-            using var stream = mod.GetFileStream(path);
-            using var reader = new StreamReader(stream);
+        public static readonly Dictionary<string, T> Content = [];
+    }
 
-            var hjson = reader.ReadToEnd();
-            var json = HjsonValue.Parse(hjson).ToString(Stringify.Plain);
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="name">The name of the content to retrieve.</param>
+    /// <typeparam name="T">The type of the content to retrieve.</typeparam>
+    /// <returns></returns>
+    public static T Get<T>(string name) {
+        return ContentData<T>.Content[name];
+    }
 
-            var track = JsonConvert.DeserializeObject<T>(json);
+    /// <summary>
+    ///
+    /// </summary>
+    /// <typeparam name="T">The type of the content collection to retrieve.</typeparam>
+    /// <returns></returns>
+    public static IEnumerable<T> Enumerate<T>() {
+        return ContentData<T>.Content.Values;
+    }
 
-            return track;
-        }
+    internal static void LoadContent<T>(Mod mod, string path) {
+        using var stream = mod.GetFileStream(path);
+        using var reader = new StreamReader(stream);
+
+        var hjson = reader.ReadToEnd();
+        var json = HjsonValue.Parse(hjson).ToString(Stringify.Plain);
+
+        var name = Path.GetFileNameWithoutExtension(path);
+        var content = JsonConvert.DeserializeObject<T>(json);
+
+        ContentData<T>.Content[name] = content;
     }
 }
