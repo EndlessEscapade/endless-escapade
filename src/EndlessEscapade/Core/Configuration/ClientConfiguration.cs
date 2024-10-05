@@ -14,7 +14,12 @@ public sealed class ClientConfiguration : ModConfig
 	/// </summary>
 	[Header("Ambience")]
 	[DefaultValue(true)]
-	public bool EnableTracks { get; set; } = true;
+	public bool EnableAmbienceTracks { get; set; } = true;
+
+	/// <summary>
+	///		Whether ambience sounds are enabled or not.
+	/// </summary>
+	public bool EnableAmbienceSounds { get; set; } = true;
 
 	/// <summary>
 	///		Whether the low pass filter is enabled or not.

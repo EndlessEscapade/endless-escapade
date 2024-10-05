@@ -1,4 +1,6 @@
 SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachSeagulls"
 Variants: 2
 
+Chance: 100
+
 Signals: ["Beach", "Shipyard"]

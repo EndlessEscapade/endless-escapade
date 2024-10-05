@@ -5,35 +5,53 @@ using Terraria.Audio;
 namespace EndlessEscapade.Common.Ambience;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class AmbienceTrackSystem : ModSystem
+public sealed class AmbienceSystem : ModSystem
 {
     public override void PostUpdateWorld() {
         base.PostUpdateWorld();
 
-        if (!ClientConfiguration.Instance.EnableTracks) {
-            return;
-        }
-
+        UpdateSounds();
         UpdateTracks();
     }
 
-    private static void UpdateTracks() {
-        foreach (var track in ModContent.GetContent<IAmbienceTrack>()) {
-            var isActive = SignalsSystem.GetSignal(track.Signals);
+    private static void UpdateSounds() {
+        if (!ClientConfiguration.Instance.EnableAmbienceSounds) {
+            return;
+        }
 
-            if (isActive) {
+        foreach (var sound in ModContent.GetContent<IAmbienceSound>()) {
+            var active = SignalsSystem.GetSignal(sound.Signals);
+
+            if (!active || !Main.rand.NextBool(sound.Chance)) {
+                continue;
+            }
+
+            SoundEngine.PlaySound(sound.Sound);
+        }
+    }
+
+    private static void UpdateTracks() {
+        if (!ClientConfiguration.Instance.EnableAmbienceTracks) {
+            return;
+        }
+
+        foreach (var track in ModContent.GetContent<IAmbienceTrack>()) {
+            var active = SignalsSystem.GetSignal(track.Signals);
+
+            if (active) {
                 track.Volume += track.StepIn;
             }
             else {
                 track.Volume -= track.StepOut;
             }
 
-            var isInstancePlaying = SoundEngine.TryGetActiveSound(track.Slot, out var instance);
-            var isSoundPlaying = instance?.IsPlaying == true;
-            var isTrackPlaying = isInstancePlaying && isSoundPlaying;
+            var instancePlaying = SoundEngine.TryGetActiveSound(track.Slot, out var instance);
+            var soundPlaying = instance?.IsPlaying == true;
 
-            if (isActive) {
-                if (isTrackPlaying) {
+            var trackPlaying = instancePlaying && soundPlaying;
+
+            if (active) {
+                if (trackPlaying) {
                     instance.Volume = track.Volume;
                 }
                 else {
@@ -45,7 +63,7 @@ public sealed class AmbienceTrackSystem : ModSystem
                     instance.Volume = 0f;
                 }
             }
-            else if (isTrackPlaying) {
+            else if (trackPlaying) {
                 if (track.Volume > 0f) {
                     instance.Volume = track.Volume;
                 }
