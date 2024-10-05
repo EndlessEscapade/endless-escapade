@@ -3,20 +3,29 @@ using EndlessEscapade.Utilities.Extensions;
 
 namespace EndlessEscapade.Common.World.Loot;
 
-public sealed class ChestLootManager : ModSystem
+public sealed class ChestLootSystem : ModSystem
 {
     private static readonly Dictionary<int, bool> ItemFlagsByType = new();
 
-    private static readonly List<ChestLoot> chestLoot = new();
+    private static readonly List<ChestLoot> Loot = new();
 
     public override void PostSetupContent() {
-        foreach (var loot in chestLoot) {
+        base.PostSetupContent();
+
+        foreach (var loot in Loot) {
             ItemFlagsByType[loot.ItemType] = false;
         }
     }
 
     public override void PostWorldGen() {
-        foreach (var loot in chestLoot) {
+        base.PostWorldGen();
+
+        GenerateGuaranteedLoot();
+        GenerateExtraLoot();
+    }
+
+    private static void GenerateGuaranteedLoot() {
+        foreach (var loot in Loot) {
             var filteredChests = new List<Chest>();
 
             for (var i = 0; i < Main.maxChests; i++) {
@@ -55,8 +64,10 @@ public sealed class ChestLootManager : ModSystem
                 }
             }
         }
+    }
 
-        foreach (var loot in chestLoot) {
+    private static void GenerateExtraLoot() {
+        foreach (var loot in Loot) {
             for (var i = 0; i < Main.maxChests; i++) {
                 var chest = Main.chest[i];
 

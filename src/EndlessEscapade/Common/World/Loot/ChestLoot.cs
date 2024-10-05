@@ -36,20 +36,20 @@ public struct ChestLoot
         }
     }
 
-    public bool RandomSlot { get; set; }
+    public bool RandomSlot { get; }
 
-    public int MinStack { get; set; }
-    public int MaxStack { get; set; }
-
-    [JsonRequired]
-    public string ItemPath { get; set; }
+    public int MinStack { get; }
+    public int MaxStack { get; }
 
     [JsonRequired]
-    public string TilePath { get; set; }
+    public string ItemPath { get; }
 
     [JsonRequired]
-    public int Chance { get; set; }
+    public string TilePath { get; }
 
     [JsonRequired]
-    public int[] Frames { get; set; }
+    public int Chance { get; }
+
+    [JsonRequired]
+    public int[] Frames { get; }
 }

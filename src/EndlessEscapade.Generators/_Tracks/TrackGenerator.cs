@@ -32,12 +32,12 @@ namespace EndlessEscapade.Generators
 
 					var name = content.Name.Split('.')[0];
 
-					sourceContext.AddSource($"{name}.g.cs", GenerateTrack(name, in data));
+					sourceContext.AddSource($"{name}.g.cs", GenerateTrack(name, data));
 				}
 			);
 		}
 
-		private static string GenerateTrack(string name, in TrackData data) {
+		private static string GenerateTrack(string name, TrackData data) {
 			var builder = new StringBuilder();
 
 			builder.Append("[");
