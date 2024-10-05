@@ -1,7 +1,7 @@
 displayName = Endless Escapade
 author = Endless Escapade Team
-version = 1.0
-homepage = https://forums.terraria.org/index.php?threads/endless-escapade.98739/
+version = 0.1
+homepage = https://discord.gg/aFnqEFB
 
 hideCode = false
 hideResources = false

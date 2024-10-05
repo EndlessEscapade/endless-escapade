@@ -1,8 +1,5 @@
 using EndlessEscapade.Content.Items.Beach;
-using Terraria;
 using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.NPCs;
 

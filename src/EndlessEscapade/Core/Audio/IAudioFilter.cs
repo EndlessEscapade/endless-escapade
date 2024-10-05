@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework.Audio;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Core.Audio;
 

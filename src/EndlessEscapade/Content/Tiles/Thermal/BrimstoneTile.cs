@@ -27,7 +27,7 @@ public class BrimstoneTile : CompositeTileBase
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num) {
-       base.NumDust(i, j, fail, ref num);
+        base.NumDust(i, j, fail, ref num);
 
         num = fail ? 1 : 3;
     }

@@ -1,5 +1,3 @@
-using EndlessEscapade.Common.NPCs;
-
 namespace EndlessEscapade.Content.NPCs.Beach;
 
 public class HermitCrabNPC : ModNPC

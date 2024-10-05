@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using EndlessEscapade.Common.NPCs;
 using Terraria.Enums;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Personalities;
@@ -173,7 +172,7 @@ public class SailorNPC : ModNPC
     }
 
     public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset) {
-       base.TownNPCAttackProjSpeed(ref multiplier, ref gravityCorrection, ref randomOffset);
+        base.TownNPCAttackProjSpeed(ref multiplier, ref gravityCorrection, ref randomOffset);
 
         multiplier = 12f;
         randomOffset = 2f;

@@ -7,7 +7,7 @@ public sealed class ChestLootManager : ModSystem
 {
     private static readonly Dictionary<int, bool> ItemFlagsByType = new();
 
-    private static List<ChestLoot> chestLoot = new();
+    private static readonly List<ChestLoot> chestLoot = new();
 
     public override void PostSetupContent() {
         foreach (var loot in chestLoot) {

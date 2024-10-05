@@ -63,7 +63,8 @@ public class CrabPincersProjectile : ModProjectile
         List<int> behindNPCs,
         List<int> behindProjectiles,
         List<int> overPlayers,
-        List<int> overWiresUI) {
+        List<int> overWiresUI
+    ) {
         behindNPCsAndTiles.Add(index);
     }
 
@@ -72,7 +73,8 @@ public class CrabPincersProjectile : ModProjectile
 
         var eyes = ModContent.Request<Texture2D>(Texture + "_Eyes").Value;
 
-        Main.EntitySpriteDraw(eyes,
+        Main.EntitySpriteDraw(
+            eyes,
             position + new Vector2(0f, eyes.Height),
             null,
             lightColor,
@@ -84,7 +86,8 @@ public class CrabPincersProjectile : ModProjectile
 
         var leftPincer = ModContent.Request<Texture2D>(Texture + "_Left").Value;
 
-        Main.EntitySpriteDraw(leftPincer,
+        Main.EntitySpriteDraw(
+            leftPincer,
             position + new Vector2(-24f, leftPincer.Height / 2f),
             null,
             lightColor,
@@ -96,7 +99,8 @@ public class CrabPincersProjectile : ModProjectile
 
         var rightPincer = ModContent.Request<Texture2D>(Texture + "_Right").Value;
 
-        Main.EntitySpriteDraw(rightPincer,
+        Main.EntitySpriteDraw(
+            rightPincer,
             position + new Vector2(24f, rightPincer.Height / 2f),
             null,
             lightColor,

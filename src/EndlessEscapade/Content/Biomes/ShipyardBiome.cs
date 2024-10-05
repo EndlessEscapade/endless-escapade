@@ -1,7 +1,4 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-
-namespace EndlessEscapade.Content.Biomes;
+﻿namespace EndlessEscapade.Content.Biomes;
 
 public class ShipyardBiome : ModBiome
 {

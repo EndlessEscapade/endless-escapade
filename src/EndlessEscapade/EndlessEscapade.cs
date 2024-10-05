@@ -1,6 +1,4 @@
-﻿using Terraria.ModLoader;
-
-namespace EndlessEscapade;
+﻿namespace EndlessEscapade;
 
 public sealed class EndlessEscapade : Mod
 {

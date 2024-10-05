@@ -1,5 +1,4 @@
 using Terraria.Audio;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Common.Ambience;
 

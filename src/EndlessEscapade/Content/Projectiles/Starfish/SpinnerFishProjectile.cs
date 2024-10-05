@@ -4,7 +4,6 @@ namespace EndlessEscapade.Content.Projectiles.Starfish;
 
 public class SpinnerFishProjectile : ModProjectile
 {
-    private Vector2 offset;
     private ref float Target => ref Projectile.ai[0];
     private ref float Timer => ref Projectile.ai[1];
 
@@ -12,6 +11,7 @@ public class SpinnerFishProjectile : ModProjectile
     public bool StickingToTile { get; private set; }
 
     public bool StickingToAnything => StickingToNPC || StickingToTile;
+    private Vector2 offset;
 
     public override void SetDefaults() {
         Projectile.usesLocalNPCImmunity = true;
@@ -103,7 +103,16 @@ public class SpinnerFishProjectile : ModProjectile
         var frame = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
         var origin = new Vector2(originX, Projectile.height / 2f + offsetY);
 
-        Main.EntitySpriteDraw(texture, new Vector2(x, y), frame, Projectile.GetAlpha(Color.White), Projectile.rotation, origin, Projectile.scale, effects);
+        Main.EntitySpriteDraw(
+            texture,
+            new Vector2(x, y),
+            frame,
+            Projectile.GetAlpha(Color.White),
+            Projectile.rotation,
+            origin,
+            Projectile.scale,
+            effects
+        );
 
         return true;
     }

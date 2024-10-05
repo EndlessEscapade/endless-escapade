@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using Terraria;
-using Terraria.ID;
 
 namespace EndlessEscapade.Utilities.Extensions;
 
 /// <summary>
-///     Basic <see cref="Chest"/> extension utilities.
+///     Basic <see cref="Chest" /> extension utilities.
 /// </summary>
 public static class ChestExtensions
 {

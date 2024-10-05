@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.World.Biomes;

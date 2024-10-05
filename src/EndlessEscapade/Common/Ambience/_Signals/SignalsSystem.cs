@@ -7,24 +7,24 @@ namespace EndlessEscapade.Common.Ambience;
 [Autoload(Side = ModSide.Client)]
 public sealed class SignalsSystem : ModSystem
 {
-	public delegate bool SignalUpdaterCallback(in SignalContext context);
+    private sealed class SignalData(SignalUpdaterCallback? callback)
+    {
+        private const byte DisabledFlag = 0;
+        private const byte EnabledFlag = 1 << 0;
 
-	private sealed class SignalData(SignalUpdaterCallback? callback)
-	{
-		private const byte DisabledFlag = 0;
-		private const byte EnabledFlag = 1 << 0;
+        public bool Enabled {
+            get => (enabled & EnabledFlag) != 0;
+            set => enabled = (byte)((enabled & ~EnabledFlag) | (value ? EnabledFlag : 0));
+        }
 
-		private byte enabled;
+        public readonly SignalUpdaterCallback? Callback = callback;
 
-		public bool Enabled {
-			get => (enabled & EnabledFlag) != 0;
-			set => enabled = (byte)((enabled & ~EnabledFlag) | (value ? EnabledFlag : 0));
-		}
+        private byte enabled;
+    }
 
-		public readonly SignalUpdaterCallback? Callback = callback;
-	}
+    public delegate bool SignalUpdaterCallback(in SignalContext context);
 
-	private static Dictionary<string, SignalData>? dataByName = [];
+    private static Dictionary<string, SignalData>? dataByName = [];
 
     public override void Load() {
         base.Load();
@@ -39,22 +39,22 @@ public sealed class SignalsSystem : ModSystem
         dataByName?.Clear();
         dataByName = null;
     }
-    
+
     public override void PostUpdatePlayers() {
         base.PostUpdatePlayers();
-        
+
         foreach (var (_, data) in dataByName) {
-	        data.Enabled = data.Callback?.Invoke(in SignalContext.Default) ?? false;
+            data.Enabled = data.Callback?.Invoke(in SignalContext.Default) ?? false;
         }
     }
 
     /// <summary>
-    ///		Checks if a signal is active.
+    ///     Checks if a signal is active.
     /// </summary>
     /// <param name="name">The name of the signal to check.</param>
     /// <returns><c>true</c> if the signal was found and is active; otherwise, <c>false</c>.</returns>
     public static bool GetSignal(string name) {
-	    return dataByName[name].Enabled;
+        return dataByName[name].Enabled;
     }
 
     /// <summary>
@@ -76,34 +76,34 @@ public sealed class SignalsSystem : ModSystem
     }
 
     /// <summary>
-    ///		Registers a new signal updater.
+    ///     Registers a new signal updater.
     /// </summary>
     /// <param name="name">The name of the signal to register.</param>
     /// <param name="callback">The callback of the signal to register.</param>
     public static void RegisterUpdater(string name, SignalUpdaterCallback? callback) {
-	    dataByName[name] = new SignalData(callback);
+        dataByName[name] = new SignalData(callback);
     }
 
     private static void LoadModdedUpdaters(Mod mod) {
-	    foreach (var type in AssemblyManager.GetLoadableTypes(mod.Code)) {
-		    foreach (var method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)) {
-			    var attribute = method.GetCustomAttribute<SignalUpdaterAttribute>();
+        foreach (var type in AssemblyManager.GetLoadableTypes(mod.Code)) {
+            foreach (var method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)) {
+                var attribute = method.GetCustomAttribute<SignalUpdaterAttribute>();
 
-			    if (attribute == null) {
-				    continue;
-			    }
+                if (attribute == null) {
+                    continue;
+                }
 
-			    var callback = method.CreateDelegate<SignalUpdaterCallback>();
-			    var name = attribute.Name ?? method.Name;
+                var callback = method.CreateDelegate<SignalUpdaterCallback>();
+                var name = attribute.Name ?? method.Name;
 
-			    RegisterUpdater(name, callback);
-		    }
-	    }
+                RegisterUpdater(name, callback);
+            }
+        }
     }
 
     private static void LoadVanillaUpdaters() {
-	    RegisterUpdater("Forest", static (in SignalContext context) => context.Player.ZonePurity);
-	    RegisterUpdater("Day", static (in SignalContext _) => Main.dayTime);
-	    RegisterUpdater("Night", static (in SignalContext _) => !Main.dayTime);
+        RegisterUpdater("Forest", static (in SignalContext context) => context.Player.ZonePurity);
+        RegisterUpdater("Day", static (in SignalContext _) => Main.dayTime);
+        RegisterUpdater("Night", static (in SignalContext _) => !Main.dayTime);
     }
 }

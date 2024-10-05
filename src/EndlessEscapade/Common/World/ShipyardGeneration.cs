@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using EndlessEscapade.Common.World.Biomes;
-using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.GameContent.Generation;
-using Terraria.ID;
 using Terraria.IO;
-using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.World;

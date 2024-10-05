@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria.DataStructures;
 using Terraria.WorldBuilding;
@@ -17,12 +16,12 @@ public sealed class BrokenSailboat : MicroBiome
 
         var offset = new Point16(dims.X / 2, dims.Y / 2);
         var adjustedOrigin = new Point16(origin.X, origin.Y) - offset;
-        
-        if (!structures.CanPlace(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y)) ||
-            !Generator.GenerateStructure("Content/Structures/BrokenSailboat", adjustedOrigin, mod)) {
+
+        if (!structures.CanPlace(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y))
+            || !Generator.GenerateStructure("Content/Structures/BrokenSailboat", adjustedOrigin, mod)) {
             return false;
         }
-        
+
         return Generator.GenerateStructure("Content/Structures/BrokenSailboat", adjustedOrigin, mod);
     }
 }

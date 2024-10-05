@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Utilities;
 using Terraria.Audio;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Core.Audio;
 
@@ -105,7 +101,8 @@ public sealed class AudioManager : ModSystem
         SoundPlayer self,
         ref SoundStyle style,
         Vector2? position,
-        SoundUpdateCallback updateCallback) {
+        SoundUpdateCallback updateCallback
+    ) {
         var slot = orig(self, ref style, position, updateCallback);
 
         var hasIgnoredStyle = false;

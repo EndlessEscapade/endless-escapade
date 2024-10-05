@@ -44,7 +44,16 @@ public class StarCatcherBobberProjectile : ModProjectile
         var frame = texture.Frame(1, Main.projFrames[Projectile.type], frameY: Projectile.frame);
         var origin = new Vector2(originX, Projectile.height / 2f + offsetY);
 
-        Main.EntitySpriteDraw(texture, new Vector2(x, y), frame, Projectile.GetAlpha(Color.White), Projectile.rotation, origin, Projectile.scale, effects);
+        Main.EntitySpriteDraw(
+            texture,
+            new Vector2(x, y),
+            frame,
+            Projectile.GetAlpha(Color.White),
+            Projectile.rotation,
+            origin,
+            Projectile.scale,
+            effects
+        );
 
         return true;
     }

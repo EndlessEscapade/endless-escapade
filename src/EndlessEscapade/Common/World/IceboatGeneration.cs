@@ -1,12 +1,7 @@
-using System;
 using System.Collections.Generic;
 using EndlessEscapade.Common.World.Biomes;
-using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.GameContent.Generation;
-using Terraria.ID;
 using Terraria.IO;
-using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.World;
@@ -67,9 +62,11 @@ public sealed class IceboatGeneration : ModSystem
         while (!biomeGenerated) {
             var x = WorldGen.genRand.Next(tundraStart, tundraEnd);
 
-            WorldUtils.Find(new Point(x, 0),
+            WorldUtils.Find(
+                new Point(x, 0),
                 Searches.Chain(new Searches.Down(Main.maxTilesY), new Conditions.IsSolid(), new Conditions.IsTile(TileID.IceBlock, TileID.SnowBlock)),
-                out var origin);
+                out var origin
+            );
 
             if (biome.Place(origin, GenVars.structures)) {
                 biomeGenerated = true;

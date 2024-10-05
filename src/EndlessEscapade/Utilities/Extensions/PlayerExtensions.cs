@@ -1,11 +1,9 @@
 using System.Runtime.CompilerServices;
-using Terraria;
-using Terraria.ModLoader;
 
 namespace EndlessEscapade.Utilities.Extensions;
 
 /// <summary>
-///     Provides <see cref="Player"/> extension methods.
+///     Provides <see cref="Player" /> extension methods.
 /// </summary>
 public static class PlayerExtensions
 {

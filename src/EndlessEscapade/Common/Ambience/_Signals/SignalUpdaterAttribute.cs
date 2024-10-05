@@ -4,7 +4,7 @@ namespace EndlessEscapade.Common.Ambience;
 public sealed class SignalUpdaterAttribute(string? name = null) : Attribute
 {
 	/// <summary>
-	///		The name of this attribute's signal.
+	///     The name of this attribute's signal.
 	/// </summary>
 	public readonly string? Name = name;
 }

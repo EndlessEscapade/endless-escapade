@@ -1,5 +1,4 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using EndlessEscapade.Utilities;
 
 namespace EndlessEscapade.Content.Tiles.Base;
 
@@ -8,14 +7,11 @@ public abstract class CompositeTileBase : ModTile
     public const int ChunkWidth = 72;
     public const int ChunkHeight = 90;
 
-    public const int TileSize = 16;
-    public const int TilePadding = 2;
-
     public abstract int HorizontalSheetCount { get; }
     public abstract int VerticalSheetCount { get; }
 
     public sealed override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak) {
-        var tileScale = TileSize + TilePadding;
+        var tileScale = TileUtils.TileSize % TileUtils.TilePadding;
 
         var xOffset = i % HorizontalSheetCount * ChunkWidth;
         var yOffset = j % VerticalSheetCount * ChunkHeight;

@@ -1,5 +1,3 @@
-using Terraria;
-
 namespace EndlessEscapade.Utilities;
 
 // TODO: This class should not exist. World generation utilities should be built from GenAction and GenShape.

@@ -1,11 +1,7 @@
 using EndlessEscapade.Content.NPCs.Shipyard;
 using EndlessEscapade.Utilities;
-using Microsoft.Xna.Framework;
 using StructureHelper;
-using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.World.Biomes;
@@ -29,8 +25,8 @@ public sealed class Shipyard : MicroBiome
         var offset = new Point16(dims.X / 2, dims.Y - dims.Y / 3);
         var adjustedOrigin = new Point16(origin.X, origin.Y) - offset;
 
-        if (!structures.CanPlace(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y)) ||
-            !Generator.GenerateStructure("Content/Structures/Shipyard", adjustedOrigin, mod)) {
+        if (!structures.CanPlace(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y))
+            || !Generator.GenerateStructure("Content/Structures/Shipyard", adjustedOrigin, mod)) {
             return false;
         }
 

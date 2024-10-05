@@ -1,7 +1,3 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-
 namespace EndlessEscapade.Common.Items;
 
 public sealed class ShellPileGlobalItem : GlobalItem
@@ -13,7 +9,7 @@ public sealed class ShellPileGlobalItem : GlobalItem
     }
 
     public override void ExtractinatorUse(int extractType, int extractinatorBlockType, ref int resultType, ref int resultStack) {
-       base.ExtractinatorUse(extractType, extractinatorBlockType, ref resultType, ref resultStack);
+        base.ExtractinatorUse(extractType, extractinatorBlockType, ref resultType, ref resultStack);
 
         if (extractType != ItemID.ShellPileBlock) {
             return;
