@@ -5,6 +5,8 @@ namespace EndlessEscapade.Content.Items.Thermal;
 public class RustyPlatingItem : ModItem
 {
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Item.DefaultToPlaceableTile(ModContent.TileType<RustyPlatingTile>());
 
         Item.width = 16;

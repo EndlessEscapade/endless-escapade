@@ -5,6 +5,8 @@ namespace EndlessEscapade.Content.Items.Shallows;
 public class LightGemsandstoneWallItem : ModItem
 {
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Item.DefaultToPlaceableWall((ushort)ModContent.WallType<LightGemsandstoneWall>());
 
         Item.width = 32;

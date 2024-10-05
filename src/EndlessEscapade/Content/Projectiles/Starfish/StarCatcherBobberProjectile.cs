@@ -5,6 +5,8 @@ public class StarCatcherBobberProjectile : ModProjectile
     public float Intensity { get; private set; }
 
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Projectile.netImportant = true;
         Projectile.bobber = true;
 

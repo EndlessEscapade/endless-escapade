@@ -14,6 +14,8 @@ public class SpinnerFishProjectile : ModProjectile
     private Vector2 offset;
 
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Projectile.usesLocalNPCImmunity = true;
         Projectile.friendly = true;
 

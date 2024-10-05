@@ -6,6 +6,8 @@ namespace EndlessEscapade.Content.Items.Starfish;
 public class EnchantedSandItem : ModItem
 {
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Item.maxStack = Item.CommonMaxStack;
 
         Item.width = 24;

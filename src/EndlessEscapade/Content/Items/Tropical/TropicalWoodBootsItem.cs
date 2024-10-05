@@ -4,6 +4,8 @@
 public class TropicalWoodBootsItem : ModItem
 {
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Item.defense = 2;
 
         Item.width = 18;

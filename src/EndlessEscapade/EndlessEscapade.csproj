@@ -5,15 +5,21 @@
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
+        <LangVersion>12</LangVersion>
         <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="**\*.ambience.track" />
+        <AdditionalFiles Include="**\*.ambience.sound" />
+    </ItemGroup>
 
     <PropertyGroup>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Aurora.Generators\Aurora.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\EndlessEscapade.Generators\EndlessEscapade.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -5,6 +5,8 @@ namespace EndlessEscapade.Content.Items.Trenches;
 public class DarkGemsandstoneItem : ModItem
 {
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Item.DefaultToPlaceableTile(ModContent.TileType<DarkGemsandstoneTile>());
 
         Item.width = 16;

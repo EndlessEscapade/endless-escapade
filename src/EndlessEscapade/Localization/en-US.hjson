@@ -419,6 +419,126 @@ Mods: {
 				DisplayName: Tropical Wood Wall Item
 				Tooltip: ""
 			}
+
+			GlowshroomItem: {
+				DisplayName: Glowshroom Item
+				Tooltip: ""
+			}
+
+			KelpberriesItem: {
+				DisplayName: Kelpberries Item
+				Tooltip: ""
+			}
+
+			KelpLeafItem: {
+				DisplayName: Kelp Leaf Item
+				Tooltip: ""
+			}
+
+			KelpMossItem: {
+				DisplayName: Kelp Moss Item
+				Tooltip: ""
+			}
+
+			KelpRockItem: {
+				DisplayName: Kelp Rock Item
+				Tooltip: ""
+			}
+
+			LightGemsandItem: {
+				DisplayName: Light Gemsand Item
+				Tooltip: ""
+			}
+
+			LightGemsandstoneItem: {
+				DisplayName: Light Gemsandstone Item
+				Tooltip: ""
+			}
+
+			LightGemsandstoneWallItem: {
+				DisplayName: Light Gemsandstone Wall Item
+				Tooltip: ""
+			}
+
+			LightGemsandWallItem: {
+				DisplayName: Light Gemsand Wall Item
+				Tooltip: ""
+			}
+
+			CoralsandItem: {
+				DisplayName: Coralsand Item
+				Tooltip: ""
+			}
+
+			CoralsandstoneItem: {
+				DisplayName: Coralsandstone Item
+				Tooltip: ""
+			}
+
+			EnchantedSandItem: {
+				DisplayName: Enchanted Sand Item
+				Tooltip: ""
+			}
+
+			BrimstoneItem: {
+				DisplayName: Brimstone Item
+				Tooltip: ""
+			}
+
+			RustyPipeItem: {
+				DisplayName: Rusty Pipe Item
+				Tooltip: ""
+			}
+
+			RustyPlatingItem: {
+				DisplayName: Rusty Plating Item
+				Tooltip: ""
+			}
+
+			ScorchedGemsandItem: {
+				DisplayName: Scorched Gemsand Item
+				Tooltip: ""
+			}
+
+			DarkGemsandItem: {
+				DisplayName: Dark Gemsand Item
+				Tooltip: ""
+			}
+
+			DarkGemsandstoneItem: {
+				DisplayName: Dark Gemsandstone Item
+				Tooltip: ""
+			}
+
+			DarkGemsandstoneWallItem: {
+				DisplayName: Dark Gemsandstone Wall Item
+				Tooltip: ""
+			}
+
+			DarkGemsandWallItem: {
+				DisplayName: Dark Gemsand Wall Item
+				Tooltip: ""
+			}
+
+			GemsandItem: {
+				DisplayName: Gemsand Item
+				Tooltip: ""
+			}
+
+			GemsandstoneItem: {
+				DisplayName: Gemsandstone Item
+				Tooltip: ""
+			}
+
+			GemsandstoneWallItem: {
+				DisplayName: Gemsandstone Wall Item
+				Tooltip: ""
+			}
+
+			GemsandWallItem: {
+				DisplayName: Gemsand Wall Item
+				Tooltip: ""
+			}
 		}
 
 		NPCs: {
@@ -514,6 +634,8 @@ Mods: {
 		Tiles: {
 			LythenOre.MapEntry: Lythen Ore
 			Aquamarine.MapEntry: Aquamarine
+			AquamarineTile.MapEntry: Aquamarine Tile
+			LythenOreTile.MapEntry: Lythen Ore Tile
 		}
 
 		GameTitle: {
@@ -542,6 +664,27 @@ Mods: {
 			22: Endless Escapade: 22
 			23: Endless Escapade: Hold on the uhh...
 			24: Endless Escapade: Mods.EndlessEscapade.GameTitle.RANDOM
+		}
+
+		Configs: {
+			ClientConfiguration: {
+				DisplayName: Client Configuration
+
+				Headers: {
+					Ambience: Ambience Header
+					Audio: Audio Header
+				}
+
+				EnableTracks: {
+					Label: Enable Tracks
+					Tooltip: ""
+				}
+
+				EnableLowPassFilter: {
+					Label: Enable Low Pass Filter
+					Tooltip: ""
+				}
+			}
 		}
 	}
 }

@@ -6,6 +6,8 @@ namespace EndlessEscapade.Content.Items.Beach;
 public class CrabPincersItem : ModItem
 {
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Item.noUseGraphic = true;
         Item.sentry = true;
         Item.noMelee = true;
@@ -27,15 +29,9 @@ public class CrabPincersItem : ModItem
         Item.UseSound = SoundID.Item1;
     }
 
-    public override bool Shoot(
-        Player player,
-        EntitySource_ItemUse_WithAmmo source,
-        Vector2 position,
-        Vector2 velocity,
-        int type,
-        int damage,
-        float knockback
-    ) {
+    public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
+        base.ModifyShootStats(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+
         var tileCoordinates = Main.MouseWorld.ToTileCoordinates();
 
         position = Main.MouseWorld;
@@ -49,10 +45,6 @@ public class CrabPincersItem : ModItem
             }
         }
 
-        Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-
         player.UpdateMaxTurrets();
-
-        return false;
     }
 }

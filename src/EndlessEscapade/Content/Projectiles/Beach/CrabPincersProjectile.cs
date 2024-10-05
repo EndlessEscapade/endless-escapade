@@ -15,6 +15,8 @@ public class CrabPincersProjectile : ModProjectile
     }
 
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Projectile.usesLocalNPCImmunity = true;
         Projectile.netImportant = true;
         Projectile.ignoreWater = true;

@@ -5,6 +5,8 @@ namespace EndlessEscapade.Content.Items.Kelp;
 public class KelpMossItem : ModItem
 {
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Item.autoReuse = true;
         Item.consumable = true;
         Item.useTurn = true;

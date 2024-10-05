@@ -5,6 +5,8 @@ namespace EndlessEscapade.Content.Items.Thermal;
 public class BrimstoneItem : ModItem
 {
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Item.DefaultToPlaceableTile(ModContent.TileType<BrimstoneTile>());
 
         Item.width = 16;

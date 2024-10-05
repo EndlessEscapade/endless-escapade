@@ -5,6 +5,8 @@ namespace EndlessEscapade.Content.Items.Twilight;
 public class GemsandstoneWallItem : ModItem
 {
     public override void SetDefaults() {
+        base.SetDefaults();
+
         Item.DefaultToPlaceableWall((ushort)ModContent.WallType<GemsandstoneWall>());
 
         Item.width = 32;
