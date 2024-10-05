@@ -4,9 +4,9 @@ using StructureHelper;
 using Terraria.DataStructures;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.World.Biomes;
+namespace EndlessEscapade.Common.World;
 
-public sealed class Shipyard : MicroBiome
+public sealed class ShipyardMicroBiome : MicroBiome
 {
     public const int SailboatDistance = 100;
 
@@ -30,7 +30,6 @@ public sealed class Shipyard : MicroBiome
             return false;
         }
 
-        // Fills up a blotch to make the structure naturally blend within the pre-existing terrain.
         for (var j = adjustedOrigin.Y + 30; j < adjustedOrigin.Y + dims.Y; j++) {
             var strength = WorldGen.genRand.Next(10, 17);
             var steps = WorldGen.genRand.Next(1, 4);
@@ -39,14 +38,12 @@ public sealed class Shipyard : MicroBiome
         }
 
         for (var i = 0; i < 2; i++) {
-            // Extends dock pillars.
-            WorldGenUtils.ExtendDownwards(adjustedOrigin.X + 4 + i, adjustedOrigin.Y + 39, TileID.LivingWood);
-            WorldGenUtils.ExtendDownwards(adjustedOrigin.X + 20 + i, adjustedOrigin.Y + 39, TileID.LivingWood);
-            WorldGenUtils.ExtendDownwards(adjustedOrigin.X + 36 + i, adjustedOrigin.Y + 39, TileID.LivingWood);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 4 + i, adjustedOrigin.Y + 39);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 20 + i, adjustedOrigin.Y + 39);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 36 + i, adjustedOrigin.Y + 39);
 
-            // Extends house pillars
-            WorldGenUtils.ExtendDownwards(adjustedOrigin.X + 56 + i, adjustedOrigin.Y + 27, TileID.LivingWood);
-            WorldGenUtils.ExtendDownwards(adjustedOrigin.X + 74 + i, adjustedOrigin.Y + 27, TileID.LivingWood);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 56 + i, adjustedOrigin.Y + 27);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 74 + i, adjustedOrigin.Y + 27);
         }
 
         var sailorX = (int)((adjustedOrigin.X + 60) * 16f);

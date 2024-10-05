@@ -35,6 +35,8 @@ public class CrabPincersProjectile : ModProjectile
     }
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+        base.OnHitNPC(target, hit, damageDone);
+
         leftRotation += MathHelper.ToRadians(30f);
         rightRotation -= MathHelper.ToRadians(30f);
     }
@@ -44,6 +46,8 @@ public class CrabPincersProjectile : ModProjectile
     }
 
     public override void OnSpawn(IEntitySource source) {
+        base.OnSpawn(source);
+
         var tileCoordinates = Projectile.position.ToTileCoordinates();
         var collisionPosition = new Vector2(tileCoordinates.X, tileCoordinates.Y + 1) * 16f;
 
@@ -51,6 +55,8 @@ public class CrabPincersProjectile : ModProjectile
     }
 
     public override void AI() {
+        base.AI();
+
         Projectile.velocity.Y += 0.3f;
 
         scale = MathHelper.Lerp(scale, 1f, 0.1f);
@@ -67,6 +73,8 @@ public class CrabPincersProjectile : ModProjectile
         List<int> overPlayers,
         List<int> overWiresUI
     ) {
+        base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
+
         behindNPCsAndTiles.Add(index);
     }
 

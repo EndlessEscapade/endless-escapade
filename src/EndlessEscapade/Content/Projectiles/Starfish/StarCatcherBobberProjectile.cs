@@ -16,11 +16,9 @@ public class StarCatcherBobberProjectile : ModProjectile
         Projectile.aiStyle = ProjAIStyleID.Bobber;
     }
 
-    public override void ModifyFishingLine(ref Vector2 lineOriginOffset, ref Color lineColor) {
-        lineOriginOffset = new Vector2(46, -36);
-    }
-
     public override void AI() {
+        base.AI();
+
         if (Projectile.wet) {
             Intensity += 0.1f;
         }

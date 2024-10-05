@@ -13,18 +13,18 @@ public sealed class SignalsSystem : ModSystem
         private const byte EnabledFlag = 1 << 0;
 
         public bool Enabled {
-            get => (enabled & EnabledFlag) != 0;
-            set => enabled = (byte)((enabled & ~EnabledFlag) | (value ? EnabledFlag : 0));
+            get => (_enabled & EnabledFlag) != 0;
+            set => _enabled = (byte)((_enabled & ~EnabledFlag) | (value ? EnabledFlag : 0));
         }
 
-        public readonly SignalUpdaterCallback? Callback = callback;
+        private byte _enabled;
 
-        private byte enabled;
+        public readonly SignalUpdaterCallback? Callback = callback;
     }
 
     public delegate bool SignalUpdaterCallback(in SignalContext context);
 
-    private static Dictionary<string, SignalData>? dataByName = [];
+    private static readonly Dictionary<string, SignalData>? Data = [];
 
     public override void Load() {
         base.Load();
@@ -33,17 +33,10 @@ public sealed class SignalsSystem : ModSystem
         LoadVanillaUpdaters();
     }
 
-    public override void Unload() {
-        base.Unload();
-
-        dataByName?.Clear();
-        dataByName = null;
-    }
-
     public override void PostUpdatePlayers() {
         base.PostUpdatePlayers();
 
-        foreach (var (_, data) in dataByName) {
+        foreach (var (_, data) in Data) {
             data.Enabled = data.Callback?.Invoke(SignalContext.Default) ?? false;
         }
     }
@@ -54,7 +47,7 @@ public sealed class SignalsSystem : ModSystem
     /// <param name="name">The name of the signal to check.</param>
     /// <returns><c>true</c> if the signal was found and is active; otherwise, <c>false</c>.</returns>
     public static bool GetSignal(string name) {
-        return dataByName[name].Enabled;
+        return Data[name].Enabled;
     }
 
     /// <summary>
@@ -81,7 +74,7 @@ public sealed class SignalsSystem : ModSystem
     /// <param name="name">The name of the signal to register.</param>
     /// <param name="callback">The callback of the signal to register.</param>
     public static void RegisterUpdater(string name, SignalUpdaterCallback? callback) {
-        dataByName[name] = new SignalData(callback);
+        Data[name] = new SignalData(callback);
     }
 
     private static void LoadModdedUpdaters(Mod mod) {

@@ -1,0 +1,9 @@
+ItemTooltip: {
+	Extractinator: Placing silt/slush/fossil/shell piles piles into the extractinator turns them into something more useful
+	ChlorophyteExtractinator:
+		'''
+		Placing silt/slush/fossil/shell piles piles into the extractinator turns them into something more useful
+		Place contaminated blocks into the extractinator to purify them
+		Other items placed inside may have interesting effects
+		'''
+}

@@ -1,20 +1,29 @@
 ﻿using System.Collections.Generic;
-using EndlessEscapade.Common.World.Biomes;
 using Terraria.GameContent.Generation;
 using Terraria.IO;
 using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.World;
 
-public sealed class ShipyardGeneration : ModSystem
+/// <summary>
+///     Handles the world generation of the shipyard.
+/// </summary>
+public sealed class ShipyardSystem : ModSystem
 {
     public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight) {
+        base.ModifyWorldGenTasks(tasks, ref totalWeight);
+
         var index = tasks.FindIndex(pass => pass.Name == "Final Cleanup");
+
+        if (index == -1) {
+            return;
+        }
 
         tasks.Insert(index + 1, new PassLegacy($"{nameof(EndlessEscapade)}:Shipyard", GenerateShipyard));
     }
 
-    private void GenerateShipyard(GenerationProgress progress, GameConfiguration configuration) {
+    private static void GenerateShipyard(GenerationProgress progress, GameConfiguration configuration) {
+        // TODO: Make use of localization.
         progress.Message = "Constructing the Shipyard...";
 
         var foundOcean = false;
@@ -60,10 +69,8 @@ public sealed class ShipyardGeneration : ModSystem
             }
         }
 
-        var shipyard = GenVars.configuration.CreateBiome<Shipyard>();
-        var sailboat = GenVars.configuration.CreateBiome<BrokenSailboat>();
+        var shipyard = GenVars.configuration.CreateBiome<ShipyardMicroBiome>();
 
         shipyard.Place(new Point(startX, biggestY), GenVars.structures);
-        sailboat.Place(new Point(startX - 80, biggestY), GenVars.structures);
     }
 }

@@ -24,6 +24,12 @@ public class StarCatcherItem : ModItem
         Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice());
     }
 
+    public override void ModifyFishingLine(Projectile bobber, ref Vector2 lineOriginOffset, ref Color lineColor) {
+        base.ModifyFishingLine(bobber, ref lineOriginOffset, ref lineColor);
+
+        lineOriginOffset = new Vector2(46, -36);
+    }
+
     public override void HoldItem(Player player) {
         base.HoldItem(player);
 

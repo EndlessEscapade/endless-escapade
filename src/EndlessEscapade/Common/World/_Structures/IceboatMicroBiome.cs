@@ -3,9 +3,9 @@ using StructureHelper;
 using Terraria.DataStructures;
 using Terraria.WorldBuilding;
 
-namespace EndlessEscapade.Common.World.Biomes;
+namespace EndlessEscapade.Common.World;
 
-public sealed class Iceboat : MicroBiome
+public sealed class IceboatMicroBiome : MicroBiome
 {
     public override bool Place(Point origin, StructureMap structures) {
         var mod = EndlessEscapade.Instance;
@@ -73,7 +73,7 @@ public sealed class Iceboat : MicroBiome
         return true;
     }
 
-    private bool CanPlaceStructure(Point origin, Point16 dims, StructureMap structures) {
+    private static bool CanPlaceStructure(Point origin, Point16 dims, StructureMap structures) {
         if (!structures.CanPlace(new Rectangle(origin.X, origin.Y, dims.X, dims.Y))) {
             return false;
         }

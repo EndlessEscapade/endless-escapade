@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace EndlessEscapade.Common.World.Loot;
+namespace EndlessEscapade.Common.World;
 
 public struct ChestLoot
 {

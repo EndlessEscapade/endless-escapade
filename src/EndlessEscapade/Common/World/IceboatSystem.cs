@@ -1,20 +1,33 @@
+using System;
 using System.Collections.Generic;
-using EndlessEscapade.Common.World.Biomes;
+using Terraria;
 using Terraria.GameContent.Generation;
+using Terraria.ID;
 using Terraria.IO;
+using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 namespace EndlessEscapade.Common.World;
 
-public sealed class IceboatGeneration : ModSystem
+/// <summary>
+///     Handles the world generation of the iceboat.
+/// </summary>
+public sealed class IceboatSystem : ModSystem
 {
     public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight) {
+        base.ModifyWorldGenTasks(tasks, ref totalWeight);
+
         var index = tasks.FindIndex(pass => pass.Name == "Ice");
+
+        if (index == -1) {
+            return;
+        }
 
         tasks.Insert(index + 1, new PassLegacy($"{nameof(EndlessEscapade)}:Iceboat", GenerateIceboat));
     }
 
-    private void GenerateIceboat(GenerationProgress progress, GameConfiguration configuration) {
+    private static void GenerateIceboat(GenerationProgress progress, GameConfiguration configuration) {
+        // TODO: Make use of localization.
         progress.Message = "Sinking the iceboat...";
 
         var tundraStart = 0;
@@ -56,7 +69,7 @@ public sealed class IceboatGeneration : ModSystem
             }
         }
 
-        var biome = GenVars.configuration.CreateBiome<Iceboat>();
+        var biome = GenVars.configuration.CreateBiome<IceboatMicroBiome>();
         var biomeGenerated = false;
 
         while (!biomeGenerated) {
@@ -64,7 +77,11 @@ public sealed class IceboatGeneration : ModSystem
 
             WorldUtils.Find(
                 new Point(x, 0),
-                Searches.Chain(new Searches.Down(Main.maxTilesY), new Conditions.IsSolid(), new Conditions.IsTile(TileID.IceBlock, TileID.SnowBlock)),
+                Searches.Chain(
+                    new Searches.Down(Main.maxTilesY),
+                    new Conditions.IsSolid(),
+                    new Conditions.IsTile(TileID.IceBlock, TileID.SnowBlock)
+                ),
                 out var origin
             );
 

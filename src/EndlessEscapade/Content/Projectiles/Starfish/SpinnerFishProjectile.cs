@@ -30,16 +30,22 @@ public class SpinnerFishProjectile : ModProjectile
     }
 
     public override void SendExtraAI(BinaryWriter writer) {
+        base.SendExtraAI(writer);
+
         writer.Write(StickingToNPC);
         writer.Write(StickingToTile);
     }
 
     public override void ReceiveExtraAI(BinaryReader reader) {
+        base.ReceiveExtraAI(reader);
+
         StickingToNPC = reader.ReadBoolean();
         StickingToTile = reader.ReadBoolean();
     }
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+        base.OnHitNPC(target, hit, damageDone);
+
         Projectile.scale = 1.25f;
         Projectile.rotation += MathHelper.ToRadians(Main.rand.NextFloat(5f, 15f));
 
@@ -70,6 +76,8 @@ public class SpinnerFishProjectile : ModProjectile
     }
 
     public override void AI() {
+        base.AI();
+        
         Projectile.scale = MathHelper.Lerp(Projectile.scale, 1f, 0.2f);
 
         if (Projectile.timeLeft < 255 / 25) {
