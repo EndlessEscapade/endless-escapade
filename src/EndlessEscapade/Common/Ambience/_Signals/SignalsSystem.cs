@@ -44,7 +44,7 @@ public sealed class SignalsSystem : ModSystem
         base.PostUpdatePlayers();
 
         foreach (var (_, data) in dataByName) {
-            data.Enabled = data.Callback?.Invoke(in SignalContext.Default) ?? false;
+            data.Enabled = data.Callback?.Invoke(SignalContext.Default) ?? false;
         }
     }
 
