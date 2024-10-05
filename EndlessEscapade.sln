@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EndlessEscapade", "src/EndlessEscapade/EndlessEscapade.csproj", "{6C50C0BF-1CAE-41A3-95B9-5EAB99D9605E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EndlessEscapade", "src\EndlessEscapade\EndlessEscapade.csproj", "{6C50C0BF-1CAE-41A3-95B9-5EAB99D9605E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessEscapade.Generators", "EndlessEscapade.Generators\EndlessEscapade.Generators.csproj", "{59C59D82-624A-4707-999B-1FFB9F03498D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessEscapade.Generators", "src\EndlessEscapade.Generators\EndlessEscapade.Generators.csproj", "{59C59D82-624A-4707-999B-1FFB9F03498D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
