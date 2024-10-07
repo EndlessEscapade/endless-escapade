@@ -6,23 +6,18 @@ ClientConfiguration: {
 		Audio: Audio
 	}
 
-	EnableTracks: {
-		Label: Enable Tracks
-		Tooltip: ""
-	}
-
 	EnableLowPassFilter: {
 		Label: Enable Low Pass Filter
-		Tooltip: ""
+		Tooltip: Whether the low pass filter is enabled or not.
 	}
 
 	EnableAmbienceTracks: {
 		Label: Enable Ambience Tracks
-		Tooltip: ""
+		Tooltip: Whether ambience tracks are enabled or not.
 	}
 
 	EnableAmbienceSounds: {
 		Label: Enable Ambience Sounds
-		Tooltip: ""
+		Tooltip: Whether ambience sounds are enabled or not.
 	}
 }

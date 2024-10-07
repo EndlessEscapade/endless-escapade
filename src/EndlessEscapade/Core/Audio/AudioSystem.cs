@@ -6,35 +6,32 @@ using Terraria.Audio;
 namespace EndlessEscapade.Core.Audio;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class AudioManager : ModSystem
+public sealed class AudioSystem : ModSystem
 {
-    private static readonly SoundStyle[] IgnoredSoundStyles = {
+    private static readonly SoundStyle[] IgnoredSounds = [
         SoundID.MenuClose,
         SoundID.MenuOpen,
         SoundID.MenuTick,
         SoundID.Chat,
         SoundID.Grab
-    };
+    ];
 
-    private static readonly List<ActiveSound> Sounds = new();
-    private static readonly List<AudioModifier> Modifiers = new();
+    private static readonly List<ActiveSound> Sounds = [];
+    private static readonly List<AudioModifier> Modifiers = [];
 
     private static AudioParameters parameters;
 
     public override void Load() {
-        if (!SoundEngine.IsAudioSupported) {
-            Mod.Logger.Warn($"{nameof(AudioManager)} was disabled: {nameof(SoundEngine)}.{nameof(SoundEngine.IsAudioSupported)} was false.");
-            return;
-        }
+        base.Load();
 
         On_SoundPlayer.Play_Inner += PlayInnerHook;
     }
 
-    public static void AddModifier(string context, int duration, AudioModifier.ModifierCallback callback) {
-        var index = Modifiers.FindIndex(modifier => modifier.Context == context);
+    public static void AddModifier(string identifier, int duration, AudioModifier.ModifierCallback callback) {
+        var index = Modifiers.FindIndex(modifier => modifier.Identifier == identifier);
 
         if (index == -1) {
-            Modifiers.Add(new AudioModifier(context, duration, callback));
+            Modifiers.Add(new AudioModifier(identifier, duration, callback));
             return;
         }
 
@@ -48,6 +45,8 @@ public sealed class AudioManager : ModSystem
     }
 
     public override void PostUpdateEverything() {
+        base.PostUpdateEverything();
+
         UpdateModifiers();
         UpdateSounds();
     }
@@ -70,7 +69,9 @@ public sealed class AudioManager : ModSystem
         for (var i = 0; i < Modifiers.Count; i++) {
             var modifier = Modifiers[i];
 
-            if (modifier.TimeLeft-- <= 0) {
+            modifier.TimeLeft--;
+
+            if (modifier.TimeLeft <= 0) {
                 Modifiers.RemoveAt(i--);
                 continue;
             }
@@ -88,7 +89,9 @@ public sealed class AudioManager : ModSystem
             var sound = Sounds[i];
 
             if (!sound.IsPlaying) {
-                Sounds.RemoveAt(i--);
+                Sounds.RemoveAt(i);
+
+                i--;
                 continue;
             }
 
@@ -105,16 +108,19 @@ public sealed class AudioManager : ModSystem
     ) {
         var slot = orig(self, ref style, position, updateCallback);
 
-        var hasIgnoredStyle = false;
+        var isSoundIgnored = false;
 
-        foreach (var ignoredStyle in IgnoredSoundStyles) {
+        foreach (var ignoredStyle in IgnoredSounds) {
             if (style == ignoredStyle) {
-                hasIgnoredStyle = true;
+                isSoundIgnored = true;
                 break;
             }
         }
 
-        if (SoundEngine.TryGetActiveSound(slot, out var sound) && sound.Sound?.IsDisposed == false && !hasIgnoredStyle) {
+        var isSoundActive = SoundEngine.TryGetActiveSound(slot, out var sound);
+        var isSoundDisposed = sound?.Sound?.IsDisposed == true;
+
+        if (isSoundActive && isSoundActive && !isSoundDisposed) {
             Sounds.Add(sound);
         }
 

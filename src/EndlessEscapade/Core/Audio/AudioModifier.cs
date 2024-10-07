@@ -1,20 +1,23 @@
 namespace EndlessEscapade.Core.Audio;
 
-public struct AudioModifier
+public struct AudioModifier(string identifier, int timeLeft, AudioModifier.ModifierCallback callback)
 {
     public delegate void ModifierCallback(ref AudioParameters parameters, float progress);
 
-    public ModifierCallback Callback;
+    public ModifierCallback Callback = callback;
 
-    public int TimeLeft { get; set; }
-    public int TimeMax { get; set; }
+    /// <summary>
+    ///     The current remaining duration of this modifier in ticks.
+    /// </summary>
+    public int TimeLeft = timeLeft;
 
-    public readonly string Context;
+    /// <summary>
+    ///     The maximum duration of this modifier in ticks.
+    /// </summary>
+    public int TimeMax = timeLeft;
 
-    public AudioModifier(string context, int timeLeft, ModifierCallback callback) {
-        Context = context;
-        TimeLeft = timeLeft;
-        TimeMax = timeLeft;
-        Callback = callback;
-    }
+    /// <summary>
+    ///     The unique identifier of this modifier.
+    /// </summary>
+    public readonly string Identifier = identifier;
 }
