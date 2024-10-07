@@ -8,6 +8,8 @@ public class StarCatcherItem : ModItem
     public override void SetDefaults() {
         base.SetDefaults();
 
+        Item.noMelee = true;
+
         Item.fishingPole = 15;
 
         Item.width = 52;
@@ -15,13 +17,13 @@ public class StarCatcherItem : ModItem
 
         Item.useTime = 8;
         Item.useAnimation = 8;
+        Item.UseSound = SoundID.Item1;
         Item.useStyle = ItemUseStyleID.Swing;
 
         Item.shoot = ModContent.ProjectileType<StarCatcherBobberProjectile>();
         Item.shootSpeed = 10f;
 
-        Item.UseSound = SoundID.Item1;
-        Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice());
+        Item.SetShopValues(ItemRarityColor.Blue1, Item.buyPrice());
     }
 
     public override void ModifyFishingLine(Projectile bobber, ref Vector2 lineOriginOffset, ref Color lineColor) {

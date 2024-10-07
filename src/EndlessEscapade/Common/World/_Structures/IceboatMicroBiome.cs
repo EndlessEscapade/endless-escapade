@@ -13,8 +13,8 @@ public sealed class IceboatMicroBiome : MicroBiome
         var ruinsDims = Point16.Zero;
         var iceboatDims = Point16.Zero;
 
-        if (!Generator.GetDimensions("Content/Structures/IceboatRuins", mod, ref ruinsDims)
-            || !Generator.GetDimensions("Content/Structures/Iceboat", mod, ref iceboatDims)) {
+        if (!Generator.GetDimensions("Assets/Structures/IceboatRuins", mod, ref ruinsDims)
+            || !Generator.GetDimensions("Assets/Structures/Iceboat", mod, ref iceboatDims)) {
             return false;
         }
 
@@ -32,8 +32,8 @@ public sealed class IceboatMicroBiome : MicroBiome
 
         if (leftAdjacentTile.HasTile
             || rightAdjacentTile.HasTile
-            || !Generator.GenerateStructure("Content/Structures/IceboatRuins", new Point16(ruinsOrigin), mod)
-            || !Generator.GenerateStructure("Content/Structures/Iceboat", new Point16(iceboatOrigin), mod)) {
+            || !Generator.GenerateStructure("Assets/Structures/IceboatRuins", new Point16(ruinsOrigin), mod)
+            || !Generator.GenerateStructure("Assets/Structures/Iceboat", new Point16(iceboatOrigin), mod)) {
             return false;
         }
 

@@ -18,7 +18,7 @@ public sealed class ShipyardMicroBiome : MicroBiome
         var mod = EndlessEscapade.Instance;
         var dims = Point16.Zero;
 
-        if (!Generator.GetDimensions("Content/Structures/Shipyard", mod, ref dims)) {
+        if (!Generator.GetDimensions("Assets/Structures/Shipyard", mod, ref dims)) {
             return false;
         }
 
@@ -26,7 +26,7 @@ public sealed class ShipyardMicroBiome : MicroBiome
         var adjustedOrigin = new Point16(origin.X, origin.Y) - offset;
 
         if (!structures.CanPlace(new Rectangle(adjustedOrigin.X, adjustedOrigin.Y, dims.X, dims.Y))
-            || !Generator.GenerateStructure("Content/Structures/Shipyard", adjustedOrigin, mod)) {
+            || !Generator.GenerateStructure("Assets/Structures/Shipyard", adjustedOrigin, mod)) {
             return false;
         }
 

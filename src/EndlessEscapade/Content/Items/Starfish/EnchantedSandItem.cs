@@ -13,7 +13,7 @@ public class EnchantedSandItem : ModItem
         Item.width = 24;
         Item.height = 18;
 
-        Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice(copper: 50));
+        Item.SetShopValues(ItemRarityColor.Blue1, Item.buyPrice(copper: 50));
     }
 
     public override void AddRecipes() {

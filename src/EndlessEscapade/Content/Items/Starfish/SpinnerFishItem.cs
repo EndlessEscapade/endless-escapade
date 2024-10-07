@@ -29,7 +29,7 @@ public class SpinnerFishItem : ModItem
         Item.UseSound = SoundID.Item1;
         Item.useStyle = ItemUseStyleID.Swing;
 
-        Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice());
+        Item.SetShopValues(ItemRarityColor.Blue1, Item.buyPrice());
     }
 
     public override void AddRecipes() {

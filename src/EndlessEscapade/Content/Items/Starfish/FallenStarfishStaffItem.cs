@@ -10,7 +10,7 @@ public class FallenStarfishStaffItem : ModItem
         Item.DamageType = DamageClass.Summon;
 
         Item.SetWeaponValues(10, 2f);
-        Item.SetShopValues(ItemRarityColor.Blue1, Item.sellPrice());
+        Item.SetShopValues(ItemRarityColor.Blue1, Item.buyPrice());
     }
 
     public override void AddRecipes() {
