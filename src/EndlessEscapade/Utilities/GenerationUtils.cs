@@ -17,13 +17,13 @@ public static class GenerationUtils
             return;
         }
 
-        var count = 0;
+        y++;
 
-        while (WorldGen.InWorld(x, y + count) && !WorldGen.SolidTile(x, y + count)) {
-            WorldGen.PlaceTile(x, y + count, tile.TileType, true, true);
-            WorldGen.SlopeTile(x, y + count);
+        while (WorldGen.InWorld(x, y) && !WorldGen.SolidTile(x, y)) {
+            WorldGen.PlaceTile(x, y, tile.TileType, true, true);
+            WorldGen.SlopeTile(x, y);
 
-            count++;
+            y++;
         }
     }
 }

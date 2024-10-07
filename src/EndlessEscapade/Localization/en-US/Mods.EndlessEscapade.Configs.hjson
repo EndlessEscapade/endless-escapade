@@ -1,18 +1,28 @@
 ClientConfiguration: {
-    DisplayName: Client Configuration
+	DisplayName: Client Configuration
 
-    Headers: {
-        Ambience: Ambience
-        Audio: Audio
-    }
+	Headers: {
+		Ambience: Ambience
+		Audio: Audio
+	}
 
-    EnableTracks: {
-        Label: Enable Tracks
-        Tooltip: ""
-    }
+	EnableTracks: {
+		Label: Enable Tracks
+		Tooltip: ""
+	}
 
-    EnableLowPassFilter: {
-        Label: Enable Low Pass Filter
-        Tooltip: ""
-    }
+	EnableLowPassFilter: {
+		Label: Enable Low Pass Filter
+		Tooltip: ""
+	}
+
+	EnableAmbienceTracks: {
+		Label: Enable Ambience Tracks
+		Tooltip: ""
+	}
+
+	EnableAmbienceSounds: {
+		Label: Enable Ambience Sounds
+		Tooltip: ""
+	}
 }

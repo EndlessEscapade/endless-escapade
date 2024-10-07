@@ -1,52 +1,52 @@
-Sailor: {
-    DisplayName: Sailor
+SailorNPC: {
+	DisplayName: Sailor
 
-    TownNPCMood: {
-        Content: The finest sensation be lookin' to yonder past, aye, rememberin' the souls ye've crossed paths with and the deeds ye've done – a treasure of gratitude held close to the heart.
-        NoHome: Aye, though I've a wanderer's soul meself, there be times when a home's warm embrace would be a blessin'.
-        FarFromHome: Far from me birthplace, this journey stretches like the horizon's edge – but by Davy Jones, it's a journey worth every step. A chance to rest these weary legs, that's all I ask.
-        LoveSpace: Ahoy there, the boundless space above be the canvas for connections, aye, sharin' tales and merriment – if they're keen to hear me yarns, that be.
-        DislikeCrowded: By the Kraken's tentacles, this crowd be suffocatin' – half of 'em wouldn't last a single day on a voyage to the {BiomeName}, mark me words.
-        HateCrowded: Blow me down, I can't bear this chaos no more – reckon I'll be castin' off once more, seekin' the open sea's embrace.
-        LoveBiome: Set yer sights on the beach ahead, me hearties, for beyond lies a realm of marvels awaitin' to be unveiled! Oh, the thrill and excitement awaitin' for them brave enough to step forth.
-        LikeBiome: Aye, there's somethin' 'bout this {BiomeName} that stirs me heart – the sands be a remindin' of the vast ocean's embrace, aye, familiar and yet refreshin'.
-        HateBiome: But the {BiomeName} – it's like a cage, a stark contrast to the endless ocean's expanse. These walls be closin' in, aye, like the sea's pressin' upon me from all sides.
-        LoveNPC: As the tide ebbs and flows, there be a fondness for {NPCName} that's grown within – aye, I've taken a likin' to 'em.
-        LikeNPC: Me heart warms knowin' {NPCName} shares the spirit of adventure, a kindred soul who's seen the world and all its wonders. Could be a fine addition to me crew, that one.
-        DislikeNPC: I need to get away from {NPCName}, he reminds me of truly terrible times.
-        HateNPC: Blast it all, why must I be tethered to {NPCName}'s shadow? Can ye imagine the times they've looted and pillaged me crew? It be a curse upon these waters!
-        LikeNPC_Princess: I like {NPCName}.
-        Princess_LovesNPC: I like {NPCName}.
-    }
+	TownNPCMood: {
+		Content: The finest sensation be lookin' to yonder past, aye, rememberin' the souls ye've crossed paths with and the deeds ye've done – a treasure of gratitude held close to the heart.
+		NoHome: Aye, though I've a wanderer's soul meself, there be times when a home's warm embrace would be a blessin'.
+		FarFromHome: Far from me birthplace, this journey stretches like the horizon's edge – but by Davy Jones, it's a journey worth every step. A chance to rest these weary legs, that's all I ask.
+		LoveSpace: Ahoy there, the boundless space above be the canvas for connections, aye, sharin' tales and merriment – if they're keen to hear me yarns, that be.
+		DislikeCrowded: By the Kraken's tentacles, this crowd be suffocatin' – half of 'em wouldn't last a single day on a voyage to the {BiomeName}, mark me words.
+		HateCrowded: Blow me down, I can't bear this chaos no more – reckon I'll be castin' off once more, seekin' the open sea's embrace.
+		LoveBiome: Set yer sights on the beach ahead, me hearties, for beyond lies a realm of marvels awaitin' to be unveiled! Oh, the thrill and excitement awaitin' for them brave enough to step forth.
+		LikeBiome: Aye, there's somethin' 'bout this {BiomeName} that stirs me heart – the sands be a remindin' of the vast ocean's embrace, aye, familiar and yet refreshin'.
+		HateBiome: But the {BiomeName} – it's like a cage, a stark contrast to the endless ocean's expanse. These walls be closin' in, aye, like the sea's pressin' upon me from all sides.
+		LoveNPC: As the tide ebbs and flows, there be a fondness for {NPCName} that's grown within – aye, I've taken a likin' to 'em.
+		LikeNPC: Me heart warms knowin' {NPCName} shares the spirit of adventure, a kindred soul who's seen the world and all its wonders. Could be a fine addition to me crew, that one.
+		DislikeNPC: I need to get away from {NPCName}, he reminds me of truly terrible times.
+		HateNPC: Blast it all, why must I be tethered to {NPCName}'s shadow? Can ye imagine the times they've looted and pillaged me crew? It be a curse upon these waters!
+		LikeNPC_Princess: I like {NPCName}.
+		Princess_LovesNPC: I like {NPCName}.
+	}
 
-    Chat: {
-        NewMoonDialogue: Ahoy there, when the new moon rises, keep a weathered eye on the Coral Reefs – them jellyfish'll be driftin' 'bout like ghostly lanterns.
-        AnglerDialogue0: Aye, me heart aches for me son, off fishin' he went, but the sea's a fickle mistress, and he's yet to make his return.
-        AnglerDialogue1: Me lad, he knows the ocean's whispers, so I'm prayin' he's still ridin' those waves.
-        AnglerDialogue2: Beggin' yer pardon, have ye spied me son? Beige cap, sturdy vest – that be his mark.
-        DayDialogue0: As the dawn breaks and the sky's painted with hues of gold, I find me solace on the pier, breathin' in the salt-kissed mornin' air.
-        DayDialogue1: The ocean, she's singin' her siren song today, beckonin' us with her endless tales of adventure.
-        DayDialogue2: Did ye see 'em? The sharks, they're dancin' in the waves, a dance of anticipation, or mayhaps they've a tale to share.
-        NightDialogue0: When the night's curtain falls upon the sea, tranquility blankets the waves, and the stars reflect like diamonds in liquid darkness.
-        NightDialogue1: Ah, the moon – she's a lantern in the sky, castin' her glow upon the water's surface, creatin' a path to the horizon.
-        NightDialogue2: Them jellies, their gentle glow pierces the night, enchantin' all who cast their gaze upon the mystical dance.
-        RainDialogue0: Rain's fallin', and I can't help but hope it's not heraldin' a tempest's fury – the sea's got a wild heart, ye know.
-        RainDialogue1: Lost me rain slicker in a gusty squall a few years back, wishin' for another to shield me from the spray.
-        ShipPromptDialogue1: Ahoy there, ye see that old ship wrecked off yonder? Once she was mine, sailed the seven seas, but those days be behind me now.
-        ShipPromptDialogue2:
-            '''
-            If you brought me the following materials along with the payment of:
-            - [i/s150:9]
-            - [i/s20:225]
-            - [i/s5:73]
-            I'd get 'er fixed right up for ya.
-            '''
-        ShipCommonDialogue0: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
-        ShipCommonDialogue1: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
-        ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
-    }
+	Chat: {
+		NewMoonDialogue: Ahoy there, when the new moon rises, keep a weathered eye on the Coral Reefs – them jellyfish'll be driftin' 'bout like ghostly lanterns.
+		AnglerDialogue0: Aye, me heart aches for me son, off fishin' he went, but the sea's a fickle mistress, and he's yet to make his return.
+		AnglerDialogue1: Me lad, he knows the ocean's whispers, so I'm prayin' he's still ridin' those waves.
+		AnglerDialogue2: Beggin' yer pardon, have ye spied me son? Beige cap, sturdy vest – that be his mark.
+		DayDialogue0: As the dawn breaks and the sky's painted with hues of gold, I find me solace on the pier, breathin' in the salt-kissed mornin' air.
+		DayDialogue1: The ocean, she's singin' her siren song today, beckonin' us with her endless tales of adventure.
+		DayDialogue2: Did ye see 'em? The sharks, they're dancin' in the waves, a dance of anticipation, or mayhaps they've a tale to share.
+		NightDialogue0: When the night's curtain falls upon the sea, tranquility blankets the waves, and the stars reflect like diamonds in liquid darkness.
+		NightDialogue1: Ah, the moon – she's a lantern in the sky, castin' her glow upon the water's surface, creatin' a path to the horizon.
+		NightDialogue2: Them jellies, their gentle glow pierces the night, enchantin' all who cast their gaze upon the mystical dance.
+		RainDialogue0: Rain's fallin', and I can't help but hope it's not heraldin' a tempest's fury – the sea's got a wild heart, ye know.
+		RainDialogue1: Lost me rain slicker in a gusty squall a few years back, wishin' for another to shield me from the spray.
+		ShipPromptDialogue1: Ahoy there, ye see that old ship wrecked off yonder? Once she was mine, sailed the seven seas, but those days be behind me now.
+		ShipPromptDialogue2:
+			'''
+			If you brought me the following materials along with the payment of:
+			- [i/s150:9]
+			- [i/s20:225]
+			- [i/s5:73]
+			I'd get 'er fixed right up for ya.
+			'''
+		ShipCommonDialogue0: And don't ye forget, before weighin' anchor, get ya wheel to guide yer ship true through the tempest's embrace.
+		ShipCommonDialogue1: Aye, when ye be back from the horizon's edge, swing by and see if I've got fresh sails, wheels, or even cannons to make yer ship a legend on these salty waters.
+		ShipRepairDialogue: Thanks be for trustin' me hands – the ship's been put to rights, ready to take on the briny deep once more.
+	}
 
-    Census.SpawnCondition: Conditions unknown
+	Census.SpawnCondition: Conditions unknown
 }
 
 HermitCrabNPC.DisplayName: Hermit Crab

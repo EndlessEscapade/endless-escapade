@@ -38,12 +38,12 @@ public sealed class ShipyardMicroBiome : MicroBiome
         }
 
         for (var i = 0; i < 2; i++) {
-            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 4 + i, adjustedOrigin.Y + 39);
-            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 20 + i, adjustedOrigin.Y + 39);
-            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 36 + i, adjustedOrigin.Y + 39);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 4 + i, adjustedOrigin.Y + 38);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 20 + i, adjustedOrigin.Y + 38);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 36 + i, adjustedOrigin.Y + 38);
 
-            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 56 + i, adjustedOrigin.Y + 27);
-            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 74 + i, adjustedOrigin.Y + 27);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 56 + i, adjustedOrigin.Y + 26);
+            GenerationUtils.ExtendDownwards(adjustedOrigin.X + 74 + i, adjustedOrigin.Y + 26);
         }
 
         var sailorX = (int)((adjustedOrigin.X + 60) * 16f);

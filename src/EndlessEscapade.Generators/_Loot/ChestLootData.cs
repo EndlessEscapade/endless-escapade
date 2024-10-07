@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace EndlessEscapade.Generators._Loot;
+namespace EndlessEscapade.Generators;
 
 public sealed class ChestLootData
 {

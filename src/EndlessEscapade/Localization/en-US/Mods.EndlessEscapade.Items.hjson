@@ -1,0 +1,234 @@
+CrabPincersItem: {
+	DisplayName: Crab Pincers Item
+	Tooltip: ""
+}
+
+GlowshroomItem: {
+	DisplayName: Glowshroom Item
+	Tooltip: ""
+}
+
+KelpberriesItem: {
+	DisplayName: Kelpberries Item
+	Tooltip: ""
+}
+
+KelpLeafItem: {
+	DisplayName: Kelp Leaf Item
+	Tooltip: ""
+}
+
+KelpMossItem: {
+	DisplayName: Kelp Moss Item
+	Tooltip: ""
+}
+
+KelpRockItem: {
+	DisplayName: Kelp Rock Item
+	Tooltip: ""
+}
+
+DolphinFinItem: {
+	DisplayName: Dolphin Fin Item
+	Tooltip: ""
+}
+
+FishGillsItem: {
+	DisplayName: Fish Gills Item
+	Tooltip: ""
+}
+
+GreatShellItem: {
+	DisplayName: Great Shell Item
+	Tooltip: ""
+}
+
+IronBootsItem: {
+	DisplayName: Iron Boots Item
+	Tooltip: ""
+}
+
+RadiantPearlItem: {
+	DisplayName: Radiant Pearl Item
+	Tooltip: ""
+}
+
+LythenBarItem: {
+	DisplayName: Lythen Bar Item
+	Tooltip: ""
+}
+
+LythenOreItem: {
+	DisplayName: Lythen Ore Item
+	Tooltip: ""
+}
+
+StormKnightBreastplateItem: {
+	DisplayName: Storm Knight Breastplate Item
+	Tooltip: ""
+}
+
+StormKnightCrestItem: {
+	DisplayName: Storm Knight Crest Item
+	Tooltip: ""
+}
+
+StormKnightLeggingsItem: {
+	DisplayName: Storm Knight Leggings Item
+	Tooltip: ""
+}
+
+LightGemsandItem: {
+	DisplayName: Light Gemsand Item
+	Tooltip: ""
+}
+
+LightGemsandstoneItem: {
+	DisplayName: Light Gemsandstone Item
+	Tooltip: ""
+}
+
+LightGemsandstoneWallItem: {
+	DisplayName: Light Gemsandstone Wall Item
+	Tooltip: ""
+}
+
+LightGemsandWallItem: {
+	DisplayName: Light Gemsand Wall Item
+	Tooltip: ""
+}
+
+CoralsandItem: {
+	DisplayName: Coralsand Item
+	Tooltip: ""
+}
+
+CoralsandstoneItem: {
+	DisplayName: Coralsandstone Item
+	Tooltip: ""
+}
+
+EnchantedSandItem: {
+	DisplayName: Enchanted Sand Item
+	Tooltip: ""
+}
+
+FallenStarfishStaffItem: {
+	DisplayName: Fallen Starfish Staff Item
+	Tooltip: ""
+}
+
+SpinnerFishItem: {
+	DisplayName: Spinner Fish Item
+	Tooltip: ""
+}
+
+StarCatcherItem: {
+	DisplayName: Star Catcher Item
+	Tooltip: ""
+}
+
+BrimstoneItem: {
+	DisplayName: Brimstone Item
+	Tooltip: ""
+}
+
+RustyPipeItem: {
+	DisplayName: Rusty Pipe Item
+	Tooltip: ""
+}
+
+RustyPlatingItem: {
+	DisplayName: Rusty Plating Item
+	Tooltip: ""
+}
+
+ScorchedGemsandItem: {
+	DisplayName: Scorched Gemsand Item
+	Tooltip: ""
+}
+
+DarkGemsandItem: {
+	DisplayName: Dark Gemsand Item
+	Tooltip: ""
+}
+
+DarkGemsandstoneItem: {
+	DisplayName: Dark Gemsandstone Item
+	Tooltip: ""
+}
+
+DarkGemsandstoneWallItem: {
+	DisplayName: Dark Gemsandstone Wall Item
+	Tooltip: ""
+}
+
+DarkGemsandWallItem: {
+	DisplayName: Dark Gemsand Wall Item
+	Tooltip: ""
+}
+
+TropicalWoodBootsItem: {
+	DisplayName: Tropical Wood Boots Item
+	Tooltip: ""
+}
+
+TropicalWoodBowItem: {
+	DisplayName: Tropical Wood Bow Item
+	Tooltip: ""
+}
+
+TropicalWoodChestplateItem: {
+	DisplayName: Tropical Wood Chestplate Item
+	Tooltip: ""
+}
+
+TropicalWoodFenceItem: {
+	DisplayName: Tropical Wood Fence Item
+	Tooltip: ""
+}
+
+TropicalWoodHammerItem: {
+	DisplayName: Tropical Wood Hammer Item
+	Tooltip: ""
+}
+
+TropicalWoodHelmetItem: {
+	DisplayName: Tropical Wood Helmet Item
+	Tooltip: ""
+}
+
+TropicalWoodItem: {
+	DisplayName: Tropical Wood Item
+	Tooltip: ""
+}
+
+TropicalWoodSwordItem: {
+	DisplayName: Tropical Wood Sword Item
+	Tooltip: ""
+}
+
+TropicalWoodWallItem: {
+	DisplayName: Tropical Wood Wall Item
+	Tooltip: ""
+}
+
+GemsandItem: {
+	DisplayName: Gemsand Item
+	Tooltip: ""
+}
+
+GemsandstoneItem: {
+	DisplayName: Gemsandstone Item
+	Tooltip: ""
+}
+
+GemsandstoneWallItem: {
+	DisplayName: Gemsandstone Wall Item
+	Tooltip: ""
+}
+
+GemsandWallItem: {
+	DisplayName: Gemsand Wall Item
+	Tooltip: ""
+}

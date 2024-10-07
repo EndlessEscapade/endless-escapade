@@ -1,4 +1,7 @@
 Tiles: {
-    AquamarineTile.MapEntry: Aquamarine
-    LythenOreTile.MapEntry: Lythen Ore
+	AquamarineTile.MapEntry: Aquamarine
+	LythenOreTile.MapEntry: Lythen Ore
 }
+
+AquamarineTile.MapEntry: Aquamarine Tile
+LythenOreTile.MapEntry: Lythen Ore Tile

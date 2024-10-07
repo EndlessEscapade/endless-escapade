@@ -10,8 +10,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="**\*.ambience.track" />
-        <AdditionalFiles Include="**\*.ambience.sound" />
+        <AdditionalFiles Include="**\*.eetrack" />
+        <AdditionalFiles Include="**\*.eesound" />
+        <AdditionalFiles Include="**\*.eeloot" />
     </ItemGroup>
 
     <PropertyGroup>

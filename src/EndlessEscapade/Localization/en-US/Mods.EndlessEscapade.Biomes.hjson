@@ -1,4 +1,4 @@
 ShipyardBiome: {
-    DisplayName: Shipyard
-    TownNPCDialogueName: the Shipyard
+	DisplayName: Shipyard
+	TownNPCDialogueName: the Shipyard
 }
