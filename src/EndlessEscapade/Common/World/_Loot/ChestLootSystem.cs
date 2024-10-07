@@ -120,7 +120,7 @@ public sealed class ChestLootSystem : ModSystem
 
                 var stack = WorldGen.genRand.Next(loot.MinStack, loot.MaxStack);
 
-                if (!chest.TryAddItem(itemType, stack, loot.RandomSlot) || HasFlag(itemType)) {
+                if (!chest.TryAddItem(itemType, stack, loot.RandomSlot)) {
                     continue;
                 }
 

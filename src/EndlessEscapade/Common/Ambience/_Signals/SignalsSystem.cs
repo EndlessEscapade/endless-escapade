@@ -7,24 +7,23 @@ namespace EndlessEscapade.Common.Ambience;
 [Autoload(Side = ModSide.Client)]
 public sealed class SignalsSystem : ModSystem
 {
-    private sealed class SignalData(SignalUpdaterCallback? callback)
+    public readonly struct SignalData(int mask, SignalUpdaterCallback callback)
     {
-        private const byte DisabledFlag = 0;
-        private const byte EnabledFlag = 1 << 0;
-
         public bool Enabled {
-            get => (_enabled & EnabledFlag) != 0;
-            set => _enabled = (byte)((_enabled & ~EnabledFlag) | (value ? EnabledFlag : 0));
+            get => HasFlag(Mask);
+            set => SetFlag(Mask, value);
         }
 
-        private byte _enabled;
+        public readonly int Mask = mask;
 
-        public readonly SignalUpdaterCallback? Callback = callback;
+        public readonly SignalUpdaterCallback Callback = callback;
     }
 
     public delegate bool SignalUpdaterCallback(in SignalContext context);
 
-    private static readonly Dictionary<string, SignalData>? Data = [];
+    private static readonly Dictionary<string, SignalData> Data = [];
+
+    private static int flags;
 
     public override void Load() {
         base.Load();
@@ -74,7 +73,22 @@ public sealed class SignalsSystem : ModSystem
     /// <param name="name">The name of the signal to register.</param>
     /// <param name="callback">The callback of the signal to register.</param>
     public static void RegisterUpdater(string name, SignalUpdaterCallback? callback) {
-        Data[name] = new SignalData(callback);
+        var mask = 1 << Data.Count;
+
+        Data[name] = new SignalData(mask, callback);
+    }
+
+    private static void SetFlag(int mask, bool value) {
+        if (value) {
+            flags |= mask;
+        }
+        else {
+            flags &= ~mask;
+        }
+    }
+
+    private static bool HasFlag(int mask) {
+        return (flags & mask) != 0;
     }
 
     private static void LoadModdedUpdaters(Mod mod) {
