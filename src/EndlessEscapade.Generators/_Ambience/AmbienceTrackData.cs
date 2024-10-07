@@ -11,9 +11,9 @@ public sealed class AmbienceTrackData : IEquatable<AmbienceTrackData>
     [JsonRequired]
     public string SoundPath;
 
-    public float StepIn = 0.05f;
+    public float StepIn = 0.01f;
 
-    public float StepOut = 0.05f;
+    public float StepOut = 0.01f;
 
     public bool Equals(AmbienceTrackData other) {
         return other != null

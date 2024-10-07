@@ -7,14 +7,6 @@ public sealed class ChestLootSystem : ModSystem
 {
     private static int flags;
 
-    public override void PostSetupContent() {
-        base.PostSetupContent();
-
-        foreach (var loot in ModContent.GetContent<IChestLoot>()) {
-            SetFlag(loot.GetItemType(), false);
-        }
-    }
-
     public override void PostWorldGen() {
         base.PostWorldGen();
 

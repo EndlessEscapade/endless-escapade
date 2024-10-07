@@ -1,5 +1,8 @@
 namespace EndlessEscapade.Utilities;
 
+/// <summary>
+///     Provides tile utilities.
+/// </summary>
 public static class TileUtils
 {
     /// <summary>

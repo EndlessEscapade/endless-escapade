@@ -14,7 +14,7 @@ public sealed class AmbienceSoundData : IEquatable<AmbienceSoundData>
     [JsonRequired]
     public int Chance;
 
-    public int Variants;
+    public int Variants = 1;
 
     public bool Equals(AmbienceSoundData other) {
         return other.SoundPath == SoundPath

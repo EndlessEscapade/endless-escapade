@@ -1,0 +1,5 @@
+SoundPath: "EndlessEscapade/Assets/Sounds/Ambience/Beach/BeachDolphins"
+
+Chance: 100
+
+Signals: ["Beach", "Shipyard"]
