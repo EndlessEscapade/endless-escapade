@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EndlessEscapade.Utilities.Extensions;
 using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
@@ -27,8 +28,7 @@ public sealed class IceboatSystem : ModSystem
     }
 
     private static void GenerateIceboat(GenerationProgress progress, GameConfiguration configuration) {
-        // TODO: Make use of localization.
-        progress.Message = "Sinking the iceboat...";
+        progress.Message = EndlessEscapade.Instance.GetLocalizationValue("UI.Generation.Iceboat");
 
         var tundraStart = 0;
         var tundraEnd = 0;

@@ -4,7 +4,7 @@ using EndlessEscapade.Core.Graphics;
 namespace EndlessEscapade.Utilities.Extensions;
 
 /// <summary>
-///		Provides <see cref="SpriteBatch"/> extensions.
+///		Provides <see cref="SpriteBatch"/> extension methods.
 /// </summary>
 public static class SpriteBatchExtensions
 {

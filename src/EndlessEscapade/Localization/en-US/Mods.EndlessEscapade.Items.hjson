@@ -1,234 +1,234 @@
 CrabPincersItem: {
-	DisplayName: Crab Pincers Item
+	DisplayName: Crab Pincers
 	Tooltip: ""
 }
 
 GlowshroomItem: {
-	DisplayName: Glowshroom Item
+	DisplayName: Glowshroom
 	Tooltip: ""
 }
 
 KelpberriesItem: {
-	DisplayName: Kelpberries Item
+	DisplayName: Kelpberries
 	Tooltip: ""
 }
 
 KelpLeafItem: {
-	DisplayName: Kelp Leaf Item
+	DisplayName: Kelp Leaf
 	Tooltip: ""
 }
 
 KelpMossItem: {
-	DisplayName: Kelp Moss Item
+	DisplayName: Kelp Moss
 	Tooltip: ""
 }
 
 KelpRockItem: {
-	DisplayName: Kelp Rock Item
+	DisplayName: Kelp Rock
 	Tooltip: ""
 }
 
 DolphinFinItem: {
-	DisplayName: Dolphin Fin Item
+	DisplayName: Dolphin Fin
 	Tooltip: ""
 }
 
 FishGillsItem: {
-	DisplayName: Fish Gills Item
+	DisplayName: Fish Gills
 	Tooltip: ""
 }
 
 GreatShellItem: {
-	DisplayName: Great Shell Item
+	DisplayName: Great Shell
 	Tooltip: ""
 }
 
 IronBootsItem: {
-	DisplayName: Iron Boots Item
+	DisplayName: Iron Boots
 	Tooltip: ""
 }
 
 RadiantPearlItem: {
-	DisplayName: Radiant Pearl Item
+	DisplayName: Radiant Pearl
 	Tooltip: ""
 }
 
 LythenBarItem: {
-	DisplayName: Lythen Bar Item
+	DisplayName: Lythen Bar
 	Tooltip: ""
 }
 
 LythenOreItem: {
-	DisplayName: Lythen Ore Item
+	DisplayName: Lythen Ore
 	Tooltip: ""
 }
 
 StormKnightBreastplateItem: {
-	DisplayName: Storm Knight Breastplate Item
+	DisplayName: Storm Knight Breastplate
 	Tooltip: ""
 }
 
 StormKnightCrestItem: {
-	DisplayName: Storm Knight Crest Item
+	DisplayName: Storm Knight Crest
 	Tooltip: ""
 }
 
 StormKnightLeggingsItem: {
-	DisplayName: Storm Knight Leggings Item
+	DisplayName: Storm Knight Leggings
 	Tooltip: ""
 }
 
 LightGemsandItem: {
-	DisplayName: Light Gemsand Item
+	DisplayName: Light Gemsand
 	Tooltip: ""
 }
 
 LightGemsandstoneItem: {
-	DisplayName: Light Gemsandstone Item
+	DisplayName: Light Gemsandstone
 	Tooltip: ""
 }
 
 LightGemsandstoneWallItem: {
-	DisplayName: Light Gemsandstone Wall Item
+	DisplayName: Light Gemsandstone Wall
 	Tooltip: ""
 }
 
 LightGemsandWallItem: {
-	DisplayName: Light Gemsand Wall Item
+	DisplayName: Light Gemsand Wall
 	Tooltip: ""
 }
 
 CoralsandItem: {
-	DisplayName: Coralsand Item
+	DisplayName: Coralsand
 	Tooltip: ""
 }
 
 CoralsandstoneItem: {
-	DisplayName: Coralsandstone Item
+	DisplayName: Coralsandstone
 	Tooltip: ""
 }
 
 EnchantedSandItem: {
-	DisplayName: Enchanted Sand Item
+	DisplayName: Enchanted Sand
 	Tooltip: ""
 }
 
 FallenStarfishStaffItem: {
-	DisplayName: Fallen Starfish Staff Item
+	DisplayName: Fallen Starfish Staff
 	Tooltip: ""
 }
 
 SpinnerFishItem: {
-	DisplayName: Spinner Fish Item
+	DisplayName: Spinner Fish
 	Tooltip: ""
 }
 
 StarCatcherItem: {
-	DisplayName: Star Catcher Item
+	DisplayName: Star Catcher
 	Tooltip: ""
 }
 
 BrimstoneItem: {
-	DisplayName: Brimstone Item
+	DisplayName: Brimstone
 	Tooltip: ""
 }
 
 RustyPipeItem: {
-	DisplayName: Rusty Pipe Item
+	DisplayName: Rusty Pipe
 	Tooltip: ""
 }
 
 RustyPlatingItem: {
-	DisplayName: Rusty Plating Item
+	DisplayName: Rusty Plating
 	Tooltip: ""
 }
 
 ScorchedGemsandItem: {
-	DisplayName: Scorched Gemsand Item
+	DisplayName: Scorched Gemsand
 	Tooltip: ""
 }
 
 DarkGemsandItem: {
-	DisplayName: Dark Gemsand Item
+	DisplayName: Dark Gemsand
 	Tooltip: ""
 }
 
 DarkGemsandstoneItem: {
-	DisplayName: Dark Gemsandstone Item
+	DisplayName: Dark Gemsandstone
 	Tooltip: ""
 }
 
 DarkGemsandstoneWallItem: {
-	DisplayName: Dark Gemsandstone Wall Item
+	DisplayName: Dark Gemsandstone Wall
 	Tooltip: ""
 }
 
 DarkGemsandWallItem: {
-	DisplayName: Dark Gemsand Wall Item
+	DisplayName: Dark Gemsand Wall
 	Tooltip: ""
 }
 
 TropicalWoodBootsItem: {
-	DisplayName: Tropical Wood Boots Item
+	DisplayName: Tropical Wood Boots
 	Tooltip: ""
 }
 
 TropicalWoodBowItem: {
-	DisplayName: Tropical Wood Bow Item
+	DisplayName: Tropical Wood Bow
 	Tooltip: ""
 }
 
 TropicalWoodChestplateItem: {
-	DisplayName: Tropical Wood Chestplate Item
+	DisplayName: Tropical Wood Chestplate
 	Tooltip: ""
 }
 
 TropicalWoodFenceItem: {
-	DisplayName: Tropical Wood Fence Item
+	DisplayName: Tropical Wood Fence
 	Tooltip: ""
 }
 
 TropicalWoodHammerItem: {
-	DisplayName: Tropical Wood Hammer Item
+	DisplayName: Tropical Wood Hammer
 	Tooltip: ""
 }
 
 TropicalWoodHelmetItem: {
-	DisplayName: Tropical Wood Helmet Item
+	DisplayName: Tropical Wood Helmet
 	Tooltip: ""
 }
 
 TropicalWoodItem: {
-	DisplayName: Tropical Wood Item
+	DisplayName: Tropical Wood
 	Tooltip: ""
 }
 
 TropicalWoodSwordItem: {
-	DisplayName: Tropical Wood Sword Item
+	DisplayName: Tropical Wood Sword
 	Tooltip: ""
 }
 
 TropicalWoodWallItem: {
-	DisplayName: Tropical Wood Wall Item
+	DisplayName: Tropical Wood Wall
 	Tooltip: ""
 }
 
 GemsandItem: {
-	DisplayName: Gemsand Item
+	DisplayName: Gemsand
 	Tooltip: ""
 }
 
 GemsandstoneItem: {
-	DisplayName: Gemsandstone Item
+	DisplayName: Gemsandstone
 	Tooltip: ""
 }
 
 GemsandstoneWallItem: {
-	DisplayName: Gemsandstone Wall Item
+	DisplayName: Gemsandstone Wall
 	Tooltip: ""
 }
 
 GemsandWallItem: {
-	DisplayName: Gemsand Wall Item
+	DisplayName: Gemsand Wall
 	Tooltip: ""
 }

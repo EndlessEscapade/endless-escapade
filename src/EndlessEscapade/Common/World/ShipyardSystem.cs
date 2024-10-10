@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EndlessEscapade.Utilities.Extensions;
 using Terraria.GameContent.Generation;
 using Terraria.IO;
 using Terraria.WorldBuilding;
@@ -23,8 +24,7 @@ public sealed class ShipyardSystem : ModSystem
     }
 
     private static void GenerateShipyard(GenerationProgress progress, GameConfiguration configuration) {
-        // TODO: Make use of localization.
-        progress.Message = "Constructing the Shipyard...";
+        progress.Message = EndlessEscapade.Instance.GetLocalizationValue("UI.Generation.Shipyard");
 
         var foundOcean = false;
         var foundBeach = false;

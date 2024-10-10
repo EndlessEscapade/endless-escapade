@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace EndlessEscapade.Utilities.Extensions;
 
 /// <summary>
-///     Basic <see cref="Chest" /> extension utilities.
+///     Provides <see cref="Chest" /> extension methods.
 /// </summary>
 public static class ChestExtensions
 {
