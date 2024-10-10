@@ -59,6 +59,8 @@ public sealed class {name} : IAmbienceSound
     public int Chance {{ get; }} = {data.Chance};
 
     public string[] Signals {{ get; }} = {data.Signals.ToStringArray()};
+
+    public SlotId Slot {{ get; set; }}
 }}";
     }
 }

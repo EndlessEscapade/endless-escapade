@@ -22,11 +22,11 @@ public sealed class AmbienceSystem : ModSystem
         foreach (var sound in ModContent.GetContent<IAmbienceSound>()) {
             var active = SignalsSystem.GetSignal(sound.Signals);
 
-            if (!active || !Main.rand.NextBool(sound.Chance)) {
+            if (!active || !Main.rand.NextBool(sound.Chance) || SoundEngine.TryGetActiveSound(sound.Slot, out _)) {
                 continue;
             }
 
-            SoundEngine.PlaySound(sound.Sound);
+            sound.Slot = SoundEngine.PlaySound(sound.Sound);
         }
     }
 

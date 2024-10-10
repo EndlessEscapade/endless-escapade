@@ -1,3 +1,4 @@
+using ReLogic.Utilities;
 using Terraria.Audio;
 
 namespace EndlessEscapade.Common.Ambience;
@@ -18,6 +19,8 @@ public interface IAmbienceSound : ILoadable
     ///     The chance of this ambience sound playing.
     /// </summary>
     int Chance { get; }
+
+    SlotId Slot { get; set; }
 
     void ILoadable.Load(Mod mod) { }
 
