@@ -2,14 +2,16 @@ namespace EndlessEscapade.Core.EC;
 
 public sealed class ComponentSystem : ModSystem
 {
-	private static class ComponentData<T> where T : Component
+	private static class ComponentData<T> where T : struct
 	{
 		public static readonly int Id = componentTypeCount++;
 		public static readonly int Mask = 1 << Id;
 
+		public static T Default = new();
+
 		public static long[] Flags = [];
 
-		public static T?[] Components = [];
+		public static T[] Components = [];
 
 		static ComponentData() {
 			OnUpdate += OnUpdateEvent;
@@ -19,24 +21,12 @@ public sealed class ComponentSystem : ModSystem
 		private static void OnUpdateEvent() {
 			for (var i = 0; i < Components.Length; i++) {
 				var component = Components[i];
-
-				if (component == null || component.Entity.Active == false) {
-					continue;
-				}
-
-				component.Update();
 			}
 		}
 
 		private static void OnRenderEvent() {
 			for (var i = 0; i < Components.Length; i++) {
 				var component = Components[i];
-
-				if (component == null || component.Entity.Active == false) {
-					continue;
-				}
-
-				component.Render();
 			}
 		}
 	}
@@ -62,12 +52,8 @@ public sealed class ComponentSystem : ModSystem
 	/// <param name="id">The identify of the entity to retrieve the component from.</param>
 	/// <typeparam name="T">The type of the component to retrieve.</typeparam>
 	/// <returns>The instance of the component if found; otherwise, <c>null</c>.</returns>
-	public static T Get<T>(int id) where T : Component {
-		if (id < 0 || id >= ComponentData<T>.Components.Length) {
-			return null;
-		}
-
-		return ComponentData<T>.Components[id];
+	public static ref T Get<T>(int id) where T : struct {
+		return ref ComponentData<T>.Components[id];
 	}
 
 	/// <summary>
@@ -77,7 +63,7 @@ public sealed class ComponentSystem : ModSystem
 	/// <param name="value">The value of the component.</param>
 	/// <typeparam name="T">The type of the component to set.</typeparam>
 	/// <returns>The assigned component instance.</returns>
-	public static T Set<T>(int id, T value) where T : Component {
+	public static ref T Set<T>(int id, T value) where T : struct {
 		if (id >= ComponentData<T>.Components.Length) {
 			var newSize = Math.Max(1, ComponentData<T>.Components.Length);
 
@@ -101,7 +87,7 @@ public sealed class ComponentSystem : ModSystem
 		ComponentData<T>.Components[id] = value;
 		ComponentData<T>.Flags[id] |= ComponentData<T>.Mask;
 
-		return ComponentData<T>.Components[id];
+		return ref ComponentData<T>.Components[id];
 	}
 
 	/// <summary>
@@ -110,11 +96,7 @@ public sealed class ComponentSystem : ModSystem
 	/// <param name="id">The identity of the entity to check.</param>
 	/// <typeparam name="T">The type of the component to check.</typeparam>
 	/// <returns><c>true</c> if the component was found; otherwise, <c>false</c>.</returns>
-	public static bool Has<T>(int id) where T : Component {
-		if (id < 0 || id >= ComponentData<T>.Components.Length) {
-			return false;
-		}
-
+	public static bool Has<T>(int id) where T : struct {
 		return (ComponentData<T>.Flags[id] & ComponentData<T>.Mask) != 0;
 	}
 
@@ -124,12 +106,8 @@ public sealed class ComponentSystem : ModSystem
 	/// <param name="id">The identity of the entity to remove the component from.</param>
 	/// <typeparam name="T">The type of the component to remove.</typeparam>
 	/// <returns><c>true</c> if the component was successfully removed; otherwise, <c>false</c>.</returns>
-	public static bool Remove<T>(int id) where T : Component {
-		if (id < 0 || id >= ComponentData<T>.Components.Length) {
-			return false;
-		}
-
-		ComponentData<T>.Components[id] = null;
+	public static bool Remove<T>(int id) where T : struct {
+		ComponentData<T>.Components[id] = default;
 		ComponentData<T>.Flags[id] &= ~ComponentData<T>.Mask;
 
 		return true;
