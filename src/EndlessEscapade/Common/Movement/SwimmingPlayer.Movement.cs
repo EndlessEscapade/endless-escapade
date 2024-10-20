@@ -3,66 +3,58 @@ using Terraria.DataStructures;
 
 namespace EndlessEscapade.Common.Movement;
 
+/// <summary>
+///     Handles player movement and graphics while swimming.
+/// </summary>
 public sealed partial class SwimmingPlayer : ModPlayer
 {
-    private float bodyRotation;
-    private float headRotation;
+    private StatModifier speedModifier = new();
+    private StatModifier accelerationModifier = new();
 
-    private float targetBodyRotation;
-    private float targetHeadRotation;
+    private Vector2 velocity;
 
-    public float Speed = 5f;
-
-    public float Resistance = 0.1f;
-
-    public override void ResetEffects() {
-        base.ResetEffects();
-
-        Speed = 5f;
-        Resistance = 0.1f;
-    }
+    private bool oldUnderwater;
 
     public override void PostUpdate() {
         base.PostUpdate();
 
-        if (Player.IsUnderwater()) {
-            var offset = Player.Center + Player.velocity - Player.Center;
-            var rotation = offset.ToRotation();
+        if (!oldUnderwater && Player.IsUnderwater()) {
+            velocity = Player.velocity;
+        }
 
-            if (Player.direction == -1) {
-                rotation = MathHelper.WrapAngle(rotation + MathHelper.Pi);
-            }
-
-            var maxHeadRotation = MathHelper.ToRadians(60f);
-            var minHeadRotation = MathHelper.ToRadians(-60f);
-
-            targetHeadRotation = MathHelper.Clamp(rotation, minHeadRotation, maxHeadRotation);
-            targetBodyRotation = Player.velocity.ToRotation() + MathHelper.PiOver2;
-
-            if (Player.velocity.LengthSquared() > 0f) {
-                targetBodyRotation = Player.velocity.ToRotation() + MathHelper.PiOver2;
-            }
-            else {
-                targetBodyRotation = 0f;
-            }
-
-            var swimDirection = new Vector2(
-                (Player.controlRight ? 1f : 0f) + (Player.controlLeft ? -1f : 0f),
-                (Player.controlDown ? 1f : 0f) + (Player.controlUp ? -1f : 0f)
-            );
-
-            swimDirection = swimDirection.SafeNormalize(Vector2.Zero);
-
-            if (swimDirection.LengthSquared() > 0f) {
-                Player.velocity = Vector2.SmoothStep(Player.velocity, swimDirection * Speed, 0.2f);
-            }
+        if (!Player.IsUnderwater()) {
+            velocity = Vector2.Zero;
         }
         else {
-            targetHeadRotation = 0f;
-            targetBodyRotation = 0f;
+            var direction = new Vector2(
+                Player.controlRight.ToInt() + -Player.controlLeft.ToInt(),
+                Player.controlDown.ToInt() + -Player.controlUp.ToInt()
+            );
+
+            direction = direction.SafeNormalize(Vector2.Zero);
+
+            if (direction.LengthSquared() > 0f) {
+                var acceleration = accelerationModifier.ApplyTo(0.25f);
+                var speed = speedModifier.ApplyTo(4f);
+
+                velocity += direction * acceleration;
+                velocity = Vector2.Clamp(velocity, new Vector2(-speed), new Vector2(speed));
+            }
+            else {
+                velocity *= 0.95f;
+            }
+
+            Player.velocity = velocity;
         }
 
-        headRotation = MathHelper.Lerp(headRotation, targetHeadRotation, 0.2f);
-        bodyRotation = MathHelper.Lerp(bodyRotation, targetBodyRotation, 0.2f);
+        oldUnderwater = Player.IsUnderwater();
+    }
+
+    public ref StatModifier GetMovementSpeed() {
+        return ref speedModifier;
+    }
+
+    public ref StatModifier GetMovementAcceleration() {
+        return ref accelerationModifier;
     }
 }

@@ -1,6 +1,4 @@
-﻿using EndlessEscapade.Content.Tiles.Base;
-
-namespace EndlessEscapade.Content.Tiles.Twilight;
+﻿namespace EndlessEscapade.Content.Tiles.Twilight;
 
 public class GemsandTile : CompositeTileBase
 {

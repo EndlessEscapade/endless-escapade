@@ -1,6 +1,4 @@
-﻿using EndlessEscapade.Content.Tiles.Base;
-
-namespace EndlessEscapade.Content.Tiles.Kelp;
+﻿namespace EndlessEscapade.Content.Tiles.Kelp;
 
 public class KelpMossTile : CompositeTileBase
 {

@@ -6,6 +6,7 @@ ItemTooltip: {
 		Place contaminated blocks into the extractinator to purify them
 		Other items placed inside may have interesting effects
 		'''
+	Flipper: Greatly increases swimming movement speed and acceleration
 }
 
 GameTitle: {

@@ -1,6 +1,6 @@
 ﻿using EndlessEscapade.Utilities;
 
-namespace EndlessEscapade.Content.Tiles.Base;
+namespace EndlessEscapade.Content.Tiles;
 
 public abstract class CompositeTileBase : ModTile
 {
