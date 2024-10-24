@@ -232,3 +232,8 @@ GemsandWallItem: {
 	DisplayName: Gemsand Wall
 	Tooltip: ""
 }
+
+GliderItem: {
+	DisplayName: Glider Item
+	Tooltip: ""
+}

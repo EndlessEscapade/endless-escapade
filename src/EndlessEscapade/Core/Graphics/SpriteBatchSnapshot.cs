@@ -1,6 +1,6 @@
 namespace EndlessEscapade.Core.Graphics;
 
-public readonly struct SpriteBatchSnapshot(
+public readonly ref struct SpriteBatchSnapshot(
 	SpriteSortMode spriteSortMode,
 	BlendState blendState,
 	SamplerState samplerState,
